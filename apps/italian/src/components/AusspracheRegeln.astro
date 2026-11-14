@@ -12,8 +12,8 @@
 import rules from "../data/ausspracheregeln.json";
 import { asAudioItems, units } from "../lib/lexicon.js";
 
-// Word → its recording, by the bare word ("la mesa" → "mesa").
-const bare = (t: string) => t.replace(/^(el|la|los|las|un|una)\s+/i, "").trim().toLowerCase();
+// Word → its recording, by the bare word ("la casa" → "casa", "l'amico" → "amico").
+const bare = (t: string) => t.replace(/^(il|lo|la|i|gli|le|un|uno|una)\s+|^(l|un)['’]/i, "").trim().toLowerCase();
 const audio = new Map<string, string>();
 for (const u of units()) {
   for (const it of asAudioItems({ unit: u.id })) {

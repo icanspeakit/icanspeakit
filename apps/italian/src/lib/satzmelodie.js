@@ -28,10 +28,10 @@ const WIN = 2048;            // ~43 ms at 48 kHz: long enough for a low male voi
 const MIN_HZ = 60;
 const MAX_HZ = 500;
 const MIN_CLARITY = 0.85;
-// Spanish question words carry a written accent, which tells them from que, como, cuando.
-const W_WORDS = /^(qué|quién|quiénes|cuál|cuáles|cómo|cuándo|dónde|adónde|cuánto|cuánta|cuántos|cuántas)$/i;
-// A question word often comes after a preposition: ¿De dónde eres? ¿A qué hora? ¿Por qué?
-const W_PREPOSITIONS = /^(a|de|desde|en|con|para|por|hasta|sobre|sin|hacia)$/i;
+// Italian question words (the apostrophe is stripped below, so cos'è reads as "cosè"). A
+// question word often comes after a preposition: Di dove sei? A che ora? Per quanto tempo?
+const W_WORDS = /^(che|chi|cosa|cos|cosè|come|quando|dove|perché|perchè|quanto|quanta|quanti|quante|quale|quali)$/i;
+const W_PREPOSITIONS = /^(a|di|da|in|con|per|su|tra|fra|fino)$/i;
 
 /** "ja-nein" (voice goes up), "w-frage" and "aussage" (voice goes down). */
 export function melodyType(text) {

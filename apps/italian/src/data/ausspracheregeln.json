@@ -1,226 +1,252 @@
 {
-  "_note": "The Spanish pronunciation rules in the right-hand column of /pronunciation (AusspracheRegeln.astro), in teaching order. `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the stressed syllable, shown in bold. Castilian Spanish with distinción is the standard; what Latin America does differently is in `es419`, and regional sounds a learner in Spain will hear (seseo, ceceo, a weak final s) are named in the rule text. Rule ids are the old slot ids (content-plan §1.3) plus ll-y and enye. Not yet reviewed by a teacher.",
+  "_note": "The standard Italian pronunciation rules in the right-hand column of /pronunciation (AusspracheRegeln.astro), in teaching order. `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the stressed syllable, shown in bold. Standard Italian (italiano standard) is the model; what a learner will hear in daily life from other regions (gorgia toscana, the voiced or voiceless s, the Roman gli) is in `regional` notes only, never as a second mode. Rule ids are the old slot ids where the topic is the same (lang-kurz, ei-ie, betonung, auslaut, r, sch-st-sp = sc/sch, s, ig = c/g, h) and descriptive ids for the new ones (e-o, doppie, gl, gn, z, qu, raddoppiamento, elisione). The sounds are given in IPA between slashes; open/closed e and o are only marked in dictionaries, so they are taught for listening, not demanded in speech. Not yet reviewed by a teacher.",
+  "variety": "it-IT",
   "reviewed": false,
   "rules": [
     {
       "id": "lang-kurz",
-      "variety": "es-ES",
-      "title": "The five vowels",
-      "text": "Spanish has five vowels: a, e, i, o, u. Each one always sounds the same: short and clear, stressed or not. Don't let a vowel glide (no is not “noh-oo”) and don't make it weak: mañana has three full a's.",
+      "variety": "it-IT",
+      "title": "The vowels: clear and pure",
+      "text": "Italian writes five vowels: a, e, i, o, u. Each one stays pure: no gliding (no is not “noh-oo”) and no weak “uh” in unstressed syllables. This includes the last vowel of a word, which English and French speakers tend to swallow: fame, sera and bene end in a clear “eh”.",
       "examples": [
         { "w": "casa", "note": "a as in “father”, but short" },
-        { "w": "mesa", "note": "e as in “met”" },
+        { "w": "bene", "note": "both e's are clear, the last one too" },
         { "w": "vino", "note": "i as in “machine”, but short" },
-        { "w": "poco", "note": "o as in “hot”, with round lips" },
-        { "w": "uno", "note": "u as in “put”" },
-        { "w": "mañana", "note": "three clear a's" }
+        { "w": "come", "note": "o with round lips, final e clear" },
+        { "w": "luna", "note": "u as in “moon”, but short" },
+        { "w": "italiano", "note": "every vowel keeps its full sound" }
       ]
     },
     {
-      "id": "ei-ie",
-      "variety": "es-ES",
-      "title": "Two vowels together",
-      "text": "When i or u stands next to a, e or o, the two vowels normally join in one syllable (a diphthong): bien, puerta, aire. Say both, quickly. A written accent on the i or u splits them into two syllables: día is dí-a, país is pa-ís.",
+      "id": "e-o",
+      "variety": "it-IT",
+      "title": "Open and closed e and o",
+      "text": "In a stressed syllable, e and o each have two possible sounds: closed /e/ /o/ and open /ɛ/ /ɔ/. In writing they look the same, except that a final stressed e takes è (open) or é (closed). A few words are told apart only by this: pèsca (peach, open) and pésca (fishing, closed); vènti (winds) and vénti (twenty). Dictionaries mark it; most Italians use the two sounds differently by region, so no one expects you to get it exactly right. Learn it by ear, especially the words that carry an accent: è (is) is open, perché is closed.",
       "examples": [
-        { "w": "bien", "note": "one syllable" },
-        { "w": "puerta", "note": "puer-ta" },
-        { "w": "aire", "note": "ai-re" },
-        { "w": "día", "note": "two syllables: dí-a" },
-        { "w": "país", "note": "two syllables: pa-ís" }
+        { "w": "pesca", "note": "pèsca (peach) /ɛ/ · pésca (fishing) /e/" },
+        { "w": "venti", "note": "vènti (winds) /ɛ/ · vénti (twenty) /e/" },
+        { "w": "è", "note": "is: open /ɛ/ · e = and" },
+        { "w": "perché", "note": "because, why: closed /e/" },
+        { "w": "botte", "note": "bòtte (blows) /ɔ/ · bótte (barrel) /o/" }
       ],
-      "match": "(?<![qg])u[eéi]|i[aeouáéó]|u[aoáó]|[aeo][iu]|[aeo]y$|í[aeo]|[aeo]í|ú[aeo]|[aeo]ú"
+      "regional": { "note": "In much of the north and in Sicily the open/closed contrast is weaker or follows local habit; Tuscan and Roman speech is closest to the dictionary.", "area": "general" }
+    },
+    {
+      "id": "ei-ie",
+      "variety": "it-IT",
+      "title": "Two vowels together",
+      "text": "i or u next to another vowel is weak and normally forms one syllable with it (a dittongo): piano, quando, uomo, noi. Two strong vowels (a, e, o) next to each other are two syllables: teatro, paese. When the i or u itself is stressed, the vowels also split (an iato): zio is zì-o, farmacia is far-ma-cì-a, paura is pa-ù-ra.",
+      "examples": [
+        { "w": "piano", "note": "pia-no: two syllables" },
+        { "w": "quando", "note": "quan-do" },
+        { "w": "uomo", "note": "uo-mo: uo is one syllable" },
+        { "w": "teatro", "note": "te-a-tro: three syllables" },
+        { "w": "zio", "note": "zì-o: the i is stressed, two syllables" }
+      ],
+      "match": "[iu][aeo]|[aeo][iu]|[aeo][aeo]"
     },
     {
       "id": "betonung",
-      "variety": "es-ES",
-      "title": "Word stress: llana and aguda",
-      "text": "Every word has one strong syllable, and two rules tell you which. A word that ends in a vowel, n or s is stressed on the second-to-last syllable (llana). A word that ends in any other consonant is stressed on the last syllable (aguda). Where a word breaks these rules, it has a written accent.",
+      "variety": "it-IT",
+      "title": "Word stress",
+      "text": "Every word has one strong syllable. Most Italian words are stressed on the second-to-last syllable (parole piane): casa, amico, parlare. Some are stressed on the last syllable (parole tronche) and always have a written accent there: città, caffè. Some are stressed on the third-to-last (parole sdrucciole): telefono, medico, macchina. The stress is almost never written, so learn it with the word.",
       "examples": [
-        { "w": "casa", "mark": "ca", "note": "ends in a vowel" },
-        { "w": "hablan", "mark": "ha", "note": "ends in n" },
-        { "w": "zapatos", "mark": "pa", "note": "ends in s" },
-        { "w": "hablar", "mark": "blar", "note": "ends in r" },
-        { "w": "ciudad", "mark": "dad", "note": "ends in d" }
+        { "w": "casa", "mark": "ca", "note": "piana: second-to-last" },
+        { "w": "parlare", "mark": "la", "note": "piana: parlare, not “parlaRE”" },
+        { "w": "città", "mark": "tà", "note": "tronca: last syllable, written accent" },
+        { "w": "telefono", "mark": "le", "note": "sdrucciola: third-to-last" },
+        { "w": "macchina", "mark": "mac", "note": "sdrucciola: third-to-last" }
       ]
     },
     {
       "id": "auslaut",
-      "variety": "es-ES",
+      "variety": "it-IT",
       "title": "Written accents",
-      "text": "A written accent shows the strong syllable when the two rules don't. Words stressed three syllables from the end (esdrújulas) always have one: médico, música. An accent can also change the word: hablo (I speak), habló (she spoke); papa (the Pope), papá (dad).",
+      "text": "A word stressed on its last vowel always has a written accent: città, università, perché, caffè, più, può. Inside a word the accent is not written, except in a few dictionary cases. Short words use the accent to be told apart: è (is) and e (and); dà (gives) and da (from); là (there) and la (the); sì (yes) and si (oneself). Grave (à è ì ò ù) is the usual accent. The acute (é) is used on closed e: perché, né, sé, poiché.",
       "examples": [
-        { "w": "café", "mark": "fé", "note": "ends in a vowel, stressed on the last" },
-        { "w": "árbol", "mark": "ár", "note": "ends in l, stressed on the first" },
-        { "w": "médico", "mark": "mé", "note": "esdrújula" },
-        { "w": "habló", "mark": "bló", "note": "she spoke; hablo = I speak" },
-        { "w": "papá", "mark": "pá", "note": "dad; papa = the Pope" }
+        { "w": "città", "mark": "tà", "note": "city" },
+        { "w": "perché", "mark": "ché", "note": "because, why: acute é" },
+        { "w": "caffè", "mark": "fè", "note": "coffee: grave è" },
+        { "w": "più", "mark": "più", "note": "more" },
+        { "w": "dà", "mark": "dà", "note": "gives; da = from" },
+        { "w": "papà", "mark": "pà", "note": "dad; papa = the Pope" }
       ],
-      "match": "[áéíóú]"
+      "match": "[àèéìíòóùú]"
+    },
+    {
+      "id": "doppie",
+      "variety": "it-IT",
+      "title": "Double consonants",
+      "text": "A written double consonant is a long consonant: hold it about twice as long as a single one, and make the vowel before it short. It changes the word: pala (shovel), palla (ball); caro (dear), carro (cart); nono (ninth), nonno (grandfather); sete (thirst), sette (seven); casa (house), cassa (crate, till). English does this between words (“black cat”, “good dog”), but never inside one. After the stop (p, t, c, b, d, g) you hold the closure silently, then release it. gn, gl, sc and z between vowels are always long too: ogni, figlio, pesce, pizza.",
+      "examples": [
+        { "w": "pala", "note": "short l" },
+        { "w": "palla", "note": "long l: hold it" },
+        { "w": "nono", "note": "ninth" },
+        { "w": "nonno", "note": "grandfather: long n" },
+        { "w": "sete", "note": "thirst" },
+        { "w": "sette", "note": "seven: hold the t" },
+        { "w": "capello", "note": "a hair · cappello = a hat" }
+      ],
+      "match": "([bcdfglmnprstvz])\\1"
     },
     {
       "id": "r",
-      "variety": "es-ES",
+      "variety": "it-IT",
       "title": "r and rr",
-      "text": "A single r between vowels or at the end of a syllable is one quick tap of the tongue tip behind the top teeth: pero, caro, hablar. rr is several quick taps (a trill), and so is r at the start of a word or after n, l, s: perro, carro, rojo. pero (but) and perro (dog) are different words. Neither one is made in the throat.",
+      "text": "A single r is one quick tap of the tongue tip behind the top teeth: caro, sera, parlare. rr is a trill, several quick taps: carro, terra, correre. A word that starts with r also trills: rosso, Roma. The difference changes the word: caro (dear) and carro (cart); era (was) and erra (wanders). Some Italians say r in the throat (the erre moscia): you will hear it, but you don't need to copy it.",
       "examples": [
-        { "w": "pero", "note": "one tap: but" },
-        { "w": "perro", "note": "trill: dog" },
-        { "w": "caro", "note": "one tap: expensive" },
-        { "w": "carro", "note": "trill: cart, trolley" },
-        { "w": "rojo", "note": "trill at the start" },
-        { "w": "hablar", "note": "one tap at the end" }
+        { "w": "caro", "note": "one tap" },
+        { "w": "carro", "note": "trill" },
+        { "w": "sera", "note": "one tap: evening" },
+        { "w": "terra", "note": "trill: earth, land" },
+        { "w": "rosso", "note": "trill at the start" },
+        { "w": "parlare", "note": "taps, not a hook" }
       ],
       "match": "r"
     },
     {
-      "id": "sch-st-sp",
-      "variety": "es-ES",
-      "es419": { "note": "Latin America has seseo: z and c before e, i sound like s, so casa and caza sound the same." },
-      "title": "c and z: /θ/ (distinción)",
-      "text": "In most of Spain, z and c before e or i are /θ/, like th in “think”: the tongue tip between the teeth, only air. s stays /s/, so casa (house) and caza (hunting) are different words. c before a, o, u is /k/. You will also hear seseo (s for /θ/) in the Canaries and much of Andalusia, and ceceo (/θ/ for s too) in parts of Andalusia. Both are normal there, not mistakes.",
+      "id": "ig",
+      "variety": "it-IT",
+      "title": "c and g: soft and hard",
+      "text": "Before e or i, c is /tʃ/ (like ch in “church”) and g is /dʒ/ (like j in “jam”): cena, cinema, gelato, giorno. Before a, o, u, they are hard: /k/ and /g/: casa, cosa, gatto, gusto. To get the hard sound before e or i, Italian adds h: che, chi, ghetto, spaghetti. To get the soft sound before a, o, u, it adds a silent i: ciao, cioè, giorno, giusto. So ch is never “church” and gh is never silent.",
       "examples": [
-        { "w": "gracias", "note": "/ˈɡɾaθjas/" },
-        { "w": "cena", "note": "c + e = /θ/" },
-        { "w": "zapato", "note": "z = /θ/" },
-        { "w": "caza", "note": "hunting; casa = house" },
-        { "w": "cosa", "note": "c + o = /k/" }
+        { "w": "cena", "note": "ce = “che”: dinner" },
+        { "w": "ciao", "note": "ci + a: the i is silent" },
+        { "w": "chi", "note": "chi = “kee”: who" },
+        { "w": "gelato", "note": "ge = “je”" },
+        { "w": "giorno", "note": "gi + o: the i is silent" },
+        { "w": "ghetto", "note": "gh = hard g" }
       ],
-      "match": "z|c[eiéí]"
+      "match": "c[eiéèìí]|g[eiéèìí]|ch|gh|ci[aou]|gi[aou]",
+      "regional": { "note": "In Tuscany a c between vowels often sounds like a breathy h (la casa → “la hasa”): the gorgia toscana. It is not the standard; don't copy it.", "area": "centre" }
+    },
+    {
+      "id": "sch-st-sp",
+      "variety": "it-IT",
+      "title": "sc and sch",
+      "text": "Before e or i, sc is /ʃ/, like sh in “ship”: scena, sci, pesce, scegliere. Before a, o, u, and before h, it is /sk/: scala, scuola, scheda, schiena. Between vowels /ʃ/ is long: pesce, lascia. A word can start with s + consonant (sp-, st-, sb-, sc-) without any extra vowel before it: scuola, studente, spesa. It is not “esk-”, “escuola”.",
+      "examples": [
+        { "w": "scena", "note": "sc + e = /ʃ/" },
+        { "w": "sci", "note": "sc + i = /ʃ/: ski" },
+        { "w": "pesce", "note": "fish: long /ʃ/" },
+        { "w": "scheda", "note": "sch + e = /sk/" },
+        { "w": "schiena", "note": "back: sch + i = /sk/" },
+        { "w": "scuola", "note": "sc + u = /sk/, no “e” before it" }
+      ],
+      "match": "sc"
+    },
+    {
+      "id": "gl",
+      "variety": "it-IT",
+      "title": "gl: the “gli” sound",
+      "text": "gl before i is one sound, /ʎ/: the tongue presses its middle against the roof of the mouth, like “lli” in “million”, but longer and tighter. It is long between vowels: figlio, famiglia, aglio, meglio, and in the article gli. It is not “g” + “l” and not a plain l. A few learned words keep gl as /gl/: glicine, negligente. Before a, e, o, u, gl is also /gl/: gloria, inglese.",
+      "examples": [
+        { "w": "figlio", "note": "son: /ˈfiʎʎo/" },
+        { "w": "famiglia", "note": "family" },
+        { "w": "aglio", "note": "garlic" },
+        { "w": "gli", "note": "the (masc. plural): /ʎi/" },
+        { "w": "inglese", "note": "English: gl = /gl/ here" }
+      ],
+      "match": "gl",
+      "regional": { "note": "In Rome and parts of the south, gli between vowels is often a long y sound (figlio ~ “fijjo”). It is local, not the standard.", "area": "centre" }
+    },
+    {
+      "id": "gn",
+      "variety": "it-IT",
+      "title": "gn",
+      "text": "gn is one sound, /ɲ/: like ny in “canyon”, or the gn of French “agneau”. Press the middle of the tongue against the roof of the mouth. It is long between vowels: ogni, bagno, signora. It is not “g” + “n” (not “BAG-no”): gnocchi is “nyok-ki”.",
+      "examples": [
+        { "w": "gnocchi", "note": "gn + o" },
+        { "w": "bagno", "note": "bathroom, bath" },
+        { "w": "ogni", "note": "every" },
+        { "w": "signora", "note": "Mrs, madam" },
+        { "w": "lavagna", "note": "blackboard" }
+      ],
+      "match": "gn"
+    },
+    {
+      "id": "z",
+      "variety": "it-IT",
+      "title": "z",
+      "text": "z is a ts or a dz: both start with the tongue against the teeth and are released as a hiss. Examples: zio, pizza, grazie, stazione (all /ts/); zero, zona, mezzo (/dz/). Italians themselves vary, so for a learner it matters only that you say one of them: not an English buzzing z, not Spanish th (/θ/), and not just s. -zione is always /ts/; the double zz is long: pizza, ragazza. Only a few pairs depend on the difference.",
+      "examples": [
+        { "w": "zio", "note": "/ts/: uncle" },
+        { "w": "pizza", "note": "/tts/: long" },
+        { "w": "grazie", "note": "/ts/" },
+        { "w": "stazione", "note": "-zione is always /ts/" },
+        { "w": "zero", "note": "/dz/" },
+        { "w": "mezzo", "note": "/ddz/: half" }
+      ],
+      "match": "z",
+      "regional": { "note": "In the north pranzo, mezzo and zero have /dz/ (voiced); in the centre and south the same words often have /ts/. Both are normal.", "area": "general" }
     },
     {
       "id": "s",
-      "variety": "es-ES",
-      "es419": { "note": "Much of Latin America also weakens a final s, especially the Caribbean, Argentina and Chile." },
-      "title": "s: no buzz",
-      "text": "Spanish s is the s in “sun”, also between vowels. Don't make it a buzzing z: casa, mesa, museo. It only buzzes a little before b, d, g, m, n, l (mismo, desde), and that happens by itself. In southern Spain and the Canaries a final s often becomes a breath or disappears: los amigos can sound like “loh amigoh”. You will hear this, but you don't have to copy it.",
+      "variety": "it-IT",
+      "title": "s",
+      "text": "s is /s/ (as in “sun”) at the start of a word before a vowel and before p, t, c, f, q: sole, sera, sport, stare. Before b, d, g, l, m, n, r, v it is voiced /z/, as in “zoo”: sbaglio, sdraiare, slitta, smettere, snello, sveglia. Between vowels, s is voiced in the north (casa, rosa, museo) and voiceless in the centre and south; both are fine. ss is always voiceless and long: cassa, rosso, basso.",
       "examples": [
-        { "w": "casa", "note": "/s/, no buzz" },
-        { "w": "mesa", "note": "/s/, no buzz" },
-        { "w": "museo", "note": "/s/, no buzz" },
-        { "w": "sopa", "note": "/s/, no buzz" }
+        { "w": "sole", "note": "/s/" },
+        { "w": "sbaglio", "note": "mistake: sb = /zb/" },
+        { "w": "smettere", "note": "to stop: sm = /zm/" },
+        { "w": "casa", "note": "/s/ or /z/, by region" },
+        { "w": "cassa", "note": "ss = long /s/, crate" }
       ],
-      "match": "[aeiouáéíóú]s[aeiouáéíóú]|^s[aeiouáéíóú]"
-    },
-    {
-      "id": "ig",
-      "variety": "es-ES",
-      "es419": { "note": "In the Caribbean, Central America and Colombia this sound is softer, close to the h in “house”." },
-      "title": "j, and g before e or i: /x/",
-      "text": "j, and g before e or i, are /x/: a rasp at the back of the mouth, like ch in Scottish “loch”. In Spain it is strong and clearly audible. It is not the j in “jam”. g before a, o, u is the g in “go”: gato, amigo.",
-      "examples": [
-        { "w": "jamón", "note": "/x/" },
-        { "w": "gente", "note": "g + e = /x/" },
-        { "w": "trabajo", "note": "/x/" },
-        { "w": "página", "note": "g + i = /x/" },
-        { "w": "gato", "note": "g + a = g in “go”" }
-      ],
-      "match": "j|g[eiéí]"
-    },
-    {
-      "id": "ll-y",
-      "variety": "es-ES",
-      "es419": { "note": "In Argentina and Uruguay ll and y often sound like sh or the s in “measure”." },
-      "title": "ll and y (yeísmo)",
-      "text": "In most of Spain ll and y are one sound (yeísmo): like y in “yes”, a little stronger. Some older speakers in rural areas still keep ll apart. It is never an l: calle, not “cale”. On its own or at the end of a word, y is a vowel, like i: y (and), hoy, muy.",
-      "examples": [
-        { "w": "calle", "note": "like “ca-ye”" },
-        { "w": "llave", "note": "like “ya-ve”" },
-        { "w": "yo", "note": "same sound" },
-        { "w": "mayo", "note": "same sound" },
-        { "w": "hoy", "note": "y at the end = i" }
-      ],
-      "match": "ll|y[aeiouáéíóú]|y$"
-    },
-    {
-      "id": "enye",
-      "variety": "es-ES",
-      "title": "ñ",
-      "text": "ñ is one sound, like ny in “canyon” or gn in French and Italian. Press the middle of your tongue against the roof of your mouth. It is a letter of its own, and it changes the word: pena (sorrow), peña (rock; a group of friends).",
-      "examples": [
-        { "w": "año", "note": "year" },
-        { "w": "mañana", "note": "morning, tomorrow" },
-        { "w": "España", "note": "Spain" },
-        { "w": "peña", "note": "pena is another word" }
-      ],
-      "match": "ñ"
-    },
-    {
-      "id": "buchstaben",
-      "variety": "es-ES",
-      "title": "b and v: one sound",
-      "text": "b and v sound exactly the same. At the start of a phrase and after m or n, close both lips: vino, bien, un vaso. Between vowels your lips almost touch, and the sound is soft: abuela, nuevo. Your top teeth never touch your lip.",
-      "examples": [
-        { "w": "vino", "note": "both lips" },
-        { "w": "bien", "note": "both lips" },
-        { "w": "hombre", "note": "after m: both lips" },
-        { "w": "abuela", "note": "soft, between vowels" },
-        { "w": "nuevo", "note": "soft, between vowels" }
-      ],
-      "match": "[bv]"
-    },
-    {
-      "id": "e-ende",
-      "variety": "es-ES",
-      "title": "Hard and soft d",
-      "text": "At the start of a phrase and after n or l, d is hard, with the tongue against the top teeth: dos, donde. Everywhere else it is soft /ð/, like th in “this”: nada, cansado. At the end of a word it is very weak: Madrid, usted. In relaxed speech in Spain, -ado often sounds like “-ao”: cansao.",
-      "examples": [
-        { "w": "dos", "note": "hard" },
-        { "w": "donde", "note": "both hard" },
-        { "w": "nada", "note": "soft /ð/" },
-        { "w": "cansado", "note": "soft /ð/" },
-        { "w": "Madrid", "note": "very weak at the end" }
-      ],
-      "match": "[aeiouáéíóú]d[aeiouáéíóú]|d$"
+      "match": "s",
+      "regional": { "note": "Between vowels: s is voiced /z/ in the north (casa, museo), voiceless /s/ in the south. In Tuscany it is mostly voiced; Rome is mixed. Both are heard.", "area": "general" }
     },
     {
       "id": "h",
-      "variety": "es-ES",
+      "variety": "it-IT",
       "title": "h is silent",
-      "text": "You never say the letter h. Start straight on the next vowel: hola sounds just like ola (wave). h only has a sound together with c, as ch.",
+      "text": "The letter h is never pronounced. It has only two jobs: it separates four forms of avere from words that sound the same (ho / o, hai / ai, ha / a, hanno / anno), and it makes c and g hard before e and i (che, chi, ghetto). In foreign words it is also silent: hotel, hobby.",
       "examples": [
-        { "w": "hola", "note": "like “ola”" },
-        { "w": "hora", "note": "like “ora”" },
-        { "w": "ahora", "note": "“a-o-ra”" },
-        { "w": "hospital", "note": "“os-pi-tal”" }
+        { "w": "ho", "note": "I have: sounds like o (or)" },
+        { "w": "hai", "note": "you have: sounds like ai (to the)" },
+        { "w": "ha", "note": "he has: sounds like a (to)" },
+        { "w": "hanno", "note": "they have: sounds like anno (year)" },
+        { "w": "hotel", "note": "silent h" }
       ],
-      "match": "(^|[^c])h"
+      "match": "(^|[^cg])h"
     },
     {
-      "id": "ch",
-      "variety": "es-ES",
-      "title": "ch",
-      "text": "ch is one sound, as in “church”: ocho, noche, leche. It is not sh, and it is not k.",
+      "id": "qu",
+      "variety": "it-IT",
+      "title": "qu",
+      "text": "qu is /kw/: the u is spoken. Say it like “qu” in “quick”: quando, questo, quattro, qui. This differs from Spanish, where the u of que and qui is silent. cu before a vowel is often the same: cuore, cuoco.",
       "examples": [
-        { "w": "chico" },
-        { "w": "ocho" },
-        { "w": "noche" },
-        { "w": "leche" }
+        { "w": "quando", "note": "“kwan-do”: when" },
+        { "w": "questo", "note": "“kwe-sto”: this" },
+        { "w": "quattro", "note": "four: long tt" },
+        { "w": "qui", "note": "here: “kwee”" },
+        { "w": "cuore", "note": "heart: “kwo-re”" }
       ],
-      "match": "ch"
+      "match": "qu|cu[aeio]"
     },
     {
-      "id": "umlaute",
-      "variety": "es-ES",
-      "title": "qu, gu and gü",
-      "text": "In que and qui the u is silent and the sound is /k/: queso, quiero. In gue and gui the u is silent too and the g is the one in “go”: guerra, guitarra. Only with two dots (ü) do you say the u: vergüenza, pingüino.",
+      "id": "raddoppiamento",
+      "variety": "it-IT",
+      "title": "Words that run together",
+      "text": "Italian is spoken with no stop between words. Listen for the raddoppiamento sintattico: after some short words and after any word stressed on its last vowel, the first consonant of the next word is long. a casa sounds like “ak-kasa”, è vero like “ev-vero”, più tardi like “piut-tardi”. It is not written and it is not needed to be understood, but you will hear it, mostly in central and southern speech.",
       "examples": [
-        { "w": "queso", "note": "“ke-so”" },
-        { "w": "quiero", "note": "“kie-ro”" },
-        { "w": "guerra", "note": "“ge-rra”, g as in “go”" },
-        { "w": "guitarra", "note": "silent u" },
-        { "w": "pingüino", "note": "you say the u" }
+        { "w": "a casa", "note": "“ak-ka-sa”" },
+        { "w": "è vero", "note": "“ev-ve-ro”" },
+        { "w": "più tardi", "note": "“piut-tar-di”" },
+        { "w": "che cosa", "note": "“kek-ko-sa”" }
       ],
-      "match": "qu|gu[eiéí]|gü"
+      "regional": { "note": "Raddoppiamento is typical of Tuscany, Rome and the south; speakers in the north often leave it out.", "area": "general" }
     },
     {
-      "id": "knacklaut",
-      "variety": "es-ES",
-      "title": "Linking words",
-      "text": "Spanish flows from word to word with no stop. A last vowel and a first vowel join in one syllable (sinalefa): mi amigo. A last consonant moves on to the next vowel: los otros sounds like “lo-so-tros”.",
+      "id": "elisione",
+      "variety": "it-IT",
+      "title": "Elision: the apostrophe",
+      "text": "An apostrophe shows that a vowel was dropped before another vowel. The two words are said as one: l'amico, un'amica, quest'anno, c'è, dov'è, nell'ufficio. Mind the difference in writing: un amico (masculine, no apostrophe) but un'amica (feminine, apostrophe), because the apostrophe stands for the missing a of una.",
       "examples": [
-        { "w": "mi amigo", "note": "mia-mi-go" },
-        { "w": "los otros", "note": "lo-so-tros" },
-        { "w": "en España", "note": "e-nes-pa-ña" }
+        { "w": "l'amico", "note": "“la-mi-co”" },
+        { "w": "un'amica", "note": "feminine: una + amica" },
+        { "w": "c'è", "note": "there is: ci + è" },
+        { "w": "dov'è", "note": "where is: dove + è" },
+        { "w": "quest'anno", "note": "this year" }
       ]
     }
   ]

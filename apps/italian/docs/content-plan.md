@@ -1114,3 +1114,15 @@ handled by the `ui-*` items where they are rendered.
   are abstract B2 vocabulary (cause/effect, opinion/doubt, change, statistics, coping, careers). Plural-only
   nouns carry the singular-style article field (`la`/`il`/`l'` + `pluralOnly`) because the validator has no plural articles.
   Open: no `rank`, no audio, no pictures for B2 (abstract words); `program.json` B2 modules still list `units: []`.
+- **`pronunciation` (2026-11-14).** `ausspracheregeln.json` (17 rules), `aussprache-check.json` (28 sentences),
+  `zungenbrecher.json` (15), `satzmelodie.json` and `aussprache-muttersprache.json` (18 drills; English, German,
+  French, Portuguese, Spanish speakers) are Italian; the `area: "aussprache"` mistakes of those five languages in
+  `fehler-nach-sprache.json` are rewritten (language slot `italienisch` became `spanisch`, its other-area
+  mistakes were dropped for `idioms-mistakes`; the aussprache mistakes of `arabisch`, `russisch`, `ukrainisch`,
+  `chinesisch` were removed with their drills). Shell touched: `satzmelodie.js`/`satzmelodieData.js`/
+  `melodieLabyrinth.js` (no ¿ ¡, Italian question words), `ausspracheCheck.js` (`LANG = "it-IT"`), `drillAudio.js`
+  (Italian accents in file names), `pronunciation/patterns.ts`, `FehlerSprache.astro` (`lang="it"`),
+  `check-satzmelodie.mjs`, `check-aussprache.mjs`; `ac.find.*` re-keyed in en/de/fr/pt. Open: de/fr/pt `ac.find.*` and
+  `i18n/it.json` (English placeholder, deleted by `cleanup`) are first drafts for their language items; the
+  `fehler-nach-sprache.json` strengths of the five languages are now about Italian, its `variety` is still `es-ES`;
+  no audio (all `audio: false`).

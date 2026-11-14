@@ -1,35 +1,63 @@
-// Short tips for the Aussprache-Check: one rule per Spanish sound that learners most often get
+// Short tips for the Aussprache-Check: one rule per Italian sound that learners most often get
 // wrong. No API: the tip is picked from the spelling of the word the learner scored worst on.
-// Spanish spelling is regular, so the tests are reliable: z and ce/ci are /θ/, rr is the trill.
+// Italian spelling is regular, so the tests are reliable: gn, gli, sc + e/i, c/g + e/i, the
+// double consonants.
 //
 // Each sound has a `test` on the lower-cased word and a `tip` written in English for A1–B1
 // readers: short main clauses, the mouth position first, one example they already know.
-// Castilian Spanish (the site's standard, docs/content-plan.md §1.1), with distinción.
+// Standard Italian (the site's standard, docs/content-plan.md §1.1).
 
 /** @typedef {{ id: string, label: string, test: (w: string) => boolean, tip: (w: string, shown: string) => string }} Sound */
 
-const V = "aeiouáéíóúü";
-const STRONG_R = /rr|^r|[nls]r/;
+const V = "aeiouàèéìíòóùú";
+const STRONG_R = /rr|^r/;
 
 /** @type {Sound[]} */
 export const SOUNDS = [
   {
-    id: "enye",
-    label: "ñ",
-    test: (w) => w.includes("ñ"),
-    tip: () => "ñ is one sound, like ny in “canyon”. Press the middle of your tongue against the roof of your mouth. Like “año”, “mañana”.",
+    id: "gn",
+    label: "gn",
+    test: (w) => w.includes("gn"),
+    tip: () => "gn is one sound, like ny in “canyon”. Press the middle of your tongue against the roof of your mouth. Not g + n. Like “bagno”, “ogni”.",
   },
   {
-    id: "ce-zi",
-    label: "c · z",
-    test: (w) => /z|c[eiéí]/.test(w),
-    tip: (w, shown) => `In “${shown}”, z or c before e, i is /θ/ in Spain, like th in “think”: tongue tip between your teeth, only air. Not ts, not ch. (Southern Spain and Latin America say s here, and that is fine too.)`,
+    id: "gl",
+    label: "gl",
+    test: (w) => /gli/.test(w),
+    tip: (w, shown) => `In “${shown}”, gli is one sound: the tongue presses against the roof of the mouth, a bit like lli in “million”, but longer. Not g + l. Like “figlio”, “famiglia”.`,
   },
   {
-    id: "j-g",
-    label: "j · g",
-    test: (w) => /j|g[eiéí]/.test(w),
-    tip: (w, shown) => `In “${shown}”, j or g before e, i is a rasp at the back of your mouth, like ch in Scottish “loch”. Not the j in “jam”. Like “trabajo”, “gente”.`,
+    id: "sc",
+    label: "sc",
+    test: (w) => /sc[eiéèìí]|sch/.test(w),
+    tip: (w, shown) =>
+      /sch/.test(w)
+        ? `In “${shown}”, sch is /sk/: the h only keeps the s and c apart. Like “scheda”, “schiena”.`
+        : `In “${shown}”, sc before e or i is /ʃ/, like sh in “ship”. Like “scena”, “pesce”, “sci”.`,
+  },
+  {
+    id: "c-g",
+    label: "c · g",
+    test: (w) => /c[eiéèìí]|g[eiéèìí]|ch|gh|ci[aou]|gi[aou]/.test(w),
+    tip: (w, shown) =>
+      /ch|gh/.test(w)
+        ? `In “${shown}”, ch is /k/ and gh is /g/: the h makes them hard. Not “church”. Like “che”, “chi”, “ghetto”.`
+        : `In “${shown}”, c before e or i is like ch in “church”, and g before e or i is like j in “jam”. Like “cena”, “gelato”. Not th, not a rasp.`,
+  },
+  {
+    id: "z",
+    label: "z",
+    test: (w) => w.includes("z"),
+    tip: (w, shown) => `The z in “${shown}” is ts or dz: the tongue starts at your teeth and releases a hiss. Not a buzzing English z, not th. Like “pizza”, “grazie”, “zero”.`,
+  },
+  {
+    id: "doppie",
+    label: "double",
+    test: (w) => /([bcdfglmnprstvz])\1/.test(w),
+    tip: (w, shown) => {
+      const d = w.match(/([bcdfglmnprstvz])\1/)?.[0] ?? "";
+      return `“${shown}” has a double ${d}: hold that sound about twice as long and keep the vowel before it short. It changes the word: pala, palla; caro, carro.`;
+    },
   },
   {
     id: "r",
@@ -37,62 +65,44 @@ export const SOUNDS = [
     test: (w) => w.includes("r"),
     tip: (w, shown) =>
       STRONG_R.test(w)
-        ? `“${shown}” has a strong r: several quick taps of the tongue tip behind your top teeth. Not in the throat. Like “perro”, “rojo”.`
-        : `The r in “${shown}” is one quick tap of the tongue tip behind your top teeth. Don't curl your tongue back. Like “pero”, “caro”.`,
+        ? `“${shown}” has a strong r: several quick taps of the tongue tip behind your top teeth. Not in the throat. Like “carro”, “rosso”.`
+        : `The r in “${shown}” is one quick tap of the tongue tip behind your top teeth. Don't curl your tongue back. Like “caro”, “sera”.`,
   },
   {
-    id: "ll-y",
-    label: "ll · y",
-    test: (w) => new RegExp(`ll|y[${V}]`).test(w),
-    tip: () => "In most of Spain, ll and y are the same sound: y in “yes”, a little stronger. It is never an l. Like “calle”, “yo”.",
+    id: "qu",
+    label: "qu",
+    test: (w) => w.includes("qu"),
+    tip: (w, shown) => `In “${shown}”, qu is /kw/: you say the u. Like “quando”, “questo”. This is different from Spanish.`,
   },
   {
-    id: "ch",
-    label: "ch",
-    test: (w) => w.includes("ch"),
-    tip: () => "ch is one sound, as in “church”: first the tongue touches the roof of your mouth, then lets go. Not sh, not k. Like “ocho”, “noche”.",
-  },
-  {
-    id: "qu-gu",
-    label: "qu · gu",
-    test: (w) => /qu|gu[eiéí]|gü/.test(w),
-    tip: (w, shown) =>
-      w.includes("gü")
-        ? `In “${shown}” you say the u: the two dots tell you to. Like “pingüino”, “vergüenza”.`
-        : `In “${shown}” the u is silent: que sounds like “ke”, gue like “ge” with the g of “go”.`,
+    id: "st-sp",
+    label: "st · sp",
+    test: (w) => /^s[ptcbdgmnlrvf]/.test(w),
+    tip: (w, shown) => `“${shown}” starts with s and a consonant. Say s first, with no vowel before it: not “es-” and not “sh-”. Like “studente”, “spesa”.`,
   },
   {
     id: "h",
     label: "h",
-    test: (w) => /(^|[^c])h/.test(w),
-    tip: (w, shown) => `The h in “${shown}” is silent. Don't breathe out first: start straight on the next vowel. hola sounds just like ola.`,
-  },
-  {
-    id: "b-v",
-    label: "b · v",
-    test: (w) => /[bv]/.test(w),
-    tip: (w) =>
-      new RegExp(`[${V}][bv][${V}]`).test(w)
-        ? "b and v are the same sound. Between vowels it is soft: your lips almost touch, and your teeth stay away from your lip. Like “abuela”, “nuevo”."
-        : "b and v are the same sound: close both lips. Your top teeth never touch your lip. Like “vino”, “bien”.",
-  },
-  {
-    id: "d",
-    label: "d",
-    test: (w) => /[^nl]d/.test(w),
-    tip: (w, shown) => `The d in “${shown}” is soft, like th in “this”: the tongue only just touches your teeth, and the air keeps flowing. Like “nada”, “Madrid”.`,
+    test: (w) => /(^|[^cg])h/.test(w),
+    tip: (w, shown) => `The h in “${shown}” is silent. Don't breathe out first: start straight on the next vowel. ho sounds just like o.`,
   },
   {
     id: "acento",
     label: "stress",
-    test: (w) => /[áéíóú]/.test(w),
-    tip: (w, shown) => `The written accent shows the strong syllable of “${shown}”. Keep the stress there, because moving it can change the word: hablo (I speak), habló (she spoke).`,
+    test: (w) => /[àèéìíòóùú]/.test(w),
+    tip: (w, shown) => `The written accent shows the strong syllable of “${shown}”, always the last one. Keep the stress there, because moving it can change the word: papa (the Pope), papà (dad).`,
+  },
+  {
+    id: "s",
+    label: "s",
+    test: (w) => /s[bdglmnrv]/.test(w),
+    tip: (w, shown) => `In “${shown}”, s before b, d, g, l, m, n, r or v is voiced, like z in “zoo”. Like “sbaglio”, “smettere”, “sveglia”.`,
   },
   {
     id: "vocal",
     label: "vowels",
     test: (w) => new RegExp(`[${V}][^${V}]+[${V}]`).test(w),
-    tip: (w, shown) => `Keep every vowel of “${shown}” short and clear, stressed or not. Spanish vowels don't glide and don't get weak.`,
+    tip: (w, shown) => `Keep every vowel of “${shown}” short and clear, stressed or not, and say the last one. Italian vowels don't glide and don't get weak.`,
   },
 ];
 
@@ -100,8 +110,8 @@ const GENERIC = "Listen to the word again and repeat it slowly, one syllable at 
 
 /**
  * The tip for one word. Sounds the sentence was chosen to practise come first, so a
- * learner on the r sentence hears about r even if the word also has a b. Without a focus the
- * order of SOUNDS decides: the narrowest and most-often-wrong sounds come first.
+ * learner on the r sentence hears about r even if the word also has a double letter. Without a
+ * focus the order of SOUNDS decides: the narrowest and most-often-wrong sounds come first.
  * @param {string} word as shown in the sentence (punctuation is ignored)
  * @param {string[]} [focus] the sentence's focus sound ids
  * @returns {{ sound: string | null, label: string | null, text: string }}
