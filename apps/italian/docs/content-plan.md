@@ -1080,3 +1080,15 @@ handled by the `ui-*` items where they are rendered.
   strict in `check-variety.mjs`. Open: `verbtabellen.json` is still Spanish (`conjugation-data`), so
   `check-verbtabellen` compares 0 rows with the reference list until then; the `verbTopic` worksheet in
   `arbeitsblatt/nachschlagen.js` still has Spanish text for the same reason.
+- `conjugation-data` (2026-11-14): `verbtabellen.json` is Italian (63 verbs, 7 groups: new `isc` and `spelling`
+  replace `stem-change`; `rem` = passato remoto is its own row key and replaces the Spanish `imperf` in the page,
+  `en.json` and the trainer; `praet` = imperfetto). Compound tenses are generated from `aux` and show
+  agreement (`sono andato/a`, `siamo andati/e`); a verb with both auxiliaries shows `avere` and puts the
+  `essere` form in `alt`. Negative imperative: `non` + infinitive for tu, `non` + the affirmative otherwise.
+  `verbtabellen` is strict in `check-variety.mjs`; `check-verbtabellen` compares 56 rows with the reference list.
+  Trainer: only the lib (`conjugationTrainer.js`, persons, clitics, `non`, `-o/a` variants) and the `drills`
+  block of `conjugation-trainer.json` (tenses, six groups, 18 presets) were converted so the gate stays green.
+  Open for `conjugation-trainer`: the 11 `sets` and `topicLinks` set entries are still Spanish (ser/estar …),
+  the "with vosotros" switch in `conjugation.astro` (`conj.withVosotros`, key `cj-vos`) is obsolete for
+  Italian, the drill rule tables hold only presente and imperfetto, and the `conj.*` interface texts of
+  de/fr/pt/it are only translated for the keys that changed.

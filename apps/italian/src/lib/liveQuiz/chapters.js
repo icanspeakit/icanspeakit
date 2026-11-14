@@ -8,8 +8,8 @@
 //            (werde / wirst / wird / werden), so they are always forms a learner could
 //            plausibly mix up, never random words.
 //   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the presente,
-//            indefinido and perfecto, the wrong options being the same verb's other forms
-//            and the form the regular pattern would wrongly give (teno, hací, ha hacido).
+//            imperfetto and passato prossimo, the wrong options being the same verb's other forms
+//            and the form the regular pattern would wrongly give (cerci, mangii, ha venuto).
 //   w:<id>   a Wortschatz Lernset — its words, asked German → translation by default.
 //            Stored as a reference ({ t: "word", id }) and turned into a question on the
 //            projector, where the lexicon is loaded anyway: that is what lets every
@@ -115,15 +115,15 @@ function verbGroups() {
     for (const v of verbList.filter((x) => x.group === g.id)) {
       const praes = v.rows.map((r) => r.praes.f);
       const praet = v.rows.map((r) => r.praet.f);
-      // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+      // The person whose form breaks the pattern (vengo, vieni), else lui/lei.
       const pi = v.rows.findIndex((r) => r.praes.x);
       const p = pi === -1 ? 2 : pi;
       items.push(q(`${PERSONS[p]} ___ (${v.inf}) · presente`, praes[p], [regularPraes(v.inf)[p], ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
-      // A verb with gaps in its table (haber, soler) hardly uses the indefinido: not asked.
-      if (!v.defective) items.push(q(`yo ___ (${v.inf}) · indefinido`, praet[0], [regularPraet(v.inf)[0], ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
+      // Every verb has an imperfetto, even those without an imperative (potere, volere, dovere).
+      items.push(q(`io ___ (${v.inf}) · imperfetto`, praet[0], [regularPraet(v.inf)[0], ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
       const perf = v.rows[2].perf.f;
       const withPart = (part) => perf.replace(v.p2, part);
-      items.push(q(`él/ella ___ (${v.inf}) · pretérito perfecto`, perf, [v.rows[5].perf.f, withPart(regularP2(v.inf)), withPart(v.plain), v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
+      items.push(q(`lui/lei ___ (${v.inf}) · passato prossimo`, perf, [v.rows[5].perf.f, withPart(regularP2(v.inf)), withPart(v.plain), v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
     }
     return { title: g.name, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);

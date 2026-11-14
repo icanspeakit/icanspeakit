@@ -61,19 +61,19 @@ function verbTopic() {
     slug: "verbtabellen",
     name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Presente, indefinido and pretérito perfecto of the most important verbs",
+    subtitle: "Presente, imperfetto and passato prossimo of the most important verbs",
     reference: "/grammar/verbs",
     concept: {
-      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[0], g.hilfsverb?.regel?.[2]]
+      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g.isc?.regel?.[0], g.hilfsverb?.regel?.[2]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
     },
     exercises: [
       {
         type: "table",
         title: "Presente: write the verb form.",
-        hint: "Careful with the yo form and with stem changes: tengo, pienso, pensamos.",
+        hint: "Careful with the io form and the spelling changes: vengo, cerco – cerchi, finisco – finiamo.",
         columns: ["Person + verb", "Presente"],
-        // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+        // The person whose form breaks the pattern (vengo, vieni), else lui/lei.
         rows: pick(0, pools).map((v) => {
           const x = v.rows.findIndex((r) => r.praes.x);
           const p = x === -1 ? 2 : x;
@@ -82,14 +82,14 @@ function verbTopic() {
       },
       {
         type: "table",
-        title: "Indefinido: write the yo form.",
-        columns: ["Verb", "yo (indefinido)"],
+        title: "Imperfetto: write the io form.",
+        columns: ["Verb", "io (imperfetto)"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Pretérito perfecto: haber + participle.",
-        columns: ["Verb", "él/ella (pretérito perfecto)"],
+        title: "Passato prossimo: avere or essere + participle.",
+        columns: ["Verb", "lui/lei (passato prossimo)"],
         rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
       },
     ],

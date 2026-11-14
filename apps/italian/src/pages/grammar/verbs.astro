@@ -33,17 +33,15 @@ const byGroup = groups.map((g) => ({ ...g, verbs: verbs.filter((v) => v.group ==
 const gKey = (id: string) => `verben.group.${id}`;
 // Tense names stay Italian, as a learner meets them in class and in the grammar topics; the line
 // under each name says what it is for, in the interface language.
-// The keys (praes, praet, perf, imperf …) are the ones src/lib/verbtabellen*.js produces today.
-// `conjugation-data` rewrites that module for Italian (docs/content-plan.md §4.1: praet = imperfetto,
-// new keys rem, aux …); these columns then follow its keys. The labels are the Italian tense each
-// slot is meant to hold.
+// The keys (praes, praet = imperfetto, perf = passato prossimo, rem = passato remoto …) are the
+// ones src/lib/verbtabellenCore.js produces (docs/content-plan.md §4.1).
 const COLS = [
   ["praes", "Presente", "now, habits"],
   ["praet", "Imperfetto", "background, used to"],
   ["perf", "Passato prossimo", "past linked to now"],
 ] as const;
 const MORE = [
-  { key: "indicativo", name: "Indicative", cols: [["imperf", "Passato remoto", "literary past, southern speech"], ["fut", "Futuro semplice", "will"], ["cond", "Condizionale", "would"]] },
+  { key: "indicativo", name: "Indicative", cols: [["rem", "Passato remoto", "literary past, southern speech"], ["fut", "Futuro semplice", "will"], ["cond", "Condizionale", "would"]] },
   { key: "subjuntivo", name: "Subjunctive", cols: [["subj", "Congiuntivo presente", "wishes, doubt, feelings"], ["subjImpf", "Congiuntivo imperfetto", "se…, volevo che…"]] },
   { key: "imperativo", name: "Imperative", cols: [["imp", "Imperativo", "do it"], ["impNeg", "Imperativo negativo", "don't do it"]] },
   { key: "compuestos", name: "Compound tenses", cols: [["plusc", "Trapassato prossimo", "had done"], ["futPerf", "Futuro anteriore", "will have done"], ["condPerf", "Condizionale passato", "would have done"]] },
