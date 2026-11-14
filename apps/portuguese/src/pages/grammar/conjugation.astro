@@ -38,16 +38,17 @@ const MOODS = [
   { key: "indicativo", name: "Indicative" },
   { key: "subjuntivo", name: "Subjunctive" },
   { key: "imperativo", name: "Imperative" },
+  { key: "infinitivo", name: "Personal infinitive" },
   { key: "compuestos", name: "Compound tenses" },
   { key: "compuestosSubj", name: "Compound subjunctive" },
 ];
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
-// Rule texts mark Spanish examples with *…*, as the verb tables do.
-const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>');
+// Rule texts mark Portuguese examples with *…*, as the verb tables do.
+const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</b>');
 ---
 <Layout
-  title="Spanish verb conjugation trainer: tenses, ser and estar, por and para – icanspeak Portuguese"
-  description="Practise Spanish verb forms by tense, mood and verb group: regular and irregular verbs, the subjunctive and the imperative, vosotros included. With ser/estar and por/para sets."
+  title="Portuguese verb conjugation trainer: tenses, moods and verb groups – icanspeak Portuguese"
+  description="Practise European Portuguese verb forms by tense, mood and verb group: regular and irregular verbs, the subjunctive, the future subjunctive, the personal infinitive and the imperative."
 >
   <SiteNav active="grammatik" />
   <TopicBar topic="conjugation" kind="Grammar" title="Conjugation trainer" level="A1–B2" tasks={total} showKind={false} scoped heading />
@@ -113,7 +114,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
                         <button type="button" class="nvb-item akp-pack cj-pack" data-item={`drill:${p.id}`}>
                           <span class="cj-pack-body">
                             <span class="akp-pack-name" data-i18n={`conj.drill.${p.id}`}>{p.name}</span>
-                            <span class="cj-pack-sample" lang="es">{p.sample}</span>
+                            <span class="cj-pack-sample" lang="pt-PT">{p.sample}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state></span>
                         </button>
@@ -144,7 +145,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
                       <h4 class="ap-phase-head"><span data-i18n={`verben.mood.${m.key}`}>{m.name}</span></h4>
                       <div class="cj-chips">
                         {tenses.filter((t) => t.mood === m.key).map((t) => (
-                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="es">{t.name}</button>
+                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="pt-PT">{t.name}</button>
                         ))}
                       </div>
                     </section>
@@ -221,7 +222,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
       <div class="ap-drawer-body ap-regel">
         {tenses.map((t) => (
           <section class="cj-rule" data-rule-tense={t.key} hidden>
-            <p class="cj-rule-kicker" lang="es">{t.name}</p>
+            <p class="cj-rule-kicker" lang="pt-PT">{t.name}</p>
             <p class="cj-rule-text" lang="en" set:html={rule(t.rule.text)} />
             {t.rule.table && <RefTable table={t.rule.table} />}
           </section>

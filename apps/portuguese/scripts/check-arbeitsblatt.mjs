@@ -4,7 +4,7 @@
 //   node scripts/check-arbeitsblatt.mjs            errors only
 //   node scripts/check-arbeitsblatt.mjs --tiles    also lists every tile the answer changes
 //
-// Checks: the file carries variety pt-PT (es-ES while the Spanish data is unconverted); a question opens with ¿ and closes with ?; the blue verb
+// Checks: the file carries variety pt-PT (es-ES while the Spanish data is unconverted); a question ends with ?; the blue verb
 // is one of the answer's tiles; no English sentence is left in what the learners say or write;
 // every partner sheet passes its schema. A tile may differ from the answer on purpose (dictionary
 // form: the blue infinitive, hablar → hablo, an adjective to agree). --tiles prints those so a
@@ -27,11 +27,11 @@ const say = (file, where, msg) => errors.push(`${file} ${where}: ${msg}`);
 // Words that are English and not Spanish. Short on purpose: it catches a sentence left behind.
 const ENGLISH = /\b(the|and|you|your|what|where|when|why|who|does|did|with|have|she|they|this|that|from|want|would|should|please|there)\b/i;
 const isEnglish = (s) => ENGLISH.test(String(s).replace(/\*|_/g, ""));
-const isQuestion = (s) => /¿[^?]*\?/.test(s);
+const isQuestion = (s) => /\?\s*$/.test(s); // ends with ?; Portuguese has no inverted ¿ (the Spanish files still carry it until converted)
 const norm = (s) => String(s).toLowerCase().replace(/[¿?¡!.,;:«»“”"()…]/g, " ").replace(/\s+/g, " ").trim();
 
 function checkPair(file, where, { frage, kacheln, antwort, infinitiv, frageKacheln }) {
-  if (typeof frage !== "string" || !isQuestion(frage)) say(file, where, `question needs ¿…?: ${frage}`);
+  if (typeof frage !== "string" || !isQuestion(frage)) say(file, where, `question must end with ?: ${frage}`);
   if (typeof antwort !== "string" || !/[.!?…]$/.test(antwort)) say(file, where, `answer needs a closing mark: ${antwort}`);
   if (!Array.isArray(kacheln) || kacheln.length < 2) say(file, where, "at least two answer tiles");
   if (frageKacheln != null && (!Array.isArray(frageKacheln) || frageKacheln.length < 2)) say(file, where, "at least two question tiles");
