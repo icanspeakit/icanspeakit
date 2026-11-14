@@ -1,9 +1,8 @@
 ---
 import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 // PLIDA-style reading and writing (the testdaf slot) on the exam shell (src/lib/examApp.js).
-// The set itself is still the Spanish course's SIELE set (built like the S2 modality);
-// `exams-plida-certit` rewrites it as a PLIDA B1 set (content-plan §2). The page text says
-// "PLIDA" already (ui-pages-m-z). Two things are said out loud on the Start part: every
+// The set is our own PLIDA-style B1 set (rewritten by `exams-plida-certit`, content-plan §2).
+// Two things are said out loud on the Start part: every
 // text and item is written by icanspeak Italian, and the rating is our own guide.
 //
 // Listening is deliberately absent: it needs recordings. The CELI sets on /siele/levels
@@ -236,7 +235,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
             instruction: escapeHtml(schreiben.instruction),
           });
 
-          // The opinion task starts from a headline (Spanish-course set, see the header).
+          // The writing task offers two everyday situations (A or B), see the data file.
           main.appendChild(el("h3", "sub-title", escapeHtml(T("tdf.yourTask", "Ihre Aufgabe"))));
           const task = el("ul", "task-points");
           task.lang = "it";

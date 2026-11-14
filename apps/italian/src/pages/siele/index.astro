@@ -6,8 +6,7 @@ import ExamFormat from "../../components/ExamFormat.astro";
 import formate from "../../data/pruefungen/testdaf-formate.json";
 
 // PLIDA: who it is for, how it works, and practice (content-plan §2: the testdaf slot; the
-// page moves to /plida with `routes`). The format block comes from testdaf-formate.json,
-// which `exams-plida-certit` converts. The Spanish course's SIELE-only sections (score bands
+// page moves to /plida with `routes`). The format blocks (A1–C2) come from testdaf-formate.json. The Spanish course's SIELE-only sections (score bands
 // per test, the S1–S5 options) were dropped by `ui-pages-m-z`: PLIDA has one exam per level.
 // Exam facts here are worded as orientation; the details are "to verify" in the run reports.
 ---
@@ -38,7 +37,7 @@ import formate from "../../data/pruefungen/testdaf-formate.json";
           the level required, as the language proof for citizenship or the long-term residence permit.
           Check what your office or university asks for before you book.
         </p>
-        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">CILS, CELI, PLIDA or CERT.IT? Compare them by purpose →</a></p>
+        <p><a class="plan-link" href="/exams/which-exam" data-i18n="testdaf.whichExam">CILS, CELI, PLIDA or CERT.IT? Compare them by purpose →</a></p>
       </section>
 
       {formate.formate.map((f) => <ExamFormat format={f} />)}
@@ -63,7 +62,7 @@ import formate from "../../data/pruefungen/testdaf-formate.json";
     <div class="mock-cta mock-cta--lead">
       <h2 data-i18n="testdaf.set.title">Practise reading and writing</h2>
       <p data-i18n-html="testdaf.set.text">
-        Reading tasks and a writing task in exam style, with structure, useful phrases and a checklist
+        Our own B1 set: reading tasks and a writing task in exam style, with structure, useful phrases and a checklist
         for your text. All texts and tasks are written by us, not official exam material.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/siele/practice-set" data-i18n="exam.startSet">Start the practice set</a>
@@ -72,8 +71,7 @@ import formate from "../../data/pruefungen/testdaf-formate.json";
     <div class="mock-cta">
       <h2 data-i18n="testdaf.bands.cta.title">Practise every skill</h2>
       <p data-i18n="testdaf.bands.cta.text">
-        Our CELI sets go from A2 to C1 and train all four skills: reading, listening, writing and
-        speaking. They are good practice for the PLIDA at the same level too.
+        Our CELI sets (A2 and B1) and CILS sets (A2 to B2) train all four skills: reading, listening, writing and speaking. They are good practice for the PLIDA at the same level too.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/siele/levels" data-i18n="testdaf.bands.cta.link">To the CELI sets</a>
     </div>

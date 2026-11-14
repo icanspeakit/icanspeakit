@@ -60,15 +60,15 @@ export const examRegistry = [
   },
   {
     id: "testdaf",
-    title: "SIELE reading and writing",
+    title: "PLIDA B1 reading and writing",
     subtitle: "Reading · Writing",
-    level: "B1–C1",
+    level: "B1",
     href: "/siele/practice-set",
     overview: "/siele",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: the SIELE gives a score per test and every
-    // institution sets its own requirement, so a line here would be invented.
-    passNote: "No pass mark: each SIELE test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.",
+    // Deliberately no pass percentage: the PLIDA marks each skill by its own rules (to verify on plida.it),
+    // so a line here would be invented.
+    passNote: "No pass mark: how the PLIDA marks each skill and what counts as a pass is to verify on plida.it. The rating here is our own guide.",
     passPct: null,
     modules: [
       { key: "lesen1", label: "Reading · Task 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
