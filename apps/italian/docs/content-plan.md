@@ -1088,7 +1088,10 @@ handled by the `ui-*` items where they are rendered.
   `verbtabellen` is strict in `check-variety.mjs`; `check-verbtabellen` compares 56 rows with the reference list.
   Trainer: only the lib (`conjugationTrainer.js`, persons, clitics, `non`, `-o/a` variants) and the `drills`
   block of `conjugation-trainer.json` (tenses, six groups, 18 presets) were converted so the gate stays green.
-  Open for `conjugation-trainer`: the 11 `sets` and `topicLinks` set entries are still Spanish (ser/estar …),
-  the "with vosotros" switch in `conjugation.astro` (`conj.withVosotros`, key `cj-vos`) is obsolete for
-  Italian, the drill rule tables hold only presente and imperfetto, and the `conj.*` interface texts of
-  de/fr/pt/it are only translated for the keys that changed.
+  `conjugation-trainer` (done): 11 new Italian `sets` (140 items), `topicLinks` point at them, the "with voi"
+  switch is hidden and always on (`conj.withVosotros` key kept as inert), rule tables for perf, fut, cond,
+  subj, rem, imp, the Spanish `es419` note removed, all `conj.*` keys in en/de/fr/pt/it renamed to the
+  Italian ids. Open: the German-named topic slots in `topicLinks` (`verb-position-2` …) were chosen by
+  fit with the syllabus slot, re-check them if `grammar-structure` moves topics; the tense `mood` keys
+  (`indicativo`, `subjuntivo`, `compuestos`) are internal and still Spanish-spelled; German/French/
+  Portuguese texts of the new keys are machine-quality drafts for the UI-language items to review.

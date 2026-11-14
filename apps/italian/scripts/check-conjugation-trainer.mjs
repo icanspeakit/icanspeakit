@@ -3,7 +3,7 @@
 //   node scripts/check-conjugation-trainer.mjs
 //
 // 1. Sets: shape, unique ids, exactly one blank, one right option, the answer among the options,
-//    English explanations, inverted marks in Spanish questions.
+//    English explanations, no Spanish inverted marks.
 // 2. Drills: every verb in exactly one drill group or on notDrilled; presets and limits name real
 //    verbs, groups and tenses; every topic link points at a real topic and a real drill or set.
 // 3. Generated questions, every form of every drilled verb: the right form is among the options
@@ -43,10 +43,7 @@ for (const set of data.sets) {
     prompts.add(it.prompt);
     if ((it.prompt.match(/___/g) ?? []).length !== 1) err(`${at}: needs exactly one ___`);
     if (!it.explain || it.explain.length < 8) err(`${at}: needs explain`);
-    // ¿ ¡ open what ? ! close (a sentence may hold both kinds, so count them).
-    for (const [open, close] of [["¿", "?"], ["¡", "!"]]) {
-      if (it.prompt.split(open).length !== it.prompt.split(close).length) err(`${at}: ${open} and ${close} don't pair`);
-    }
+    if (/[¿¡]/.test(it.prompt)) err(`${at}: Spanish inverted mark in an Italian prompt`);
     if (set.kind === "choice") {
       if (!Array.isArray(it.options) || it.options.length < 2) err(`${at}: needs options`);
       else {

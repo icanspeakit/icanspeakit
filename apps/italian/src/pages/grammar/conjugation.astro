@@ -4,7 +4,7 @@
 // The frame of /prepositions: a dark rail of levels, a panel of topics per level, the work in the
 // middle and the rule in a drawer. Each level lists verb drills (forms generated from
 // verbtabellen.json by src/lib/conjugationTrainer.js) and sentence sets (hand-written, in
-// src/data/conjugation-trainer.json: ser/estar, por/para, indefinido/imperfecto, subjunctive,
+// src/data/conjugation-trainer.json: avere/essere, participle agreement, -isc-, passato/imperfetto, congiuntivo,
 // irregular forms). "Build your own" drills any tenses and verb groups.
 //
 // Pills run on mountPracticeWorkspace; typed answers on src/lib/conjugationTyped.js. History is
@@ -46,7 +46,7 @@ const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="it">$1</b>');
 ---
 <Layout
-  title="Spanish verb conjugation trainer: tenses, ser and estar, por and para – icanspeak Italian"
+  title="Italian verb conjugation trainer: tenses, avere or essere, congiuntivo – icanspeak Italian"
   description="Practise Italian verb forms by tense, mood and verb group: regular, -isc- and irregular verbs, avere or essere, the congiuntivo and the imperative."
 >
   <SiteNav active="grammatik" />
@@ -183,7 +183,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="it">$1</b>'
               <span class="akk-mode-sep">·</span>
               <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Test mode</button>
             </div>
-            <label class="cj-vos" id="cj-vos-wrap"><input type="checkbox" id="cj-vos" checked /> <span data-i18n="conj.withVosotros">with vosotros</span></label>
+            <label class="cj-vos" id="cj-vos-wrap" hidden><input type="checkbox" id="cj-vos" checked /> <span data-i18n="conj.withVosotros">with voi</span></label>
             <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Rule</button>
           </div>
           <p class="ak-now" data-now aria-live="polite"></p>
@@ -274,7 +274,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="it">$1</b>'
     type Current = { kind: "drill" | "set" | "build"; id: string | null };
     const compact = matchMedia("(max-width: 720px)");
     let mode: string = load(MODE_KEY, compact.matches ? "fokus" : "type");
-    let vosotros: boolean = load(VOS_KEY, true);
+    let vosotros = true; // voi is an ordinary person in Italian: the switch stays hidden and every pool keeps it
     let build = load(BUILD_KEY, { tenses: ["praes"], groups: ["reg-ar", "reg-er", "reg-ir"] });
     let current: Current = { kind: "drill", id: trainer.presets[0].id };
     let questions: any[] = [];
@@ -374,7 +374,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="it">$1</b>'
       });
       // One way to answer leaves nothing to choose between.
       modes.hidden = allowed.length < 2;
-      vosWrap.hidden = current.kind === "set";
+      vosWrap.hidden = true;
     }
 
     function nowText() {
