@@ -1,3 +1,8 @@
+// NOT READY FOR THE FRENCH COURSE (cleanup, 2026-11-14): covers, blurbs, the frequency page and the
+// editions below are still the German course's. It is out of `pnpm generate:pdfs`; run it only after
+// a French rewrite. Until then public/downloads has no grammatik-<level>.pdf and the download page
+// hides those entries of src/data/downloads.json (it lists only files that exist).
+//
 // Builds the downloadable Grammatik books from the site's own grammar data:
 // src/data/grammatik/*.json (the 21 workspaces) plus src/data/grammatik.json (the
 // quiz-only topics). One book per level and one complete A1–B2 edition.
