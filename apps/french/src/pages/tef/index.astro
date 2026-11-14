@@ -1,0 +1,149 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import ExamFormat from "../../components/ExamFormat.astro";
+import formate from "../../data/pruefungen/testdaf-formate.json";
+
+// TEF and TEF Canada: format, results, versions and practice (content-plan §2: the testdaf slot).
+// Figures come from testdaf-formate.json; every figure is marked "to verify" there and on the page.
+const { bands, modalities } = formate;
+---
+<Layout
+  title="TEF and TEF Canada: format, scores and practice – icanspeak French"
+  description="The TEF and TEF Canada, French tests from CCI Paris Île-de-France: what they test, how scores are matched to CEFR levels, and free practice."
+>
+  <ExamShell
+    bild="testdaf"
+    header="TEF"
+    title="TEF and TEF Canada"
+    lead="The French tests of CCI Paris Île-de-France, from A1 to C2. Each paper gets a score that is matched to a CEFR level, and TEF Canada results also to Canadian levels. There is no pass mark."
+    leadKey="testdaf.lead"
+    badges={["A1–C2"]}
+    practiceHeading="Practise for the TEF"
+    practiceHeadingKey="testdaf.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.who.title">Who is the TEF for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Result: scores and CEFR levels</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">One test, levels A1–C2</span>
+        </div>
+        <p data-i18n="testdaf.who.text">
+          The TEF (Test d'évaluation de français) is run by CCI Paris Île-de-France and taken at approved
+          centres. TEF Canada is the version accepted for Canadian immigration and citizenship procedures.
+          People also take the TEF for study and work, and a version for residence and nationality in
+          France exists (to verify). Whether a result is accepted depends on the institution or procedure,
+          so check before you book.
+        </p>
+        <p><a class="plan-link" href="/exams/delf-tcf-or-tef" data-i18n="testdaf.whichExam">DELF, TCF or TEF? Compare them by purpose →</a></p>
+      </section>
+
+      {formate.formate.map((f) => <ExamFormat format={f} />)}
+
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.bands.title">How results work</h2>
+        <p data-i18n="testdaf.bands.text">
+          Each paper is scored on its own, and the report matches each score to a level, so your levels can
+          differ from skill to skill. The score ranges and level boundaries are published by the test
+          organiser. We don't copy them here because they can change (to verify).
+        </p>
+        <div class="format-table-wrap">
+          <table class="format-table">
+            <thead><tr>
+              <th data-i18n="testdaf.bands.col.paper">Paper</th>
+              <th data-i18n="testdaf.bands.col.marked">Marked by</th>
+              <th data-i18n="testdaf.bands.col.result">What you get</th>
+            </tr></thead>
+            <tbody>
+              {bands.rows.map((r) => (
+                <tr>{r.map((c, i) => (i === 0 ? <th scope="row">{c}</th> : <td>{c}</td>))}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="format-note" data-i18n="testdaf.bands.note">
+          There is no pass mark: you always get scores. Reading and listening are marked automatically; whether
+          wrong answers cost points is to verify, so answer everything unless your centre says otherwise.
+          Writing and speaking go to trained raters. TEF Canada results are also converted to NCLC levels
+          (to verify).
+        </p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.mod.title">TEF, TEF Canada or TEF IRN?</h2>
+        <p data-i18n="testdaf.mod.text">
+          These are the versions learners ask about most. They differ in which papers you sit and in who
+          accepts them. TEF IRN is the version for residence and nationality procedures in France; we only
+          mention it here and have no practice set for it (check its current format). Before you book, ask the
+          institution which version it accepts.
+        </p>
+        <div class="format-table-wrap">
+          <table class="format-table">
+            <thead><tr>
+              <th data-i18n="testdaf.mod.th.name">Version</th>
+              <th data-i18n="testdaf.mod.th.tests">Papers</th>
+              <th data-i18n="testdaf.mod.th.count">Number</th>
+              <th data-i18n="testdaf.mod.th.result">You get</th>
+            </tr></thead>
+            <tbody>
+              {modalities.map((m) => (
+                <tr>
+                  <th scope="row" translate="no">{m.id}</th>
+                  <td data-i18n={`testdaf.mod.${m.id}.tests`}>{m.tests}</td>
+                  <td>{m.points}</td>
+                  <td data-i18n={`testdaf.mod.result.${m.result}`}>{m.result}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.day.title">On the day</h2>
+        <ul class="task-points">
+          <li data-i18n="testdaf.day.1">Centres differ: some test on paper, some on a computer, and some papers may not let you go back. Ask your centre (to verify).</li>
+          <li data-i18n="testdaf.day.2">Listening is multiple choice on a recording. Read the questions before it starts if the rules allow it.</li>
+          <li data-i18n="testdaf.day.3">In the speaking paper you talk with an examiner in two role plays. Keep the register each task asks for: tu or vous.</li>
+          <li data-i18n="testdaf.day.4">In writing, count your words if a minimum is given, and keep one register from start to finish.</li>
+          <li data-i18n="testdaf.day.5">Results come some weeks after the test (to verify). Keep your original document: institutions often check it.</li>
+        </ul>
+        <p class="format-note" data-i18n="testdaf.format.note">
+          We aren't connected with the TEF or with CCI Paris Île-de-France, and all our practice material is
+          our own. The details here come from public descriptions and may be out of date: treat every number as
+          to verify. Check the current rules, prices and the version you need with your test centre or the
+          official TEF pages.
+        </p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="testdaf.set.title">Practise reading and writing</h2>
+      <p data-i18n-html="testdaf.set.text">
+        Three reading tasks from about B1 to C1, plus a letter or argument task with structure, useful
+        phrases and a checklist, in the style of the TEF written papers but shorter. All texts and tasks are
+        written by us, not official exam material.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/tef/practice-set" data-i18n="exam.startSet">Start the practice set</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="testdaf.bands.cta.title">Practise every task type</h2>
+      <p data-i18n="testdaf.bands.cta.text">
+        Our TCF sets by level hold all four skills, from A1 to C1. The TCF and the TEF test the same
+        skills, so they are good practice for either.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/tcf" data-i18n="testdaf.bands.cta.link">To the TCF sets by level</a>
+    </div>
+
+    <ExamPractice
+      heading="Train the basics"
+      headingKey="exam.practice.heading"
+      intro="Besides the practice sets above, these three tools help at every level and for every exam. They test general articles, grammar and vocabulary, not anything TEF-specific."
+      introKey="testdaf.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

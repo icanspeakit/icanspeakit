@@ -43,7 +43,7 @@ import praepTrainer from "../data/praepositionen-trainer.json";
 // shadows the quiz entry with the same id.
 const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
 // Deutsch für den Beruf (FACHVOKABULAR-TIERED-PROMPT.md, Tier 3): the word count over every
-// profession deck, refs included — the number the /spanish-for-work hub shows.
+// profession deck, refs included — the number the /french-for-work hub shows.
 const berufeDecks = Object.values(import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" }));
 const berufeWordCount = berufeDecks.reduce((n, d) => n + (d.groups ?? []).reduce((m, g) => m + (g.words ?? []).length, 0), 0);
 const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
@@ -135,7 +135,7 @@ export const tools = [
     titleKey: "tool.aussprache.title", title: "Aussprache-Training", shortKey: "group.short.aussprache", short: "Aussprache",
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
-  { id: "berufe", group: "woerter", href: "/spanish-for-work", icon: "target",
+  { id: "berufe", group: "woerter", href: "/french-for-work", icon: "target",
     titleKey: "tool.berufe.title", title: "French for work", shortKey: "group.short.berufe", short: "Work",
     descKey: "tool.berufe.desc", desc: "Job vocabulary for work in France: care work, restaurants, cleaning, construction, logistics and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
@@ -245,11 +245,11 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "TCF by level", short: "TCF", count: "A2–C1" },
-  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "DELF / DALF", short: "DELF/DALF", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "TEF", short: "TEF", count: "A1–C1" },
-  { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "TCF IRN practice mock", short: "TCF IRN", count: "A2–B1" },
-  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "Civic exam", short: "Civic exam",
+  { id: "telc", group: "pruefungen", href: "/tcf", icon: "document", title: "TCF by level", short: "TCF", count: "A2–C1" },
+  { id: "goethe", group: "pruefungen", href: "/delf-dalf", icon: "landmark", title: "DELF / DALF", short: "DELF/DALF", count: "A1–C2" },
+  { id: "testdaf", group: "pruefungen", href: "/tef", icon: "graduation-cap", title: "TEF", short: "TEF", count: "A1–C1" },
+  { id: "dtz", group: "pruefungen", href: "/residence-and-nationality/tcf-irn", icon: "book-open", title: "TCF IRN practice mock", short: "TCF IRN", count: "A2–B1" },
+  { id: "lid", group: "pruefungen", href: "/civic-exam", icon: "map-pin", titleKey: "exam.lid.name", title: "Civic exam", short: "Civic exam",
     keywords: "civic exam examen civique naturalisation nationality citizenship titre de séjour résidence carte de résident république constitution france",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
@@ -631,7 +631,7 @@ const kulturInsiderItem = {
    The same facts serve both: a learner reading about Germany meets the exam, and one
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
-  id: "kultur-lid-fakten", href: "/ccse/facts", icon: "graduation-cap",
+  id: "kultur-lid-fakten", href: "/civic-exam/facts", icon: "graduation-cap",
   title: "Facts about France", titleKey: "nav.kultur.lidFakten",
   count: "Civic exam", countKey: "nav.kultur.lidFaktenHint",
 };
@@ -832,7 +832,7 @@ const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
 const spieleItems = [
-  { id: "lindenau", href: "/games/villabruno", icon: "landmark",
+  { id: "lindenau", href: "/games/montbruno", icon: "landmark",
     titleKey: "nav.spiele.lindenau", title: "The Legend of Montbruno",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
@@ -1041,10 +1041,10 @@ export const navUebenMenu = {
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
         // Not a level: the profession decks (French for work; slug renamed by `routes`), A2–B1, for learners who work.
-        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "French for work",
+        { href: "/french-for-work", titleKey: "tool.berufe.title", title: "French for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
-        // Not a level: phrases, model texts and exercises for office work (/business-spanish).
-        { href: "/business-spanish", titleKey: "biz.title", title: "Business French",
+        // Not a level: phrases, model texts and exercises for office work (/business-french).
+        { href: "/business-french", titleKey: "biz.title", title: "Business French",
           hintKey: "biz.navHint", hint: "Emails, calls, CVs, interviews, meetings" },
         // Not a level either: the driving words (/code-de-la-route-vocabulary).
         { href: "/code-de-la-route-vocabulary", titleKey: "dgt.title", title: "Code de la route vocabulary",

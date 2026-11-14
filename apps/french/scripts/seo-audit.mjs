@@ -23,12 +23,12 @@ const BRAND = "icanspeak French";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/nationality/dele-a2", "/nationality/dele-a2/mock-test", "/nationality/dele-a2/practice-set", "/ccse",
-  "/ccse/test", "/exams", "/siele/levels", "/dele", "/siele",
-  "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
+  "/", "/residence-and-nationality/tcf-irn", "/residence-and-nationality/tcf-irn/mock-test", "/residence-and-nationality/tcf-irn/practice-set", "/civic-exam",
+  "/civic-exam/test", "/exams", "/tcf", "/delf-dalf", "/tef",
+  "/delf-dalf/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
   "/pronunciation-check",
 ];
-const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/dele/");
+const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/delf-dalf/");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {

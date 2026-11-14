@@ -232,7 +232,7 @@ export function buildSearchIndex() {
     t: "French residence card and nationality: language level and civic exam",
     s: "Which language level and civic exam each step asks for, who may be exempt, and the steps in order",
     k: "french nationality naturalisation citizenship residence titre de séjour carte de résident multi-year card tcf irn b1 b2 civic exam examen civique exempt contrat d integration republicaine ofii décret how to become french",
-    h: "/nationality",
+    h: "/residence-and-nationality",
   });
   // The code de la route deck: words for the driving course, the road and the paperwork.
   pages.push({
@@ -246,14 +246,14 @@ export function buildSearchIndex() {
     t: "Business French",
     s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in France, B1 to C1",
     k: "business french work office email e-mail courriel formal letter phone call appel téléphone cv curriculum resume cover letter lettre de motivation candidature job interview entretien d'embauche meeting réunion compte rendu negotiate négociation figures chiffres presentation madame monsieur cordialement salutations distinguées vous tu",
-    h: "/business-spanish",
+    h: "/business-french",
   });
   // DELE or SIELE?: a comparison page under the exam hub.
   pages.push({
     t: "DELE or SIELE?",
     s: "Which Spanish exam fits your purpose: nationality, university or work",
     k: "dele siele compare difference which exam comparison nationality university work price validity diferencia nacionalidad",
-    h: "/exams/dele-or-siele",
+    h: "/exams/delf-tcf-or-tef",
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({

@@ -1,14 +1,13 @@
 ---
 // The way from a lexicon word set about work to French for work. One line in the trainer's hero
-// slot. The hospital and care set goes straight to the care work deck. The hrefs stay on the old
-// slug until the `routes` item renames it.
+// slot. The hospital and care set goes straight to the care work deck.
 interface Props { setId: string }
 const { setId } = Astro.props;
 const LINKS: Record<string, string> = {
-  "a1-12": "/spanish-for-work",
-  "a2-10": "/spanish-for-work",
-  "b1-32": "/spanish-for-work",
-  "b1-33": "/spanish-for-work/care-work",
+  "a1-12": "/french-for-work",
+  "a2-10": "/french-for-work",
+  "b1-32": "/french-for-work",
+  "b1-33": "/french-for-work/care-work",
 };
 const href = LINKS[setId];
 ---

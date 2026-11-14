@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the TCF IRN mock for residence and nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the TCF IRN mock for residence and nationality in the /residence-and-nationality/tcf-irn slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -41,8 +41,8 @@ export const examRegistry = [
     title: "DELF A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
-    href: "/dele/a1",
-    overview: "/dele",
+    href: "/delf-dalf/a1",
+    overview: "/delf-dalf",
     store: { kind: "exam", key: "start-deutsch-1" },
     // In the style of the DELF A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
     passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELF A1 has its own scoring rules.",
@@ -63,8 +63,8 @@ export const examRegistry = [
     title: "SIELE reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
-    href: "/siele/practice-set",
-    overview: "/siele",
+    href: "/tef/practice-set",
+    overview: "/tef",
     store: { kind: "exam", key: "testdaf" },
     // Deliberately no pass percentage: the SIELE gives a score per test and every
     // institution sets its own requirement, so a line here would be invented.
@@ -82,8 +82,8 @@ export const examRegistry = [
     title: "Civic exam",
     subtitle: "Practice test",
     level: "Knowledge test",
-    href: "/ccse/test",
-    overview: "/ccse",
+    href: "/civic-exam/test",
+    overview: "/civic-exam",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Real exam (to verify): pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
@@ -100,8 +100,8 @@ export const examRegistry = [
     title: "TCF IRN practice mock (residence and nationality)",
     subtitle: dtz1.label,
     level: "A2–B1",
-    href: "/nationality/dele-a2/practice-set",
-    overview: "/nationality/dele-a2",
+    href: "/residence-and-nationality/tcf-irn/practice-set",
+    overview: "/residence-and-nationality/tcf-irn",
     store: { kind: "dtz", key: dtz1.id },
     // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
     passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",

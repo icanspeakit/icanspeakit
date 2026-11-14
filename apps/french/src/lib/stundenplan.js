@@ -146,10 +146,10 @@ export function videoSearch(name, level) {
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // TCF = /siele/levels (telc slot), TEF = /siele (testdaf slot), DELF / DALF = /dele (goethe slot).
-  if (/TCF/.test(text)) return "/siele/levels";
-  if (/TEF/.test(text)) return "/siele";
-  if (/DELF|DALF/.test(text)) return "/dele";
+  // TCF = /tcf (telc slot), TEF = /tef (testdaf slot), DELF / DALF = /delf-dalf (goethe slot).
+  if (/TCF/.test(text)) return "/tcf";
+  if (/TEF/.test(text)) return "/tef";
+  if (/DELF|DALF/.test(text)) return "/delf-dalf";
   return null;
 }
 

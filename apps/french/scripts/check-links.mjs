@@ -3,7 +3,7 @@
  *
  * The site has almost no redirects (docs/content-plan.md §7, §8), so a link to an address that
  * has no page is a 404. This scans src/ and public/i18n/en.json for strings that are a site path
- * ("/por-para", href="/dele/a2#lesen", `/listening/${id}`) and checks each one against the page
+ * ("/quand-or-si", href="/delf-dalf/a2#lesen", `/listening/${id}`) and checks each one against the page
  * files in src/pages. A [param] folder accepts any segment, except where the id tables in
  * src/lib/routes.js know better: the top level takes only grammar topics, an item section takes
  * no raw data id that has a URL slug of its own. `pnpm check:base` looks at the built HTML; this
@@ -63,9 +63,9 @@ function resolves(segs) {
   if (segs.length === 0) return true;
   if (isTopicPage(segs)) return true;
   if (rawId(segs)) return false;
-  // An id-based section with a work group: /spanish-for-work/<sector>/<group>.
-  if (segs[0] === "spanish-for-work" && segs[1]) {
-    if (!Object.values(ITEM_SLUGS["/spanish-for-work"]).includes(segs[1])) return false;
+  // An id-based section with a work group: /french-for-work/<sector>/<group>.
+  if (segs[0] === "french-for-work" && segs[1]) {
+    if (!Object.values(ITEM_SLUGS["/french-for-work"]).includes(segs[1])) return false;
     if (segs[2] && segs[2] !== "print" && !Object.values(WORK_GROUP_SLUGS).includes(segs[2]) && segs[2] in WORK_GROUP_SLUGS) return false;
   }
   return routes.some((r) => {
@@ -89,7 +89,7 @@ const KNOWN = new Map([
   ["/french", "the base path itself (src/lib/paths.js)"],
   ["/index.html", "a file name in the sitemap code"],
   ["/month", "price text: 9 € /month"],
-  ["/audio", "recordings, which arrive with an es-ES voice; the player hides without them"],
+  ["/audio", "recordings, which arrive with a fr-FR voice; the player hides without them"],
   ["/teachers/cards/lexikon", "folder of the JSON endpoint lexikon/[level].json"],
   ["/test", "a class test needs a backend: no page until there is one (src/lib/klassentest)"],
   ["/game/hochstapler", "class mode of the impostor game needs live rooms: no page in this build"],

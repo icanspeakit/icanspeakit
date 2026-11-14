@@ -21,7 +21,7 @@
  * Today offers only the next one; "I want something else" leads to at most three choices —
  * the next unit, the mistakes (once there are enough), another topic — and the topic
  * picker shows three at a time. Screen names in the hash (heute, waehlen, uebung …) stay
- * German until the `routes` item renames them.
+ * German: the `routes` item left them, because saved links and the back button key on them.
  */
 import {
   units,

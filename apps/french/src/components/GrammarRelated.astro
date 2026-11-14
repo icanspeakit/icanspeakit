@@ -19,25 +19,25 @@ const related = ((verwandt.topics as Record<string, string[]>)[id] ?? [])
 const EXAMS: Record<string, { href: string; label: string }[]> = {
   // Exam names per docs/content-plan.md §2: goethe slot = DELF A2–B2 / DALF C1, telc slot =
   // TCF by band, the dtz mock = TCF IRN, testdaf = TEF. Hrefs renamed by `routes`.
-  A1: [{ href: "/dele/a1", label: "DELF A1 practice test" }],
+  A1: [{ href: "/delf-dalf/a1", label: "DELF A1 practice test" }],
   A2: [
-    { href: "/dele/a2", label: "DELF A2 practice test" },
-    { href: "/nationality/dele-a2/practice-set", label: "TCF IRN practice mock" },
-    { href: "/siele/levels/a2", label: "TCF practice, A2 band" },
+    { href: "/delf-dalf/a2", label: "DELF A2 practice test" },
+    { href: "/residence-and-nationality/tcf-irn/practice-set", label: "TCF IRN practice mock" },
+    { href: "/tcf/a2", label: "TCF practice, A2 band" },
   ],
   B1: [
-    { href: "/dele/b1", label: "DELF B1 practice test" },
-    { href: "/siele/levels/b1", label: "TCF practice, B1 band" },
-    { href: "/siele", label: "TEF practice set" },
+    { href: "/delf-dalf/b1", label: "DELF B1 practice test" },
+    { href: "/tcf/b1", label: "TCF practice, B1 band" },
+    { href: "/tef", label: "TEF practice set" },
   ],
   B2: [
-    { href: "/dele/b2", label: "DELF B2 practice test" },
-    { href: "/siele/levels/b2", label: "TCF practice, B2 band" },
-    { href: "/siele", label: "TEF practice set" },
+    { href: "/delf-dalf/b2", label: "DELF B2 practice test" },
+    { href: "/tcf/b2", label: "TCF practice, B2 band" },
+    { href: "/tef", label: "TEF practice set" },
   ],
   C1: [
-    { href: "/dele/c1", label: "DALF C1 practice test" },
-    { href: "/siele/levels/c1", label: "TCF practice, C1 band" },
+    { href: "/delf-dalf/c1", label: "DALF C1 practice test" },
+    { href: "/tcf/c1", label: "TCF practice, C1 band" },
   ],
 };
 const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";
