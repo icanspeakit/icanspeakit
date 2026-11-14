@@ -1,4 +1,4 @@
-// Builds „Spanish Grammar Start A1–B1 – The 10 most important chapters“, the free starter
+// Builds „Portuguese Grammar Start A1–B1 – The 10 most important chapters“, the free starter
 // grammar book, with English explanations and in every help language with a translation file:
 //
 //   pnpm generate:grammatik-start-pdf          all editions
@@ -8,7 +8,7 @@
 //
 // The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
-// language, examples, tables, exercises and solutions Spanish, because Spanish is the subject.
+// language, examples, tables, exercises and solutions Portuguese, because Portuguese is the subject.
 // Check them with scripts/check-grammatik-start.mjs. A translation with status "skeleton" is
 // not written yet and gets no edition.
 //
@@ -20,7 +20,7 @@
 // page, Bruno on the contents, Regi on the book's rule and at every Merke, Hamsti at the
 // exercises, Bruno at a typical mistake and dozing over the answer key, Quaki pointing to the
 // matching exercises online. Every chapter has a three-panel comic before its exercises
-// (the crew makes the chapter's typical mistake in Spanish and puts it right), and a page
+// (the crew makes the chapter's typical mistake in Portuguese and puts it right), and a page
 // with none of them gets a small one beside the page number. Never more than three on a
 // page (the comic counts as three), never on top of text.
 //

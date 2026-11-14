@@ -1,4 +1,4 @@
-// Checks the translations of „Spanish Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
+// Checks the translations of „Portuguese Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
 // against the English-language original (en.json): every explaining block is there, nothing is
 // empty, and nothing is still English.
 //
@@ -12,10 +12,10 @@
 //
 // What gets translated (the book rule): the explaining blocks — intro, why, h, rule, merke,
 // mistake — plus chapter titles, mascot bubbles, the UI strings, table headings that
-// describe (not the Spanish forms: ser, hablar, yo, si + present …), the columns a table
+// describe (not the Portuguese forms: ser, falar, eu, se + future subjunctive …), the columns a table
 // lists in `explain`, and the titles of example lists and tables. Examples, word lists,
-// table contents, exercises and solutions stay Spanish: Spanish is the subject.
-// Words in *stars* are Spanish examples inside an explanation and stay Spanish.
+// table contents, exercises and solutions stay Portuguese: Portuguese is the subject.
+// Words in *stars* are Portuguese examples inside an explanation and stay Portuguese.
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,11 +29,12 @@ const base = JSON.parse(readFileSync(path.join(dir, `${BASE}.json`), "utf8"));
 // (docs/content-plan.md §1.4): fewer editions beat wrong ones.
 export const LANGS = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.slice(0, -5)).filter((c) => c !== BASE).sort();
 
-// Table headings that are Spanish forms the book teaches: kept.
+// Table headings that are Portuguese forms the book teaches: kept.
 export const KEEP_HEAD = new Set([
-  "ser", "estar", "hablar", "comer", "vivir", "tener", "ir", "hacer", "venir",
-  "yo", "tú", "él / ella", "ellos / ellas", "nosotros", "levantarse", "ducharse", "ir a", "haber",
-  "estar + gerund", "perfecto", "indefinido", "imperfecto", "hay", "está / están", "si + present", "ver",
+  "ser", "estar", "falar", "comer", "partir", "ter", "ir", "fazer", "querer", "pôr", "vir",
+  "eu", "tu", "ele / ela", "ele / ela / você", "eles / elas", "eles / elas / vocês", "nós", "eu / ele", "eles",
+  "levantar-se", "chamar-se", "gostar de", "estar a + infinitive", "imperfeito", "perfeito",
+  "há", "está / estão", "se / quando + future subjunctive", "o / a", "lhe / lhes", "me", "te", "nos", "os / as",
 ]);
 
 /** The slots a translation has to fill, from the English: id → { field: English }. */

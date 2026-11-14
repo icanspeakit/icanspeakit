@@ -31,7 +31,7 @@ const WARN_LINES = 40;
 // Modules whose Portuguese item has run: a missing `variety`, a legacy es-ES value or an es419
 // note is an error there. The Portuguese content items add their module id here in the same
 // commit that converts the module (e.g. vocab-a1 adds "lexicon-a1"). placement-test made einstufung the first.
-const STRICT = new Set(["einstufung", "grammatik-a1"]);
+const STRICT = new Set(["einstufung", "grammatik-a1", "grammatik-start"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
