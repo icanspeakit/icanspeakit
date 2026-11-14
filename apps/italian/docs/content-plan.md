@@ -1095,3 +1095,15 @@ handled by the `ui-*` items where they are rendered.
   fit with the syllabus slot, re-check them if `grammar-structure` moves topics; the tense `mood` keys
   (`indicativo`, `subjuntivo`, `compuestos`) are internal and still Spanish-spelled; German/French/
   Portuguese texts of the new keys are machine-quality drafts for the UI-language items to review.
+- **`vocab-a1` (2026-11-14).** Lexicon A1 is Italian: 26 units, 517 words (about 20 per unit, not 25:
+  quality over quantity), source in `scripts/data/a1-it/*.txt`, built by `scripts/build-a1-it.mjs`
+  (re-runnable; it also writes the de/es/fr/pt sidecar entries). `src/lib/articles.js` is the one
+  place for the il/lo/l' rule; `validate-lexicon.mjs` checks the article against the lemma.
+  `ITALIAN_LEVELS` added; `SPANISH_LEVELS` stays for A2–C2 until `vocab-c1-c2`. `it` filtered out of
+  `TRANSLATION_LANGS`. `i18n/es.json` is new (A1 only, ready for `ui-lang-es`; not imported yet).
+  **Gate pauses (both listed in `scripts/check-content.mjs`):** `check-berufe.mjs` (profession, DGT and
+  business decks still ref removed Spanish A1 ids and redefine words that are now Italian ids:
+  film, capo, via) and `validate-wortgeschichte.mjs` (30 Spanish stories name removed lemmas). The
+  berufe/patente/business items and `word-stories` put them back. Open: `i18n/it.json` is unused and
+  can be deleted by `cleanup`; `wort-bilder.json` re-keyed 113 pictures by English gloss, spot-check;
+  `generoDrill.js` and the games still assume los/las (their own items); no audio files yet.

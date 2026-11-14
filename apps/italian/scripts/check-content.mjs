@@ -12,6 +12,12 @@
 //   check-grammatik-ui counts help-language gaps of an old language list; only a baseline
 //   check-jsonld       reads dist/, so it can't run before a build; a report for now
 //   check-lemmas, check-free  lookup tools for lexicon imports, they take arguments
+//   check-berufe       PAUSED by vocab-a1 (2026-11-14): the profession / DGT / business decks still ref the
+//                      Spanish A1 words that vocab-a1 replaced (bicicleta, conducir ...) and re-define
+//                      words that are now Italian ids (film, capo, via). Put back by the item that converts
+//                      the decks (berufe / patente-vocab / business items); `cleanup` checks it is back.
+//   validate-wortgeschichte PAUSED by vocab-a1 (2026-11-14): the 30 Spanish word stories name Spanish A1 lemmas
+//                      (azul, casa, hablar ...) that left the lexicon. `word-stories` replaces them and puts it back.
 // Run those by hand: pnpm check:karten, check:downloads, check:inhalte, check:grammatik-ui, seo:jsonld.
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -22,9 +28,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECKS = [
   "check-einfach-pfad.mjs",
   "check-pruefungen.mjs",
-  "check-berufe.mjs",
   "check-business-spanish.mjs",
-  "validate-wortgeschichte.mjs",
   "check-premium.mjs",
   "check-pruefungsplan.mjs",
   "check-lindenau.mjs",

@@ -1,5 +1,7 @@
 # Translations of the lexicon
 
+> **Italian A1 (since `vocab-a1`):** A1 is Italian → learner language (de, es, fr, pt) via `scripts/build-a1-it.mjs`; the note below still describes A2–C2.
+>
 > **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
 > Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; all six since `vocab-c1-c2`). For those words every sidecar is
 > **Spanish → that language**, written with the Spanish word in front of the writer, never from
