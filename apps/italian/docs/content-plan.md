@@ -1107,3 +1107,10 @@ handled by the `ui-*` items where they are rendered.
   berufe/patente/business items and `word-stories` put them back. Open: `i18n/it.json` is unused and
   can be deleted by `cleanup`; `wort-bilder.json` re-keyed 113 pictures by English gloss, spot-check;
   `generoDrill.js` and the games still assume los/las (their own items); no audio files yet.
+- **`vocab-b2` (2026-11-14).** Lexicon B2 is Italian: 36 units, 370 words, source in `scripts/data/b2-it/*.txt`,
+  built by `scripts/build-lexicon-it.mjs b2` (de/es/fr/pt sidecar entries included). Smaller than the Spanish
+  B2 (60 units, 1500) on purpose: about 225 of the first draft were dropped because the same lemma already
+  sits in A1–B1, so a lemma lives in one level only. Units 1–30 follow the Spanish topic slugs; units 31–36
+  are abstract B2 vocabulary (cause/effect, opinion/doubt, change, statistics, coping, careers). Plural-only
+  nouns carry the singular-style article field (`la`/`il`/`l'` + `pluralOnly`) because the validator has no plural articles.
+  Open: no `rank`, no audio, no pictures for B2 (abstract words); `program.json` B2 modules still list `units: []`.
