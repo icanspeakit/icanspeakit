@@ -1146,3 +1146,10 @@ handled by the `ui-*` items where they are rendered.
   (`premium-features.json` id with i18n `premium.feature.c1`) now links to the free hubs and has no content; `routes` / `cleanup`
   decide what it becomes. All CILS/CELI facts are "to verify". No audio (voices set to it-IT Neural, `generate-pruefungen-audio.mjs`
   not run). New `format.t.*` keys exist in de/fr/it/pt as English placeholders for the language items.
+- **`exams-plida-certit` (2026-11-14).** PLIDA: own B1 reading and writing set in the `testdaf` slot (`tdaf` ids kept; 8 matching + 7 + 7
+  multiple choice, writing = two everyday situations A/B, ~120 words), `testdaf-formate.json` = PLIDA A1–C2 format entries (descriptive, no
+  timings, no pass rule; `bands`/`modalities` dropped with their `testdaf.bands.*`/`testdaf.mod.*` keys). CERT.IT: new slot `certit`
+  (`saetze/certit-a2-1.json`, A2: 2 reading + 2 listening parts, writing, speaking), `certit-formate.json` A1–C2, research entry `certit-a2`,
+  pages `/certit` and `/certit/a2` (new routes, not renamed by `routes`), `EXAM_NAMES.certit`. `/exams/dele-or-siele` was moved to
+  **`/exams/which-exam`** (all links, llms.txt, search index updated). Open: PLIDA/CERT.IT traps are not in `fallen.json`; the PLIDA page is
+  still at `/siele` until `routes`; `tdf.row.*`/`tdf.type.essay` in de/fr/it/pt still carry the old texts (language items).
