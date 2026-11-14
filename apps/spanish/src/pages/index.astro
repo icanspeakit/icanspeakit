@@ -7,6 +7,7 @@
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import Mascot from "../components/mascots/Mascot.astro";
+import HeroEgg from "../components/HeroEgg.astro";
 import { landingTools } from "../lib/catalog.js";
 import "../styles/home4.css";
 
@@ -70,7 +71,8 @@ const COURSES = [
       ))}
     </div>
 
-    <!-- Hero -->
+    <!-- Hero (the tiles are an easter egg: src/components/HeroEgg.astro) -->
+    <div class="egg-stage">
     <section class="h4-hero">
       <div class="h4-hero__copy">
         <p class="h4-eyebrow" lang="es">Español de A1 a C1</p>
@@ -95,6 +97,8 @@ const COURSES = [
         ))}
       </div>
     </section>
+    </div>
+    <HeroEgg />
 
     <!-- Navy band -->
     <section class="h4-band">
