@@ -64,13 +64,21 @@ export const LANGUAGE_REGISTRY = [
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
+    code: "fr", native: "Français", de: "Französisch", en: "French", word: "Langue",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    // The course's own language as an interface language (2026-11-14): the fallback for a first
+    // visit whose browser asks for none of the others (COURSE_LANG below), and a choice in the
+    // menu for teachers and learners who want the interface in French. UI only: no entry page
+    // (no urlPrefix), no cards (the cards are the French being learnt).
+    surfaces: { ui: draft },
+  },
+  {
     code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
     // Spanish of Spain, tú (docs/content-plan.md §10.4). Same shape as German: named only where
     // Spanish text exists (public/i18n/es.json, the lexicon and Redemittel sidecars). Help texts,
     // the legal pages and the profession decks fall back to English: the old `es` blocks in
     // src/data/uebersetzungen/ come from the Spanish course and aren't used.
-    // There is no French UI: the course teaches French (content-plan §7).
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
@@ -96,6 +104,9 @@ export const LANGUAGE_REGISTRY = [
 
 /** The base language: every key and every text exists in it first. */
 export const BASE = "en";
+/** The language this course teaches: the interface language of a first visit whose browser
+ *  asks for no interface language the course has (Layout.astro, i18n.js getLang). */
+export const COURSE_LANG = "fr";
 
 const BY_CODE = new Map(LANGUAGE_REGISTRY.map((l) => [l.code, l]));
 

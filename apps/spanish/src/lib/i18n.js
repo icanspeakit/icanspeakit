@@ -22,6 +22,10 @@ export function getLang() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved && LANGUAGES.some((l) => l.code === saved)) return saved;
   } catch {}
+  // No choice yet: what Layout.astro picked before the first paint (the browser's language,
+  // else the course's own one). Not stored, so it is not a choice.
+  const auto = typeof document !== "undefined" ? document.documentElement.getAttribute("data-lang-auto") : null;
+  if (auto && LANGUAGES.some((l) => l.code === auto)) return auto;
   return BASE_LANG;
 }
 

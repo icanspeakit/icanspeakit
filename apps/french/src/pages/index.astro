@@ -39,10 +39,10 @@ const HERO = [
 
 // The four mascots, one card each in the navy band.
 const CREW = [
-  { name: "regi", colour: "var(--isk-yellow)", kicker: undefined, kickerText: "avec Regi", title: undefined, titleText: "Grammaire", desc: undefined, descText: "Les temps, les questions, les phrases avec si et l’ordre des mots, de A1 à C1, pas à pas." },
-  { name: "bruno", colour: "var(--isk-sky)", kicker: undefined, kickerText: "avec Bruno", title: undefined, titleText: "Le français de tous les jours", desc: undefined, descText: "Les situations du quotidien : au magasin, chez le médecin, à la préfecture, entre collègues." },
-  { name: "quaki", colour: "var(--isk-coral)", kicker: undefined, kickerText: "avec Quaki", title: undefined, titleText: "Parler", desc: undefined, descText: "Jeux de rôle, exercices à deux et descriptions d’images : ce que la plupart des applis laissent de côté." },
-  { name: "hamsti", colour: "var(--isk-green)", kicker: undefined, kickerText: "avec Hamsti", title: undefined, titleText: "Vocabulaire et examens", desc: undefined, descText: "Des cartes qui reviennent au bon moment, et des examens blancs pour le DELF, le DALF, le TCF, le TEF et l’examen civique." },
+  { name: "regi", colour: "var(--isk-yellow)", kicker: undefined, kickerText: "avec Regi", title: undefined, titleText: "Grammaire", desc: "home4.crew.regi.desc", descText: "Tenses, questions, si-clauses and word order, from A1 to C1, step by step." },
+  { name: "bruno", colour: "var(--isk-sky)", kicker: undefined, kickerText: "avec Bruno", title: undefined, titleText: "Le français de tous les jours", desc: "home4.crew.bruno.desc", descText: "Everyday situations: at the shop, at the doctor’s, at the préfecture, with colleagues." },
+  { name: "quaki", colour: "var(--isk-coral)", kicker: undefined, kickerText: "avec Quaki", title: undefined, titleText: "Parler", desc: "home4.crew.quaki.desc", descText: "Role plays, pair work and picture descriptions: what most apps leave out." },
+  { name: "hamsti", colour: "var(--isk-green)", kicker: undefined, kickerText: "avec Hamsti", title: undefined, titleText: "Vocabulaire et examens", desc: "home4.crew.hamsti.desc", descText: "Flashcards that come back at just the right time, and practice tests for DELF, DALF, TCF, TEF and the civic exam." },
 ];
 
 // The exercise cards come from the one catalogue (src/lib/catalog.js), as on /exercises.
@@ -111,8 +111,8 @@ const COURSES = [
                 <Mascot name={c.name} size={140} />
               </div>
               <div class="h4-card__body">
-                <span class="h4-kicker" data-i18n={c.kicker}>{c.kickerText}</span>
-                <h3 class="h4-h3" data-i18n={c.title}>{c.titleText}</h3>
+                <span class="h4-kicker" lang="fr" data-i18n={c.kicker}>{c.kickerText}</span>
+                <h3 class="h4-h3" lang="fr" data-i18n={c.title}>{c.titleText}</h3>
                 <p class="h4-p" data-i18n={c.desc}>{c.descText}</p>
               </div>
             </article>

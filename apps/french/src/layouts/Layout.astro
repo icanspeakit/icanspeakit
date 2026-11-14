@@ -10,7 +10,7 @@ import "../styles/components.css";
 import { i18nGlobals } from "../lib/inventory.js";
 import hubBilder from "../data/hub-bilder.manifest.json";
 import { LANGUAGES } from "../lib/i18n.js";
-import { languageOf, BASE } from "../lib/languages.js";
+import { languageOf, BASE, COURSE_LANG } from "../lib/languages.js";
 import { fontFaceCss } from "../lib/scriptFonts.js";
 import { langRules } from "../lib/langCss.js";
 import { organizationLd, websiteLd, breadcrumbLd, trailFor, orgId, type Crumb } from "../lib/seo/jsonld";
@@ -75,7 +75,7 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-// The site path without the base (/french/grammar → /grammar, src/lib/paths.js): routes,
+// The site path without the base (/francais/grammar → /grammar, src/lib/paths.js): routes,
 // hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
 const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
@@ -90,7 +90,7 @@ const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
 // collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
-// The home page is https://icanspeak.it/french/ (with the slash: it is a folder of the domain).
+// The home page is https://icanspeak.it/francais/ (with the slash: it is a folder of the domain).
 const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 
 // Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
@@ -207,7 +207,27 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         try {
           saved = localStorage.getItem("da_lang");
           if (saved && DIR[saved]) lang = saved;
+          else saved = null;
         } catch (e) {}
+        // No choice yet (2026-11-14): the browser's first language the course has an interface
+        // in, else the language the course teaches (COURSE_LANG in src/lib/languages.js). Not
+        // stored, so it follows the browser until someone picks one; i18n.js getLang() reads
+        // it from data-lang-auto. The HTML is English (the base), the repaint fills the rest.
+        if (!saved) {
+          var auto = "${COURSE_LANG}";
+          try {
+            var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+            for (var p = 0; p < prefs.length; p++) {
+              var c = String(prefs[p] || "").toLowerCase().split("-")[0];
+              if (c === "fil") c = "tl";
+              if (DIR[c]) { auto = c; break; }
+            }
+          } catch (e) {}
+          if (DIR[auto]) {
+            lang = auto;
+            document.documentElement.setAttribute("data-lang-auto", auto);
+          }
+        }
         document.documentElement.lang = (${LANG_TAGS})[lang] || lang;
         document.documentElement.dir = DIR[lang];
         // Which translation spans show (src/lib/langCss.js), and the script font, before the
@@ -380,7 +400,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
     {(
       <script is:inline define:vars={{ BASE_PATH }}>
-        // Paths compared without the base (/french, src/lib/paths.js).
+        // Paths compared without the base (/francais, src/lib/paths.js).
         const strip = (p) => (p === BASE_PATH || p.startsWith(BASE_PATH + "/") ? p.slice(BASE_PATH.length) || "/" : p);
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
