@@ -17,7 +17,7 @@ import "../../styles/practice.css";
 
 type Name = "bruno" | "regi" | "hamsti" | "quaki";
 const NAMES: Record<Name, string> = { bruno: "Bruno", regi: "Regi", hamsti: "Hamsti", quaki: "Quaki" };
-const COLORS: Record<Name, string> = { bruno: "#946620", regi: "#2b4162", hamsti: "#f2a900", quaki: "#2563eb" };
+const COLORS: Record<Name, string> = { bruno: "#946620", regi: "#172a6e", hamsti: "#f2a900", quaki: "#2563eb" };
 
 const groups = data.groups.map((g) => ({ ...g, who: g.who as Name, audio: Boolean((g as { audio?: boolean }).audio) }));
 // "*éxito*" → the marked word in its own span.
@@ -185,7 +185,7 @@ const K = (id: string) => `wortfallen.${id}`;
     }
     .wf-index a span { min-width: 0; line-height: 1.3; }
     .wf-index img { flex: none; }
-    .wf-index a:hover { background: color-mix(in srgb, var(--brand-teal, #2b4162) 10%, transparent); }
+    .wf-index a:hover { background: color-mix(in srgb, var(--brand-teal, #172a6e) 10%, transparent); }
 
     .wf-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; }
     .wf-card {
@@ -232,7 +232,7 @@ const K = (id: string) => `wortfallen.${id}`;
       background: var(--surface-card); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer;
       transition: border-color .15s ease, background .15s ease, transform .1s ease;
     }
-    .wf-q-opts button:hover:not(:disabled) { border-color: var(--brand-teal, #2b4162); }
+    .wf-q-opts button:hover:not(:disabled) { border-color: var(--brand-teal, #172a6e); }
     .wf-q-opts button:active:not(:disabled) { transform: scale(.97); }
     .wf-q-opts button.is-right { border-color: #16a34a; background: color-mix(in srgb, #16a34a 14%, var(--surface-card)); }
     .wf-q-opts button.is-wrong { border-color: #dc2626; background: color-mix(in srgb, #dc2626 12%, var(--surface-card)); animation: wf-shake .35s ease; }
@@ -249,7 +249,7 @@ const K = (id: string) => `wortfallen.${id}`;
     .wf-play:hover { background: color-mix(in srgb, currentColor 24%, transparent); }
     .wf-play.is-playing { animation: wf-pulse 1s ease-in-out infinite; }
     @keyframes wf-pulse { 50% { transform: scale(1.12); } }
-    .wf-play--quiz { margin: 14px 8px 0 0; vertical-align: top; height: 44px; padding: 0 16px; color: var(--brand-teal, #2b4162); }
+    .wf-play--quiz { margin: 14px 8px 0 0; vertical-align: top; height: 44px; padding: 0 16px; color: var(--brand-teal, #172a6e); }
     .wf-q-len { display: inline-flex; gap: 4px; margin: 0 0 14px; padding: 4px; border-radius: 999px; background: color-mix(in srgb, var(--ink) 6%, transparent); }
     .wf-q-len button { min-height: 38px; padding: 6px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
     .wf-q-len button[aria-checked="true"] { background: var(--surface-card); box-shadow: var(--shadow-sm); }
@@ -259,7 +259,7 @@ const K = (id: string) => `wortfallen.${id}`;
     .wf-more h2 { margin: 0 0 10px; font-size: 1.1rem; }
     .wf-more-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
     .wf-more-links a { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); color: var(--ink); text-decoration: none; font-size: .9rem; }
-    .wf-more-links a:hover { border-color: var(--brand-teal, #2b4162); }
+    .wf-more-links a:hover { border-color: var(--brand-teal, #172a6e); }
 
     @media (max-width: 480px) {
       /* One swipeable row instead of a whole screen of chips. */
