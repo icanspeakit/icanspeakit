@@ -11,7 +11,7 @@ import { itemFingerprint } from "./meldungRef.js";
 import { setWaiting } from "./notReady.js";
 import { t, onUiText } from "./uiText.js";
 
-const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+const ACCENT_KEYS = ["á", "à", "â", "ã", "é", "ê", "í", "ó", "ô", "õ", "ú", "ç"];
 const WRONG_BEFORE_REVEAL = 2;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -101,7 +101,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
               aria-label="${esc(t("conj.placeholder", "Type the form …"))}">
             <button class="akk-btn akk-btn-primary" type="submit" data-check>${esc(t("ak.write.check", "Check"))}</button>
           </form>
-          <div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>
+          <div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Portuguese letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>
           `}
           <p class="ak-write-verdict" aria-live="polite">${!settled && p.wrong ? esc(verdictText(p)) : ""}</p>
           <div class="akk-feedback">
