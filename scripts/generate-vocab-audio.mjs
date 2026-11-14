@@ -17,6 +17,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const VOICES = {
   english: { lang: "en-GB", voice: "en-GB-SoniaNeural" },
   spanish: { lang: "es-ES", voice: "es-ES-ElviraNeural" },
+  french: { lang: "fr-FR", voice: "fr-FR-DeniseNeural" },
+  portuguese: { lang: "pt-PT", voice: "pt-PT-RaquelNeural" },
+  italian: { lang: "it-IT", voice: "it-IT-ElsaNeural" },
 };
 
 const args = process.argv.slice(2);
@@ -48,7 +51,14 @@ if (!KEY || !REGION) {
   process.exit(1);
 }
 
-const spokenForm = (e) => (e.pos === "noun" && e.gender ? `${e.gender} ${e.lemma}` : e.lemma);
+// French elides (l'arbre) and lists le/la nouns with the masculine: the same rule as the app's
+// spokenForm() in apps/french/src/lib/lexicon.js, via its import-free articles.js.
+// An elided article (l', dell') joins the noun without a space.
+let spokenForm = (e) => (e.pos === "noun" && e.gender ? `${e.gender}${/['’]$/.test(e.gender) ? "" : " "}${e.lemma}` : e.lemma);
+if (app === "french") {
+  const { withArticle } = await import(new URL("../apps/french/src/lib/articles.js", import.meta.url).href);
+  spokenForm = (e) => (e.pos !== "noun" || !e.gender ? e.lemma : e.gender === "le/la" ? `le ${e.lemma}` : withArticle(e));
+}
 const xml = (s) => s.replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[c]);
 
 const lexDir = path.join(ROOT, "apps", app, "src", "content", "lexicon");

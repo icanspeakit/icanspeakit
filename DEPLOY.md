@@ -59,8 +59,10 @@ Order for the first go-live: linguistics and english first, the hub last. The hu
 1. Its queue is done and merged into `monorepo`.
 2. `pnpm check:parity` (root) passes for it: brand kit, analytics, scripts, manifest and the
    links to the other live courses are the same as in every other course (`scripts/check-parity.mjs`).
-3. Build, then `check:base` and `check:links` in the app.
-4. Deploy the course, then flip its card to `live: true` in `apps/hub/src/data/courses.ts`, add
+3. Spoken vocabulary: `node scripts/generate-vocab-audio.mjs <slug>` (Azure key in the root
+   `.env.local`; about 5,000 clips, half an hour, rerunnable), then commit `public/audio/`.
+4. Build, then `check:base` and `check:links` in the app.
+5. Deploy the course, then flip its card to `live: true` in `apps/hub/src/data/courses.ts`, add
    its link to the "five languages" pills on every other course home (`src/pages/index.astro`,
    the parity check names the ones missing), add it to the root `deploy` script, and redeploy
    the hub and the other courses.
