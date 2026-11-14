@@ -253,7 +253,7 @@ export function buildSearchIndex() {
     t: "DELE or SIELE?",
     s: "Which Spanish exam fits your purpose: nationality, university or work",
     k: "dele siele compare difference which exam comparison nationality university work price validity diferencia nacionalidad",
-    h: "/exams/dele-or-siele",
+    h: "/exams/which-exam",
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({

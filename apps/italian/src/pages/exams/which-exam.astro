@@ -1,7 +1,7 @@
 ---
 // "CILS, CELI, PLIDA or CERT.IT?": which certificate fits which purpose (content-plan §2). The
-// file name and the route stay (a later item `routes` renames them; `exams-plida-certit` writes
-// the full which-exam page). General orientation, every fact dated and "to verify": no prices,
+// page was moved here from /exams/dele-or-siele by `exams-plida-certit` (content-plan §2: new
+// route /exams/which-exam). General orientation, every fact dated and "to verify": no prices,
 // timings or pass marks are asserted here. Text lives in public/i18n/en.json; the markup holds
 // the same English as a fallback. Keys still carry their old names (delesiele.*): .dele = CILS,
 // .siele = CELI where a key is per exam.
@@ -145,6 +145,12 @@ const checkRows = [
         <p data-i18n="delesiele.practice.siele.text">Format and a practice set, in the style of the exam.</p>
         <a class="quiz-btn quiz-btn--primary" href="/siele" data-i18n="delesiele.practice.siele.cta">To the PLIDA page</a>
       </div>
+      <div class="mock-cta">
+        <h3 translate="no">CERT.IT</h3>
+        <p data-i18n="delesiele.practice.certit.text">Format and an A2 practice set, in the style of the exam.</p>
+        <a class="quiz-btn quiz-btn--primary" href="/certit" data-i18n="delesiele.practice.certit.cta">To the CERT.IT page</a>
+      </div>
+      <p class="format-note" data-i18n="delesiele.practice.level.note">Our own sets: A1 test (CILS page), CILS A2–B2, CELI A2–B1, PLIDA B1 reading and writing, CERT.IT A2. No set exists yet for the other levels.</p>
     </section>
 
     <section class="exam-section">
