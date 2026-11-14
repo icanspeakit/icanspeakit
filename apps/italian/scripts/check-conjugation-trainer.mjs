@@ -126,7 +126,7 @@ for (const stub of pool) {
   }
   if (!judge(q, q.answer).ok) err(`${at}: its own answer fails the check`);
   if (!q.prompt.includes("___")) err(`${at}: no blank in the prompt`);
-  if (q.negative && !q.change.includes(" no ")) err(`${at}: a negative command without no`);
+  if (q.negative && !q.change.includes(" non ")) err(`${at}: a negative command without no`);
   if (/undefined|null/.test(q.explain + q.prompt + q.change)) err(`${at}: undefined text`);
 }
 if (trainer.poolFor({ vosotros: false }).some((s) => s.person === VOSOTROS)) err("a pool without vosotros still has vosotros forms");
@@ -141,17 +141,18 @@ for (const set of data.sets) {
 // The accent rule itself, on forms that differ by nothing else (content-plan §1.2).
 const ask = (verb, tense, person) => trainer.question({ id: "x", verb, tense, person });
 const cases = [
-  [ask("hablar", "praet", 2), "hablo", "accent"],
-  [ask("saber", "praes", 0), "se", "accent"],
-  [ask("hablar", "praes", 4), "hablais", "accent"],
-  [ask("levantarse", "praes", 0), "levanto", "pronoun"],
-  [ask("tener", "praet", 0), "tení", "wrong"],
+  [ask("parlare", "rem", 2), "parlo", "accent"],
+  [ask("parlare", "fut", 2), "parlera", "accent"],
+  [ask("dare", "praes", 2), "da", "accent"],
+  [ask("alzarsi", "praes", 0), "alzo", "pronoun"],
+  [ask("andarsene", "praes", 0), "vado", "pronoun"],
+  [ask("venire", "praes", 0), "venio", "wrong"],
 ];
 for (const [q, typed, why] of cases) {
   const got = judge(q, typed);
   if (got.ok || got.why !== why) err(`judge: "${typed}" for ${q.change} gives ${JSON.stringify(got)}, wanted ${why}`);
 }
-for (const [q, typed] of [[ask("tener", "subjImpf", 0), "tuviese"], [ask("hablar", "impNeg", 1), "no hables"], [ask("hablar", "impNeg", 1), "hables"], [ask("tener", "praes", 0), "  Tengo "]]) {
+for (const [q, typed] of [[ask("andare", "perf", 2), "è andata"], [ask("andare", "perf", 3), "siamo andate"], [ask("andare", "perf", 3), "siamo andati/e"], [ask("cominciare", "perf", 0), "sono cominciato"], [ask("parlare", "impNeg", 1), "non parlare"], [ask("parlare", "impNeg", 1), "parlare"], [ask("venire", "praes", 0), "  Vengo "]]) {
   if (!judge(q, typed).ok) err(`judge: "${typed}" for ${q.change} should pass`);
 }
 
