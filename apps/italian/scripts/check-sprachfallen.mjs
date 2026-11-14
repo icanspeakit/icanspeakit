@@ -3,7 +3,7 @@
 // `fehler` links of wortarten.json), /knowledge/slang (umgangssprache.json), the live quiz's
 // synonyms (synonyme.json) and /culture/mistakes (fehler-nach-sprache.json).
 // Shape only, plus the things a typo would break quietly: a gap with no blank, an answer that
-// isn't an option, a picture that isn't on disk, a dead link, a Spanish question without ¿.
+// isn't an option, a picture that isn't on disk, a dead link, (no opening-mark check: Italian has none).
 // Runs in the content gate; exit 1 on any problem.
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
@@ -19,13 +19,8 @@ const bad = (where, msg) => problems.push(`${where}: ${msg}`);
 const emojiFile = (e) => [...e].map((c) => c.codePointAt(0)).filter((c) => c !== 0xfe0f).map((c) => c.toString(16).toUpperCase()).join("-");
 const hasEmoji = (e) => existsSync(path.join(ROOT, "public/img/openmoji", `${emojiFile(e)}.svg`));
 
-// A Spanish sentence with ? or ! needs its opening mark.
-const marks = (where, s) => {
-  for (const part of String(s).split(/(?<=[.:;])\s+/)) {
-    if (part.includes("?") && !part.includes("¿")) bad(where, `? without ¿: “${s}”`);
-    if (part.includes("!") && !part.includes("¡")) bad(where, `! without ¡: “${s}”`);
-  }
-};
+// Italian has no opening ¿ or ¡ (the Spanish course checked for them): kept as a no-op so the calls stay.
+const marks = () => {};
 const unique = (where, ids) => {
   const seen = new Set();
   for (const id of ids) {
