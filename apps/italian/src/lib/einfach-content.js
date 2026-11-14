@@ -1,7 +1,7 @@
 /* Einfach lernen (/step-by-step) — turns the curated path (src/data/einfach-pfad.json) into the
  * task objects the view renders.
  *
- * The path never copies Spanish text. A task names a source item by ref and this file
+ * The path never copies Italian text. A task names a source item by ref and this file
  * looks it up in the site's own reviewed data:
  *
  *   lex:a1-15/estación           a word in src/content/lexicon/a1.json (unit id + lemma)
@@ -33,34 +33,57 @@ export function checksum(text) {
 
 const PUNCT = /^[?!.,;:]+$/;
 
-/* Spanish "article" tasks are el / la (content-plan §1.4): a lexicon noun's `gender` holds
-   which one, and `genus: "f"` marks el agua, whose plural is las aguas. The default hint points
-   at the ending, or at number when the options include a plural, without giving the answer.
-   Path tasks should still write their own. Short and simple, like everything Bruno says. */
+/* Italian "article" tasks (content-plan §1.4): a lexicon noun's `gender` holds the singular
+   definite article (il / lo / la / l'); `genus` m/f is required with l' (the article hides the
+   gender). The default hint points at the sound or ending, or at number when the options
+   include a plural, without giving the answer. Path tasks should still write their own.
+   Short and simple, like everything Bruno says. */
 const ARTICLE_HINT = {
   ending: "Look at the last letter. -o is often il, -a is often la.",
   other: "The ending doesn't help here. Take a guess, then learn it.",
   number: "Is it one thing or more? Then look at the ending.",
+  sound: "Say it aloud. Listen to the first sound of the word.",
 };
+const ART_SINGULAR = ["il", "lo", "la", "l'"];
+/* lo / gli stand before s + consonant, z, gn, ps, pn, x, y; l' before a vowel. */
+const LO_START = /^(s[^aeiouàèéìòù\s]|z|gn|ps|pn|x|y)/i;
+const VOWEL_START = /^[aeiouàèéìòùh]/i;
 const articleHint = (noun, options) =>
-  options?.some((o) => /^(i|gli|le|los|las|unos|unas)$/.test(o))
+  options?.some((o) => /^(i|gli|le)$/.test(o))
     ? ARTICLE_HINT.number
-    : /[oa]$/.test(noun)
-      ? ARTICLE_HINT.ending
-      : ARTICLE_HINT.other;
+    : LO_START.test(noun) || VOWEL_START.test(noun)
+      ? ARTICLE_HINT.sound
+      : /[oa]$/.test(noun)
+        ? ARTICLE_HINT.ending
+        : ARTICLE_HINT.other;
+/* The (at most three) choices for a lexicon noun: the answer plus its likely rivals. */
+const articleChoices = (noun) =>
+  VOWEL_START.test(noun) ? ["l'", "il", "la"] : LO_START.test(noun) ? ["il", "lo", "la"] : ["il", "la"];
+/** "l'" + "amico" → "l'amico"; every other article takes a space. */
+const withArticle = (art, noun) => (art.endsWith("'") ? art + noun : `${art} ${noun}`);
 
-/** The plural as the learner says it: los libros, las casas, los/las estudiantes, las aguas. */
+/** The plural article for a singular one: il → i, lo and masculine l' → gli, la and feminine l' → le. */
+const pluralArticleOf = (w) => {
+  if (w.pluralGender === "f") return "le";
+  const g = w.gender;
+  if (g === "il") return "i";
+  if (g === "lo") return "gli";
+  if (g === "la") return "le";
+  if (g === "l'") return w.genus === "f" ? "le" : "gli";
+  if (g === "il/la") return "i/le";
+  if (g === "lo/la") return "gli/le";
+  return null;
+};
+/** The plural as the learner says it: i libri, le case, gli studenti, le uova. */
 const pluralWithArticle = (w) => {
-  if (!w.plural || !w.gender) return null;
-  const article = w.gender === "el/la" ? "los/las" : w.gender === "la" || w.genus === "f" ? "las" : "los";
-  return `${article} ${w.plural}`;
+  const article = w.plural && w.gender ? pluralArticleOf(w) : null;
+  return article ? `${article} ${w.plural}` : null;
 };
 
 /* Table exercises whose placeholder lists articles become article tasks (same screen,
    same helper). Each entry is the placeholder as written in the grammar topic files. */
-// Italian placeholders (grammar-a1); the Spanish ones stay until no data uses them.
 const ARTICLE_PLACEHOLDERS = ["il / la", "il / lo / la", "il / lo / la / l'", "un / uno / una / un'", "un / una",
-  "el / la", "el / la / los / las", "un / una / unos / unas"];
+  "i / le", "i / gli / le", "gli / le"];
 
 /* A screen has three options at most, so an item's longer `choices` list needs "options" on the task. */
 const itemChoices = (item) => (item.choices?.length >= 2 && item.choices.length <= 3 ? item.choices : undefined);
@@ -180,7 +203,7 @@ export function lookup(ref, sources) {
 
 /**
  * One path task → the object the view renders. Fields written on the path task
- * (`hint`, `options`, `why`) win over what the source offers; the Spanish the learner
+ * (`hint`, `options`, `why`) win over what the source offers; the Italian the learner
  * reads as the exercise itself comes from the source.
  */
 export function resolveTask(task, sources) {
@@ -195,30 +218,29 @@ export function resolveTask(task, sources) {
     if (task.type === "wort") {
       return {
         ...base,
-        // "la casa" with "las casas" under it, "el lunes" with "los lunes". A verb has neither,
-        // and "las gafas" is a plural already, so it has no second line.
-        front: w.pluralOnly ? pluralWithArticle(w) : w.gender ? `${w.gender} ${w.lemma}` : w.lemma,
+        // "la casa" with "le case" under it, "l'amico" with "gli amici". A verb has neither,
+        // and "gli occhiali" is a plural already, so it has no second line.
+        front: w.pluralOnly ? pluralWithArticle(w) : ART_SINGULAR.includes(w.gender) ? withArticle(w.gender, w.lemma) : w.lemma,
         plural: w.pluralOnly ? null : pluralWithArticle(w),
         back: w.en,
         hint: task.hint || w.example,
-        // The fallback hint is the lexicon's Spanish example; written hints are English.
-        ...(task.hint ? {} : { hintLang: "es" }),
+        // The fallback hint is the lexicon's Italian example; written hints are English.
+        ...(task.hint ? {} : { hintLang: "it" }),
         audio: w.audio ? `/audio/wortschatz/${w.audio}.mp3` : null,
       };
     }
-    // el/la estudiante takes both and las gafas has no singular, so there is nothing to ask.
-    if ((w.gender !== "el" && w.gender !== "la") || w.pluralOnly) throw new Error(`${task.ref}: artikel task needs a singular noun with gender el or la`);
+    // il/la collega takes both and gli occhiali has no singular, so there is nothing to ask.
+    if (!ART_SINGULAR.includes(w.gender) || w.pluralOnly) throw new Error(`${task.ref}: artikel task needs a singular noun with gender il, lo, la or l'`);
+    if (w.gender === "l'" && w.genus !== "m" && w.genus !== "f") throw new Error(`${task.ref}: gender l' needs genus m or f`);
+    const plural = pluralWithArticle(w);
     return {
       ...base,
       noun: w.lemma,
       answer: w.gender,
+      options: task.options || articleChoices(w.lemma),
       back: w.en,
       hint: task.hint || articleHint(w.lemma),
-      why:
-        task.why ||
-        (w.genus === "f"
-          ? `We say: el ${w.lemma}. The word is feminine (las ${w.plural}), but it starts with a stressed a.`
-          : `We say: ${w.gender} ${w.lemma}.`),
+      why: task.why || `We say: ${withArticle(w.gender, w.lemma)}.${plural ? ` The plural is ${plural}.` : ""}`,
     };
   }
 
@@ -296,7 +318,7 @@ export function resolveTask(task, sources) {
   if (task.type === "satz") {
     if (src.kind !== "gram" || src.ex.type !== "build") throw new Error(`${task.ref}: a satz task needs a build item`);
     const { words, end } = buildTiles(src.item.correct);
-    // A second right order counts too: Spanish word order is freer than one solution suggests.
+    // A second right order counts too: Italian word order is freer than one solution suggests.
     const alts = (src.item.alt || []).map((a) => buildTiles(a).words);
     return {
       ...base,
