@@ -47,11 +47,13 @@ const CREW = [
 // The exercise cards come from the one catalogue (src/lib/catalog.js), as on /exercises.
 const CARD_GLYPHS = ["Aa", "“”", "¿", "!", "¡", "?"];
 
-// The five courses. Only english is live; the others are shown, not linked, until they are.
+// The five courses: this one, the other live ones (absolute URLs: they are other Workers on
+// icanspeak.it, outside this app's base), and the rest shown, not linked, until they are live.
+// Keep the live ones in step with apps/hub/src/data/courses.ts (scripts/check-parity.mjs checks it).
 const COURSES = [
-  { label: "english", live: true, href: "/" },
-  { label: "español" },
-  { label: "français" },
+  { label: "english", live: true, current: true, href: "/" },
+  { label: "español", live: true, href: "https://icanspeak.it/spanish/" },
+  { label: "français", live: true, href: "https://icanspeak.it/french/" },
   { label: "português" },
   { label: "italiano" },
 ];
@@ -152,7 +154,7 @@ const COURSES = [
           <p class="h4-p h4-p--light" data-i18n="home4.langs.lead">The same method, the same crew, for every course on icanspeak.it.</p>
           <div class="h4-pills">
             {COURSES.map((c) => c.live
-              ? <a href={c.href} class="h4-pill h4-pill--live" aria-current="page">{c.label}</a>
+              ? <a href={c.href} class="h4-pill h4-pill--live" aria-current={c.current ? "page" : undefined}>{c.label}</a>
               : <span class="h4-pill">{c.label}</span>)}
           </div>
         </div>

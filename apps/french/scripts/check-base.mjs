@@ -12,7 +12,7 @@
  *   - site.webmanifest: icon src, start_url, scope
  *   - absolute URLs on the own domain (https://icanspeak.it/…) in HTML, sitemap.xml and
  *     llms.txt that are not under /french (the bare domain root is allowed: a link to the
- *     umbrella site)
+ *     umbrella site, and absolute links to the other apps' bases are allowed in pages)
  *   - _headers: rule paths (Cloudflare matches them against the public URL) and line length
  *
  * Run after `pnpm build`. Exit code 1 lists the offenders (file, count, first examples).
@@ -58,12 +58,18 @@ function offenders(text, html) {
   return out;
 }
 
-/** Own-domain absolute URLs outside the base. @param {string} text */
-function originOffenders(text) {
+// The other apps on icanspeak.it. A page may link to them with an absolute URL (the course
+// home's "five languages" pills); sitemap.xml, llms.txt and robots.txt may not list them.
+const SIBLINGS = ['/english', '/spanish', '/french', '/portuguese', '/italian', '/linguistics'];
+const sibling = (p) => SIBLINGS.some((b) => p === b || p.startsWith(b + '/'));
+
+/** Own-domain absolute URLs outside the base. @param {string} text @param {boolean} [page] */
+function originOffenders(text, page = false) {
   const out = [];
   for (const m of text.matchAll(ORIGIN_RE)) {
     const p = m[1] ?? '';
     if (p === '' || p === '/') continue;
+    if (page && sibling(p)) continue;
     if (!based(p)) out.push(m[0]);
   }
   return out;
@@ -86,7 +92,7 @@ for await (const file of walk(DIST)) {
   let found = [];
   if (ext === '.html') {
     const text = await readFile(file, 'utf8');
-    found = [...offenders(text, true), ...originOffenders(text)];
+    found = [...offenders(text, true), ...originOffenders(text, true)];
   } else if (ext === '.css') {
     found = offenders(await readFile(file, 'utf8'), false);
   } else if (ext === '.webmanifest') {
