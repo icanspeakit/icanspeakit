@@ -16,7 +16,7 @@ export const COURSES: Course[] = [
     name: 'English',
     english: 'English',
     meta: 'A1 to C1 · grammar, vocabulary, exams, speaking',
-    live: true, // almost ready: linked from the landing while apps/english is finished
+    live: true,
   },
   {
     slug: 'spanish',
