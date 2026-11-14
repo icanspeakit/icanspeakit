@@ -25,34 +25,34 @@ const byLevel = <T extends { level: string }>(list: T[]) =>
 const quizCount = kultur.topics.reduce((n, t) => n + t.quiz.length, 0);
 
 const areas = [
-  { href: "/culture", pic: "🏛️", title: "Culture in Spain", text: "How Spain works day to day: the padrón, the centro de salud, public holidays, renting, school.", meta: `${kultur.topics.length} topics` },
-  { href: "/culture/insider", pic: bilder.extras.insider, title: "Spain from the inside", text: "Greetings, meal times, tú and usted and how people really live, with figures and sources.", meta: `${insider.topics.length} topics` },
+  { href: "/culture", pic: "🏛️", title: "Culture in France", text: "How France works day to day: the mairie, the médecin traitant, public holidays, renting, school.", meta: `${kultur.topics.length} topics` },
+  { href: "/culture/insider", pic: bilder.extras.insider, title: "France from the inside", text: "Greetings, meal times, tu and vous and how people really live, with figures and sources.", meta: `${insider.topics.length} topics` },
   { href: "/culture/mistakes", pic: bilder.extras.fehler, title: "Common mistakes by first language", text: "Which mistakes come from which first language, and how do you get rid of them?", meta: `${fehler.languages.length} languages` },
-  { href: "/ccse/facts", pic: "🗺️", title: "Facts about Spain", text: "The constitution, institutions, history, the comunidades autónomas: the knowledge for the CCSE.", meta: "CCSE" },
+  { href: "/civic-exam/facts", pic: "🗺️", title: "Facts about France", text: "Values, institutions, history and regions: the knowledge for the civic exam.", meta: "Civic exam" },
   { href: "/culture/quiz", pic: bilder.extras.quiz, title: "Culture quiz", text: "Questions from all the culture topics, mixed or by topic.", meta: `${quizCount} questions` },
   { href: "/culture/insider/cars-and-driving", pic: "🚗", title: "Cars and driving", text: "Roads, speed limits and what to know about driving.", meta: "Cars & driving" },
-  { href: "/culture/films-and-series", pic: bilder.extras.filme, title: "Films and series in Spanish", text: "What to watch from Spain and Latin America, with a level for each.", meta: `${filme.groups.reduce((n, g) => n + g.items.length, 0)} titles` },
+  { href: "/culture/films-and-series", pic: bilder.extras.filme, title: "Films and series in French", text: "What to watch from France and the French-speaking world, with a level for each.", meta: `${filme.groups.reduce((n, g) => n + g.items.length, 0)} titles` },
 ];
 
 const lists = [
-  { id: "kulturwissen", title: "Culture in Spain", href: "/culture",
+  { id: "kulturwissen", title: "Culture in France", href: "/culture",
     items: byLevel(kultur.topics).map((t) => ({ href: itemPath("/culture", t.id), title: t.title, level: t.level, pic: (bilder.topics as Record<string, string>)[t.id] })) },
-  { id: "von-innen", title: "Spain from the inside", href: "/culture/insider",
+  { id: "von-innen", title: "France from the inside", href: "/culture/insider",
     items: byLevel(insider.topics).map((t) => ({ href: itemPath("/culture/insider", t.id), title: t.title, level: t.level, pic: (bilder.insider as Record<string, string>)[t.id] })) },
   { id: "fehler", title: "Common mistakes by first language", href: "/culture/mistakes",
     items: fehler.languages.map((l) => ({ href: `/culture/mistakes?lang=${l.id}`, title: l.name, level: "", pic: undefined })) },
 ];
 ---
 <Layout
-  title="Country and culture – all topics – icanspeak Spanish"
-  description="Every culture topic at a glance: culture in Spain, Spain from the inside, typical mistakes by first language, facts for the CCSE and the culture quiz."
+  title="Country and culture – all topics – icanspeak French"
+  description="Every culture topic at a glance: culture in France, France from the inside, typical mistakes by first language, facts for the civic exam and the culture quiz."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main practice-main--wide">
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
       <h1 data-i18n="landkultur.title">Country and culture</h1>
-      <SectionMascot name="bruno" say="Spain at a glance." sayKey="landkultur.say" align="center" class="ku-hero-mascot" />
+      <SectionMascot name="bruno" say="France at a glance." sayKey="landkultur.say" align="center" class="ku-hero-mascot" />
     </div>
 
     <section class="lk-block">

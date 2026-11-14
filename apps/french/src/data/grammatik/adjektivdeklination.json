@@ -1,142 +1,143 @@
 {
   "id": "adjektivdeklination",
-  "name": "Adjective position and short forms: buen, gran, un gran hombre",
+  "name": "Adjective position: une voiture bleue, un grand homme",
   "level": "B1",
-  "variety": "es-ES",
-  "es419": { "note": "Position and short forms work the same in Latin America. Coche is carro there." },
-  "subtitle": "Most adjectives go after the noun: un coche rojo. A few can go before it and lose their ending before a masculine singular noun: buen, mal, primer, tercer, algún, ningún. Gran is short before any singular noun. Some adjectives change meaning with position: un gran hombre, un hombre grande.",
-  "briefMarks": ["buen", "mal", "primer", "tercer", "algún", "ningún", "gran"],
-  "source": "icanspeak Spanish original text (grammar-b1 run, 2026-11-04)",
+  "variety": "fr-FR",
+  "subtitle": "Most French adjectives come after the noun: une voiture bleue, un collègue français. A few short, common ones come before: un petit appartement, une bonne idée. Some change their meaning with the position: un grand homme is a great man, un homme grand is a tall man.",
+  "briefMarks": ["une voiture bleue", "un petit appartement", "un bel arbre", "un nouvel ami", "de bons amis", "un grand homme", "un homme grand", "ma propre voiture"],
+  "source": "icanspeak French original text (grammar-b1 run, 2026-11-08)",
   "concept": {
     "comic": {
-      "title": "¿Un {gran} hombre o un hombre {grande}?",
+      "title": "Un {grand} homme ou un homme {grand} ?",
       "panels": [
         {
           "caption": "Before the noun",
-          "tag": "{gran} = great",
-          "left": { "name": "regi", "expr": "thinking", "say": "¿Cómo es tu médico?" },
-          "right": { "name": "bruno", "expr": "happy", "say": "Es un {gran} hombre. Ayuda a todos." }
+          "tag": "{grand} = great",
+          "left": { "name": "regi", "expr": "thinking", "say": "Comment est ton médecin ?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "C'est un {grand} homme. Il aide tout le monde." }
         },
         {
           "caption": "After the noun",
-          "tag": "{grande} = big",
-          "left": { "name": "quaki", "expr": "oops", "say": "¡Mira a ese hombre {grande}!" },
-          "right": { "name": "hamsti", "expr": "happy", "say": "Sí, ¡mide dos metros!" }
+          "tag": "{grand} = tall",
+          "left": { "name": "quaki", "expr": "oops", "say": "Regarde cet homme {grand} !" },
+          "right": { "name": "hamsti", "expr": "happy", "say": "Oui, il fait deux mètres !" }
         }
       ]
     },
     "flow": [
-      { "text": "buen · mal · primer · gran", "variant": "prep" },
-      { "text": "noun" },
-      { "text": "rojo · español · redondo", "variant": "verb" }
+      { "text": "un / une + nom + adjectif", "variant": "verb" },
+      { "text": "beau · bon · grand · petit · jeune · vieux · nouveau · joli · mauvais · gros", "variant": "prep" },
+      { "text": "un grand homme ≠ un homme grand" }
     ],
-    "exampleHtml": "Hoy hace <span class=\"vp-prep\">buen</span> tiempo. · Vivo en el <span class=\"vp-prep\">primer</span> piso. · Madrid es una <span class=\"vp-prep\">gran</span> ciudad. · Tengo un coche <span class=\"vp-verb\">rojo</span>. · Mi médica es <span class=\"vp-verb\">española</span>.",
+    "exampleHtml": "Sofia a une <span class=\"vp-verb\">petite</span> voiture <span class=\"vp-verb\">bleue</span>. · Léa habite dans un <span class=\"vp-verb\">bel</span> appartement. · Nous avons de <span class=\"vp-verb\">bons</span> voisins. · Mon <span class=\"vp-verb\">ancien</span> chef est un homme <span class=\"vp-verb\">grand</span> et mince.",
     "qa": [
       {
-        "html": "<strong>After the noun</strong> is the normal place, above all when the adjective separates one thing from others: colour, nationality, shape. <em>un coche rojo, una médica española, una mesa redonda</em>.",
+        "html": "The normal place is <strong>after the noun</strong>: colours, nationalities, shapes, and most longer adjectives. <em>une voiture bleue, un collègue algérien, une table ronde, un homme fatigué, une idée intéressante.</em>",
         "tag": "After the noun"
       },
       {
-        "html": "<strong>Before the noun</strong>, an adjective gives an opinion or a value, more than a description: <em>una buena idea, un mal momento</em>.",
+        "html": "A group of short, common adjectives comes <strong>before the noun</strong>: <em>beau, bon, grand, petit, jeune, vieux, nouveau, joli, mauvais, gros</em> (and also <em>premier, dernier, long</em>). <em>un petit appartement, une bonne idée, un gros problème, une jolie rue.</em>",
         "tag": "Before the noun"
       },
       {
-        "html": "Before a <strong>masculine singular</strong> noun, these lose the <em>-o</em>: <em>bueno → buen, malo → mal, primero → primer, tercero → tercer, alguno → algún, ninguno → ningún</em>. Feminine and plural don't change: <em>una buena amiga, buenos días, la primera vez</em>.",
-        "tag": "Short forms"
+        "html": "Two adjectives: each goes to its own place. <em>une petite voiture bleue, un beau manteau vert, une grande maison blanche.</em> Two adjectives from the short group stay together before the noun: <em>un joli petit village.</em>",
+        "tag": "Two adjectives"
       },
       {
-        "html": "<strong>grande → gran</strong> before <strong>any</strong> singular noun, masculine or feminine: <em>un gran problema, una gran ciudad</em>. In the plural: <em>grandes ciudades</em>. <strong>ciento → cien</strong> before a noun: <em>cien euros</em>; but <em>ciento veinte euros</em>.",
-        "tag": "gran, cien"
+        "html": "Before a masculine noun that starts with a vowel or a silent <em>h</em>, three adjectives have a special form: <strong>bel, nouvel, vieil</strong>. <em>un bel arbre, un nouvel appartement, un vieil homme, un bel hôtel.</em> With a consonant: <em>un beau jardin, un nouveau voisin, un vieux livre.</em>",
+        "tag": "bel · nouvel · vieil"
       },
       {
-        "html": "A few change meaning. <strong>grande:</strong> <em>un gran hombre</em> (great) · <em>un hombre grande</em> (big). <strong>viejo:</strong> <em>un viejo amigo</em> (for many years) · <em>un amigo viejo</em> (elderly). <strong>pobre:</strong> <em>¡Pobre niño!</em> (I feel sorry for him) · <em>un niño pobre</em> (no money).",
-        "tag": "Meaning changes"
+        "html": "Before a plural adjective, <strong>des</strong> becomes <strong>de</strong> (written standard): <em>de bons amis, de grandes fenêtres, de beaux enfants.</em> Singular and adjective after the noun do not change: <em>un bon ami, des amis fidèles.</em> In speech you will also hear <em>des bons amis</em>.",
+        "tag": "des → de"
       },
       {
-        "html": "<strong>mismo</strong> before the noun means <strong>same</strong>: <em>Vivimos en la misma calle.</em> After a noun or pronoun, it means <strong>myself, herself…</strong>: <em>Lo hago yo mismo. La directora misma me llamó.</em>",
-        "tag": "mismo"
+        "html": "The position can <strong>change the meaning</strong>. Before the noun the meaning is often figurative, after it literal: <em>un grand homme</em> (a great man) / <em>un homme grand</em> (a tall man); <em>mon ancien appartement</em> (my former flat) / <em>un immeuble ancien</em> (an old building); <em>ma propre voiture</em> (my own car) / <em>une voiture propre</em> (a clean car).",
+        "tag": "Meaning and position"
+      },
+      {
+        "html": "More pairs: <em>un cher ami</em> (a dear friend) / <em>un hôtel cher</em> (an expensive hotel); <em>le dernier jour</em> (the last day of a series) / <em>la semaine dernière</em> (last week, the one just gone).",
+        "tag": "More pairs"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>un bueno trabajo</em> → ✓ <em>un buen trabajo</em>. ✗ <em>una buen amiga</em> → ✓ <em>una buena amiga</em>. ✗ <em>una grande ciudad</em> → ✓ <em>una gran ciudad</em>. ✗ <em>un rojo coche</em> → ✓ <em>un coche rojo</em>. ✗ <em>el tercero piso</em> → ✓ <em>el tercer piso</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>une voiture rouge petite</em> → ✓ <em>une petite voiture rouge</em>. ✗ <em>un nouveau appartement</em> → ✓ <em>un nouvel appartement</em>. ✗ <em>des bons amis</em> in a written text → ✓ <em>de bons amis</em>. ✗ <em>un américain collègue</em> → ✓ <em>un collègue américain</em>. Agreement is the same as always, see <a href=\"/adjective-agreement\">adjective agreement</a> and <a href=\"/plurals\">plurals</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Short forms",
-          "head": ["Adjective", "Before a masc. sing. noun", "Feminine", "Plural"],
+          "caption": "Three adjectives with a special form",
+          "head": ["Masc. + consonant", "Masc. + vowel", "Feminine", "Masc. plural"],
           "rows": [
-            ["bueno", "un buen trabajo", "una buena idea", "buenos amigos"],
-            ["malo", "un mal día", "una mala noticia", "malos momentos"],
-            ["primero", "el primer piso", "la primera vez", "los primeros días"],
-            ["tercero", "el tercer piso", "la tercera calle", "los terceros"],
-            ["alguno", "algún problema", "alguna duda", "algunos papeles"],
-            ["ninguno", "ningún problema", "ninguna duda", "(not usual)"],
-            ["grande", "un gran hombre", "una gran ciudad", "grandes ciudades"]
+            ["un beau jardin", "un bel arbre", "une belle maison", "de beaux jardins"],
+            ["un nouveau voisin", "un nouvel ami", "une nouvelle voisine", "de nouveaux voisins"],
+            ["un vieux livre", "un vieil homme", "une vieille maison", "de vieux livres"]
           ]
         },
         {
-          "caption": "Position changes the meaning",
+          "caption": "Same adjective, different meaning",
           "head": ["Before the noun", "After the noun"],
           "rows": [
-            ["un gran hombre: a great man", "un hombre grande: a big man"],
-            ["un viejo amigo: a friend for many years", "un amigo viejo: an elderly friend"],
-            ["¡Pobre niño!: I feel sorry for him", "un niño pobre: a child with no money"],
-            ["la misma doctora: the same doctor", "la doctora misma: the doctor herself"]
+            ["un grand homme (great)", "un homme grand (tall)"],
+            ["mon ancien appartement (former)", "un immeuble ancien (old)"],
+            ["ma propre voiture (own)", "une voiture propre (clean)"],
+            ["un cher ami (dear)", "un hôtel cher (expensive)"],
+            ["le dernier jour (last of a series)", "la semaine dernière (last week)"]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Careful",
+          "badge": "Before the noun",
           "variant": "dat",
-          "items": [
-            "gran: short before masculine and feminine singular nouns.",
-            "buen, mal, primer, tercer, algún, ningún: short only before masculine singular nouns."
-          ]
+          "items": ["beau · joli", "bon · mauvais", "grand · petit · gros", "jeune · vieux · nouveau"]
         }
       ]
     }
   },
   "aktiv": {
     "listen": [
-      { "text": "Hoy hace buen tiempo.", "note": "bueno → buen before a masculine noun." },
-      { "text": "Es una buena idea.", "note": "Feminine: no short form." },
-      { "text": "Madrid es una gran ciudad.", "note": "gran before any singular noun." },
-      { "text": "Vivo en el tercer piso.", "note": "tercero → tercer." },
-      { "text": "No tengo ningún problema.", "note": "ninguno → ningún." }
+      { "text": "Léa habite dans un bel appartement.", "note": "bel: before a vowel sound." },
+      { "text": "Nous avons de bons voisins.", "note": "de before a plural adjective." },
+      { "text": "C'est un homme grand et mince.", "note": "After the noun: tall." },
+      { "text": "La semaine dernière, j'ai vu mon ancien professeur.", "note": "semaine dernière (after), ancien (before: former)." },
+      { "text": "Sofia a une petite voiture rouge.", "note": "petite before, rouge after." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Es un viejo amigo.", "choices": ["Es un amigo viejo.", "Es un viejo amigo.", "Es un buen amigo."], "correct": 1 },
-        { "text": "Es un hombre grande.", "choices": ["Es un hombre grande.", "Es un gran hombre.", "Es un hombre pobre."], "correct": 0 },
-        { "text": "¿Tienes algún problema?", "choices": ["¿Tienes ningún problema?", "¿Tienes un gran problema?", "¿Tienes algún problema?"], "correct": 2 },
-        { "text": "Es la primera vez.", "choices": ["Es el primer día.", "Es la primera vez.", "Es la tercera vez."], "correct": 1 }
+        { "text": "C'est un grand homme.", "choices": ["C'est un homme grand.", "C'est un grand homme.", "C'est un grand hôtel."], "correct": 1 },
+        {
+          "text": "Mon ancien appartement est petit.",
+          "choices": ["Mon appartement ancien est petit.", "Mon ancien appartement est petit.", "Mon nouvel appartement est petit."],
+          "correct": 1
+        },
+        { "text": "Nous avons de bons amis.", "choices": ["Nous avons des bons amis.", "Nous avons de bons amis.", "Nous avons de bonnes amies."], "correct": 1 },
+        { "text": "Elle a une voiture propre.", "choices": ["Elle a sa propre voiture.", "Elle a une voiture propre.", "Elle a une voiture grise."], "correct": 1 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Short form",
-          "instruction": "You hear a noun. Say that it is a good one, with bueno in the right form.",
-          "example": { "prompt": "trabajo", "answer": "Es un buen trabajo." },
+          "label": "1 · Adjective in place",
+          "instruction": "You hear a noun and an adjective. Say the noun phrase with the adjective in the right place and the right form.",
+          "example": { "prompt": "Un appartement, nouveau.", "answer": "Un nouvel appartement." },
           "items": [
-            { "prompt": "idea", "answer": "Es una buena idea." },
-            { "prompt": "médico", "answer": "Es un buen médico." },
-            { "prompt": "amiga", "answer": "Es una buena amiga." },
-            { "prompt": "barrio", "answer": "Es un buen barrio." }
+            { "prompt": "Une voiture, petite.", "answer": "Une petite voiture." },
+            { "prompt": "Des amis, bons.", "answer": "De bons amis." },
+            { "prompt": "Un arbre, beau.", "answer": "Un bel arbre." },
+            { "prompt": "Une maison, grande.", "answer": "Une grande maison." }
           ]
         },
         {
-          "label": "2 · No problem",
-          "instruction": "You hear a noun. Say that you don't have any, with ningún or ninguna.",
-          "example": { "prompt": "problema", "answer": "No tengo ningún problema." },
+          "label": "2 · Which meaning?",
+          "instruction": "You hear an English phrase. Say it in French with the adjective in the place that gives this meaning.",
+          "example": { "prompt": "A great man.", "answer": "Un grand homme." },
           "items": [
-            { "prompt": "duda", "answer": "No tengo ninguna duda." },
-            { "prompt": "cita", "answer": "No tengo ninguna cita." },
-            { "prompt": "documento", "answer": "No tengo ningún documento." },
-            { "prompt": "pregunta", "answer": "No tengo ninguna pregunta." }
+            { "prompt": "A tall man.", "answer": "Un homme grand." },
+            { "prompt": "Last week.", "answer": "La semaine dernière." },
+            { "prompt": "An expensive hotel.", "answer": "Un hôtel cher." },
+            { "prompt": "My own car.", "answer": "Ma propre voiture." }
           ]
         }
       ]
@@ -145,92 +146,128 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Short form or not?",
-      "hint": "Short before a masculine singular noun. gran: before any singular noun.",
+      "title": "Choose the right form of the adjective.",
+      "hint": "Look at the gender, the number and the first sound of the noun.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "Hoy hace ___ tiempo.", "hint": "bueno", "answer": "buen", "choices": ["buen", "bueno", "buena"], "why": "el tiempo: masculine singular, before the noun." },
-        { "prompt": "Es una ___ idea.", "hint": "bueno", "answer": "buena", "choices": ["buen", "bueno", "buena"], "why": "la idea: feminine, so no short form." },
-        { "prompt": "Vivo en el ___ piso.", "hint": "primero", "answer": "primer", "choices": ["primer", "primero", "primera"], "why": "el piso: masculine singular." },
-        { "prompt": "Este es un ___ momento para hablar.", "hint": "malo", "answer": "mal", "choices": ["mal", "malo", "mala"], "why": "el momento: masculine singular." },
-        { "prompt": "¿Tienes ___ problema?", "hint": "alguno", "answer": "algún", "choices": ["algún", "alguno", "alguna"], "why": "el problema: masculine singular." },
-        { "prompt": "No tengo ___ problema.", "hint": "ninguno", "answer": "ningún", "choices": ["ningún", "ninguno", "ninguna"], "why": "el problema: masculine singular." },
-        { "prompt": "Esta es la ___ vez que vengo.", "hint": "primero", "answer": "primera", "choices": ["primer", "primero", "primera"], "why": "la vez: feminine, so no short form." },
-        { "prompt": "Madrid es una ___ ciudad.", "hint": "grande", "answer": "gran", "choices": ["gran", "grande", "grandes"], "why": "gran before any singular noun." },
-        { "prompt": "Mi oficina está en el ___ piso.", "hint": "tercero", "answer": "tercer", "choices": ["tercer", "tercero", "tercera"], "why": "el piso: masculine singular." }
+        { "prompt": "Mme Lefèvre est une ___ voisine.", "hint": "good", "answer": "bonne", "choices": ["bonne", "bon", "bons"] },
+        { "prompt": "Thomas a acheté un ___ appartement.", "hint": "new", "answer": "nouvel", "choices": ["nouvel", "nouveau", "nouvelle"] },
+        { "prompt": "Sofia a de ___ amis au travail.", "hint": "good", "answer": "bons", "choices": ["bons", "bonnes", "bon"] },
+        { "prompt": "Il y a un ___ arbre devant l'école.", "hint": "beautiful", "answer": "bel", "choices": ["bel", "beau", "belle"] },
+        { "prompt": "C'est un ___ homme : il a aidé tout le quartier.", "hint": "great", "answer": "grand", "choices": ["grand", "grande", "grands"] },
+        { "prompt": "Mon ___ chef travaille maintenant à Lyon.", "hint": "former", "answer": "ancien", "choices": ["ancien", "ancienne", "anciens"] },
+        { "prompt": "C'est un ___ immeuble, il a plus de cent ans.", "hint": "old", "answer": "vieil", "choices": ["vieil", "vieux", "vieille"] },
+        { "prompt": "Amina a de ___ fenêtres dans son salon.", "hint": "big", "answer": "grandes", "choices": ["grandes", "grande", "grands"] }
       ]
     },
     {
       "type": "fill",
-      "title": "Which position fits the meaning?",
-      "hint": "The sentence around the gap tells you the meaning.",
-      "placeholder": "Words",
+      "title": "Before or after the noun?",
+      "hint": "Colours and nationalities go after. The short common adjectives go before.",
+      "placeholder": "Phrase",
       "items": [
-        { "prompt": "Omar y yo nos conocemos desde hace veinte años. Es un ___.", "answer": "viejo amigo", "choices": ["viejo amigo", "amigo viejo"], "why": "A friend for many years: viejo before the noun." },
-        { "prompt": "Mi coche tiene treinta años y funciona mal. Es un ___.", "answer": "coche viejo", "choices": ["viejo coche", "coche viejo"], "why": "Old in years: viejo after the noun.", "es419": { "note": "In Latin America: carro viejo." } },
-        { "prompt": "Mi jefe mide dos metros. Es un ___.", "answer": "hombre grande", "choices": ["gran hombre", "hombre grande"], "why": "Size: grande after the noun." },
-        { "prompt": "Ese médico ayudó a miles de personas. Es un ___.", "answer": "gran hombre", "choices": ["gran hombre", "hombre grande"], "why": "Great, admired: gran before the noun." },
-        { "prompt": "¡___! Se ha caído y le duele la pierna.", "answer": "Pobre niño", "choices": ["Pobre niño", "Niño pobre"], "why": "You feel sorry for him: pobre before the noun." },
-        { "prompt": "En este barrio hay ___: sus padres no tienen dinero.", "answer": "niños pobres", "choices": ["pobres niños", "niños pobres"], "why": "No money: pobre after the noun." },
-        { "prompt": "Luis y yo vivimos en ___.", "answer": "la misma calle", "choices": ["la misma calle", "la calle misma"], "why": "The same street: mismo before the noun." }
+        { "prompt": "Sofia a une ___.", "hint": "a blue car", "answer": "voiture bleue", "choices": ["voiture bleue", "bleue voiture"] },
+        { "prompt": "Karim travaille avec un ___.", "hint": "an Algerian colleague", "answer": "collègue algérien", "choices": ["collègue algérien", "algérien collègue"] },
+        { "prompt": "Thomas a un ___.", "hint": "a small dog", "answer": "petit chien", "choices": ["petit chien", "chien petit"] },
+        { "prompt": "Amina porte un ___.", "hint": "a beautiful green coat", "answer": "beau manteau vert", "choices": ["beau manteau vert", "manteau beau vert", "vert beau manteau"] },
+        { "prompt": "Léa habite dans une ___.", "hint": "a white house", "answer": "maison blanche", "choices": ["maison blanche", "blanche maison"] }
       ]
     },
     {
       "type": "table",
-      "title": "Put the adjective in the right place.",
-      "hint": "Colour, nationality, shape: after the noun.",
-      "columns": ["Words", "Together"],
-      "placeholder": "Words",
+      "title": "Masculine form before a vowel.",
+      "hint": "beau, nouveau and vieux have a special form before a vowel or a silent h.",
+      "columns": ["Adjective", "Before a vowel"],
+      "placeholder": "Form",
       "rows": [
-        { "term": "coche · rojo", "answer": "un coche rojo", "choices": ["un coche rojo", "un rojo coche"], "es419": { "note": "In Latin America: un carro rojo." } },
-        { "term": "casa · blanca", "answer": "una casa blanca", "choices": ["una blanca casa", "una casa blanca"] },
-        { "term": "médica · española", "answer": "una médica española", "choices": ["una médica española", "una española médica"] },
-        { "term": "mesa · redonda", "answer": "una mesa redonda", "choices": ["una redonda mesa", "una mesa redonda"] },
-        { "term": "familia · marroquí", "answer": "una familia marroquí", "choices": ["una familia marroquí", "una marroquí familia"] }
+        { "term": "beau", "answer": "bel", "choices": ["bel", "beau", "belle"] },
+        { "term": "nouveau", "answer": "nouvel", "choices": ["nouvel", "nouveau", "nouvelle"] },
+        { "term": "vieux", "answer": "vieil", "choices": ["vieil", "vieux", "vieille"] },
+        { "term": "bon", "answer": "bon", "choices": ["bon", "bonne", "bons"] },
+        { "term": "grand", "answer": "grand", "choices": ["grand", "grande", "grands"] },
+        { "term": "joli", "answer": "joli", "choices": ["joli", "jolie", "jolis"] }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "What does it mean?",
+      "hint": "The position decides the meaning.",
+      "columns": ["French", "Meaning"],
+      "placeholder": "Meaning",
+      "rows": [
+        { "term": "un grand homme", "answer": "a great man", "choices": ["a great man", "a tall man"] },
+        { "term": "un homme grand", "answer": "a tall man", "choices": ["a tall man", "a great man"] },
+        { "term": "mon ancien appartement", "answer": "my former flat", "choices": ["my former flat", "my very old flat", "my own flat"] },
+        { "term": "un immeuble ancien", "answer": "an old building", "choices": ["an old building", "a former building"] },
+        { "term": "ma propre voiture", "answer": "my own car", "choices": ["my own car", "my clean car"] },
+        { "term": "une voiture propre", "answer": "a clean car", "choices": ["a clean car", "an own car"] }
       ]
     },
     {
       "type": "match",
-      "title": "What does it mean?",
-      "hint": "Look at where the adjective stands.",
+      "title": "Match the phrase and its meaning.",
+      "hint": "Think about where the adjective stands.",
       "pairs": [
-        { "q": "un gran hombre", "a": "a great man" },
-        { "q": "un hombre grande", "a": "a big man" },
-        { "q": "un viejo amigo", "a": "a friend for many years" },
-        { "q": "un amigo viejo", "a": "an elderly friend" },
-        { "q": "¡Pobre Ana!", "a": "I feel sorry for Ana!" },
-        { "q": "una mujer pobre", "a": "a woman with no money" }
+        { "q": "un cher ami", "a": "a dear friend" },
+        { "q": "un hôtel cher", "a": "an expensive hotel" },
+        { "q": "le dernier jour du cours", "a": "the last day of the course" },
+        { "q": "la semaine dernière", "a": "last week" },
+        { "q": "un grand homme", "a": "a great man" }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: Yuri's first day.",
-      "hint": "Short forms, and gran before ciudad.",
-      "choices": ["primer", "buen", "gran", "algún", "ningún"],
+      "title": "Fill the gaps: a new flat.",
+      "hint": "Which form fits the noun?",
+      "choices": ["nouvel", "ancienne", "grandes", "dernière", "nouveau", "anciens"],
       "segments": [
-        { "text": "Hoy es el " },
-        { "blank": 0, "answer": "primer" },
-        { "text": " día de Yuri en su trabajo. Hace " },
-        { "blank": 1, "answer": "buen" },
-        { "text": " tiempo y llega al taller a las ocho. Su jefa le dice: “Bilbao es una " },
-        { "blank": 2, "answer": "gran" },
-        { "text": " ciudad, ¿verdad? ¿Tienes " },
-        { "blank": 3, "answer": "algún" },
-        { "text": " problema con el contrato?”. Yuri contesta: “No, no tengo " },
-        { "blank": 4, "answer": "ningún" },
-        { "text": " problema, gracias”." }
+        { "text": "Amina a trouvé un " },
+        { "blank": 0, "answer": "nouvel" },
+        { "text": " appartement dans une maison " },
+        { "blank": 1, "answer": "ancienne" },
+        { "text": ", avec de " },
+        { "blank": 2, "answer": "grandes" },
+        { "text": " fenêtres. Elle a signé le bail la semaine " },
+        { "blank": 3, "answer": "dernière" },
+        { "text": "." }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
-      "hint": "Short forms go before the noun. Colours go after it.",
+      "hint": "Short adjectives before the noun, colours after. Watch de + plural.",
       "sentences": [
-        { "id": "ad1", "hint": "I have a good job", "correct": ["Tengo", "un", "buen", "trabajo", "."], "shuffled": ["trabajo", ".", "Tengo", "buen", "un"] },
-        { "id": "ad2", "hint": "I live on the first floor", "correct": ["Vivo", "en", "el", "primer", "piso", "."], "shuffled": ["piso", "el", ".", "Vivo", "primer", "en"] },
-        { "id": "ad3", "hint": "My parents don't have any problem", "correct": ["Mis", "padres", "no", "tienen", "ningún", "problema", "."], "shuffled": ["ningún", "padres", ".", "Mis", "problema", "no", "tienen"] },
-        { "id": "ad4", "hint": "Ana is a great doctor", "correct": ["Ana", "es", "una", "gran", "médica", "."], "shuffled": ["gran", ".", "es", "Ana", "médica", "una"] },
-        { "id": "ad5", "hint": "We have bought a red car", "correct": ["Hemos", "comprado", "un", "coche", "rojo", "."], "shuffled": ["rojo", "un", ".", "Hemos", "coche", "comprado"], "es419": { "note": "In Latin America: Compramos un carro rojo." } }
+        {
+          "id": "adj1",
+          "hint": "Karim has a small blue car",
+          "correct": ["Karim", "a", "une", "petite", "voiture", "bleue", "."],
+          "shuffled": ["bleue", "une", "Karim", ".", "voiture", "a", "petite"]
+        },
+        {
+          "id": "adj2",
+          "hint": "She has good friends",
+          "correct": ["Elle", "a", "de", "bons", "amis", "."],
+          "shuffled": ["amis", "de", "Elle", ".", "bons", "a"]
+        },
+        {
+          "id": "adj3",
+          "hint": "It is a beautiful building",
+          "correct": ["C'est", "un", "bel", "immeuble", "."],
+          "shuffled": ["immeuble", "bel", ".", "C'est", "un"]
+        },
+        {
+          "id": "adj4",
+          "hint": "Last week I met my former boss",
+          "correct": ["La", "semaine", "dernière", "j'ai", "rencontré", "mon", "ancien", "chef", "."],
+          "shuffled": ["chef", "j'ai", "semaine", "mon", ".", "La", "rencontré", "ancien", "dernière"],
+          "alt": [["J'ai", "rencontré", "mon", "ancien", "chef", "la", "semaine", "dernière", "."]]
+        },
+        {
+          "id": "adj5",
+          "hint": "We are looking for a new flat",
+          "correct": ["Nous", "cherchons", "un", "nouvel", "appartement", "."],
+          "shuffled": ["appartement", "cherchons", ".", "nouvel", "Nous", "un"]
+        }
       ]
     }
   ]

@@ -20,7 +20,7 @@ const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 export async function assessSentence(task, { onListening } = {}) {
   const stream = await checkMicrophone();
   try {
-    const assessment = await provider.assess({ referenceText: task.text, language: "es-ES", onListening });
+    const assessment = await provider.assess({ referenceText: task.text, language: "fr-FR", onListening });
     const words = alignWords(task.text, assessment);
     const weakest = words.filter((w) => w.word).sort((a, b) => a.score - b.score)[0];
     const tip = weakest && weakest.score < 80 ? { word: weakest.word, text: tipFor(weakest.word, task.focus).text } : null;

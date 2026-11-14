@@ -41,12 +41,12 @@ function routeExists(path) {
 }
 
 // Words too common to prove an example belongs to its phrase.
-const STOP = new Set("estar tener hacer para como pero algo alguien cada aquí muy unos unas este esta esto sobre desde hasta cuando donde quien".split(" "));
+const STOP = new Set("avoir être faire pour comme mais quelqu quelque chose dans avec sans sous tout tous toute cette cela celui celle leur leurs votre notre vous nous elles aller mettre prendre donner".split(" "));
 // A word counts by its first letters, so a conjugated verb still matches when its stem holds.
 // Short names count too („Roma“), short other words don't.
 const keys = (de) =>
-  de.replace(/[„“"!?¿¡.,:;…]/g, " ").split(/\s+/)
-    .filter((w, i) => (w.length >= 4 || (i > 0 && /^[A-ZÁÉÍÓÚÑ]/.test(w) && w.length >= 3)) && !STOP.has(w.toLowerCase()))
+  de.replace(/[«»„“"!?.,:;…'’]/g, " ").split(/\s+/)
+    .filter((w, i) => (w.length >= 4 || (i > 0 && /^[A-ZÀÂÉÈÊÎÔÛÇ]/.test(w) && w.length >= 3)) && !STOP.has(w.toLowerCase()))
     .map((w) => w.toLowerCase().slice(0, 4));
 
 for (const e of data.eintraege) {

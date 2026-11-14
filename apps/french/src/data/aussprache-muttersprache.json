@@ -1,225 +1,529 @@
 {
-  "_note": "Spanish pronunciation drills by first language, for /culture/mistakes and the Aussprache-Check. Each drill practises one Spanish sound or pattern that is hard from a particular first language (transfer, see fehler-nach-sprache.json). `pairs`: minimal pairs, the first word is the target, the second is what often comes out instead or a word to tell it apart from; both are real Spanish words. `words`: practice words without a partner. `sentence`: to repeat, scored like the Aussprache-Check; it contains one word of every pair. `fehler`: the ids of the mistakes in fehler-nach-sprache.json that this drill practises (the other side of their `drill`; checked by pnpm check:aussprache). Castilian Spanish; the file's `variety` covers every drill, and `es419` says where Latin America differs. Drill ids that still fit kept their slot id (p-b, e-i-o-u, h, s, ende, r-l, cluster, betonung), the rest are new (content-plan §5.6). Audio: public/audio/muttersprache/<slug>.mp3 once es-ES recordings exist; until then the browser voice reads them.",
-  "variety": "es-ES",
+  "_note": "French pronunciation drills by first language, for /culture/mistakes and the Aussprache-Check. Each drill practises one French sound or pattern that is hard from a particular first language (transfer, see fehler-nach-sprache.json). `pairs`: minimal pairs, the first word is the target, the second is what often comes out instead or a word to tell it apart from; both are real French words. `words`: practice words without a partner. `sentence`: to repeat, scored like the Aussprache-Check; it contains one word of every pair. `fehler`: the ids of the mistakes in fehler-nach-sprache.json that this drill practises (the other side of their `drill`; checked by pnpm check:aussprache). Standard French of France; the file's `variety` covers every drill, and `frCA` says where Québec differs. Languages: English, German, Spanish, Portuguese, Italian and Arabic (content-plan §5.6); Russian, Ukrainian and Chinese drills were removed with the Spanish course. Drill ids are new (r, u-ou, nasal, eu, e-muet, liaison, enchainement, silent, s-z, ch-j, b-v, aspiration, stress, double, voiced-final, p-b, vowels, h). The pairs hold only distinctions the standard makes: no brin/brun, and é/è are not paired. Audio: public/audio/muttersprache/<slug>.mp3 once fr-FR recordings exist; until then the browser voice reads them.",
+  "variety": "fr-FR",
   "drills": {
-    "r-rr": {
-      "title": "r or rr?",
-      "tip": "A single r is one quick tap of the tongue tip behind your top teeth. rr is several quick taps. Say “pero” fast, then keep the tongue moving for “perro”. Neither one comes from the throat.",
+    "r": {
+      "title": "The French r",
+      "tip": "The French r is made at the back of your mouth. Keep the tip of your tongue down behind your bottom teeth, lift the back of your tongue towards the soft palate and let the air rub through, like a soft gargle. A gentle cough or the “g” of “go” is a good start. Not the English r, not a tongue-tip trill.",
       "pairs": [
-        ["pero", "perro"],
-        ["caro", "carro"],
-        ["cero", "cerro"]
+        [
+          "rit",
+          "lit"
+        ],
+        [
+          "rond",
+          "long"
+        ],
+        [
+          "rire",
+          "lire"
+        ]
       ],
-      "words": ["rojo", "rápido", "Enrique", "hablar", "trabajar"],
-      "sentence": "Pero el carro de la compra no es caro: cuesta cero euros.",
-      "fehler": ["englisch-r-rr", "deutsch-r-rr", "franzoesisch-r-rr", "portugiesisch-r-rr"]
+      "words": [
+        "rue",
+        "rouge",
+        "merci",
+        "regarder",
+        "travail",
+        "mari"
+      ],
+      "sentence": "Elle rit au lit, car elle aime lire ce long roman.",
+      "fehler": [
+        "englisch-r",
+        "portugiesisch-r"
+      ]
     },
-    "ce-zi": {
-      "es419": { "note": "Latin America has seseo: z and c before e, i sound like s, and that is correct there." },
-      "title": "c and z in Spain: /θ/",
-      "tip": "In most of Spain, z and c before e or i are like th in “think”: tongue tip between your teeth, only air. If you say s, people understand you: much of Andalusia, the Canaries and Latin America do. It is never ts, ch or a buzzing z.",
+    "u-ou": {
+      "frCA": {
+        "note": "In Québec, tu and ti are often affricated (“tsu”, “tsi”). Normal there; in France and in exams, say tu with a clean t."
+      },
+      "title": "u or ou?",
+      "tip": "ou is as in “you”: lips round, tongue back. u is different: say “ee” (i), then round your lips without moving your tongue. Feel your tongue stay forward and your lips make a small circle. Swap them and you say a different word: tu / tout, rue / roue.",
       "pairs": [
-        ["caza", "casa"],
-        ["cocer", "coser"],
-        ["cien", "sien"]
+        [
+          "tu",
+          "tout"
+        ],
+        [
+          "rue",
+          "roue"
+        ],
+        [
+          "dessus",
+          "dessous"
+        ],
+        [
+          "vu",
+          "vous"
+        ]
       ],
-      "words": ["zapato", "cerveza", "gracias", "cine", "plaza", "diez"],
-      "sentence": "En casa vamos a cocer cien gramos de arroz.",
-      "fehler": ["englisch-ce-zi", "deutsch-ce-zi", "italienisch-ce-zi", "russisch-ce-zi", "ukrainisch-ce-zi"]
+      "words": [
+        "salut",
+        "pull",
+        "bus",
+        "sur",
+        "tout",
+        "pour",
+        "jour"
+      ],
+      "sentence": "Tu as vu la rue, il y a du monde dessus.",
+      "fehler": [
+        "englisch-u-ou",
+        "spanisch-u-ou",
+        "portugiesisch-u-ou",
+        "italienisch-u-ou",
+        "arabisch-u-ou"
+      ]
     },
-    "j-g": {
-      "es419": { "note": "In the Caribbean, Central America and Colombia this sound is softer, close to the h in “house”." },
-      "title": "j, and g before e or i",
-      "tip": "A rasp at the back of your mouth, like ch in Scottish “loch” or German “Bach”. Lift the back of your tongue and push air through. Not the j in “jam”, not the soft j in French “je”.",
+    "nasal": {
+      "frCA": {
+        "note": "In Québec the nasal vowels are often longer and more open than in France, and in long syllables they glide a little (vin, vent)."
+      },
+      "title": "Nasal vowels: an, on, in",
+      "tip": "A nasal vowel is a vowel said with the air going through your nose and the n left out. an/en: mouth open, tongue low (vent). on: lips round (bon). in/ain: lips spread, tongue forward (vin). Hold the vowel and don't close it with an n or a “g”. Say bonne, and the n comes back, since it is followed by a vowel.",
       "pairs": [
-        ["hijo", "higo"],
-        ["ajo", "hago"],
-        ["paja", "paga"]
+        [
+          "vent",
+          "vin"
+        ],
+        [
+          "bon",
+          "banc"
+        ],
+        [
+          "pain",
+          "pont"
+        ]
       ],
-      "words": ["jamón", "gente", "trabajo", "mujer", "página", "jueves"],
-      "sentence": "Mi hijo trabaja con gente joven, come ajo y paga con tarjeta.",
-      "fehler": ["franzoesisch-j-g", "portugiesisch-j-g", "italienisch-j-g"]
+      "words": [
+        "enfant",
+        "important",
+        "lundi",
+        "matin",
+        "jambon",
+        "maintenant"
+      ],
+      "sentence": "Il y a du vent, mais le pain est bon sur ce banc.",
+      "fehler": [
+        "englisch-nasal",
+        "deutsch-nasal",
+        "spanisch-nasal",
+        "portugiesisch-nasal",
+        "italienisch-nasal",
+        "arabisch-nasal"
+      ]
+    },
+    "eu": {
+      "title": "eu: a third rounded vowel",
+      "tip": "Say é (as in été), keep your tongue where it is and round your lips. That is eu (deux, peu). Before r and other consonants it is more open (peur, sœur). It is not ou: deux is not doux.",
+      "pairs": [
+        [
+          "deux",
+          "doux"
+        ],
+        [
+          "peu",
+          "pou"
+        ],
+        [
+          "peur",
+          "pour"
+        ]
+      ],
+      "words": [
+        "feu",
+        "bleu",
+        "heureux",
+        "sœur",
+        "fleur",
+        "monsieur"
+      ],
+      "sentence": "Pour deux euros, j'ai un peu peur.",
+      "fehler": [
+        "spanisch-eu",
+        "portugiesisch-eu",
+        "italienisch-eu",
+        "arabisch-eu"
+      ]
+    },
+    "e-muet": {
+      "title": "e muet: weak or silent e",
+      "tip": "At the end of a word e is silent: table is “tabl”. In short words (le, de, ce, je, que) and in the first syllable (demain, petit) it is weak: drop it if the syllable before it ends in a vowel, keep it (short, like eu) when you would otherwise get three consonants in a row. Don't mix it up with é or with les, des, ces, which have a clear é.",
+      "pairs": [
+        [
+          "le",
+          "les"
+        ],
+        [
+          "de",
+          "des"
+        ],
+        [
+          "ce",
+          "ces"
+        ]
+      ],
+      "words": [
+        "demain",
+        "petit",
+        "table",
+        "samedi",
+        "justement",
+        "boulangerie"
+      ],
+      "sentence": "Je regarde le chat de Léa et les chats de ces voisins.",
+      "fehler": [
+        "deutsch-e-muet",
+        "spanisch-e-muet",
+        "portugiesisch-e-muet",
+        "italienisch-e-muet"
+      ]
+    },
+    "liaison": {
+      "title": "Liaison",
+      "tip": "A silent final consonant is said before a vowel sound, and it joins the next word. s and x sound as z (les amis, deux ans), d as t (grand arbre), f as v (neuf heures). It is required after a determiner, a pronoun before the verb and short words like en, dans, très. It is forbidden after et and before a h aspiré (les héros). Be careful with a pause: the link is in the voice, not in a gap.",
+      "words": [
+        "les amis",
+        "ils ont",
+        "un ami",
+        "très utile",
+        "petit à petit",
+        "vous avez"
+      ],
+      "sentence": "Ils ont des amis en France, et ils les voient en été.",
+      "fehler": [
+        "deutsch-liaison"
+      ]
+    },
+    "enchainement": {
+      "title": "Enchaînement: no breaks between words",
+      "tip": "French flows. A spoken consonant at the end of a word slides over onto the next vowel: il a = “i-la”, elle est = “è-lè”, une amie = “u-na-mi”. Don't stop your voice before a vowel (that small stop is a glottal stop). Say a whole group as one long word.",
+      "words": [
+        "il a",
+        "elle est",
+        "une amie",
+        "avec elle",
+        "c'est une idée",
+        "il y a"
+      ],
+      "sentence": "Elle a une amie qui habite avec elle à Annecy.",
+      "fehler": [
+        "deutsch-enchainement"
+      ]
+    },
+    "silent": {
+      "title": "Silent letters at the end",
+      "tip": "Many final letters are silent: t, d, s, x, p, z, and -er, -ez, -ent of verbs. petit is “peti”, grand is “gran”, ils parlent is “il parle”. The feminine brings the consonant back: petit / petite, grand / grande, chaud / chaude. c, r, f, l are often said (sac, mer, neuf, bol).",
+      "pairs": [
+        [
+          "petit",
+          "petite"
+        ],
+        [
+          "grand",
+          "grande"
+        ],
+        [
+          "chaud",
+          "chaude"
+        ]
+      ],
+      "words": [
+        "trop",
+        "beaucoup",
+        "temps",
+        "nez",
+        "parler",
+        "ils parlent"
+      ],
+      "sentence": "Le petit garçon boit un thé chaud dans une grande tasse.",
+      "fehler": [
+        "englisch-silent",
+        "deutsch-silent",
+        "spanisch-silent"
+      ]
+    },
+    "s-z": {
+      "title": "s or z: poisson or poison?",
+      "tip": "Between two vowels one s is z: poison, cuisine, maison. A double ss is s: poisson, dessert. At the start of a word, s is s, and z is z: zéro, zone. A ç also gives s: français. Keep your voice on for z, and off for s: put your hand on your throat.",
+      "pairs": [
+        [
+          "poisson",
+          "poison"
+        ],
+        [
+          "dessert",
+          "désert"
+        ],
+        [
+          "coussin",
+          "cousin"
+        ]
+      ],
+      "words": [
+        "maison",
+        "cuisine",
+        "rose",
+        "zéro",
+        "français",
+        "garçon"
+      ],
+      "sentence": "Le poisson, le dessert et un coussin: voilà mon dimanche.",
+      "fehler": [
+        "deutsch-s-z",
+        "spanisch-s-z"
+      ]
+    },
+    "ch-j": {
+      "title": "ch and j",
+      "tip": "ch is the sh of “shop”: chat, chou. j, and g before e or i, is the voiced version: the s of “measure”. Keep your voice on: jour, rouge, manger. It is never “dj” as in “jam”, and never a rasp at the back of your mouth.",
+      "pairs": [
+        [
+          "chou",
+          "joue"
+        ],
+        [
+          "cher",
+          "gère"
+        ]
+      ],
+      "words": [
+        "chat",
+        "jour",
+        "rouge",
+        "manger",
+        "chambre",
+        "joli"
+      ],
+      "sentence": "Ce chou est cher, mais Léa joue au marché.",
+      "fehler": [
+        "spanisch-ch-j"
+      ]
     },
     "b-v": {
-      "title": "b and v: one sound",
-      "tip": "Spanish b and v sound the same. Use only your lips: closed at the start of a phrase and after m or n, almost closed between vowels. Your top teeth never touch your lip.",
-      "words": ["vino", "vaca", "bien", "vivir", "beber", "abuela", "nueve", "Valencia"],
-      "sentence": "Vivo en Valencia y bebo vino con mi abuela.",
-      "fehler": ["englisch-b-v", "deutsch-b-v", "italienisch-b-v", "russisch-b-v", "ukrainisch-b-v"]
-    },
-    "vokale": {
-      "title": "Clear vowels",
-      "tip": "Spanish vowels stay short and clear in every syllable, stressed or not. They don't glide and they don't get weak. The last vowel of a word often carries the meaning: hablo is “I speak”, habla is “she speaks”.",
+      "title": "b or v?",
+      "tip": "For b, your two lips close. For v, your top teeth touch your bottom lip lightly, and your voice buzzes. French has both, and they are different words: vin / bain, vous / bout. Try a long vvvv and feel the buzz in your lip.",
       "pairs": [
-        ["hablo", "habla"],
-        ["caso", "casa"],
-        ["gata", "gato"]
+        [
+          "ville",
+          "bille"
+        ],
+        [
+          "vin",
+          "bain"
+        ],
+        [
+          "vous",
+          "bout"
+        ]
       ],
-      "words": ["teléfono", "problema", "importante", "Barcelona", "tomate", "corazón"],
-      "sentence": "Hablo con mi amiga del caso de la gata.",
-      "fehler": ["englisch-vokale", "portugiesisch-vokale", "russisch-vokale"]
+      "words": [
+        "voiture",
+        "bébé",
+        "avoir",
+        "boire",
+        "vélo",
+        "bleu"
+      ],
+      "sentence": "Vous buvez un bon vin dans la ville, puis un bain au bout du couloir.",
+      "fehler": [
+        "spanisch-b-v"
+      ]
     },
     "aspiration": {
       "title": "p, t, k without a puff",
-      "tip": "Spanish p, t and k come with no puff of air. Hold a piece of paper in front of your mouth: it should hardly move. Start the vowel straight away.",
-      "words": ["papá", "tomate", "casa", "poco", "taza", "queso", "tiempo", "pan"],
-      "sentence": "Tomo un poco de queso con tomate y pan.",
-      "fehler": ["englisch-aspiration", "deutsch-aspiration"]
-    },
-    "d-suave": {
-      "title": "The soft d",
-      "tip": "Between vowels and at the end of a word, d is soft, like th in “this”. The tongue only just touches your teeth and the air keeps flowing. Don't tap it, or cada turns into cara. Don't harden it at the end: Madrid has no t.",
-      "pairs": [
-        ["cada", "cara"],
-        ["todo", "toro"]
+      "tip": "At the start of a word, English p, t and k come with a puff of air. French p, t and k have none. Hold a piece of paper in front of your mouth: it mustn't move when you say papa, tout, café. The t is made with the tongue against your teeth, not behind them.",
+      "words": [
+        "papa",
+        "tout",
+        "café",
+        "copain",
+        "pomme",
+        "tante"
       ],
-      "words": ["nada", "cansado", "Madrid", "ciudad", "usted", "dedo"],
-      "sentence": "Todo el mundo está cansado cada día.",
-      "fehler": ["englisch-d-suave", "deutsch-d-suave"]
+      "sentence": "Papa prend un café et une tarte au pain.",
+      "fehler": [
+        "englisch-aspiration"
+      ]
     },
-    "ll-y": {
-      "es419": { "note": "In Argentina and Uruguay ll and y often sound like sh or the s in “measure”." },
-      "title": "ll and y",
-      "tip": "In most of Spain ll sounds just like y: the y in “yes”, a little stronger. It is never a plain or long l. calle sounds like “ca-ye”, pollo like “po-yo”.",
-      "pairs": [
-        ["pollo", "polo"],
-        ["llave", "lave"],
-        ["calle", "cale"]
+    "stress": {
+      "title": "No stressed syllable inside the word",
+      "tip": "French doesn't stress syllables inside a word. All syllables are about the same length, and only the last one of a group is a little longer and higher: cho-co-LAT, un cho-co-lat CHAUD. Tap an even beat and say the word on it. Don't push the first syllable, and don't make a vowel weak.",
+      "words": [
+        "chocolat",
+        "ordinateur",
+        "important",
+        "université",
+        "appartement",
+        "restaurant"
       ],
-      "words": ["yo", "mayo", "ayer", "lluvia", "amarillo", "me llamo"],
-      "sentence": "Mi calle huele a pollo y yo no tengo la llave.",
-      "fehler": ["portugiesisch-ll-y", "italienisch-ll-y"]
+      "sentence": "Mon appartement est près de l'université.",
+      "fehler": [
+        "englisch-stress",
+        "italienisch-stress"
+      ]
     },
-    "nasal": {
-      "title": "Vowel, then a real n",
-      "tip": "Say the vowel clean, with no air through your nose, and then close it with a real n or m. Spanish has no nasal vowels: pan is “pa” + “n”, and you feel your tongue touch behind your teeth at the end.",
-      "words": ["pan", "bien", "tiempo", "también", "son", "un", "cinco", "mundo"],
-      "sentence": "También tengo un poco de pan y cinco manzanas.",
-      "fehler": ["franzoesisch-nasal", "portugiesisch-nasal"]
-    },
-    "u": {
-      "title": "u, always round and back",
-      "tip": "Spanish u is the French “ou” (vous) and the Portuguese u. Round your lips and pull your tongue back. It is never the French u of “tu”.",
-      "words": ["tú", "una", "mucho", "julio", "música", "luna", "lunes", "azúcar"],
-      "sentence": "El lunes hay mucha música en la universidad.",
-      "fehler": ["franzoesisch-u"]
-    },
-    "ch": {
-      "title": "ch as in “church”",
-      "tip": "Spanish ch starts with the tongue touching the roof of your mouth, then lets go: the ch in “church”. It is not French or Portuguese sh, and it is not the k of Italian “chi”.",
-      "words": ["chico", "coche", "ocho", "mucho", "noche", "leche", "chaqueta", "churros"],
-      "sentence": "Esta noche tomo ocho churros con leche.",
-      "fehler": ["franzoesisch-ch", "portugiesisch-ch", "italienisch-ch"]
-    },
-    "doble": {
-      "title": "Short, single consonants",
-      "tip": "Italian has long consonants. Spanish doesn't: gato, mamá, oficina and difícil have short consonants, and you write them once. Move straight on to the next vowel. (rr and ll are not long consonants: they are different sounds.)",
-      "words": ["gato", "mamá", "papá", "oficina", "difícil", "comida", "sábado", "abogado"],
-      "sentence": "Mi mamá trabaja en una oficina y tiene un gato.",
-      "fehler": ["italienisch-doble"]
-    },
-    "s": {
-      "title": "s: no buzz",
-      "tip": "Spanish s is the s in “sun”, at the start of a word and between vowels too. It doesn't buzz there: put your fingers on your throat and say casa. Nothing should shake on the s.",
-      "words": ["casa", "mesa", "rosa", "música", "presidente", "sopa", "señor", "museo"],
-      "sentence": "En casa hay una mesa con una rosa.",
-      "fehler": ["deutsch-s", "franzoesisch-s", "portugiesisch-s", "italienisch-s"]
-    },
-    "enlace": {
-      "title": "No stop between words",
-      "tip": "Don't start a word on a vowel with a small stop in your throat. Let the words run together, as if they were one: mi amigo sounds like “mia-mi-go”, en España like “e-nes-pa-ña”.",
-      "words": ["mi amigo", "la escuela", "en España", "los otros", "es alto", "con Ana"],
-      "sentence": "Mi amigo es alto y vive en Alicante.",
-      "fehler": ["deutsch-enlace"]
-    },
-    "h": {
-      "title": "h is silent",
-      "tip": "Never say the letter h: hola sounds just like ola. Start straight on the next vowel, and don't breathe out first.",
-      "words": ["hola", "hora", "hoy", "hombre", "hermano", "ahora", "hospital", "hablar"],
-      "sentence": "Hola, ¿hablas con tu hermano ahora?",
-      "fehler": ["englisch-h", "deutsch-h", "arabisch-h"]
-    },
-    "betonung": {
-      "title": "Stress and written accents",
-      "tip": "A word that ends in a vowel, n or s is stressed on the second-to-last syllable. Others are stressed on the last. A written accent overrules this. Keep the stress where it belongs: it can change the word.",
-      "pairs": [
-        ["hablo", "habló"],
-        ["papá", "papa"],
-        ["termino", "término"]
+    "double": {
+      "title": "One consonant, not two",
+      "tip": "In French a double letter is only spelling: pomme, belle, année have one consonant of normal length. Don't hold it as in Italian. Say it quickly, in one go, and move on to the next vowel. A few exceptions mark a tense (il mourra, nous courrons), but for now: single.",
+      "words": [
+        "pomme",
+        "belle",
+        "année",
+        "bonne",
+        "allée",
+        "attendre"
       ],
-      "words": ["teléfono", "música", "médico", "ciudad", "también", "trabajo", "examen"],
-      "sentence": "Hablo con mi papá y termino el trabajo.",
-      "fehler": ["franzoesisch-betonung"]
+      "sentence": "Cette année, la belle pomme est bonne.",
+      "fehler": [
+        "italienisch-double"
+      ]
+    },
+    "voiced-final": {
+      "title": "Keep the voice on at the end",
+      "tip": "A French word can end in a voiced consonant (b, d, g, v, z, j): robe, rouge, bague, code. Keep your voice on until the end of the sound, and don't turn it into p, t, k, f, s or sch. bague and bac are two words, so are code and cote.",
+      "pairs": [
+        [
+          "bague",
+          "bac"
+        ],
+        [
+          "code",
+          "cote"
+        ],
+        [
+          "onde",
+          "honte"
+        ]
+      ],
+      "words": [
+        "robe",
+        "rouge",
+        "grande",
+        "cave",
+        "tube",
+        "garage"
+      ],
+      "sentence": "Elle a perdu sa bague dans le bac, puis note le code et la cote, sans honte.",
+      "fehler": [
+        "deutsch-voiced-final"
+      ]
     },
     "p-b": {
       "title": "p or b?",
-      "tip": "For both, close your lips. For b your voice is on from the start: put your fingers on your throat and feel it shake. For p your voice starts only with the vowel, and no puff of air comes out.",
+      "tip": "p is a b without voice: close your lips, let the air out, and keep your throat quiet. b has voice from the start. French p has no puff of air. Put a finger on your throat: you feel a buzz for b and none for p.",
       "pairs": [
-        ["pan", "van"],
-        ["pelo", "velo"],
-        ["peso", "beso"]
+        [
+          "pain",
+          "bain"
+        ],
+        [
+          "pas",
+          "bas"
+        ],
+        [
+          "poule",
+          "boule"
+        ]
       ],
-      "words": ["papá", "poco", "pero", "abogado", "bien", "bueno"],
-      "sentence": "Compro pan, me lavo el pelo y me peso en el baño.",
-      "fehler": ["arabisch-p-b", "chinesisch-p-b"]
-    },
-    "e-i-o-u": {
-      "title": "e or i · o or u?",
-      "tip": "Spanish has five vowels, and they make different words: mesa and misa, lona and luna. For e your mouth is a little more open than for i. For o it is a little more open than for u.",
-      "pairs": [
-        ["mesa", "misa"],
-        ["piso", "peso"],
-        ["luna", "lona"]
+      "words": [
+        "papa",
+        "pomme",
+        "petit",
+        "pays",
+        "peur",
+        "pour"
       ],
-      "sentence": "Mi piso tiene una mesa y veo la luna.",
-      "fehler": ["arabisch-e-i-o-u"]
+      "sentence": "Il n'y a pas de pain dans le bain, et la poule est en bas.",
+      "fehler": [
+        "arabisch-p-b"
+      ]
     },
-    "g": {
-      "title": "g as in “go”",
-      "tip": "Before a, o, u and consonants, Spanish g is made at the back of your mouth, like Ukrainian ґ. It is not the breathy Ukrainian г. Between vowels it is softer, but it never turns into h.",
-      "pairs": [
-        ["gota", "jota"],
-        ["higo", "hijo"]
+    "vowels": {
+      "title": "Pure vowels",
+      "tip": "Say a vowel and keep your mouth in one position until the end. é is not “ay”, o is not “oh-oo”. Look in a mirror: your lips and jaw don't move while the vowel lasts. And keep the weak syllables full: the last a of café is a real a.",
+      "words": [
+        "été",
+        "café",
+        "rose",
+        "beau",
+        "pays",
+        "mot"
       ],
-      "words": ["gato", "gracias", "amigo", "agua", "domingo", "grande"],
-      "sentence": "El domingo mi amigo no bebe ni una gota de agua y come un higo.",
-      "fehler": ["ukrainisch-g"]
+      "sentence": "Elle a pris un café en été au bureau.",
+      "fehler": [
+        "englisch-vowels"
+      ]
     },
-    "r-l": {
-      "title": "r or l?",
-      "tip": "For l, the tip of your tongue stays against the top of your mouth, behind your teeth, and the air goes round the sides. For r, it touches there for a moment and goes straight away. pero and pelo are different words.",
-      "pairs": [
-        ["pero", "pelo"],
-        ["hora", "hola"],
-        ["para", "pala"]
+    "h": {
+      "title": "The silent h",
+      "tip": "The letter h is never said in French: l'homme sounds like “lomme”. Begin right on the next vowel, and use no breath. h aspiré (le héros, les haricots) is silent too, but blocks the liaison and the elision.",
+      "words": [
+        "homme",
+        "hôtel",
+        "heure",
+        "hôpital",
+        "histoire",
+        "habiter"
       ],
-      "sentence": "Pero, ¿qué hora es? Para mí es tarde.",
-      "fehler": ["chinesisch-r-l"]
-    },
-    "ende": {
-      "title": "Say the last consonant",
-      "tip": "Many Spanish words end in s, l, r or d. Say that last sound so people can hear it: the -s often means more than one, and the -r marks the infinitive. Don't add a vowel after it.",
-      "words": ["mes", "sal", "mujer", "hablar", "tren", "ciudad", "los libros"],
-      "sentence": "Las mujeres quieren hablar con el profesor.",
-      "fehler": ["chinesisch-ende"]
-    },
-    "cluster": {
-      "title": "Two consonants, no vowel between",
-      "tip": "Spanish words often have two consonants together: pl-, tr-, gr-, fr-. Say them straight after each other, with no vowel between them: tren, not “te-ren”.",
-      "words": ["tren", "plaza", "grande", "libro", "fruta", "problema", "gracias", "claro"],
-      "sentence": "Compro fruta en la plaza y tomo el tren.",
-      "fehler": ["chinesisch-cluster"]
+      "sentence": "L'homme habite à l'hôtel à huit heures.",
+      "fehler": [
+        "englisch-h",
+        "deutsch-h"
+      ]
     }
   },
   "languages": {
-    "englisch": ["r-rr", "vokale", "aspiration", "b-v", "d-suave", "ce-zi", "h"],
-    "deutsch": ["ce-zi", "b-v", "s", "r-rr", "aspiration", "enlace", "d-suave", "h"],
-    "franzoesisch": ["r-rr", "nasal", "u", "betonung", "j-g", "s", "ch"],
-    "portugiesisch": ["vokale", "j-g", "r-rr", "s", "nasal", "ch", "ll-y"],
-    "italienisch": ["ce-zi", "j-g", "doble", "ll-y", "ch", "s", "b-v"],
-    "arabisch": ["p-b", "e-i-o-u", "h"],
-    "russisch": ["vokale", "b-v", "ce-zi"],
-    "ukrainisch": ["g", "b-v", "ce-zi"],
-    "chinesisch": ["r-l", "p-b", "ende", "cluster"]
+    "englisch": [
+      "r",
+      "u-ou",
+      "nasal",
+      "vowels",
+      "aspiration",
+      "stress",
+      "silent",
+      "h"
+    ],
+    "deutsch": [
+      "nasal",
+      "enchainement",
+      "s-z",
+      "voiced-final",
+      "liaison",
+      "silent",
+      "e-muet",
+      "h"
+    ],
+    "spanisch": [
+      "u-ou",
+      "eu",
+      "nasal",
+      "s-z",
+      "b-v",
+      "ch-j",
+      "e-muet",
+      "silent"
+    ],
+    "portugiesisch": [
+      "u-ou",
+      "eu",
+      "nasal",
+      "r",
+      "e-muet"
+    ],
+    "italienisch": [
+      "double",
+      "u-ou",
+      "eu",
+      "nasal",
+      "stress",
+      "e-muet"
+    ],
+    "arabisch": [
+      "p-b",
+      "u-ou",
+      "eu",
+      "nasal"
+    ]
   }
 }

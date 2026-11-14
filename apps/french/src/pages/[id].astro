@@ -169,7 +169,7 @@ const exampleHtml = (s: string) => String(s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/{([^{}]+)}/g, "<strong>$1</strong>");
 const premiumPractice = isPaidLevel(level) && workspace?.exercises?.some((ex) => ex.paid);
-// No mp3s for this topic yet, so the browser's own Spanish voice reads every line. Say so
+// No mp3s for this topic yet, so the browser's own French voice reads every line. Say so
 // rather than let a learner conclude the site sounds like that on purpose. The check is
 // the data, not a flag, so the notice disappears by itself the moment the generator runs.
 const synthetic = aktiv ? !aktiv.hoeren?.items?.some((i) => i.audio) : false;
@@ -205,7 +205,7 @@ const schema = {
   teaches: name,
 };
 
-// Title: "<Thema> – Übungen <Niveau> – icanspeak Spanish". That is how learners search
+// Title: "<Thema> – Übungen <Niveau> – icanspeak French". That is how learners search
 // ("verben mit präpositionen übungen b1", Search Console 2026-10); fitTitle drops the level,
 // then "Übungen", when the topic name is too long for 60 characters.
 const BEATS = [
@@ -245,7 +245,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           exercises start higher (and on Artikel the trainer gets the height back, see
           artikel-fit.css). */}
       {aktiv && <ModeSwitch compact />}
-      <CourseBar inline topic={topicKey} title={`${name} – icanspeak Spanish`} />
+      <CourseBar inline topic={topicKey} title={`${name} – icanspeak French`} />
       {/* Artikel has no hero (its trainer starts with the level rail), so the teacher's
           link rides in this bar there; every other topic has it under its intro. */}
       {isArtikel && <LiveQuizLink chapter={`g-${topicKey}`} bar />}
@@ -480,10 +480,10 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           <div class="vp-scenes">
             {concept.scenes.map((sc, i) => (
               <div class={`vp-scene vp-scene--${sc.variant}`}>
-                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang="es">{sc.form}</b><span>{sc.label}</span></p>
+                <p class="vp-scene-head"><b class={`vp-brief-form vp-brief-form--${sc.variant}`} lang="fr">{sc.form}</b><span>{sc.label}</span></p>
                 <div class="vp-scene-say">
                   <Mascot name={QA_CREW[i % QA_CREW.length].name} expr={QA_CREW[i % QA_CREW.length].expr} view="three" size={48} class="vp-scene-mascot" />
-                  <p class="vp-scene-bubble" lang="es" set:html={sc.sayHtml} />
+                  <p class="vp-scene-bubble" lang="fr" set:html={sc.sayHtml} />
                 </div>
                 <p class="vp-scene-why">{sc.why}</p>
               </div>
@@ -551,7 +551,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         {/* Verb pairs with and without a prefix as sets (`concept.pictures` "euler"):
             Teilmenge, Schnittmenge, getrennt (src/lib/eulerArt.js). */}
         {concept.pictures === "euler" && (
-          <div class="eu-pics" lang="es">
+          <div class="eu-pics" lang="fr">
             {EULER_PANELS.map((p) => (
               <figure class={`eu-pic eu-pic--${p.kind}`}>
                 <Fragment set:html={eulerPanelSvg(p)} />
@@ -580,7 +580,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
                 <li class={`vp-comic-rule-step vp-comic-rule-step--${st.q}`}>
                   <span class="vp-comic-rule-who" data-mascot-part aria-hidden="true"><Mascot name={st.name} expr={st.expr ?? "happy"} size={40} /></span>
                   <div>
-                    <p class="vp-comic-rule-say" lang="es"><span class="vp-comic-rule-q">{st.q === "wohin" ? "¿Adónde?" : "¿Dónde?"}</span> <span set:html={st.say} /></p>
+                    <p class="vp-comic-rule-say" lang="fr"><span class="vp-comic-rule-q">{st.q === "wohin" ? "Vers où ?" : "Où ?"}</span> <span set:html={st.say} /></p>
                     <p class="vp-comic-rule-why" set:html={st.why} />
                   </div>
                 </li>
@@ -686,7 +686,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
             The first strip folds too: open on the first visit, folded on every later one
             (the script under it), so it stops pushing the exercises down. */}
         <details class="vp-comics-first" open data-comic-fold={data.id}>
-          <summary lang="es">{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
+          <summary lang="fr">{workspace.comics[0].title ? `Comic: ${workspace.comics[0].title.replace(/[{}]/g, "")}` : "Comic"}</summary>
           <MascotComic comic={workspace.comics[0]} chip="form" fit />
         </details>
         <script is:inline>
@@ -790,7 +790,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
               apart (stellen/stehen …): one pair per row, Wohin? above Wo?, always visible —
               they are what the items are checked against, not a rule to look up. */}
           {ex.examples && (
-            <dl class="vp-ex-examples" lang="es">
+            <dl class="vp-ex-examples" lang="fr">
               {ex.examples.map((e: { verbs: string; wohin: string; wo: string }) => (
                 <div class="vp-ex-example">
                   <dt>{e.verbs}</dt>

@@ -12,6 +12,7 @@ import { grammarCatalog } from "./grammarCatalog.js";
 import { topicPath } from "./routes.js";
 import { chapterList } from "./liveQuiz/chapters.js";
 import { saetze, hrefOf, isScored } from "./exam/saetze.js";
+import { examLabel } from "./exam/names.js";
 import { planLevels } from "./stundenplanLinks.js";
 import { cefrOf, lessonFor } from "./stundenplan.js";
 import { DEFAULT, stundeHref, stundeRef } from "./unterricht/lernen.js";
@@ -38,7 +39,7 @@ export function aufgabenKatalog() {
     // Paid sets (C1) carry only an outline here (parts is a count, no titles); their
     // parts are not listed until the catalog can read them from src/paid/.
     if (set.paid) continue;
-    const exam = set.exam === "telc" ? "SIELE" : "DELE";
+    const label = examLabel(set);
     for (const m of set.modules) {
       for (const p of m.parts) {
         if (!isScored(p)) continue;
@@ -46,7 +47,7 @@ export function aufgabenKatalog() {
         out.push({
           ref: `x:${set.exam}/${set.id}/${key}`,
           name: `${m.name} Teil ${p.teil}${p.title ? `: ${p.title}` : ""}`,
-          group: `${exam} ${set.level?.toUpperCase?.() ?? ""} · ${set.title}`,
+          group: `${label} · ${set.title}`,
           level: set.level?.toUpperCase?.(),
           href: `${hrefOf(set)}#${key}`,
         });

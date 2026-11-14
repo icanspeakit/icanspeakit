@@ -35,8 +35,8 @@ const total = levels.reduce((n, l) => n + l.sentences.length, 0);
 const info = mutterspracheInfo();
 ---
 <Layout
-  title="Pronunciation check – practise Spanish pronunciation – icanspeak Spanish"
-  description="Say Spanish sentences into the microphone and see at once which words sound right, with a score for each word and a tip for r and rr, c and z, j and g."
+  title="Pronunciation check – practise French pronunciation – icanspeak French"
+  description="Say French sentences into the microphone and see at once which words sound right, with a score for each word and tips for the French r, the nasal vowels and u."
 >
   <SiteNav active="fertigkeiten" />
 
@@ -76,7 +76,7 @@ const info = mutterspracheInfo();
       </div>
       <div class="ac-focus" data-focus aria-label="Laute in diesem Satz" data-i18n-attr="aria-label:ac.focus.aria"></div>
 
-      <p class="ac-sentence" data-sentence lang="es" aria-live="polite"></p>
+      <p class="ac-sentence" data-sentence lang="fr" aria-live="polite"></p>
 
       <div class="ac-actions">
         <button type="button" class="ac-btn ac-btn--ghost" data-listen>
@@ -129,7 +129,7 @@ const info = mutterspracheInfo();
     <section class="ac-card ac-live" data-live hidden aria-labelledby="ac-live-title">
       <h2 class="ac-live-title" id="ac-live-title" data-i18n="ac.live.title">Live: den ganzen Text lesen</h2>
       <p class="ac-live-lead" data-i18n="ac.live.lead">Lies die drei Sätze in einem Zug. Jeder Satz färbt sich, sobald er ausgewertet ist. Höchstens 60 Sekunden.</p>
-      <div class="ac-live-text" data-live-text lang="es"></div>
+      <div class="ac-live-text" data-live-text lang="fr"></div>
       <p class="ac-live-heard" data-live-heard aria-live="polite"></p>
       <div class="ac-actions">
         <button type="button" class="ac-btn ac-btn--rec" data-live-start data-state="idle">

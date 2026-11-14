@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Raster versions of the icanspeak Spanish wordmark, made from the icanspeak.it brand kit
+// Raster versions of the icanspeak French wordmark, made from the icanspeak.it brand kit
 // (public/logos, docs/brand/BRAND.md). The SVGs there are the masters and are never redrawn
 // or recoloured; this script only rasterises them for the places that need a PNG.
 //
@@ -31,12 +31,12 @@ const MUTED = "#6b6152";
 const AMBER = "#b3812e";
 const SERIF = "Georgia, 'Times New Roman', serif";
 
-const wordmark = readFileSync(out("public/logos/icanspeak-spanish-wordmark.svg"));
-// viewBox 933 × 161
+const wordmark = readFileSync(out("public/logos/icanspeak-french-wordmark.svg"));
+// viewBox 883 × 161
 const wordmarkPng = (width) => sharp(wordmark, { density: 300 }).resize({ width }).png().toBuffer();
 
 // The nav logo: 4x a 44 px height.
-await sharp(await wordmarkPng(Math.round((933 / 161) * 176))).png().toFile(out("public/assets/logo.png"));
+await sharp(await wordmarkPng(Math.round((883 / 161) * 176))).png().toFile(out("public/assets/logo.png"));
 
 const ogBase = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
@@ -46,8 +46,8 @@ const ogBase = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630
   <rect width="1200" height="630" fill="${PAPER}"/>
   <rect width="1200" height="630" fill="url(#a)"/>
   <rect width="1200" height="630" fill="url(#b)"/>
-  <text x="600" y="392" font-family="${SERIF}" font-size="40" fill="${INK}" text-anchor="middle">Learn the Spanish of Spain, A1 to C1</text>
-  <text x="600" y="446" font-family="${SERIF}" font-size="28" fill="${MUTED}" text-anchor="middle">Grammar · Vocabulary · DELE · SIELE · CCSE</text>
+  <text x="600" y="392" font-family="${SERIF}" font-size="40" fill="${INK}" text-anchor="middle">Learn the French of France, A1 to C1</text>
+  <text x="600" y="446" font-family="${SERIF}" font-size="28" fill="${MUTED}" text-anchor="middle">Grammar · Vocabulary · DELF · DALF · TCF · TEF</text>
   <circle cx="600" cy="532" r="5" fill="${AMBER}"/>
   <text x="600" y="580" font-family="${SERIF}" font-size="24" fill="${MUTED}" text-anchor="middle">part of icanspeak.it</text>
 </svg>`;
@@ -59,5 +59,5 @@ await sharp(Buffer.from(ogBase))
   .toFile(out("public/assets/og-default.png"));
 
 copyFileSync(out("public/logos/favicon.ico"), out("public/favicon.ico"));
-copyFileSync(out("public/logos/icanspeak-spanish-apple-touch-icon.png"), out("public/apple-touch-icon.png"));
+copyFileSync(out("public/logos/icanspeak-french-apple-touch-icon.png"), out("public/apple-touch-icon.png"));
 console.log("wordmark: public/assets/logo.png, og-default.png; favicon.ico, apple-touch-icon.png copied from public/logos");

@@ -11,6 +11,7 @@
 import { getSet, getSharedSet, machineText, saveSet, stripArticle, translateWords } from "./sets.js";
 import { slugify } from "../audioSlug.js";
 import { withBase } from "../paths.js";
+import { withArticle } from "../articles.js";
 // The trainer's card-language setting (CARD_LANG_KEY in src/lib/cardLangGloss.js).
 const CARD_LANG_KEY = "da-vt-lang";
 
@@ -208,7 +209,7 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (h1) { h1.textContent = set.name; h1.removeAttribute("data-i18n"); }
   const sub = document.querySelector(".vt-hero-sub");
   if (sub) sub.textContent = [set.level, `${cards.length} Wörter`, shared ? null : `${lexCount} aus unserem Wortschatz`].filter(Boolean).join(" · ");
-  document.title = `${set.name} – icanspeak Spanish`;
+  document.title = `${set.name} – icanspeak French`;
   const edit = document.querySelector("[data-vs-edit]");
   if (edit) edit.href = `${withBase("/teachers/cards/photo")}?set=${id}`;
   const print = document.querySelector("[data-vs-print]");
@@ -232,7 +233,8 @@ export async function loadPlayableSet({ shared = false } = {}) {
  */
 export async function quizQuestionsFor(set, meaningLangs, max = 50) {
   const cards = await cardsFor(set);
-  const shown = (c) => (c.gender ? `${c.gender} ${c.front}` : c.front);
+  // l'école without a space (content-plan §1.4).
+  const shown = (c) => (c.gender ? withArticle(c) : c.front);
   const others = (c) => cards.filter((o) => o !== c && shown(o).toLowerCase() !== shown(c).toLowerCase());
   const pick = (list, n) => [...list].sort(() => Math.random() - 0.5).slice(0, n);
   const out = [];

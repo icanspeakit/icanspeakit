@@ -82,7 +82,7 @@ export function pageRef(path = currentPath()) {
       const t = new URLSearchParams(location.search).get("t");
       return t ? `vs:${t}` : null;
     }
-    case "spanish-for-work": return b && c ? `w:berufe-${itemKey("/spanish-for-work", b)}-${workGroupKey(c)}` : null;
+    case "french-for-work": return b && c ? `w:berufe-${itemKey("/french-for-work", b)}-${workGroupKey(c)}` : null;
     case "listening": return b ? `h:${itemKey("/listening", b)}` : null;
     case "reading": return b ? `l:${itemKey("/reading", b)}` : null;
     case "reading-writing": return "l:ls";
@@ -93,13 +93,13 @@ export function pageRef(path = currentPath()) {
     case "speaking": return b ? `sp:${itemKey("/speaking", b)}` : null;
     case "speaking-b1-b2": return "sp:b1b2";
     case "pronunciation": return "a:aussprache";
-    case "nationality":
-      if (b !== "dele-a2" || !c) return null;
+    case "residence-and-nationality":
+      if (b !== "tcf-irn" || !c) return null;
       return `x:dtz/${c === "practice-set" ? "uebungssatz-1" : c}`;
     case "grammar": return b === "quiz" ? "g:quiz" : b === "path" ? "g:lauf" : null;
     case "prepositions": return "g:praepositionen";
   }
-  // Root-level grammar topics (/present-perfect, /object-pronouns, …).
+  // Root-level grammar topics (/passe-compose-avoir, /object-pronouns, …).
   const key = document.getElementById("vp-page")?.dataset.topicKey;
   return s.length === 1 ? `g:${key || topicKeyFromSlug(a)}` : null;
 }

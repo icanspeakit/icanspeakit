@@ -1,11 +1,11 @@
 ---
-// Exam traps: places in the DELE, the SIELE and the CCSE that look easy and have a catch. Each
+// Exam traps: places in the DELF/DALF, the TCF/TEF and the civic exam that look easy and have a catch. Each
 // card links to a part of our practice sets where the same kind of task comes up (fallen.json).
 // The ids are anchors the Instagram reels point to (/exams/traps#<id>) — keep them.
 //
 // Look and the gap check come from /grammar/common-mistakes (typische-fehler.css), the head
-// from /dele/language-use. Explanations are English; the Spanish examples and the task on
-// each card carry lang="es"; the frame (chips, labels, buttons) goes through data-i18n. No claims about how many people fail anything: wrong
+// from /tef/language-in-use. Explanations are English; the French examples and the task on
+// each card carry lang="fr"; the frame (chips, labels, buttons) goes through data-i18n. No claims about how many people fail anything: wrong
 // answers are only ever stored in the learner's own browser (src/lib/fehler.js).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -23,8 +23,8 @@ const bold = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 const level = (f: (typeof fallen)[number]) => f.level;
 ---
 <Layout
-  title="Exam traps: DELE, SIELE, CCSE – icanspeak Spanish"
-  description="Parts of the Spanish exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
+  title="Exam traps: DELF, TCF, TEF, civic exam – icanspeak French"
+  description="Parts of the French exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
   breadcrumb={[{ name: "Exams", path: "/exams" }]}
 >
   <SiteNav active="pruefungen" />
@@ -34,9 +34,9 @@ const level = (f: (typeof fallen)[number]) => f.level;
 
     <div class="vp-hero">
       <div class="vp-hero-badges">
-        <span class="badge badge-brand">DELE</span>
-        <span class="badge badge-info">SIELE</span>
-        <span class="badge badge-info">CCSE</span>
+        <span class="badge badge-brand" translate="no">DELF / DALF</span>
+        <span class="badge badge-info" translate="no">TCF / TEF</span>
+        <span class="badge badge-info" data-i18n="exam.lid.name">Civic exam</span>
       </div>
       <h1 data-i18n="fallen.title">Exam traps</h1>
       <p data-i18n="fallen.lead">Diese Stellen in der Prüfung sehen leicht aus, haben aber einen Haken. Zu jeder Falle gibt es eine kurze Erklärung, ein Beispiel, eine Aufgabe zum Ausprobieren und den Weg in den Übungssatz.</p>
@@ -45,9 +45,9 @@ const level = (f: (typeof fallen)[number]) => f.level;
 
     <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
       <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="dele" aria-pressed="false"><span>DELE</span> <span class="fl-chip-n">{count("dele")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="siele" aria-pressed="false"><span>SIELE</span> <span class="fl-chip-n">{count("siele")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="ccse" aria-pressed="false"><span>CCSE</span> <span class="fl-chip-n">{count("ccse")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="dele" aria-pressed="false"><span translate="no">DELF / DALF</span> <span class="fl-chip-n">{count("dele")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="siele" aria-pressed="false"><span translate="no">TCF / TEF</span> <span class="fl-chip-n">{count("siele")}</span></button>
+      <button type="button" class="fl-chip" data-fl-filter="ccse" aria-pressed="false"><span data-i18n="exam.lid.name">Civic exam</span> <span class="fl-chip-n">{count("ccse")}</span></button>
     </div>
 
     <span hidden data-fl-msg="ok" data-i18n="fallen.ok">Richtig!</span>
@@ -64,19 +64,19 @@ const level = (f: (typeof fallen)[number]) => f.level;
             <p class="tf-why">{f.why}</p>
 
             <div class="fl-pair">
-              <p class="fl-side fl-side--wrong"><span class="fl-mark"><span aria-hidden="true">✗ </span><span data-i18n="fallen.wrong">So nicht</span></span><span lang="es" set:html={bold(f.wrong)} /></p>
-              <p class="fl-side fl-side--right"><span class="fl-mark"><span aria-hidden="true">✓ </span><span data-i18n="fallen.right">So richtig</span></span><span lang="es" set:html={bold(f.right)} /></p>
+              <p class="fl-side fl-side--wrong"><span class="fl-mark"><span aria-hidden="true">✗ </span><span data-i18n="fallen.wrong">So nicht</span></span><span lang="fr" set:html={bold(f.wrong)} /></p>
+              <p class="fl-side fl-side--right"><span class="fl-mark"><span aria-hidden="true">✓ </span><span data-i18n="fallen.right">So richtig</span></span><span lang="fr" set:html={bold(f.right)} /></p>
             </div>
 
             {/* Tap an answer, it says right away – like the gaps on /grammar/common-mistakes.
                 A wrong tap goes to „Meine Fehler“ (this device only). */}
             <div class="tf-check" data-fl-check data-answer={t.answer}>
               <p class="fl-try" data-i18n="fallen.try">Probier es aus</p>
-              {t.context && <p class="fl-context" lang="es">{t.context}</p>}
+              {t.context && <p class="fl-context" lang="fr">{t.context}</p>}
               {t.gap
-                ? <p class="tf-gap" lang="es" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
-                : <p class="fl-prompt" lang="es" data-fl-q={t.prompt}>{t.prompt}</p>}
-              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="es">
+                ? <p class="tf-gap" lang="fr" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                : <p class="fl-prompt" lang="fr" data-fl-q={t.prompt}>{t.prompt}</p>}
+              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="fr">
                 {t.options.map((o) => <button type="button" class="tf-opt" data-fl-opt={o}>{o}</button>)}
               </div>
               <p class="tf-fb" data-fl-fb aria-live="polite"></p>

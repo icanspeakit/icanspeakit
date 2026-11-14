@@ -1,5 +1,5 @@
-// The icanspeak Spanish mascot crew as SVG strings, drawn on a 200×200 grid with the
-// brand colours baked in. Source of truth for the drawings is the "icanspeak Spanish
+// The icanspeak French mascot crew as SVG strings, drawn on a 200×200 grid with the
+// brand colours baked in. Source of truth for the drawings is the "icanspeak French
 // Mascots" design canvas; keep the two in step.
 //
 // One module, three readers: src/components/mascots/Mascot.astro (pages),

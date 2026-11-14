@@ -21,7 +21,10 @@ const lexicon = new Map();
 for (const level of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
   let data;
   try { data = read(`src/content/lexicon/${level}.json`); } catch { continue; }
-  for (const unit of data.units ?? []) for (const w of unit.words ?? []) lexicon.set(w.id ?? slugify(w.lemma), w.lemma);
+  for (const unit of data.units ?? []) for (const w of unit.words ?? []) {
+    const id = w.id ?? slugify(w.lemma);
+    lexicon.set(id, w.lemma);
+  }
 }
 
 const DIR = "src/data/berufe";
@@ -40,7 +43,7 @@ if (existsSync(path.join(ROOT, DGT_DIR))) {
   }
 }
 
-// Business Spanish: each unit's words are one group of a single deck (content-plan §4.3).
+// Business French: each unit's words are one group of a single deck (content-plan §4.3).
 const BUSINESS_DIR = "src/data/business-spanish";
 if (existsSync(path.join(ROOT, BUSINESS_DIR))) {
   try {

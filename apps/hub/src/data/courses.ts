@@ -32,7 +32,7 @@ export const COURSES: Course[] = [
     name: 'Français',
     english: 'French',
     meta: 'DELF, DALF and TCF · life in France',
-    live: false,
+    live: true,
   },
   {
     slug: 'portuguese',

@@ -1,10 +1,10 @@
 /* Einfach lernen (/step-by-step) — turns the curated path (src/data/einfach-pfad.json) into the
  * task objects the view renders.
  *
- * The path never copies Spanish text. A task names a source item by ref and this file
+ * The path never copies French text. A task names a source item by ref and this file
  * looks it up in the site's own reviewed data:
  *
- *   lex:a1-15/estación           a word in src/content/lexicon/a1.json (unit id + lemma)
+ *   lex:a1-15/gare               a word in src/content/lexicon/a1.json (unit id + lemma)
  *   gram:w-fragen/4/0@1a2b3c     item 0 of exercise 4 in src/data/grammatik/w-fragen.json
  *   akk:akk-l4                   an item of src/data/akkusativ.json (it has stable ids)
  *   kultur:pfand#0@9f8e7d        fact 0 of a topic in kultur.json (kultur-insider: too)
@@ -33,32 +33,50 @@ export function checksum(text) {
 
 const PUNCT = /^[?!.,;:]+$/;
 
-/* Spanish "article" tasks are el / la (content-plan §1.4): a lexicon noun's `gender` holds
-   which one, and `genus: "f"` marks el agua, whose plural is las aguas. The default hint points
-   at the ending, or at number when the options include a plural, without giving the answer.
-   Path tasks should still write their own. Short and simple, like everything Bruno says. */
+/* French "article" tasks (content-plan §1.4, §5.9). The article can hide the gender: l'école
+   gives nothing away, and les is the same for every noun. So a lexicon noun is asked
+     - le / la   when its `gender` is le or la (le héros too: hAspire keeps the full article),
+     - un / une  when it elides to l' (l'école → une école): `genus` holds the gender,
+   and never when it is les (plural-only), or le/la (common gender).
+   The default hint points at the ending when it is one of the reliable ones, or at number or
+   the vowel when the options include des / l' / les, without giving the answer. Path tasks
+   should still write their own. Short and simple, like everything Bruno says. */
 const ARTICLE_HINT = {
-  ending: "Look at the last letter. -o is often el, -a is often la.",
+  ending: "Look at the ending. It often tells you.",
   other: "The ending doesn't help here. Take a guess, then learn it.",
-  number: "Is it one thing or more? Then look at the ending.",
+  number: "One thing or more? Then: le word or la word?",
+  vowel: "One thing or more? A vowel at the start?",
+  elided: "L' hides the gender. Un or une?",
 };
+/* Endings that are a good bet (with exceptions: la page, la plage, l'eau, la peau, le lycée).
+   Only for the hint "look at the ending", never to decide anything. */
+const TELLING_ENDING = /(tion|sion|té|ette|ure|ence|ance|ment|age|eau|isme)$/;
 const articleHint = (noun, options) =>
-  options?.some((o) => /^(los|las|unos|unas)$/.test(o))
-    ? ARTICLE_HINT.number
-    : /[oa]$/.test(noun)
-      ? ARTICLE_HINT.ending
-      : ARTICLE_HINT.other;
+  options?.includes("l'")
+    ? ARTICLE_HINT.vowel
+    : options?.some((o) => /^(les|des)$/.test(o))
+      ? ARTICLE_HINT.number
+      : TELLING_ENDING.test(noun)
+        ? ARTICLE_HINT.ending
+        : ARTICLE_HINT.other;
 
-/** The plural as the learner says it: los libros, las casas, los/las estudiantes, las aguas. */
-const pluralWithArticle = (w) => {
-  if (!w.plural || !w.gender) return null;
-  const article = w.gender === "el/la" ? "los/las" : w.gender === "la" || w.genus === "f" ? "las" : "los";
-  return `${article} ${w.plural}`;
+/** Article + noun as written: l'école with no space after l', une école, les amis. */
+export const joinArticle = (article, noun) => (/'$/.test(article) ? `${article}${noun}` : `${article} ${noun}`);
+
+/** The noun with its article as the learner says it: le livre, l'école, les lunettes. */
+const frontWithArticle = (w) => {
+  if (!w.gender) return w.lemma;
+  if (w.gender === "les") return `les ${w.pluralOnly && w.plural ? w.plural : w.lemma}`;
+  return joinArticle(w.gender, w.lemma);
 };
+
+/** The plural as the learner says it: always les (les livres, les écoles, les fils). */
+const pluralWithArticle = (w) => (w.plural && w.gender ? `les ${w.plural}` : null);
 
 /* Table exercises whose placeholder lists articles become article tasks (same screen,
-   same helper). Each entry is the placeholder as written in the grammar topic files. */
-const ARTICLE_PLACEHOLDERS = ["el / la", "el / la / los / las", "un / una", "un / una / unos / unas"];
+   same helper). Each entry is the placeholder as written in the grammar topic files.
+   "le / la / l' / les" has four, so a path task on it must bring three "options" itself. */
+const ARTICLE_PLACEHOLDERS = ["le / la", "le / la / l'", "le / la / l' / les", "un / une", "un / une / des"];
 
 /* A screen has three options at most, so an item's longer `choices` list needs "options" on the task. */
 const itemChoices = (item) => (item.choices?.length >= 2 && item.choices.length <= 3 ? item.choices : undefined);
@@ -90,7 +108,7 @@ function exerciseItems(ex) {
   return ex.type === "fill" ? ex.items : ex.type === "table" ? ex.rows : ex.type === "build" ? ex.sentences : null;
 }
 
-/** Split "Ich ___ Lehrerin." into before/after around the gap. */
+/** Split "Je ___ infirmière." into before/after around the gap. */
 function splitGap(prompt) {
   const clean = String(prompt).replace(/<[^>]+>/g, "");
   const i = clean.indexOf("___");
@@ -178,7 +196,7 @@ export function lookup(ref, sources) {
 
 /**
  * One path task → the object the view renders. Fields written on the path task
- * (`hint`, `options`, `why`) win over what the source offers; the Spanish the learner
+ * (`hint`, `options`, `why`) win over what the source offers; the French the learner
  * reads as the exercise itself comes from the source.
  */
 export function resolveTask(task, sources) {
@@ -193,30 +211,43 @@ export function resolveTask(task, sources) {
     if (task.type === "wort") {
       return {
         ...base,
-        // "la casa" with "las casas" under it, "el lunes" with "los lunes". A verb has neither,
-        // and "las gafas" is a plural already, so it has no second line.
-        front: w.pluralOnly ? pluralWithArticle(w) : w.gender ? `${w.gender} ${w.lemma}` : w.lemma,
+        // "la maison" with "les maisons" under it, "l'école" with "les écoles". A verb has
+        // neither, and "les lunettes" is a plural already, so it has no second line.
+        front: frontWithArticle(w),
         plural: w.pluralOnly ? null : pluralWithArticle(w),
         back: w.en,
         hint: task.hint || w.example,
-        // The fallback hint is the lexicon's Spanish example; written hints are English.
-        ...(task.hint ? {} : { hintLang: "es" }),
+        // The fallback hint is the lexicon's French example; written hints are English.
+        ...(task.hint ? {} : { hintLang: "fr" }),
         audio: w.audio ? `/audio/wortschatz/${w.audio}.mp3` : null,
       };
     }
-    // el/la estudiante takes both and las gafas has no singular, so there is nothing to ask.
-    if ((w.gender !== "el" && w.gender !== "la") || w.pluralOnly) throw new Error(`${task.ref}: artikel task needs a singular noun with gender el or la`);
+    // le/la journaliste takes both and les lunettes has no singular, so there is nothing to ask.
+    if (w.pluralOnly || !["le", "la", "l'"].includes(w.gender)) {
+      throw new Error(`${task.ref}: artikel task needs a singular noun with gender le, la or l'`);
+    }
+    if (w.gender === "l'") {
+      // l' gives nothing away, so an elided noun is asked as un / une (content-plan §5.9).
+      if (w.genus !== "m" && w.genus !== "f") throw new Error(`${task.ref}: artikel task on an l' noun needs genus m or f`);
+      const answer = w.genus === "f" ? "une" : "un";
+      return {
+        ...base,
+        noun: w.lemma,
+        answer,
+        options: ["un", "une"],
+        back: w.en,
+        hint: task.hint || ARTICLE_HINT.elided,
+        why: task.why || `We say: ${answer} ${w.lemma} (and l'${w.lemma}).`,
+      };
+    }
     return {
       ...base,
       noun: w.lemma,
       answer: w.gender,
+      options: ["le", "la"],
       back: w.en,
       hint: task.hint || articleHint(w.lemma),
-      why:
-        task.why ||
-        (w.genus === "f"
-          ? `We say: el ${w.lemma}. The word is feminine (las ${w.plural}), but it starts with a stressed a.`
-          : `We say: ${w.gender} ${w.lemma}.`),
+      why: task.why || `We say: ${w.gender} ${w.lemma}.`,
     };
   }
 
@@ -246,10 +277,10 @@ export function resolveTask(task, sources) {
         before = "";
         after = term;
       } else if (term.includes("___")) {
-        // The row brings its own gap: "¿___ hora es?" must not show a second one.
+        // The row brings its own gap: "___ heure est-il ?" must not show a second one.
         ({ before, after } = splitGap(term));
       } else if (term.includes(" · ")) {
-        // "ella · vivir" → ella ___ (vivir). The person comes first, or it reads badly.
+        // "elle · finir" → elle ___ (finir). The person comes first, or it reads badly.
         const [who, verb] = term.split(" · ");
         before = who;
         after = `(${verb})`;
@@ -264,7 +295,7 @@ export function resolveTask(task, sources) {
       why = src.item.why || src.ex.hint;
       if (isArticle) {
         // An article row is an artikel task, whatever the path calls it: same screen,
-        // same helper, labelled "el or la?" instead of "Sentence". It counts toward its
+        // same helper, labelled "un or une?" instead of "Sentence". It counts toward its
         // own topic (nomen or artikel).
         const opts = task.options || options;
         if (!opts) throw new Error(`${task.ref}: no options — add "options" to the path task`);
@@ -277,7 +308,7 @@ export function resolveTask(task, sources) {
           options: opts,
           back: "",
           hint: task.hint || articleHint(term, opts),
-          why: task.why || `We say: ${answers[0]} ${term}.`,
+          why: task.why || `We say: ${joinArticle(answers[0], term)}.`,
         };
       }
     } else {
@@ -293,7 +324,7 @@ export function resolveTask(task, sources) {
   if (task.type === "satz") {
     if (src.kind !== "gram" || src.ex.type !== "build") throw new Error(`${task.ref}: a satz task needs a build item`);
     const { words, end } = buildTiles(src.item.correct);
-    // A second right order counts too: Spanish word order is freer than one solution suggests.
+    // A second right order counts too: "Demain, je travaille" and "Je travaille demain" are both right.
     const alts = (src.item.alt || []).map((a) => buildTiles(a).words);
     return {
       ...base,

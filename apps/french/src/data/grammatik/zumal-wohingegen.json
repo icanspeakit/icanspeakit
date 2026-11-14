@@ -1,84 +1,170 @@
 {
   "id": "zumal-wohingegen",
-  "name": "Reported speech with tense shifts",
+  "name": "Reported speech: Il a dit qu'il viendrait le lendemain",
   "level": "B2",
   "status": "entwurf",
-  "variety": "es-ES",
-  "es419": { "note": "The shifts are the same in Latin America. Reporting with me dijo is more common there than me ha dicho, and ustedes replaces vosotros." },
-  "subtitle": "When you report with a past verb (dijo que…), the verb usually moves one step back: vivo → vivía, he llamado → había llamado, vendré → vendría. Orders and wishes take the imperfect subjunctive: ¡Ven! → Me pidió que fuera.",
-  "briefMarks": ["dijo que", "vivía", "había llamado", "vendría", "fuera"],
-  "source": "icanspeak Spanish original text (grammar-b2 run, 2026-11-04)",
+  "variety": "fr-FR",
+  "subtitle": "After a reporting verb in the present, the tenses stay the same: Il dit qu'il vient. After a past reporting verb, they shift back: Il a dit qu'il viendrait le lendemain. Commands become de + infinitive (Il m'a demandé de rappeler) and questions use si, ce que, ce qui or où, without inversion. Pronouns, possessives and time words change too.",
+  "briefMarks": [
+    "il dit que",
+    "il a dit que",
+    "présent → imparfait",
+    "futur → conditionnel",
+    "de + infinitif",
+    "si · ce que · ce qui",
+    "demain → le lendemain",
+    "hier → la veille"
+  ],
+  "source": "icanspeak French original text (grammar-b2 run, 2026-11-08)",
   "concept": {
     "flow": [
-      { "text": "dijo que · me pidió que · preguntó si", "variant": "prep" },
-      { "text": "vivía · había llamado · vendría · fuera", "variant": "verb" }
-    ],
-    "exampleHtml": "“Vivo en Vigo.” → <span class=\"vp-prep\">Dijo que</span> <span class=\"vp-verb\">vivía</span> en Vigo. · “Vendré mañana.” → <span class=\"vp-prep\">Dijo que</span> <span class=\"vp-verb\">vendría</span> al día siguiente. · “¡Ven!” → <span class=\"vp-prep\">Me pidió que</span> <span class=\"vp-verb\">fuera</span>.",
-    "qa": [
       {
-        "html": "<strong>One step back.</strong> After a past verb: present → imperfect (<em>vivo → vivía</em>), <em>perfecto</em> and <em>indefinido</em> → pluperfect (<em>he llamado, llamé → había llamado</em>), future → conditional (<em>vendré → vendría</em>), <em>voy a → iba a</em>. In speech the <em>indefinido</em> often stays: <em>Dijo que llamó ayer.</em>",
-        "tag": "The shifts"
+        "text": "il dit que · il a dit que",
+        "variant": "verb"
       },
       {
-        "html": "<strong>These don't change:</strong> imperfect, conditional, pluperfect. <em>“Trabajaba en un bar.” → Dijo que trabajaba en un bar.</em>",
+        "text": "tense shift back",
+        "variant": "verb"
+      },
+      {
+        "text": "pronouns · time words"
+      }
+    ],
+    "exampleHtml": "Il <span class=\"vp-verb\">dit</span> qu'il vient demain. · Il <span class=\"vp-verb\">a dit</span> qu'il <span class=\"vp-verb\">viendrait</span> <span class=\"vp-prep\">le lendemain</span>. · Elle m'a demandé <span class=\"vp-prep\">de</span> rappeler. · Il m'a demandé <span class=\"vp-prep\">si</span> j'<span class=\"vp-verb\">avais fini</span>.",
+    "qa": [
+      {
+        "html": "<strong>Reporting verb in the present</strong> (or the futur): <strong>no tense change</strong>. <em>« Je viens demain. » → Il dit qu'il vient demain.</em> Only the pronouns change.",
+        "tag": "il dit que"
+      },
+      {
+        "html": "<strong>Reporting verb in the past</strong>: the tense shifts back. <strong>présent → imparfait</strong>, <strong>passé composé → plus-que-parfait</strong>, <strong>futur simple → conditionnel présent</strong>, <strong>futur proche → <em>allait</em> + infinitive</strong>. <em>« Je finis. » → Il a dit qu'il finissait. « J'ai fini. » → …qu'il avait fini. « Je finirai. » → …qu'il finirait. « Je vais finir. » → …qu'il allait finir.</em>",
+        "tag": "il a dit que"
+      },
+      {
+        "html": "What does <strong>not</strong> shift: the <strong>imparfait</strong> (<em>« J'habitais à Lyon. » → Elle a dit qu'elle habitait à Lyon</em>), the plus-que-parfait and the conditionnel stay as they are.",
         "tag": "No change"
       },
       {
-        "html": "<strong>Orders, requests, wishes.</strong> An imperative or a present subjunctive becomes imperfect subjunctive: <em>“Traiga el pasaporte.” → Me pidió que trajera el pasaporte. “Quiero que firmes.” → Dijo que quería que firmara.</em>",
-        "tag": "Orders"
+        "html": "<strong>Commands</strong> become <strong>de + infinitive</strong>, with <em>demander à qqn de, dire à qqn de, conseiller de</em>. <em>« Rappelez-moi demain. » → Il m'a demandé de le rappeler le lendemain.</em> Negative: <em>de ne pas</em> + infinitive (<em>Elle nous a dit de ne pas partir</em>).",
+        "tag": "Command → de + infinitif"
       },
       {
-        "html": "<strong>decir has two meanings.</strong> With the indicative it gives information: <em>Dijo que venía</em> (she said she was coming). With the subjunctive it gives an order: <em>Dijo que viniera</em> (she told me to come).",
-        "tag": "decir + mood"
-      },
-      {
-        "html": "<strong>Questions.</strong> Use <em>si</em> for yes/no, and keep the question word (with its accent) for the rest: <em>Me preguntó si tenía el NIE. Me preguntó dónde vivía.</em>",
+        "html": "<strong>Questions</strong>: no inversion, no <em>est-ce que</em>, no question mark. Yes/no → <strong>si</strong> (<em>Il m'a demandé si j'avais fini</em>). <em>Qu'est-ce que</em> → <strong>ce que</strong>, <em>qu'est-ce qui</em> → <strong>ce qui</strong>. <em>où, quand, pourquoi, comment</em> and <em>qui</em> stay. <em>Elle m'a demandé ce que je voulais. Il a demandé où nous habitions.</em>",
         "tag": "Questions"
       },
       {
-        "html": "<strong>Other words change too:</strong> people (<em>mi → su</em>), time (<em>hoy → ese día, mañana → al día siguiente, ayer → el día anterior</em>), place (<em>aquí → allí, venir → ir</em>, if you are no longer in that place; if you are, they stay). If it is still true, or you report with <em>dice</em> or <em>me ha dicho</em>, the tense may stay: <em>Dijo que vive en Madrid. Me ha dicho que viene.</em>",
-        "tag": "Other changes"
+        "html": "<strong>Pronouns and possessives</strong> follow the new speaker: <em>je → il / elle, mon → son, nous → ils, ici → là.</em> <strong>Time words</strong> move to the day of the story: <em>demain → le lendemain, hier → la veille, aujourd'hui → ce jour-là, la semaine prochaine → la semaine suivante</em> (also <em>la semaine dernière → la semaine précédente</em>, <em>maintenant → à ce moment-là</em>). If you report on the same day, you may keep <em>demain</em> and <em>hier</em>.",
+        "tag": "Pronouns, time words"
+      },
+      {
+        "html": "<strong>Reporting verbs</strong> add meaning: <em>expliquer que, répondre que, affirmer que, ajouter que</em> + clause; <em>promettre</em> + <em>de</em> + infinitive or <em>que</em> + conditionnel (<em>Il a promis de venir. Il a promis qu'il viendrait.</em>); <em>demander si / de</em>.",
+        "tag": "Reporting verbs"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>Me dijo que venía</em> for an order → ✓ <em>Me dijo que viniera</em>. ✗ <em>Dijo que vendrá al día siguiente</em> → ✓ <em>vendría</em>. ✗ <em>Me preguntó que si dónde vivía</em> → ✓ <em>Me preguntó dónde vivía</em>. ✗ <em>Me pidió que lo llamaba</em> → ✓ <em>que lo llamara</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>Il a dit qu'il viendra</em> → ✓ <em>qu'il viendrait</em>. ✗ <em>Elle a dit qu'elle a fini hier</em> → ✓ <em>qu'elle avait fini la veille</em>. ✗ <em>Il m'a demandé qu'est-ce que je voulais</em> → ✓ <em>ce que je voulais</em>. ✗ <em>Elle m'a demandé si est-ce que je venais</em> → ✓ <em>si je venais</em>. ✗ <em>Il m'a dit rappeler</em> → ✓ <em>de rappeler</em>. Related: <a href=\"/indirect-questions\">indirect questions</a>, <a href=\"/imparfait\">imparfait</a>, <a href=\"/conditional\">conditionnel</a>, <a href=\"/plus-que-parfait\">plus-que-parfait</a>, <a href=\"/futur-simple\">futur simple</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "From what they said to dijo que…",
-          "head": ["They said", "Tense", "You report"],
+          "caption": "Tense shift after a past reporting verb",
+          "head": [
+            "Direct speech",
+            "Reported speech"
+          ],
           "rows": [
-            ["Vivo en Vigo.", "present → imperfect", "Dijo que vivía en Vigo."],
-            ["He llamado.", "perfecto → pluperfect", "Dijo que había llamado."],
-            ["Firmé ayer.", "indefinido → pluperfect", "Dijo que había firmado el día anterior."],
-            ["Vendré.", "future → conditional", "Dijo que vendría."],
-            ["Voy a llamar.", "ir a → iba a", "Dijo que iba a llamar."],
-            ["Trabajaba mucho.", "imperfect stays", "Dijo que trabajaba mucho."],
-            ["¡Ven! / Quiero que vengas.", "imperative, subjunctive → imperfect subjunctive", "Me pidió que fuera. / Dijo que quería que fuera."]
+            [
+              "« Je travaille. »",
+              "Il a dit qu'il travaillait."
+            ],
+            [
+              "« J'ai fini. »",
+              "Il a dit qu'il avait fini."
+            ],
+            [
+              "« Je partirai. »",
+              "Il a dit qu'il partirait."
+            ],
+            [
+              "« Je vais partir. »",
+              "Il a dit qu'il allait partir."
+            ],
+            [
+              "« J'habitais à Lyon. »",
+              "Il a dit qu'il habitait à Lyon."
+            ]
           ]
         },
         {
-          "caption": "Time and place",
-          "head": ["They said", "You report"],
+          "caption": "Time words",
+          "head": [
+            "Direct",
+            "Reported"
+          ],
           "rows": [
-            ["hoy", "ese día"],
-            ["mañana", "al día siguiente"],
-            ["ayer", "el día anterior"],
-            ["ahora", "entonces"],
-            ["la semana que viene", "la semana siguiente"],
-            ["aquí", "allí"]
+            [
+              "aujourd'hui",
+              "ce jour-là"
+            ],
+            [
+              "demain",
+              "le lendemain"
+            ],
+            [
+              "hier",
+              "la veille"
+            ],
+            [
+              "la semaine prochaine",
+              "la semaine suivante"
+            ],
+            [
+              "la semaine dernière",
+              "la semaine précédente"
+            ],
+            [
+              "maintenant · ici",
+              "à ce moment-là · là"
+            ]
+          ]
+        },
+        {
+          "caption": "Questions and commands",
+          "head": [
+            "Direct",
+            "Reported"
+          ],
+          "rows": [
+            [
+              "« Tu as fini ? »",
+              "Il m'a demandé si j'avais fini."
+            ],
+            [
+              "« Qu'est-ce que vous voulez ? »",
+              "Elle m'a demandé ce que je voulais."
+            ],
+            [
+              "« Qu'est-ce qui s'est passé ? »",
+              "Il a demandé ce qui s'était passé."
+            ],
+            [
+              "« Où habitez-vous ? »",
+              "Il m'a demandé où j'habitais."
+            ],
+            [
+              "« Rappelez-moi. »",
+              "Il m'a demandé de le rappeler."
+            ]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Careful: decir",
+          "badge": "Remember",
           "variant": "dat",
           "items": [
-            "Information: Dijo que venía.",
-            "Order: Dijo que viniera.",
-            "With -se too: Dijo que viniese."
+            "il dit que: no shift · il a dit que: présent → imparfait, passé composé → plus-que-parfait, futur → conditionnel",
+            "command → de + infinitif · yes/no question → si"
           ]
         }
       ]
@@ -86,43 +172,120 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Dijo que vivía en Vigo.", "note": "vivo → vivía." },
-      { "text": "Me contó que había llamado al casero.", "note": "he llamado → había llamado." },
-      { "text": "Prometió que vendría al día siguiente.", "note": "vendré → vendría; mañana → al día siguiente." },
-      { "text": "El funcionario me pidió que trajera el pasaporte.", "note": "An order: imperfect subjunctive." },
-      { "text": "Me preguntó si tenía el NIE.", "note": "A yes/no question: si." }
+      {
+        "text": "Il dit qu'il vient.",
+        "note": "Reporting verb in the present: no shift."
+      },
+      {
+        "text": "Il a dit qu'il viendrait.",
+        "note": "futur → conditionnel after a past reporting verb."
+      },
+      {
+        "text": "Elle m'a demandé de rappeler le lendemain.",
+        "note": "Command → de + infinitive; demain → le lendemain."
+      },
+      {
+        "text": "Il m'a demandé si j'avais fini.",
+        "note": "Yes/no question → si; passé composé → plus-que-parfait."
+      },
+      {
+        "text": "Léa a expliqué qu'elle avait appelé la veille.",
+        "note": "hier → la veille."
+      }
     ],
     "hoeren": {
-      "instruction": "Listen and choose the sentence you heard. Is it information or an order?",
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Dijo que venía.", "choices": ["Dijo que viniera.", "Dijo que venía.", "Dijo que vendrá."], "correct": 1 },
-        { "text": "Me dijo que firmara.", "choices": ["Me dijo que firmara.", "Me dijo que firmaba.", "Me dijo que firmaría."], "correct": 0 },
-        { "text": "Dijo que había pagado.", "choices": ["Dijo que pagaba.", "Dijo que pagaría.", "Dijo que había pagado."], "correct": 2 },
-        { "text": "Me preguntó dónde vivía.", "choices": ["Me preguntó dónde vivía.", "Me preguntó si vivía aquí.", "Me dijo dónde vivía."], "correct": 0 }
+        {
+          "text": "Il a dit qu'il viendrait le lendemain.",
+          "choices": [
+            "Il a dit qu'il viendra le lendemain.",
+            "Il a dit qu'il viendrait le lendemain.",
+            "Il a dit qu'il venait le lendemain."
+          ],
+          "correct": 1
+        },
+        {
+          "text": "Elle m'a demandé si j'avais fini.",
+          "choices": [
+            "Elle m'a demandé si j'avais fini.",
+            "Elle m'a demandé de finir.",
+            "Elle m'a demandé si je finissais."
+          ],
+          "correct": 0
+        },
+        {
+          "text": "Il a expliqué qu'il avait raté le train.",
+          "choices": [
+            "Il explique qu'il rate le train.",
+            "Il a expliqué qu'il ratait le train.",
+            "Il a expliqué qu'il avait raté le train."
+          ],
+          "correct": 2
+        },
+        {
+          "text": "Le médecin a demandé ce qui s'était passé.",
+          "choices": [
+            "Le médecin demande ce qui se passe.",
+            "Le médecin a demandé ce qui s'était passé.",
+            "Le médecin a demandé ce qui se passait."
+          ],
+          "correct": 1
+        }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Report what they said",
-          "instruction": "You hear what someone said. Report it: Dijo que…",
-          "example": { "prompt": "Tengo trabajo.", "answer": "Dijo que tenía trabajo." },
+          "label": "1 · Report a statement",
+          "instruction": "You hear what Hugo said. Report it: Hugo a dit que…",
+          "example": {
+            "prompt": "« Je suis fatigué. »",
+            "answer": "Hugo a dit qu'il était fatigué."
+          },
           "items": [
-            { "prompt": "He pagado.", "answer": "Dijo que había pagado." },
-            { "prompt": "Iré el lunes.", "answer": "Dijo que iría el lunes." },
-            { "prompt": "Voy a llamar.", "answer": "Dijo que iba a llamar." },
-            { "prompt": "No puedo.", "answer": "Dijo que no podía." }
+            {
+              "prompt": "« J'ai fini. »",
+              "answer": "Hugo a dit qu'il avait fini."
+            },
+            {
+              "prompt": "« Je partirai demain. »",
+              "answer": "Hugo a dit qu'il partirait le lendemain."
+            },
+            {
+              "prompt": "« Je vais déménager. »",
+              "answer": "Hugo a dit qu'il allait déménager."
+            },
+            {
+              "prompt": "« Mon contrat est signé. »",
+              "answer": "Hugo a dit que son contrat était signé."
+            }
           ]
         },
         {
-          "label": "2 · Report an order",
-          "instruction": "You hear an order to you. Report it later, from another place: Me dijo que… Change the time and place words too.",
-          "example": { "prompt": "Ven pronto.", "answer": "Me dijo que fuera pronto." },
+          "label": "2 · Report a command or a question",
+          "instruction": "You hear what Mme Lefèvre said to you. Report it: Mme Lefèvre m'a demandé…",
+          "example": {
+            "prompt": "« Venez demain. »",
+            "answer": "Mme Lefèvre m'a demandé de venir le lendemain."
+          },
           "items": [
-            { "prompt": "Espera aquí.", "answer": "Me dijo que esperara allí." },
-            { "prompt": "Llama mañana.", "answer": "Me dijo que llamara al día siguiente." },
-            { "prompt": "Firma hoy.", "answer": "Me dijo que firmara ese día." },
-            { "prompt": "No corras.", "answer": "Me dijo que no corriera." }
+            {
+              "prompt": "« Apportez le bail. »",
+              "answer": "Mme Lefèvre m'a demandé d'apporter le bail."
+            },
+            {
+              "prompt": "« Avez-vous un justificatif ? »",
+              "answer": "Mme Lefèvre m'a demandé si j'avais un justificatif."
+            },
+            {
+              "prompt": "« Qu'est-ce que vous cherchez ? »",
+              "answer": "Mme Lefèvre m'a demandé ce que je cherchais."
+            },
+            {
+              "prompt": "« Où habitez-vous ? »",
+              "answer": "Mme Lefèvre m'a demandé où j'habitais."
+            }
           ]
         }
       ]
@@ -131,90 +294,487 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Information: one step back.",
-      "hint": "Read what the person said, then move the verb one step back.",
+      "title": "The tense shift.",
+      "hint": "After a past reporting verb: présent → imparfait, passé composé → plus-que-parfait, futur → conditionnel, futur proche → allait + infinitive.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "“Vivo en Vigo.” → Marta dijo que ___ en Vigo.", "hint": "vivir", "answer": ["vivía", "vive"], "choices": ["vivió", "vivía", "viviría"], "why": "Present → imperfect. If she still lives there, vive is also possible." },
-        { "prompt": "“He llamado al casero.” → Dijo que ___ al casero.", "hint": "él, llamar", "answer": ["había llamado", "llamó"], "choices": ["había llamado", "habría llamado", "llamaba"], "why": "Perfecto → pluperfect." },
-        { "prompt": "“Vendré mañana.” → Dijo que ___ al día siguiente.", "hint": "venir", "answer": ["vendría", "iría"], "choices": ["vino", "vendría", "viniera"], "why": "Future → conditional. viniera would be an order." },
-        { "prompt": "“Voy a cambiar de piso.” → Me contó que ___ a cambiar de piso.", "hint": "ella, ir a", "answer": "iba", "choices": ["fue", "vaya", "iba"], "why": "voy a → iba a.", "es419": { "note": "In Latin America: cambiar de departamento." } },
-        { "prompt": "“Trabajaba en un bar.” → Dijo que ___ en un bar.", "hint": "trabajar", "answer": "trabajaba", "choices": ["trabajaba", "trabajaría", "trabaje"], "why": "The imperfect stays." },
-        { "prompt": "“Te ayudaría, pero no puedo.” → Me dijo que me ___, pero que no podía.", "hint": "ayudar", "answer": "ayudaría", "choices": ["ayudara", "ayudaría", "ayudará"], "why": "The conditional stays. ayudara would turn the offer into an order." },
-        { "prompt": "“Firmé ayer.” → Dijo que ___ el día anterior.", "hint": "firmar", "answer": ["había firmado", "firmó"], "choices": ["firmaba", "firmaría", "había firmado"], "why": "Indefinido → pluperfect; in speech firmó also stays." }
+        {
+          "prompt": "Léa a dit : « Je suis fatiguée. » → Léa a dit qu'elle ___ fatiguée.",
+          "hint": "être",
+          "answer": "était",
+          "choices": [
+            "était",
+            "est",
+            "sera"
+          ]
+        },
+        {
+          "prompt": "Karim a dit : « J'ai trouvé un stage. » → Karim a dit qu'il ___ trouvé un stage.",
+          "hint": "avoir",
+          "answer": "avait",
+          "choices": [
+            "avait",
+            "a",
+            "aurait"
+          ]
+        },
+        {
+          "prompt": "Mme Lefèvre a dit : « Je rappellerai demain. » → Elle a dit qu'elle ___ le lendemain.",
+          "hint": "rappeler",
+          "answer": "rappellerait",
+          "choices": [
+            "rappellerait",
+            "rappellera",
+            "rappelait"
+          ]
+        },
+        {
+          "prompt": "Nathan a dit : « Je vais déménager. » → Nathan a dit qu'il ___ déménager.",
+          "hint": "aller",
+          "answer": "allait",
+          "choices": [
+            "allait",
+            "va",
+            "irait"
+          ]
+        },
+        {
+          "prompt": "Inès a dit : « Je travaillais à Lyon. » → Inès a dit qu'elle ___ à Lyon.",
+          "hint": "travailler (the imparfait stays)",
+          "answer": "travaillait",
+          "choices": [
+            "travaillait",
+            "travaille",
+            "travaillerait"
+          ]
+        }
       ]
     },
     {
       "type": "fill",
-      "title": "Orders and wishes: imperfect subjunctive.",
-      "hint": "An order or a wish in the past report takes the imperfect subjunctive. All of these were said some time ago.",
+      "title": "Commands and questions.",
+      "hint": "Command → de + infinitive. Yes/no → si. Qu'est-ce que → ce que. Qu'est-ce qui → ce qui.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "“¡Ven a mi despacho!” → La jefa me dijo que ___ a su despacho.", "hint": "ir", "answer": ["fuera", "fuese"], "choices": ["fuera", "iba", "iría"], "why": "An order. iba would only report information." },
-        { "prompt": "“Traiga el pasaporte.” → El funcionario me pidió que ___ el pasaporte.", "hint": "traer", "answer": ["trajera", "trajese"], "choices": ["traía", "trajera", "traería"], "why": "pedir que + imperfect subjunctive." },
-        { "prompt": "“No llegues tarde.” → Mi madre me dijo que no ___ tarde.", "hint": "llegar", "answer": ["llegara", "llegase"], "choices": ["llegaba", "llegaría", "llegara"], "why": "A negative order: imperfect subjunctive." },
-        { "prompt": "“Quiero que firmes hoy.” → Dijo que quería que ___ ese día.", "hint": "yo, firmar", "answer": ["firmara", "firmase"], "choices": ["firmara", "firmaba", "firmaría"], "why": "A present subjunctive shifts to the imperfect subjunctive." },
-        { "prompt": "“Espero que mejores pronto.” → El médico dijo que esperaba que ___ pronto.", "hint": "yo, mejorar", "answer": ["mejorara", "mejorase"], "choices": ["mejoraba", "mejorara", "mejoraría"], "why": "A wish: imperfect subjunctive." },
-        { "prompt": "“Venid a las ocho.” → Nos dijeron que ___ a las ocho.", "hint": "nosotros, ir", "answer": ["fuéramos", "fuésemos", "viniéramos", "viniésemos"], "choices": ["íbamos", "iríamos", "fuéramos"], "why": "An order: imperfect subjunctive.", "es419": { "note": "In Latin America they say: Vengan a las ocho.", "skip": true } }
+        {
+          "prompt": "« Rappelez-moi demain. » → Il m'a demandé ___ rappeler le lendemain.",
+          "hint": "to call back",
+          "answer": "de",
+          "choices": [
+            "de",
+            "que",
+            "à"
+          ]
+        },
+        {
+          "prompt": "« Ne partez pas ! » → Elle nous a dit ___ partir.",
+          "hint": "negative command",
+          "answer": "de ne pas",
+          "choices": [
+            "de ne pas",
+            "de pas",
+            "ne pas de"
+          ]
+        },
+        {
+          "prompt": "« Tu as fini ? » → Il m'a demandé ___ j'avais fini.",
+          "hint": "yes/no question",
+          "answer": "si",
+          "choices": [
+            "si",
+            "ce que",
+            "que"
+          ]
+        },
+        {
+          "prompt": "« Qu'est-ce que vous voulez ? » → Elle m'a demandé ___ je voulais.",
+          "hint": "what (object)",
+          "answer": "ce que",
+          "choices": [
+            "ce que",
+            "qu'est-ce que",
+            "ce qui"
+          ]
+        },
+        {
+          "prompt": "« Qu'est-ce qui s'est passé ? » → Le médecin a demandé ___ s'était passé.",
+          "hint": "what (subject)",
+          "answer": "ce qui",
+          "choices": [
+            "ce qui",
+            "ce que",
+            "qu'est-ce qui"
+          ]
+        },
+        {
+          "prompt": "« Où habitez-vous ? » → Il a demandé où nous ___.",
+          "hint": "habiter",
+          "answer": "habitions",
+          "choices": [
+            "habitions",
+            "habitons",
+            "habiterions"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "Time words and possessives.",
+      "hint": "Report from a later day: demain → le lendemain, hier → la veille, aujourd'hui → ce jour-là.",
+      "placeholder": "Form",
+      "items": [
+        {
+          "prompt": "« Je viens demain. » → Il a dit qu'il viendrait ___.",
+          "hint": "told later",
+          "answer": "le lendemain",
+          "choices": [
+            "le lendemain",
+            "demain",
+            "la veille"
+          ]
+        },
+        {
+          "prompt": "« J'ai appelé hier. » → Elle a dit qu'elle avait appelé ___.",
+          "hint": "told later",
+          "answer": "la veille",
+          "choices": [
+            "la veille",
+            "hier",
+            "le lendemain"
+          ]
+        },
+        {
+          "prompt": "« Je suis libre aujourd'hui. » → Il a dit qu'il était libre ___.",
+          "hint": "told later",
+          "answer": "ce jour-là",
+          "choices": [
+            "ce jour-là",
+            "aujourd'hui",
+            "ce jour"
+          ]
+        },
+        {
+          "prompt": "« On part la semaine prochaine. » → Ils ont dit qu'ils partaient ___.",
+          "hint": "told a month later",
+          "answer": "la semaine suivante",
+          "choices": [
+            "la semaine suivante",
+            "la semaine prochaine",
+            "la semaine dernière"
+          ]
+        },
+        {
+          "prompt": "Wei a dit : « Mon dossier est complet. » → Wei a dit que ___ dossier était complet.",
+          "hint": "his",
+          "answer": "son",
+          "choices": [
+            "son",
+            "mon",
+            "votre"
+          ]
+        }
       ]
     },
     {
       "type": "table",
-      "title": "Information or order?",
-      "hint": "Read the English. Is it a piece of information, an order, or a question?",
-      "columns": ["In English", "In Spanish"],
-      "placeholder": "Sentence",
+      "title": "Direct speech to reported speech.",
+      "hint": "Complete: Il a dit qu'il …",
+      "columns": [
+        "Direct speech",
+        "Il a dit qu'il …"
+      ],
+      "placeholder": "Form",
       "rows": [
-        { "term": "She said she was coming.", "answer": "Dijo que venía.", "choices": ["Dijo que venía.", "Dijo que viniera.", "Dijo si venía."] },
-        { "term": "She told us to come.", "answer": "Nos dijo que viniéramos.", "choices": ["Nos dijo que veníamos.", "Nos dijo que viniéramos.", "Nos dijo que vendríamos."] },
-        { "term": "He said he had paid.", "answer": "Dijo que había pagado.", "choices": ["Dijo que pagara.", "Dijo que pagaría.", "Dijo que había pagado."] },
-        { "term": "He told me to pay.", "answer": "Me dijo que pagara.", "choices": ["Me dijo que pagara.", "Me dijo que pagaba.", "Me dijo que había pagado."] },
-        { "term": "They asked me if I had the NIE.", "answer": "Me preguntaron si tenía el NIE.", "choices": ["Me preguntaron que tenía el NIE.", "Me preguntaron si tenía el NIE.", "Me preguntaron si tuviera el NIE."] },
-        { "term": "She asked where I lived.", "answer": "Me preguntó dónde vivía.", "choices": ["Me preguntó que vivía.", "Me preguntó dónde viviera.", "Me preguntó dónde vivía."] }
+        {
+          "term": "« Je travaille. »",
+          "answer": "travaillait",
+          "choices": [
+            "travaillait",
+            "travaille",
+            "travaillera"
+          ]
+        },
+        {
+          "term": "« J'ai fini. »",
+          "answer": "avait fini",
+          "choices": [
+            "avait fini",
+            "a fini",
+            "finissait"
+          ]
+        },
+        {
+          "term": "« Je partirai. »",
+          "answer": "partirait",
+          "choices": [
+            "partirait",
+            "partira",
+            "partait"
+          ]
+        },
+        {
+          "term": "« Je vais partir. »",
+          "answer": "allait partir",
+          "choices": [
+            "allait partir",
+            "va partir",
+            "irait partir"
+          ]
+        },
+        {
+          "term": "« J'étais malade. »",
+          "answer": "était malade",
+          "choices": [
+            "était malade",
+            "est malade",
+            "sera malade"
+          ]
+        }
       ]
     },
     {
       "type": "match",
-      "title": "Time and place words.",
-      "hint": "What do they become in a report about the past?",
+      "title": "Match the direct speech and the report.",
+      "hint": "Look at the type of sentence: statement, promise, command, question.",
       "pairs": [
-        { "q": "hoy", "a": "ese día" },
-        { "q": "mañana", "a": "al día siguiente" },
-        { "q": "ayer", "a": "el día anterior" },
-        { "q": "ahora", "a": "entonces" },
-        { "q": "la semana que viene", "a": "la semana siguiente" },
-        { "q": "aquí", "a": "allí" }
+        {
+          "q": "« Rappelez-moi demain. »",
+          "a": "Il m'a demandé de le rappeler le lendemain."
+        },
+        {
+          "q": "« Je viendrai demain, c'est promis. »",
+          "a": "Il a promis qu'il viendrait le lendemain."
+        },
+        {
+          "q": "« Tu as fini ? »",
+          "a": "Il m'a demandé si j'avais fini."
+        },
+        {
+          "q": "« Qu'est-ce que tu cherches ? »",
+          "a": "Il m'a demandé ce que je cherchais."
+        },
+        {
+          "q": "« Je suis en retard. »",
+          "a": "Il a expliqué qu'il était en retard."
+        }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: the landlord called.",
-      "hint": "Is it information, an order or a question?",
-      "choices": ["podía", "dejara", "vendría", "si", "había hablado"],
+      "title": "Fill the gaps: Aïcha and her landlord.",
+      "hint": "A past reporting verb: shift the tenses back, use de + infinitive and si.",
+      "choices": [
+        "viendrait",
+        "de",
+        "apporterait",
+        "si",
+        "avait",
+        "viendra",
+        "que"
+      ],
       "segments": [
-        { "text": "Ayer me llamó el casero. Me dijo que el fontanero " },
-        { "blank": 0, "answer": "vendría" },
-        { "text": " el jueves, que ya " },
-        { "blank": 1, "answer": "había hablado" },
-        { "text": " con él y que yo no tenía que pagar nada. Me pidió que " },
-        { "blank": 2, "answer": "dejara" },
-        { "text": " una llave a la vecina. También me preguntó " },
-        { "blank": 3, "answer": "si" },
-        { "text": " iba a estar en casa por la tarde. Le dije que no " },
-        { "blank": 4, "answer": "podía" },
-        { "text": " porque tenía que trabajar." }
+        {
+          "text": "Hier, Aïcha a parlé avec M. Diallo, son propriétaire. Il lui a dit qu'il "
+        },
+        {
+          "blank": 0,
+          "answer": "viendrait"
+        },
+        {
+          "text": " le lendemain pour l'état des lieux. Elle lui a demandé "
+        },
+        {
+          "blank": 1,
+          "answer": "de"
+        },
+        {
+          "text": " prendre le bail avec lui. Il a promis qu'il "
+        },
+        {
+          "blank": 2,
+          "answer": "apporterait"
+        },
+        {
+          "text": " les documents. Elle a aussi demandé "
+        },
+        {
+          "blank": 3,
+          "answer": "si"
+        },
+        {
+          "text": " le loyer "
+        },
+        {
+          "blank": 4,
+          "answer": "avait"
+        },
+        {
+          "text": " augmenté. Il a expliqué que non."
+        }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
-      "hint": "Start with the reporting verb.",
+      "hint": "Past reporting verb: shift the tense back. Commands take de + infinitive.",
       "sentences": [
-        { "id": "rs1", "hint": "She said she lived in Vigo", "correct": ["Dijo", "que", "vivía", "en", "Vigo", "."], "shuffled": ["vivía", "Vigo", "que", ".", "Dijo", "en"] },
-        { "id": "rs2", "hint": "He told me to call him", "correct": ["Me", "dijo", "que", "lo", "llamara", "."], "shuffled": ["lo", "que", ".", "llamara", "Me", "dijo"] },
-        { "id": "rs3", "hint": "They asked me if I had the form", "correct": ["Me", "preguntaron", "si", "tenía", "el", "impreso", "."], "shuffled": ["tenía", "el", "Me", ".", "si", "impreso", "preguntaron"] },
-        { "id": "rs4", "hint": "The doctor told me to rest", "correct": ["El", "médico", "me", "dijo", "que", "descansara", "."], "shuffled": ["que", "médico", ".", "dijo", "El", "descansara", "me"], "alt": [["Me", "dijo", "el", "médico", "que", "descansara", "."]] },
-        { "id": "rs5", "hint": "He said he would come the next day", "correct": ["Dijo", "que", "vendría", "al", "día", "siguiente", "."], "shuffled": ["día", "vendría", "Dijo", ".", "siguiente", "que", "al"] }
+        {
+          "id": "rs1",
+          "hint": "He said he would come the next day",
+          "correct": [
+            "Il",
+            "a",
+            "dit",
+            "qu'il",
+            "viendrait",
+            "le",
+            "lendemain",
+            "."
+          ],
+          "shuffled": [
+            "lendemain",
+            "dit",
+            "Il",
+            ".",
+            "viendrait",
+            "le",
+            "a",
+            "qu'il"
+          ]
+        },
+        {
+          "id": "rs2",
+          "hint": "The doctor asked me to come back the following week",
+          "correct": [
+            "Le",
+            "médecin",
+            "m'a",
+            "demandé",
+            "de",
+            "revenir",
+            "la",
+            "semaine",
+            "suivante",
+            "."
+          ],
+          "shuffled": [
+            "suivante",
+            "de",
+            "médecin",
+            ".",
+            "revenir",
+            "Le",
+            "semaine",
+            "m'a",
+            "la",
+            "demandé"
+          ]
+        },
+        {
+          "id": "rs3",
+          "hint": "Léa asked whether we had finished",
+          "correct": [
+            "Léa",
+            "a",
+            "demandé",
+            "si",
+            "nous",
+            "avions",
+            "fini",
+            "."
+          ],
+          "shuffled": [
+            "fini",
+            "nous",
+            ".",
+            "Léa",
+            "si",
+            "a",
+            "avions",
+            "demandé"
+          ]
+        },
+        {
+          "id": "rs4",
+          "hint": "He asked me what I wanted",
+          "correct": [
+            "Il",
+            "m'a",
+            "demandé",
+            "ce",
+            "que",
+            "je",
+            "voulais",
+            "."
+          ],
+          "shuffled": [
+            "voulais",
+            "ce",
+            ".",
+            "Il",
+            "je",
+            "m'a",
+            "que",
+            "demandé"
+          ]
+        },
+        {
+          "id": "rs5",
+          "hint": "Karim explained that he had missed the bus the day before",
+          "correct": [
+            "Karim",
+            "a",
+            "expliqué",
+            "qu'il",
+            "avait",
+            "raté",
+            "le",
+            "bus",
+            "la",
+            "veille",
+            "."
+          ],
+          "shuffled": [
+            "veille",
+            "bus",
+            "Karim",
+            "qu'il",
+            ".",
+            "le",
+            "raté",
+            "la",
+            "a",
+            "avait",
+            "expliqué"
+          ]
+        },
+        {
+          "id": "rs6",
+          "hint": "She said she was going to move that month",
+          "correct": [
+            "Elle",
+            "a",
+            "dit",
+            "qu'elle",
+            "allait",
+            "déménager",
+            "ce",
+            "mois-là",
+            "."
+          ],
+          "shuffled": [
+            "mois-là",
+            "allait",
+            ".",
+            "Elle",
+            "ce",
+            "dit",
+            "déménager",
+            "a",
+            "qu'elle"
+          ]
+        }
       ]
     }
   ]

@@ -1,24 +1,21 @@
-# Content plan: English course → icanspeak Spanish
+# Content plan: Spanish course → icanspeak French
 
-Written 2026-11-03 by the `content-plan` run. It replaces the German → English plan of the
-EnglishAcademy fork (that file is in the icanspeak-english history; this repo starts from the
-squashed snapshot `9577286` = icanspeak English @ `39ac46f`, so its old commit hashes such as
-`db88ba4` do **not** exist here).
+Written 2026-11-07 and checked against `apps/french` at `87df0a7e` (§14). It replaces the
+English → Spanish plan, which is in git history (`git show 87df0a7e:apps/french/docs/content-plan.md`).
 
-**Every later item in the queue (`overclaude/projects/icanspeak-spanish/QUEUE.md`) follows this
+**Every later item in the queue (`overclaude/projects/icanspeak-french/QUEUE.md`) follows this
 file.** A run that has to deviate (a mapping turns out not to work) changes this file in the same
 commit, says why in its report and, if the question stays open, adds it to §13.
 
-Inventory basis: `src/data/**`, `src/content/**`, `src/paid/**`, `src/pages/**`, `src/lib/**` on
-the `content` branch at `9577286`.
+All paths are inside `apps/french`.
 
 Words used below:
 
 - **keep**: stays as it is (code, infrastructure, language-neutral data).
-- **convert**: same file, ids and schema, new Spanish-course content.
+- **convert**: same file, ids and schema, new French-course content.
 - **add**: new file, page or module; English names from the start.
 - **leave**: not touched by any content item, with the reason given (§9).
-- **drop**: removed by `cleanup`, with a restore command recorded.
+- **drop**: removed by `cleanup`, with a restore command recorded in its report.
 
 ---
 
@@ -28,430 +25,461 @@ Words used below:
 
 | Decision | Value |
 |---|---|
-| Brand | **icanspeak Spanish**. No "EnglishAcademy", "englishacademy", "deutschacademy" in anything a visitor sees (titles, meta, OG, JSON-LD, PDFs, llms.txt, `source` strings that are rendered). Internal code comments may keep the history. |
-| Site and base | `site: 'https://icanspeak.it'`, `base: '/spanish'`. Never a hard-coded root path. Every URL goes through the base-aware helper added by `base-path-and-brand` (§10.1); until it exists, `import.meta.env.BASE_URL`. UI-language prefixes come after the base: `/spanish/de/…`. |
-| Target learner | Adults (16+) learning Spanish, any first language, **with a strong group of immigrants and residents in Spain**. Real situations (padrón, centro de salud, landlord, work, school) beat tourist phrases. |
-| Variety | **Castilian Spanish (Spain)** is the standard: *vosotros*, Spain vocabulary (*ordenador, coche, móvil, piso, zumo, conducir*), distinción in pronunciation (/θ/ for *c, z*), RAE spelling with ¿ ¡ and every accent. |
-| Latin America | Never mixed in silently. Every vocabulary, grammar and audio item carries `variety: "es-ES"`; where Latin American usage differs, an `es419` note (§1.4) records it so a LatAm mode can be switched on later without rewriting content. Nothing is shown for `es419` yet (`variety-schema`). |
-| Levels | CEFR **A1–C1** for courses, grammar, placement; lexicon units keep **A1–C2**; exams cover **DELE A1–C2** (C2: format page only, §2). |
-| Explanation language | **English** (base dictionary `public/i18n/en.json`). Explanations are clear, short English; A1/A2 explanations use simple English and let the Spanish examples carry the rule. Fields named *einfach/leicht/Easy* (`introEasy`, `historyEinfach`, `explainLeicht`) get very simple English. |
-| UI languages | English base; German, French, Portuguese, Italian added through `src/lib/languages.js`, one queue item each (`ui-lang-*`). Arabic later (RTL is already handled), not in this queue. |
-| Names in examples | Varied, realistic for Spain today: *Lucía, Javier, Carmen, Pablo, Aitana, Jordi, Iker, Nerea, Amina, Youssef, Ana María, Ionuț, Oksana, Wei, Kevin, Valentina*. Places: real Spanish cities are fine (*Madrid, Valencia, Sevilla, Zaragoza, Bilbao*); offices, shops, firms, schools are **invented** (no real company, brand or living private person). The invented town of the games and sims is **Villabruno** (§5.9). |
-| Tone | Friendly, adult, no childish content, no party politics, no stereotypes about nationalities or regions. |
-| Law and administration | Extranjería, NIE/TIE, empadronamiento, arraigo, the 2026 extraordinary regularisation, nationality, DGT: **general orientation, never legal advice**. Every page that touches them says so in one line and points to the official source type (sede electrónica, ayuntamiento, consulate). Every uncertain fact is "to verify" in the run report, and the page words it carefully ("usually", "as of <month year>, check the official page"). |
-| Exams | Original practice material only. **Never copy or closely paraphrase** an Instituto Cervantes exam paper, model exam (*modelo de examen*) or the official CCSE question bank/manual. Task types may be described and imitated; texts, items and answer options are ours. The site says it is not affiliated with Instituto Cervantes or the SIELE partners. |
+| Brand | **icanspeak French**. No "icanspeak Spanish", "EnglishAcademy", "englishacademy", "deutschacademy" in anything a visitor sees (titles, meta, OG, JSON-LD, PDFs, llms.txt, rendered `source` strings). Internal code comments may keep the history. |
+| Site and base | `site: 'https://icanspeak.it'`, `base: '/french'`. Both values live in `src/lib/paths.js` (`BASE_PATH`, `SITE_ORIGIN`); `astro.config.mjs` and `check-base.mjs` read them. Never a hard-coded root path. Browser code uses `withBase()`/`currentPath()` from `src/lib/paths.js`; server HTML is rebased centrally by `rebaseHtml()`. Data keeps writing site paths (`/grammar`), never `/french/…`. UI languages follow the base: `/french/de/…`. |
+| Target learner | Adults (16+) learning French, any first language, with a **strong group of immigrants and residents in France** and learners heading for Canada. The préfecture, the médecin traitant, the landlord, the CAF and work beat tourist phrases. |
+| Variety | **Standard French of France**: metropolitan vocabulary, standard pronunciation, current spelling with every accent. The 1990 spelling reform is accepted, the traditional spelling is taught first (§1.2). |
+| Canada | Never mixed in silently. Vocabulary, grammar and audio items carry `variety: "fr-FR"`; where Québec usage differs, a `frCA` note (§1.5) records it, so a Canada mode can be switched on later without rewriting content. Nothing is shown for `frCA` yet. |
+| Belgium, Switzerland, Africa | Notes only where they matter (*septante, nonante*), in the optional `regional` string (§1.5). Otherwise covered by `accents-languages`. |
+| Levels | CEFR **A1–C1** for courses, grammar, placement; lexicon units keep **A1–C2**; exams cover **DELF A1–B2, DALF C1–C2** (C2: format page only, §2). |
+| Explanation language | **English** (base dictionary `public/i18n/en.json`). A1/A2 explanations use simple English and let the French examples carry the rule. Fields named *einfach/leicht/Easy* get very simple English. |
+| Question language | As in the Spanish course: prompts and options English at A1–A2, French at B1–B2 and above; `explain`, `title`, `blurb` always English; `phrases`, `model`, form labels and scripts always French. Exam sets: instructions English at A1–A2, French from B1. The civic test: questions French, `explain` English. |
+| UI languages | English base; **German, Spanish, Portuguese, Italian** (§10.4). **French is removed** as a UI language. Arabic later, not in this queue. |
+| Names in examples | Varied, realistic for France today: *Camille, Hugo, Léa, Nathan, Inès, Mamadou, Aïcha, Karim, Fatou, Thi Lan, Oksana, Ionuț, Wei, João, Marie-Claire*. Real big cities are fine (*Paris, Lyon, Marseille, Lille, Toulouse, Nantes*). Offices, shops, firms, schools are **invented**; no real company, brand or living private person. |
+| Invented places | Game and sim town: **Montbruno** (working name; `games-dialogue` checks it against INSEE's list of communes, else picks another and updates this plan). Reading and listening places: **Valdaure**, **Montaubel** (same check, by `listening`). |
+| Tone | Friendly, adult, no childish content, no party politics, no stereotypes about nationalities, regions or banlieues. Colonial history and *laïcité* are factual and neutral. |
+| Law and administration | Préfecture, titre de séjour, ANEF, CAF, sécurité sociale, naturalisation, code de la route: **general orientation, never legal advice**. Every page says so in one line and points to the official source type (service-public.gouv.fr, the préfecture, ameli, the CAF). Every uncertain fact is "to verify" in the run report, and the page words it carefully ("usually", "as of <month year>, check the official page"). |
+| Exams | Original practice material only. **Never copy or closely paraphrase** a France Éducation international or CCI Paris paper or sample paper, or an official civic question bank. Task types may be described and imitated; texts, items and answers are ours. The site says it is not affiliated with France Éducation international, CCI Paris Île-de-France, the French State or IRCC. |
 
 ### 1.2 Typography and answers
 
-- Spanish text: ¿ … ? and ¡ … ! always; every written accent (*está, también, cómo, él, tú, sé*);
-  *ü* where needed (*pingüino*); no accent on *solo, este, guion* (RAE 2010); *o* without accent
-  between numbers. Quotes inside Spanish text: « » (with “ ” inside); English prose uses “ ”.
-- Numbers and dates in Spain format: `1.250,50 €`, `14:30` or *las dos y media*, `03/11/2026`.
-- **Answers keep their accents.** In Spanish an accent changes the word (*tu/tú, el/él, hablo/habló,
-  esta/está*), so the checker never folds accents away. Prefer choice/pill formats; where a
-  learner types, the page offers an á é í ó ú ü ñ ¿ ¡ key row, and an answer that differs only in
-  accents is marked wrong with the hint "check the accent" (added to `src/lib/answerMatch.js` by
-  `grammar-a1`, the first item that needs it; `conjugation-trainer` reuses it).
-- `src/lib/answerMatch.js` `normalize()` and `src/lib/audioSlug.js` `slugify()` fold German
-  umlauts today; `slugify` drops á/ñ entirely (*año* → `a-o`). `vocab-a1` changes `slugify` to
-  á→a, é→e, í→i, ó→o, ú→u, ü→u, **ñ→ny** (*año* → `anyo`, never `ano`), keeping the German
-  mapping for leftovers; ids and audio names use that slug.
-- Straight apostrophe in English answer fields (unchanged rule); Spanish has none.
+- **Accents**: every accent, on capitals too (*À, É, Ç*). Œ/œ and Æ/æ as ligatures (*cœur, sœur, œuf*).
+- **Non-breaking space** in French text before `? ! : ;` and `»`, after `«`. Quotes in French text: « » (“ ” inside). English prose uses “ ”. Rendered text only: tiles and answer values never hold it.
+- **Apostrophe in data**: straight `'` everywhere (`l'école`, `aujourd'hui`, `gender: "l'"`), because ids, matching and tiles depend on one character. `normalize()` folds `’` to `'` and NBSP to a space, so a learner's typed or pasted curly apostrophe is right. Displaying curly is a later typographic pass.
+- Numbers and dates in France's format: `1 250,50 €`, `14 h 30`, `03/11/2026`; time zone Europe/Paris. Phone numbers: the ARCEP range reserved for fiction ("to verify"), else obvious placeholders; email `example.com`.
+- **Answers keep their accents.** In French an accent can change the word (*a/à, ou/où, du/dû, la/là, sur/sûr, mais/maïs, cote/côte/côté*). Prefer choice/pill formats; where a learner types, the page offers an é è ê ë à â ù û î ï ô ç œ key row, and an answer that differs only in accents is marked wrong with "Check the accent." `accentOnly()` in `answerMatch.js`: **ç counts as an accent**; typed `oe` for `œ` is simply accepted.
+- **1990 spelling**: teach the traditional form, accept the reformed one. Exercises list it in the `answer` array (*paraître / paraitre, oignon / ognon, week-end / weekend*); generated verb forms carry it in `alt`; lexicon words may carry `rectified` (§1.4). Never a wrong pill. Never a global rule that folds circumflexes, because *dû, sûr, mûr* stay.
+- **Elision and tiles**: a build tile never splits at the apostrophe (`J'ai`, `l'école`, `qu'il`). A gap before a vowel shows its options whole (`le / la / l'`). Punctuation stays attached to the last tile. Any generator that writes `${article} ${word}` must use `withArticle()` (§1.4).
+- `src/lib/audioSlug.js` `slugify()`: accents folded, ç→c, œ→oe, æ→ae, apostrophe and space → `-` (*aujourd'hui* → `aujourd-hui`, *s'appeler* → `s-appeler`). The ñ→ny rule goes. `drillSlug` keeps accents (*pécheur / pêcheur* must not share a recording).
 
 ### 1.3 Ids, slugs, file names
 
-- **Content runs do not rename ids, data file names or storage keys.** They replace the content
-  inside the existing ids (a slot that now holds the English topic *present-simple* becomes the
-  Spanish topic in the same slot). Ids are referenced across files (lehrplan, verwandt,
-  arbeitsblatt, registry, localStorage keys).
-- **URL slugs** are English (the UI language), except proper names: `/dele`, `/siele`, `/ccse`,
-  `/dgt-vocabulary`. Spanish grammar terms that learners search for stay Spanish inside the slug
-  (`/ser-estar-basics`, `/por-para`, `/gustar`). New slugs are given in §3 and §8; the `routes`
-  item applies them once.
-- **New** ids, files and pages are allowed where this plan says so; they use English names
-  (`conjugation-trainer.json`, `business-spanish/`).
-- Mapping a slot to a different topic is fine; the `level` field may change with it, and
-  `grammar-structure` then fixes the syllabus order.
-- Lexicon word ids: slug of the Spanish lemma (§1.2 slug rule, *el año* → `anyo`). A noun/verb
-  pair with one spelling keeps the plain slug on the more basic word and suffixes the other
-  (`-noun`, `-verb`, `-adj`). A Spanish slug that is still taken by an English word of a level
-  not migrated yet (*hotel, taxi, bar, radio, chocolate, final, real*) gets `-es` (`hotel-es`).
-  Ids are unique across all levels; sidecars are keyed by id.
-- Word stories (`src/content/wortgeschichte/`): the file name *is* the lemma, so Spanish stories
-  are new files named by the Spanish lemma slug (`casa.json`, `almohada.json`, `anyo.json`).
+- **Content runs do not rename ids, data file names or storage keys.** They replace the content inside the existing ids. Ids are referenced across files.
+- This includes the Spanish-named internals, which no visitor sees: `src/data/dgt/`, `src/data/business-spanish/` and its unit ids (`correos`, `llamadas` …), `businessSpanish.js`, `check-extranjeria.mjs`, deck ids `bv-dgt-…`. See §13.
+- **One exception: conjugation-trainer set ids.** They appear in URLs (`?set=…`) and name Spanish topics (`ser-estar-a1`), so §4.2 gives them new ids. The site at `/french` is new, so no stored progress is lost.
+- **URL slugs** are English, except proper names (`/delf-dalf`, `/tcf`, `/tef`) and French terms that learners search for (`/passe-compose-vs-imparfait`, `/y-and-en`). Slugs are ASCII. Only `routes` applies them.
+- New ids, files and pages use English names.
+- Mapping a slot to a different topic is fine; `level` may change with it, and `grammar-structure` fixes the order.
+- Lexicon word ids: slug of the French lemma, without the article. Homographs: plain slug on the more basic word, the other suffixed by meaning or part of speech (`livre` / `livre-poids`, `tour` / `tour-batiment`, `poste` / `poste-emploi`, `avocat` / `avocat-fruit`, `peche` / `peche-faute`). A slug still held by a Spanish word of a level not yet migrated gets `-fr`. Ids are unique across levels.
+- Word stories: the file name is the lemma slug.
 
-### 1.4 Data fields: what they hold for Spanish
+### 1.4 Data fields: what they hold for French
 
-The English course left several German fields hollow or gave them English meanings. For Spanish:
+The field that matters most: **in French the article can hide the gender.** *L'école* is feminine and *l'hôtel* masculine, and the plural *les* says nothing, so `gender` alone is no longer enough.
 
-| Field / data | English course | **Spanish course** |
+| Field / data | Spanish course | **French course** |
 |---|---|---|
-| lexicon noun `gender` | `a` / `an` / `some` | **The singular definite article as the learner says it: `"el"` or `"la"`**; `"el/la"` for common-gender person nouns (*el/la estudiante, el/la periodista*). `spokenForm()` already prints `gender + lemma` (*la casa*). Games and drills use only `el`/`la` nouns. |
-| lexicon `genus` (**new**, optional) | – | `"f"` only where the article hides the gender: feminine nouns with stressed *a-/ha-* (*el agua, el aula, el hambre, el águila, el área, el alma*): `gender: "el"`, `genus: "f"`, plural *las aguas*. Absent = gender follows the article. |
-| lexicon `pluralOnly` | plural-only nouns | Same key: *las gafas, los pantalones* (when taught as plural); `gender` then holds the article of the gender (`"la"` for *gafas*), `plural` the full form. |
-| lexicon `plural` | English plural | Spanish plural **without article** (*casas, lápices, jóvenes, el lunes → lunes*). The article *los/las* comes from `gender` (+ `genus`). |
-| lexicon `en` | simple-English definition | **Short English translation/gloss** (*la casa → "house, home"*), plus a short qualifier where needed (*el piso → "flat, apartment; floor (storey)"*). |
-| lexicon `example` | English sentence | Natural Castilian sentence at the unit's level. |
-| lexicon `ipa`, `ipaSource` | British IPA | Broad Castilian IPA with syllable dots and stress (*casa* `ˈka.sa`, *cerveza* `θeɾˈβe.θa`, *ajo* `ˈa.xo`); `ipaSource: "authored"` unless taken from Wiktionary (`"wiktionary"`). |
-| lexicon `audio` | lemma slug | Lemma slug (§1.2); files don't exist until an es-ES TTS voice is wired (`BACKEND.speech`). |
-| lexicon `forms` (verbs) | 3rd sg, past, participle | **yo present · él indefinido · participio**: `hablo, habló, hablado`; `tengo, tuvo, tenido`. |
-| lexicon `reflexive` | unused | `true` for pronominal verbs; lemma with *-se* (*levantarse*). |
-| lexicon `prep` | dependent preposition | Same: *pensar **en**, depender **de**, soñar **con***. |
-| lexicon `irregular` | good/bad/far | Adjectives with irregular comparatives (*bueno → mejor, malo → peor, grande → mayor, pequeño → menor*); verbs: `true` for irregular verbs (any irregular tense). |
-| lexicon `comparative` / `superlative` | older/oldest | Only where irregular (*mejor / el mejor*); regular ones are built with *más*. |
-| lexicon `fem` (**new**, adjectives) | – | Feminine singular form (*alto → alta*, *español → española*); same as lemma for invariable ones (*grande, feliz, verde*). |
-| lexicon `aux`, `case`, `separable` | unused | Not used for Spanish (keys omitted). |
-| lexicon `i18n/<lang>.json` | English → learner language | **Spanish → learner language.** `de`, `fr`, `pt`, `it` first (the coming UI languages); other languages only where a run can translate reliably, otherwise the level's entries are removed (never a stale English-based gloss next to Spanish). `i18n/es.json` is meaningless for a Spanish course: `vocab-a1` removes `es` from `TRANSLATION_LANGS` and empties it; `cleanup` deletes the file. |
-| lexicon `rank`, `source` | English OpenSubtitles | Spanish OpenSubtitles 2018 list (hermitdave/FrequencyWords `es_50k`; licence "to verify" before attaching). Until a run can download it, `rank: null` and the words stay out of the frequency rounds, as in the English course. Note: OpenSubtitles Spanish mixes Spain and Latin America; level banding stays our own, never claimed to be the PCIC or any official list. |
-| `ENGLISH_LEVELS` (`src/lib/lexicon.js`) | levels already English | `vocab-a1` adds `SPANISH_LEVELS` (levels whose nouns carry `el`/`la`) with the same role and switches the callers (`berufeRows.js`, `wortgeschichteCore.js`); `ENGLISH_LEVELS` goes once no English level is left (`vocab-c1-c2` or `cleanup`). `validate-lexicon.mjs` `GENDERS` accepts `el`, `la`, `el/la` next to the English values until then. |
-| `artikel-sprint/words.json` `article`, `plural`, `pluralWrong`, `english` | a/an/some … | `el`/`la`; Spanish plural; plausible wrong plurals (*lápizes, los mapa, joven → jovenes*); `english` = gloss. |
-| 4-slot case fields (Nominativ/Akkusativ/Dativ/Genitiv) | I/me/my/mine | **subject · direct object · indirect object · after a preposition** (*yo / me / me / mí*; *él / lo / le / él*). |
-| `trennbare-verben` slots | phrasal verbs | **pronominal/reflexive verbs** (*levantarse, acordarse de, irse*); the particle field holds *se*. |
-| Verb tables (`verbtabellen.json`) | 6 rows, present/past/perfect | See §4.1: six person rows *yo, tú, él/ella/usted, nosotros/as, vosotros/as, ellos/ellas/ustedes*, keys `praes` (presente), `praet` (pretérito indefinido), `p2` (participio), plus new tense keys. |
-| `translations` maps / `*-i18n` / `uebersetzungen/*` | English → learner language | Spanish → learner language; `translations.en` = English translation. Other languages only where reliable; check the UI falls back cleanly first. |
-| `de` key in phrase/idiom/dialogue data (`redemittel.json`, `redewendungen.json`, knigge scenes) | the English phrase | **The Spanish phrase** (the key name is history: it means "target-language text"); `en` = English meaning or usage note. |
-| `status`: `entwurf`/`geprueft` | draft / reviewed | Same values. A grammar topic keeps the `status` it has (flipping all to `entwurf` would empty the course); the run report lists topics for Edgar's review. New content enters as `entwurf` unless checked against sources. |
+| lexicon noun `gender` | `el`, `la`, `el/la` | **The article as the learner says it:** `"le"`, `"la"`, `"l'"`, `"les"` (plural-only), `"le/la"` (true common gender: *le/la journaliste*). |
+| lexicon `genus` | `"f"` only for *el agua* | **`"m"`, `"f"` or `"mf"`. Required where `gender` is `"l'"` or `"les"`**; absent otherwise. *l'école* f, *l'hôtel* m, *l'eau* f, *l'élève* mf, *les vacances* f, *les gens* m. |
+| lexicon `hAspire` (**new**, optional) | – | `true` on a noun that starts with a vowel letter or h yet takes `le`/`la` (*le héros, la honte, le haricot, le onze*). The validator rejects `le`/`la` before a vowel or h without it, and `l'` before a consonant or with it. |
+| lexicon `pluralOnly` | plural-only nouns | Same key; `gender: "les"`, `genus` set, `plural` = the form (*les lunettes, les ciseaux, les frais, les gens*). |
+| lexicon `plural` | plural without article | Without article, written form (*maisons, chevaux, yeux, travaux, bijoux*); invariable nouns repeat the lemma (*le fils → fils, le prix → prix*). The article is always `les`. |
+| lexicon `en` | English gloss | Short English gloss. Person nouns: masculine lemma, feminine named in the gloss (*le boulanger*: "baker (f: la boulangère)"); `le/la` only for true common gender. Current feminine forms where in use (*la professeure, la médecin*). |
+| lexicon `example` | Castilian sentence | Natural metropolitan sentence at the unit's level. The card blanks the word, so verb examples need the lemma, a stem + at most 3 letters, or an exact listed form. |
+| lexicon `ipa`, `ipaSource` | Castilian IPA, generated | Standard French IPA with syllable dots (*école* `e.kɔl`, *maison* `mɛ.zɔ̃`). **Authored per word**, not generated: French spelling doesn't map to sound reliably, so `scripts/es-ipa.mjs` is not ported. `ipaSource: "authored"`, or `"wiktionary"` when taken from there. No liaison in the lemma's IPA. |
+| lexicon `audio` | lemma slug | Lemma slug (§1.2); files don't exist until a fr-FR TTS voice is wired. |
+| lexicon `forms` (verbs) | yo present · él indefinido · participio | **je présent · il passé composé · participe passé**: `parle, a parlé, parlé`; `vais, est allé, allé`. Shows the auxiliary at a glance. |
+| lexicon `aux` | unused | **Back in use:** `"avoir"`, `"être"`, or `"both"` (*monter, sortir, passer*). |
+| lexicon `reflexive` | `true`, lemma with `-se` | `true`; lemma with the pronoun: `se lever`, `s'appeler`. |
+| lexicon `prep` | dependent preposition | Same: *penser **à**, avoir besoin **de**, s'intéresser **à***. |
+| lexicon `irregular` | any irregular tense | Verbs: `true` for third-group and other irregular verbs, not for spelling-only changes (*manger, commencer, appeler, acheter*). Adjectives: irregular comparatives (*bon → meilleur*). |
+| lexicon `comparative` / `superlative` | irregular only | Only where irregular (*meilleur / le meilleur, pire / le pire*). |
+| lexicon `fem` | adjectives | Feminine singular (*grand → grande, beau → belle, vieux → vieille, blanc → blanche*); same as lemma when invariable in writing (*jeune, rouge*). |
+| lexicon `mascVowel` (**new**, optional) | – | The form before a vowel: *beau → bel, vieux → vieil, nouveau → nouvel*. |
+| lexicon `rectified` (**new**, optional) | – | The 1990 spelling when it differs (*connaître → connaitre*). |
+| lexicon `case`, `separable` | unused | Not used (keys omitted). |
+| lexicon `i18n/<lang>.json` | Spanish → de, fr, pt, it | **French → `de`, `es`, `pt`, `it`** (§10.4). `pt` = Brazilian. `i18n/fr.json` is meaningless and is emptied by `vocab-a1`, deleted by `ui-lang-es`. Machine drafts; other languages stay empty. |
+| lexicon `rank`, `source` | `es_50k`, `null` until downloaded | `fr_50k` (hermitdave/FrequencyWords, licence "to verify"). `rank: null` until a run can download it. It mixes France and Canada; level banding stays our own, never claimed to be an official list. |
+| `SPANISH_LEVELS` (`src/lib/lexicon.js`) | levels whose nouns carry el/la | `FRENCH_LEVELS` (`vocab-a1`), same role. **The one in `src/lib/fertigkeiten.js` is another thing**: levels with target-language prompts. Rename it in `reading-writing`. |
+| `artikel-sprint/words.json` | `el`/`la`, plurals | `article` + `genus`, French plural, plausible wrong plurals (*chevals, bijous, les yeuxs*), `english` = gloss. |
+| 4-slot case fields | subject · direct · indirect · after preposition | **sujet · COD · COI · pronom tonique** (*je / me / me / moi; il / le / lui / lui; ils / les / leur / eux*). |
+| `trennbare-verben` slots | pronominal verbs | Same (*se lever, se souvenir de, s'en aller*). Every je form starts with `me` or `m'`; the live quiz relies on that. |
+| Verb tables | §4.1 | §4.1. |
+| `translations` maps, `*-i18n`, `uebersetzungen/*` | Spanish → language | French → language; `translations.en` = English. Other languages only where reliable. Spanish-based entries are removed rather than left next to French. |
+| `de` key in phrase, idiom, dialogue data | the Spanish phrase | **The French phrase.** The key name is history: it means "target-language text". `en` = English. |
+| `deHint` | German gloss | Unchanged meaning: German gloss. |
+| `status`: `entwurf`/`geprueft` | | Same values. New content enters as `entwurf` unless checked. Reports list topics for Edgar's review. |
 
-### 1.5 `variety` and the `es419` note
+**Helpers** (added by `variety-schema` in `src/lib/lexicon.js`, used everywhere):
 
-**Shape** (defined here, implemented and validated by `variety-schema`):
+- `withArticle(e)`: `l'école`, `le livre`, `la maison`, `les lunettes`, `le/la journaliste`. **No space after `l'`.** Replaces every `${e.gender} ${e.lemma}`: at least `spokenForm`, `hochstapler/themes.js`, `berufeWortschatz.js`, `liveQuiz/*`, print sheets; run a grep for `.gender}` and for `gender ` in templates.
+- `genderOf(e)`: `"m"`, `"f"` or `"mf"`, from `genus` or the article.
+- `indefinite(e)`: `un` / `une`. **Elided nouns are drilled through this** (§5.9).
+- `pluralArticle(e)`: always `les`. Everything that branched on *los/las* simplifies.
+
+While modules are still Spanish these helpers must keep working on `el`/`la` words (§1.6).
+
+### 1.5 `variety`, `frCA` and `regional`
+
+**Shape** (implemented and validated by `variety-schema`):
 
 ```json
-"variety": "es-ES",
-"es419": {
-  "note": "In most of Latin America: la computadora.",
-  "form": "computadora",
-  "gender": "la"
-}
+"variety": "fr-FR",
+"frCA": {
+  "note": "In Québec: le courriel (France: le mail, un e-mail).",
+  "form": "courriel",
+  "gender": "le"
+},
+"regional": "Belgium and Switzerland: septante, nonante."
 ```
 
-- `variety`: `"es-ES"` for everything in this queue. `"es-419"` is reserved for a future item
-  that is Latin American only (e.g. a rioplatense listening text); no run writes it now.
-- `es419` is **optional** and present only where Latin American usage differs in a way a learner
-  would notice. Keys:
-  - `note` (required inside `es419`): plain English, ≤ 160 characters.
-  - `form` (optional): the Latin American replacement for the item's main text (lemma, phrase,
-    answer, sentence, verb form).
-  - `gender` (optional, lexicon nouns only): `el`/`la` of the LatAm word when it differs.
-  - `skip` (optional, `true`): the item makes no sense in a LatAm mode (a *vosotros*-only drill,
-    *pretérito perfecto* for "today" contrasted with *indefinido*).
-- No `es419` = same in Latin America as far as this course goes. Don't invent differences;
-  typical real ones: *vosotros → ustedes*, *ordenador/computadora, coche/carro (auto), móvil/celular,
-  zumo/jugo, piso/departamento (apartamento), conducir/manejar, coger/tomar, gafas/lentes
-  (anteojos), patata/papa, melocotón/durazno, vale/okey-dale (regional)*, seseo, *perfecto vs
-  indefinido for recent past*, *leísmo* (Spain accepts *le* for male persons; LatAm prefers *lo*).
+- `variety`: `"fr-FR"` for everything in this queue. `"fr-CA"` is reserved for a future Québec-only item; no run writes it now.
+- `frCA` replaces `es419`, is optional, and appears only where Québec usage differs in a way a learner would notice. Same keys and limits as `es419`:
+  - `note` (required): plain English, ≤ 160 characters.
+  - `form` (optional): the Québec replacement for the item's main text.
+  - `gender` (optional, nouns only): `le`, `la`, `l'` when it differs (*une job* in Québec vs *un job*).
+  - `skip` (optional, `true`): the item makes no sense in a Canada mode.
+- `regional` (optional string, ≤ 160): Belgium, Switzerland, Africa, where it matters. Allowed on the same items; not bound to any mode.
+- No `frCA` = the same in Québec as far as this course goes. **Don't invent differences.** Typical real ones: *courriel, magasiner, char (voiture), déjeuner/dîner/souper (petit-déjeuner/déjeuner/dîner), fin de semaine, stationnement, cellulaire, dépanneur, breuvage, chum/blonde*, gender of some loans, *-tu* in spoken questions, more *tu* in everyday contact, affrication (*tu, dire* [tsy, dzɪʁ]), some vowel contrasts.
+- **Institutions get no note** (*préfecture, CAF, carte Vitale, Pôle emploi/France Travail*): they name things in France; a Canada mode would need other content, not another word. Same for the sim and games: a file-level `variety` only.
+- There is **no equivalent of `showsVosotros`**: French conjugation has no row that disappears. `variety-schema` removes it and its callers (`visibleRows` in `verbtabellen.js`, `conjugation.astro`, `conjugationTrainer.js`).
 
-**Where the fields go:**
+**Where the fields go** (the same modules as the Spanish `STRICT` list in `check-variety.mjs`):
 
-| Data | `variety` on | `es419` on |
+| Data | `variety` on | `frCA` on |
 |---|---|---|
 | `content/lexicon/*.json` | every word | the word |
-| `berufe/*.json`, `dgt/*.json`, `business-spanish/*.json` own entries | every own entry (refs inherit from the lexicon word) | the entry |
-| `wortschatz.json` phrase cards, `redemittel.json` phrases | every card / phrase | the card / phrase |
-| `grammatik/<slot>.json`, `paid/grammatik/*` | the topic file (top-level key); exercises inherit | the topic (general note, e.g. *ustedes* instead of *vosotros*) **and** any exercise item whose answer differs (`form`) or is Spain-only (`skip`) |
-| `grammatik.json` quick quizzes, `akkusativ.json`, `praepositionen-trainer.json` packs | inherit from the topic/pack; pack-level `variety` | item |
-| `einstufung.json` | top-level key | item with Spain-only wording (`form`) or *vosotros* only (`skip`) |
-| `verbtabellen.json` | top-level key | verb (usage notes, e.g. *coger*); the *vosotros* row is handled by the helper (hidden in LatAm mode, *ustedes* row shows the 3rd plural) |
-| `conjugation-trainer.json` | every set | set or item |
-| Audio items: `hoeren.json` scripts, `aussprache-check.json`, `zungenbrecher.json`, `satzmelodie.json` items, `ausspracheregeln.json` rules | every item | item (e.g. seseo note on a *c/z* rule) |
+| `berufe/*`, `dgt/*`, `business-spanish/*` own entries | every own entry (refs inherit) | the entry |
+| `wortschatz.json`, `redemittel.json` | every card / phrase | card / phrase |
+| `grammatik/<slot>.json`, `paid/grammatik/*` | topic file (top level), exercises inherit | topic and items whose answer differs |
+| `grammatik.json`, `akkusativ.json`, `praepositionen-trainer.json` | inherit; pack-level `variety` | item |
+| `einstufung.json`, `grammatik-start/*`, `verbtabellen.json` | top level | item / verb |
+| `conjugation-trainer.json` | top level and every set | set or item |
+| `hoeren.json`, `aussprache-check.json`, `zungenbrecher.json`, `satzmelodie.json`, `ausspracheregeln.json` | every item | item (e.g. affrication on a *t/d* rule) |
+| `redewendungen`, `wortfallen`, `typische-fehler`, `umgangssprache`, `synonyme` | per entry | entry |
+| `fehler-nach-sprache`, `arbeitsblatt/*`, `partneruebungen/*`, `unterricht-wortschatz` | top level | where used |
 
-Reading, writing, speaking tasks, culture, exams carry no `variety` key (they are Spain content by
-definition). The helper `src/lib/variety.js` (added by `variety-schema`): `DEFAULT_VARIETY =
-"es-ES"`, `varietyOf(item, parent)` (item → parent → default), `es419Of(item)`,
-`LATAM_MODE = false`. Validators: `variety-schema` adds `scripts/check-variety.mjs` to the gate
-(`scripts/check-content.mjs`): allowed values, `es419.note` present and ≤ 160 chars, `gender` only
-`el`/`la`, no unknown `es419` keys. Missing `variety` is a warning while modules are still English
-and becomes an error for a module once its item has run (the item adds its file to the strict
-list in `check-variety.mjs`).
+Reading, writing, speaking tasks, culture, exams, word stories carry no `variety` key.
 
-### 1.6 Validators
+**`src/lib/variety.js`:** `DEFAULT_VARIETY = "fr-FR"`, `VARIETIES = ["fr-FR", "fr-CA"]`, **`CANADA_MODE = false`** (was `LATAM_MODE`), `FRCA_KEYS`, `FRCA_NOTE_MAX`, `FRCA_GENDERS`, `REGIONAL_MAX`, `varietyOf`, `frCAOf` (was `es419Of`), `textFor(item, text, canada = CANADA_MODE)`, `skippedFor`, `varietyProblems`.
 
-- A content item that changes a module's values updates that module's validator **in the same
-  commit** (e.g. `validate-lexicon.mjs` GENDERS, `check-berufe.mjs`, `check-pruefungen.mjs`).
-- Never drop a validator from the gate. If one must pause, move it to the "Not in the gate"
-  list in `scripts/check-content.mjs` with the reason and the item that puts it back; `cleanup`
-  puts every paused one back.
+### 1.6 Validators, and how the build survives the migration
+
+**Every item ends with a green build while most of the app is still Spanish.** The Spanish runs show exactly where this breaks. These rules are binding:
+
+1. **Legacy values.** `variety-schema` empties `STRICT` in `check-variety.mjs` and accepts `es-ES` and `es419` as legacy with a warning (never relabel Spanish data as `fr-FR`). Each content item adds its module id back in the commit that converts it. `cleanup` removes the legacy branch; the gate then rejects them.
+2. **Both genders.** `validate-lexicon.mjs` and `berufeCore.js` `GENDERS` accept both the French values and `el`, `la`, `el/la` until the last level or deck has run. The lexicon drops them in `vocab-c1-c2`, `berufeCore.js` in `french-for-work`, with `genus` rules per §1.4.
+3. **Deck and story refs.** A vocabulary item removes ids that other modules point to. As in the Spanish run, a missing lexicon ref in `berufe/*`, `dgt/*`, `business-spanish/*` and a word-story lemma outside the lexicon become **warnings** from `vocab-a1` on. `code-route-vocab`, `french-for-work`, `business-french`, `word-stories` each turn theirs back into errors. Note `dgt` and `business` have refs now, which the English → Spanish migration didn't have to handle.
+4. **Beginner path.** A changed grammar topic breaks `gram:` refs in `einfach-pfad.json` **and the build**, and `scripts/repoint-einfach-grammar.mjs` no longer exists. `grammar-a1` writes it again (point each stale task at a valid item in the same topic; then re-sign with `node scripts/check-einfach-pfad.mjs --sign`), the later grammar items use it, and `beginner-path` deletes it. The same goes for `wort`/`artikel` tasks in `vocab-*`.
+5. **Verb tables vs reference.** `check:verbtabellen` requires agreement between `verbtabellen.json` and `nachschlagen/starke-schwache-verben.json`, and `grammar-structure` runs before `conjugation-data`. `grammar-structure` pauses that comparison; `conjugation-data` restores it.
+6. **Games and pools.** Filters on `el`/`la` empty pools as levels convert. Games must tolerate an empty pool until `games` and `games-arcade` run (they did in the Spanish course); don't fix them in `vocab-*`.
+7. A content item that changes a module's values updates that module's validator **in the same commit**. Never drop a validator. If one must pause, move it to the "Not in the gate" list in `scripts/check-content.mjs` with the reason and the item that puts it back; `cleanup` puts every paused one back.
+8. Check the *rules* in a validator, not just the data: many contain Spanish logic (§10.6).
+9. **`check-i18n-luecken.mjs` is in the gate and counts visible text per file against `scripts/i18n-luecken-baseline.json`.** Two moves break it. Text inside `lang="es"` counts as deliberate, so changing `lang="es"` to `lang="fr"` turns it into gaps: `ui-components` makes the script accept both, and `cleanup` drops `es`. A renamed page is a new file above its baseline: `routes` rekeys the baseline's entries in the same commit as the rename. New pages write their text with `data-i18n` and need no entry.
+10. **Coverage falls while `en.json` changes.** `GATES.ui` is 98 %, so `de`, `fr`, `pt` and `it` can drop out of the language menu during the queue. That is expected and not fixed by content items. `ui-lang-*` restores it with `pnpm lang:coverage`.
+
+The gate is the `CHECKS` list in `scripts/check-content.mjs` (26 validators, none paused at the start of this queue).
 
 ---
 
-## 2. Exams: existing slot → Spanish exam
+## 2. Exams: existing slot → French exam
 
-Exam slot ids stay (they are storage keys: `da-exam-v1:<key>`, `EXAMS` in `src/lib/routes.js`,
-`src/lib/exam/registry.js`). Titles, subtitles, pass notes, module labels and names change
-(`src/lib/exam/names.js`: `EXAM_NAMES = { goethe: "DELE", telc: "SIELE" }`, level names
-`DELE A2` …).
+Slot ids stay (storage keys `da-exam-v1:<key>`, `src/lib/exam/registry.js`, `EXAM_PATHS`). Titles, subtitles, pass notes, module labels and names change.
 
-| Slot (data / current page) | Now (English course) | **Spanish course** | Level | Item |
+**Code:** `EXAM_NAMES` in `src/lib/exam/names.js` can't stay a flat map: the `goethe` slot is DELF below C1 and DALF at C1. `examLabel(set)` returns `DELF A2 … DELF B2`, `DALF C1`, `TCF B1`. `exams-delf-dalf` changes it, plus the second copy of the same decision in `aufgabenKatalog.js` (`set.exam === "telc" ? "SIELE" : "DELE"`), which should call `examLabel`. `CONTENT_LANG = "fr"` in `pruefungEngine.js`. Registry module labels (`Questions on Spain`, `My comunidad (extra)`) and hrefs (`/dele/a1`, `/siele/practice-set`, `/ccse/test`) are in `registry.js`: labels go with the exam items, hrefs with `routes`.
+
+| Slot (data) | Spanish course | **French course** | Level | Item |
 |---|---|---|---|---|
-| `start-deutsch-1` (`pruefungen/start-deutsch-1/uebungssatz-1.json`, `/a1-test`) | unbranded A1 test | **DELE A1 practice test** (all four parts the set shape holds) | A1 | `exams-dele` |
-| `goethe` A2/B1/B2 (`saetze/goethe-{a2,b1,b2}-1.json`, `goethe-formate.json`, `/cambridge`, `/cambridge/[slug]`) | Cambridge Key/Preliminary/First | **DELE A2, B1, B2** practice sets, one per level | A2–B2 | `exams-dele` |
-| `goethe` C1 (`paid/pruefungen/saetze/goethe-c1-1.json`) | still German | **DELE C1** practice set | C1 | `exams-dele` |
-| DELE C2 | – | **add**: format entry in `goethe-formate.json` and a hub card, **no practice set** (above the course range) | C2 | `exams-dele` |
-| `sprachbausteine` (`pruefungen/sprachbausteine/satz-{1,2}.json`, `/cambridge/use-of-english`) | Use of English cloze | **"Uso de la lengua"**: cloze and gap tasks B2–C1 (grammar and vocabulary in context), framed as practice for the language-use tasks inside DELE reading papers (which tasks: "to verify") | B2–C1 | `exams-dele` |
-| `testdaf` (`pruefungen/testdaf/uebungssatz-1.json`, `testdaf-formate.json`, `/ielts`) | IELTS Academic, no pass mark | **SIELE Global** practice set: score-based, no pass/fail, `passPct: null` (like TestDaF/IELTS); score scale and CEFR bands "to verify" | A1–C1 | `exams-siele` |
-| `telc` A2/B1/B2 (`saetze/telc-{a2,b1,b2}-1.json`, `telc-formate.json`, `/trinity`, `/trinity/[slug]`) | Trinity ISE | **SIELE practice by band** (tasks at the A2, B1, B2 band, by module). `exams-siele` must write at least one; any band set it cannot write well is **removed** (with registry entry and `saetze-index` regenerated; restore command in its report and in §13), never left in English. | A2–B2 | `exams-siele` |
-| `telc` C1 (`paid/pruefungen/saetze/telc-c1-1.json`) | still German | SIELE C1-band set, or removed under the same rule | C1 | `exams-siele` |
-| `dtz` (`pruefungen/dtz/uebungssatz-1.json`, `src/lib/dtzTrainer.js`, `/trinity/ise-1` + `/mock-test`, `/practice-set`) | B1 skills mock | **DELE A2 mock for nationality**: the full timed mock in the trainer shape, framed for the nationality path (§5.11). Point bands are ours and say so; real pass rule "to verify". | A2 | `nationality-path` |
-| `dtz` paid (`paid/pruefungen/dtz/uebungssatz-{2,3,4}.json`) | still German | more DELE A2 mocks; `nationality-path` converts what it can, the rest is removed by `cleanup` (restore command recorded) | A2 | `nationality-path` / `cleanup` |
-| `leben-in-deutschland` (`leben-in-deutschland.json`, `uebersetzungen/leben-in-deutschland.json`, `/life-in-the-uk` + `/test`, `/facts`) | Life in the UK | **CCSE** (Conocimientos Constitucionales y Socioculturales de España) practice: own questions written from public facts (Constitution of 1978, institutions, territorial organisation, geography, history, culture, society). **Never** the official question bank or manual text. The Life-in-the-UK "four nations" extra becomes an optional **comunidades autónomas** extra, clearly labelled as not part of the real test. Format (number of questions, tasks, time, pass mark) "to verify". | A2–B1 reading | `ccse` |
-| `pruefungen/fallen.json` (`/exams/traps`) | exam traps | traps for DELE, SIELE, CCSE (timing, *tú/usted* in writing tasks, accents in written parts, word counts) | | `exams-dele` |
-| `pruefungen/formate-a2-c1.research.json` | format research | DELE and SIELE format research, every entry dated and marked "to verify" until checked against examenes.cervantes.es / siele.org | | `exams-dele` (DELE), `exams-siele` (SIELE) |
-| `saetze-index.json`, `paid-manifest.json` | generated | regenerated by their scripts; never hand-edited | | whichever item changes sets |
-| **add** `/exams/dele-or-siele` | – | comparison page: purpose (nationality → DELE A2; work, university, visa → depends on the institution), validity, format, results, price ranges "to verify" | | `exams-siele` |
-| **add** `/nationality` | – | the CCSE + DELE A2 path to Spanish nationality by residence: who needs what, who is exempt, order of steps; general orientation, facts "to verify" | | `nationality-path` |
+| `start-deutsch-1` (`pruefungen/start-deutsch-1/uebungssatz-1.json`) | DELE A1 | **DELF A1 practice test** | A1 | `exams-delf-dalf` |
+| `goethe` A2, B1, B2 (`saetze/goethe-{a2,b1,b2}-1.json`, `goethe-formate.json`) | DELE A2–B2 | **DELF A2, B1, B2**, one set each | A2–B2 | `exams-delf-dalf` |
+| `goethe` C1 (`paid/pruefungen/saetze/goethe-c1-1.json`) | DELE C1 | **DALF C1** practice set | C1 | `exams-delf-dalf` |
+| `goethe-c2` research entry | DELE C2, format only | **DALF C2**: format entry and hub card, **no set** (above the course range; two papers, so it doesn't fit the set shape anyway) | C2 | `exams-delf-dalf` |
+| `sprachbausteine` (`sprachbausteine/satz-{1,2}.json`) | Uso de la lengua | **Language in use**: cloze and gap tasks B2–C1, framed as general practice, like the *lexique et structure* section of the TEF. Whether current TEF versions still include it: "to verify". The page must stay true either way. | B2–C1 | `exams-tcf-tef` (page `src/pages/dele/language-use.astro`, linked from `siele/levels/index.astro` and `teachers/classes/class.astro`; its `x:telc/sprachbausteine/…` refs stay) |
+| `testdaf` (`testdaf/uebungssatz-1.json`, `testdaf-formate.json`) | SIELE reading + writing, score-based | **TEF practice set** (reading + writing, the slot's shape): `passPct: null`, no verdict. The hub covers TEF and TEF Canada. | B1–C1 | `exams-tcf-tef` |
+| `telc` A2, B1, B2 (`saetze/telc-{a2,b1,b2}-1.json`, `telc-formate.json`) | SIELE by band | **TCF practice by band**, all four skills: fits, because TCF questions rise in difficulty and the result is a level. `scoring.passPct: null` (the engine supports it). The hub covers tout public, IRN, Canada. | A2–B2 | `exams-tcf-tef` |
+| `telc` C1 (`paid/…/telc-c1-1.json`) | SIELE C1 | TCF C1-band set | C1 | `exams-tcf-tef` |
+| `dtz` (`dtz/uebungssatz-1.json`, `src/lib/dtzTrainer.js`) | DELE A2 mock for nationality | **TCF IRN mock, aiming at A2–B1** (multi-year card, resident card). Trainer's nine-part shape stays, and the mock says it doesn't copy the real TCF IRN. Point bands are ours and say so. | A2–B1 | `nationality-path` |
+| `dtz` paid (`paid/pruefungen/dtz/uebungssatz-2.json`) | DELE A2 mock 2 | **TCF IRN mock aiming at B1–B2** (naturalisation). If it can't be written well, it's removed, never left in Spanish. | B1–B2 | `nationality-path` |
+| `leben-in-deutschland` (`leben-in-deutschland.json`) | CCSE | **Civic exam** (§2.2) | A2–B2 reading | `civic-exam` |
+| `pruefungen/fallen.json` | traps | Traps for DELF/DALF, TCF, TEF, civic exam. `exams` values `delf`, `tcf`, `tef`, `civique`. French-specific: register in writing tasks (*vous*), word counts, the minimum per paper, no going back in timed computer tests ("to verify") | | `exams-delf-dalf`, `exams-tcf-tef` |
+| `pruefungen/formate-a2-c1.research.json` | format research | Same shape, each entry with `checked` and `unverified`. | | both exam items |
+| `saetze-index.json`, `paid-manifest.json` | generated | Regenerated by their scripts, never hand-edited | | whichever changes sets |
+| **add** `/exams/delf-tcf-or-tef` (from `exams/dele-or-siele.astro`) | | By purpose: residence card, nationality, Canada immigration, university, work. | | `exams-tcf-tef` |
+| **add** `/residence-and-nationality` (from `nationality.astro`) | | §2.3 | | `nationality-path` |
 
-Exam facts the runs must treat as "to verify" (never as settled): DELE parts and timings per level,
-the DELE pass rule (grouped scores), SIELE score scale and CEFR bands, SIELE validity period and
-module combinations (S1–S5), CCSE number of questions, tasks, time and pass mark, exemptions for
-nationality, prices, exam dates. The pages word these carefully and date them.
+Set structure follows the Spanish sets: modules `reading`, `listening`, `writing`, `speaking`, no shared timer; no audio yet (fr-FR voices in `speakers`, open transcript). A validator match only proves a set equals our research, not the real exam.
+
+### 2.1 Which test does what
+
+| Purpose | Usually accepted (all "to verify") |
+|---|---|
+| Multi-year card, resident card, naturalisation in France | TCF IRN, TEF IRN, a DELF/DALF at or above the level; other diplomas in some cases |
+| Canada immigration | TCF Canada, TEF Canada; scores converted to NCLC levels |
+| University in France | DELF B2 / DALF, TCF DAP or TCF tout public depending on the institution |
+| Work and CV | DELF/DALF (no expiry) or a recent TCF/TEF |
+
+`/exams/delf-tcf-or-tef` is framed on this table. TCF DAP and TEF IRN get only a mention, with no set of their own.
+
+### 2.2 Civic exam (`civic-exam`)
+
+- **Replaces the CCSE** in `leben-in-deutschland.json`, `/civic-exam` (+ `/test`, `/facts`). `uebersetzungen/leben-in-deutschland.json` emptied unless reliable.
+- Same file shape: `meta`, `topics`, `glossary`, `bundeslaender`, `questions`, top-level `variety`. Every question is `{ tarea, prompt, options, answer, explain }`.
+- `meta.totalQuestions: 40`, `meta.passScore: 32`, `meta.minutes: 45`, all "to verify". `federalQuestions` = 40, `stateQuestions` = 0. `sourceNote`, `realTestNote` and their `*Easy` forms are rewritten; `stateFactsNote` says the regions are not part of the real test.
+- **`meta.tareas` holds the exam's themes**, five entries `{ n, title, realCount, options }`, and each question's `tarea` points at one. Titles are the five themes below; `realCount` per theme and `options` (4 expected) are "to verify". The test draws by theme, so a wrong `realCount` gives a wrongly weighted mock, and the page must not claim the real distribution unless checked. Knowledge versus situation questions (the "28 + 12" figure from a prep site) is not modelled in this field: write some of each, and don't state the split unless confirmed.
+- Slots: keep the six topic ids (`{ id, title, facts, factsEasy, words }`, the reading pages at `/civic-exam/facts`).
+
+| `tarea` | Topic id | French civic theme |
+|---|---|---|
+| 1 | `values-law` | Principles and values of the Republic (*liberté, égalité, fraternité, laïcité*, symbols) |
+| 2 | `government-parliament` | Institutions and political system |
+| 3 | `elections` | Rights and duties (voting, justice, tax, equality) |
+| 4 | `history` | History, geography, culture |
+| 5 | `everyday-life` | Living in French society (health, school, work, housing) |
+| – | `four-nations` | **Optional, unscored:** regions and overseas territories, clearly labelled as not part of the real test |
+
+- `bundeslaender` (19 comunidades and cities now) becomes **France's regions**, 13 metropolitan and 5 overseas, in the same shape (`id, name, type, capital, population, borderCountries, parliamentName`; `parliamentName` = *conseil régional*). "Unscored" isn't a key on the topic: it comes from the registry module `land` with `scored: false`, `idsFrom: "lid-land"`, relabelled "My region (extra)". `bund` is relabelled "Questions on France".
+
+- **The official bank and the published list of questions are deliberately not opened for writing questions**; the candidate manual may be read only for format. Questions are written from public facts (Constitution, Légifrance, vie-publique, service-public). Commercial sites advertising "official questions" are not sources either.
+- Whether difficulty or content differs between the multi-year card, the resident card and naturalisation: "to verify".
+
+### 2.3 Language levels and nationality (`nationality-path`)
+
+Page `/residence-and-nationality`, general orientation:
+
+| Step | Language level (as of 2026-11, "to verify") | Civic exam |
+|---|---|---|
+| First multi-year card | A2 | Yes |
+| First resident card | B1 | Yes |
+| Naturalisation by decree, declaration by marriage | B2 (oral and written) | Yes for naturalisation by decree; declaration by marriage "to verify" |
+| Renewal | Not required as far as checked | Not required as far as checked |
+
+Exemptions (over 65, certain nationalities and situations, disability) "to verify" and described carefully. Figures come from `meta`, not repeated. CCSE/DELE-specific Spanish text goes completely; Spain's rules have no equivalent. The *contrat d'intégration républicaine* and the OFII get a section.
+
+### 2.4 Facts as found on 2026-11-07
+
+Starting points only; each run re-checks and says what it read. See "To verify" in `reports/content-plan.md`.
+
+- DELF A1–DALF C1: four papers of 25 points, pass 50/100, minimum 5/25 per paper. DALF C2: two papers of 50, minimum 10/50. Old official regulations and secondary sites.
+- TCF IRN: four papers, about 1 h 35, valid 2 years (France Éducation international page, via search).
+- TCF Canada: about 2 h 47 (secondary). TEF Canada: four papers, about 2 h 55 (secondary; centres disagree on question counts).
+- Civic exam: 40 multiple-choice, ≥ 32 right, 45 min, since 1 January 2026 (Interior Ministry and service-public, via search). "28 knowledge + 12 situations" comes only from a prep site. Fees are unsettled.
 
 ---
 
 ## 3. Grammar: slot map (91 slots)
 
-Each slot file in `src/data/grammatik/` (and `src/paid/grammatik/`, the same 11 C1 ids) becomes the
-Spanish topic below: same id, same schema. `src/data/arbeitsblatt/<id>.json` follows the same id
-(`teachers`). "Level" is the new `level` value; the grammar items work **by new level**.
-"New slug" is applied by `routes` only (`TOPIC_SLUGS` in `src/lib/routes.js`).
+Each slot file in `src/data/grammatik/` (and `src/paid/grammatik/`, the same 11 C1 ids) becomes the French topic below. Same id, same schema. `src/data/arbeitsblatt/<id>.json` follows the id (`teachers`). "Level" is the new `level`; grammar items work **by new level**. Slugs are applied by `routes` only (`TOPIC_SLUGS`).
 
-The order inside a level is fixed by `grammar-structure` (`grammatik-lehrplan.json`); the
-tables are grouped, not ordered.
+**91 slots are 90 files plus `akkusativ`.** That slot has no file in `grammatik/` and no worksheet: `grammarCatalog.js` keeps it off the `[id]` route, and its content is `src/data/akkusativ.json`, a flat array of questions with `difficulty`, on the bespoke page `/object-pronouns`. It is still listed in `GRAMMATIK_ORDER`, `grammatik-lehrplan.json` and `TOPIC_SLUGS`.
 
-### A1 (19) — `grammar-a1`
+Moved levels: `negation` A2 → A1; `imperativ` B1 → A2; `negationswoerter` B2 → A2; `partizip-als-adjektiv` B1 → B2. Counts now: A1 19, A2 21, B1 27, B2 13, C1 11. Counts after the move: **A1 20, A2 22, B1 25, B2 13, C1 11**.
 
-| Slot | Now (English) | Spanish topic | New slug |
-|---|---|---|---|
-| `nomen` | Nouns | Nouns and gender: el/la, *-o/-a* and the exceptions (*el día, la mano, el problema, la foto*) | `noun-gender` |
-| `artikel` | a, an, the | Articles: *el, la, los, las* / *un, una, unos, unas*; *al, del* | `articles` |
-| `personalpronomen` | pronouns + be | Subject pronouns; *tú* or *usted*; *vosotros* (es419: *ustedes*); dropping the pronoun | `subject-pronouns` |
-| `praesens` | Present simple | Present tense of regular *-ar, -er, -ir* verbs | `present-regular` |
-| `konjugation` | Present continuous | Key irregular verbs in the present: *ser, estar, ir, tener, hacer, venir* and *yo*-irregulars (*tengo, hago, salgo, pongo, conozco*) | `present-irregular` |
-| `praeteritum-sein-haben` | was/were | Stem-changing verbs: *e→ie, o→ue, e→i, u→ue* (*quiero, puedo, pido, juego*) | `stem-changing-verbs` |
-| `verb-position-2` | Word order | *ser* and *estar*: the basics (who/what vs where/how) | `ser-estar-basics` |
-| `berufe-mit-in` | there is/are | *hay* or *está/están* | `hay-estar` |
-| `w-fragen` | Wh- questions | Question words with accents: *qué, quién, dónde, adónde, cuándo, cómo, cuánto, por qué* | `question-words` |
-| `ja-nein-fragen` | Yes/no questions | Yes/no questions with ¿…?, negation with *no*, short answers | `yes-no-questions` |
-| `plural` | Plurals | Plural of nouns and adjectives (*-s, -es, z→ces*, accent shifts: *joven/jóvenes, canción/canciones*) | `plurals` |
-| `adjektive-nach-sein` | Adjectives | Adjectives: agreement and position (*una casa blanca, los coches nuevos*) | `adjective-agreement` |
-| `possessivartikel` | Possessives | Possessives: *mi, tu, su, nuestro, vuestro, su*; *de* for owners | `possessives` |
-| `welcher-dieser` | this/that | Demonstratives: *este, ese, aquel*; *esto, eso* | `demonstratives` |
-| `gern` | like/love + -ing | *gustar*: *me gusta / me gustan*, *a mí también / a mí tampoco* | `gustar` |
-| `temporale-praepositionen` | in/on/at time | Telling the time and days: *¿Qué hora es? Es la una. A las ocho. El lunes. Por la mañana.* | `time-and-days` |
-| `aduso` | and/but/or/so | *y/e, o/u, pero, porque, también/tampoco* | `y-o-pero-porque` |
-| `zahlen` | Numbers | Numbers, prices, phone numbers (*uno/un/una, veintiún, cien/ciento*) | `numbers` |
-| `wortarten` | Parts of speech | Parts of speech in Spanish | `parts-of-speech` |
+### A1 (20): `grammar-a1`
 
-### A2 (21) — `grammar-a2`
+| Slot | French topic | New slug |
+|---|---|---|
+| `nomen` | Nouns and gender: masculine or feminine, helpful endings and exceptions | `noun-gender` |
+| `artikel` | *le, la, l', les*; *un, une, des*; *au, aux, du, des* | `articles` |
+| `personalpronomen` | Subject pronouns; *tu* or *vous*; *on*; *moi, toi* for emphasis and after prepositions | `subject-pronouns` |
+| `praeteritum-sein-haben` | *être* and *avoir*: forms and first uses | `etre-avoir` |
+| `praesens` | Present of *-er* verbs; silent endings; *j'* | `present-er-verbs` |
+| `verb-position-2` | Present of *-ir* (*finir*) and *-re* (*vendre*) verbs | `present-ir-re-verbs` |
+| `konjugation` | Key irregulars: *aller, faire, venir, prendre, mettre, voir, dire* | `present-irregular` |
+| `negation` | *ne … pas*; *n'* before a vowel; dropped *ne* in speech (a note) | `ne-pas` |
+| `berufe-mit-in` | *il y a*, *c'est*, *il est* (*Il est médecin. C'est un bon médecin.*) | `il-y-a-cest` |
+| `w-fragen` | *qui, que/qu'est-ce que, où, quand, comment, combien, pourquoi, quel* | `question-words` |
+| `ja-nein-fragen` | Yes/no: intonation, *est-ce que*, inversion for recognition; *oui, si, non* | `yes-no-questions` |
+| `plural` | Plural of nouns and adjectives (*-s, -x, -aux*); silent in speech | `plurals` |
+| `adjektive-nach-sein` | Adjective agreement; basic position | `adjective-agreement` |
+| `possessivartikel` | *mon, ma, mes* …; *mon amie*; *de* for owners | `possessives` |
+| `welcher-dieser` | *ce, cet, cette, ces*; *quel* | `demonstratives` |
+| `gern` | *aimer, adorer, préférer, détester* + noun or infinitive | `aimer-infinitive` |
+| `temporale-praepositionen` | Time and days: *Il est huit heures. Le lundi. Le matin.* | `time-and-days` |
+| `aduso` | *et, ou, mais, parce que, aussi* | `et-ou-mais` |
+| `zahlen` | Numbers, prices, phone numbers: *soixante-dix, quatre-vingts*; `regional`: *septante, nonante* | `numbers` |
+| `wortarten` | Parts of speech in French | `parts-of-speech` |
 
-| Slot | Now (English) | Spanish topic | New slug |
-|---|---|---|---|
-| `perfekt` | Past simple | *Pretérito perfecto*: *he comido, has llegado* (with *hoy, esta semana, ya, todavía no*); es419 note | `present-perfect` |
-| `zusammengesetzte-verben` | Present perfect vs past (B1) | *Pretérito indefinido*: regular forms and key irregulars (*fui, tuve, hice, estuve, dije*) | `preterite` |
-| `n-deklination` | used to (B1) | *Pretérito imperfecto*: forms and use for habits and descriptions (*antes vivía…*) | `imperfect` |
-| `trennbare-verben` | Phrasal verbs | *ir a* + infinitive (near future) | `ir-a-infinitive` |
-| `komposita` | Compound nouns | *estar* + gerund (*estoy trabajando*) and gerund forms (*leyendo, durmiendo*) | `estar-gerund` |
-| `reflexive-verben` | Reflexive pronouns | Reflexive verbs and daily routine (*me levanto, se ducha*) | `reflexive-verbs` |
-| `akkusativ` (+ `akkusativ.json`, `/object-pronouns`) | Object pronouns (A1) | Direct object pronouns *lo, la, los, las* and personal *a* (*Veo a Ana. La veo.*); leísmo note | `object-pronouns` (keep) |
-| `dativ` | two objects | Indirect object pronouns *me, te, le, nos, os, les*; *le → se* (*se lo doy*) | `indirect-object-pronouns` |
-| `modalverben` | Modal verbs | Verb + infinitive: *tener que, hay que, poder, deber, querer, saber* | `tener-que-poder` |
-| `komparativ-superlativ` | Comparatives | Comparatives and superlatives (*más… que, tan… como, el más…, -ísimo*; *mejor, peor, mayor, menor*) | `comparatives` |
-| `lokale-praepositionen` | Prepositions of place | Place: *en, encima de, debajo de, al lado de, delante de, enfrente de*; *aquí, ahí, allí* | `prepositions-of-place` |
-| `wechselpraepositionen` | Prepositions of movement | *a* and *en*: going and being (*voy a Madrid / estoy en Madrid*), *de… a, desde… hasta* | `a-or-en` |
-| `indefinitpronomen` | some/any | *algo/nada, alguien/nadie, algún/ningún, otro* | `indefinites` |
-| `satzstellung` | much/many | *muy, mucho, poco, bastante, demasiado* (adverb vs adjective) | `muy-mucho` |
-| `negation` | Negatives | Negation: *no, nunca, tampoco, nada, nadie, ninguno*; double negation | `negation` |
-| `nebensaetze-weil-dass` | because/so/that | *porque, como, así que, por eso*; *que*-clauses with *creo que, dice que* | `porque-como` |
-| `konjunktiv2-hoeflich` | Polite requests | Polite requests: *¿Puede…?, ¿Me pone…?, quería, me gustaría, ¿Te importa…?* | `polite-requests` |
-| `positionsadverbien` | Frequency adverbs | Frequency: *siempre, a menudo, a veces, casi nunca*; *soler* + infinitive | `frequency-soler` |
-| `adjektivdeklination-a2` | Adverbs of manner | Adverbs in *-mente*; *bien/mal*, *bueno/malo* | `adverbs-mente` |
-| `artikel-oder-nicht` | the or no article | Article or no article (*Me gusta el café. Tengo coche. Es médica. Hablo español.*) | `article-or-not` |
-| `ordinalzahlen` | Ordinals and dates | Ordinal numbers (*primer, tercer*), dates and floors (*el 3 de mayo, el segundo piso*) | `ordinals-dates` |
+### A2 (22): `grammar-a2`
 
-### B1 (27) — `grammar-b1`
+| Slot | French topic | New slug |
+|---|---|---|
+| `perfekt` | Passé composé with *avoir*; participles | `passe-compose-avoir` |
+| `zusammengesetzte-verben` | Passé composé with *être*; agreement with the subject | `passe-compose-etre` |
+| `n-deklination` | Imparfait: forms, habits, descriptions | `imparfait` |
+| `trennbare-verben` | Futur proche: *aller* + infinitive | `futur-proche` |
+| `komposita` | *être en train de*, *venir de* | `en-train-de-venir-de` |
+| `reflexive-verben` | Reflexive verbs, daily routine | `reflexive-verbs` |
+| `akkusativ` (+ `akkusativ.json`, `/object-pronouns`) | Direct object pronouns *le, la, l', les*, position | `object-pronouns` (keep) |
+| `dativ` | Indirect object pronouns *lui, leur, me, te, nous, vous* | `indirect-object-pronouns` |
+| `modalverben` | *pouvoir, vouloir, devoir, savoir*; *il faut* | `pouvoir-vouloir-devoir` |
+| `imperativ` | Imperative *tu, vous, nous*, negative, with pronouns (*Donne-le-moi.*) | `imperative` |
+| `komparativ-superlativ` | *plus … que, aussi, moins, le plus*; *meilleur, mieux* | `comparatives` |
+| `lokale-praepositionen` | *sur, sous, devant, derrière, à côté de, en face de*; *ici, là* | `prepositions-of-place` |
+| `wechselpraepositionen` | Places: *à Paris, en France, au Maroc, aux États-Unis, chez* | `a-en-au-places` |
+| `indefinitpronomen` | *quelqu'un, quelque chose, tout, chaque, autre* | `indefinites` |
+| `satzstellung` | Partitive: *du, de la, de l', des*; *pas de, beaucoup de, un peu de* | `partitive-articles` |
+| `negationswoerter` | *ne … plus, jamais, rien, personne* | `negation-more` |
+| `nebensaetze-weil-dass` | *parce que, car, donc, alors*; *que*-clauses (*je pense que*) | `parce-que-donc` |
+| `konjunktiv2-hoeflich` | Polite requests: *je voudrais, pourriez-vous, est-ce que je peux* | `polite-requests` |
+| `positionsadverbien` | Frequency; adverb position; *toujours, souvent, parfois* | `frequency-adverbs` |
+| `adjektivdeklination-a2` | Adverbs in *-ment*; *bon / bien* | `adverbs-ment` |
+| `artikel-oder-nicht` | Article or none (*J'aime le café. Je n'ai pas de voiture. Elle est médecin.*) | `article-or-not` |
+| `ordinalzahlen` | Ordinals, dates, floors (*le premier mai, au deuxième étage*) | `ordinals-dates` |
 
-| Slot | Now (English) | Spanish topic | New slug |
-|---|---|---|---|
-| `zustandspassiv` | Present perfect continuous | *Perfecto* or *indefinido* (*hoy he ido / ayer fui*); es419: LatAm prefers *indefinido* | `perfecto-vs-indefinido` |
-| `praeteritum-plusquamperfekt` | Narrative tenses | *Indefinido* or *imperfecto* in a story | `preterite-vs-imperfect` |
-| `passiv-b1` | Passive basics | *Pluscuamperfecto* (*había comido*) | `pluperfect` |
-| `futur` | Future forms | *Futuro simple*: forms, plans, predictions, promises | `future-simple` |
-| `funktionen-von-werden` | Reported speech | *Condicional simple*: forms, advice (*yo que tú…*), polite wishes | `conditional` |
-| `imperativ` | Imperatives (A1) | Imperative, affirmative and negative: *tú, usted, vosotros, ustedes*; with pronouns (*dímelo, no me lo digas*); es419 note | `imperative` |
-| `infinitiv-mit-zu` | -ing or to | Present subjunctive: forms (regular and key irregulars) | `present-subjunctive` |
-| `verben-als-nomen` | Gerunds | Subjunctive after wishes and feelings: *quiero que, espero que, me alegra que, ojalá* | `subjunctive-wishes` |
-| `infinitiv-ohne-zu` | make/let/help | Infinitive or subjunctive: *quiero ir / quiero que vayas* | `infinitive-or-subjunctive` |
-| `finalsaetze` | Purpose | *para* + infinitive / *para que* + subjunctive | `para-que` |
-| `temporale-nebensaetze` | Time clauses | Time clauses: *cuando, en cuanto, hasta que* + indicative or subjunctive (*cuando llegues*) | `cuando-subjunctive` |
-| `konditionalsaetze` | Conditionals 0/1/2 | Real conditions: *si* + present (*si llueve, me quedo en casa*) | `si-real` |
-| `als-oder-wenn` | when or if | *por* or *para* | `por-para` |
-| `temporale-praepositionen-b1` | for/since/ago | *desde, desde hace, hace… que, hasta, durante, llevar* + time | `desde-hace` |
-| `relativpronomen` | Relative clauses | Relative clauses with *que, donde, lo que* (indicative) | `relative-clauses` |
-| `indirekte-fragen` | Indirect questions | Indirect questions and reporting in the present (*dice que…, me pregunta si…, no sé dónde…*) | `indirect-questions` |
-| `lassen` | have something done | Verbal periphrases: *acabar de, volver a, empezar a, dejar de, seguir* + gerund, *llevar* + gerund | `verbal-periphrases` |
-| `konnektoren-grund-gegengrund` | Contrast linkers | Linkers: *aunque* (indicative), *sin embargo, además, en cambio, por lo tanto* | `linkers` |
-| `genitiv` | 's or of | Possessive pronouns (*el mío, la tuya, los suyos*) | `possessive-pronouns` |
-| `adjektivdeklination` | Adjective order | Adjective position and short forms: *buen, gran, primer, algún*; *un gran hombre / un hombre grande* | `adjective-position` |
-| `partizip-als-adjektiv` | -ed/-ing adjectives | Participles: *estar* + participle (*la tienda está cerrada*), irregular participles | `estar-participle` |
-| `verben-praepositionen` | Verbs + prepositions | Verbs + prepositions: *pensar en, soñar con, depender de, acordarse de, tardar en* | `verbs-prepositions` |
-| `da-wo-woerter` | Prepositions at the end | Pronouns after prepositions: *para mí, sin ti, conmigo, contigo* | `prepositional-pronouns` |
-| `nutzen-benutzen` | make or do | *ser* and *estar*: changing meaning (*ser/estar listo, aburrido, malo*), events (*la fiesta es en…*) | `ser-estar-advanced` |
-| `positionsverben` | Confusing verbs | Verbs like *gustar*: *encantar, interesar, doler, molestar, parecer, quedar* | `verbs-like-gustar` |
-| `wortbildung-nomen` | Noun suffixes | Word formation: *-ción, -dad, -miento, -ero/-era, -ería*; diminutives *-ito, -illo* | `word-formation` |
-| `adjektive-als-nomen` | the + adjective, one | *lo* + adjective (*lo bueno, lo importante es…*), *lo que* | `lo-adjective` |
+### B1 (25): `grammar-b1`
 
-### B2 (13) — `grammar-b2`
+| Slot | French topic | New slug |
+|---|---|---|
+| `praeteritum-plusquamperfekt` | Passé composé or imparfait | `passe-compose-vs-imparfait` |
+| `futur` | Futur simple | `futur-simple` |
+| `funktionen-von-werden` | Conditionnel présent: politeness, advice, wishes | `conditional` |
+| `infinitiv-mit-zu` | Subjonctif présent: forms | `subjonctif-present` |
+| `verben-als-nomen` | Subjunctive after necessity, wishes, feelings (*il faut que, je veux que*) | `subjunctive-wishes` |
+| `infinitiv-ohne-zu` | Infinitive or subjunctive (*je veux partir / je veux que tu partes*) | `infinitive-or-subjunctive` |
+| `finalsaetze` | *pour* + infinitive, *pour que* + subjunctive | `pour-que` |
+| `temporale-nebensaetze` | *quand, dès que, pendant que, avant de, après*; *quand* + futur | `time-clauses` |
+| `konditionalsaetze` | *si* + présent, futur or imperative | `si-present` |
+| `als-oder-wenn` | *quand* or *si* | `quand-or-si` |
+| `temporale-praepositionen-b1` | *depuis, il y a, pendant, pour, en, dans* | `depuis-il-y-a` |
+| `relativpronomen` | *qui, que, où, dont* | `relative-pronouns` |
+| `indirekte-fragen` | Indirect questions: *si, ce que, ce qui, où* | `indirect-questions` |
+| `lassen` | *faire* + infinitive, *laisser* + infinitive | `faire-laisser` |
+| `konnektoren-grund-gegengrund` | *pourtant, cependant, en revanche, donc, ainsi* | `linkers` |
+| `genitiv` | Possessive pronouns: *le mien, la tienne* | `possessive-pronouns` |
+| `zustandspassiv` | Pronoun order: *je le lui donne, il m'en parle* | `double-object-pronouns` |
+| `passiv-b1` | *celui, celle, ceux, celles*; *celui-ci* | `demonstrative-pronouns` |
+| `adjektivdeklination` | Adjective position and meaning: *beau/bel*; *un grand homme, ma propre voiture* | `adjective-position` |
+| `verben-praepositionen` | Verbs + *à* or *de*: *penser à, avoir besoin de, essayer de* | `verbs-prepositions` |
+| `da-wo-woerter` | *y* and *en* | `y-and-en` |
+| `nutzen-benutzen` | Confusable verbs: *savoir / connaître, visiter / rendre visite, amener / apporter* | `savoir-connaitre` |
+| `positionsverben` | Verbs that work differently: *manquer à, plaire à, falloir, rester* | `verbs-like-plaire` |
+| `wortbildung-nomen` | Word formation: *-tion, -age, -ment, -eur/-euse, -ette, re-, dé-* | `word-formation` |
+| `adjektive-als-nomen` | *ce qui, ce que, ce dont*; *le plus important, c'est …* | `ce-qui-ce-que` |
 
-| Slot | Now (English) | Spanish topic | New slug |
-|---|---|---|---|
-| `konjunktiv2` | Third conditional, wish | Imperfect subjunctive: forms (*-ra / -se*) and uses (*quería que vinieras*) | `imperfect-subjunctive` |
-| `modalsaetze` | Modals of deduction | Unreal conditions: *si* + imperfect subjunctive + conditional; *si hubiera…* (intro) | `si-unreal` |
-| `passiv` | The passive | Passive and *se*: *ser* + participle, *pasiva refleja* (*se alquila piso*), impersonal *se* | `passive-and-se` |
-| `relativsaetze-was-wo` | Non-defining relatives | Relative clauses with subjunctive and prepositions (*busco a alguien que sepa…; el piso en el que vivo; quien*) | `relative-clauses-advanced` |
-| `zumal-wohingegen` | Formal linkers | Reported speech with tense shifts (*dijo que vendría, me pidió que fuera*) | `reported-speech` |
-| `zweiteilige-konnektoren` | Paired conjunctions | Subjunctive in opinion and doubt: *(no) creo que, es posible que, dudo que, no es verdad que* | `subjunctive-opinion` |
-| `konsekutivsaetze` | so/such/too/enough | Concession and consequence: *aunque* + subjunctive, *por mucho que, tan… que, de modo que* | `aunque-subjunctive` |
-| `negationswoerter` | Negative words | Probability: future and conditional of conjecture (*serán las tres, habrá salido, estaría cansado*), future and conditional perfect | `probability` |
-| `irgend` | -ever words | Accidental *se*: *se me olvidó, se le ha roto, se nos acabó* | `accidental-se` |
-| `fokuspartikeln` | Focus adverbs | Verbs of change: *ponerse, volverse, hacerse, quedarse, convertirse en* | `verbs-of-change` |
-| `modalpartikeln` | Discourse markers | Discourse markers in speech: *pues, bueno, o sea, es que, vamos, venga, vale* | `discourse-markers` |
-| `adjektive-mit-praepositionen` | Adjectives + prepositions | Adjectives + prepositions (*harto de, capaz de, contento con, interesado en*) | `adjectives-prepositions` |
-| `nomen-verb-verbindungen` | Collocations | Collocations: *tomar una decisión, echar de menos, dar un paseo, hacer caso, poner una queja* | `collocations` |
+### B2 (13): `grammar-b2`
 
-### C1 (11, free + paid slots) — `grammar-c1`
+| Slot | French topic | New slug |
+|---|---|---|
+| `konjunktiv2` | *si* clauses, all patterns; conditionnel passé | `si-clauses` |
+| `modalsaetze` | Plus-que-parfait | `plus-que-parfait` |
+| `passiv` | Passive; alternatives with *on* and *se faire* | `passive-voice` |
+| `relativsaetze-was-wo` | *lequel, auquel, duquel*; subjunctive in relatives (*un ami qui puisse*) | `relative-lequel` |
+| `zumal-wohingegen` | Reported speech with tense concordance | `reported-speech` |
+| `zweiteilige-konnektoren` | Subjunctive in opinion and doubt (*je ne pense pas que, il est possible que*) | `subjunctive-opinion` |
+| `konsekutivsaetze` | *bien que, quoique, si … que, de sorte que* | `bien-que` |
+| `partizip-als-adjektiv` | Participle agreement, incl. *avoir* with a preceding direct object; reflexive verbs | `participle-agreement` |
+| `irgend` | *n'importe qui, quoi, où, quel* | `nimporte` |
+| `fokuspartikeln` | Gérondif and participe présent | `gerondif` |
+| `modalpartikeln` | Spoken discourse markers: *bon, ben, enfin, quoi, du coup, voilà, bref* | `discourse-markers` |
+| `adjektive-mit-praepositionen` | *content de, prêt à, capable de, fier de* | `adjectives-prepositions` |
+| `nomen-verb-verbindungen` | *prendre une décision, faire attention, avoir envie, porter plainte* | `collocations` |
 
-| Slot | Now (English) | Spanish topic | New slug |
-|---|---|---|---|
-| `konjunktiv-1` | Distancing | Sequence of tenses with the subjunctive; pluperfect subjunctive (*hubiera hecho*) | `sequence-of-tenses` |
-| `es-korrelat` | Cleft sentences | Emphasis and cleft sentences: *Fue Ana quien…, Lo que necesito es…, Es aquí donde…* | `cleft-sentences` |
-| `passiversatz` | Inversion | Conditions without *si*: *de* + infinitive, *como* + subjunctive, *a no ser que, siempre que, con tal de que* | `conditions-without-si` |
-| `futur-2` | Future perfect | Non-finite clauses: *al* + infinitive, gerund and participle clauses (*Terminada la reunión, …*) | `non-finite-clauses` |
-| `irreale-vergleiche` | Unreal past | *como si* + imperfect/pluperfect subjunctive; *ni que* | `como-si` |
-| `subjektive-modalverben` | Modal perfects | Modal periphrases: *deber / deber de, tener que, haber de, venir a, llegar a* | `modal-periphrases` |
-| `nominale-praepositionen` | Formal prepositions | Formal connectors: *debido a, a raíz de, en virtud de, no obstante, por consiguiente* | `formal-connectors` |
-| `nominalisierung` | Nominalisation | Nominalisation in formal writing | `nominalisation` |
-| `partizipialattribute` | Participle clauses | Formal relatives: *el cual, lo cual, cuyo*; indicative vs subjunctive nuances | `formal-relatives` |
-| `textkohaerenz` | Cohesion | Cohesion: reference, ellipsis, *lo/ello*, register | `cohesion` |
-| `verbpraefixe` | Verb prefixes | Prefixes and derivation: *des-, re-, pre-, in-, sobre-, contra-* | `prefixes` |
+### C1 (11, free + paid): `grammar-c1`
 
-No slot is dropped. Gaps noted for later (new files, English ids): *voseo* as a world note, *leísmo/laísmo* as a C1 usage topic, *haber* impersonal (*hubo* vs *hubieron*).
+| Slot | French topic | New slug |
+|---|---|---|
+| `konjunktiv-1` | Subjonctif passé; sequence of tenses | `subjonctif-passe` |
+| `es-korrelat` | Emphasis: *c'est … qui, ce que … c'est* | `cleft-sentences` |
+| `passiversatz` | Conditions without *si*: *à condition que, pourvu que, à moins que, au cas où* | `conditions-without-si` |
+| `futur-2` | Futur antérieur | `futur-anterieur` |
+| `irreale-vergleiche` | *comme si*; *quand bien même* | `comme-si` |
+| `subjektive-modalverben` | Modal nuance: *il aurait dû*; journalistic conditional (*selon la police, il aurait fui*) | `modal-nuance` |
+| `nominale-praepositionen` | Formal connectors: *en raison de, à l'égard de, néanmoins, toutefois* | `formal-connectors` |
+| `nominalisierung` | Nominalisation in formal writing | `nominalisation` |
+| `partizipialattribute` | Participle clauses: *Ayant terminé, … La réunion terminée, …* | `participle-clauses` |
+| `textkohaerenz` | Cohesion: reference, register, *celui-ci, ce dernier* | `cohesion` |
+| `verbpraefixe` | **Passé simple for reading**: recognise, don't produce | `passe-simple` |
+
+No slot is dropped. Gaps for later: imparfait du subjonctif (recognition), verb prefixes as their own topic, *ne* explétif.
+
+**Rules for all levels:** `grammatik.<slot>.intro` in `en.json` is updated with each subtitle, or the old text overwrites it at render time. `accepts` ignores case. `swapClauses` doesn't accept swapped clause order for French conjunctions unless `SUBORD` is extended, so hints state the order. New exercises are appended in topics the path uses, never inserted. After the paid split, edit the paid file directly and keep `slots` right in the free file.
 
 ### 3.1 Grammar side files
 
-| File | Spanish course | Item |
+| File | French course | Item |
 |---|---|---|
-| `grammatik.json` (quick quizzes per slot) | follow the slot map | each `grammar-<level>` for its slots |
-| `akkusativ.json` (`/object-pronouns`) | direct object pronouns and personal *a* | `grammar-a2` |
-| `grammatik-lehrplan.json`, `grammatik-verwandt.json` | Spanish syllabus order per level, related topics recomputed | `grammar-structure` |
-| `kursinhalte.json`, `content/program.json` | Spanish course plan per level (`program.json` unit titles also by `vocab-*`) | `grammar-structure` |
-| `nachschlagen/starke-schwache-verben.json` (`/grammar/irregular-verbs`) | irregular verbs reference: sections `schwach` = regular, `stark` = irregular (*ser, ir, tener, hacer, decir…*), `gemischt` = stem-changing; rows *yo presente · él indefinido · participio* | `grammar-structure` |
-| `nachschlagen/trennbare-verben.json` (`/grammar/phrasal-verbs-list`) | pronominal verbs reference (*acordarse de, irse, quedarse, darse cuenta de*); slug `reflexive-verbs-list` | `grammar-structure` |
-| `nachschlagen/verben-mit-praepositionen.json` | verbs + prepositions reference | `grammar-structure` |
-| `wortarten.json` | parts of speech (Spanish) | `grammar-structure` |
-| `praepositionen-trainer.json` (`/prepositions`) | packs: *a / en / de*, *por / para*, place, time (*desde, hasta, durante*); pack ids kept | `grammar-structure` |
-| `uebersetzungen/grammatik.json`, `grammatik-themen.json` | empty now; refill from the Spanish topics only with reliable translations | `grammar-structure` (optional) |
-| `uebersetzungen/grammatik-ui.json` | keyed by German UI strings | **leave** (§9) |
-| `verbtabellen.json` | Spanish conjugation tables (§4.1) | `conjugation-data` |
-| `grammatik-start/*` + generator | "Spanish Grammar Start A1–B1" (§5.1) | `grammar-start-book` |
-| `artikel.json`, `artikel-packs.json`, `artikel-haeufigkeit.json` (`/artikel` trainer) | **el / la** trainer: rule packs *-o → el, -a → la*, *-ción/-dad/-tud → la*, *-ma (Greek) → el*, exceptions (*el día, la mano, el mapa, la foto, la moto*), *el agua* (genus f); `artikel-haeufigkeit.json` stays empty until ranks exist | `games` |
+| `grammatik.json` quick quizzes | Follow the slot map | each `grammar-<level>` |
+| `akkusativ.json` | COD pronouns | `grammar-a2` |
+| `grammatik-lehrplan.json`, `GRAMMATIK_ORDER`, `grammatik-verwandt.json` | French syllabus order, related topics recomputed | `grammar-structure` |
+| `kursinhalte.json`, `content/program.json` | French course plan; exam lines name exam + skill only | `grammar-structure` |
+| `nachschlagen/starke-schwache-verben.json` | `schwach` = regular *-er, -ir*; `stark` = irregular; `gemischt` = spelling-change *-er* verbs; rows per §1.4 `forms` | `grammar-structure` |
+| `nachschlagen/trennbare-verben.json` | Pronominal verbs reference; slug stays `reflexive-verbs-list` | `grammar-structure` |
+| `nachschlagen/verben-mit-praepositionen.json` | Sections *à*, *de*, no preposition. A verb with two right prepositions is listed under both (*parler à/de, jouer à/de*); the quiz relies on it | `grammar-structure` |
+| `wortarten.json`, `praepositionen-trainer.json` | French; packs *à / de / en*, *pour / par*, place, time; pack ids kept | `grammar-structure` |
+| `uebersetzungen/grammatik*.json` (incl. `grammatik-themen.json`, read by `downloads.js` and `lang-coverage.mjs`) | Refill only if reliable; `grammatik-ui.json` **leave** (§9) | `grammar-structure` |
+| `searchIndex.js`, `catalog.js` emojis, `stundenplan.js` patterns, `GRAMMAR_RULES` | Follow the topics; reword rules and plan together | `grammar-structure` |
+| `grammatik-start/*`, `generate-grammatik-start-pdf.mjs`, `check-grammatik-start.mjs` | §5.1 | `grammar-start-book` |
+| `artikel.json`, `artikel-packs.json`, `artikel-haeufigkeit.json` | §5.9 | `games` |
 
 ---
 
-## 4. New modules
+## 4. Modules converted from Spanish-specific ones
 
 ### 4.1 Conjugation tables (`conjugation-data`)
 
-`src/data/verbtabellen.json` keeps `about`, `groups`, `verbs`. Six person rows in `PERSONS`
-(`src/lib/verbtabellen.js`): `yo · tú · él/ella/usted · nosotros/as · vosotros/as ·
-ellos/ellas/ustedes`. A tense is a comma list of six forms (as now).
+**Keep the trainer and the table code**, French verbs in `verbtabellen.json` (`about`, `variety`, `groups`, `verbs`). The generator is `src/lib/verbtabellenCore.js`; it needs French rules throughout. Six rows in `PERSONS`: `je · tu · il/elle/on · nous · vous · ils/elles`. A tense is a comma list of six forms. A regular verb stores only `inf, en, level, group, regular`; an irregular one stores only the tenses the generator can't produce. Same six group ids. The Spanish table has 69 verbs; the French minimum below is smaller on purpose, and a run grows it only with forms it has checked.
 
-| Key | Holds |
-|---|---|
-| `inf` | infinitive (*hablar*, *levantarse*) |
-| `group` | `hilfsverb` = *ser, estar, haber, ir*; `modal` = verbs + infinitive (*poder, querer, deber, saber, soler*); `unregelmaessig` = irregular; `regelmaessig` = regular *-ar/-er/-ir* models; `trennbar` = pronominal/reflexive verbs; **new** `stem-change` = *e→ie, o→ue, e→i* (+ its name and `what` in `groups`) |
-| `regular: true` | forms generated by `verbtabellen.js` from the ending (the run rewrites the English generators `thirdPerson`/`pastEd` as Spanish *-ar/-er/-ir* generators) |
-| `praes` | presente de indicativo |
-| `praet` | pretérito indefinido |
-| `p2` | participio (compound tenses: *haber* + `p2`; generated, not stored: perfecto, pluscuamperfecto, futuro perfecto, condicional perfecto, perfecto and pluscuamperfecto de subjuntivo) |
-| **new** `imperf` | pretérito imperfecto |
-| **new** `fut` | futuro simple |
-| **new** `cond` | condicional simple |
-| **new** `subj` | presente de subjuntivo |
-| **new** `subjImpf` | imperfecto de subjuntivo, *-ra* form (the *-se* form is generated and shown as the alternative) |
-| **new** `imp` | imperativo afirmativo, six slots, `–` for *yo*: `–, habla, hable, hablemos, hablad, hablen`; the negative is generated from `subj` (*no hables, no habléis*) |
-| **new** `ger` | gerundio |
-| `note` | usage note in English |
-| `es419` | §1.5 (e.g. *coger*); the *vosotros* row is hidden by the helper in a LatAm mode |
+| Key | Holds | Stored or generated (`STORED_TENSES`, `ROW_TENSES`) |
+|---|---|---|
+| `inf` | infinitive (*parler*, *se lever*) | stored |
+| `group` | `hilfsverb` = *être, avoir, aller*; `modal` = *pouvoir, vouloir, devoir, savoir, falloir*; `regelmaessig` = models *parler, finir, vendre*; `stem-change` = **spelling-change *-er*** (*manger, commencer, acheter, appeler, préférer, payer*); `unregelmaessig` = irregular; `trennbar` = pronominal | stored |
+| `regular: true` | generated from the ending | stored |
+| `aux` (**new**) | `avoir`, `être`, `both` | stored |
+| `praes` | présent | stored where irregular |
+| `praet` | **passé simple**; recognition, shown closed | stored where irregular |
+| `p2` | participe passé | stored where irregular |
+| `imperf` | imparfait, from the *nous* stem of the présent (*être* stored) | stored where irregular |
+| `fut` | futur simple | stored where irregular |
+| `cond` | conditionnel présent | **generated from the stem of `fut`** (*aurai → aurais*), as now |
+| `subj` | subjonctif présent | stored where irregular |
+| `subjImpf` | **imparfait du subjonctif**; recognition, shown closed, not drilled | **generated from `praet`**: the *tu* form + *-se* (*parlas → parlasse, fus → fusse*); the *il* form takes a circumflex (*parlât, fût*). This replaces the Spanish rule that reads the *ellos* form. |
+| `imp` | impératif, six slots: `–, parle, –, parlons, parlez, –` | stored where irregular |
+| `impNeg` | negative imperative: *ne parle pas, ne te lève pas* | generated |
+| `perf` | **passé composé** with `aux` | generated |
+| `plusc` | plus-que-parfait | generated |
+| `futPerf` | futur antérieur | generated |
+| `condPerf` | conditionnel passé | generated |
+| `subjPerf` | subjonctif passé | generated |
+| `subjPlusc` | subjonctif plus-que-parfait; recognition, not drilled | generated |
+| `ger` | **participe présent** (*parlant*; the page shows the gérondif, *en parlant*) | stored where irregular |
+| `note`, `frCA`, `en`, `level` | as in Spanish | stored |
 
-Irregular verbs store only the tenses that are irregular; the generator fills the rest and flags
-every form that differs from the regular pattern (`x`), so the table highlights what to learn.
-Minimum set: the three regular models, *ser, estar, haber, ir, tener, hacer, decir, poder,
-querer, saber, poner, salir, venir, ver, dar, traer, oír, conocer, conducir, pedir, dormir,
-jugar, pensar, volver, sentir, seguir, empezar, elegir, construir, caer, caber, andar*,
-reflexive models *levantarse, llamarse, irse*. Every form checked against RAE/DLE conjugation
-tables; accents (*habláis, comeríais, estéis*) checked by script.
+Spanish code in `verbtabellenCore.js` that goes: `VOSOTROS`, `seForm` and the `-se` alternatives, `enclitic` (*dímelo*; French imperative pronouns are hyphenated, *donne-le-moi*), and the `AUX` table of *haber*, which becomes the *avoir* and *être* forms chosen by `aux`.
 
-### 4.2 Conjugation trainer (`conjugation-trainer`) — add
+French rules the generator must add:
 
-- Page **`/grammar/conjugation`** (`src/pages/grammar/conjugation.astro`), lib
-  `src/lib/conjugationTrainer.js`, data `src/data/conjugation-trainer.json`, styles reuse
-  `practice.css` and the workspace styles. Linked from `/grammar`, `/grammar/verbs` and the
-  verb topics.
-- Reuse, no new dependencies: the practice workspace of `/prepositions`
-  (`mountPracticeWorkspace` in `src/lib/practiceWorkspace.js`, `mountRuleColumn`), answer
-  checking through `src/lib/answerMatch.js` (§1.2 accent rule), progress in localStorage like the
-  other trainers, `setWaiting` for not-ready buttons (CLAUDE.md).
-- Drills generated from `verbtabellen.json`: choose tense/mood (presente, indefinido,
-  imperfecto, futuro, condicional, subjuntivo presente/imperfecto, imperativo afirmativo/negativo,
-  compound tenses), verb group (regular *-ar/-er/-ir*, stem-changing, *yo*-irregular, fully
-  irregular, reflexive) and persons (with or without *vosotros*). Input: typed form with the
-  accent key row, or choice of 3–4 forms on small screens.
-- Hand-written sets in `conjugation-trainer.json` (`{ id, level, title, kind, variety, items }`,
-  `kind`: `form` | `choice`): **ser/estar** (A1, A2, B1), **por/para** (B1, links to
-  `/prepositions` pack), **indefinido/imperfecto** in context (B1), **subjunctive or indicative**
-  (B1, B2). Every item: prompt with `___`, `options` (exactly one correct, or `answer` list),
-  `explain` in English.
+- **Elision in the row label:** *j'aime, j'habite*, but *je hais*. Forms are stored without the pronoun; a display helper elides. Pronominal: *me/m', te/t', se/s', nous, vous, se/s'*.
+- **Agreement in generated compounds with *être***: show `allé(e)`, `allé(e)s`. `alt` also holds accepted variants (*je paie / je paye, je m'assieds / je m'assois*) and 1990 spellings (*connaître / connaitre*). The Spanish `alt` for `-se` goes.
+- **Spelling-change forms** highlight as in Spanish: compares with the bare pattern.
+- Defective: *falloir* (only *il*), *pleuvoir* (*il*, *ils*): `defective: true`, `–`.
 
-### 4.3 Business Spanish (`business-spanish`) — add, B1–C1
+Minimum set: models *parler, finir, vendre*; *être, avoir, aller, faire, venir, tenir, prendre, mettre, dire, voir, savoir, pouvoir, vouloir, devoir, falloir, pleuvoir, partir, sortir, dormir, ouvrir, écrire, lire, boire, croire, connaître, conduire, recevoir, vivre, suivre, mourir, naître, s'asseoir, envoyer, manger, commencer, acheter, appeler, préférer, payer*; pronominal *se lever, s'appeler, se souvenir, s'en aller*. Checked against a reference conjugation source; `check:verbtabellen` golden forms and accent rules are rewritten for French.
 
-- Page **`/business-spanish`** (+ `/business-spanish/[unit]`), data
-  `src/data/business-spanish/<unit>.json`, reusing the berufe deck components for the vocabulary
-  part and the practice workspace for exercises.
-- Units: `correos` formal emails (*Estimado/a…, Quedo a la espera de…, Un saludo*), `reuniones`
-  meetings (opening, agreeing, disagreeing politely, summarising), `llamadas` phone calls,
-  `entrevista` job interviews in Spain (questions, talking about experience, *tú/usted*),
-  `curriculum` CV and cover letter conventions in Spain (photo, personal data, Europass;
-  conventions "to verify"), `negociacion` (C1) negotiating and presenting figures.
-- Unit shape: `{ id, level, title, variety, reviewed, intro, introEasy, phrases: [{ use, es, en, register,
-  variety, es419? }], models: [{ title, text, notes }], tips, words: [berufe deck entries or `{ ref, example, en?, deHint? }`],
-  exercises: [{ id, context?, prompt, options, answer, explain, es419? }] }`. Spain conventions first; LatAm differences as
-  `es419`. Rules: `src/lib/businessSpanish.js`, `scripts/check-business-spanish.mjs` (words: `check-berufe`).
+### 4.2 Conjugation trainer (`conjugation-trainer`): keep, French
 
-### 4.4 DGT driving vocabulary (`dgt-vocab`) — add (replaces Führerschein)
+`/grammar/conjugation`, `conjugationTrainer.js`, `conjugationTyped.js`, `conjugation-trainer.json`, `check:conjugation` all stay, including typed + pills behaviour.
 
-- **Vocabulary only**: no official DGT test questions, no copied manual text, no claim to prepare
-  for the exam on its own. Page **`/dgt-vocabulary`**, data `src/data/dgt/vocabulario.json` in the
-  **berufe deck schema** (groups of words with `gender`, `plural`, `example`, `translations.en`,
-  `variety`; refs `{ ref, example }` into the lexicon), rendered with the berufe deck components;
-  validator `check-berufe.mjs` (or its core) extended to read `src/data/dgt/`.
-- Groups: *el coche* (parts, controls), *la carretera* (road types, *rotonda, carril, arcén*),
-  *las señales* (sign families and their words, no images copied from official material),
-  *maniobras* (*adelantar, ceder el paso, estacionar*), *el examen y la autoescuela* (*examen
-  teórico, práctico, permiso B, puntos*), *documentos y multas*. A short orientation box: the
-  theory exam can be taken in some other languages (which: "to verify"), the official source is
-  the DGT website.
-- **Where the removed Führerschein module comes back from:** it is **not in this repo's
-  history** (it starts at `9577286`, a squashed snapshot of icanspeak English @ `39ac46f`). The
-  files were removed in icanspeak-english commit `db88ba4` (`cleanup`, 2026-11-02); the state
-  before it is `db88ba4~1` in the **icanspeak-english** repo (paths in `EXPERIMENTE.md`:
-  `src/data/fuehrerschein`, `src/lib/fahrQuiz.js`, `fahrQuizData.js`, `fahrSzene.js`,
-  `fuehrerscheinData.js`, `stadtfahrt.js`, `src/lib/vorfahrt`, `src/pages/games/stadtfahrt.astro`,
-  `vorfahrt.astro`, `src/styles/vorfahrt.css`; older still in deutschacademy).
-  **Decision:** `dgt-vocab` restores **nothing**: the deck needs none of it, the German question
-  bank is German-law content and must not come back, and queue runs must not touch other
-  repositories. If a later item wants the driving scene code (`fahrSzene.js`) or the driving
-  games, Edgar exports the files from icanspeak-english (`git -C <icanspeak-english> show
-  db88ba4~1:<path>`) into this repo; that item then adapts them to Spanish rules and records it
-  in `EXPERIMENTE.md`.
+- Drill choice (`drills.tenses`, same keys as §4.1): `praes, perf, imperf, plusc, fut, futPerf, cond, condPerf, subj, subjPerf, imp, impNeg`. In `drills.notDrilled`: `praet` (passé simple; recognition set only), `subjImpf`, `subjPlusc`. Each tense's `mood` is `indicatif`, `conditionnel`, `subjonctif` or `impératif`; `name` is the French name; `rule` is rewritten.
+- `drills.groups`, one explicit verb list each, every verb present in `verbtabellen.json`: `reg-er`, `reg-ir`, `reg-re` (the old `reg-ar`, `reg-er`, `reg-ir` slots), spelling-change, irregular, reflexive. `drills.presets` are rewritten; `topicLinks` keys follow the slot map (§3) and their `drill:*` values point at the new presets.
+- Accent key row from §1.2. A typed reflexive form without its pronoun gets its own hint. The learner types the verb form only, with the subject pronoun shown, so elision (`j'`) can't cause a false wrong answer.
+- Hand-written sets (`kind: "choice"` as now) replace the 11 Spanish ones; all `ser-estar-*`, `por-para-b1`, `indefinido-*`, `subjuntivo-*`, `irregular-yo-a1`, `futuro-condicional-b1`, `imperativo-b1` ids go:
+
+| New set id | Level | Drills |
+|---|---|---|
+| `irregular-present-a1` | A1 | *être, avoir, aller, faire* and other key irregulars |
+| `avoir-etre-a2` | A2 | *avoir* or *être* in the passé composé |
+| `agreement-etre-a2` | A2 | Participle agreement with *être* |
+| `irregular-participles-a2` | A2 | *eu, été, fait, pris, mis, vu, dit* … |
+| `imperative-a2` | A2 | Imperative, with pronouns |
+| `avoir-etre-b1` | B1 | Harder cases: *monter, sortir, passer* with and without an object |
+| `passe-compose-imparfait-b1` | B1 | Passé composé or imparfait in context |
+| `futur-conditionnel-stems-b1` | B1 | *aur-, ser-, ir-, fer-, viendr-* … |
+| `indicatif-subjonctif-b1` | B1 | Indicative or subjunctive: wishes, necessity |
+| `indicatif-subjonctif-b2` | B2 | Indicative or subjunctive: opinion, doubt, concession |
+| `agreement-avoir-b2` | B2 | Agreement with *avoir* and a preceding direct object |
+| `agreement-reflexive-b2` | B2 | Agreement with reflexive verbs |
+| `passe-simple-c1` | C1 | Recognition: which verb and person is this form? |
+
+- `/prepositions` and `MORE` lose the link `?set=por-para-b1`.
+- `drills.limits` drops real but unneeded forms (*imperative of pouvoir, falloir, pleuvoir*…).
+
+### 4.3 Business French (`business-french`), B1–C1
+
+Same six units, same ids and shape (`src/data/business-spanish/<unit>.json`): `correos` emails (*Madame, Monsieur, Je vous prie d'agréer…, Cordialement*), `llamadas` phone, `curriculum` CV and *lettre de motivation* (France's conventions: photo, length, age; "to verify"), `entrevista` interviews in France (*vous*, the *entretien*), `reuniones` meetings, `negociacion` (C1) negotiation and figures. Phrases carry `fr` where the Spanish had `es`. This is a deliberate exception to "keep the shape": `es` would otherwise read as the new Spanish UI language. `check-business-spanish.mjs` and the page read the key, so this item updates both. Differs from the everyday `b1-email-*` writing tasks. Page `/business-french`, `BUSINESS_SLUGS` unchanged.
+
+### 4.4 Code de la route vocabulary (`code-route-vocab`)
+
+**Vocabulary only**: no official exam questions, no copied text, no claim to prepare for the exam on its own. Deck `src/data/dgt/vocabulario.json`, same schema, `DGT` in `berufeCore.js`, ids `bv-dgt-…`, page `/code-de-la-route-vocabulary`. The ten group ids stay: `car` (parts), `controls`, `road` (*rocade, bretelle, bande d'arrêt d'urgence*), `users` (road users), `signs` (words only, no official images), `manoeuvres` (*céder le passage, doubler, se garer, priorité à droite*), `instructions`, `exam` (*auto-école, examen du code, permis B, points*), `documents` (papers and fines), `breakdown`. Groups mix `ref` entries into the lexicon and own `bv-dgt-…` entries. Titles lead with the French (*La voiture: parts of the car*). Short orientation box: official source is the government site; format and languages of the test "to verify". Do not carry over DGT-specific facts (V-16 beacon).
 
 ---
 
@@ -459,280 +487,267 @@ tables; accents (*habláis, comeríais, estéis*) checked by script.
 
 ### 5.1 Placement, learner shell, grammar book
 
-| Module | Spanish course | Item |
+| Module | French course | Item |
 |---|---|---|
-| `einstufung.json` (6 items per level, 2 drawn, each tests one level-typical feature) | Same design, Castilian standard. A1: *ser/estar*, present regular, *el/la*, *gustar*, *hay*; A2: *indefinido*, *perfecto*, *imperfecto*, object pronouns, *ir a*; B1: *indefinido/imperfecto*, present subjunctive (wishes), *por/para*, conditional, imperative; B2: imperfect subjunctive, *si* unreal, *se* passive, reported speech, subjunctive in relatives; C1: sequence of tenses, *como si*, conditions without *si*, formal relatives, cleft. | `placement-test` |
-| `einfach-pfad.json` ("Learn step by step", A1–B1) | Beginner path built on the Spanish grammar slots and the A1–B1 vocab units; first steps for a newcomer in Spain (greetings, *me llamo*, numbers, *¿dónde está…?*, the padrón appointment) | `beginner-path` |
-| `/step-by-step` screens (`src/lib/einfach-view.js`, `einfach-app.js`, `einfach-content.js`, noscript in `src/pages/step-by-step.astro`, `docs/easy-mode-tier1-v1.md`) | Spanish units; the recipe doc rewritten for Spanish units; *el/la* instead of *a/an/some* in the views | `beginner-path-ui` |
-| `grammatik-start/en.json` (base book) + `scripts/generate-grammatik-start-pdf.mjs`, `check-grammatik-start.mjs` | **"Spanish Grammar Start A1–B1"**, brand icanspeak Spanish, 10 chapters on the Spanish A1–B1 topics; key `titleDe` holds the English title (as now). `de.json` (German explanations of the English book) is reset with `--skeleton de` unless the run writes German explanations of the Spanish book. | `grammar-start-book` |
+| `einstufung.json` | Same design (6 per level, 2 drawn). A1: *être/avoir*, *-er* present, *le/la*, *ne…pas*, *est-ce que*, adjective agreement. A2: passé composé (avoir, être), imparfait, COD, futur proche, partitive. B1: PC/imparfait, subjonctif (wishes), *y/en*, *dont*, conditionnel, futur. B2: *si* patterns, *bien que*, passive, reported speech, participle agreement, gérondif. C1: subjonctif passé, cleft, *à condition que*, *comme si*, nominalisation, journalistic conditional. | `placement-test` |
+| `einfach-pfad.json` | A1–B1, first steps for a newcomer in France (*bonjour*, *je m'appelle*, numbers, *où est…*, a rendez-vous, *la mairie*). All old ids stay. New ones only with a reason. `placementStart` rechecked. Tasks re-signed. | `beginner-path` |
+| `/step-by-step` screens | `einfach-view.js`, `einfach-app.js`, `einfach-content.js`, `einfach-fixtures.js`, noscript in `step-by-step.astro`, `docs/easy-mode-tier1-v1.md`. `articleOptions`, `ARTICLE_PLACEHOLDERS` to `le / la`, `le / la / l'`, `un / une`. `artikel` tasks reject `l'`/`les`/`le/la` nouns, or ask `un / une`. Plural card: `les` + plural. Bruno's reactions simple French with English on tap. | `beginner-path-ui` |
+| `grammatik-start/*` + generator | **"French Grammar Start A1–B1"**, brand icanspeak French, ten chapters in `k1`–`k10`: *être/avoir*, *-er* present, questions and *ne…pas*, nouns/articles/adjectives, irregular present, reflexive and object pronouns, modal verbs, passé composé, imparfait, B1 toolkit. Printed book says fr-CA in plain text where needed. The German edition is reset to a skeleton here and rewritten by `ui-lang-de`. Regenerate the PDF after `routes`. | `grammar-start-book` |
 
 ### 5.2 Vocabulary
 
-| Module | Spanish course | Item |
+| Module | French course | Item |
 |---|---|---|
-| `content/lexicon/a1…b2.json` (units of 25 words, topics) | Same units, unit ids and topic slugs where the topic fits; Spanish lemmas for Spain, chosen by topic and frequency, with the resident's needs first (*el padrón, la cita previa, el centro de salud, la nómina, el contrato*); schema §1.4, `variety` §1.5 | `vocab-a1` … `vocab-b2` |
-| `content/lexicon/c1.json`, `c2.json` | 24 + 16 units, same conventions | `vocab-c1-c2` |
-| `wortschatz.json` (phrase cards `front/note/translations`) | Spanish phrase cards; `note` = usage tip in English; `variety` | `vocab-a1` |
-| `haeufigste-woerter.json` + `scripts/haeufigste-woerter.mjs`, `attach-ranks.mjs`, `artikel-haeufigkeit.mjs` | read `es_50k` instead of `en_50k` (licence "to verify"); data regenerated only when the list can be downloaded | `vocab-a1` |
-| `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json` | keep pictures, re-key to the Spanish ids per level | each `vocab-*` |
-| `lexicon/i18n/<lang>.json` | Spanish → learner language (§1.4) | each `vocab-*` for its level |
-| `uebersetzungen/woerter-uk.json` | Ukrainian glosses of the old German words | `vocab-a1` decides: refill for Spanish A1 if reliable, else empty it (`entries: {}`) |
+| `content/lexicon/a1…b2.json` | Same units and counts, France vocabulary, resident's needs first (*la mairie, la préfecture, le rendez-vous, le médecin traitant, la carte Vitale, la CAF, le bail, le loyer, la fiche de paie, le contrat*). Schema §1.4, `variety` §1.5. | `vocab-a1` … `vocab-b2` |
+| `c1.json`, `c2.json` | Same conventions. Titles about Spanish change (*Loanwords in French, Informal French (France)*), with `ws.set.*`. | `vocab-c1-c2` |
+| `wortschatz.json` | French phrase cards; `note` = English tip; `variety` | `vocab-a1` |
+| `haeufigste-woerter.json` + scripts | Read `fr_50k` (§1.4) | `vocab-a1` |
+| `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json` | Keep pictures, re-key to French ids | each `vocab-*` |
+| `lexicon/i18n/<lang>.json` | `de`, `es`, `pt`, `it` per level | each `vocab-*` |
+| `scripts/lexicon-import.mjs` | Keep, French source format; IPA from the source (§1.4); adds `-fr` on clashes. Slug-check lemmas first; empty the level and old ids before importing. | `vocab-a1` |
 
-### 5.3 Listening (`hoeren.json`, ids kept, settings in Spain) — `listening`
+Spain topics become France's: *impôts, TVA, taxe foncière, Livret A, APL, RSA, collège, lycée, baccalauréat, Parcoursup, gendarmerie, police nationale, région, département, livret de famille, CDI, CDD, intérim, rupture conventionnelle, syndic, état des lieux, Assemblée nationale, Conseil d'État, Journal officiel, Défenseur des droits*: glossed as orientation only.
 
-| Id | Spanish script |
+### 5.3 Listening (`hoeren.json`, ids kept) — `listening`
+
+| Id | French script |
 |---|---|
-| `a1-ansage-bahnhof` | Announcement at a train station (platform, delay) |
-| `a1-anruf-arzt` | Voicemail from the *centro de salud*: your appointment |
-| `a1-supermarkt` | At the supermarket: *¿Dónde está…?* |
-| `a1-verabredung` | Phone call: *¿Quedamos?* |
-| `a2-amt-termin` | At the town hall: changing a *cita* |
-| `a2-wohnungsbesichtigung` | Viewing a flat (*piso*) |
+| `a1-ansage-bahnhof` | Station announcement (*voie*, *retard*) |
+| `a1-anruf-arzt` | Voicemail from the *cabinet médical*: your rendez-vous |
+| `a1-supermarkt` | At the supermarket: *Où est…?* |
+| `a1-verabredung` | Phone call: *On se voit ?* |
+| `a2-amt-termin` | At the *mairie*: changing a rendez-vous |
+| `a2-wohnungsbesichtigung` | Viewing a flat |
 | `a2-radio-wetter-verkehr` | Radio: weather and traffic |
-| `a2-paketdienst` | Voicemails: a parcel and the plumber (*fontanero*) |
-| `b1-krankmeldung` | Calling in sick at work (*la baja*) |
-| `b1-elterngespraech` | Meeting with the class tutor (*tutoría*) |
-| `b1-radio-muelltrennung` | Radio feature: recycling and the coloured containers |
-| `b1-durchsage-ersatzverkehr` | Announcement: line closure and replacement bus |
-| `b2-diskussion-homeoffice` | Team meeting: *teletrabajo* |
-| `b2-interview-anerkennung` | Interview: getting a foreign degree recognised (*homologación*) |
-| `b2-beschwerde-versicherung` | Complaint to an insurance company |
-| `b2-vortrag-ehrenamt` | Short talk: volunteering |
+| `a2-paketdienst` | Voicemails: a parcel (*point relais*) and the plumber |
+| `b1-krankmeldung` | Calling in sick (*arrêt de travail*) |
+| `b1-elterngespraech` | Meeting with the teacher |
+| `b1-radio-muelltrennung` | Radio: recycling, the *bac jaune* |
+| `b1-durchsage-ersatzverkehr` | Announcement: a strike or works, replacement bus |
+| `b2-diskussion-homeoffice` | Team meeting: *télétravail* |
+| `b2-interview-anerkennung` | Interview: getting a degree recognised |
+| `b2-beschwerde-versicherung` | Complaint to an insurer |
+| `b2-vortrag-ehrenamt` | Short talk: *bénévolat* |
 
-`voices` = es-ES voices (Azure names "to verify" before the first render); every script carries
-`variety: "es-ES"`; `uebersetzungen/hoeren.json` stays empty. Places and firms invented.
+`voices` = fr-FR voices (names "to verify" before a render); `seconds` estimated; every text `variety: "fr-FR"`. Elisions and dropped *ne* appear as spoken at A2+.
 
 ### 5.4 Reading and writing — `reading-writing`
 
-| Module | Spanish course |
+| Module | French course |
 |---|---|
-| `lesen.json` (B1 short text, reading tasks 1–4, form task, writing prompt, error hunt) | B1 reading set from life in Spain: notices matching (*comunidad de vecinos*, school, gym), a local news article true/false, forum posts *¿quién lo dice?*, an interview; form = an invented municipal form (e.g. sports centre card, library card); writing prompt = an email; error hunt = typical learner errors (*soy cansado, la problema*). Same ids, levels, types, `kind`s, `from` links. |
-| `fertigkeiten/lesen.json`, `fertigkeiten/schreiben.json`, `/writing/[id]` data | Spanish reading/writing hubs and writing tasks A1–B2 (forms, WhatsApp messages, emails to a landlord/school/employer, complaint, opinion text) |
-| `uebersetzungen/lesen.json`, `schreiben.json` | stay empty |
-| `src/lib/schreibKorrektur.js` | checks Spanish (LanguageTool `es`, own rules for ¿ ¡ and accents); LanguageTool is only called if the backend flag allows it (it is off) |
-
-Added by this item, next to the existing ids (§13 has why): reading `a1-phone-messages`,
-`a2-padron-notice`; writing `a2-padron-form`, `a2-email-school`, `b1-email-landlord`,
-`b1-email-employer`, `b2-opinion-text` (new type `opinion`).
-
-Formats: Spanish dates `03/11/2026`, times `17:30`, money `45 €`; phone numbers are obvious
-placeholders (`600 000 0xx`; Spain has no reserved fiction range: "to verify"); emails use
-`example.com`.
+| `lesen.json` | B1 set from life in France: notices (*copropriété*, school, gym), local news article, forum posts, interview; form = invented municipal form; writing prompt = email; error hunt = typical learner errors. Same ids. |
+| `fertigkeiten/lesen.json`, `schreiben.json` | A1–B2 forms, messages, emails to a landlord, school, employer; *lettre de motivation*, *courrier administratif* (*Madame, Monsieur … Veuillez agréer*), the formal email, a complaint, an opinion text. `a2-padron-notice`/`a2-padron-form` ids stay; content = **notice from the mairie, form for an *inscription scolaire* or *carte de bibliothèque***, because France has no padrón. |
+| `src/lib/schreibKorrektur.js` | LanguageTool `fr` behind `BACKEND.languageTool` (off); own rules: NBSP before `? ! : ;`, missing accents on common words, `ça`, *à/a* hints. |
+| `wordRange()` | reads “(80–100 mots)” |
 
 ### 5.5 Speaking — `speaking`
 
-| Module | Spanish course |
+| Module | French course |
 |---|---|
-| `sprechen.json` (3 picture tasks) | 3 picture descriptions (A2) with follow-up questions, same pictures |
-| `sprechen-b1b2.json` stages | B1/B2: **1 · The photo** (describe and imagine), **2 · The talk** (short monologue on a topic after notes), **3 · Conversation/role play**; modelled on DELE B1/B2 and SIELE oral task types; timings "to verify" and labelled "in the style of" |
-| `redemittel.json` (14 functional sets) | same 14 set ids and phrase order (the beginner path addresses `redemittel:<set>#<index>`); key `de` = Spanish phrase, `en` = English meaning/usage; the last set → place (*¿Dónde está la pelota? Debajo de la mesa.*); `variety` on every phrase |
-| `redemittel-i18n/<lang>.json` | re-keyed to the Spanish phrases; reliable languages only; `es.json` emptied (and deleted by `cleanup`) |
-| `fertigkeiten/sprechen.json`, `uebersetzungen/sprechen.json` | Spanish hub; translations empty |
-
-As done (§13 has why): `redemittel-i18n` holds `de`, `fr`, `pt`, `it`; the other sidecars and the
-inline `ar`/`uk`/`ru`/`tr` are gone. Stage 3 of `sprechen-b1b2.json` is a discussion in prompts
-1, 3, 5, 6 and a role play in 2 and 4.
+| `sprechen.json`, `sprechen-b1b2.json` | Same pictures, check what each shows; stages in the style of DELF and TCF oral tasks; labelled "in the style of", "Not an official exam task". **tu/vous throughout**: each task states which. Player gender avoided. |
+| `redemittel.json` | Same 14 set ids and phrase order (the path addresses `redemittel:<set>#<index>`); `de` = French phrase, `en` = real translation + usage note; `variety`. |
+| `redemittel-i18n/<lang>.json` | `de`, `es`, `pt`, `it` from the French; `fr` emptied. |
+| `cardPoint`, `resolveSprechen` | Strip *et*, French wrapper sentences |
 
 ### 5.6 Pronunciation — `pronunciation`
 
-| Module | Spanish course |
+| Module | French course |
 |---|---|
-| `ausspracheregeln.json` | Castilian rules in the old rule slots: the five pure vowels, stress and written accents (*llana, aguda, esdrújula*), *c/z* = /θ/ (distinción; seseo/ceceo as `es419`/notes), *j/g* = /x/, *r/rr*, *b/v* = same sound (/b/ ~ [β]), *d* softening [ð], silent *h*, *ll/y* (yeísmo), *ñ*, linking (*sinalefa*), *qu/gu/gü* |
-| `aussprache-check.json` | sentences A1–B1 (*pero/perro, caro/carro, casa/caza*), question slots stay questions |
-| `satzmelodie.json` | intonation: yes/no questions (rise), *wh*-questions (fall), lists, exclamations, polite requests |
-| `zungenbrecher.json` | traditional Spanish tongue twisters (public domain) by level |
-| `aussprache-muttersprache.json` | drills per first language: English, German, French, Portuguese, Italian speakers first (e.g. English: vowel reduction, aspirated *p/t/k*, *r* tap; German: *b/v*, *z* = /θ/ not /ts/; French: *r*, nasal vowels, *u*; Portuguese: vowel reduction, *j*, *ll*; Italian: double consonants, *z*); other slots only where reliable |
-| `fehler-nach-sprache.json` `area: "aussprache"` | rewritten together with the drills (they link both ways: `pnpm check:aussprache`) |
+| `ausspracheregeln.json` | Rules in the old slots: oral vowels; **nasal vowels** (*an, on, in*; *un* merged for most speakers); **French r**; **u / ou** (*tu/tout*); **e muet**; **liaison** (required, forbidden, optional) and **enchaînement**; **silent final letters**; stress at the group's end; *é / è*; *eu*; *gn*, *ill*; h muet and aspiré; `ch / j`. `frCA` notes (affrication, *-tu*, vowels). |
+| `aussprache-check.json` | A1–B1, pairs *tu/tout, vin/vent, dessus/dessous, poisson/poison, le/les*. Same ids. |
+| `satzmelodie.json` | Rise in questions, *est-ce que*, question-word falls, lists, polite requests. `baseAs()`, the quiz and `melodyType` lose `¿…?` and read French question words. |
+| `zungenbrecher.json` | French folk virelangues (*Les chaussettes de l'archiduchesse…, Un chasseur sachant chasser…*), public domain |
+| `aussprache-muttersprache.json` + `fehler-nach-sprache.json` `area: "aussprache"` | **English, German, Spanish, Portuguese, Italian** first (e.g. English: *r*, *u*, nasal vowels, diphthongs, final stress; German: *z* vs *s*, final devoicing, nasal vowels; Spanish: *s/z*, *b/v*, *e muet*, *u*; Portuguese: nasal differences, *e muet*; Italian: double consonants, stress, *u*). Others only where reliable. They link both ways (`check:aussprache`). |
+| `ausspracheTipps.js`, `LANG` in check libs, `aktivMode.js`, `spielKit.js`, `speak.js` | `focus` ids `r`, `u-ou`, `nasal`, `e-muet`, `liaison`, `silent`, `eu`, `e-accent`, `gn`, `h`; `fr-FR`. |
 
-Every `audio` flag stays `false` until es-ES recordings exist; the pages read with an es-ES
-browser voice (`LANG = "es-ES"` in the check libs, the dialogue voice in `src/lib/spielKit.js`).
+`audio` stays `false`. Browser voice fr-FR first, then any French voice; never another language's. Pair tests must not depend on a distinction the voice doesn't make (*brin/brun*; Canadian voices): check this at the audio render.
 
 ### 5.7 Idioms, mistakes, slang — `idioms-mistakes`
 
-| Module | Spanish course |
+| Module | French course |
 |---|---|
-| `redewendungen.json` | Spanish idioms and proverbs B1–C1 used in Spain (*estar en las nubes, costar un ojo de la cara, ponerse las pilas*); `de` = the idiom, `en` = English meaning; origin only where well sourced |
-| `umgangssprache.json` | colloquial Spain Spanish (*guay, currar, flipar, mola, tío/tía, vale*) with register notes; mild-to-strong swearing with warnings, no slurs; the UK law note goes |
-| `typische-fehler.json` | typical mistakes (*soy cansado, la problema, me gusta los libros, estoy de acuerdo* vs *soy de acuerdo*, *pienso de*) in the same 5 group ids |
-| `fehler-nach-sprache.json` | mistakes per first language. Language slots: `spanisch` (Spanish speakers) → **English speakers** (id `englisch`, it is free again); add `portugiesisch`; keep `deutsch`, `franzoesisch`, `italienisch`; keep `arabisch`, `ukrainisch`, `russisch`, `chinesisch` and add `rumaenisch` (large groups in Spain) only with reliable content; `tuerkisch`, `persisch`, `polnisch`, `vietnamesisch`, `tagalog` kept only if the run writes reliable content, otherwise removed (with their drills) |
-| `wortfallen.json` | false friends for English (*embarazada, constipado, éxito, carpeta, librería, actualmente*), German (*el gimnasio* ≠ Gymnasium, *la tasa* ≠ Tasse, *el mantel* ≠ Mantel), French (*la carpeta* ≠ carpette, *largo* ≠ large), Portuguese (*exquisito, polvo, oficina*), Italian (*burro, salir*) speakers; group ids new (English), en.json keys re-keyed in the same commit |
-| `synonyme.json` | Spanish synonym groups A1–B2 with register differences |
+| `redewendungen.json` | Idioms and proverbs used in France, B1–C1 (*avoir le cafard, coûter les yeux de la tête, poser un lapin*); `de` = idiom, `en` = nearest English; `quellen` https; origin only where sourced. `REDEWENDUNGEN_LIVE` stays Edgar's call. |
+| `umgangssprache.json` | **Everyday spoken French**: *ne* dropped, *on* for *nous*, *ça*, *t'as*, *y a*; slang (*boulot, bouquin, truc, mec, nana, bosser, sympa*); verlan basics (*meuf, relou, ouf, chelou*) with register notes; swearing with warnings, no slurs. |
+| `typische-fehler.json` | Same 5 group ids (`gleich, gross, aehnlich, wendung, hinten`): *je suis 25 ans* (*j'ai*), *je suis chaud* (*j'ai chaud*), *j'ai allé* (*je suis allé*), *la problème* (*le*), *depuis* tense, *visiter* for people. |
+| `fehler-nach-sprache.json` | **`franzoesisch` slot → `spanisch`**. Slots: `englisch`, `deutsch`, `spanisch`, `portugiesisch`, `italienisch` required; `arabisch` strongly preferred, as many learners in France speak it, written only if reliable; `rumaenisch`, `russisch`, `ukrainisch`, `chinesisch` only if reliable, otherwise removed with their drills. `langMark.js` follows. |
+| `wortfallen.json` | False friends for English (*actuellement, attendre, librairie, blesser, sensible, monnaie*), German (*le gymnase* ≠ Gymnasium, *brave* ≠ brav), Spanish (*constipé* ≠ constipado, *large* ≠ largo, *salir* ≠ salir), Portuguese (*attendre* ≠ atender, *prétendre* ≠ pretender), Italian (*salir* ≠ salire, *fermer* ≠ fermare). These are starting points: the run checks each one. New ids, re-key `en.json`. |
+| `synonyme.json` | Groups A1–B2, must really swap in a sentence; `nota` register |
+| `wortarten.json` `fehler` | Filled with French pair ids |
 
-### 5.8 Culture and knowledge (Spain first, then the Hispanic world) — `culture`
+### 5.8 Culture (France first, then the francophone world) — `culture`
 
-`kultur.json` topics, ids kept:
+`kultur.json` ids kept. No topic is left describing Spain.
 
-| Id | Level | Spanish course topic |
-|---|---|---|
-| `duzen-siezen` | A1 | *Tú* or *usted*: how formal to be in Spain |
-| `pfand` | A1 | Greetings: *dos besos*, handshake, *¡Buenas!* |
-| `sonntagsruhe` | A1 | Daily rhythm: meal times, opening hours, Sundays and *festivos* |
-| `trinkgeld` | A1 | Bars and paying: *la cuenta*, *invitar*, tipping |
-| `bundeslaender` | A2 | The 17 *comunidades autónomas* and 2 autonomous cities |
-| `feiertage` | A2 | Public holidays: national, regional, local |
-| `muelltrennung` | A2 | Recycling: the coloured containers |
-| `termine` | A2 | *Cita previa*: an appointment for everything |
-| `anmeldung` | B1 | *Empadronamiento*: registering at the town hall |
-| `krankenversicherung` | B1 | Public health: *tarjeta sanitaria*, *centro de salud*, *urgencias* |
-| `mieten` | B1 | Renting a flat: *fianza*, contract, bills, *comunidad* |
-| `schulsystem` | B1 | The school system: *infantil, primaria, ESO, bachillerato, FP* |
-| `arbeit-finden` | B1 | Finding a job: SEPE, *currículum*, contract types |
-| `ausbildung` | B2 | *Formación profesional* and university; *homologación* |
-| `kuendigung` | B2 | Leaving a job: notice, *finiquito*, *paro* (general orientation) |
-| `oeffentlich-rechtlicher-rundfunk` | B2 | Public media: RTVE and regional broadcasters |
-| `vereine` | B2 | Associations, *peñas*, volunteering |
-| `foederalismus` | C1 | The State of Autonomies: State, communities, provinces, municipalities |
-| `sozialversicherung` | C1 | *Seguridad Social*: number, *afiliación*, contributions |
-| `wahlen` | C1 | Elections and the electoral system (factual, neutral) |
-| `erinnerungskultur` | C2 | The Transition to democracy (factual, neutral) |
-| `grundgesetz` | C2 | The Constitution of 1978 and the Constitutional Court |
-| `mitbestimmung` | C2 | Unions, *convenios colectivos* and workers' rights |
+| Id | Level | French course topic | New slug |
+|---|---|---|---|
+| `duzen-siezen` | A1 | *Tu* or *vous* | `tu-or-vous` |
+| `pfand` | A1 | Greetings: *bonjour* first, *la bise*, handshake | `greetings` |
+| `sonntagsruhe` | A1 | Daily rhythm: meal times, opening hours, Sundays | `daily-rhythm` |
+| `trinkgeld` | A1 | Cafés, *service compris*, tipping, *l'addition* | `cafes-and-paying` |
+| `bundeslaender` | A2 | Regions, departments, overseas | `regions-and-departments` |
+| `feiertage` | A2 | Public holidays, *le pont* | `public-holidays` |
+| `comida` | A2 | Food and meals | `food-and-meals` |
+| `fiestas` | A2 | Festivals (*14 juillet, Fête de la musique*, Carnival…) | `festivals` |
+| `muelltrennung` | A2 | Recycling: *bac jaune*, glass | `recycling` |
+| `termine` | A2 | *Rendez-vous*: appointments, online booking | `rendez-vous` |
+| `anmeldung` | B1 | **Proving your address** (*justificatif de domicile*): France has no registration | `proof-of-address` |
+| `krankenversicherung` | B1 | *Ameli, carte Vitale, médecin traitant, mutuelle, urgences* | `health-system` |
+| `mieten` | B1 | *Bail, dépôt de garantie, état des lieux, charges, APL* | `renting` |
+| `schulsystem` | B1 | *Maternelle, élémentaire, collège, lycée, bac* | `school-system` |
+| `arbeit-finden` | B1 | *France Travail, CV, CDI/CDD, intérim* | `finding-a-job` |
+| `lenguas-cooficiales` | B1 | Regional languages (none official at national level) | `regional-languages` |
+| `mundo-hispano` | B1 | The francophone world | `francophone-world` |
+| `ausbildung` | B2 | *Apprentissage, université*, recognising degrees | `training-and-university` |
+| `kuendigung` | B2 | *Démission, rupture conventionnelle, chômage* | `leaving-a-job` |
+| `oeffentlich-rechtlicher-rundfunk` | B2 | France Télévisions, Radio France, others | `public-media` |
+| `vereine` | B2 | *Associations loi 1901, bénévolat* | `associations` |
+| `tradiciones-america` | B2 | Traditions of Québec, the Caribbean, West Africa | `francophone-traditions` |
+| `foederalismus` | C1 | The *État*, decentralisation, *communes* | `state-and-decentralisation` |
+| `sozialversicherung` | C1 | *Sécurité sociale, Urssaf*, contributions | `social-security` |
+| `wahlen` | C1 | Elections, factual | `elections` |
+| `historia-compartida` | C1 | France and its former colonies, factual | `france-and-its-former-colonies` |
+| `erinnerungskultur` | C2 | Memory: Vichy, Algeria, factual and neutral | `historical-memory` |
+| `grundgesetz` | C2 | Constitution of 1958, Conseil constitutionnel, *laïcité* | `constitution` |
+| `mitbestimmung` | C2 | *Syndicats, CSE, conventions collectives* | `unions-and-agreements` |
 
-| Other module | Spanish course |
-|---|---|
-| `kultur-insider.json`, `kultur-bilder.json` | Spain insider tips (*sobremesa*, *el aperitivo*, neighbours' WhatsApp group); pictures only where they fit |
-| `wusstest-du.json`, `kalender-saetze.json` | "Did you know?" about Spanish; daily sentences in Spanish with English |
-| `zitate.json`, `uebersetzungen/zitate.json` | Spanish-language quotes, public domain or properly attributed short quotes, verified attribution (author death year and public-domain status "to verify" per author) |
-| `/explore` (+`/films`) | Spanish films and series from Spain, then Latin America (titles and short own descriptions only) |
-| `/knowledge/country-and-culture`, `/knowledge/learning` | Spain/Hispanic world, learning tips for Spanish (text via `ui-pages-*`) |
-
-Facts that change (fees, figures, rules) need a source and an "as of" date in the sourcing note.
+`kultur-insider.json` (*l'apéro, bonjour first, la grève, the long lunch*), `kultur-bilder.json`, `wusstest-du.json`, `kalender-saetze.json`, `zitate.json` (authors who died before 1946), `kultur-filme.json` (France first). `WORLD_IDS` in `culture/index.astro`. `/explore/films` stays. Facts that change need a source and an "as of" date.
 
 ### 5.9 Games
 
-| Module | Spanish course | Item |
+**Principle:** an elided noun can't be asked as `le / la`, because *l'* gives nothing away, and neither can a plural, since *les* is always the same. So:
+
+- Consonant-initial nouns: `le / la`.
+- Vowel and h muet nouns: **`un / une`**, shown as such, with `genus`.
+- `l'` is taught as a rule (*l'école, not la école*), in the trap tiles and the trainer's rule pack, not as a gender choice.
+- `les` gates become **plural-form gates** (*le cheval → les chevaux / chevals*).
+
+| Module | French course | Item |
 |---|---|---|
-| `artikel-sprint` (`/games/countable-sprint`) | **Gender sprint**: *el / la* gates, *los / las* plural gates; traps *el agua, la mano, el día* | `games` |
-| `/artikel` trainer + `artikel*.json` | el/la trainer (§3.1) | `games` |
-| `quakiSpringt/fragen.json`, `turm.json` | Spanish quiz pools per level | `games` |
-| `hochstapler/themen.json`, `redemittel.json`, `strings.js` | Spanish impostor themes on Spanish lexicon ids, sentence starters A1–C1 | `games` |
-| `satzregen/saetze.json` + `quelle.txt` | own Spanish sentences; Spanish word order is freer than English: every other correct order is an `{alt}` in `quelle.txt`; mode ids kept (`v2` statements and questions, `janein` yes/no, `klammer` → object pronouns before the verb, `nebensatz` → indirect questions) | `games` |
-| `nussnacht` (Nut night, `src/lib/nussnacht`) | shots *el / la* from lexicon `gender` (`g` 0 el, 1 la; plural creatures take *los/las*); bosses = the gender traps (*el mapa, la foto, el agua, el problema, la radio*); the "two-word cracker" upgrade → compound nouns (*sacacorchos, abrelatas* → *el*) | `games-arcade` |
-| `hoerSafari` (Listening safari) | hear *el/la* + noun, hit the picture; **no Spanish audio exists**, so the browser es-ES voice speaks (as the English course did with en-GB), and without speech the word is shown at once | `games-arcade` |
-| `buergeramt` (`/games/front-desk`, `src/data/buergeramt/kunden.json`, `src/lib/buergeramt/*`) | **Extranjería sim**: desk at the invented town of Villabruno. Day 1 = *padrón* desk at the town hall (empadronamiento: ID, proof of address); later days = Extranjería appointment desk (NIE, TIE: form, passport, photo, fee receipt; form names and fee model numbers "to verify"). The player checks **paperwork completeness only**; arraigo and the 2026 extraordinary regularisation appear as customers who are referred to information ("this desk doesn't decide that") plus a "general orientation, not legal advice" box. Paper kinds keep their ids (`ausweis` = national ID/passport, `pass` = passport, `meldeschein`/`abmeldung` = application form with boxes, `wgb` = rental contract / proof of address); rule `art: "echt"` = usual Spanish practice with a source type, `"lindenau"` (value kept) = made-up Villabruno rule. | `extranjeria-sim` |
-| `knigge` (`/games/manners`, `src/lib/knigge/scenes.js`) | manners in Spain: greetings and *dos besos*, meal times, *tú/usted*, the bar round, neighbours, punctuality; `de` = the Spanish line, `en` = English meaning; wheel `sie`/`du` = *usted*/*tú* | `games-dialogue` |
-| Lindenau / Brambleford RPG (`/games/brambleford`, `src/lib/lindenau/*`, `uebersetzungen/lindenau.json`) | **Villabruno**, an invented Spanish town (working name: `games-dialogue` checks no real municipality has it, else picks another and updates this plan): errands at the *panadería*, train station, *centro de salud*, supermarket, new neighbour, *cafetería* | `games-dialogue` |
-| `/game` (live-quiz join page) | content from the teacher quiz | `teachers` |
+| `artikel-sprint` (`/games/gender-sprint`), `questions.js` lanes | `le / la`, `un / une`, plural forms; traps *la plage, le musée, la main, l'eau (une), le lycée* | `games` |
+| `/articles`, `generoDrill.js`, `artikelPacks.js`, `artikel*.json` | Rule packs: **-tion, -té, -ette, -ure, -ence → f**; **-age, -ment, -eau, -isme, -oir → m**, exceptions (*la plage, la page, la peau, l'eau, la main, la fin, la mer, le lycée, le musée*). `AMBIGUOUS`: nouns whose meaning changes with gender (*le/la livre, tour, poste, mode, voile, manche, mémoire, vase*) and *gens, après-midi, amour* | `games` |
+| `artikelDiktat.js`, `ArtikelDiktat` | Article check: `le, la, l', les, un, une`; accents count | `games` |
+| `quakiSpringt`, `hochstapler`, `satzregen` | French pools and themes. `satzregen`: French word order less free than Spanish, but list every other right order; the `{free …}` flag only where truly free; pronouns before the verb and *ne…pas* are the modes; tiles per §1.2. Clue starters in impostor avoid giving away gender | `games` |
+| `spiele/domino.js`, `bingo`, `arbeitsblatt/wortschatz.js` | Filters on `le/la/l'`, labels; `teachers` owns page text | `games`, `teachers` |
+| `nussnacht` | Shots **le / la**; elided creatures = **un / une** buttons; plural popper → **L' popper** (done by `games-arcade`: plurals dropped, see §13). Bosses in `bosse.js` = gender traps above. Ending radar: per the rule packs. Cracker: compound nouns (*tire-bouchon, porte-monnaie, ouvre-boîte*, mostly m). | `games-arcade` |
+| `hoerSafari` | Hear *le/la* + noun, hit the picture; `l'` nouns **out**, since hearing them can't tell gender. **No French audio exists**: browser voice, fr-FR first, then any French voice, never another language; without speech the word appears at once and the start card says why. Same exclusions of nouns whose picture doesn't show them. | `games-arcade` |
+| `buergeramt` | §5.11 | `prefecture-sim` |
+| `knigge` (`/games/manners`) | Scenes in France: *bonjour* first, *la bise*, tu/vous, meal times, the *boulangerie*, the *mairie*, *l'apéro*. `de` = French line, `en` = English, wheel `sie`/`du` = *vous*/*tu*. **Player's gender avoided**, which French agreement makes harder: not *enchanté(e)* or *ravi(e)* but *c'est un plaisir*; not *tu es arrivé(e)* but *tu viens d'arriver*. `check:knigge`, `check:lindenau` patterns rewritten for French. | `games-dialogue` |
+| Town RPG (`/games/villabruno`, `src/lib/lindenau/*`) | **Montbruno**, an invented French town: *boulangerie, gare, cabinet médical, supermarché, voisin, café*. `label` carries the article (`withArticle`). *Le comte Crasse, le baron Poussière*; Super-Blubb stays. `VARIETY = "fr-FR"`. | `games-dialogue` |
+| `/game` | Content from the teacher quiz | `teachers` |
 
 ### 5.10 Teachers — `teachers`
 
-| Module | Spanish course |
+| Module | French course |
 |---|---|
-| `arbeitsblatt/<id>.json` | tandem extras for the Spanish topic in each slot (blue tile: infinitive → form, *el/la*, singular → plural, *tú → usted*; choice tiles *ser / estar*, *por / para*, *el / la*) |
-| `partneruebungen/*` | same scenarios in Spain: hairdresser, *intercambio de idiomas*, market stall, new room, *indefinido* memory, picnic, weekend bingo, *fiesta del barrio*, shared-flat dice; drafts until reviewed |
-| `unterricht-wortschatz.json`, `lernstunde-texte.json`, timetable texts in `src/lib/stundenplan.js` | Spanish lesson-mode word fields and phase texts (phase detection strings adapted) |
-| `downloads.json` | Spanish download catalogue (links to Cervantes, RAE/DLE, DELE/SIELE/CCSE official pages, DGT) |
-| printable games, tests, surveys | domino *el / la*, plurals, word ↔ meaning; class-test detection for Spanish grammar words |
-| `einstieg-bilder.json` | photo ids, language-neutral: keep |
+| `arbeitsblatt/<id>.json` | Tandem extras for each slot; blue tile: infinitive → form, *le/la*, *tu → vous*; choice tiles `à / de`, `avoir / être`. **French needs the subject**, so the Spanish bracket tile `(yo)` goes: tiles are `je`, `tu`, and the sheet handles *j'*. `?` with NBSP. `check-arbeitsblatt.mjs` rewritten (no `¿`). |
+| `partneruebungen/*` | Same scenarios in France; drafts until reviewed |
+| `unterricht-wortschatz.json`, `lernstunde-texte.json`, `stundenplan.js`, `stundenplanLinks.js` | French lesson modes; links as searches, not fixed videos |
+| `downloads.json` | Official links: France Éducation international (DELF/DALF, TCF), CCI Paris (TEF), service-public, ANTS or Sécurité routière. Spanish entries go. |
+| printable games, class test `GRAMMAR_WORD`, `liveQuiz/chapters.js`, nicknames | French; nickname animal + adjective with one form for both genders where possible |
 
-### 5.11 Life in Spain: nationality, CCSE, Extranjería
+`/teachers/cards` (`vokabelFoto`) stays out, as in Spanish (§9).
 
-| Item | Files |
-|---|---|
-| `ccse` | `leben-in-deutschland.json` (meta: `totalQuestions`, `passScore`, time "to verify"; questions own, grouped by the public CCSE subject areas; every fact with a source in the sourcing note), `uebersetzungen/leben-in-deutschland.json` (emptied unless reliable), `/ccse` pages (`/test`, `/facts`); the Life in the UK PDFs and downloads on `/facts` go |
-| `nationality-path` | `pruefungen/dtz/uebungssatz-1.json`, `src/lib/dtzTrainer.js` texts, paid `dtz/uebungssatz-{2,3,4}.json`, new `/nationality` page (`src/pages/nationality.astro`), registry `dtz` texts |
-| `extranjeria-sim` | `src/data/buergeramt/kunden.json`, `src/lib/buergeramt/{regeln,faelle,daten,kunde,tisch}.js` texts |
+### 5.11 Life in France: civic exam, nationality, Préfecture sim
 
-### 5.12 Spanish for work (`data/berufe/`, now `/english-for-work`) — `spanish-for-work`
+**Préfecture sim** (`prefecture-sim`): **Bruno at the desk**, in `src/data/buergeramt/kunden.json`, `src/lib/buergeramt/*`. Same engine, five days, roughly the same number of hand-written cases. France differs from Spain in two ways the sim must not hide: **most titre de séjour requests go online through ANEF**, and **there is no town-hall registration**. So the player is at a *point d'accueil numérique* / reception desk at the invented **préfecture and mairie of Montbruno** helping people get files complete, not deciding.
 
-Same 10 sector ids (progress keys), content for Spain, sectors where immigrants in Spain often
-work first:
+| Day | Desk | Papers |
+|---|---|---|
+| 1 | Mairie | *justificatif de domicile*, *attestation d'hébergement*, ID |
+| 2 | Mairie | School enrolment, the same papers with new traps (old bills, wrong names) |
+| 3 | ANEF help point | Online request: account, passport, photo, *justificatif de domicile* (*numéro de photo-signature, timbre fiscal*: "to verify") |
+| 4 | *Récépissé*, CAF and *sécurité sociale* point: *carte Vitale, RIB, attestation* | Who can be helped here, who must go elsewhere |
+| 5 | Questions: naturalisation, refusal, *OQTF*, asylum | **Always referred** to official information or legal aid (`derivar_*` kept; `derivar_arraigo` and `derivar_regularizacion` get French content under the same keys) |
 
-| Id | Spanish course sector |
-|---|---|
-| `pflege` | Care work: elderly care at home and in residences (*cuidador/a, residencia*) |
-| `gastronomie` | Hospitality: bars, restaurants, kitchens (*hostelería*) |
-| `kita` | **Cleaning and domestic work** (*limpieza, empleo del hogar*, incl. childcare in families) |
-| `elektro-technik` | **Agriculture and farm work** (*el campo, invernaderos, recogida*) |
-| `bau-handwerk` | Construction and trades |
-| `einzelhandel` | Shops and supermarkets |
-| `lager-logistik` | Warehouse and logistics |
-| `kraftfahrer` | Driving and delivery (*reparto*); refs into `dgt/vocabulario.json` allowed |
-| `hotel` | Hotels and tourism |
-| `buero` | Office and admin (links to Business Spanish) |
+- **Where it lives:** customers' lines are in `kunden.json` (`gruss`, `genehmigt`, `abgelehnt`, `zurueck`, `warten`); cases, papers and `WOERTER` in `lib/buergeramt/faelle.js`; `TAGE` and the rules in `regeln.js`; weekday names in `daten.js`; the desk in `tisch.js`. `TAGE[n].ort` values `padron`/`extranjeria` stay as ids; `titel` and the rule list follow the table above. The dates (`heute: "2027-03-15"` …) stay.
+- **Stamps COMPLET / INCOMPLET**, keys C and I, never accepted/refused: no stamp may look like a decision about status. `genehmigt` holds the COMPLET lines, `abgelehnt` the INCOMPLET lines: neither may say anything about the person's status.
+- A missing paper means "come back with it"; never "you can't stay".
+- `de` = French, `en` = English shown under it. File-level `variety`. `art: "lindenau"` value kept, = made-up Montbruno rule; `"echt"` = usual practice with source type. `TAGE`, `WOERTER`, paper kinds kept, with new meanings (`meldeschein` = ANEF print-out, `wgb` = *justificatif de domicile*, `abmeldung` = the *récépissé*).
+- `check:extranjeria` stays, script name included. "General orientation, not legal advice" on start and end cards. Page stays a noindex prototype outside the menu until Edgar decides.
 
-Conventions as the lexicon (§1.4): own words `gender` el/la, plural, `forms` per §1.4,
-`translations.en` = English gloss, `deHint` = German translation (the German tab) or removed if
-the `de` tab is dropped; `variety` on own entries. Working conditions (contracts, *régimen
-especial de empleadas de hogar*) only as general orientation, "to verify". Validator
-`src/lib/berufeCore.js` (`pnpm check:berufe`).
+### 5.12 French for work — `french-for-work`
 
-### 5.13 Word stories (`content/wortgeschichte/`) — `word-stories`
+Same 10 sector ids (progress keys). French sectors, where immigrants in France often work first:
 
-Spanish etymology stories, new files by Spanish lemma slug, same schema: Latin (*casa, agua,
-hablar*), Arabic (*aceite, almohada, azúcar, alcalde*; *ojalá, aldea* once the lexicon has them),
-Germanic (*ropa, blanco*; *guerra, guardar* once the lexicon has them), Greek, American languages
-(*chocolate, tomate, patata*), modern loans. First batch about
-30 A1–A2 words, every story sourced (DLE/RAE etymology, Corominas via secondary sources,
-Wiktionary), `status: "entwurf"`, `checkedBy`/`checkedAt` set. The 30 English stories are deleted
-when their Spanish batch lands (the same `publishOn` dates reused); `cleanup` removes any left.
-`entryLang` in `wortgeschichteCore.js` gets `es`.
+| Id | Sector | Slug |
+|---|---|---|
+| `pflege` | Care: *aide à domicile, EHPAD, aide-soignant* | `care-work` |
+| `gastronomie` | Restaurants and kitchens | `restaurants` |
+| `kita` | **Cleaning and childcare** (*nettoyage, assistante maternelle, garde d'enfants*) | `cleaning-childcare` |
+| `elektro-technik` | **Private security** (*agent de sécurité, gardiennage*) in place of Spain's agriculture. Immigrant employment is high and language use is constant. The licence rules for security staff are "to verify" and stay general. | `security` |
+| `bau-handwerk` | Building, *le BTP* | `construction` |
+| `einzelhandel` | Shops, *grande distribution* | `shops` |
+| `lager-logistik` | Warehouse and logistics | `warehouse` |
+| `kraftfahrer` | Driving and delivery (refs into the code de la route deck) | `driving` |
+| `hotel` | Hotels and tourism | `hotels` |
+| `buero` | Office (links to Business French) | `office` |
+
+Conventions as §1.4. `translations.en`; `deHint` German; `variety`. Working conditions general, "to verify". `GENDERS` per §1.6. Photos: `hub-bilder.json` queries.
+
+### 5.13 Word stories — `word-stories`
+
+French etymology, new files by lemma slug, same schema: Latin (*maison, eau, parler, fromage*), Frankish (*jardin, guerre, bleu, riche*), Arabic (*café, sirop, chiffre, algèbre, toubib*), English loans and round trips (*tennis, budget, week-end, flirter*), others. About 30 A1–A2 words, every story sourced (TLFi via CNRTL, Wiktionary; only what was read). `status: "entwurf"`. Spanish stories deleted when their batch lands, the same `publishOn` dates reused. Lemmas must be in the lexicon. `entryLang`, `LANG_NAMES`, `PROSE_LANG`.
 
 ### 5.14 Accents and languages — `accents-languages`
 
-| Module | Spanish course |
+| Module | French course |
 |---|---|
-| `/knowledge/accents` (`dialekte.json`, `dialekte-karte.json`, `dachMap.js`) | varieties of Spanish **in Spain** (Castilian north/centre, Andalusian, Canarian, Murcian, Extremaduran, Spanish in Catalonia/Galicia/Basque Country) with features (seseo/ceceo, aspiration, yeísmo); world varieties (Mexican, Caribbean, Andean, Rioplatense, Chilean) as notes; Spain's co-official languages (Catalan/Valencian, Galician, Basque, Aranese) as dots (`lang: true`). Map geometry from Natural Earth as the English run did (geo packages in a scratch folder, never site dependencies). |
-| `/knowledge/languages` (`sprachen-welt.json`, `sprachen-karte.json`) | where Spanish is spoken: 20 countries with Spanish as official/main language + Puerto Rico, Equatorial Guinea, the US as a large community; status keys keep names with these meanings |
+| `/knowledge/accents` (`dialekte.json`, `dialekte-karte.json`) | Metropolitan first: northern/standard, southern France (*e muet* pronounced, *-ng*), Alsace, Corsica; `world` array: Québec, Acadie, Belgium, Switzerland, West Africa, North Africa, Caribbean, as notes. Regional languages as `lang: true` dots: Breton, Occitan, Alsatian, Corsican, Basque, Catalan. |
+| `/knowledge/languages` (`sprachen-welt.json`, `sprachen-karte.json`) | Where French is spoken. Views `world` + `africa` instead of `americas`. Official/co-official countries; Canada, Belgium, Switzerland; Maghreb as `region`; figures from OIF, "to verify". Comparison = slots in `fehler-nach-sprache.json`, opens on English. **Decoder** turned: English → French patterns (`-ty → -té`, `-ous → -eux`). |
+| Geometry | `scripts/karte-geo.mjs` from outlines in the repo. France's view needs its own hand-drawn region lines; `generate-*-karte.mjs`. Check whether the committed outlines include France in enough detail; Spanish history commit `edf6596` may not exist in this repo. |
 
 ---
 
 ## 6. Data-file naming
 
-Data file names and folders stay as they are (German names: `einstufung.json`, `hoeren.json`,
-`grammatik/…`): code, generators and validators reference them, and renaming buys nothing for a
-visitor. New files use English names. A later clean-up of file names is out of this queue.
+Data file names and folders stay (`einstufung.json`, `hoeren.json`, `grammatik/…`, `dgt/`, `business-spanish/`). New files use English names. A later clean-up of file names is out of this queue.
 
 ---
 
-## 7. Modules dropped (removed by `cleanup`)
+## 7. Modules dropped (removed by `cleanup`, restore commands in its report)
 
-| What | Why | Restore |
-|---|---|---|
-| English-course leftovers no item converted (e.g. unwritten SIELE band sets, paid DTZ sets 2–4 still in English, Life-in-the-UK PDFs, English word stories) | must not stay next to Spanish content | `git checkout <cleanup-commit>~1 -- <path>`; recorded in the `cleanup` report and §13 |
-| `lexicon/i18n/es.json`, `redemittel-i18n/es.json` | Spanish → Spanish translation makes no sense | same |
-| a/an/some values left in `berufeCore.js` and the games (`ENGLISH_LEVELS` and the lexicon validator went with `vocab-c1-c2`) | no English level left | same |
-| German → English legacy redirects (`ROUTE_RENAMES` 301s in `astro.config.mjs`, `DROPPED`, `ACCOUNT_REDIRECTS`), done by `routes` | new site at `/spanish`, no German URL was ever public here | `git checkout 715b761~1 -- astro.config.mjs src/lib/routes.js` (restores the tables, whose targets are the old slugs) |
-| Empty sidecars, `data/lernsets/`, `data/incoming/`, `public/data/artikel-herkunft.json`, `public/data/herkunft/`, unused components, `src/oldux/`, `generate-fakten-pdf`, `generate-bundesland-pdf`, `check-erklaerungen`, `preview-wort-mails`, `build-emails`, state-booklet code, done by `cleanup` | empty, unread, German or broken | `git checkout c5bc292~1 -- <path>` |
-| 617 unused `en.json` keys, photos of Germany and of old sectors (`politik*`, `kultur`, `leben-in-deutschland`, `berufe-kita`, `berufe-elektro-technik`), `.tdaf-*` styles, done by `cleanup` | no reader, or they show Germany | `git checkout 06c1090~1 -- <path>` |
-| `public/og/` hub cards, `public/zitate/`, `public/img/merch/`, four stray photos in `public/assets/`, done by `cleanup` | old brand or German content, no reader | `git checkout 77c57b6~1 -- <path>` |
+`cleanup` runs before the `ui-lang-*` items, so the `fr` UI row is the one thing still present when `cleanup` ends: `ui-lang-es` removes it, and `cleanup`'s closing grep treats `fr` UI hits as deliberate.
 
-Experiment pages follow CLAUDE.md (`EXPERIMENTE.md` archive entry before removal). The
-Führerschein, driving games, politics, tax havens, beer map and German declension were already
-removed in icanspeak-english (§4.4 for where they live).
+| What | Why |
+|---|---|
+| `fr` UI: `public/i18n/fr.json`, registry entry, entry pages, `og:locale`, `CORE` entry (done by `ui-lang-es`) | French learners don't need a French UI |
+| `lexicon/i18n/fr.json`, `redemittel-i18n/fr.json`, `fr` blocks in `schreibKorrektur.js`, `elsewhere.fr` in word stories, `LanguageOffer.astro` line | Same |
+| Empty lexicon sidecars (`ar, fa, hi, id, kmr, pl, ps, ro, ru, so, sq, ti, tl, tr, uk, vi`) if still empty | No reader; check `LANG` lists first |
+| `scripts/es-ipa.mjs`, `showsVosotros`, `alt -se` logic, `¿ ¡` rules, `es419` legacy branch, `el/la` fallbacks | Spanish logic |
+| Spanish PDFs (`public/downloads/grammatik-start*.pdf` until regenerated), Spanish images (`bildkarten`, `hub-bilder`) showing Spain only | Must not stay next to French content |
+| `public/logos/icanspeak-spanish-*` (done by `base-path-and-brand`). The `icanspeakit-*` logos stay: they are the umbrella brand. | Wrong course |
+| `uebersetzungen/woerter-uk.json`, read only by `generate-grammatik-pdf.mjs` (`grammar-structure` removes that read or refills the file) | Spanish-based glosses |
+| `exams/dele-or-siele.astro` → renamed; `src/pages/nationality/dele-a2/` → renamed (`routes`) | |
+| Any unwritten paid mock | Never left in Spanish |
 
 ---
 
 ## 8. Slugs to rename (`routes`)
 
-Current (English course) → Spanish course. No redirects from the English-course URLs: the site
-at `/spanish` is new and nothing was deployed. Every internal link, `catalog.js` menu,
-`suche-seiten.json`, `entry-pages.json`, sitemap and `llms.txt` follows, base-aware.
+No redirects from Spanish-course URLs: `/french` is new. Keep the guessed `/grammar/<slug>` → `/<slug>`. Every internal link, `catalog.js`, `suche-seiten.json`, `entry-pages.json`, sitemap, `llms.txt` follows. `pnpm check:links` is in the gate. Renamed pages rekey `scripts/i18n-luecken-baseline.json` in the same commit (§1.6 rule 9). `/tef/language-in-use` falls under `testdaf` in `examOfPath()`, not `goethe` as it did under `/dele`: check the course bar on that page.
 
 | Current | New |
 |---|---|
-| `/cambridge` (+`/[slug]`) | `/dele` (+`/[slug]`: `a2`, `b1`, `b2`, `c1`) |
-| `/a1-test` | `/dele/a1` |
-| `/cambridge/use-of-english` | `/dele/language-use` |
-| `/ielts` (+`/practice-set`) | `/siele` (+`/practice-set`) |
-| `/trinity` (+`/[slug]`) | `/siele/levels` (+`/[slug]`) |
-| `/trinity/ise-1` (+`/mock-test`, `/practice-set`) | `/nationality/dele-a2` (+`/mock-test`, `/practice-set`) |
-| `/life-in-the-uk` (+`/test`, `/facts`) | `/ccse` (+`/test`, `/facts`) |
-| `/english-for-work` (+`/[beruf]`) | `/spanish-for-work` (+ sector slugs per §5.12 titles: `care-work`, `hospitality`, `cleaning-domestic-work`, `agriculture`, …) |
-| `/games/countable-sprint` | `/games/gender-sprint` |
-| `/games/front-desk` | `/games/extranjeria` |
-| `/games/brambleford` | `/games/villabruno` (or the name `games-dialogue` settles on) |
-| `/grammar/phrasal-verbs-list` | `/grammar/reflexive-verbs-list` |
-| grammar topics `/<slug>` | §3 "New slug" (`TOPIC_SLUGS`) |
-| item slugs (listening, reading, writing, speaking, culture, phrases, work groups: `ITEM_SLUGS`, `WORK_GROUP_SLUGS`) | kebab-case of the new English title (`a1-ansage-bahnhof` → `a1-station-announcement`) |
-| teacher worksheets `/teachers/worksheets/{grammar,tandem}/<slug>` | follow the topic slugs |
-| **new** | `/grammar/conjugation`, `/business-spanish`, `/dgt-vocabulary`, `/nationality`, `/exams/dele-or-siele` |
-| kept | `/grammar`, `/vocabulary`, `/listening`, `/reading`, `/writing`, `/speaking`, `/pronunciation`, `/intonation`, `/tongue-twisters`, `/placement-test`, `/step-by-step`, `/object-pronouns`, `/prepositions`, `/culture`, `/knowledge/*`, `/teachers/*`, `/exams`, `/exam-plan`, other games, legal pages |
+| `/dele` (+`/[slug]`) | `/delf-dalf` (+`/[slug]`: `a2`, `b1`, `b2`, `c1`) |
+| `/dele/a1` | `/delf-dalf/a1` |
+| `/dele/language-use` | `/tef/language-in-use` |
+| `/siele` (+`/practice-set`) | `/tef` (+`/practice-set`) |
+| `/siele/levels` (+`/[slug]`) | `/tcf` (+`/[slug]`) |
+| `/nationality` | `/residence-and-nationality` |
+| `/nationality/dele-a2` (+`/mock-test`, `/practice-set`) | `/residence-and-nationality/tcf-irn` (+ same) |
+| `/ccse` (+`/test`, `/facts`) | `/civic-exam` (+ same) |
+| `/exams/dele-or-siele` | `/exams/delf-tcf-or-tef` |
+| `/spanish-for-work` (+`/[beruf]`) | `/french-for-work` (§5.12 slugs) |
+| `/business-spanish` | `/business-french` |
+| `/dgt-vocabulary` | `/code-de-la-route-vocabulary` |
+| `/games/extranjeria` | `/games/prefecture` |
+| `/games/villabruno` | `/games/montbruno` (or the settled name) |
+| grammar topics | §3 |
+| culture items | §5.8 |
+| listening etc. item slugs (`ITEM_SLUGS`) | kebab-case of the new English title; leave an unmapped id out, **never map an id to itself** |
+| kept | `/grammar`, `/grammar/conjugation`, `/grammar/reflexive-verbs-list`, `/vocabulary`, `/listening`, `/reading`, `/writing`, `/speaking`, `/pronunciation`, `/intonation`, `/tongue-twisters`, `/placement-test`, `/step-by-step`, `/object-pronouns`, `/prepositions`, `/culture`, `/knowledge/*`, `/teachers/*`, `/exams`, `/exams/traps`, `/exam-plan`, `/games/gender-sprint`, other games, legal pages |
 
-`EXAM_PATHS`, `TOPIC_SLUGS`, `REF_SLUGS`, `ITEM_SLUGS`, `WORK_GROUP_SLUGS` and `BUSINESS_SLUGS`
-in `src/lib/routes.js` are the one table (`EXAMS` and `ROUTE_RENAMES` went with the redirects);
-ids, storage keys and data file names stay. `pnpm check:links` (in the gate) checks that the
-source's internal links lead to a page.
+**Code:** `EXAM_PATHS` = `{ goethe: "/delf-dalf", telc: "/tcf", dtz: "/residence-and-nationality/tcf-irn", testdaf: "/tef", "leben-in-deutschland": "/civic-exam", "start-deutsch-1": "/delf-dalf/a1" }`. `workPath()`, `businessPath()`, the `/spanish-for-work` section key. `examHref` in `stundenplan.js`. After routes: `pnpm generate:grammatik-start-pdf`, commit the PDFs; rerun `scripts/build-suche-seiten.mjs` after a build.
 
 ---
 
@@ -740,18 +755,18 @@ source's internal links lead to a page.
 
 | Module | Reason |
 |---|---|
-| Backend seam: `src/lib/backend.js`, `supabase/browser.js`, `api.js`, `analytics.js`, `monitoring.js`, `pronunciation/browser.ts`, `access.js`, `PremiumLock` | no integrations (ARCHITECTURE.md); only voice language es-ES where a module sets it |
-| Server-only features (live quiz rooms, classes, cloud sync, leaderboards) | fail softly offline; their texts are UI (`ui-*`), their content comes from `teachers` |
-| `steuer.json`, `produkte.json`, `premium-features.json` | business/legal settings; only their rendered strings via `ui-*` |
-| Image manifests (`*-bilder*.json`, `*.manifest.json`, `hub-emoji.json`, `einstieg-bilder.json`) | language-neutral |
-| `paid-manifest.json`, `saetze-index.json`, `public/inhalt/*` | generated |
-| `uebersetzungen/grammatik-ui.json` | keyed by German UI strings, read by `check-grammatik-ui`; harmless |
-| `uebersetzungen/rechtliches.json` and legal facts (company, address, contact) on `/privacy`, `/terms`, `/legal-notice` | legal facts unchanged; only language and brand (`ui-pages-m-z`) |
-| Mascots (Bruno, Quaki), design system page, icons, fonts, CSS, RTL setup | language-neutral; texts via `ui-*` |
-| `src/lib/audioPacks.js` stub, `/account` page (sign-in and pricing links lead straight to it; its redirects went with `routes`) | no app, no accounts |
-| Data file names and ids (§6), storage keys | code and saved progress key on them |
-| `docs/inhalte-qa/` | QA reports, regenerated by `pnpm check:inhalte` |
-| `src/integrations/*` logic | only made base-aware by `base-path-and-brand`, language handling by `ui-lang-*` |
+| Backend seam: `backend.js`, `supabase/browser.js`, `api.js`, `analytics.js`, `monitoring.js`, `pronunciation/browser.ts`, `access.js`, `PremiumLock` | No integrations; only the voice language where a module sets it |
+| Server-only features (live quiz rooms, classes, sync, leaderboards) | Fail softly offline; texts via `ui-*` |
+| `steuer.json`, `produkte.json`, `premium-features.json` | Business and legal settings; rendered strings via `ui-*`. `produkte.json` old names checked by `cleanup` |
+| Image manifests (`*-bilder*.json`, `*.manifest.json`, `hub-emoji.json`, `einstieg-bilder.json`) | Language-neutral; photos showing Spain are replaced or dropped by their module's item |
+| `paid-manifest.json`, `saetze-index.json`, `public/inhalt/*` | Generated |
+| `uebersetzungen/grammatik-ui.json` | Keyed by German UI strings; harmless |
+| `uebersetzungen/rechtliches.json`, legal facts (company, address, contact) | Legal facts unchanged; only language and brand (`ui-pages-m-z`). Binding language stays as it is |
+| Mascots, design system page, icons, fonts, CSS, RTL, brand theme | Language-neutral; the Spanish course's `brand-theme` work carries over, which is why this queue has no such item |
+| `src/lib/audioPacks.js`, `/account`, `/teachers/cards` + `vokabelFoto/*` | No app, no accounts; needs backends that don't exist |
+| Data file names and ids (§6), storage keys | Code and progress key on them |
+| `docs/inhalte-qa/` | Regenerated |
+| `src/integrations/*` logic | Base-aware through config; language by `ui-lang-*` |
 
 ---
 
@@ -759,42 +774,102 @@ source's internal links lead to a page.
 
 ### 10.1 `base-path-and-brand`
 
-`astro.config.mjs` (`site`, `base`, redirects base-aware); one helper **`src/lib/paths.js`**
-(`withBase(path)`, `absoluteUrl(path)`, `langPath(lang, path)` → `/spanish/de/…`); every link,
-asset, fetch (`public/i18n/*.json`, data JSON endpoints), canonical, hreflang, sitemap, OG image
-and `llms.txt` URL through it (`src/layouts/Layout.astro`, `src/lib/i18n.js`, `src/integrations/*`,
-components and pages that write `href="/…"`, `src` and `fetch("/…")`); brand strings in
-`public/i18n/en.json`, `Layout.astro`, manifest, `brand/`, OG images; `scripts/check-base.mjs` +
-`pnpm check:base` (fails on root-absolute `href`/`src`/`action`/`srcset`/`url()` in `dist/` that
-don't start with `/spanish/`). Every later item runs `pnpm check:base` after the build.
+The helper exists, and the hand copy already did part of this: `BASE_PATH = '/french'` in `src/lib/paths.js` (read by `astro.config.mjs` and `check-base.mjs`), `wrangler.jsonc` (name, routes; there is no `assets.base_path`, because `cf:prepare` nests the build under `french/` with the root `scripts/nest-dist.mjs`) and the package scripts. So the item confirms those and changes what is left:
+
+- **Paths:** `/spanish` in `public/_headers`, `public/robots.txt`, `public/site.webmanifest` (name, `short_name`, `start_url`, `scope`, icons), `scripts/lib/pdf-brand.mjs`, comments in `astro.config.mjs` and `check-base.mjs`.
+- **Logos:** `scripts/build-wordmark.mjs` reads `icanspeak-spanish-*`; point it at `icanspeak-french-*`, rerun it for `public/assets/logo.png`, the OG image, `favicon.ico` and `apple-touch-icon.png`. Then remove the Spanish logos. `Wordmark.astro`.
+- **Brand:** the string "icanspeak Spanish" is **replaced across the whole app in this item**, not only in layouts: `en.json`, `Layout.astro`, `src/lib/**` (`seo/jsonld.ts`, `klassenDashboard.js`, `unterricht/lernseite.js`, `pruefungsplan.js` calendar `PRODID`, `widerrufsbelehrung.js`, `mascots.js` …), `src/integrations/llms-txt.mjs`, `src/pages/**` titles, scripts. Later items then only handle content. Grep for "icanspeak Spanish" and "icanspeak ES" must come back empty.
+- `/french` and the deployment facts are not touched in the root `DEPLOY.md` (outside this app; it already lists `/french*`).
 
 ### 10.2 `variety-schema`
 
-§1.5: `src/lib/variety.js`, `scripts/check-variety.mjs` (in the gate), the validators that own
-lexicon/berufe/grammar files accept `variety`, `es419`, `genus`, `fem`.
+§1.4 helpers, §1.5 shape, §1.6 rule 1–2. `src/lib/variety.js`, `scripts/check-variety.mjs`, validators; callers in `conjugation.astro`, `conjugationTrainer.js`, `pronunciation.astro`, `verbtabellen.js`, `berufeCore.js`, `redemittelWortschatz.js`, `nussnacht/bosse.js`, `business-spanish/[unit]/index.astro`.
 
 ### 10.3 `ui-components`, `ui-pages-a-l`, `ui-pages-m-z`
 
-Page titles, descriptions, leftover English-course/German UI text (Cambridge, IELTS, UK, British
-English, German strings) in `src/layouts`, `src/components`, `src/pages` (split a–l / m–z + legal
-pages). New strings into `public/i18n/en.json` with `data-i18n`. Data content is not theirs.
+Page titles, descriptions, leftover text (DELE, SIELE, CCSE, Spain, Castilian, Extranjería, Spanish strings) in `src/layouts`, `src/components`, `src/pages`. New strings into `en.json` with `data-i18n`. Data content is not theirs. Pages name the target exams, and hrefs stay on old slots until `routes`. Also the *lang* side: `lang="es"` → `lang="fr"` in their files, with `check-i18n-luecken.mjs` per §1.6 rule 9. The live-date `home3.pricing.live` is flagged to Edgar, not invented. `ui-components` also owns the visible text in `src/lib/ruleColumn.js` and `vorschau.js`; `ui-pages-m-z` owns `preise.js` and `widerrufsbelehrung.js` (language and brand only).
 
-### 10.4 `ui-lang-de`, `-fr`, `-pt`, `-it`
+**Who owns which strings in `en.json`.** At the start of this queue, 456 of its 6,306 values name Spanish-course terms. The key prefix decides the owner, so two items don't both rewrite a block:
 
-Registry entry in `src/lib/languages.js` (`status: "draft"` on every surface **that has text in
-that language**, in practice `ui` and `cards` with `fetch: true`; see the `ui-lang-de` decisions at
-the end of this file; `urlPrefix`, `hreflang`), `public/i18n/<code>.json` from `en.json`, `pnpm
-lang:coverage` (commit `docs/lang-coverage.json`, or the `ui` gate hides the language), a block in
-`src/data/entry-pages.json`, entry pages at `/spanish/<code>/` with hreflang. Portuguese:
-**Brazilian** (`pt`, hreflang `pt-BR`), decided by `ui-lang-pt`: the larger group of Portuguese speakers
-learning Spanish, in Spain and worldwide; see the Portuguese UI decisions at the end of this file.
+| Prefix | Item |
+|---|---|
+| `goethe`, `sd1`, `format`, `pruefungen`, `exam` | `exams-delf-dalf` |
+| `delesiele`, `telc`, `telcSb`, `testdaf`, `tdf` | `exams-tcf-tef` |
+| `lid` | `civic-exam` |
+| `nat`, `dtz`, `dtzSet` | `nationality-path` |
+| `grammatik` | each `grammar-<level>` |
+| `vt` | `conjugation-data` |
+| `ws.set` | each `vocab-*` |
+| `wortfallen` | `idioms-mistakes` |
+| `kultur`, `wissen` (culture blocks) | `culture` |
+| `dialekte`, `sprachen` | `accents-languages` |
+| `dgt` | `code-route-vocab` |
+| `biz` | `business-french` |
+| `berufe` | `french-for-work` |
+| `ld` | `games-dialogue` |
+| Everything else (`home`, `home3`, `nav`, `konto`, `kontoDel`, `loeschen`, `preise`, `fortschritt`, `auth`, `kl`, `uf`, `kt`, `lq`, `qb`, `sp` …) | The `ui-*` item that owns the page using it |
+
+### 10.4 UI languages
+
+| Item | What |
+|---|---|
+| `ui-lang-de` | `public/i18n/de.json` updated from `en.json` (it holds Spanish-course strings); `grammatik-start/de.json`; entry pages. `de` on `ui`, `cards` with `fetch: true`. |
+| `ui-lang-es` | **New** `es`: registry entry (`draft`, urlPrefix `es`, hreflang `es`, `og:locale` `es_ES`), `public/i18n/es.json`, block in `entry-pages.json`, `lang:coverage`. **Removes `fr`**: §7. `CORE` in `languagePicker.js` becomes `en, de, es, pt, it`. Spanish of Spain, *tú* or *usted* chosen and stated. |
+| `ui-lang-pt` | **Brazilian** (Spanish course's choice): code `pt`, hreflang `pt-BR`, `og:locale` `pt_BR`. `i18n/pt` sidecars Brazilian. Update as `ui-lang-de`. |
+| `ui-lang-it` | Same. Informal *tu* as in the Spanish course. |
+
+Language-close warning: for `es`, `pt`, `it` run a check for the French-looking cognate traps (a French word turned into a look-alike, as the Italian run found). Keep names of French institutions in French.
+
+Registry rule: a surface is named only where text in that language exists. `fetch: true` keeps a language out of inline surfaces. Base key `de` on a question still means the French being learnt (`o.de ?? o[lang]`). Before registering `es`, grep for old `es` keys and blocks (the Spanish course's `es` fields, `uebersetzungen/*`, `entry-pages.json`): registering the language switches on whatever is already there.
 
 ### 10.5 `routes`, `cleanup`, `deploy-readme`
 
-§8, §7; `deploy-readme`: README (pnpm commands, `pnpm check:base`), deploy target as changed on
-2026-11-04: this repo moves into the icanspeakit monorepo as `apps/spanish` and deploys as a
-Cloudflare Worker with static assets only on the route `icanspeak.it/spanish/*` (no Vercel, no
-rewrites), post-deploy checks.
+§8; §7, validators back in the gate, `pnpm check:base` and `pnpm check:variety` clean; README and `ARCHITECTURE.md` with Cloudflare Worker details per `DEPLOY.md`, file count against the 20,000-file limit. Hub flip in `apps/hub/src/data/courses.ts` is the one permitted file outside `apps/french`.
+
+### 10.6 Spanish logic in code and validators
+
+A content swap doesn't reach these. The item that owns the module changes them. A final grep in `cleanup` must return only deliberate hits (the `es` UI language, comparisons):
+
+```
+es-ES|lang="es"|¿|¡|Europe/Madrid|palabras|el/la|vosotros|los/las|DELE|SIELE|CCSE|Spanish|Castil|Extranjer|español|LATAM_MODE|es419
+```
+
+At `87df0a7e` that pattern hits 115 files in `src/lib`, 37 in `scripts`, 1 in `src/integrations`, 38 in `src/components`, 1 in `src/layouts` and 132 in `src/pages` (the last three belong to the `ui-*` items). Every `src/lib`, `scripts` and `src/integrations` file with a hit either falls under a row below or names its item in §10.1 or §10.3. Many hits are comments; those are fixed by the owning item only if it's touching the file, and `cleanup` handles the rest.
+
+| Code | Spanish logic | Item |
+|---|---|---|
+| `answerMatch.js`, `audioSlug.js` | Accents, ñ | `grammar-a1`, `vocab-a1` |
+| `practiceWorkspace.js`, `grammarWorkspace.js` (`SUBORD`, `PRON`), `.ak-accent-keys` | Key row, conjunctions | `grammar-a1` |
+| `aktivMode.js`, `spielKit.js`, `artikelSprint/speak.js`, `einfach-sprechen.js`, `redewendungenAudio.js` | `es-ES` voice | Module's item; `pronunciation` for `aktivMode`, `games-dialogue` for `spielKit` |
+| `exam/pruefungEngine.js` | `CONTENT_LANG` | `exams-delf-dalf` |
+| `dtzTrainer.js` | Texts, `lang` | `nationality-path` |
+| `verbtabellenCore.js`, `verbtabellen.js`, `arbeitsblatt/nachschlagen.js`, `liveQuiz/chapters.js` `verbGroups` | Endings, person list | `conjugation-data` |
+| `conjugationTrainer.js`, `conjugationTyped.js`, `check-conjugation-trainer.mjs` | `-se`, pronoun hints | `conjugation-trainer` |
+| `generoDrill.js`, `artikelPacks.js`, `artikelSprint/*`, `artikelDiktat.js`, `wortschatz-app.js` (incl. `SEPARABLE` if present) | el/la, los/las | `games` (`wortschatz-app.js`: `vocab-a1`) |
+| `nussnacht/*`, `hoerSafari/*` | Same; `COMPOUNDS` | `games-arcade` |
+| `einfach-*` | Article options, plural | `beginner-path-ui` |
+| `satzmelodieData.js`, `satzmelodie.js`, `melodieLabyrinth.js`, `ausspracheCheck*.js`, `ausspracheFuerDich.js`, `ausspracheTipps.js` | `¿`, question words, sound ids | `pronunciation` |
+| `schreibKorrektur.js`, `fertigkeiten.js` | LT language, levels, `wordRange()` | `reading-writing` |
+| `satzregen/*`, `build-satzregen.mjs` | `{free}` rules, `¿` | `games` |
+| `redewendungenData.js`, `redewendungenUebung.js`, `check-redewendungen.mjs` | Stop words | `idioms-mistakes` |
+| `klassentest/*`, `partneruebungen/*`, `unterricht/einstieg.js`, `liveQuiz/builder.js`, `arbeitsblatt/*`, `check-arbeitsblatt.mjs`, `generate-*-pdf.mjs` | `GRAMMAR_WORD`, `¿`, tile rules | `teachers` |
+| `knigge/*`, `lindenau/*`, `check-knigge.mjs`, `check-lindenau.mjs` | Gender patterns | `games-dialogue` |
+| `buergeramt/*`, `check-extranjeria.mjs` | Rules | `prefecture-sim` |
+| `wortgeschichteCore.js`, `validate-wortgeschichte.mjs` | `entryLang`, `PROSE_LANG` | `word-stories` |
+| `check-sprachfallen.mjs`, `check-aussprache.mjs`, `check-satzmelodie.mjs`, `check-grammatik-start.mjs` | Spanish rules | Module's item |
+| `check-links.mjs` `KNOWN`, `build-suche-seiten.mjs`, `seo-audit.mjs`, `searchIndex.js` | Slugs, keywords | `routes` |
+| `aufgabenKatalog.js`, `pruefungsplan.js`, `exam/renderHelpers.js` | Exam names, `contentLang` | `exams-delf-dalf` |
+| `exampleGap.js`, `berufeRows.js`, `attach-ranks.mjs`, `generate-wortschatz-pdf.mjs` | Card gap for Spanish verb forms and pronouns; level lists; ranks; print | `vocab-a1` |
+| `drillAudio.js`, `ausspracheCheckFuerDich.js` | Accent in audio names; sound ids | `pronunciation` |
+| `artikelHerkunft.js`, `artikelSprint/renderer.js`, `hochstapler/host.js` | Article origin, `lang="es"`, voice | `games` |
+| `kulturKeywords.js`, `kulturMarks.js` | Search words per culture id; *tú/usted* marks become *tu/vous* | `culture` |
+| `businessSpanishData.js` | Phrase key, texts | `business-french` |
+| `generate-berufe-pdf.mjs` | Print | `french-for-work` |
+| `generate-dialekte-karte.mjs`, `generate-sprachen-karte.mjs` | Map data | `accents-languages` |
+| `generate-grammatik-pdf.mjs` | Print | `grammar-structure` |
+| `klassenDashboard.js`, `klassentest/*` (`ergebnis`, `lehrkraft`, `schueler`), `partneruebungen/tandem.js`, `unterricht/lernseite.js`, `generate-partner-pdf.mjs` | Texts, `lang` | `teachers` |
+| `check-i18n-luecken.mjs` | Deliberate-Spanish rule | `ui-components` (§1.6 rule 9) |
+| `seo/jsonld.ts`, `mascots.js`, `integrations/llms-txt.mjs` | Brand | `base-path-and-brand` (§10.1) |
 
 ---
 
@@ -802,461 +877,363 @@ rewrites), post-deploy checks.
 
 | Item | Files it owns |
 |---|---|
-| `content-plan` | `docs/content-plan.md`, `EXPERIMENTE.md` (Führerschein source note) |
-| `base-path-and-brand` | `astro.config.mjs`, `src/lib/paths.js` (new), `src/layouts/Layout.astro`, `src/lib/i18n.js`, `src/integrations/*`, root-absolute links in `src/components/**`, `src/pages/**`, `src/lib/**`, brand strings in `public/i18n/en.json`, `public/manifest*`, `brand/`, OG images, `scripts/check-base.mjs` (new), `package.json` (`check:base`) |
-| `variety-schema` | `src/lib/variety.js` (new), `scripts/check-variety.mjs` (new), `scripts/check-content.mjs`, `scripts/validate-lexicon.mjs`, `src/lib/berufeCore.js` |
-| `ui-components` | `src/layouts/**`, `src/components/**`, `public/i18n/en.json` |
-| `ui-pages-a-l` | `src/pages/[a-l]*`, `public/i18n/en.json` |
-| `ui-pages-m-z` | `src/pages/[m-z]*` (incl. `privacy`, `terms`, `legal-notice`), `uebersetzungen/rechtliches.json` (language only), `public/i18n/en.json` |
-| `placement-test` | `src/data/einstufung.json` |
-| `grammar-a1` … `grammar-c1` | `src/data/grammatik/<slot>.json` per §3 (by **new** level), `src/paid/grammatik/*` (C1), `grammatik.json` entries of those slots, `akkusativ.json` (A2), `src/lib/answerMatch.js` accent hint (`grammar-a1`); German/English UI fallbacks in `src/lib/grammarWorkspace.js` where a topic needs them |
-| `grammar-structure` | `grammatik-lehrplan.json`, `grammatik-verwandt.json`, `nachschlagen/*`, `wortarten.json`, `kursinhalte.json`, `content/program.json` (module titles), `praepositionen-trainer.json`, `uebersetzungen/grammatik*.json` |
-| `grammar-start-book` | `grammatik-start/*`, `scripts/generate-grammatik-start-pdf.mjs`, `scripts/check-grammatik-start.mjs` |
-| `conjugation-data` | `verbtabellen.json`, `src/lib/verbtabellen.js`, `src/pages/grammar/verbs.astro` (labels), `arbeitsblatt/verbtabellen.json` |
-| `conjugation-trainer` | `src/pages/grammar/conjugation.astro` (new), `src/lib/conjugationTrainer.js` (new), `src/data/conjugation-trainer.json` (new), links on `/grammar` and `/grammar/verbs`, `public/i18n/en.json` |
-| `beginner-path` | `einfach-pfad.json` |
-| `beginner-path-ui` | `src/lib/einfach-view.js`, `einfach-app.js`, `einfach-content.js`, `src/pages/step-by-step.astro` (noscript), `docs/easy-mode-tier1-v1.md` |
-| `vocab-a1` … `vocab-b2` | `content/lexicon/<level>.json`, `lexicon/i18n/*` for that level, `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json`, `content/program.json` unit titles; `vocab-a1` also `wortschatz.json`, `haeufigste-woerter.json` + its scripts, `src/lib/lexicon.js` (`SPANISH_LEVELS`), `src/lib/audioSlug.js` (`slugify`), `scripts/validate-lexicon.mjs`, `uebersetzungen/woerter-uk.json` |
-| `vocab-c1-c2` | `content/lexicon/c1.json`, `c2.json`, their i18n entries; drops `ENGLISH_LEVELS` if no English level is left |
+| `content-plan` | `docs/content-plan.md` |
+| `base-path-and-brand` | §10.1; `public/logos/*`, manifest, `Wordmark.astro`, `Layout.astro` |
+| `variety-schema` | §10.2 |
+| `ui-components` | `src/layouts/**`, `src/components/**`, `en.json` |
+| `ui-pages-a-l` | `src/pages/[a-l]*`, `en.json` |
+| `ui-pages-m-z` | `src/pages/[m-z]*`, legal pages (language and brand only), `uebersetzungen/rechtliches.json`, `en.json` |
+| `placement-test` | `einstufung.json`, `check-variety.mjs` |
+| `grammar-a1` | The A1 slots of §3 in `grammatik/`, their `grammatik.json` entries and `grammatik.<slot>.*` in `en.json`, `einfach-pfad.json` refs; once: `answerMatch.js`, `practiceWorkspace.js`, `grammarWorkspace.js`, new `scripts/repoint-einfach-grammar.mjs` |
+| `grammar-a2` | The same for A2; `akkusativ.json` and `object-pronouns.astro` text |
+| `grammar-b1` | The same for B1 |
+| `grammar-b2` | The same for B2 |
+| `grammar-c1` | The same for C1; `paid/grammatik/*` |
+| `grammar-structure` | §3.1, comparison pause in `check-verbtabellen.mjs` |
+| `grammar-start-book` | `grammatik-start/*`, its generator and checker, committed PDF |
+| `conjugation-data` | `verbtabellen.json`, `verbtabellenCore.js`, `verbtabellen.js`, `grammar/verbs.astro`, `arbeitsblatt/verbtabellen.json`, `check-verbtabellen.mjs` |
+| `conjugation-trainer` | `conjugation-trainer.json`, `conjugationTrainer.js`, `conjugationTyped.js`, `grammar/conjugation.astro`, `check-conjugation-trainer.mjs`, `prepositions.astro` link, `en.json` |
+| `beginner-path` | `einfach-pfad.json`; deletes the repoint script |
+| `beginner-path-ui` | `einfach-view.js`, `einfach-app.js`, `einfach-content.js`, `einfach-fixtures.js`, `step-by-step.astro` (noscript), `docs/easy-mode-tier1-v1.md` |
+| `vocab-a1` | `lexicon/a1.json`, `lexicon/i18n/*`, `bildkarten.json`, `wort-bilder.json`, `wortschatz-szenen.json`, `program.json` titles, `wortschatz.json`, `haeufigste-woerter.json` + scripts, `lexicon.js`, `audioSlug.js`, `validate-lexicon.mjs`, `lexicon-import.mjs`, `berufeCore.js` (ref warnings), `wortschatz-app.js` |
+| `vocab-a2` | `lexicon/a2.json`, its i18n entries, pictures and scenes, `program.json` titles, `ws.set.*` |
+| `vocab-b1` | The same for B1 |
+| `vocab-b2` | The same for B2 |
+| `vocab-c1-c2` | `c1.json`, `c2.json`, i18n; drops `el/la` from `validate-lexicon.mjs` |
 | `listening` | `hoeren.json`, `uebersetzungen/hoeren.json` |
-| `reading-writing` | `lesen.json`, `fertigkeiten/lesen.json`, `fertigkeiten/schreiben.json`, writing task data, `uebersetzungen/lesen.json`, `schreiben.json`, `src/lib/schreibKorrektur.js` |
-| `speaking` | `sprechen.json`, `sprechen-b1b2.json`, `redemittel.json`, `redemittel-i18n/*`, `fertigkeiten/sprechen.json`, `uebersetzungen/sprechen.json`, exam lines in `src/pages/speaking/[id].astro` |
-| `pronunciation` | `ausspracheregeln.json`, `aussprache-check.json`, `satzmelodie.json`, `zungenbrecher.json`, `aussprache-muttersprache.json`, `area: "aussprache"` of `fehler-nach-sprache.json`, `src/lib/ausspracheTipps.js`, `LANG` in the check libs |
-| `idioms-mistakes` | `redewendungen.json`, `umgangssprache.json`, `typische-fehler.json`, `fehler-nach-sprache.json` (other areas), `wortfallen.json`, `synonyme.json`, matching `en.json` keys |
-| `exams-dele` | `pruefungen/start-deutsch-1/*`, `saetze/goethe-*`, `paid/pruefungen/saetze/goethe-c1-1.json`, `goethe-formate.json`, `sprachbausteine/*`, `fallen.json`, DELE part of `formate-a2-c1.research.json`, `src/lib/exam/names.js`, `registry.js` texts (`start-deutsch-1`, goethe sets), `saetze-index.json` (regenerated) |
-| `exams-siele` | `pruefungen/testdaf/*`, `testdaf-formate.json`, `saetze/telc-*`, `paid/pruefungen/saetze/telc-c1-1.json`, `telc-formate.json`, SIELE part of `formate-a2-c1.research.json`, `registry.js` texts (`testdaf`, telc sets), new `src/pages/exams/dele-or-siele.astro` |
-| `ccse` | `leben-in-deutschland.json`, `uebersetzungen/leben-in-deutschland.json`, `/life-in-the-uk` page texts (moved by `routes`), `registry.js` texts |
-| `nationality-path` | `pruefungen/dtz/*`, `paid/pruefungen/dtz/*`, `src/lib/dtzTrainer.js` texts, new `src/pages/nationality.astro`, `registry.js` (`dtz`) texts |
-| `extranjeria-sim` | `src/data/buergeramt/kunden.json`, `src/lib/buergeramt/*` texts and rules |
-| `dgt-vocab` | new `src/data/dgt/vocabulario.json`, new `src/pages/dgt-vocabulary.astro`, `scripts/check-berufe.mjs` / `src/lib/berufeCore.js` (read `dgt/`), `EXPERIMENTE.md` only if code is restored |
-| `culture` | `kultur.json`, `uebersetzungen/kultur.json`, `kultur-insider.json`, `kultur-bilder.json`, `wusstest-du.json`, `kalender-saetze.json`, `zitate.json`, `uebersetzungen/zitate.json`, `/explore/films` data |
-| `accents-languages` | `dialekte.json`, `dialekte-karte.json`, `dachMap.js`, `sprachen-welt.json`, `sprachen-karte.json`, their generator scripts, `dialekte.*` / `sprachen.*` keys in `en.json` |
-| `games` | `artikel-sprint/*`, `artikel.json`, `artikel-packs.json`, `artikel-haeufigkeit.json`, `quakiSpringt/*`, `hochstapler/*`, `satzregen/*`, game string tables, `src/lib/artikelSprint/*`, `artikelPacks.js`, `spiele/domino.js` |
-| `games-arcade` | `src/lib/nussnacht/*`, `src/lib/hoerSafari/*` |
-| `games-dialogue` | `src/lib/knigge/*`, `src/lib/lindenau/*`, `uebersetzungen/lindenau.json`, `src/lib/spielKit.js` voice |
-| `teachers` | `arbeitsblatt/*`, `partneruebungen/*`, `unterricht-wortschatz.json`, `lernstunde-texte.json`, `downloads.json`, `src/lib/stundenplan.js`, `src/lib/unterricht/einstieg.js`, printable games and class test pool |
-| `word-stories` | `src/content/wortgeschichte/*`, `src/lib/wortgeschichteCore.js` (`entryLang`, `LANG_NAMES`) |
-| `spanish-for-work` | `src/data/berufe/*`, `src/lib/berufeCore.js` |
-| `business-spanish` | new `src/data/business-spanish/*`, new `src/pages/business-spanish/*`, `en.json` keys |
-| `routes` | `src/lib/routes.js`, `astro.config.mjs` redirects, page folders/file names, `suche-seiten.json`, `entry-pages.json`, `catalog.js`, links |
-| `cleanup` | §7, validators back in the gate, `pnpm check:base` clean |
-| `ui-lang-de` / `-fr` / `-pt` / `-it` | `src/lib/languages.js`, `public/i18n/<code>.json`, `entry-pages.json`, entry pages |
-| `deploy-readme` | `README.md` |
-
-Files with UI strings only (`premium-features.json`, `produkte.json`, `downloads.json` titles)
-are handled by the `ui-*` items where they are rendered.
+| `reading-writing` | `lesen.json`, `fertigkeiten/lesen.json`, `fertigkeiten/schreiben.json`, `uebersetzungen/lesen.json`, `schreiben.json`, `schreibKorrektur.js`, `fertigkeiten.js` |
+| `speaking` | `sprechen.json`, `sprechen-b1b2.json`, `redemittel.json`, `redemittel-i18n/*`, `fertigkeiten/sprechen.json`, `uebersetzungen/sprechen.json`, `speaking/[id].astro` exam lines |
+| `pronunciation` | §5.6 |
+| `idioms-mistakes` | `redewendungen.json`, `umgangssprache.json`, `typische-fehler.json`, `fehler-nach-sprache.json` (other areas), `wortfallen.json`, `synonyme.json`, `wortarten.json` `fehler`, `langMark.js`, `check-sprachfallen.mjs`, `check-redewendungen.mjs`, `en.json` keys |
+| `exams-delf-dalf` | `start-deutsch-1/*`, `saetze/goethe-*`, `paid/.../goethe-c1-1.json`, `goethe-formate.json`, `fallen.json`, research file, `exam/names.js`, `pruefungEngine.js`, `registry.js` texts, `saetze-index.json`, `PruefungSatz.astro` |
+| `exams-tcf-tef` | `testdaf/*`, `testdaf-formate.json`, `saetze/telc-*`, `paid/.../telc-c1-1.json`, `telc-formate.json`, `sprachbausteine/*`, research file, `registry.js` texts, `exams/dele-or-siele.astro` content |
+| `civic-exam` | `leben-in-deutschland.json`, `uebersetzungen/leben-in-deutschland.json`, `ccse/*` page texts, `lid.*` keys, `registry.js` |
+| `nationality-path` | `dtz/*`, `paid/pruefungen/dtz/*`, `dtzTrainer.js`, `nationality.astro`, `nationality/dele-a2/*` texts, `dtz.*`, `nat.*` keys, `registry.js` |
+| `prefecture-sim` | `buergeramt/kunden.json`, `lib/buergeramt/*`, `check-extranjeria.mjs`, `games/extranjeria.astro` text |
+| `code-route-vocab` | `dgt/vocabulario.json`, `dgt-vocabulary*` page texts, `check-berufe.mjs` ref errors |
+| `culture` | `kultur.json`, `uebersetzungen/kultur.json`, `kultur-insider.json`, `kultur-bilder.json`, `kultur-filme.json`, `wusstest-du.json`, `kalender-saetze.json`, `zitate.json`, `uebersetzungen/zitate.json`, `culture/index.astro`, `ITEM_SLUGS["/culture"]` |
+| `accents-languages` | `dialekte.json`, `dialekte-karte.json`, `sprachen-welt.json`, `sprachen-karte.json`, generators, `accents.astro`, `languages.astro`, `dialekte.*`, `sprachen.*` keys |
+| `games` | `artikel-sprint/*`, `artikel*.json`, `quakiSpringt/*`, `hochstapler/*`, `satzregen/*`, `generoDrill.js`, `artikelSprint/*`, `artikelPacks.js`, `artikelDiktat.js`, `spiele/domino.js`, `/articles` page |
+| `games-arcade` | `lib/nussnacht/*`, `lib/hoerSafari/*` |
+| `games-dialogue` | `lib/knigge/*`, `lib/lindenau/*`, `uebersetzungen/lindenau.json`, `spielKit.js`, `check-knigge.mjs`, `check-lindenau.mjs` |
+| `teachers` | §5.10 |
+| `word-stories` | `content/wortgeschichte/*`, `wortgeschichteCore.js` |
+| `french-for-work` | `berufe/*`, `berufeCore.js`, `ITEM_SLUGS["/spanish-for-work"]` sector slugs |
+| `business-french` | `business-spanish/*`, `businessSpanish.js`, `business-spanish/**` page texts, `check-business-spanish.mjs`, `biz.*` keys |
+| `routes` | `routes.js`, `astro.config.mjs`, page folders, `suche-seiten.json`, `entry-pages.json`, `catalog.js`, links |
+| `cleanup` | §7, §10.6 grep, validators in the gate, `check:base`, `check:variety` |
+| `ui-lang-de` | §10.4: `languages.js`, `public/i18n/de.json`, `docs/lang-coverage.json`, `entry-pages.json`, entry pages, `grammatik-start/de.json` |
+| `ui-lang-es` | §10.4: the same for `es`; removes `public/i18n/fr.json`, the `fr` registry entry, entry-page block and pages, the other `fr` rows of §7 |
+| `ui-lang-pt` | §10.4: the same for `pt` |
+| `ui-lang-it` | §10.4: the same for `it` |
+| `deploy-readme` | `README.md`, `ARCHITECTURE.md`; `apps/hub/src/data/courses.ts` |
 
 ---
 
 ## 12. Quality rules for every content run
 
-1. Correct, natural **Castilian Spanish**; every example is something a speaker in Spain would
-   actually say. English explanations clear and short.
-2. Level discipline: example vocabulary at or below the topic's CEFR level, except the target
-   structure.
-3. Each grammar topic: one clear rule, the forms, 4–8 examples, the 2–3 most common learner
-   mistakes, exercises with unambiguous answers (or listed alternatives). Where *vosotros* or
-   Spain-only usage is the answer, add the `es419` item note.
-4. Distractors are wrong for a reason a learner can understand.
-5. Facts (culture, exams, Life in Spain) carry a source and an "as of" date; when unsure, leave
-   the fact out or word it carefully and list it "to verify" in the report.
-6. Fewer, correct items beat many.
-7. No mixed English/Spanish items in the content a run touches; no German leftovers.
-8. Build: `timeout 1500 pnpm build 2>&1 | tail -40` in the foreground; then `pnpm check:base`
-   once it exists.
+1. Correct, natural **standard French of France**; every example is something a speaker in France would say. English explanations clear and short.
+2. Level discipline: vocabulary at or below the topic's CEFR level, except the target structure.
+3. Each grammar topic: one clear rule, the forms, 4–8 examples, the 2–3 most common mistakes, exercises with unambiguous answers or listed alternatives. Accepted alternatives include the 1990 spelling and, where both are right, *on / nous*, inversion / *est-ce que*.
+4. Distractors are wrong for a reason a learner can understand. A form that is also right is never a wrong pill.
+5. **Elision and agreement** are checked by script where possible and by eye always: *de + voyelle, si + il, que + il; le → l'; h aspiré; participle agreement in every generated or written compound; NBSP in rendered text.*
+6. **Register is labelled.** Spoken forms (*j'sais pas, t'as*) never appear as the taught form below the spoken-French module.
+7. Facts carry a source and an "as of" date; when unsure, leave out or word carefully, and list "to verify" in the report.
+8. Fewer, correct items beat many. No mixed Spanish/French items; no Spanish leftovers in a touched module.
+9. Build: `timeout 1500 pnpm --dir apps/french build 2>&1 | tail -40`, foreground; then `timeout 600 pnpm --dir apps/french check:base`.
 
 ---
 
 ## 13. Open points
 
-- **Edgar: review** the exam map (§2): SIELE in the TestDaF + telc slots, DELE A2 nationality
-  mock in the DTZ slot, "Uso de la lengua" in the Sprachbausteine slot, DELE C2 without a set.
-- **Edgar: review** the sector swap in Spanish for work (§5.12): `elektro-technik` → agriculture,
-  `kita` → cleaning and domestic work.
-- **Town name** *Villabruno* (§5.9) is settled (`games-dialogue`, 2026-11-06): a web search found no municipality of that name; the INE list itself was not checked.
-- **Führerschein restore**: only by Edgar, from icanspeak-english `db88ba4~1` (§4.4).
-- **Frequency ranks**: `es_50k` licence and download (§1.4).
-- **Audio**: every `audio` field points to files that don't exist until an es-ES TTS voice is
-  wired (`BACKEND.speech`); validators that need the files stay off until then.
-- **LatAm mode**: data carries `es419` from the start; showing it is a later item, not in this
-  queue.
-- **Arabic UI**: later, not in this queue (RTL ready).
-- Gaps (§3): *voseo* note, *leísmo/laísmo* topic, impersonal *haber*.
-- **Base path, how it is enforced** (`base-path-and-brand`, 2026-11-03): `src/lib/paths.js` is
-  the helper. Browser code builds URLs with `withBase()`/`currentPath()`; server-rendered HTML
-  keeps its root-absolute links in templates and data and is rebased centrally by
-  `rebaseHtml()` (`src/middleware.js` in dev and while prerendering, again in
-  `src/integrations/base-language.mjs` on `dist/`), checked by `pnpm check:base`. A click
-  handler in `Layout.astro` rebases a stray root-absolute `<a href>` added by a script at run
-  time. New data keeps writing site paths (`/grammar`), never `/spanish/…`.
-- **Hub share cards** (`public/og/*.jpg`, `src/data/hub-bilder.json`): still German titles and
-  the deutschacademy brand; switched off in `Layout.astro` (`HUB_CARDS = false`), every page
-  shares `og-default.png`. The `ui-*` item that rewrites the hub titles reruns
-  `pnpm hubs:build --force` and sets `HUB_CARDS = true`.
-- **Logo** (done in `brand-theme`, 2026-11-03): the icanspeak.it kit in `public/logos/` is wired
-  (favicons, apple-touch-icon, manifest app icons, JSON-LD logo = `-mark-1024.png`, the
-  wordmark in every header and footer through `Wordmark.astro`). `public/assets/logo.png` and
-  `og-default.png` are rasterised from the kit by `scripts/build-wordmark.mjs`. The old
-  `iS` placeholders (`public/icon-*.png`, `favicon-16/32x32.png`) are no longer linked.
-- **Brand theme decisions** (`brand-theme`, 2026-11-03; details in `docs/brand/BRAND.md` and
-  the comments in `src/styles/global.css`): token names kept (`--brand-blue` is now the navy);
-  `--accent` is a deeper amber (#946620) than the brand's #b3812e and `--muted` a darker
-  #6b6152 than #7a6f60, both for AA; the brand amber is `--brand-amber` for marks without
-  text. Mascot voice and label fonts fall back to Fraunces/Inter (no Fredoka, Albert Sans,
-  Sora, Big Shoulders, Bungee Shade, arrow font). Every page except the home page (whose
-  footer has it) ends in a slim "part of icanspeak.it" row (`Layout` prop `umbrella`).
-  Open: `src/styles/font.css` and `newfont.css` (styles of the fork's font comparison pages,
-  which this repo no longer has) name faces that are no longer loaded; dead CSS. Canvas games
-  (lindenau, quaki-springt, nussnacht) still name Fredoka and fall back to system-ui.
-- **Contact e-mail** `hello@englishacademy.com` (`src/lib/legal.js`, two strings in `en.json`):
-  a legal fact, left unchanged; Edgar: set the real icanspeak address.
-- **robots.txt and deploy**: crawlers only read `https://icanspeak.it/robots.txt` (umbrella
-  site); `public/robots.txt` here is the template for the `/spanish` lines. Decided by
-  `deploy-readme` (2026-11-07): Cloudflare Worker with static assets only, `assets.base_path:
-  "/spanish"`, `dist/` stays flat, no `wrangler` config or dependency in this repo until the move
-  to `apps/spanish` (the config is in `README.md`). `public/_headers` stays and its rule paths
-  carry the base; `pnpm check:base` checks them. Its CSP no longer reports to the old Sentry
-  project or names the old vendors. Open: `/spanish` without a slash may need a redirect or a
-  second route; merging the AI-crawler `Disallow: /` into the umbrella `robots.txt` would cover
-  the whole domain, so Edgar decides its scope; `public/.well-known/tdmrep.json`, which
-  `Layout.astro` and `robots.txt` mention, does not exist.
-- **UI chrome decisions** (`ui-components`, 2026-11-03): component and nav chrome already
-  names the Spanish exams by slot (goethe = DELE, testdaf = SIELE, telc = "SIELE by level",
-  dtz = "DELE A2 for nationality", Life in the UK = "CCSE nationality test", `/a1-test` = DELE
-  A1) and describes target modules ("el / la trainer", "Spanish for work"); each content item
-  makes its line true. Hrefs stay on the old slots until `routes`, which should also point the
-  `/progress` "Language use" row (LearnShell id `telc`) at `/dele/language-use`. The vocabulary
-  trainer's `de` side is labelled "Spanish" (`vt.*`); `vocab-a1` revisits that if the `de` tab
-  becomes a German translation. `HubBild` reads alt texts from `hub-bilder.json` (the manifest
-  can't be regenerated without the original photos, which are not in the repo, so share cards
-  stay off). `WortschatzDruck` part B follows the nouns' articles, but
-  `src/lib/arbeitsblatt/wortschatz.js` still keeps only `a/an/some` nouns: `vocab-a1`/`teachers`
-  must accept `el/la` there. `lid.fk.level.easy` is shared by quotes and CCSE facts, so
-  `culture` gives ZitatCard its own key. Unused components with old text (`Footer`, `Hero`,
-  `WhatYouDo`, `WhyUs`, `Testimonials`, `Classes`, `Team`, `Stats`, `ArtikelTrainerT1`,
-  `ArtikelPanelT1`, `NavVergleich` per EXPERIMENTE.md) go in `cleanup`. **Edgar:** in which
-  language are the legal texts binding (`legal.note.binding`, `widerruf.binding` still say
-  German)?
-- **Page text decisions** (`ui-pages-a-l`, 2026-11-03): pages a–l name the Spanish exams and
-  describe the target module, while hrefs stay on the old slots until `routes`.
-  `/cambridge/use-of-english` now links back to `/cambridge` (DELE, per §2); `/a1-test` and the
-  DELE page link on to `/ielts` as "the SIELE page". The exam plan's `dtz` entry has level A2 and
-  the plan's day uses Europe/Madrid. The CCSE facts table on `/life-in-the-uk/test` shows
-  `meta.totalQuestions` / `meta.passScore` as bare figures (no fixed percent), so it still shows
-  the UK's 24 / 18 until `ccse` sets `meta`. Its source link is `cervantes.org/es/examenes/ccse`
-  (`examenes.cervantes.es` redirected to cervantes.org on 2026-11-03; items linking there should
-  check). `/intonation` speaks with an es-ES voice. The pflegeplace.com boxes on the work pages are
-  gone (a link carried over from the German course) and their `berufe.*` keys removed;
-  `spanish-for-work` can drop `external` from `berufe/pflege.json`.
-  **For `accents-languages`:** `/knowledge/languages` still has the German → English word decoder
-  (`#decoder`, `sprachen.dec.*`, jump link), the maken/machen map labels and `deutsch` as the default
-  comparison; `/knowledge/accents` has the bus/bath map labels. Replace or remove them (§5.14 doesn't
-  mention them). **For `culture`:** the `kultur.*.cardIntro` values and the insider rule text are
-  data and still about the UK. **For `exams-dele`:** `/exams/traps` task sources (`fallen.json`) still
-  say ISE I; `registry.js` still titles the A1 test "A1 English practice test". **For `teachers`:**
-  the official links on `/knowledge` (`downloads.json`, `wissen.link.*`) still point to Cambridge,
-  IELTS, Trinity and GOV.UK. **Edgar:** `/about` describes your German teaching and says nothing
-  about teaching Spanish; `home3.pricing.live` shows a date in the past (Fri 30 Oct).
-- **Page text decisions, m–z** (`ui-pages-m-z`, 2026-11-03): `/trinity` is "SIELE by level" and
-  `/trinity/ise-1` "DELE A2 for Spanish nationality", hrefs on the old slots until `routes`. The
-  mock's "Solid B1 / Close to B1" bands now read "Well prepared / Getting close (our guide)"; the
-  33 and 20 point figures stay ours. The `/trinity/ise-1/practice-set` facts table describes our
-  mock only (its source is `cervantes.org/es/examenes/dele`). **For `nationality-path`:** check the
-  `dtz.*` and `dtzSet.*` wording against the real DELE A2. `/trinity/ise-1/mock-test` calls the
-  `lesen.json` tasks "level B1, a step above DELE A2", and `reading-writing` must keep them B1 or
-  change that line. **For `exams-siele`:** `telc.format.source` and `telc-formate.json` still name
-  Trinity, and `dtz.pt.*` part names are untouched. **For `grammar-a2`:** `/object-pronouns` now
-  shows the Spanish rule and table (me, te, lo, la, nos, os, los, las, personal *a*, a one-line
-  *le* note), while `akkusativ.json` is still English until that item runs. **For
-  `grammar-structure`:** `praep.pack.*`, the `/reference` search index and `verben.group.trennbar.name`
-  still say English prepositions and phrasal verbs; the `/reference` question for
-  `/grammar/phrasal-verbs-list` already asks about reflexive verbs. **For `teachers`:** worksheet
-  part B and domino label say el / la, but `src/lib/arbeitsblatt/wortschatz.js` still keeps only
-  a/an/some nouns. **For `vocab-a1`:** `ab.lang.de` still says "In German", which fits if `hasDe`
-  ends up meaning a German gloss. **For `pronunciation`:** the tongue-twister dialect take now says
-  "¡Hola!"; `aussprache.bridge.lead` gives English and German examples. **For `speaking`,
-  `reading-writing`, `vocab-*`:** the `sprechen.*`, `schreiben.*`, `lesen.*` task keys and `ws.set.*`
-  are data translations and stay until those items run. **For the exam items:** `src/lib/exam/names.js` and `registry.js` (theirs per §11) still name Cambridge, Trinity, IELTS and Life in the UK, which shows on `/trinity/[slug]`, in the `/progress` no-script list and in `/exam-plan`. **Nav:** the drawer item `nav.merch` also still lands on `/account`. **Merch:** links are gone from `/mascots`,
-  `/tongue-twisters`, `/teachers`, `/start` because `/merch` lands on `/account`; the home footer and
-  `/knowledge/picture-dictionary` still link there (`cleanup` or Edgar). `/mascots` no longer points
-  to a mascot switch, because no page offers one until accounts exist. **Due dates:** the class hint
-  says Madrid time; `aufgabenStatus.js` still computes in Europe/Berlin, the same offset as mainland
-  Spain. **`pnpm check:i18n-luecken`** still exits 1 overall (baseline not updated); no m–z file is
-  over except the parser noise in `speaking/[id]`. `validate-i18n.mjs` crashes because it opens
-  `public/i18n/de.json`, which doesn't exist until `ui-lang-de`.
-- **Variety schema decisions** (`variety-schema`, 2026-11-03): `src/lib/variety.js` adds, next
-  to the §1.5 names, `textFor(item, text)` (es419 `form` in LatAm mode), `skippedFor(item)`,
-  `showsVosotros()` and `varietyProblems(obj)` (the shape rules, shared by every validator).
-  `pnpm check:variety` (in `check:content`) checks the shape of every `variety`/`es419` key in
-  any JSON under `src/data`, `src/content`, `src/paid`, and prints per-module coverage. Coverage
-  units: lexicon words, own deck entries (`berufe`, `dgt`, `business-spanish`), `wortschatz`
-  cards, `redemittel` phrases, each grammar topic file (top level), each `grammatik.json` quiz
-  topic, each `praepositionen-trainer` pack, `verbtabellen.json` (top level),
-  `conjugation-trainer` sets, `hoeren` texts, `aussprache-check`/`zungenbrecher` sentences,
-  `satzmelodie` families + stress + rules, `ausspracheregeln` rules. `akkusativ.json` items
-  inherit from their grammar topic (no own `variety`; `es419` allowed). A content item adds its
-  module id to `STRICT` in `scripts/check-variety.mjs` in the commit that converts the module.
-  `es419.gender` is rejected on non-nouns in lexicon/deck entries; `es419` on an `es-419` item is
-  an error. A deck `ref` carries neither key (it inherits from the referenced word).
-  `validate-lexicon.mjs` and `berufeCore.js` already accept `el`/`la`/`el/la`, `genus: "f"`
-  (only with `gender: "el"`) and `fem` (adjectives only).
-- **Placement test decisions** (`placement-test`, 2026-11-04): §1.5 did not list `einstufung.json`;
-  it now has a top-level `variety` and item-level `es419`, and is strict in `check-variety.mjs`.
-  Each level has the plan's features plus one more to reach six: A1 *estar* next to *ser*, A2
-  comparatives, B1 *cuando* + subjunctive, B2 unreal *si* in the past, C1 *ni que*. The perfecto
-  item tests the participle (*escrito*), not *he ido / fui* for today, so it holds in both
-  varieties. Neither `/placement-test` nor the `/step-by-step` quick check reads `es419` yet: a
-  LatAm mode must apply `form` and `skip` in both. **For `beginner-path`:** the comment on
-  `placementStart` in `src/lib/einfach-app.js` still names the English units the score skips, and
-  its thresholds should be rechecked against the Spanish A1 set.
-- **A1 grammar decisions** (`grammar-a1`, 2026-11-04): the 19 slots are Spanish; `konjugation`
-  moved to level A1 while `imperativ` stays A1 until `grammar-b1`, so `/grammar` shows both until
-  then. Answer check: `accentOnly()` in `answerMatch.js` drives "Check the accent." in fill, table,
-  story and the typed Schreiben panel, which also has the á é í ó ú ü ñ ¿ ¡ key row. `ñ` does not
-  count as an accent (*año/ano* is a plain wrong answer). `accepts` ignores case, so an exercise
-  about capital letters must ask "capital or small?", never offer *lunes/Lunes* as pills.
-  `aktivMode.js` now speaks es-ES. **For `grammar-a2`–`grammar-c1`:** when a topic that
-  `einfach-pfad.json` references changes, the `gram:` refs break the build; run
-  `node scripts/repoint-einfach-grammar.mjs <topics>` and commit the path with the topic. Add your
-  slots to the `grammatik-a1` file list in `check-variety.mjs` (rename it when you do); `grammar-c1`
-  makes `grammatik` strict. Update `grammatik.<slot>.intro` in `en.json` with each subtitle, or the
-  old German-course text overwrites it at render time. **For `beginner-path`:** the repointed tasks
-  are valid but only fit their unit's grammar theme: units are still English and the path's own
-  hints on them are gone. Rewrite them and delete the script. **For `routes`:** links inside the
-  topic text use today's slugs (`/word-order`, `/present-continuous`, `/was-were`, `/like-doing`,
-  `/this-that`, `/prepositions-of-time` …), so they must move to the §3 slugs with the routes.
-  **For `games`:** `ArtikelRegel.astro`'s intro text and `ENDINGS_CAPTION` are now English and
-  match `artikel.json`; the trainer itself is still a/an/some. **For `grammar-structure`:**
-  `grammatik-lehrplan.json` still has `konjugation` under A2, and `wortarten.json` (the chips on
-  this topic's page) is still the English reference. **For `teachers`:** `arbeitsblatt/<slot>.json`
-  files that exist for these 19 slots are still the English sheets. **For `conjugation-trainer`:** reuse `accentOnly` and the key
-  row (`.ak-accent-keys`). **Other pages:** `lang="de"` remains on some UI code in `[id].astro`
-  (`vp-brief`, euler panels); the `ak.write.*` keys and German fallbacks are untouched.
-- **A2 grammar decisions** (`grammar-a2`, 2026-11-04): the 21 A2 slots are Spanish; `perfekt`,
-  `zusammengesetzte-verben` and `n-deklination` are level A2 (the last two were B1). `check-variety`'s
-  strict list is now `grammatik-done` (A1 + A2); `grammar-b1` onward add their slots to it. The
-  `zimmer` room exercise moved from `wechselpraepositionen` to `lokale-praepositionen` (place words
-  are that topic now); its tray labels are English in `src/lib/zimmerUebung.js` ("the bed") and the
-  verb in its sentences is given, not a pill, because *pongo* and *cuelgo* both fit most things.
-  `akkusativ.json` keeps its ids; `le` is never a wrong pill for a male person (leísmo is accepted
-  in Spain). `grammatik.json` quiz topics `akkusativ`, `dativ`, `trennbare-verben` have `variety`;
-  the other four stay English until their items run. **For `grammar-structure`:**
-  `grammatik-lehrplan.json` and `GRAMMATIK_ORDER` still list `zusammengesetzte-verben` and
-  `n-deklination` under B1, so the *indefinido* comes long after the *perfecto*; `searchIndex.js`
-  still has German and English keywords for these slots. **For `beginner-path`:** 56 more tasks were
-  repointed (`perfekt`, `n-deklination`, `trennbare-verben`, `dativ`, `modalverben`,
-  `lokale-praepositionen`, `negation`, `konjunktiv2-hoeflich`) and the `a1-kleidung` claims and hints
-  rewritten for *lo, la*, while its title is still "Say what you like". **For `routes`:** A2 topic
-  text links today's slugs (`/past-simple`, `/present-perfect`, `/some-any`, `/negatives`,
-  `/prepositions-of-movement`, `/prepositions-of-place`, `/pronouns-and-be`). **For `teachers`:**
-  `arbeitsblatt/<slot>.json` for these slots are still English; `zimmerSzene.js` and `kuecheSzene.js`
-  still belong to the `wechselpraepositionen` sheet. **For `grammar-b1`:** *perfecto vs indefinido*
-  (`zustandspassiv`) can build on the short contrast exercise already in `zusammengesetzte-verben`.
-- **B1 grammar decisions** (`grammar-b1`, 2026-11-04): the 27 B1 slots are Spanish; `imperativ` moved
-  from A1 to B1, so A1 path units that repoint to it now ask a B1 structure until `beginner-path`
-  rewrites them. `verben-praepositionen.json` keeps `id: "praepositionen"`, `slug` and `subtitleKey`;
-  its intro is `vp.hero.subtitle`, and the quiz topic `praepositionen` follows it. All 27 slots are in
-  `grammatik-done`; the quiz topics `passiv` and `konjunktiv2` stay English until `grammar-b2`.
-  **`es419` scope:** Spanish institutions and procedures (*padrón, empadronarse, NIE, Extranjería,
-  tarjeta sanitaria, AVE*) get no language note: they name things in Spain, and a LatAm mode would
-  need other content, not another word. Stories and `sprechen` items carry no item-level `es419`
-  (as in A1/A2), except the `zustandspassiv` story, which is skipped as a whole. **Build sentences:**
-  `swapClauses` in `grammarWorkspace.js` only knows German conjunctions and a build uses every tile, so
-  a Spanish sentence with a comma tile can't be accepted without it (*Llámame cuando llegues*); the
-  hints ask for the clause order instead. For `grammar-b2`: `alt` is compared without case; extending
-  `SUBORD`/`PRON` and an optional comma would be a small code fix if clause swaps should count.
-  **For `grammar-b2`:** B1 mentions as "coming at B2": *si tuviera*, *no creo que venga*, *aunque* +
-  subjunctive, relative clauses with subjunctive, tense shifts in reported speech. **For
-  `grammar-structure`:** `imperativ` is still under A1 in `grammatik-lehrplan.json` and
-  `GRAMMATIK_ORDER`; `searchIndex.js` keywords and the `catalog.js` emojis still fit the old topics
-  (`zustandspassiv` 🔒, `passiv-b1` 🏗️). **For `routes`:** B1 topic text contains no internal links.
-  **For `teachers`:** `arbeitsblatt/<slot>.json` for these slots are still English.
-  **For `grammar-start-book`:** `grammatik-start/en.json` refers to `futur` and `konditionalsaetze`.
-- **B2 grammar decisions** (`grammar-b2`, 2026-11-04): the 13 B2 slots are Spanish and in
-  `grammatik-done`; the quiz topics `passiv` and `konjunktiv2` are Spanish too (all 7 quiz topics now
-  have `variety`). **-ra and -se:** pills show only *-ra*, `answer` arrays also accept *-se*, except in
-  the `modalsaetze` past table, which lists only some *hubiera/hubiese* mixes (tables are pills only, so
-  this doesn't reach a learner). A *hubiera* result is accepted and never a wrong pill. **Overlapping
-  items:** verbs of change, discourse markers and collocations are taught as tendencies; two right
-  answers go into the array rather than being tested against each other (`hacer/sacar una foto` and
-  `hacerse/volverse rico` are not tested). **Build sentences:** same comma-tile limit as B1 (no code
-  change), so hints state the clause order; `alt` covers word order inside a clause only. Story pills are
-  per gap, not single-use, so a story gap may accept several answers. **For `grammar-c1`:**
-  `negationswoerter` points to *deber de* at C1; `modalsaetze` only introduces *si hubiera* and gives one
-  mixed example, so `konjunktiv-1` carries the full forms; *de manera que* + subjunctive (purpose) has one
-  line in `konsekutivsaetze`. Use the same -ra/-se rule. **For `grammar-structure`:** `searchIndex.js`
-  keywords, `catalog.js` emojis and the `stundenplan.js` title patterns still fit the old B2 topics;
-  `wissen.file.grammatik-b2.desc` in `en.json` still describes the English PDF. **For `routes`:** B2
-  topic text contains no internal links; the slugs are still English (accidental *se* is at `/ever-words`,
-  probability at `/negative-words`). **For `teachers`:** `arbeitsblatt/<slot>.json` for `konjunktiv2`,
-  `passiv`, `relativsaetze-was-wo`, `zweiteilige-konnektoren`, `negationswoerter`, `irgend`,
-  `fokuspartikeln`, `modalpartikeln`, `adjektive-mit-praepositionen`, `nomen-verb-verbindungen` are
-  still English. **For `culture`:** `/grammar/quiz` on `passiv` still links to Culture with "More
-  sentences like these" (`quiz.crosslink.passiv`, `kultur.link.passiv`); check that this still holds
-  once the culture texts are Spanish.
-- **C1 grammar decisions** (`grammar-c1`, 2026-11-04): the 11 C1 slots are Spanish; `grammatik` is
-  strict in `check-variety.mjs` and the `grammatik-done` list is gone. The paid split stays: items in
-  `src/paid/grammatik/`, titles, hints and counts in `src/data/grammatik/`. Paid files now carry a
-  top-level `variety`, and `--split-grammar` keeps it. After the split, edit the paid file directly and
-  keep `slots` right in the free file. `check-pillen` reads only `src/data/grammatik`, so it does not
-  see C1 unless `PILLEN_DIR` points at a merged copy; worth building in if C1 keeps changing. **Topics
-  still left out (§3 gaps):** *voseo*, *leísmo/laísmo*, impersonal *haber*. Same -ra/-se rule as B2.
-  **For `routes`:** C1 topic text contains no internal links; the slugs are still English (conditions
-  without *si* at `/inversion`, non-finite clauses at `/future-perfect`, sequence of tenses at
-  `/distancing`). **For `grammar-structure`:** `searchIndex.js` keywords, `catalog.js` emojis and
-  `stundenplan.js` patterns still fit the old C1 topics; `grammatik-verwandt.json` too. **For
-  `teachers`:** `arbeitsblatt/<slot>.json` for C1 slots, where they exist, are still English. **For
-  `exams-dele`:** these C1 topics are written as general C1 grammar; nothing here claims to match a DELE
-  task.
-- **Grammar structure decisions** (`grammar-structure`, 2026-11-04): the syllabus order is in
-  `grammatik-lehrplan.json` and `GRAMMATIK_ORDER` (reason in the file's `note`); `wortarten` and
-  `wortbildung-nomen` stay extra practice outside the run. `akkusativ` moved to A2. Reference rows are
-  *yo presente · él indefinido · participio*; every yo form in `trennbare-verben.json` starts with `me`, which
-  the live quiz relies on. `verben-mit-praepositionen.json`: the quiz blanks the section's preposition and offers
-  the other sections, so a verb with two right prepositions must be listed under both (*hablar con/de,
-  preocuparse de/por, enfadarse con/por*). Trainer packs got new topics in old slots: `b1-adjektive` = *por/para*,
-  `b2-da-wo` = adjectives and nouns + prepositions; pack `level` is the level of the topic, so some B1 packs
-  hold verbs first met at A2. `kursinhalte.json` exam lines name only exam + skill, with no tasks, timings or word
-  counts, and start at A2.2. The lesson plan's fixed DW and Easy German video links became YouTube searches
-  (`stundenplanLinks.js`). The new lines in `GRAMMAR_RULES` depend on the plan's wording, so reword both together.
-  **For `routes`:** the `practice` links in `nachschlagen/*.json`, `wortarten.json` `learn`/`sub` hrefs, `MORE` in
-  `prepositions.astro` and `examHref` in `stundenplan.js` (DELE → `/cambridge`, SIELE → `/trinity`) use today's slugs.
-  `trennbare-verben` moves to `/grammar/reflexive-verbs-list` in `REF_SLUGS` and `ROUTE_RENAMES`, which also changes the
-  worksheet URL `reference-phrasal-verbs-list`. **For `idioms-mistakes`:** `wortarten.json` `fehler` is empty on every class
-  because the pairs were English; fill it with Spanish pair ids. **For `conjugation-data`:** `verben.group.trennbar.*` in
-  `en.json` already says reflexive and pronominal; `verbTopic` in `arbeitsblatt/nachschlagen.js` and `verbGroups` in
-  `liveQuiz/chapters.js` still have English prompts (*present simple*, *has*) and `regularPraes`. **For `vocab-*`:**
-  `program.json` unit and module titles are lightly adapted only; `lernsetKeywords.js` still has English keywords
-  (*phrasal verbs*). **For `teachers`:** the printed grammar PDFs (`generate:grammatik-pdf`) were not regenerated, so
-  they may lag behind the `wissen.file.grammatik-*.desc` lines, which already describe Spanish; `stundenplan.js` activity
-  texts were not reviewed here. **For Edgar:** 15 core topics are `entwurf` and so are left out of `/grammar/path`, among them
-  *ser/estar* basics, adjective agreement, *gustar*, numbers and *ir a*; A1 has a gap until they are set to `geprueft`.
-  **For `ui-lang-*`:** `check:grammatik-ui` (not part of the build) fails against its old baseline because the topics
-  were rewritten; translate the instructions, then run it with `--update`.
-- **Starter book decisions** (`grammar-start-book`, 2026-11-04): ten chapters in the old `k1`–`k10` slots: *ser/estar*,
-  regular present, questions and negatives, nouns/articles/adjectives/*hay*, irregular present, *gustar*/reflexive/object
-  pronouns, two-verb structures, *perfecto/indefinido*, *imperfecto*, B1 toolkit. *Por/para* and relative clauses stayed out
-  for space. Top-level `variety` and `es419`, item `es419` on *vosotros* gaps and *perfecto* contrasts; `grammatik-start` is
-  strict in `check-variety.mjs`. The printed book says *ustedes* and the LatAm *indefinido* in plain text, because a printed page
-  has no LatAm mode. **`status: "skeleton"` is new:** `--skeleton` now writes it, such a file gets no PDF edition and no chapter
-  titles on `/knowledge`, and the checker only names it. **The PDF is committed** (`public/downloads/grammatik-start.pdf`,
-  `manifest.json`), the first file in that folder, because `/knowledge` hides a book without its file and the build doesn't run
-  the generators. **For `routes`:** the chapter links are printed from `topicPath()`, so they show today's slugs (`/word-order`,
-  `/like-doing`, `/used-to`). After changing `TOPIC_SLUGS`, rerun `pnpm generate:grammatik-start-pdf` and commit the PDF.
-  **For `ui-lang-de`:** `grammatik-start/de.json` is a skeleton: translate it, set `status: "draft"`, run
-  `node scripts/check-grammatik-start.mjs de`, generate the edition. `downloads.json` already lists `editions: ["de"]`; add the
-  other languages when their file exists. **For `teachers` or `deploy-readme`:** the other books in `downloads.json`
-  have no PDF in the repo, so they don't show on `/knowledge`; `check:downloads` reports them as missing.
-- **Conjugation data decisions** (`conjugation-data`, 2026-11-04): 69 verbs in `verbtabellen.json`, in the six groups of §4.1. The
-  generator is **`src/lib/verbtabellenCore.js`** (new, no Vite imports); `verbtabellen.js` adds the lexicon gloss and `visibleRows()`
-  (drops *vosotros* through `showsVosotros()`). `pnpm check:verbtabellen` (in `check:content`) checks shape, golden forms, accent rules
-  and agreement with `nachschlagen/starke-schwache-verben.json`, so a change to either file must keep both in step. `verbtabellen` is
-  strict in `check-variety.mjs`. **Additions to §4.1:** verbs carry their own `en` and `level` (the lexicon is still English, and
-  `lex` only adds help-language glosses once it has the lemma). A pronominal verb stores forms without the pronoun, takes the stored
-  tenses of its plain verb when that verb is in the file (*irse*, *ponerse*), and stores `imp` only when written in full (*irse*).
-  Beyond §4.1: *subj* is derived from a stored yo form, *subjImpf* from the indefinido, *cond* from a stored `fut`. **Highlighting** compares with the bare
-  pattern, so spelling changes (*busqué*, *leíste*) count as highlighted though the verbs are `regular: true`. `–` marks a form not in use: *haber*
-  and *soler* have no imperative, *soler* no future or conditional; such verbs have `defective: true` and aren't asked in the indefinido on the
-  worksheet or in the quiz. *soler* keeps its rare *solió* and compound forms, with a note. **Page:** presente, indefinido and perfecto stay visible;
-  every other tense sits in a closed `<details>` per card, and closed ones don't print. *Regular* now comes first in `groups`, and `oler` is
-  filed under stem-changing. **Search:** every simple form finds its verb (*haga*, *tuviera*); `SiteSearch` no longer matches on the
-  small words inside a longer form (*me, no, he*). **For `conjugation-trainer`:** import `buildAll`, `PERSONS`, `ROW_TENSES` from the core; each row
-  has `{ f, x, alt? }` per tense (`alt` = the *-se* form); filter `–` and use `v.defective`. **For `vocab-*`:** when the lexicon has the Spanish
-  verbs, `lex` starts to fill by itself; the table's `level` wins over the lexicon's, so keep the two in step. **For `routes`:** the page's practice
-  buttons use `topicPath()`; the *reflexive verbs* link still points at `/grammar/phrasal-verbs-list`. **For `ui-lang-*`:** new keys are
-  `verben.when.*`, `verben.mood.*`, `verben.allTenses`, `verben.ger`, `verben.p2`, `verben.group.stem-change.*`. The tandem sheet's phrases
-  (`arbeitsblatt/verbtabellen.json`) are Spanish on purpose.
-- **Conjugation trainer decisions** (`conjugation-trainer`, 2026-11-04): page `/grammar/conjugation`, topic key `conjugation`, history
-  `da-conj-verlauf-v1`. **Additions to §4.2:** `conjugation-trainer.json` is `{ variety, es419, drills: { tenses, groups, notDrilled, limits, presets },
-  topicLinks, sets }`; a set also has `lead`, `rule: { text, table? }` and optional `more`. Besides the planned sets there are three typed `form` sets for
-  irregulars (`irregular-yo-a1`, `indefinido-irregular-a2`, `futuro-condicional-b1`) and `imperativo-b1`. The plan's five verb groups became seven drill
-  groups (regular split into *-ar, -er, -ir*; `stem`, `yo`, `irregular`, `reflexive`), an explicit list per verb, not the `group` of `verbtabellen.json`, which
-  mixes them. *enviar, construir, reír* count as stem-changing (the stem changes under stress); *escribir, abrir, romper* as regular with an irregular
-  participle. **Left out of drills:** *gustar* whole (*yo gusto* teaches the wrong habit); `limits` drops correct forms nobody needs (imperative of *poder, querer,
-  deber, saber, morir, caber, valer, oler, llamarse*; *haber* and *soler* to their real tenses). New file `src/lib/conjugationTyped.js`: `mountPracticeWorkspace`
-  has no typed answers, so a small typed card sits beside it with the same classes and hooks; the shared engine stays unchanged. Drills start typed on a wide screen and on
-  pills at ≤720 px; the learner's choice is remembered. A typed *-se* form counts as right; a reflexive form without its pronoun gets its own hint. Deep links:
-  `?drill=<preset>`, `?set=<id>`, `?niveau=<level>`. `pnpm check:conjugation` (in `check:content`) checks the sets and generates **every** drilled question.
-  `conjugation-trainer` is strict in `check-variety.mjs`. **For `routes`:** `src/pages/[id].astro` links 18 verb topics through `topicLinks` (keyed by topic id, so slugs may
-  move); `grammar/verbs#gruppe-unregelmaessig` in a set's `more` follows the verb page's anchor; `/prepositions` links `?set=por-para-b1`, the set links back
-  `/prepositions?niveau=B1`. **For `ui-lang-*`:** new keys are `conj.*`, `tool.konjugation.title`, `intro.conj*`, `grammatik.cj.*`; rule texts stay English like the
-  rule boxes on the verb tables (`lang="en"`), and the hand-written `explain` lines aren't translated, as in `/prepositions`. **For `vocab-*`:** the drill's gloss is `en` from
-  `verbtabellen.json`, not the lexicon. **For a LatAm mode:** `showsVosotros()` already drops the switch and the forms; `skip` items are filtered in `setQuestions`.
-- **Beginner path decisions** (`beginner-path`, 2026-11-04): `einfach-pfad.json` is Spanish A1–B1, 35 units, 224 tasks, in lehrplan
-  order except that *ser/estar* comes before the plural + adjective unit. All 28 old ids stay; seven new units have English ids (`a1-who-where`,
-  `a1-describe`, `a1-why`, `a2-routine`, `a2-today`, `a2-before`, `a2-objects`). Only `luecke` and `satz` for now, because the lexicon, phrases,
-  listening and pronunciation sources aren't Spanish yet. The path needed greetings and the padrón appointment and no A1 item had them, so
-  `personalpronomen` (exercises 6, 7) and `temporale-praepositionen` (7, 8) each got two appended exercises; append only, never insert, in
-  topics the path uses. Postcard facts are simple English (explanation language), all `source: "neu"`. `placementStart` now jumps to `a1-cafe` (5–6
-  right) and `a1-who-where` (3–4 right). `scripts/repoint-einfach-grammar.mjs` is deleted: from now on, when a topic changes and a ref breaks,
-  look at the item, fix the task by hand and re-sign with `node scripts/check-einfach-pfad.mjs --sign`. **For `beginner-path-ui`:** the resolver
-  doesn't read an item's `choices` or `why`, so the path writes `options` and `why` on the task. It also ignores a build item's `alt`, and an inner
-  comma in a build sentence ends up after the last word, so the path avoids those sentences. A table term with `___` shows the gap twice, also
-  avoided. A `· ` term must be `person · verb`; `verb · person` reads badly. `ARTICLE_PLACEHOLDERS` still lists *a / an*, so *el / la* rows show as
-  `mesa → ___`: switching it gives them the article screen, and `articleHint` and the `wort` plural (`two …`) need Spanish too. **For a LatAm
-  mode:** no path task uses a `skip` item; three use `es419.form` (`personalpronomen/0/5`, `aduso/0/1`, `konjunktiv2-hoeflich/1/2`), which the resolver must apply.
-  **For `vocab-a1`–`vocab-b1`, `speaking`, `listening`, `pronunciation`:** add `wort`/`artikel`, `redemittel` (greetings in `a1-vorstellen`, the
-  padrón in `a1-amt`), `hoeren` and `sprechen` tasks to the units, keeping 5–7 per unit. **For `routes`:** a unit's `grammar` is a slot id and
-  reaches the page through the slot's redirect (`/personalpronomen` → current slug), so those redirects must stay or `einfach-view.js` must link by slug.
-- **Beginner path screens decisions** (`beginner-path-ui`, 2026-11-04): Bruno's reactions are simple Spanish with the English on tap (an `EN` tag marks them); the first hello, hints and
-  verdicts stay English, because a beginner must understand them. Article rows (`el / la`, `el / la / los / las`, `un / una`, `un / una / unos / unas`) now show the article screen and count
-  toward their own topic. The resolver reads an item's `choices` and `why`, accepts `alt` build orders (case and commas ignored; 100 items have one) and keeps inner commas on their word.
-  `wort` cards show `los/las` + plural, also for invariable nouns (*los lunes*); `pluralOnly` shows only *las gafas*; an `artikel` task rejects `el/la` and plural-only nouns. The page resolves
-  the a1, a2 and b1 lexicons. The link at the end of a unit now uses `topicPath()`, so **`routes`** no longer has to keep slot redirects for this page. `?fixtures` is Spanish.
-  **For `ui-lang-*`:** every string in `einfach-view.js` is hard-coded English outside `en.json`, as it was in the English course, so `/step-by-step` won't translate until those strings move
-  to i18n keys. Bruno's `help` is English too. **For `vocab-a1`:** an `artikel` or `wort` task needs the Spanish `gender`; keep `plural` without its article. **For a LatAm mode:** still to do in the
-  resolver and the quick check: `es419.form` and `skip`.
-- **A1 vocabulary decisions** (`vocab-a1`, 2026-11-04): `a1.json` is Spanish: same 26 units and titles, 25 words each, `rank: null` (the run had no network, so `es_50k` wasn't downloaded;
-  `haeufigste-woerter.json` still holds the old German list and is regenerated with the scripts, which now read `es_50k`). **Tool:** `scripts/lexicon-import.mjs` + `scripts/es-ipa.mjs` turn a compact
-  source (format in the script's header) into the level file, the `de`/`fr`/`pt`/`it` sidecars and `wort-bilder.json`, and write the old → new id map. **`vocab-a2`…:** use it; it adds `-es` on a clash with another level, and a Spanish id may clash with a later level until that level has run. Add your level's file to a `lexicon-<level>` strict module in `check-variety.mjs` as A1 did.
-  **Grammar conventions added to §1.4:** person nouns with a separate feminine (*el médico / la médica*) keep the masculine lemma and name the feminine in `en`; `el/la` only for true common gender. Spelling-only changes (*coger/cojo, leer/leyó*) aren't `irregular`, matching `regular` in `verbtabellen.json`. Fourteen verbs moved to `level: A1` in `verbtabellen.json` to stay in step. `mayor`/`menor` stay as the comparatives of *grande*/*pequeño*
-  as §1.4 says, but they mean older/younger: the gloss says so, and for size learners use *más grande*. `pos` of a noun phrase stays `noun` (*cita previa*); a set phrase is `phrase` (*hacer la maleta*). **Sidecars:** Spanish → language, machine draft; `pt` was European Portuguese and is Brazilian since `ui-lang-pt`. `de` shows as the “German” tab (`vt.lang.de`); `woerter-uk.json` is emptied (`uk: {}`): nothing there fits Spanish. `es` isn't in `TRANSLATION_LANGS` (only `en` is registered) and `es.json` was already empty.
-  **Paused validators:** a `berufe` ref to a gone lexicon id and a word-story lemma/family/formsAlso outside the lexicon are warnings, not errors; **`spanish-for-work`** and **`word-stories`** must turn them back into errors. Berufe decks lost their A1 refs for now (`liveDeck` drops them; 93 warnings). **For `games`:** `ArtikelTrainer`/`T1` filter out `el`/`la` nouns until the trainer is el/la, so its A1 pool is empty; `artikelSprint/lexWords.js` likewise; `hochstapler/themen.json` A1 was re-keyed by the id map only, so pick real Spanish themes. `ArtikelDiktat` and `artikelDiktat.js` still say der/die/das. **For `games-arcade`:** Nut night has no A1 words until `ARTS` is el/la. **For `teachers`:** `unterricht-wortschatz.json` still lists English words, and worksheets part B now takes el/la. **For `word-stories`:** `formsOf()` and `entryLang()` already handle Spanish rows. **For `speaking`:** the path's greetings and padrón tasks in `a1-vorstellen`, `a1-amt` are still open (nine other A1 units got a `wort` or `artikel` task; `a1-vorstellen`, `a1-amt` are full at 7). **`check-einfach-pfad`** no longer needs a file for `wort` audio, because the word card has no play button.
-- **A2 vocabulary decisions** (`vocab-a2`, 2026-11-04): `a2.json` is Spanish: same 28 units, 25 words each, `rank: null` as in A1 (no `es_50k` yet). Titles follow `program.json`: `a2-07` “At the pharmacy: medicine”, `a2-13` “Post office & official tasks (Correos)”, `a2-27` **“Reflexive & pronominal verbs”** (phrasal verbs don't exist in Spanish; `grammar-structure` had already named it); `ws.set.*` follow. The “Useful phrases” unit stays `a2-28`, `pos: phrase`, written with the *tú* form (tú/usted isn't a regional difference, so it gets no `es419` note).
-  **Homographs:** the plain slug stays on the lower level; A2 uses `carta-menu`, `sobre-noun`, `paciente-adj`, `seguro-adj` (noun *el seguro* keeps `seguro`), `parte-noun`, `salud-brindis`. `-es` ids where an English word of a later level still holds the slug: `revision-es`, `tension-es`, `curriculum-es`, `tie-es`, `aficionado-es`, `carton-es`; they stay, because ids are progress keys. **Verb tables:** `irse` (A1) and `oler` (B1) moved to `level: A2`, in step with the lexicon. Accent-shift verbs (*graduarse, esquiar, reenviar*) are `irregular`, like *enviar* in the tables. The word-import tool no longer writes `…` into IPA. `lexicon-a2` is strict in `check-variety.mjs`. Seven A2 path units with six tasks got one `wort`/`artikel` task; the other five are full at 7.
-  **For `games`:** the A2 pool of `ArtikelTrainer`, `artikelSprint/lexWords.js` (Bruno Kart) and `spiele/domino.js` is empty now, as A1's was: all still filter on a/an/some. Impostor A2 themes are hand-picked on Spanish ids. **For `games-arcade`:** Nut night and Listening safari lose A2 until `ARTS` and `w.g` are el/la (A1 and A2 empty, B1 still English). **For `spanish-for-work`:** the old A2 refs in `berufe/*` are gone like A1's (warnings, decks shorter); the replacement words are in `a2-09`, `a2-10`, `a2-03`, `a2-05`, `a2-19`. **For `word-stories`:** more lemmas have left. **For `culture`:** `wusstest-du.json` `a2-*` entries are still about English. **For `dgt-vocab`:** `a2-19` has the everyday car words (*carné de conducir, rotonda, ITV, paso de peatones*); reuse them by ref. **For `spanish-for-work` and `life-in-spain` items:** A2 adds *SEPE, vida laboral, permiso de trabajo, permiso de residencia, TIE, oficina de extranjería, gestoría, Seguridad Social, hoja de reclamaciones*, glossed as orientation only.
-- **B1 vocabulary decisions** (`vocab-b1`, 2026-11-04): `b1.json` is Spanish: same 46 units and titles, 25 words each (1150), `rank: null`, 77 `es419` notes, `lexicon-b1` strict in `check-variety.mjs`. UK-only topics became Spain's: *Hacienda, IBI, IVA, Bizum, ingreso mínimo vital, ESO, bachillerato, selectividad, concertado, AMPA, Guardia Civil, Policía Nacional, comunidad autónoma, libro de familia, arraigo, regularización, cuesta de enero, DANA, calima*.
-  **Homographs:** `grado-universidad`, `ensayo-teatro`, `demanda-mercado`, `sierra-montes`, `fuente-informacion`, `nota-examen`, `publico-adj`, `casero-adj`, `portero-futbol`. Inside B1 the plain id is on *ensayo* (essay), *demanda* (lawsuit), *sierra* (the tool, it keeps the saw picture) and *fuente* (fountain). `-es` ids, because English words of later levels hold the slug: `master-es`, `tribunal-es`, `culpable-es`, `nostalgia-es`; they stay.
-  **Conventions:** *la jueza* counts as a separate feminine, so `juez` is `el` with the feminine in `en`. *Puntos* (stitches) and the plan's plural lemmas (*emisiones, recursos, ingresos, tasas de matrícula, pruebas, esposas*) are `pluralOnly`. *AMPA* is `el`, `genus: "f"`, like *el aula*. `criar`: the indefinido is written *crio*, following RAE. **Verb tables:** `seguir` moved to `level: B1`, in step with the lexicon (its first appearance); `morir`, `construir`, `caber`, `soler` are now in the lexicon, as the tables' B1 says. `soler` lists *solió, solido* for the `forms` schema though they are rare; its gloss points to *suelo, solía*. **Card gap:** a verb example needs the lemma or yo stem plus at most 3 letters or an exact listed form (*ensaya* yes, *ensayamos* no), and person nouns stay masculine in examples, or the card can't blank them. Five B1 path units with six tasks got one `wort`/`artikel` task; the other three are full at 7.
-  **For `vocab-b2`, `vocab-c1-c2`:** before writing, slug-check your lemmas against A1–B1: `lexicon-import.mjs` silently adds `-es` on a clash, and the first field of a source line must be an old id or `-`: anything else is taken as an old id and can carry the wrong picture. Re-importing doesn't restore pictures whose old ids were already removed. **For `games`:** the B1 pools of `ArtikelTrainer`, `artikelSprint/lexWords.js` and `spiele/domino.js` are empty too, as A1's and A2's are: the trainer and the domino only have English nouns left at B2 and above, and `lexWords.js` (A1–B1) has none. **For `games-arcade`:** Nut night (`LEVELS` A1, A2, B1) now has **no words at any level**, and Listening safari keeps only B2 words (behind its B1 button), until `ARTS` and `w.g` are el/la. **For `spanish-for-work`:** old B1 refs in `berufe/*` are gone like A1's and A2's (warnings, shorter decks); replacements are in `b1-01`, `b1-32`, `b1-43`, `b1-33`. **For `word-stories`:** more lemmas have left. **For `culture`:** `wusstest-du.json` `b1-*` entries (46) are still about English. **For `dgt-vocab`:** `b1-08` and `b1-38` have the road words (*arcén, claxon, intermitente, carné por puntos, alcoholemia, ceda el paso, peaje*); reuse them by ref. **For `life-in-spain`:** B1 adds *empadronamiento, certificado de empadronamiento, apostilla, traducción jurada, antecedentes penales, compulsar, arraigo, regularización, ingreso mínimo vital, sede electrónica, certificado digital*, all glossed as orientation only.
-- **B2 vocabulary decisions** (`vocab-b2`, 2026-11-05): `b2.json` is Spanish: same 60 units and titles, 25 words each (1500), `rank: null`, 33 `es419` notes, `lexicon-b2` strict in `check-variety.mjs`. No unit title was UK-only, so `ws.set.b2-*` stay. UK topics became Spain's: *Congreso de los Diputados, moción de censura, real decreto, ERTE, ERE, contrato fijo discontinuo, falso autónomo, cuota de autónomos, recurso de alzada, silencio administrativo, Defensor del Pueblo, OMIC, nota simple, arras, derrama, impuesto de transmisiones, turno de oficio, oposiciones, nota de corte, colegio mayor, Cercanías, España vaciada, dehesa, tarjeta azul, reagrupación familiar, homologación*, all glossed as orientation only.
-  **Ids:** no `-es` ids and no homograph ids: lemmas that clashed with A1–B1 or with C1–C2 were replaced before writing, so a few topic words are multi-word or sit next to a B1 word (*alto cargo*, *plano de planta*, *fondo documental*, *punto del orden del día*). `secuelas` (plural-only, aftermath, `b2-32`) and `secuela` (film sequel, `b2-39`) are separate words. **Conventions:** a verb's `+prep` follows `!irr` in the source format (`absuelvo,absolvió,absuelto!irr+de`); `-zco`, `-uir` and accent-shift verbs are `irregular`, as at the lower levels. `PIB` keeps the IPA `piβ`, because Spain reads it as a word. `es-ipa.mjs` wrongly makes hiatus of *üí* (*lingüístico*) and joins *ti* + *hi* (*antihigiénico*): those three B2 words carry an `ipa=` override, and **`vocab-c1-c2`** should check the same patterns. Seven pictures moved to their Spanish words with `img=` (*trofeo, castillo, pulmón, hilo, vacunación, papeleta, parque nacional*). No B2 verb is in `verbtabellen.json`, so no table level moved.
-  **For `vocab-c1-c2`:** `denunciar` is taken at B1, so `banear` took the place of flagging a post in `b2-58`; don't reuse `banear`. **For `games`:** `ArtikelTrainer` and `spiele/domino.js` (`artikel` type), which offer A1–B2, now have no noun at any level: the last English nouns they could reach were B2's. **For `games-arcade`:** Listening safari's page data now holds **0 words** at every level (its filter is `a`/`an`), joining Nut night. **For `spanish-for-work`:** old B2 refs in `berufe/*` are gone like the lower levels' (373 warnings, shorter decks); replacements are in `b2-01`, `b2-21`, `b2-30`, `b2-53`. **For `word-stories`:** more lemmas have left. **For `culture`:** `wusstest-du.json` `b2-*` entries are still about English and UK usage, and they print beside the Spanish B2 word sheets. **For `dgt-vocab`:** `b2-19` has *mediana, paso elevado, vía de servicio, carril de incorporación, zona de bajas emisiones, autovía*; reuse them by ref. **For `life-in-spain` items and `nationality-path`:** `b2-13`, `b2-20`, `b2-35` have the asylum, procedure and recognition words. **For `teachers` and `cleanup`:** `data/lernsets/lernsets.b2.json` is an old snapshot; one inline script comment on every built page still names the old brand (`Sentry DEUTSCHACADEMY-WEB-A`), invisible to visitors but in the page source.
-- **C1/C2 vocabulary decisions** (`vocab-c1-c2`, 2026-11-05): `c1.json` and `c2.json` are Spanish: same 24 + 16 units, 25 words each (600 + 400), `rank: null`, 23 `es419` notes, `lexicon-c1` and `lexicon-c2` strict in `check-variety.mjs`. All six levels are Spanish now. **Titles:** three were about English and changed, with `ws.set.*`: `c1-06` “Verb expressions for discussion & work” (*poner de manifiesto, dar luz verde*: `pos: phrase`, because Spanish has no phrasal verbs), `c2-04` “Loanwords in Spanish”, `c2-06` “Informal Spanish (Spain)”. The other 37 stay. `c1-10`'s icon is 💶 instead of 💷; the search words for `c1-06`, `c2-04` and `c2-06` follow.
-  **Ids:** no `-es` ids and no homograph ids: about 210 lemmas first planned were already taken at A1–B2 and were replaced before writing, so some topic words are less central than the English unit's (B2 had taken many core words of law, tech, media). Before importing, the two levels were emptied and their old ids taken out of the sidecars, because `lexicon-import.mjs` otherwise gives a Spanish word `-es` when the other level's English word holds the slug. **Conventions:** RAE forms for loanwords (*statu quo, motu proprio, espóiler, hándicap, esnob*; plurals *oxímoros, hipérbatos, superávits*), foreign-looking ones with an `ipa=` override. *opa* stays lowercase as the RAE writes it, *BOE* in capitals. `suscribir` and `prescribir` are `irregular` for their participles; `delinquir`, `titulizar` and other spelling-only verbs aren't. `escabullirse` isn't flagged (the *ll* absorbs the *i*). `es-ipa.mjs` wrongly joins vowels across a silent *h* in *quebrantahuesos*, *nihilismo*, *nihilista*: those carry a corrected `ipa`; the generator is unchanged.
-  **Code:** `ENGLISH_LEVELS` is gone from `lexicon.js`, `berufeRows.js` (a ref now resolves if the lexicon has the id), `wortgeschichteCore.js` and `check-erklaerungen.mjs`; `validate-lexicon.mjs` `GENDERS` is only `el`, `la`, `el/la`. The §7 row for `cleanup` is done as far as the lexicon goes; **still on a/an/some, for their own items:** `ArtikelTrainer`, `artikelSprint`, `hoerSafari`, `nussnacht`, `spiele/domino.js` (`games`, `games-arcade`), `berufeCore.js` `GENDERS` and `berufeRows.js` `ownRow` (`spanish-for-work`).
-  **For `games`, `games-arcade`:** the live quiz, the search and `/teachers/cards` now draw C1/C2 from Spanish rows; no game had a C1/C2 pool on a/an/some worth keeping. `quakiSpringt/fragen.json` still has English `qs-c1-*` and `qs-c2-*` questions. **For `spanish-for-work`:** any old C1/C2 refs in `berufe/*` are gone like the lower levels' (warnings, shorter decks); replacements are in `c1-09`, `c1-11`. **For `word-stories`:** the last English lemmas have left the lexicon, and `formsOf()` has no English branch any more. **For `culture`:** `wusstest-du.json` has no C1/C2 entries, so a C1/C2 sheet prints no leftover English fact. **For `dele`/exam items:** `c1-03` (connectors) and `c2-07` (legal formulas) suit C1/C2 task preparation. **For `life-in-spain` items:** `c1-11`, `c1-12` and `c2-07` add *excedencia, despido improcedente, indemnización por despido, comité de empresa, BOE, decreto ley, tutela judicial, usufructo, albacea, medida cautelar*, as orientation only. **For `cleanup`:** `synonyme.json` is still English groups, including C1/C2-era words (*nevertheless, substantial*) that no longer exist in the lexicon; `data/lernsets/lernsets.c1.json`, `lernsets.c2.json` and `lernsets.words.csv` are old English snapshots. `program.json` marks C1/C2 as `planned` with target counts of 2300 and 1500 and module titles with no units behind them, as for B1 and B2; the lexicon has 600 and 400.
-- **Listening decisions** (`listening`, 2026-11-05): `hoeren.json` is Spanish: same 16 ids, types and script shape, 69 questions, `variety` on every text, 14 `es419` notes (`a1-anruf-arzt`, `b2-interview-anerkennung` have none), `hoeren` strict in `check-variety.mjs`. **Question language, not covered above:** prompts and options are English at A1–A2 (the check is about listening, not reading the question) and Spanish at B1–B2 (as exams do); `explain`, `title`, `blurb` and `es419.note` stay English. Scripts use *vosotros* and the *perfecto* for today where Spain would, and `es419` carries no `form` (a text has no single replacement). Invented places: Valdelora, Montealbar; invented firms: Envíos Albar, Seguros Albar, Radio Valdelora; big real cities appear only as destinations and in the weather. `seconds` are estimates from word count until a manifest exists. Four item slugs followed the new titles (`a1-health-centre-voicemail`, `a2-town-hall-appointment`, `b1-tutor-meeting`, `b2-degree-recognition-interview`), and the 16 listening rows of `suche-seiten.json` were updated by hand, since its generator needs a dev server.
-  **For the audio render (no item yet):** `voices.*.azure` are es-ES names, to check against Microsoft's current list; every ElevenLabs `id` is now empty because the old ones were British voices. `scripts/generate-hoeren-audio.mjs` and `pnpm generate:hoeren`, named in code comments, are not in this repo, and `public/audio/hoeren/` does not exist. Listen for *briks* and the digit strings. **For `beginner-path` follow-ups:** the hand-off asking for `hoeren` tasks in the units is still open, because `check-einfach-pfad.mjs` rejects a task whose clip is not on disk; add them after the render, signing refs with `--sign`. Good first candidates: `a1-supermarkt` (`a1-einkaufen`), `a1-anruf-arzt` (`a1-arzt`), `a2-amt-termin` (`a1-amt` is A1, so use it in an A2 unit). **For `reading-writing`:** consider the same question-language rule, so skills match. **For `life-in-spain`:** `b1-krankmeldung`, `a2-amt-termin`, `b2-interview-anerkennung` touch the baja, the padrón and homologación as story detail; keep your wording consistent with theirs. **`uebersetzungen/hoeren.json`** stays empty as §5.3 says, so the transcript has no help bar until translations are written.
-- **Reading and writing decisions** (`reading-writing`, 2026-11-05): `lesen.json`, `fertigkeiten/lesen.json` and `fertigkeiten/schreiben.json` are Spanish, set in Valdelora. Same ids and shape, plus seven new entries where §5.4 asks for situations the old ids didn't hold (school, landlord, employer, opinion text) or the padrón matters too much to leave out: reading `a1-phone-messages`, `a2-padron-notice`; writing `a2-padron-form`, `a2-email-school`, `b1-email-landlord`, `b1-email-employer`, `b2-opinion-text`, with the new type `opinion`. **Language:** same rule as listening: questions, `situation` and `points` are English at A1–A2 and Spanish at B1–B2; `title`, `blurb`, `explain`, `check` and `tips` are English; form labels, `phrases`, `source` and `model` are Spanish at every level, because a form in Spain is in Spanish. Word limits are written “(30–40 words)” or “(80–100 palabras)”, and `wordRange()` reads both. **Shape:** one new optional key, `writingPrompt.model`, because the B1 email was the only prompt without a model text. The B1 email asks for 70–90 words, not 60–80, because five points don't fit in 60; `lesen.wordCount.goal` and the `/reading-writing` counter follow. The group label “Learning as an adult” is now “Neighbourhood life”. The B1 set stays B1, so the `/trinity/ise-1/mock-test` line “level B1, a step above DELE A2” holds. **Error hunt:** still no answer key, as designed; its checklist now names the 20 mistakes' categories, and the full key is in the run report.
-  **LanguageTool:** `BACKEND.languageTool` (new, `false`) gates the call, in `es`. Before this item the button called the public API whatever the flags said. With it off, “Correct my text” runs only the own rules and says they are basic checks, and `schreiben.privacy` says nothing is sent. **`src/lib/routes.js`:** never map an id to itself in `ITEM_SLUGS`: the redirect it generates replaced the page. `astro.config.mjs` now skips that case; leave an unmapped id out instead, since `itemSlug()` falls back to the id.
-  **For `ccse`/`nationality-path`:** `dtz.fmt.ads.*`, `dtz.fmt.tf.what`, `dtz.pt.*` and `format.t.*` still say “adverts”; the mock's task 1 is now notices and adverts. **For `extranjeria-sim`:** `a2-padron-notice` and `a2-padron-form` are an invented town's version of the padrón; keep the wording consistent with them and with `a2-amt-termin`. **For `business-spanish`:** `b1-email-employer` and `b1-email-landlord` are the everyday versions; don't repeat them. **For `cleanup` or Edgar:** `/privacy` and `/terms` still describe the LanguageTool check as active (legal pages, left unchanged under rule 5), and they are wrong while the flag is off. `T.uk`, `T.ar`, `T.tr` in `schreibKorrektur.js` have no `ownOnly`/`noneOwn` and fall back to English. **Open:** quiz prompts at B1–B2 are Spanish but carry no `lang="es"`, because `quiz.js` renders them next to UI text (same for listening).
-- **Speaking decisions** (`speaking`, 2026-11-05): `sprechen.json`, `sprechen-b1b2.json`, `fertigkeiten/sprechen.json` and `redemittel.json` are Spanish, with the same ids, indexes, set ids and phrase order. **Language:** same rule as listening and reading: `prompt`, `bullets`, `beschreibung`, `persoenlich`, topic cards are English at A1–A2 and Spanish at B1–B2; `title`, `blurb`, `check`, stage labels and hints are English; `phrases` and `model` are Spanish at every level. `sprechen.json` follows the level of the task that borrows it: pictures 0 and 1 (A2) English, picture 2 (B1) Spanish. `resolveSprechen` picks its wrapper sentence by level; `cardPoint` now strips *y*, and a topic card ends in “Explica:”. **Photos:** four photos in `sprechen-b1b2.json` didn't show what their questions asked about (an empty meeting room under “Building homes”, hands and documents under “Life on screen”), so their questions and titles now describe the real photo. Prompt 4's talk changes from “an app” to “a procedure at an office”, and its stage 3 to a rental role play. The same check on `fertigkeiten/sprechen.json` and `sprechen.json` corrected models and `imageNeeded`: `dtz-bus.jpg` shows a tram (title, slug `a2-picture-tram`), the “woman” on the swing is a teenage girl, and there is no name badge in the nursery photo. `b1-bild-buergeramt` shows staff in scrubs, so the model says it may be a medical reception and moves to the town hall as an example. **Exam lines:** each says “in the style of …” and “Not an official exam task”; DELE has no paired part as far as this run knows, so `b2-planen-abschiedsfeier` is described as a role play done with a partner. The note on `/speaking-b1-b2` says the site isn't affiliated. **`redemittel`:** `en` is now a real translation plus a short usage note, not a paraphrase; strict in `check-variety.mjs`; `toCard()` and `/pronunciation` no longer pass `variety`/`es419`/`bild` on as translations. No `es419` on the speaking tasks (§1.5).
-  **Sidecars:** `de`, `fr`, `pt` (European), `it` are written from the Spanish, machine drafts. `es`, `fa`, `hi`, `id`, `kmr`, `pl`, `ps`, `ro`, `so`, `sq`, `ti`, `tl`, `uk`, `vi` are `{}`, and the inline `ar`, `uk`, `ru`, `tr` are removed: nobody here could check them against the Spanish, and only `en` is a registered card language, so no visitor loses anything. Restore from `git show 039887c:src/data/redemittel.json` as a starting point for a later run. **For `ui-lang-*`:** `languagesFor("cards", …)` decides whether a sidecar shows, so the phrase sidecars switch on when a language registers `cards`. **For `cleanup`:** delete the 14 empty sidecars, not only `es.json`. **For Arabic later:** phrases need a fresh `ar` sidecar.
-  **Beginner path:** `a1-vorstellen` (`redemittel:begruessen#1`, replacing the *¿De dónde eres?* build) and `a1-amt` (`redemittel:nachfragen#1`, replacing the *contrato de alquiler* gap) each have a `redemittel` task, so both units stay at 7. `begruessen#1` has an `es419.form`, so the LatAm resolver must apply it on that task; `gratulieren#5` etc. have none. **Still open from the `beginner-path` hand-off:** `hoeren` and spoken tasks need audio or the `pronunciation` item; no `sprechen` task type exists (`einfach-sprechen.js` works from `aussprache` sentences). **For the audio render:** no `public/audio/redemittel/` exists; the player reads phrases with the browser voice and says so. **For `games`:** `hochstapler/redemittel.json` is a different file and still theirs.
-- **Pronunciation decisions** (`pronunciation`, 2026-11-06): `ausspracheregeln.json`, `aussprache-check.json`, `zungenbrecher.json`, `satzmelodie.json`, `aussprache-muttersprache.json` and every `area: "aussprache"` entry of `fehler-nach-sprache.json` are Spanish; all four §1.5 modules are strict in `check-variety`. **Rules:** 16, in teaching order, the old slot ids plus `ll-y` and `enye`; seseo and ceceo are named in the *c/z* rule because a learner in Spain hears them, and a weak final *s* in the *s* rule. **Check sentences:** same ids, plus `a2-carro` and `a2-casa-caza` for the pairs §5.6 names. **Twisters:** 20, folk rhymes only (`fischers-fritz` and `freche-froesche` left the set); *empaca* became *empaqueta* and *en las mañanas* became *por las mañanas*, so these are the Spain forms. **Sound ids** (`focus`) are the ones in `ausspracheTipps.js`: `r`, `ce-zi`, `j-g`, `b-v`, `d`, `h`, `ll-y`, `enye`, `ch`, `qu-gu`, `acento`, `vocal`. **Melody:** Spanish yes/no questions often have statement word order, so the page's echo line and the yes/no line can read the same (`¿Vives en Madrid?`); `baseAs()` in `satzmelodieData.js` writes `¿…?` and `¡…!`, the quiz fills the opening mark only with the answer, and a new rule `cortes` (polite request) follows §5.6. `melodyType` reads a question word after a preposition (*¿De dónde…?*, *¿Por qué…?*). **Drills:** 22; old ids kept where they still fit (`p-b`, `e-i-o-u`, `h`, `s`, `ende`, `r-l`, `cluster`, `betonung`). `drillSlug` keeps accents (`papá` → `papa1`), because *papa/papá* must not share a recording. **Languages:** `spanisch` became `englisch` and `portugiesisch` is new, because `check:aussprache` needs the slot for a drill list; the five first languages now come first, then Arabic, Russian, Ukrainian, Chinese (§5.7's keep list). `tuerkisch`, `persisch`, `polnisch`, `vietnamesisch` and `tagalog` have **no** pronunciation mistakes and no drills now: the old ones were about English and I wrote none rather than guess. A language without drills drops out of the Check's picker by itself. **Gate:** missing drill audio is a note (`--audio` makes it a problem), so `check-aussprache` and `check-satzmelodie` joined `check:content`; §5.6's “links both ways” now holds in every build. `check-aussprache` also checks each `focus` against the sentence, `stress` keys, and each rule's `match` against its examples. **For `idioms-mistakes`:** `englisch` and `portugiesisch` hold pronunciation mistakes only; write their other areas. Every other language's non-pronunciation mistakes, `strengths` and the file's `note` and `quiz` are still about English, and `wortfallen.sheep.*` too. Keep or remove the five languages above as §5.7 says; `langMark.js` has both new ids. **For `games-dialogue`:** `spielKit.js` already speaks es-ES (§5.6), so English lines in `knigge` and `lindenau` sound wrong until your item runs. **For the audio render:** no script from the old comments exists; ids and slugs are ready (`public/audio/aussprache-check/<id>.mp3`, `zungenbrecher/<id>[-langsam].mp3`, `muttersprache/<drillSlug>.mp3`, `satzmelodie/<kind>-<satzSlug>.mp3`). The Hörtest on *c/z* pairs needs a voice with distinción, so an es-ES voice with seseo would make it unanswerable. **For `beginner-path` follow-ups:** still no `sprechen` tasks in the units: scoring needs a real pronunciation provider behind `backend.js`, and the stand-in can only speak.
-- **Idioms and mistakes decisions** (`idioms-mistakes`, 2026-11-06): `redewendungen.json` (72 entries), `umgangssprache.json` (51), `typische-fehler.json` (44 pairs, same 5 group ids), `wortfallen.json` (25 traps), `synonyme.json` (94 groups) and the non-pronunciation part of `fehler-nach-sprache.json` are Spanish; `wortarten.json` `fehler` is filled, empty only for `num`. All six modules are strict in `check-variety`, which §1.5 didn't list: the fixed decision says every vocabulary and grammar item carries `variety`. `fehler-nach-sprache.json` has it at the top level, the others per entry. **Idioms:** `bedeutung` is the English meaning, `en` the nearest English expression, so `rw.facts.en` now says “In English”. Origins are told only where a source supports them (5 entries; `a-buenas-horas-mangas-verdes` tells the usual story and says it's disputed). `quellen` must hold an https link: Wikcionario where it has the phrase (checked through its API), otherwise the RAE dictionary entry of the key word or the Centro Virtual Cervantes proverb collection. RAE returns 403 to scripts, so those 31 links weren't opened one by one; `check:downloads` will flag them. `REDEWENDUNGEN_LIVE` stays `false`: Edgar's call. **Slang:** `data.recht` and its markup are gone, as §5.7 says. `std` is the standard word plus its English meaning, so it has no `lang="es"`. **Synonyms:** new optional `nota` (English register note, not shown yet); the quiz ignores it. Groups must really swap in an everyday sentence, so the set is smaller than the English one. **Languages:** ten slots: English, German, French, Portuguese, Italian, Romanian (new, no drills), Arabic, Russian, Ukrainian, Chinese. `tuerkisch`, `persisch`, `polnisch`, `vietnamesisch`, `tagalog` are removed: they had no drills, they aren't among the groups the plan names for Spain, and their old content was about English. Restore a starting point from `git show 00b4d1d:src/data/fehler-nach-sprache.json`, but it needs rewriting. A learner whose stored first language is one of these falls back to the normal view (`show()` in `fehlerSeite.js`). **Validator:** `scripts/check-sprachfallen.mjs` (new, in the gate, `pnpm check:sprachfallen`) covers the traps and their en.json rows, pairs, slang, synonyms and first-language mistakes; `check-redewendungen.mjs` has Spanish stop words. The live quiz's synonym mode and `/culture/mistakes` search rows follow. **For `culture`:** `kalender-saetze.json` still has English `redewendungen` lines; `redewendungen.json` can feed them. **For `games`:** `lernsetKeywords.js` still has English keywords. **For `ui-lang-*`:** `wortfallen.<id>.*` is re-keyed; `typische-fehler` `tr`/`regelTr` and the slang and idiom pages have no i18n rows, as before. **For the audio render:** no `public/audio/wortfallen` or `public/audio/redewendungen` exists; `generate-wortfallen-audio.mjs` and `generate-redewendungen-audio.mjs`, named in comments, aren't in the repo. Idioms use the browser's es-ES voice; the traps have no sound until recordings exist, so `wortfallen.quiz.lead` no longer promises any.
-- **DELE decisions** (`exams-dele`, 2026-11-06): the format research entries `goethe-a1`…`goethe-c2` and `goethe-formate.json` hold six DELE formats; `goethe-a1` and `goethe-c2` have no set under the generic engine (A1 is the `start-deutsch-1` slot, C2 has no set). Each research entry has `checked` and `unverified`; the official guides could not be opened on 2026-11-06 (examenes.cervantes.es now redirects to `cervantes.org/es/examenes/dele`, a dates page) and the Cervantes centres' pages disagree, so **every timing, task count, item count and the pass rule is to verify** and the pages say so. **Sets follow one order and structure:** modules `reading`, `listening`, `writing`, `speaking` (C1: the same keys, integrated names), no shared timer, item counts as in the research file; a validator match only proves a set equals our research, not the real exam. Instructions are English at A1–A2 and Spanish from B1, like `speaking`; `why`, titles and checklists are English at all levels. **No audio yet:** the sets have es-ES voices in `speakers`, and the transcript is open. `scripts/generate-pruefungen-audio.mjs` has not been run. **A1 test:** stays in its own shape with 15 + 15 scored items (the real exam has more, the page says it is shorter) and gains an unscored `sprechen` block and a registry module (`sprechen`). **Engine:** `CONTENT_LANG = "es"` marks exam text as Spanish in `pruefungEngine.js`; `choiceCard` takes `contentLang`. `exams-siele` inherits both, and until it runs the `telc` and `testdaf` English text is tagged Spanish too. `mc` items now show `why`. `task.situation` splits on line breaks. **Names:** `examLabel` is now `DELE A2` / `SIELE A2`; `telc` label changes with it. **Traps:** `fallen.json` `exams` values are `dele`, `siele`, `ccse` (not slots any more), a card has `level`, and cards point to a part of a set rather than to a numbered item. New ids: `palabras-justas`, `reparte-el-tiempo`, `cortes-generales`. Old ids are kept with new content; `verb-nach-der-luecke` is now the written accents trap. **For `exams-siele`:** check the `siele` trap cards against the real SIELE (they are generic), and give `telc`/`testdaf` research entries a `checked` date so the page date changes (`PruefungSatz.astro` falls back to 30 October 2026). **For `ccse`:** `/exams/traps#cortes-generales` and `#reparte-el-tiempo` link to the CCSE or use it as a filter. **For `nationality-path`:** the `dtz` trap links are gone; add cards if the mock needs them. **For `routes`:** `fallen.json` hrefs and `/cambridge/use-of-english` follow the slug map, and `ROUTE_RENAMES` must cover the `#part` anchors. **For `cleanup`:** old `format.t.*` keys in `en.json` that no format file uses (German-exam leftovers) stay until then; `sd1.facts.*` too (only `sd1.facts.pass` is in use, on the CCSE test page). `downloads.json` still lists Cambridge entries (`teachers`, §5).
-- **SIELE decisions** (`exams-siele`, 2026-11-06): unlike the DELE guides, the official SIELE exam guide could be read (copy on `seul.cervantes.es`, date unreadable, another copy says April 2021) and agrees with `siele.org/examenes`, so tasks, question counts, times, score bands, S1 to S5 and five-year validity come from there, dated; the guide's age keeps them on the to-verify list. **Slots:** the four `telc` sets hold the real tasks by the band they aim at, using the guide's task numbers in their titles: A2 = reading 1–2, listening 1–2, writing 1, speaking 1–2 (the slot's only A1 material, hence "the A1 and A2 tasks"); B1 = reading 3, listening 3, writing 1, speaking 3; B2 = reading 4 (two gap-bank parts), listening 4, writing 2, speaking 4; C1 (paid, as the slot was) = reading 5, listening 5–6, writing 2, speaking 5. Together they are one whole SIELE Global (38 + 38 items, 2 writing and 5 speaking tasks), though writing 1 and 2 each appear twice with different prompts. No band set was removed. `teil` counts within the set and titles carry the real task number. **Listening task 6** picks six ideas of twelve in any order for real; the engine marks one key per item, so ours has six sections with one idea each and says so. **`testdaf` slot:** same top-level keys; `aufgabe1` is the real B1 match task without the "no text fits" option, `aufgabe2` and `aufgabe3` are plain multiple choice at about B2 and C1 (`aufgabe3` items gained `options`), and `schreiben.grafik` is gone with the chart task, because the SIELE has neither Yes/No/Not given nor a chart. `testdaf-formate.json`, unused before, now has the `ExamFormat` shape plus `bands` and `modalities`, and `/ielts` reads it. **Engine:** `scoring.passPct: null` shows no verdict and no 60 % line. `PruefungSatz` hides an empty Points column and uses `ps.heroBand` and `ps.format.titleBand` for `telc` sets. `.ps-gap.is-filled` wraps, which also fixes long fragments in the DELE sets on phones. **Traps:** `reparte-el-tiempo` no longer lists `siele` (you can't return to a finished SIELE task); new `sin-vuelta-atras`, `habla-sola`. **No `variety` field** on exam sets, as with the DELE sets: `check-variety` doesn't cover them. Learners should expect other accents in the real SIELE, and `/ielts` and `/exams/dele-or-siele` say so. **For `routes`:** `/trinity/*`, `/ielts`, the `practice.href` of the two new traps and the links in `dele-or-siele.astro` follow the slug map; `/exams/dele-or-siele` stays. **For `nationality-path`:** the DELE-or-SIELE page says DELE A2 or above plus CCSE and points to the Ministry of Justice in general; link `/nationality` from its nationality row once the page exists, and reconcile the exemption wording. **For the audio render:** the band sets have es-ES voices; `generate-pruefungen-audio.mjs` has not been run. **For `cleanup`:** `.tdaf-*` chart styles, `testdaf.fmt.*` and `tdf.type.yesno` are unused now.
-- **CCSE decisions** (`ccse`, 2026-11-06): the official guide could not be read (`ccse.cervantes.es` redirected to a maintenance page, and the copy on `agenda.cervantes.es` refused the connection), so the format comes from exam centres: 25 questions, tasks of 10 / 3 / 2 / 3 / 7, true or false in task 2 and three options elsewhere, 45 minutes (Universitat de València), 15 of 25 to pass with no penalty (Universidad de Alicante). All of it, the €85 fee and the 4-year validity are **to verify** and the pages word them that way. The official CCSE manual and question bank were **deliberately not opened**, so overlap is limited to facts anyone would ask about. **Language:** questions and options are Spanish because the test is; `explain` is English. On `/facts`, `facts` and `def` are Spanish, while `factsEasy` and `defEasy` are the **same fact in English**, not simpler Spanish. The switch reads "En español / In English" with the new key `lid.fk.level.en`; `lid.fk.level.easy` stays for ZitatCard. The translation switch is hidden while `uebersetzungen/leben-in-deutschland.json` is empty. **Additive fields:** top-level `variety`, `meta.tareas` (`n`, `title`, `realCount`, `options`), and `tarea` and `explain` on each question in `questions`. Topic ids stay as slots: `government-parliament`, `elections`, `values-law`, `four-nations` (territory), `history` (culture and history), `everyday-life` (society). `meta.federalQuestions` now means the size of our bank (58), and `totalQuestions` the real test (25). **Test:** one section per task, and only the 58 questions on Spain count towards the score, the share of the pass mark and the dashboard. The 19 comunidades and ciudades (4 questions each) are an unscored extra, `scored: false` in the registry. **Removed:** the three `lid-*` download entries and the PDF links; the UK gov link is now the Cervantes CCSE page. **For `routes`:** `/life-in-the-uk` becomes `/ccse`, including links in en.json (`lid.format.note`, `lid.test.hero`, `lid.fk.hero`, `pruefungen.levelNote`). The registry id and storage keys stay. **For `cleanup`:** `scripts/generate-fakten-pdf.mjs`, `generate-bundesland-pdf.mjs` and the `states` code in `src/lib/downloads.js` and `knowledge.astro` have no catalogue entry left; `src/oldux/LearnShell.astro` still has the old text. **For `ui-lang-*`:** `entry-pages.json` still describes the German test for `/life-in-the-uk` in six languages. **For `nationality-path`:** read the figures from `meta` rather than repeating them, and keep exemptions out of the CCSE pages, which only say that some applicants are exempt. **For `culture`:** `kultur.json` still links to these pages under "Life in the UK" labels. **Edgar:** when the guide is reachable, compare the format against it; meta and `lid.format.*` are the only places to change.
-- **Nationality decisions** (`nationality-path`, 2026-11-06): `/nationality` rests on the Código Civil (arts. 21–23), RD 1004/2015, Orden JUS/1625/2016 and Ley 19/2015, read in the BOE; the Instituto Cervantes FAQ refused the connection. **Text source:** the page reads `en.json` directly, so each sentence lives in one file; CCSE figures come from `meta`. **Mock:** the trainer's nine-part shape stays (the validator fixes it), so the mock says it doesn't copy the real DELE A2, and `/cambridge/a2` is the set with the real parts. Questions, options and texts are Spanish; rubrics, part titles, writing prompts, points and checklists are English, like the other A2 sets. **Paid sets:** set 2 is written. **Sets 3 and 4 are removed now**, not in `cleanup`: with the paywall off `can()` is true, so their German opened for anyone. Restore with `git checkout 9525dbb~1 -- src/paid/pruefungen/dtz/uebungssatz-3.json src/paid/pruefungen/dtz/uebungssatz-4.json`, though what comes back is German. `preise.cell.dtz3` now says "+ 1 DELE A2 mock" (key name kept). **Timed:** the trainer gained an optional clock per skill (25, 45 and 30 minutes, ours), stored under `da-dtz-clock-v1:`; it never blocks. **Also fixed:** the trainer now shows `modelAnswer` and `checklist`, which the page promised but never rendered; "My mistakes" and the true/false and none buttons no longer use German or hard-coded text; the registry entry is A2. **For `routes`:** `/nationality` stays; the new links to `/trinity/ise-1/*`, `/cambridge/a2` and `/life-in-the-uk` in `nationality.astro` and `dtz.format.note` follow the slug map. **For `cleanup`:** `produkte.json` still has "DTZ" in its `de`, `ar`, `tr` and `uk` names; `scripts/check-pruefungen.mjs` and `check-pruefungsplan.mjs` keep DTZ names in comments and fixtures; `search` entries in `suche-seiten.json` with `dtz` in their keywords for other pages remain; `exam.h1.set1` may be unused. `scripts/validate-i18n.mjs` crashes because `public/i18n/de.json` doesn't exist yet (not caused by this item; `ui-lang-de` should see it clear). **For `extranjeria-sim`:** both mocks use the empadronamiento and the NIE only as everyday scenes, with invented offices; keep any rule statements on those pages. **Edgar:** read `/nationality` once with a lawyer's eye, see the to-verify list in `reports/nationality-path.md`.
-- **Extranjería sim decisions** (`extranjeria-sim`, 2026-11-06): the game is **Bruno at the desk**, five days with 28 hand-written cases: days 1–2 padrón at Villabruno town hall, day 3 NIE, day 4 TIE, day 5 questions on arraigo and the regularisation. **Stamps are COMPLETO / DEVUELTO, not approve / reject**, because the player only checks paperwork and no stamp may look like a decision on someone's status; keys C and D. Arraigo and regularisation customers carry a `derivar_*` mistake: the right move is to send them to official information, and they always get DEVUELTO. Padrón rules follow the BOE instructions (Resolution of 17 February 2020): no residence permit needed, proof of address may be something other than a contract, so a missing contract means "come back with other proof", never "you can't register". Shape, additive only: `TAGE` in `regeln.js` holds each day's memo (`regelnBis` reads it, no longer cumulative); paper kinds `cita`, `tasa`, `foto`; `opciones` and `kopf` on `DOK_ARTEN`; `WOERTER` for tap-a-label glosses. `de` = Spanish, `en` = English, shown under the Spanish with an EN on/off button. The memo's `wirklich` texts, never shown before, are on the start and end cards with sources. Lines carry no item-level `variety` or `es419` (they name Spanish procedures, see the `es419` scope above); `kunden.json` has a file-level `variety: "es-ES"`. `pnpm check:extranjeria` checks that each case's papers contradict exactly where its mistakes say. **Hand-offs:** `routes` renames `/games/front-desk` to `/games/extranjeria`; `games-dialogue` may rename Villabruno, which is also in these texts. **Open:** the page stays a noindex prototype outside the menu (Edgar decides on release); its interface strings are in `UI` in `spiel.js`, not `en.json`, so the `ui-lang-*` items don't reach them until they move; facts "to verify" are in the run report, re-check them before release, especially regularisation dates.
-- **DGT vocabulary decisions** (`dgt-vocab`, 2026-11-06): `/dgt-vocabulary`, one trainer page and one print page per group, `src/data/dgt/vocabulario.json` with `beruf: "dgt"` and 215 entries (120 own, the rest lexicon refs). Nothing restored from the old Führerschein module (§4.4). **Ten groups, not the plan's six:** the car became parts and controls, road users got their own group, and *instructions* (asked for by the queue) and *breakdowns* were added. **Shared code:** the deck is `DGT` in `berufeCore.js`, not in `BERUFE`, so it has no sector page; word ids are `bv-dgt-…` and unit ids `berufe-dgt-<group>`, so the print sheet, live quiz, side list and card swap work unchanged. **A ref may now carry `en`** as well as `deHint` and `example`, for a lexicon word whose first sense is another one (*volante, matrícula, turismo, parada*). **For `spanish-for-work`:** `kraftfahrer` can ref `bv-dgt-…` words. The side list shows the deck under the heading *Spanish for work*. **For `routes`:** the `DROPPED` redirects still send `/fuehrerschein*` to `/exams`; drop them as planned. **For `culture`:** `nav.kultur.autoHint` still says driving on the left and the MOT. **For a lexicon pass:** the example of `triangulo-de-emergencia` (b1) tells the learner to put the triangle out, but the DGT says the V-16 beacon replaced triangles from 1 January 2026; the deck overrides it, the lexicon does not yet. Facts to verify: `reports/dgt-vocab.md`.
-- **Culture decisions** (`culture`, 2026-11-06): `kultur.json` has the plan's 23 topics plus six new ones: `comida`, `fiestas`, `lenguas-cooficiales`, `mundo-hispano`, `tradiciones-america`, `historia-compartida`. **Hub:** the levels hold the Spain topics; the three Hispanic-world topics follow in their own section (`WORLD_IDS` in `src/pages/culture/index.astro`, anchor `#hispanic-world`), while `/knowledge/country-and-culture` and the quiz still list them with the others. **Films:** new `/culture/films-and-series` with `src/data/kultur-filme.json`, because `/explore/films` is the set of short films about this site and stays that. **Translations:** `uebersetzungen/kultur.json` and `uebersetzungen/zitate.json` are empty on purpose (the old entries translated other topics); the pages hide the help block, and the `ui-lang-*` items or a help-language pass must fill them. **Quotes:** only authors who died before 1946. **For `routes`:** `kultur.json` (`grundgesetz`), `country-and-culture.astro` and the nav still link `/life-in-the-uk/facts`, correct until the rename to `/ccse/facts`. **For `games-dialogue`:** the `src/lib/knigge/scenes.js` slugs now point at the new culture slugs; the scenes themselves are yours. **For `teachers`:** `wissen.link.*` (Cambridge, IELTS, Trinity, gov.uk) and the unused `wissen.file.lid-bundesland.desc` are still English-course text. Facts to verify: `reports/culture.md`.
-- **Accents and languages decisions** (`accents-languages`, 2026-11-06): `/knowledge/accents` has 13 areas in five groups (north and centre, transition zone, Andalusia, Canary Islands, regions with a second language), four city dots and six language dots; the plan's four co-official languages plus Asturian and Aragonese, whose texts say they are not co-official, so the badge reads "Language of Spain". Latin American varieties are a new `world` array with `dialekte.w.*` keys, shown under the map in `#mundo`. `benrath`/`speyer` are now the lines of weak final s and of seseo. `/knowledge/languages`: views are `world` (first) and `americas` instead of `europe`/`world`; 19 places as main language (Puerto Rico apart), Paraguay and Equatorial Guinea as `region`, the US, Belize and Andorra as `minderheit`, and Gibraltar, Western Sahara, the Philippines and Judeo-Spanish as `gemeinschaft`. The tree's home branch is Romance; the comparison uses the ten languages of `fehler-nach-sprache.json` and opens on English. **The decoder is kept and turned round**: English → Spanish patterns (`-tion → -ción`), same keys. **Geometry:** `npm install` and `curl` were not available in this unattended run, so neither package nor download was used: the generators read the Natural Earth outlines already committed in `git show edf6596:src/data/sprachen-karte.json` through `scripts/karte-geo.mjs` (no dependencies). The inner borders and the Canary Islands are hand-drawn and clipped by an SVG clipPath; the Americas view is the 1:110 m outline enlarged. `dachMap.js`, named in §5.14 and §9, does not exist. **Open:** real province borders and 1:50 m outlines for the Americas if the geo packages can be installed; `dialekte.json` need not change. **For `ui-lang-*`:** `sprachen.dec.*` and the decoder pairs are written for English speakers: a translation should keep the English column or drop the section, not translate the pairs. Map line labels ("clear s", "weak s") and region names sit in the page and data, not in `en.json`.
-- **Games decisions** (`games`, 2026-11-06): **`/articles`** asks `el`/`la` over the 2 324 A1–B2 nouns `generoDrill.js` allows (out: `el/la`, plural-only, either-gender nouns). Rule packs test the noun's first word; acronyms and the set phrases in `noRule` have no rule. The plural on the card shows without an article, because *los/las* would give the answer away. The browser's es-ES voice says the answer (`speak` on a practice question, next to `audioSrc`). **Dictation:** one-word A1–A2 nouns; the accent counts, a capital at the start doesn't; no speech = the English meaning is the prompt. **Etymology card off:** `public/data/artikel-herkunft.json` and `public/data/herkunft/*` are German Wiktionary data on old ids; **`cleanup`** can delete them, `artikelHerkunft.js` stays for a later Spanish version. The frequency chart shows only once `artikel-haeufigkeit.json` has data. **Sentence Rain:** new `{free 1<2 3-4}` flag expands into `a` at build time. Accepted: the neutral order, time or place in front, subject after the verb. Not accepted: a final verb, an object before its verb, anything between a pronoun or question word and its verb. Only mode `v2` is offered in the game, as before. **Quaki:** 106 own items; a form that would also be right is never a wrong pad. **Impostor:** clue starters avoid *lo/la*, which would give away the word's gender. **Hand-offs:** `routes` still has `/games/countable-sprint`; **`teachers`** owns the printable domino page text; `ap.*`/`mhelp.*` keys with German labels in „…“ are outside this item (`mhelp.*`, `merch.*`, `hs.*`).
+- **Edgar: review** the exam map (§2): TEF in the `testdaf` slot, TCF by band in `telc`, DALF C2 without a set, "Language in use" under `/tef`.
+- **Edgar: review** `elektro-technik` → private security (§5.12), instead of agriculture.
+- **Edgar: review** two trainer choices: passé simple recognition only, and imparfait du subjonctif not drilled.
+- **Town and place names** (§1.1): Montbruno checked by `games-dialogue` (2026-11-12, web search only): no French commune of that name, only Montbrun-* and Monbrun; kept. A look in INSEE's code officiel géographique would make it certain. Valdaure, Montaubel: see `listening`.
+- **Canada mode:** data carries `frCA`; showing it is a later item. All TCF/TEF Canada content is framed for learners in the France standard, and the page says that Canadian accents appear in those tests ("to verify").
+- **Audio:** every `audio` field points to files that don't exist until a fr-FR voice is wired.
+- **Frequency ranks:** `fr_50k` licence and download.
+- **Word stories (`word-stories`):** 30 drafts wait for Edgar's reading (then `status: "geprueft"` and a human `checkedBy`). Six `publishOn` dates (2026-10-02 … 2026-11-14) are already past, so a story goes live the day it is approved; re-date them if the archive should start later. The daily mail needs 60 checked stories ahead: a second batch (*guerre, chiffre, algèbre, toubib, zéro, hasard, orange* once the lexicon has them; *chef, ami, cheval, hôpital, gare, chemise, boulot, kiosque, matelas, douane* already in it) is open. Facts in the stories that come from general knowledge rather than the cited pages are listed in the `word-stories` report.
+- **Internal Spanish names** (`dgt/`, `business-spanish/`, `check-extranjeria.mjs`, `businessSpanish.js`): kept by §1.3; a rename pass is cheap after `cleanup` if wanted.
+- **Arabic UI:** later. `fehler-nach-sprache.json` `arabisch` may come before it, because many learners in France speak it.
+- **Inherited from the Spanish course, unresolved, for Edgar:** contact address `hello@englishacademy.com` in `src/lib/legal.js` (legal fact, unchanged); merch links landing on `/account`; `/privacy` and `/terms` describing the LanguageTool check as active; binding language of legal texts; `/about` describing German teaching; `/design-system` German sample text; `public/.well-known/tdmrep.json` missing; scope of AI-crawler `Disallow` for the umbrella `robots.txt`; `home3.pricing.live` date in the past; 15 grammar topics `entwurf` keep `/grammar/path` patchy until reviewed.
+- **Gaps** (§3): imparfait du subjonctif, verb prefixes, *ne* explétif.
+- **Civic mock weighting** (§2.2): `meta.tareas[].realCount` per theme is unverified, and the mock draws by it.
+- **Nobody has checked the French in this plan.** Examples were written by the plan's author, unreviewed by a native speaker. Runs treat them as starting points.
+- **Not checked for this plan:** see §14.
+- **Decisions by `variety-schema`** (binding for later items):
+  - The article helpers live in **`src/lib/articles.js`** (no imports, so client scripts and validators can use them without the lexicon bundle); `src/lib/lexicon.js` re-exports `withArticle`, `genderOf`, `indefinite`, `pluralArticle`. `genderProblems()` there is the one set of gender/genus/hAspire rules, used by `validate-lexicon.mjs` and `berufeCore.js`.
+  - **Legacy vs French is decided by `variety`:** an entry with gender `el`/`el/la` or `variety` `es-ES`/`es-419` follows the Spanish rules; everything else the French ones. So **a converted entry must carry `variety: "fr-FR"` (or none), never keep `es-ES`**: a French `la` noun still marked `es-ES` would get `las` as plural article. The validators report `gender le on an entry still marked es-ES`.
+  - `withArticle` takes `lemma`, else `front` (cards), else `word`; for `les` it uses `plural` when `pluralOnly`. `spokenForm` says `le` for `le/la` nouns, as the Spanish one said `el`.
+  - Lexicon `aux` accepts `avoir`, `être`, `both` (and the old `haben`/`sein`); `mascVowel` (adjectives only) and `rectified` (≠ lemma) are shape-checked.
+  - `regional` is shape-checked everywhere (non-empty, ≤ 160). An item may carry `frCA` or `es419`, not both; `frCA` on an item still marked `es-ES` is an error.
+  - `check-variety.mjs --legacy` lists the files that still hold es-ES/es419; the summary prints one WARN line with the count.
+  - Satzregen source (`quelle.txt`) takes a `{frCA …}` flag; `{es419 …}` stays legal for the Spanish lines until the file is French.
+  - **Left for their owners** (they compose `${gender} ${lemma}` or carry Spanish article logic): `ArtikelTrainer.astro`, `artikelDiktat.js`, `generoDrill.js` (own `pluralArticle`), `spiele/domino.js`, `nussnacht/*`, `vokabelFoto/*` (`stripArticle`), `einfach-content.js` (`pluralWithArticle`, `ARTICLE_HINT`), `scripts/lexicon-import.mjs` (writes `es419` from `lat`). Each should switch to `articles.js` when its item runs (`games`, `games-arcade`, `beginner-path`, `vocab-a1`). CSS classes `pr-art--<gender>` in the print sheet need `le`/`la`/`l'`/`les` styles (`ui-components`: done, see below).
+- **Decisions by `ui-components`** (binding for later items):
+  - **Exam names in the chrome** (rail, level fold, topic rail, grammar "for the exam" links, progress shell, nav, homepage mocks): `goethe` = "DELF / DALF" (A1 = "DELF A1", C1 = "DALF C1"), `telc` = "TCF" / "TCF practice, <band> band", `testdaf` = "TEF" / "TEF practice set", `dtz` = "TCF IRN practice mock" (level A2–B1), `lid` = "Civic exam" (`exam.lid.name`, also used by the rail). Hrefs stay on the old slots until `routes`. The exam items may refine wording but should keep these short names consistent.
+  - The disclaimer (`exam.disclaimer`) names France Éducation international, CCI Paris Île-de-France, the French State and IRCC, per §1.1.
+  - Keys outside the `ui-*` prefixes were changed where a component shows them and the change is only a name: `exam.disclaimer`, `exam.lid.name`, `exam.tool.*.desc`, `berufe.xlink`, `biz.back`, `dgt.back`, `tool.berufe.*`. Their owners (§10.3) rewrite them freely.
+  - `check-i18n-luecken.mjs` needed no code change: any `lang` attribute already covers, so `lang="es"` and `lang="fr"` both count (§1.6 rule 9). Components now say `lang="fr"`; the rest is for `ui-pages-*`, and `cleanup` greps for `lang="es"`.
+  - Print sheet (`WortschatzDruck.astro`): the article's class is the gender from `genderOf()` (`pr-art--m`, `--f`, `--mf`, `--pl`), not the article, so `l'` and `les` nouns get a colour too (`src/styles/drucken.css`).
+  - `LidGrafik.astro` (civic-exam infographics) now shows France: Constitution of 1958 and the three powers, the qualities of the vote, constitutional values, 13 + 5 regions and 101 départements, a 1789–1958 timeline, 112/15/17/18, school 3–16, 14 July. `civic-exam` should check them against its topic texts.
+  - `LanguageOffer.astro` has an `es` row for the coming Spanish UI; its `fr` row goes with `ui-lang-es`.
+  - **Left for their owners:** the Spanish article logic inside `ArtikelTrainer.astro` (options `el`/`la`, the `ap.ex.*` exception texts) → `games`; `sprint.*` keys → `games`; `home.footer.*`, `home3.*` (homepage) → `ui-pages-a-l`; `konto.*` (except `konto.wort.desc`), `preise.*`, `meinZugang.*`, `widerrufen.*` → the `ui-pages-*` item that owns the page; `nav.kultur.*`/`sprachen.*` comment lines in `catalog.js` → `culture`/`accents-languages`. `pronunciation.astro` still uses `pr-art--el/la` (`aussprache.css`) → `pronunciation`.
+- **Decisions by `ui-pages-a-l`** (binding for later items):
+  - **Pages owned by a content item** (§11: `ccse/*`, `business-spanish/**`, `dgt-vocabulary*`, `culture/**`, `dele*`, `exams/dele-or-siele`, `games/extranjeria`, `grammar/verbs`, `grammar/conjugation`, `knowledge/accents`, `knowledge/languages`): only the `<Layout>` title and description, `fitTitle`/breadcrumb/share titles and pure name swaps changed. Body text and keys under the owner's prefix are left to the owner. Name-only swaps outside the `ui-*` prefixes, in the same spirit as `ui-components` decision 2: `sd1.*` (DELE A1 → DELF A1), `telcSb.back`, `biz.title`/`biz.eyebrow`, `dgt.title`/`dgt.entry.blurb`, `nat.entry.*`, `delesiele.title`/`delesiele.entry.*` ("DELF, TCF or TEF?"), `ld.*` (Villabruno → Montbruno), `lid.fk.level.standard` ("En français").
+  - **The exams hub (`exams/index.astro`) is page-owned**, so its `pruefungen.card.*`, `pruefungen.compare.*`, `pruefungen.hero.subtitle` and `pruefungen.levelNote` values were rewritten for the French slots (TCF by level, DELF / DALF, TEF, TCF IRN practice mock A2–B1, Civic exam). The TEF card and comparison show **A1–C2** (TEF results are matched to the whole CEFR scale; "to verify"). The exam items may refine them.
+  - Level rows on the hub: the `telc` A2 set is listed as "TCF practice, A1–A2 band" at A1 and A2; C1 is "DALF C1"; C2 is "DALF C2 (format only)".
+  - `exam-plan.astro` names the `goethe` slot DELF below C1 and DALF from C1 (local `examName()`; `exams-delf-dalf` may swap it for `examLabel`), and its "today" uses **Europe/Paris**.
+  - `lang="es"` → `lang="fr"` across `src/pages/[id]` and `a–l` (124 places, also `localeCompare(…, "fr")`). The RTL isolation selectors in `fallen.css`, `fuehrerschein.css`, `wortgeschichte.css` now match `[lang="fr"]` and `[lang="es"]`; `cleanup` drops the `es` half.
+  - **Voice texts left as they are**: `ak.proto` and `hs.noVoice`/`hs.about.voice` still say "Spanish voice", because the code still asks for `es-ES` (§10.6). Whoever switches the voice (`grammar-a1` for the workspace, `games-arcade` for `hoerSafari`) changes the text in the same commit.
+  - Left for their owners in pages a–l: `satzmelodie.*` and the `¿ ¡` marks in `intonation.astro` → `pronunciation`; `hoeren.*.blurb` → `listening`; `grammatik.cj.sub`, `conj.withVosotros` → `conjugation-trainer`; `hs.about.p` and the el/la buttons in `games/nut-night.astro` → `games-arcade`; the `goethe.*` body of `dele.astro` → `exams-delf-dalf`; `rechtliches.json` lines 811 and 979 (terms page) → `ui-pages-m-z` (line 204, the legal notice, was changed here).
+- **Decisions by `ui-pages-m-z`** (binding for later items):
+  - Same owner split as `ui-pages-a-l`: on `nationality*`, `siele/**`, `spanish-for-work/**` only the `<Layout>` title, description and breadcrumb changed, plus pure name swaps: `ExamApp brand` and the "TEF —" heading on `siele/practice-set`, `exam.backToTestdaf`, `tdf.toPage`, `exam.backToDtz`, `dtzMock.exam`, `dtzSet.heroExam`, `telc.title` ("TCF by level"), `berufe.hero.title/lead`, `berufe.deck.tipps`, `sprechen.exam.*`, `sprechenB1B2.note` (DELF, TCF and TEF; not affiliated with France Éducation international or CCI Paris Île-de-France). All other body text and `dtz.*`, `dtzSet.*`, `nat.*`, `testdaf.*`, `tdf.*`, `telc.*` keys stay with `nationality-path`, `exams-tcf-tef` and `french-for-work`.
+  - The `sprechen.exam.*` lookup map in `speaking/[id].astro` is keyed by the English strings in `sprechen.json`, so its keys still say "DELE and SIELE": `speaking` changes the data strings and the map keys together.
+  - **The paid pack is named "TCF IRN pack"** in `preise.*`, `meinZugang.*`, `widerrufen.vertragPh` and `preise.js` (the `dtz` paid set becomes the TCF IRN mock, §2). `produkte.json` `name` still says "DELE A2 mock pack" in five languages: left for `cleanup` (§9), not rendered while payments are off.
+  - Class due dates are computed in Europe/Berlin (`aufgabenStatus.js`), which has the same offset as Paris, so `kl.a.form.dueHint` says "Paris time" without a code change. Renaming the `TZ` constant to Europe/Paris is a cosmetic job for `teachers`.
+  - Vocabulary worksheet part B asks "le, la or l'?" (answers come from lexicon `gender`), and the domino, photo-card and print labels say "le / la". Until the vocab items convert the lexicon, the answers there are still el/la.
+  - `prepositions.astro`: description and the inline overview table ("Which preposition when?") are in French now. `praep.*` keys (pack names, `praep.wechsel.lead`, `praep.rule.note`, `praep.more.*`) and the `MORE` links stay with `grammar-structure`, which converts `praepositionen-trainer.json`, so they keep matching the packs.
+  - `konto.teacher.title`, `konto.ms.desc` and `konto.lang.desc` (account page, left by `ui-pages-a-l`) now say French.
+  - `lang="es"` → `lang="fr"` across pages m–z (owned pages included). Greetings in the target language use NBSP before `!` (*Salut !*, *Bingo !*).
+  - Left for their owners in pages m–z: the body of `object-pronouns.astro` (Spanish table, `akk.regel.example`) → `grammar-a2`; `pronunciation*.astro`, `tongue-twisters` data, `ac.find.*` → `pronunciation`; `step-by-step` app → `beginner-path-ui`; `vp.hero.subtitle`, `verben.lead` → `conjugation-data`/`grammar-structure`; `mhelp.kultur.what`, `mhelp.wortgeschichte.what` (`mascotHelp.js`) → `culture`, `word-stories`; `intro.fkEasy*` → `civic-exam`; `sprint.*`, `hs.*` → `games`, `games-arcade`.
+- **Decisions by `civic-exam`** (binding for later items):
+  - `leben-in-deutschland.json` is rewritten in the same shape: 60 own questions (11/11/11/13/14 per theme), 4 options each, right answer spread evenly over the four slots; 6 topics, 21 glossary terms, 18 regions with 3 extra questions each (3 options). `meta.tareas[].realCount` is **8 per theme, our own even split totalling 40**, not the official one; the page words it as "about n in our mock" (`lid.tarea.mc`). `meta.stateQuestions` is 3 (not 0, because the registry's `land` module needs the regions' questions); `meta.federalQuestions` equals `questions.length`.
+  - Region `executiveTitle` / `parliamentName` for Corse, Martinique, Guyane, Mayotte are carefully generic (see report, "to verify"). `sourced: false` everywhere. Top-level `variety: "fr-FR"`; the module is not in `check-variety` MODULES, so nothing there to flip.
+  - The slug rename `/ccse` → `/civic-exam` is **not** done (pages still sit in `src/pages/ccse/`, links say `/ccse`): it is the later slug item's job. The stale translated `lid.*` rows in de/fr/it/pt were replaced by the English text (placeholder for the UI-language items).
+  - Left for others: `nat.*`, `nationality.astro` (still names the CCSE), `searchIndex.js` nationality entry, `vorschau.js` title, `entry-pages.json`, `llms-txt.mjs`, `seo-audit.mjs`, `fallen.css` comment, `downloads.json` Cervantes entry, hub image file for `/ccse` (still a Spanish town hall photo; alt neutral).
+- **Decisions by `placement-test`** (binding for later items):
+  - `einstufung` is in `STRICT` (`check-variety.mjs`); `variety: "fr-FR"` sits only at the top level, items inherit. frCA notes on two items (A1 carte Vitale → carte d'assurance maladie, B2 préfecture → IRCC). The variety summary counts frCA only on top-level items, so it prints "0 frCA notes" for this module.
+  - Items are three-option gaps with the written standard as the only right answer: no option a native speaker could also accept (no *sonnait* next to *a sonné*, no plus-que-parfait next to the passé composé, no *aura fait* for the journalistic conditional), and spoken forms (dropped *ne*, unagreed participle, *C'est à … à qui*) are distractors.
+  - Prompts carry NBSP before `? ! : ;` (§1.2); options and answers never do. `placement-test.astro` marks the quiz prompt and options `lang="fr"`.
+  - Left for `beginner-path-ui`: the quick check on `/step-by-step` renders these A1 items with `lang="es"` (`einfach-view.js` lines 370, 374), and the comment on `einfach-app.js` lines 165–167 still lists the Spanish A1 features (ser, estar, hay, gustar); the A1 set now tests être/avoir, the -er present, le/la, ne…pas, est-ce que and adjective agreement.
+- **Decisions by `grammar-a1`** (binding for later items):
+  - **`status` kept as the slot had it** (geprueft, entwurf or none), against §1.4's "new content enters as entwurf": `topicStatus.js` hides every draft from the catalogue, menus, guided run, search and PDFs, so marking all 20 drafts would empty A1 on the site. The content is unreviewed all the same; the report lists all 20 for Edgar. Later grammar items should do the same and say so.
+  - **Links in topic html use today's slugs** (`/stem-changing-verbs` for *être/avoir*, `/ser-estar-basics` for *-ir/-re*, `/gustar` for *aimer* …), because `check-links` only knows those; `routes` rewrites them with `TOPIC_SLUGS`.
+  - **Elision in gaps:** a gap never sits glued to the next word. An answer that elides holds the whole unit (`l'école` vs `la école`, `J'ai` vs `Je ai`, `n'habite`, `Est-ce qu'elle`, `parce qu'il est`), or the item is a table row (`école` → `le / la / l'`).
+  - **Every fill item has 2–3 choices**, so any item can serve the beginner path; each A1 topic has ≥ 10 such items and ≥ 3 build sentences.
+  - **Answer check** (`answerMatch.js`): case forgiven, accents not; ’ → ', NBSP → space, oe/ae accepted for œ/æ; `accentOnly` covers grave, acute, circumflex, diaeresis, cedilla (not the tilde, so the remaining Spanish data keeps ñ as a letter). The German umlaut folding and the Sie/ihr rule are gone.
+  - **Clause swap in build tiles** (`grammarWorkspace.js`): `SUBORD` = *quand, lorsque, si, puisque*; a fronted clause (*Quand il pleut, je reste…*) may move to the end without the comma, and a trailing *quand/lorsque/puisque* clause may move to the front with one; trailing *si* never moves (it is often "whether"). *parce que* and *comme* never swap. Hints with "first", "start", "begin" switch it off.
+  - `practiceWorkspace.js` speaks **fr-FR** (used by object pronouns, prepositions, conjugation, business units and the article trainer, whose data is still Spanish until `grammar-a2`, `grammar-structure`, `games` …). Article colours: `le`/`un` and `la`/`une`; `l'`/`les` stay plain.
+  - The write-mode key row in `aktivMode.js` is French (*é è ê ë à â ù û î ï ô ç œ*), label `ak.write.keys` = "Accented letters" (neutral, because `conjugationTyped.js` shares the key and still shows the Spanish row → `conjugation-trainer`).
+  - **Left for others:** the `aktivMode.js` voice is still es-ES and `ak.proto` still says "Spanish voice" → `pronunciation` (§10.6), so the A1 topics' listen/hear/speak beats read French with a Spanish voice until then. Unit titles, claims, `grammar` labels and Spanish postcards of the A1 units in `einfach-pfad.json` no longer match the repointed tasks (*a1-who-where* now drills *-ir/-re* verbs, *a1-cafe* *être/avoir*) → `beginner-path`. `ARTICLE_PLACEHOLDERS` and `articleHint` in `einfach-content.js` still know only el/la → `beginner-path-ui`. `src/data/wortarten.json` (the parts-of-speech reference behind `lookup.chips`) is still Spanish → `grammar-structure`.
+- **Decisions by `grammar-a2`** (binding for later items):
+  - Same rules as `grammar-a1`: `status` kept as the slot had it (`geprueft` on zusammengesetzte-verben, komposita, reflexive-verben, komparativ-superlativ, lokale-praepositionen, nebensaetze-weil-dass, positionsadverbien, adjektivdeklination-a2, artikel-oder-nicht, ordinalzahlen; `entwurf` on trennbare-verben, dativ, indefinitpronomen, konjunktiv2-hoeflich; none on the rest), links on today's slugs, whole elided units in gaps, ≥ 10 path-ready items and ≥ 3 builds per topic. `imperativ` and `negationswoerter` now say `level: "A2"`; their order in `GRAMMATIK_ORDER` and the lehrplan is still the old one → `grammar-structure`.
+  - **Story exercises may keep an exercise-level `choices` bank** (as the Spanish files had); a blank with two right answers holds both in an `answer` array and only one of them is in the bank. Where two answers are right (*donc/alors*, *parce que/car*, *deuxième/second*, *je voudrais/j'aimerais*, *vingt et unième/vingt-et-unième*), the answer is an array and the second form is never a wrong pill.
+  - **Participle agreement with a preceding COD** is taught at A2 only in recognition plus two items (`akk-s1` *je l'ai vue*, `akk-s2` *les ai … lues*); the unagreed spoken form is the distractor (§1.6 written standard).
+  - `akkusativ.json` keeps its 15 ids and three difficulties; the beginner-path `akk:` tasks keep their refs and got new hints. Ids `akk-*` are the only stable item ids in grammar data; topic exercises are still referenced by index (`gram:<slot>/<ex>/<item>@checksum`).
+  - The other locales' `akk.regel.intro` / `akk.regel.example` hold the **English** text until `ui-lang-*` translate it (the old value explained the Spanish rule and failed `check-reichweite`'s tag comparison). Later items that rewrite an HTML key in `en.json` must do the same or translate it.
+  - Titles: *docteur* with and without article (*Bonjour, docteur. / le docteur Martin*) stays in `artikel-oder-nicht`; *professeur* as a form of address was dropped (in France one says *Monsieur / Madame*).
+  - **Left for others:** `check:grammatik-ui` (not in the gate) reports baseline drift for most rewritten A1 and A2 topics (counts of untranslated instruction strings): the baseline belongs to §9 (`grammatik-ui.json` leave) and to `cleanup`, which should run `pnpm check:grammatik-ui --update` once. The A2 units' titles, claims, `grammar` labels and Spanish postcards in `einfach-pfad.json` (*a2-objects* still claims *lo veo*) → `beginner-path`. The B1 unit *b1-kollegen* now points at the A2 imperative topic → `beginner-path` / `grammar-structure`. `grammatik.json` B1/B2 quizzes (praepositionen, passiv, konjunktiv2, relativpronomen) still Spanish → their grammar items.
+- **Decisions by `grammar-b1`** (binding for later items):
+  - Same rules as `grammar-a1`/`grammar-a2`: `status` kept as the slot had it (`geprueft` on futur, funktionen-von-werden, verben-als-nomen, infinitiv-ohne-zu, finalsaetze, temporale-nebensaetze, temporale-praepositionen-b1, relativpronomen, lassen, konnektoren-grund-gegengrund, genitiv, zustandspassiv, passiv-b1, da-wo-woerter, nutzen-benutzen, positionsverben, wortbildung-nomen, adjektive-als-nomen; `entwurf` on konditionalsaetze; none on the rest), links on today's slugs, whole elided units in gaps, ≥ 10 path-ready items and ≥ 3 builds per topic, answer arrays where two forms are right.
+  - `partizip-als-adjektiv` is **not** touched here: §3 lists it under B2 (participle agreement), so `grammar-b2` converts it and sets `level: "B2"`. It is still the Spanish *estar* + participle topic with `level: "B1"`.
+  - `verben-praepositionen` keeps `"id": "praepositionen"`, `slug` and `subtitleKey: "vp.hero.subtitle"`; the topic page reads its intro from that key, so `vp.hero.subtitle` in `en.json` now holds the French-course subtitle (it is used nowhere else).
+  - **Match exercises must have one pairing only**: beginnings that could take each other's endings (*Il faut que* / *Je veux que* + *tu partes*) get context in the beginning (*Ton titre de séjour expire, il faut que* → *tu le renouvelles*). Several writer drafts had swappable pairs.
+  - Time words with two right answers by meaning (*part dans six mois* vs *pour six mois*; *habité … il y a cinq ans* vs *pendant cinq ans*) are kept out of the pill set rather than explained by the hint.
+  - At B1 the futur antérieur, *avant que* + subjunctive, *après* + past infinitive and the affirmative-imperative pronoun order (*donne-le-moi*, *vas-y*) are recognition only; the full *si* system is left to `konjunktiv2` (B2), the hypothetical *si* + imparfait appears only as one rule in the conditionnel topic.
+  - The ne explétif after *avoir peur que* is mentioned as optional and formal, never required.
+  - `grammatik.json`: the B1 quizzes `praepositionen` (verbs + *à / de*) and `relativpronomen` (*qui / que / où / dont*) are French, `variety: "fr-FR"`. Still Spanish: `passiv`, `konjunktiv2` (B2) → `grammar-b2`.
+  - **Left for others:** the beginner path now drills the French B1 topics under unchanged Spanish unit texts; in particular the unit that used `passiv-b1` (pluperfect) now drills *celui / celle*, and `zustandspassiv` (perfecto vs indefinido) is now double object pronouns → `beginner-path`. `TOPIC_SLUGS` still says `/perfecto-vs-indefinido`, `/pluperfect`, `/para-que`, `/cuando-subjunctive`, `/si-real`, `/por-para`, `/desde-hace`, `/verbal-periphrases`, `/prepositional-pronouns`, `/ser-estar-advanced`, `/verbs-like-gustar`, `/lo-adjective` for these topics → `routes` (§3 has the new slugs). Worksheets `arbeitsblatt/<id>.json` for the B1 ids are still Spanish → `teachers`. The other locales' `grammatik.<slot>.intro` and `vp.hero.subtitle` hold Spanish-course text → `ui-lang-*`. `check:grammatik-ui` drift as for A1/A2 → `cleanup`.
+- **Decisions by `grammar-b2`** (binding for later items):
+  - Same rules as the earlier grammar items: `status` kept as the slot had it (`geprueft` on konjunktiv2, relativsaetze-was-wo, modalpartikeln, adjektive-mit-praepositionen; `entwurf` on modalsaetze, zumal-wohingegen, konsekutivsaetze; none on the rest), links on today's slugs, whole elided units in gaps, ≥ 10 path-ready items and ≥ 5 builds per topic, answer arrays where two forms are right. No beginner-path task points at a B2 topic, so nothing was repointed.
+  - `partizip-als-adjektiv` is now participle agreement with `level: "B2"`; its place in `GRAMMATIK_ORDER` and the lehrplan is still the B1 one → `grammar-structure`.
+  - **Split of the subjunctive and si topics:** `konjunktiv2` holds every *si* pattern (recap of *si* + présent, *si* + imparfait, *si* + plus-que-parfait, mixed); `modalsaetze` (plus-que-parfait) mentions *si seulement* only. `zweiteilige-konnektoren` = mood after opinion, doubt, possibility; `konsekutivsaetze` = *bien que / quoique / même si / malgré / si … que / tellement de / de sorte que / sans que*; `relativsaetze-was-wo` = *lequel* forms and the subjunctive in relatives.
+  - **Where speech allows the indicative** (*je ne pense pas que*, *le meilleur … que je connaisse*, *le seul qui puisse*), the subjunctive is taught and the indicative is either listed in the `answer` array or kept out of the pills; the indicative is never a wrong pill there. Gaps that must be unambiguous use triggers that always take the subjunctive (*douter que*, *bien que*, *il est possible que*).
+  - *malgré que* is mentioned as spoken only, never drilled. The *ne* explétif after *sans que* is optional and formal (as at B1).
+  - `modalpartikeln` teaches the markers as spoken register; *genre* is labelled very informal and appears only for recognition; *du coup* → *donc / par conséquent* in writing. Its `frCA` note (Québec *fait que* / *so* for *du coup*) is the only `frCA` in B2.
+  - `grammatik.json`: the B2 quizzes `passiv` (passive, *se parler*, *se faire*) and `konjunktiv2` (*si* clauses) are French, `variety: "fr-FR"`. All four quiz packs are now French; `grammar-c1` (the last grammar item) adds `grammatik` and `grammatik-quiz` to `STRICT` in `check-variety.mjs`.
+  - The `TOPIC_SLUGS` entry `negationswoerter: "probability"` sits in the B2 block although the topic is A2 now → `routes`.
+  - **Left for others:** `TOPIC_SLUGS` for the B2 ids still say `/imperfect-subjunctive`, `/si-unreal`, `/passive-and-se`, `/aunque-subjunctive`, `/estar-participle`, `/accidental-se`, `/verbs-of-change`, `/relative-clauses-advanced` (§3 has the new slugs) → `routes`. Worksheets `arbeitsblatt/<id>.json` for the B2 ids are Spanish → `teachers`. Other locales' B2 `grammatik.<slot>.intro` hold Spanish-course text → `ui-lang-*`. The topic files were re-serialised by script (one key per line), so their diffs are large; content-wise only the French text changed. `check:grammatik-ui` drift → `cleanup`.
+- **Decisions by `grammar-c1`** (binding for later items):
+  - Same rules as the earlier grammar items: `status` kept as the slot had it (`entwurf` on textkohaerenz, `geprueft` on the other ten), links on today's slugs, whole elided units in gaps, answer arrays where two forms are right, the indicative never a wrong pill where speech allows it. No `frCA` note in C1, because none of the eleven topics has a real Québec difference.
+  - **Paid split workflow:** each topic was written in full in `src/data/grammatik/<id>.json` and then split with exactly the logic of `build-paid-manifest.mjs --split-grammar`, run per topic so that half-finished drafts were never split. The page file keeps titles, hints and `slots`; the items live in `src/paid/grammatik/<id>.json` with `variety: "fr-FR"`. To change a C1 exercise later, edit the paid file and keep `slots` right in the free file (§3).
+  - **Scope per slot:** `konjunktiv-1` = subjonctif passé and "no sequence shift in modern French"; the imparfait / plus-que-parfait du subjonctif appear there for recognition only (this partly covers the §3 gap). `passiversatz` teaches the *ne* explétif after *à moins que* as optional and formal; one item accepts both forms. `irreale-vergleiche` = *comme si* (imparfait / plus-que-parfait only) and *quand bien même* + conditionnel against *même si* + indicative. `nominale-praepositionen` keeps the formal connectors (*en raison de, néanmoins, or*); `textkohaerenz` holds reference and ordering (*celui-ci, ce dernier, le premier … le second, d'une part … d'autre part, ledit*) without repeating them. `verbpraefixe` = **passé simple for recognition only**: the exercises identify the infinitive, the tense or the passé composé equivalent, and the speaking rounds produce the passé composé, never the passé simple. Verb prefixes as a topic remain a gap.
+  - *Or* at the start of a sentence: a comma after it is allowed (it is common in examples), not forbidden.
+  - `STRICT` in `check-variety.mjs` now holds `grammatik` and `grammatik-quiz` (101 grammar files and 7 quiz packs, all fr-FR, 0 legacy values). No `grammatik.json` quiz exists for a C1 topic.
+  - **Left for others:** `TOPIC_SLUGS` for the C1 ids still say `/sequence-of-tenses`, `/non-finite-clauses` (futur-2), `/como-si`, `/modal-periphrases`, `/formal-relatives` (partizipialattribute), `/prefixes` (verbpraefixe); §3 has the new slugs → `routes`. Related topics, order and search keywords for C1 (`grammatik-verwandt.json`, `searchIndex.js`, `catalog.js`) → `grammar-structure`. Worksheets `arbeitsblatt/<id>.json` for the C1 ids are Spanish → `teachers`. Other locales' C1 `grammatik.<slot>.intro` hold Spanish-course text → `ui-lang-*`. `check:grammatik-ui` drift → `cleanup`.
+- **Decisions by `grammar-structure`** (binding for later items):
+  - **Syllabus order** (`grammatik-lehrplan.json` = `GRAMMATIK_ORDER`, 2026-11-08): A1 opens with subject pronouns and *être/avoir*, then gender, articles, plurals, agreement, numbers, the *-er* present, *ne … pas*, questions, *il y a / c'est*, irregulars, *-ir/-re*; A2 opens with reflexives, frequency, partitive and article-or-not, then *futur proche*, *en train de / venir de*, the two passé composé topics and the imparfait, negation beyond *pas*, COD, COI, the imperative; B1 opens with passé composé or imparfait and *depuis / il y a*, then *y / en* and pronoun order, relatives, then future, time and *si* clauses, conditionnel and the four subjunctive topics; B2 opens with the plus-que-parfait (*si* clauses and reported speech need it), participle agreement sits in B2; C1 opens with the futur antérieur. `wortarten` and `wortbildung-nomen` stay out of the run (extra practice), as before. Level counts in the run: A1 19, A2 22, B1 24, B2 13, C1 11.
+  - **Reference lists** (`nachschlagen/*`): forms column = *je présent · il passé composé · participe passé*, the je form without its pronoun (`ai` = *j'ai*); regular *-re* verbs (*vendre*) sit in `schwach` with a note that grammar books call them third group. Pronominal list: four sections (routine, fixed preposition, pronoun changes the meaning, feelings); every je form starts with `me ` or `m'`. Verbs-with-prepositions: sections `à`, `de` and `none` (name "no preposition"; the quiz offers it as an option). `liveQuiz/chapters.js` and `arbeitsblatt/nachschlagen.js` read the French forms now (passé composé distractors: the other auxiliary and the regular-pattern participle *prendu*). `conjugation-data`: switch `COMPARE_REFERENCE` back on in `check-verbtabellen.mjs`, comparing je présent, il passé composé and the participle (the table needs `aux` for the second).
+  - **Prepositions trainer:** the 14 pack ids keep their slots (`a1-dativ` = time *à / en / le* …, see the file's names); a form that is also right is never a wrong option (*en vélo*, *continuer à / de*, *commencer de*), so those verbs are left out of the gaps. `praepositionen` is in `STRICT`.
+  - **Course plan** (`kursinhalte.json`): grammar lines start with the words `GRAMMAR_RULES` in `stundenplan.js` matches (*Passé composé with avoir*, *Towns and countries*, *Verbs + à and de*, *Si clauses* …); keep the two together. Exam lines name *DELF/DALF <level>* or *TCF* + skill; `examHref` sends TCF to `/siele/levels`, TEF to `/siele`, DELF/DALF to `/dele` until `routes`. A2.2 says A2 is the level France currently asks for a first multi-year card (to verify, `nationality-path`).
+  - `wortarten.json`: `fehler` emptied (the common-mistakes pairs are Spanish) → `idioms-mistakes` sets them again. Help-language `tr` drafts removed.
+  - **Grammar books not built:** `scripts/generate-grammatik-pdf.mjs` still writes German-era covers, blurbs, a German frequency page and editions; it is not run, `public/downloads` has no `grammatik-<level>.pdf`, and the download page hides those entries. It no longer reads `woerter-uk.json`. A French rewrite is open (no item owns it now; `cleanup` should decide: rewrite or drop the entries in `downloads.json`).
+  - **Left for others:** `verben.lead` ("vosotros included") describes the still-Spanish verb tables → `conjugation-data`.
+- **Decisions by `grammar-start-book`** (binding for later items):
+  - **Chapter → topic** (`topic`, the "Practise" link): k1 `praeteritum-sein-haben`, k2 `praesens`, k3 `w-fragen`, k4 `artikel`, k5 `konjugation`, k6 `reflexive-verben`, k7 `modalverben`, k8 `perfekt`, k9 `n-deklination`, k10 `futur`. Chapter 6 drops *gustar*: reflexive verbs + direct/indirect object pronouns. Chapter 7 replaces the gerund with *être en train de* and *venir de*.
+  - **frCA:** on the book (top level) and on chapter k3 (*Tu viens-tu ?*); no exercise item needs one. The printed book says Québec in plain text (about page, k3 Merke), since frCA stays invisible while `CANADA_MODE` is off.
+  - **Typography:** a non-breaking space (U+00A0) before `? ! : ;` in French text, as in print; the PDF fonts have the glyph (Fredoka has no U+202F, so not the narrow one). Examples avoid *mail/e-mail* (Québec: *courriel*).
+  - **Editions:** `de.json` is a skeleton (status `skeleton`), `downloads.json` lists no editions, `grammatik-start-de.pdf` is deleted → `ui-lang-de` translates and adds `"de"` back to `editions`, then runs `generate:grammatik-start-pdf de`. `check-grammatik-start.mjs` `KEEP_HEAD` holds the French table heads.
+  - **PDF:** `grammatik-start.pdf` regenerated now with today's slugs (`/stem-changing-verbs` for k1 etc.) → `routes` regenerates it after the rename, as §11 says.
+  - **Left for others:** `gs.teaser.title` in `fr.json` still says "Spanish Grammar Start" (the fr UI goes with `ui-lang-es`). `BookCover.astro` subtitle and `knowledge.astro` read the book and needed no change. The beginner path's unit order and claims don't follow the new syllabus yet → `beginner-path`. `TOPIC_SLUGS` and the slugs in `practice` links of the reference lists → `routes`. The `de`/`pt`/`it` values of `praep.*`, `wissen.file.grammatik-*` → `ui-lang-*`.
+- **Decisions by `conjugation-data`** (binding for later items):
+  - **Verb set:** 55 verbs, the §4.1 minimum plus *aimer, habiter* (elision), *travailler, arriver, rester* (être), *choisir, attendre, répondre, comprendre*. Groups: `hilfsverb` *être, avoir, aller*; `modal` *pouvoir, vouloir, devoir, savoir, falloir*; `stem-change` *manger, commencer* (`regular: true`, the generator respells -ger/-cer) and *acheter, appeler, préférer, payer*; *envoyer* and *pleuvoir* are in `unregelmaessig`; *s'asseoir* is pronominal, so `trennbar`.
+  - **`aux`** is optional: absent = *avoir*, stored only as `être` or `both` (*sortir*: tables show être, the note gives *il a sorti la poubelle*); pronominal verbs always take être. This deviates from §4.1 ("stored") so regular verbs keep storing only `inf, en, level, group, regular`.
+  - **`alt`** is an object of stored tenses (`{"praes": "…", "fut": "…"}`), run through the same rules as the main forms; every cell where the result differs carries `alt`. Used for *je paye*, *je m'assois*, *connait/nait* and *préfèrerai* (1990). Traditional spelling is always `f`.
+  - **Row order** of `ROW_TENSES` is French (présent, passé composé, imparfait, passé simple …). The page shows présent, passé composé, imparfait up front; futur, conditionnel, subjonctif, impératif folded; passé simple, imparfait du subjonctif and subjonctif plus-que-parfait in a folded "Written French: recognise these" block. `subjPlusc` is generated from `AUX.subjImpf` (*eusse parlé, fusse allé(e)*).
+  - **Elision:** forms are stored without the subject; each je-row cell carries `el: true` where *je* elides, and `subjectFor(row, cell)` (core, re-exported by `verbtabellen.js`) writes *j'* / *je*. Reflexive pronouns are inside the form (*m'appelle, me suis levé(e)*). Agreement after être: `(e)` in the singular rows, `(e)s` (or `(es)` after -s: *assis(es)*) in the plural rows, *vous* included.
+  - **Search and quiz previews** show il présent · il passé composé · il futur; the live quiz asks présent, futur simple (nous, or il for defective verbs) and passé composé; the worksheet the same three. The passé simple is never asked.
+  - **Trainer:** `VOSOTROS` stays exported as `-1` (no row) so `conjugationTrainer.js` keeps loading; `check-conjugation-trainer.mjs` skips its verb checks (`TRAINER_VERBS_FRENCH = false`) because `conjugation-trainer.json` still names Spanish verbs. Until `conjugation-trainer` runs, the trainer page has sets but no drills. `conjugation-trainer`: set the flag to true, drop `VOSOTROS` and the `vosotros` option, write `drills.groups` from the verbs above, and make the prompt use `subjectFor` (or *je/j'*) so elision doesn't give the answer away.
+  - **Tandem sheet:** `arbeitsblatt/verbtabellen.json` is French (`fr-FR`, subject tiles `je/il/nous`, no-break space before `?`); `check-arbeitsblatt.mjs` checks fr-FR files with the French question rule and the rest as Spanish. `teachers` converts the other 59 sheets and removes the Spanish branch.
+  - **Left for others:** `fr.json` got French values for the `verben.*` keys only because `validate-i18n` needs every key; it goes with the fr UI. `conj.withVosotros`, `grammatik.cj.sub` and the trainer's `verben.mood.compuestos` keys → `conjugation-trainer`. The `de`/`it`/`pt` `verben.*` values were rewritten here (drafts, worth a native check in `ui-lang-*`).
+- **Decisions by `conjugation-trainer`** (binding for later items):
+  - **Groups:** seven, not the six of §4.2: `reg-er`, `reg-ir`, `reg-re`, `spelling`, `essential` (*être, avoir, aller, faire* and the five modal verbs), `irregular` (the other 23), `reflexive`. The irregular verbs are split so an A1 drill on the verbs of every sentence doesn't drown in *conduire, recevoir, naître*. `notDrilled`: *pleuvoir* only (drilled by person it would ask *ils pleuvent*). `limits` skip the imperative of *pouvoir, vouloir, devoir, savoir, mourir, naître, s'appeler*; *falloir* is asked in présent, imparfait, futur, conditionnel, subjonctif, passé composé, with *il* as subject.
+  - **Moods:** `indicatif` (présent, passé composé, imparfait, plus-que-parfait, futur simple, futur antérieur), `conditionnel`, `subjonctif`, `impératif` (affirmative and negative). The page's mood headings reuse the verb tables' keys `verben.mood.indicativo/conditionnel/subjuntivo/imperativo`; the trainer-only `verben.mood.compuestos*` keys are gone. Impératif négatif is A2 (Spanish B1).
+  - **Questions:** the prompt shows the subject and the learner gives the verb form only. The je row says *je / j'* for non-pronominal verbs so elision doesn't give away the auxiliary; the subjunctive is asked after *que / qu'*; the imperative shows *(tu) (nous) (vous)*. The negative imperative's answer is the whole form (*ne parle pas*). Typed: the right subject in front is forgiven (*j'aime, qu'il soit*), any agreed form of an être compound counts (*allé, allée*; *vous* also the singular), a pronominal form without its pronoun gets "Add the pronoun too", a negative command without *ne … pas* "Put ne … pas around it". "Also right" names only real variants (`alt`: *paye, assois, connait*), not agreement spellings.
+  - **Distractors:** for être verbs in compound tenses the avoir form (*ai allé*); avoir verbs are not turned round, because *être* + participle is also the passive (*je suis pris*). Pattern guesses (*prendu, venissons, mangons*) only for -er, -ir and -d-re stems; for -oir and other irregular stems the bare pattern gives nonsense.
+  - **Sets:** the 13 of §4.2, ids as listed; `irregular-participles-a2`, `imperative-a2` and `futur-conditionnel-stems-b1` are `form` (typed), the rest `choice`. 166 items, no frCA note needed (no Québec usage differs in them). The checker requires a no-break space before `? ! : ;` in set prompts.
+  - **C1:** `LEVELS` in the trainer is A1–C1; C1 has the preset `everything` and the set `passe-simple-c1`.
+  - **Left for others:** the de/it/pt/fr values of the new `conj.*` keys are drafts → `ui-lang-*` (and the fr UI's removal).
+- **Decisions by `beginner-path`** (binding for later items):
+  - **Order:** the units follow `grammatik-lehrplan.json`. A1 (17 units): pronouns, être/avoir, articles, agreement, numbers, -er present, ne … pas, questions, il y a / c'est, key irregulars, -ir/-re, possessives, demonstratives, likes and wishes, time, préfecture appointment, linking words. A2 (14): reflexives, partitive, futur proche, en train de / venir de, passé composé with avoir and with être, imparfait, negative words, COD, COI, imperative, modal verbs, polite requests, place. B1 (9): passé composé or imparfait, depuis / il y a, y / en, relatives, indirect questions, futur simple, conditionnel, subjunctive, demonstrative pronouns. Comparison, indefinites and the si clause are not on the path (as in the Spanish path).
+  - **Ids:** every old id is kept, but some carry another topic now, because the id is only a progress key and the site has no French learners yet: `a1-who-where` = être/avoir, `a1-koerper` = aller/faire/venir/voir, `a1-cafe` = likes and wishes, `a1-kleidung` = demonstratives, `a1-weg` = il y a / c'est, `a1-arzt` = telling the time, `a2-absagen` = ne … plus/jamais/rien/personne, `b1-kollegen` = depuis / il y a, `b1-wohnung` = conditionnel, `b1-frueher` = celui/celle. New ids, each for a French topic with no Spanish unit: `a1-not`, `a1-bus`, `a2-courses`, `a2-instructions` (the imperative is A2 in the French syllabus), `b1-y-en`.
+  - **No wort, artikel or redemittel tasks for now:** their sources (lexicon, `redemittel.json`) are still Spanish. Every task is a French grammar item or an `akk:` item. `vocab-a1/a2/b1` may put one `wort`/`artikel` task back per unit once the French word exists (a unit holds 5–7 tasks; `artikel` needs `beginner-path-ui`'s `le / la` options first), and `speaking` may put the `redemittel` tasks back in `a1-vorstellen` and `a1-amt` (situation and hint written on the task).
+  - **Placement:** `placementStart` (`einfach-app.js`) now starts 5–6 right at `a1-weg` and 3–4 right at `a1-describe`; `docs/easy-mode-tier1-v1.md` line 114 still names `a1-cafe` / `a1-who-where` → `beginner-path-ui`.
+  - **Postcards:** 40 places in France, simple facts in A1 English, `source: "neu"` until Edgar checks them (the numbers in them are listed "to verify" in the item report).
+  - **Repoint script:** `scripts/repoint-einfach-grammar.mjs` is deleted. A changed grammar item now fails `check:einfach` and the build; fix the ref by hand and re-sign with `node scripts/check-einfach-pfad.mjs --sign`.
+  - **Left for others:** some table items render as plain gap tasks because `ARTICLE_PLACEHOLDERS` in `einfach-content.js` is still Spanish (`nomen/0/1` "logement → un / une") → `beginner-path-ui`. The quick check's `lang="es"` and Bruno's Spanish reactions → `beginner-path-ui`. *(Done by `beginner-path-ui`, below.)*
+- **Decisions by `beginner-path-ui`** (binding for later items):
+  - **Article tasks from the lexicon** (`einfach-content.js`): `gender` `le`/`la` (also with `hAspire`) → *le / la*; `l'` with `genus` m/f → *un / une* (the `why` adds *and l'école*); `l'` with `genus: "mf"`, `les`, `le/la`, `pluralOnly` or no gender → build error. The resolver writes `options` on the task, so the view no longer assumes a default pair. Default hints: telling endings (*-tion, -té, -ette, -ure, -ence, -ance / -ment, -age, -eau, -isme*) → "Look at the ending. It often tells you."; elided → "L' hides the gender. Un or une?"; sets with *des*/*les* → "One thing or more? …"; else "Take a guess, then learn it."
+  - **Table rows that become the article screen:** placeholders `le / la`, `le / la / l'`, `le / la / l' / les` (four: the path task must bring three `options`), `un / une`, `un / une / des`. So `a1-wohnung`'s `nomen/0/1` and `artikel/1/*` rows show "un, une or des?" now.
+  - **Spanish lexicon entries never reach the path:** a `lex:` ref to a word with `el`/`el/la` or `variety` es-ES/es-419 fails the build (`wort` and `artikel`). `vocab-a1/a2/b1` can add word tasks only for words they have converted.
+  - **Word cards:** front `l'école` / `le livre` / `les lunettes` (pluralOnly), second line always `les` + plural. The fallback hint (the lexicon example) is `hintLang: "fr"`.
+  - **Bruno's reactions** are simple French with *tu* (*Très bien !*, *Presque ! Regarde encore.*, *Ce n'est pas grave.*, *Content de te revoir !*), English on tap, the tag reads EN/FR. The first hello is *Bonjour ! I'm Bruno …* (English otherwise, as before).
+  - **French typography on the screens:** a no-break space before `? ! ; : »` in gap lines, verdicts and the built line's end mark (CSS `.el-line-end--spaced`), none before `. ,`, none after `'` and `«`; an article answer with `l'` is joined without a space (*l'école*).
+  - **Voice and language:** `lang="fr"` on all French text, `fr-FR` for the browser voice and for the pronunciation stand-in in `einfach-sprechen.js` (listed under `pronunciation` in §10.6; done here because it is one string, so `pronunciation` only needs to check it).
+  - **Fixtures** (`?fixtures`): three French sittings (ask the way, shopping, appointment) that exercise both article screens, an `l'` noun, and build sentences ending in `.` and ` ?`.
+  - **Page:** the meta description no longer promises audio (the path has no `hoeren`/`sprechen` tasks until French audio exists); `listening`/`pronunciation` may put "with audio" back when they add such tasks.
+  - **Left for others:** Paris is on two postcards (`a1-vorstellen`, `a1-cafe`); whoever next edits either unit picks another place. `vocab-*` may add `wort`/`artikel` tasks (recipe in `docs/easy-mode-tier1-v1.md`).
+- **Decisions by `vocab-a1`** (binding for `vocab-a2` … `vocab-c1-c2`):
+  - **How a level is written:** `node scripts/lexicon-import.mjs <level> <source.txt> …` with the French source format in its header (`old|lemma|pos|gram|en|example|ipa[|de|es|pt|it][|id=|img=|ca=|reg=|rect=]`). `gram`: noun `la,maisons` / `l':f,écoles` / `les*:f,vacances` / `le!h,héros` / `le/la,journalistes`; verb `parle,a parlé,parlé` (aux read from the second form, `@both`, `!irr`, `+de`); adjective `grande^bel!meilleur;le meilleur`. Glosses left out = copied from the `old` Spanish id (de/pt/it from the sidecars, es = the Spanish lemma with its article): only for a word that means the same. Run it on the committed Spanish level (the importer reads the old words to copy glosses), keep the source outside the repo, then the JSON is the source of truth.
+  - **Pictures:** an old id's picture moves to the new word only when the glosses were copied or the line says `img=old`; a reused slot (*agricultor* → *salaire*) loses it. The importer lists the pictures it didn't carry.
+  - **Same units, same counts:** the 26 unit ids, titles and topics stay; each still has 25 words. Spanish slots that made no sense in French were reused for resident words (*préfecture, titre de séjour, carte Vitale, médecin traitant, mutuelle, CAF, justificatif de domicile, dossier, fiche de paie, conjoint, urgences*). Some of them are A2-ish; residents meet them in the first weeks.
+  - **Ids:** slug of the lemma; homographs by meaning: `ferme` (farm) / `ferme-adj` (fermé), `ou` (or) / `ou-where` (où). A slug held by a Spanish word of a later level gets `-fr` (A1: `porte-fr`, `camping-fr`, `timbre-fr`); the later level, once French, keeps its own words off those slugs.
+  - **Person nouns:** masculine lemma, feminine in the gloss (*le cousin* "f: la cousine", *l'infirmier* "f: l'infirmière"), `le/la` only for true common gender (*le/la dentiste, le/la collègue, le/la propriétaire, le/la touriste*); `l'` + `genus: "mf"` for *l'enfant, l'élève*. *Le médecin* and *le chef* note that they are also used for women.
+  - **Count nouns with a usual plural are not plural-only:** *le parent, le cheveu, le bagage, le vêtement* with the plural meaning in the gloss; `pluralOnly` only where the singular means something else or isn't used (*les toilettes, les vacances, les espèces, les soldes, les urgences, les lunettes de soleil, les heures d'ouverture*).
+  - **Verbs:** `irregular` follows `verbtabellen.json` (-dre verbs like *vendre, attendre, répondre, perdre, rendre, descendre* are regular; *envoyer, dormir, partir, sortir, ouvrir* irregular). Impersonal verbs give the il form (*pleut, a plu, plu*; *neige*). `aux: "both"` for *monter, descendre, sortir, passer* (forms with être).
+  - **IPA:** authored, standard metropolitan, syllable dots, no stress marks, citation form (*e.ple, sam.di, med.sɛ̃*), multiword lemmas with spaces; `validate-lexicon.mjs` now rejects stress marks and checks aux, forms, the reflexive pronoun and `fem` on French words.
+  - **Typography in examples:** plain space before `? ! : ;` in lexicon examples (as the other data files; the no-break space is a rendering question, §1.2).
+  - **frCA:** 32 notes on A1, only well-known Québec usages (courriel, char, déjeuner/dîner/souper, fin de semaine, stationnement, cellulaire, laveuse, chandail, soulier, bas, gaz, soccer, chum/blonde, un party, l'hôtel de ville, poste de police, l'urgence, comptant, corridor, talon de paie, faire la file, épicerie). Institutions (préfecture, CAF, carte Vitale, mutuelle) get none (§1.5).
+  - **Sidecars:** `es.json` is new (French → Spain Spanish, nouns with article); `fr.json` is `{}`; `de`/`pt`/`it` A1 entries are French → that language (pt Brazilian). Machine drafts.
+  - **Code:** `slugify` folds French letters (*ñ → ny* kept while Spanish levels exist); `FRENCH_LEVELS` beside `SPANISH_LEVELS` in `lexicon.js` (`fertigkeiten.js` has its own, unrelated); card gaps (`exampleGap.js`) know elision, reflexive pronouns, passé composé auxiliaries, French endings and hyphenated imperatives (650/650 A1 examples hit); the trainer colours articles by gender (`vt-art--m/f/mf`) and writes *l'école* without a space; word-story pages read French rows (`entryLang` "fr", forms *l'école · les écoles*).
+  - **Validators relaxed (rule 3):** a lexicon ref that no longer resolves in `berufe/*`, `dgt/*`, `business-spanish/*` is a warning (`LEXICON_REF_ERRORS` in `berufeCore.js`, empty; `code-route-vocab` adds `dgt`, `french-for-work` `berufe`, `business-french` `business`); a word-story lemma, family word or formsAlso outside the lexicon is a warning (`word-stories` turns it back). A Spanish deck word spelt like a French lexicon word (*film, test*) is no duplicate. 82 berufe/dgt/business refs and 30 Spanish stories are affected; the decks drop the dangling refs (`liveDeck`).
+  - **Left for others:** `vocab-a2` re-keys the impostor game's A2 themes and the picture cards it touches; no `wort`/`artikel` task was added to the path, because every A1 unit already holds 7 tasks (whoever adds one replaces a task); `haeufigste-woerter.json` still holds the old German top-30 (only `generate-grammatik-pdf.mjs` reads it) and `rank` stays `null` until `fr_50k` can be downloaded and its licence is checked (`node scripts/attach-ranks.mjs a1`, then `haeufigste-woerter.mjs` and `artikel-haeufigkeit.mjs`); `ArtikelTrainer`, `artikelDiktat`, `spiele/domino.js` still write `${gender} ${lemma}` → `games` / `teachers` (use `withArticle`).
+- **Decisions by `vocab-a2`** (same rules as `vocab-a1`):
+  - **A2 is written:** 28 units × 25 = 700 French words, same unit ids, titles (only "(Correos)" dropped) and counts. Spanish-only slots became France slots (*dépôt de garantie, état des lieux, préavis, charges, bail, arrêt maladie, prise de sang, SMIC, France Travail, relevé de carrière, récépissé, carte de séjour, sous-préfecture, ANEF, constat, RIB, code de la route, galette des rois*). The importer ran on the committed Spanish A2; the JSON is now the source.
+  - **Glosses:** copied from the Spanish word only when the meaning is the same; 75 copied glosses that didn't fit (e.g. *intelligent*, *carrière*, *équipe*) were rewritten in the sidecars. New words have all four glosses written. Machine drafts, no native check.
+  - **Ids:** `poste-emploi` (job; A1 `poste` is the post office), `tache-salissure` (stain; `tache` is the task), `sur-fr` (*sûr*), `sante-fr`, `meuble-fr`, `sucre-fr`, `sale-fr`, `piece-fr`, `patient-fr` (slugs held by A1 words). Homographs *vol* (flight) and *voler* (to steal) keep separate lemmas; theft is *cambriolage*.
+  - **Phrases (a2-28):** tu form, vous in the English note (*Pouvez-vous…*), except *Vous pouvez parler plus lentement* as the one vous example. `pos: phrase` with empty grammar, as in A1.
+  - **Words with no plural or a count-noun plural** follow the A1 rule: `pluralOnly` only for *charges, frites, pâtes, ciseaux, premiers secours, horaires décalés, économies, transports en commun*.
+  - **`hAspire: true`** is also set on *yoga* (no elision: *le yoga*) and *haute saison*; *heure supplémentaire* has `genus: "f"`.
+  - **frCA:** 9 notes (facture/reçu, chocolat, congelé, pour emporter, guichet automatique, stationner, capture d'écran, en spécial, plat principal).
+  - **Impostor game:** the A2 themes in `hochstapler/themen.json` are on French ids (A1 and A2).
+  - **Picture cards and `wort-bilder.json`:** pictures moved only where the glosses were copied; no A2 picture card existed.
+  - **Left for others:** 82+ berufe/dgt/business refs to Spanish A2 words stay warnings until `french-for-work`, `code-route-vocab`, `business-french`; word stories about A2 words stay Spanish until `word-stories`; `rank` stays `null` (see `vocab-a1`).
+- **pronunciation decisions:** rule ids in `ausspracheregeln.json` are new where the topic is new (`voyelles, nasal, u-ou, eu, e-muet, e-accent, liaison, enchainement, silent, gn, qu-oi`), old ids kept for `r, s, h, ch, betonung, e-ende`. Drill ids in `aussprache-muttersprache.json` are new (`r, u-ou, nasal, eu, e-muet, liaison, enchainement, silent, s-z, ch-j, b-v, aspiration, stress, double, voiced-final, p-b, vowels, h`), error ids are `<language>-<drill>`; sentence and twister ids of `aussprache-check.json` and `zungenbrecher.json` are kept and no longer describe the sentence. Languages: English, German, Spanish, Portuguese, Italian, Arabic (reliable for p/b, u, eu, nasal). Russian, Ukrainian and Chinese pronunciation drills and their `aussprache` mistakes were removed. The `franzoesisch` slot of `fehler-nach-sprache.json` is now `spanisch` and holds only its pronunciation mistakes: `idioms-mistakes` adds the grammar, words and writing mistakes (the other languages still carry Spanish-course mistakes outside `area: "aussprache"`). Question marks in sentence data stand right behind the last word (no NBSP), because the Check scores word by word. `satzmelodie`: no opening marks, `melodyType` reads French question words (also after `à, de, d', depuis …`), `check-satzmelodie.mjs` checks French. `ac.find.*` texts are rewritten in en/de/pt/it; `fr.json` carries English placeholders until French is removed as UI language. Voices: fr-FR first, then any French voice. `drillSlug` keeps French accents (`é→e1, è→e2 …`). `ausspracheTipps` sound ids: `nasal, u-ou, eu, r, e-muet, liaison, silent, e-accent, ch-j, s-z, b-v, gn, h, stress, vowels`. Left: recordings (`audio: false`), German page strings on the pronunciation pages (owned by `ui-pages-*`), a teacher review of all pronunciation text.
+- **idioms-mistakes decisions:** `redewendungen.json`: 61 entries (B1–C1), same 9 theme ids, origins all "unklar" (no sourced story), sources are Wiktionnaire pages built from the phrase (to verify). `umgangssprache.json`: the five group ids stay (`kurzformen, alltag, zahlen, jugend, vulgaer`); `jugend` holds verlan; `regional` (Belgium/Switzerland *septante, nonante*) used once; Québec swearing (sacres) only mentioned in a `frCA` note. `typische-fehler.json`: groups keep their ids, `hinten` now teaches *sur/dessus, sous/dessous, dans/dedans, devant/avant*; `wortarten.json` `fehler` set on 9 of the 10 classes (`num` stays empty). `wortfallen.json`: 29 new traps, ids are French words (`actuellement, assister, esperer …`), the stale Spanish-trap rows were removed from de/fr/it/pt and the new keys sit there as English placeholders until the UI-language items translate them. `synonyme.json`: 62 groups A1–B2, `frCA` on four. `fehler-nach-sprache.json`: English, German, Spanish, Portuguese, Italian and Arabic (written only where reliable: copula, article, adjective place, idafa, resumptive pronoun, capitals, p/b); Romanian, Russian, Ukrainian and Chinese removed with their Spanish-course mistakes; new mistake ids `<language>-<slug>`; the quiz is new. `check-sprachfallen.mjs` and `check-redewendungen.mjs` check French (no ¿ ¡, `fr-FR`, `frCA` ≤ 160); all six modules are in `STRICT` of `check-variety.mjs`. `kalender-saetze.json` is unused and still Spanish (not touched). Left: native-teacher review of all of it, recordings (`audio: false`), the idiom source URLs.
+- **prefecture-sim decisions:** the sim stays at `/games/extranjeria` (route rename is for `routes`), invented town **Montbruno**, noindex prototype. Days: 1–2 mairie (one inscription file for school and town services, boxes *Première inscription / Changement d'adresse*, `anliegen` ids `alta`/`cambio` kept), 3 ANEF help point (`anef`), 4 CAF and carte Vitale (`caf`, `secu`), 5 questions never decided here (refusal letter, OQTF, naturalisation, `derivar_*`). Stamps are COMPLET / INCOMPLET on keys C and I. Paper ids kept, new meanings: `ausweis` = CNI, `pass` = passport, `meldeschein` = mairie file, `wgb` = *attestation d'hébergement*, `abmeldung` (id `solicitud`) = procedure summary with four boxes, `cita` = *récépissé* (valid until), `tasa` = *timbre fiscal électronique*. New paper kinds `justif` (*justificatif de domicile*, less than 3 months old) and `rib` (account must be in the applicant's name); photo background is "uni clair". New rule ids `sanstitre, recent, recep, rib`; new mistake ids `justif_alt, recep_abgelaufen, rib_fehlt, rib_name, derivar_naturalisation` (`derivar_arraigo` = refusal letter, `derivar_regularizacion` = OQTF). `check-extranjeria.mjs` checks French lines (no ¿ ¡, no Spanish leftovers, no line that decides status) and the new papers. Left: the page's UI strings are still English-only `UI` object (no i18n keys), all legal facts listed "to verify" in the run report.
+- **accents-languages decisions:** `/knowledge/accents`: 13 areas in five groups with new ids (`oil`: paris, nord, ouest, est; `transition`: centre, lyon; `midi`: sudouest, provence; `corse`; `bilingue`: bretagne, alsace, paysbasque, roussillon). Regional languages are `lang: true` dots whose ids differ from the area ids (`brezhoneg, occitan, alsacien, corsu, euskara, catala`); city dots `marseille, toulouse, lille`. Data keys `benrath`/`speyer` now hold the **oïl/oc line** and the **Breton language line** (Plouha – Gulf of Morbihan, late 19th c.). Word mode: *pain au chocolat / chocolatine* and the floor cloth (*serpillière, wassingue, toile/loque, panosse, since, pièce*). World notes: Québec, Acadia, Belgium, Switzerland, West/Central Africa, North Africa, Caribbean and Indian Ocean. The France geometry comes from the Europe view of `edf6596` (1:50 m, projection centred on France, so no inset is needed; Corsica is in frame). `/knowledge/languages`: views `world` + `africa` (cropped at 38° N, so France and Belgium switch to the world view); Maghreb, Mali, Burkina Faso, Niger, Mauritania, Lebanon, Mauritius are `minderheit` ("widely used, not official"), not `region`, because `region` means official. The official-country stat is computed from the data. Comparison ids are the six of `fehler-nach-sprache.json` (`spanisch` replaces `franzoesisch`; Romanian, Russian, Ukrainian and Chinese rows dropped because the page never showed them). Other locales: every changed `dialekte.*`/`sprachen.*` value is an English placeholder; unchanged ones keep their translation.
+- **games decisions** (binding for `games-arcade`, `teachers`): `generoDrill.js` is French: `isDefiniteDrillNoun` (le/la, h aspiré included), `isElidedDrillNoun` (l' with genus m/f, asked as **un/une**), `isDrillNoun` = either, `drillChoice(e)` → `{ kind: "def"|"indef", options, answer }`, `drillGenus(e)`; `AMBIGUOUS` = *livre, tour, poste, mode, voile, manche, mémoire, vase, moule, somme, solde, physique, critique, pendule, aide, gens, après-midi, amour*; l' nouns with genus `mf`, `le/la` and `les` stay out. `pluralArticle` re-exports the always-`les` helper. Rule packs (`artikel-packs.json`, new ids): f `-tion/-sion, -té, -ette, -ure, -ence/-ance, -ée, -ie`; m `-age, -ment, -eau, -isme, -oir, -ier, -et`; hyphenated compounds, acronyms and participle nouns (`noRule`: *invité, retraité, employé …*) follow no rule; a rule matches by gender, so *l'eau* is an exception of `-eau` asked as *une*. `ap.ex.afem`/`ap.ex.greek` became `ap.ex.elided`. Bruno Kart: article gates `LE / LA / L'` (L' is the elision trap) or `UN / UNE / DES` for elided nouns; five-lane road adds `LES / DES` resp. `LE / LA` (wrong before a vowel); nouns with plural = singular (*le prix*) only in plural gates; plural gates are always `les` + form; the seeded stream still draws once per article gate so seeds stay stable. Lane colours: le/un blue, la/une red, l'/les/des grey. Gloss files: `de, es, pt, it` (fr dropped). Dictation: target `l'école` (no space), notes `akd.note.elide`, `noElide`, `space`; ç is an accent, oe = œ. Domino: article type is le/la only. Satzregen: modes ids kept, `klammer` = object pronouns + ne…pas, `janein` = est-ce que / inversion / intonation, `nebensatz` = indirect questions; informal orders (*Tu viens ce soir ?* as *Ce soir tu viens ?*, *Où tes parents habitent ?*) accepted as `{alt}`; no `{free}`. `nussnacht/woerter.js` keeps only nouns its `ARTS` can index and `hoerSafari/woerter.js` takes le/la nouns only, until `games-arcade`. Left: the other locales' `sprint.*`, `akd.*`, `ap.*` values (Spanish-course translations or English placeholders) for the `ui-lang-*` items; `scripts/test-satzregen.mjs` names sentence id `v2-044`, which doesn't exist (didn't before either).
+- **games-arcade decisions:** Nut night (`nussnacht`) `ARTS = ["le", "la", "un", "une"]`. Normal creatures are le/la nouns (two buttons). **The plural popper is gone in French** (plurals always take *les*, so they can't ask the gender, and a plural-form choice doesn't fit the auto-aim shots): its slot, upgrade id `plural` and creature kind 1 now carry the **L' popper**: nouns that elide to l' appear as "l’école" and need the **un / une** shots (buttons 3/4 appear with it). It is offered at every level (no `b1` flag), because l' nouns are A1 words. Word rows: elided nouns have `g`/`pa` 2|3 and `pl` = "l’…"; `sim.js` keeps them out of the le/la pools. Bosses: 29 le/la traps A1–B1 (`la plage, le musée, la peau, le problème, la photo, la météo, la maison, la leçon, la chanson, la forêt, la dent, le cœur, la main, la mer, le pays, le dimanche; la fin, le bonheur, la souris, la honte, le stade, le lave-vaisselle, le porte-monnaie; le lycée, le silence, le camion, le programme, la paix, le gratte-ciel`), all lexicon-confirmed, `VARIETY = "fr-FR"`, no frCA note needed. No boss elides (it would need un/une). Radar follows the rule packs; level 3 = traps (`-age/-eau` la, `-ée/-té/-ence/-ion/-ie` le). Compound cracker: hyphenated verb + noun compounds that start with a consonant (`h` = index of the hyphen); 13 extra at B1 that the lexicon lacks. Listening safari: browser voice fr-FR first, then any `fr-*` voice, never another language; no voice → the word shows at once and the start card says why (as before); recorded clips (`w.a`) slot in later. 23 nouns out of the picture game (abstract, shared or wrong pictures); B1 also plays the A2 words (only 13 B1 picture nouns). Lexicon fix on the way: *le harcèlement* (and *scolaire*, *moral*) is h aspiré, `gender: "le"`, `hAspire: true`.
+- **word-stories decisions:** first batch = **30 stories, all A1–A2 lexicon words**, the 30 Spanish stories deleted and their `publishOn` dates reused in order: Latin *maison, eau, parler, fromage, travail, fenêtre, samedi, tête, manger, copain*; Frankish/Germanic *jardin, bleu, blanc, riche, gagner, honte, robe*; Arabic *café, sirop, magasin, jupe, sucre, tasse*; English and round trips *tennis, budget, week-end, sport, parking*; Nahuatl via Spanish *chocolat, tomate*. Words the plan named but the lexicon lacks (*guerre, chiffre, algèbre, toubib, flirter*) wait until a vocab item adds them. Sources: the TLFi "Étymol. et Hist." on cnrtl.fr/etymologie for every word, English Wiktionary where used, French Wikipedia *Tripalium* and English Wikipedia *Circumflex in French*; nothing cited that wasn't read. `status: "entwurf"`, `checkedBy` names Claude (the validator refuses `geprueft` for it). `elsewhere` holds English, Spanish, Italian, German or Turkish (no `fr`); `kind: "parallele"` marks unrelated words of the same meaning (*casa, queso, comer, Saturday*). Disputed origins carry `certainty: "umstritten"` (*travail* ← *tripalium*, *chocolat*); *tennis* ← *tenez* is `wahrscheinlich`. Tree branches: "On the way" (non-French stages), "French", "Other languages" (related or borrowed cognates). **Validator:** a story lemma, family word or `formsAlso` outside the lexicon is an **error** again (rule 3); `entryLang` returns `fr` unless the lexicon row is in a Spanish level. `mhelp.wortgeschichte.what` names French origins in en/de/pt/it (`fr.json` left for its removal).
 
-  **games-arcade:** **Nut Night:** shots are *el / la*; *los / las* buttons appear only after the Plural popper (B1), and the plural article comes from the gender (`pluralArticle`, so *el agua → las aguas*). The first-sound radar became an **ending radar** (-o/-a, then -ción, -dad, -umbre, -aje, -or, then the traps), which reads the head noun. The cracker is the **compound cracker**: verb + plural noun with a listed seam (`COMPOUNDS` in `nussnacht/woerter.js`); seams that change a letter (*paraguas, pararrayos*) stay out, and *paraguas* is a `lex: false` boss. Thirteen compounds not in the A1 to B1 lexicon are game-only rows at B1 (`comp-<word>`); **later vocab items** may add them to the lexicon, and the rows then step aside by themselves. **Listening Safari, no Spanish audio:** the browser voice speaks, es-ES first, then any Spanish voice. An English voice is never used for Spanish: a browser with no Spanish voice stays silent, shows the word at once and says why on the start card. A list of 0 voices still tries, and a failed utterance counts as no voice. Word list in `hoerSafari/woerter.js`: *casero, padrón, estrés, diversión, DNI, NIE* are out because their picture does not show the word, and *el médico, el profesor* use a man instead of the table's woman. **For `games-dialogue` or whoever edits `wort-bilder.json`:** those two pictures still show a woman everywhere else. **For `cleanup`:** the name Wachtelhuhn remains only in code comments.
-- **Dialogue games decisions** (`games-dialogue`, 2026-11-06): **Player's gender:** nobody knows it, so the player's lines and what people say to the player avoid gendered forms (*mucho gusto*, not *encantado/a*; *acabas de llegar*, not *eres nuevo/a*; *te doy la bienvenida*). Álex in the date is written the same way. `check:knigge` and `check:lindenau` catch the common forms. **Manners** (`knigge`): 21 scenes, one new (`menu-del-dia`, for meal times and asking for the bill), and new turns for *dos besos* (a handshake is always fine, for any reason), *trátame de tú*, usted at the school office and the *sobremesa*. `npc`, `de`, `react` and the wheel's `say` / `re` are Spanish; `situation`, `tag`, `why`, `place`, `role` and parenthesised stage directions are English. **New fields, additive:** `reactEn`, and `sayEn` / `reEn` on `TOPICS`; `game.js` shows them under the reaction, and the 💡 button now also appears on turns with no spoken line. New validator `scripts/check-knigge.mjs`, in `check:content`. **RPG** (`lindenau`): quest ids, maps and turn counts kept. `item.label` and `words` carry *el / la*, so the monsters practise gender; `role`, signs and area titles are Spanish. Shop people use tú, the ticket office and health centre usted. Count Grubby and Baron Dusty are *el conde Mugre* and *el barón Polvo*; *Super-Blubb* stays because it is the mascot's name across the site (`mascots.js`). Lines carry no item-level `variety` or `es419`, as in the Extranjería sim; each file exports `VARIETY = "es-ES"`, with a comment listing what a LatAm mode would have to rewrite. **No clips exist**, and `generate-lindenau-audio.mjs` is not in the repo; the browser's Spanish voice speaks, and `VOICES` already names es-ES voices for a later script.
-  **For `routes`:** rename `/games/brambleford` to `/games/villabruno` (page file, `routes.js`, `catalog.js`, `suche-seiten.json`, `start.astro`, CSS comments). **For `ui-lang-*`:** `uebersetzungen/lindenau.json` is keyed by the Spanish lines and empty; other languages fall back to English. The Manners `en`, `reactEn`, `why` and `situation` texts have no sidecar at all, so those languages will show English. Facts to verify: `reports/games-dialogue.md`.
-- **Teachers decisions** (`teachers`, 2026-11-06): all 60 `arbeitsblatt/<id>.json` and all 11 `partneruebungen/*` are Spanish, with top-level `variety` (plus `es419` where a sheet uses something Spain-only), which §1.5 didn't list; `unterricht-wortschatz.json` too. All three are strict in `check-variety`. New validator `check-arbeitsblatt.mjs` joins the gate: ¿…? on questions, the blue verb among the tiles, no English left in what learners say, every partner sheet passes `validateSheet`; `--tiles` lists tiles the answer changes. **Tiles:** Spanish drops pronouns, so a person who isn't written is a tile in brackets, `(yo)`; a tile `x / y` is a choice and may be the blue tile (`por / para`). Sheets print `¿ ___ ?` on question lines. **Language:** instructions English, everything said or written Spanish, including the generic phrases in `tandem.js`; the sheets carry `lang="es"`. **a or en sheet:** the room and kitchen pictures stayed, but Spanish has no stand/lie difference, so `regel.lage` holds "always estar" and the trap *poner, meter, colgar, dejar + en*; its icon is gone. **Partner sheets stay drafts** (`geprueft: false`), as §5.10 says: they don't appear in lists or PDFs until Edgar sets them. **Word fields** follow the keys of `kursinhalte.json` A1 exactly. **Class test:** `GRAMMAR_WORD` is a closed Spanish set. **Live quiz nicknames** are animal + adjective with one form for both genders (*Zorro valiente*); `animalOf` reads the first word; a player's stored English animal simply shows a random avatar. **Meaning menus** of quiz, bingo and domino come from `languagesFor("cards")`, so the old Arabic, Ukrainian, Russian, Turkish options (0 Spanish glosses) are gone and `ui-lang-*` get theirs automatically. **Downloads:** Cambridge, IELTS, Trinity replaced by Cervantes (DELE, CCSE), SIELE, RAE (DLE, DPD), DGT; unused `wissen.file.lid-bundesland.desc` deleted. The Plan curricular link was left out because `cvc.cervantes.es` answered with a maintenance redirect on 2026-11-06; add it when it's back.
-  **Left, not done:** `/teachers/cards` (`src/lib/vokabelFoto/*`) still parses German word lists (`der Tisch, -e`), its prompts and many strings are German, and it needs the upload and translation backends: it needs its own item once those exist. Only the PDFs in `downloads.json` that exist show on `/knowledge`, and just `grammatik-start.pdf` is committed; the grammar, word and partner PDFs were not generated (`deploy-readme` or a PDF item). `data/lernsets/lernsets.*.json` are outputs of `scripts/extract-lernsets.mjs` that no page reads and still hold old words: **for `cleanup`**. **For `spanish-for-work`:** berufe entries in `downloads.json` keep their titles (`Childcare (nursery)`), adapt them with the sectors. **For `routes`:** the teacher pages' hard-coded `/teachers/…` stay as they are. Facts to verify: `reports/teachers.md`.
-- **Word stories decisions** (`word-stories`, 2026-11-07): 30 stories, drafts, on the 30 dates the English ones held; the English stories are deleted. **Word choice:** the validator is strict again (lemma, family and formsAlso must be in the lexicon; file name = lexicon id; level = lexicon level), so *ojalá, aldea, guerra, guardar, naranja, aguacate, jamón* wait for a later batch: they are not in the lexicon. *almohada* and *alcalde* are B1, kept because §5.13 names them. **Page:** the headword, forms, family and synonyms are `lang=es`, everything written about them is `lang=en` (`PROSE_LANG`). **Sources:** RAE's DLE answers 403 to fetching, so the stories cite only what was read: Wiktionary and dechile.net (Corominas only where dechile.net quotes him). A DLE comparison is left for Edgar. Stories carry no `variety` key, like reading texts (§1.5); Spain/LatAm differences are told in the prose (*coche, ordenador, patata, tomate*). **For `ui-lang-*`:** `elsewhere` blocks exist for de, fr, pt, it where the sources support one; the texts are English. **Left, not done:** `scripts/preview-wort-mails.mjs` imports `emails/wortgeschichte.mjs`, which does not exist in this repo. Facts to verify: `reports/word-stories.md`.
-- **Spanish for work decisions** (`spanish-for-work`, 2026-11-07): ten decks, 612 entries (336 own, 276 refs), level A2–B1, `reviewed: false`. Fewer words than the English decks on purpose (58–68 each, was about 85), but care work grew from one group of 30 to five groups. **Sectors and slugs:** ids stay as §5.12; hub order follows the §5.12 table; URLs are `agriculture`, `cleaning-domestic-work`, `hospitality` and `shops`, already changed in `routes.js`, because a farm deck can't sit under `electrical-and-plumbing`. Group ids stay; only farm work swapped `kunden-team` for `team`, and care work reuses `taetigkeiten`, `ablaeufe`, `sicherheit-gesundheit` and `eltern-team`. **Plan correction:** §5.12's *régimen especial de empleadas de hogar* is not the current name; the deck says *sistema especial para empleados de hogar*. **Person nouns** follow the lexicon (masculine lemma, the feminine in the gloss), except where a job is mostly done by women (*empleada de hogar, camarera de pisos, gobernanta*). **Validator:** `GENDERS` is `el`, `la`, `el/la`; a lexicon ref that is gone is an error again; `berufe` is strict in `check-variety`. A ref can't carry `es419`, so it inherits the lexicon word's note or has none. **Photos:** the `berufe-kita` and `berufe-elektro-technik` manifest entries are removed, so those two sectors show an emoji and no hero photo; `hub-bilder.json` has new queries and alt texts for `generate-hub-bilder`. **For `business-spanish`:** `buero` has no link to the module yet because the page doesn't exist; add it to the deck's `links`. **For `routes`:** rename the `/english-for-work` folder and its section keys; sector and group slugs are done. `src/data/entry-pages.json` still has German-course text under `/english-for-work` (*Alemán para el trabajo*), as do the other entries there. **For `cleanup`:** the old electrician and nursery photos are still in `public/assets/hubs` and `public/og`; `scripts/rename-routes.mjs` has an old slug in a comment. **For `deploy-readme` or a PDF item:** `generate-berufe-pdf.mjs` is now in English with `los`/`las` but has not been run. Facts to verify: `reports/spanish-for-work.md`.
-- **Business Spanish decisions** (`business-spanish`, 2026-11-07): six units, drafts (`reviewed: false`): `correos` B1, `llamadas` B1, `curriculum` B1, `entrevista` B2, `reuniones` B2, `negociacion` C1; 157 phrases, 12 model texts, 121 words (27 own, 94 refs), 72 exercises. **Shape changed from §4.3 (now updated there):** `models` is a list, because every unit needs a formal and a less formal text; phrases add `use`, the group they are shown under; units add `tips` and exercises add `context`. **URLs:** the plan's `<unit>` ids stay as file names and progress keys, but the URLs are English (`BUSINESS_SLUGS` in `routes.js`: `emails`, `phone-calls`, `cv-and-cover-letter`, `job-interviews`, `meetings`, `negotiating`), with `/words` for the trainer and `/words/print` for the sheet. **Deck:** every unit's `words` is a group of one deck `business` (`businessDeck()`, ids `bv-business-…`), so the trainer, print sheet, live quiz and deck side list work unchanged. A ref can't carry `es419`, so words already in the lexicon inherit its note or have none. **Not added to:** the teachers' list of printable sets, because `printableSets()` lists sectors only. `es419` isn't shown while `LATAM_MODE` is off; the unit page already goes through `textFor` and `skippedFor`. **Phrase audio** is the browser's voice (no recordings); the button stays hidden without `speechSynthesis`. **For `routes`:** `/business-spanish` needs no rename; `entry-pages.json` has no entry for it, and `suche-seiten.json` is untouched (the search entry is in `searchIndex.js`, as for DGT). **For `ui-lang-*`:** the keys are `biz.*`; unit content (titles, intro, explanations) is English only, like the sector decks. **For the next full build:** these pages have been compiled but not yet built or seen in a browser. Facts to verify: `reports/business-spanish.md`.
-- **Routes decisions** (`routes`, 2026-11-07): every slug of §8 and §3 is applied: 23 page files moved, about 120 files of links rewritten in one pass from old slug to new, so each link keeps the slot it pointed at (`/present-perfect` meant the indefinido and is now `/preterite`; the old `/past-simple` is now `/present-perfect`). Item, sector and group slugs already fit their titles and stay. **Redirects:** the only one left is the guessed `/grammar/<slug>` → `/<slug>`, because that is about how people type, not about history. `/dashboard`, `/v2`, `/leicht`, `/intern/filme`, `ACCOUNT_REDIRECTS`, `DROPPED`, the German paths and their helpers (`englishPath`, `germanPath`, `flattenPath`, `legacyRedirects`, `sheetKeys`, `scripts/rename-routes.mjs`) are gone. **§7 and §9 disagreed on `ACCOUNT_REDIRECTS`:** the 55 links that needed them now go straight to `/account`, keeping `?next=`; `/merch` and `/preise` left the search data and `entry-pages.json`. `pageRef` (`versuche.js`) reads the English path and returns the same refs as before; `/pronunciation-check` and other top-level pages that aren't topics now log their English name, nothing depends on those. **New gate:** `check:links`; its `KNOWN` list names what has no page on purpose (`/test`, `/game/hochstapler`, both need a backend). **Fixed on the way:** `/beitreten` in the class share link; the impostor's class-mode link was a 404 and now leads to `/teachers/games`; two root-absolute class-test URLs; the `/progress` Language use row leads to `/dele/language-use`; the CCSE card no longer shows a British flag. **For the next full build:** the moved pages were compiled and their imports resolved, but no dev server or build has rendered them: run `pnpm check:base` and open the exam pages, and see that the page count falls only by the removed redirect stubs. **For `cleanup`:** `suche-seiten.json` is generated and about 315 of its 458 entries still have German-course text (*Goethe A2 Übungstest*) under the new paths: rerun `scripts/build-suche-seiten.mjs` against a server after the next full build. `SEPARABLE` in `wortschatz-app.js` has German text and now points at `/ir-a-infinitive`, but no lexicon word sets `separable`, so remove it. Remove the four `politik*` slots in `hub-bilder.json` and `/politik` from `KNOWN` in `check-links.mjs`; `/culture` in `hub-emoji.json` is still a pretzel; `ARCHITECTURE.md` line 116 still mentions Cambridge and IELTS. **For `ui-lang-*`:** `entry-pages.json` has the new paths, and the CCSE entry's slug is `ccse`, but its text is still about the German course. **For the audio or a PDF item:** `generate-berufe-pdf.mjs` prints `workPath()` and has not been run. **Edgar:** the merch links (home footer, drawer, picture dictionary) land on `/account`, as they did; decide whether they should go while there is no shop.
-- **Cleanup decisions** (`cleanup`, 2026-11-07): §7 is done; restore commands are in its table and in `EXPERIMENTE.md`. **Removed beyond the list:** whatever had no reader and showed the old course: `data/incoming/` (German tranches), German author portraits, merch mockups, the old hub share cards. `data/partneruebungen/` stays because `check-lehrwerk-leak` guards it. **`en.json`:** 617 keys that neither the source nor the build uses are gone, so the `ui-lang-*` items translate 6,307 keys, not 6,924. The families of the account and payment backends (`auth`, `konto`, `premium`, `preise`, …) are kept even where unused, because §9 leaves those modules as they are. **Language tags:** Spanish text is `lang="es"`, English help `lang="en"`; `lang="de"` remains only on the binding cancellation text and on a print sheet's German mode. **German glosses:** the `de` sidecar is a German translation, yet the trainer's toggle called it "Explanation in Spanish" and print sheets had it as an "Explanation" column. Both are off now: the toggle shows only when `<html lang="de">`, and `hasDe` is `false` in `WortschatzDruck`. **For `ui-lang-de`:** register German as a normal card language and rework this: `vt.cl.erkl`, the `de` entry in `VokabelTrainer`, `hasDe`. **Trial lesson:** the button on `/syllabus/*` shows only once `kursinhalte.json` has `probestunde.href`, and JSON-LD has no email, so visitors aren't sent to the placeholder address; the legal pages still show it (rule 5). **Photos:** `/culture` and `/ccse` have no hero photo now (one showed German price labels, the other a German town hall); `hub-bilder.json` has Spanish queries for `generate-hub-bilder`. **Validators:** none was paused. The gate gains `validate-partner`, `check-pillen`, `check-grammatik-start`, `check-extranjeria`, `validate-i18n`, `check-reichweite` and `check-i18n-luecken`. The two i18n checks now read `en.json`, not the missing `de.json`; `check-reichweite` passes with de, fr, pt and it forced on. Not in the gate, with reasons in `check-content.mjs`: `check-karten`, `check-downloads`, `check-inhalte`, `check-grammatik-ui`, `check-jsonld`. **Baselines:** `check-i18n-luecken` has 59 known gaps and `check-grammatik-ui` 2,411, written as they stand, so these are not fixed. **For `ui-lang-*`:** hard-coded English without a key stays on `/exercises` (welcome line, goal and name buttons), `/exam-plan` (calendar button), `/intonation` (rule button, lab line), and `praesentationDeck.js`, `textHelp.js` strings are plain English in JS; a source's German fallback (`data-i18n` text, `t(k, "…")`) stays where the key exists and does not show. `entry-pages.json` is still theirs. **Search:** `build-suche-seiten.mjs` now reads `dist/`, so it needs a build, not a server; rerun it and build again when pages change. **Edgar:** the contact address; the merch links; `/privacy` and `/terms` on LanguageTool; the binding language of the legal texts; `/vocabulary/a1-teil-03` keeps a German word in its URL because the portion id is the deck's storage key; `/design-system` still has German sample text; `design/` and `scripts/sentry-startup.mjs` keep old names (not built).
-- **German UI decisions** (`ui-lang-de`, 2026-11-07): `de` is registered on `ui` and on `cards` with `fetch: true`, not on every surface as §10.4 first said: **a surface is named only where text in that language exists**, because a named surface with no blocks shows blanks. `fetch: true` also keeps `de` out of `langsFor("cards")`, so the live quiz and printable games don't offer it: there `de` on a question, option or word still means the Spanish being learnt (`o.de ?? o[lang]`). **For `ui-lang-fr/-pt/-it`:** same shape; copy the entry, translate `en.json` by chunks, run `pnpm lang:coverage` and commit `docs/lang-coverage.json` (`languages.js` imports it again; without a number the `ui` gate hides the language), add a block to `entry-pages.json`. `es`, `pt`, `vi`, `hi`, `id` in that file were old German-course text and are gone; `/knowledge`'s copy is now `/de/knowledge`, not `/de/downloads`. **Help fallback:** `helpLang()` falls back to English instead of null, and `langRules` always writes the English block's rules, so a UI language with no help text keeps the English help (it used to hide it). Topic intros with a dictionary key don't show the English copy under the German. **Cards:** the `Erklärung auf Spanisch` toggle (`erkl`, `vt.cl.erkl`) is gone; German is a normal language in the picker and the default on a German UI. `lexicon.js` still joins the sidecar as `deHint` and inlines it as `translations.de`, because the profession decks and print sheets read it; `ensureGlosses` skips the fetch when the cards already carry the language. Print sheets offer “Deutsch” in the meaning column when every word has it. **Legal pages:** not registered on `legal`: the server text is the binding German, shown as is, without the translation note. **Book:** `grammatik-start/de.json` is translated with comparisons rewritten for German readers, so `grammatik-start-de.pdf` exists; `check-grammatik-start.mjs` no longer asks for bubbles to change (the mascots speak Spanish in every edition). **Not translated:** everything that isn't in `en.json`: lesson titles from data in the menus, grammar rule text, exercises, `einfach-view.js`, print sheet labels, help blocks in `uebersetzungen/*`, the `LANG_LABELS` of `artikelHerkunft.js`. Open point: when a data-driven title should follow the UI language.
-- **French UI decisions** (`ui-lang-fr`, 2026-11-07): `fr` has the same shape as `de` (`ui`, `cards` with `fetch: true`, `urlPrefix` and hreflang `fr`, `og:locale` `fr_FR`). **Voice:** *vous* throughout, buttons in the infinitive, France's standard French; the one *tu* is `sprint.room.invite`, a message to a friend. **Typography:** `fr.json` has non-breaking spaces before `? ! : ;` and inside « », and curly apostrophes. **Text written around English:** kept when it is true for a French reader (`Contrairement à l'anglais`), reworded when the claim would be false for French, e.g. `wortfallen.sensible.tip` says only the English word misleads. **Book:** no French `grammatik-start` edition: the German one was a hand-off to `ui-lang-de` alone, and §10.4 doesn't ask for it; `downloads.json` lists `editions: ["de"]`, so nothing promises one. Open point: whether `fr`, `pt`, `it` should get the book. **Legal pages:** `LegalTranslation.astro` used to show the German under a note calling it a translation on any UI language without its own legal text; it now shows the English translation. German stays binding and no legal text changed. **Language menu:** `CORE` in `languagePicker.js` is now `en, de, fr, pt, it, …`, so `ui-lang-pt` and `-it` don't need to touch it. **For `ui-lang-pt/-it`:** the registry entry, `fr.json`'s way of working and the `OG_LOCALE` line (`pt_BR` is already there, and needs changing if `ui-lang-pt` picks European Portuguese) are all you need; add `it` to `OG_LOCALE`. **Source problems in `en.json`, translated as written and listed in `reports/ui-lang-fr.md`:** `pruefungen.compare.*` (old exam structure with Spanish names), `qb.own.promptPh` (a German example sentence), `kontoDel.confirm` (asks to type `LÖSCHEN`), mismatched `wissen.file.berufe-*.desc`.
-- **Portuguese UI decisions** (`ui-lang-pt`, 2026-11-07): **Brazilian Portuguese**, as §10.4 recommended: the code and URL are `pt`, `<html lang>` and hreflang `pt-BR`, `og:locale` `pt_BR`. Same shape as `de` and `fr` (`ui`, `cards` with `fetch: true`). **Voice:** *você*, buttons in the infinitive, gerund, Brazilian spelling and words. **The learner texts follow:** the lexicon sidecar, `redemittel-i18n/pt.json`, the `pt` of `wortschatz.json` and the `pt` block in `schreibKorrektur.js` were European and are converted, so cards and interface agree; a later `lexicon-import` must write Brazilian `pt`. **Code:** `langRules` uses `:root[lang|="…"]`, because `<html lang>` is `pt-BR` while the code is `pt`. **Old blocks:** `uebersetzungen/grammatik-ui.json` (1,026) and `rechtliches.json` (84) still carry `pt` from the German course; neither surface names `pt`, so they don't show, but `lang:coverage` counts them (`help` and `legal` say 100 % for `pt`), so those two numbers mean nothing. **Open points:** a visitor in Portugal is not matched by hreflang `pt-BR` and may get the English x-default in search; plain `pt` would fix that but also changes `<html lang>`, because `htmlLang` reads hreflang. No Portuguese `grammatik-start`, like French. **For `ui-lang-it`:** add `it` to `OG_LOCALE`; everything else is as `ui-lang-fr` says. Check its inline blocks with a grep for `it:` too: `schreibKorrektur.js` shows one the moment the language registers.
-- **Italian UI decisions** (`ui-lang-it`, 2026-11-07): `it` has the same shape as `de`, `fr`, `pt` (`ui`, `cards` with `fetch: true`, `urlPrefix` and hreflang `it`, `og:locale` `it_IT`). **Voice:** informal *tu*, the opposite of French on purpose: the site's existing Italian (`LanguageOffer.astro`, `schreibKorrektur.js`) already used it, and it is what Italian web products write. Buttons in the *tu* imperative (*Inizia, Salva*); gendered forms are avoided where that reads naturally, otherwise masculine, never a slash. **Terms:** *cittadinanza*, not *nazionalità*, for the legal status, so `nat.*` reads as Italian law-speak does while the Spanish names stay Spanish; "practice test" is *test di prova*, "trainer" is *allenamento* (*allenatore* is a sports coach), "Step by step" is *Passo dopo passo*, also in the `it` line of `LanguageOffer.astro`. `fr` and `pt` still quote the English name there while their menus translate it. **No Italian `grammatik-start`**, like French and Portuguese; the open point stays. **The check that found a real error:** source words that are in the lexicon's Spanish but not in its English, looked for in the translation, caught *como* turned into *come*; a check on accents alone can't see that. Any later language close to Spanish should run it. **Browser:** this item is the first with a browser run; language switching between entry pages, Italian on non-entry pages and `/vocabulary/glosses/it.json` work, see `reports/ui-lang-it.md`. **Open:** `praep.wechsel.lead` contrasts *en Madrid* with *a Madrid*, written around English; correct but less helpful to Italians, whose *a Madrid* is the trap in the other direction (*Vivo a Madrid* ≠ *Vivo en Madrid*). A later Italian-specific tip could say so; the same goes for `aussprache-muttersprache.json`, which is not in `en.json`.
+---
+
+## 14. What this plan was checked against
+
+**Compared by script with `apps/french` at `87df0a7e`:**
+
+- All 50 items in `QUEUE.md` have a row in §11.
+- All 91 grammar slots in §3 against `grammatik/` and `akkusativ` (§3), and each slot's current level against the moves listed there.
+- Every file named in this plan exists, except the ones it says are new or missing (`repoint-einfach-grammar.mjs`, `public/i18n/es.json`, `public/.well-known/tdmrep.json`). `apps/hub/src/data/courses.ts` and `scripts/nest-dist.mjs` are outside this app, and `paid/.../` is shorthand.
+- The ids in §5.3 (16 listening items) and §5.8 (29 culture topics) against `hoeren.json` and `kultur.json`.
+- The Spanish-logic pattern in §10.6: every hit in `src/lib`, `scripts` and `src/integrations` is named in this plan. That is a name match. Owners were assigned from the file names and, for about 20 of the files, the matching lines; the owning run checks the rest.
+
+**Read in `apps/french`:** `variety.js`, `languages.js`, `exam/names.js`, the routes and exam parts of `routes.js`, `STRICT` in `check-variety.mjs`, `wrangler.jsonc`, the root `DEPLOY.md`, `check-content.mjs`, the stored/generated split in `verbtabellenCore.js`; the shapes of `leben-in-deutschland.json`, `verbtabellen.json`, `conjugation-trainer.json`, lexicon, `kunden.json`, `TAGE`, business and DGT decks, `fehler-nach-sprache.json`, `dtz`, the page list against §8.
+
+**Not opened, taken from the Spanish plan:** the inner logic of `dtzTrainer.js`, `lib/knigge/*`, `lib/lindenau/*`, `lib/nussnacht/*`, `lib/hoerSafari/*`, and each module's validator rules. The run that owns a module reads its code first and corrects this plan if it differs.
+
+- **reading-writing decisions:** `a2-padron-notice`/`a2-padron-form` ids kept, content = mairie notice and form for an *inscription scolaire*; `lesen.json` B1 set and the A1–B2 reading/writing tasks are French of France, place names Valdaure (invented), phone numbers in the reserved fiction ranges; `variety: "fr-FR"` on every group, text and task, `lesen`, `fertigkeiten-lesen`, `fertigkeiten-schreiben` are STRICT in `check-variety`; `SPANISH_LEVELS` in `fertigkeiten.js` renamed `PROMPT_FRENCH_LEVELS`; own rules of `schreibKorrektur.js` rewritten (NBSP before `? ! : ;`, accents, elision, contractions, `je suis N ans`, comma after the greeting), LanguageTool language `fr` (still off); the per-id English keys in `en.json` (blurbs, `schreiben.check.*`) follow the data. No `frCA` notes: no Québec-specific wording in these texts. Left: `uebersetzungen/lesen.json`, `schreiben.json` stay empty; de/es/pt/it keys for the same blurbs and check lines belong to the `ui-lang-*` items.
+- **speaking decisions:** `redemittel.json` keeps the 14 set ids and every phrase slot (same speech act at the same index), with `frCA` on three phrases (*de rien → bienvenue*, *ça te dit → ça te tente*, *bon week-end → bonne fin de semaine*); `redemittel-i18n` gained `es.json` and `fr.json` is `{}`. Register rule: examiner questions and role plays with officials use *vous*, peers and colleagues *tu*; each task says which, and the models avoid gendered speaker forms. The exam-line strings in the data and the `EXAM_KEYS` map in `speaking/[id].astro` were changed together (DELF, TCF and TEF). Two new `check` lines (`a1-sich-vorstellen.3`, `b2-planen-abschiedsfeier.4`) exist as English text in every locale until the `ui-lang-*` items translate them; the other locales' older `sprechen.check.*` / `sprechenB1B2.hint.*` text is still the Spanish-course translation.
+- **nationality-path decisions:** `/nationality` text is now orientation for the French path (A2 first multi-year card, B1 first resident card, B2 naturalisation, plus the civic exam, to verify) with a table, how to prove the level, exemptions (narrow, to verify), the OFII/CIR, seven naturalisation steps and a glossary; `nat.res/tests/t/list/disp` and the CCSE/dispensa keys are gone in all five locales (new keys in English as placeholders in de, fr, it, pt). TCF IRN mock set 1 (free) aims at A2–B1, set 2 (paid) at B1–B2 and carries `_why` lines; both set `variety: "fr-FR"` and the trainer marks content `lang="fr"`. The mock's nine-part shape, "richtig/falsch" answer values and Hören/Lesen group names are kept (code parses them). Routes still `/nationality` and `/nationality/dele-a2/*` until `routes`. Open: the `dtzMock` reading test still reads the German-derived `lesen.json` tasks (owner: reading item); `check-paid-leak.mjs` skips `sourcing` (public by design) and two earlier duplicated passages in paid grammar and DALF C1 sets were reworded.
+- **code-route-vocab decisions:** `dgt/vocabulario.json` is now the French code de la route deck: 212 entries (79 refs into the French lexicon, 133 own `bv-dgt-…` entries, all `variety: "fr-FR"`, six `frCA` notes: *char, essence/gaz, coffre, carrefour/intersection, feu tricolore, stationner/stationnement …*). Group ids unchanged; instructions are in the *vous* form with the *tu* form in the example. Page and print/trainer routes are now `/code-de-la-route-vocabulary[/<group>[/print]]` (§8). `LEXICON_REF_ERRORS` in `berufeCore.js` now contains `dgt`, and `dgt` is in `STRICT`. Own ids were re-derived from the French lemmas (progress keys of the Spanish deck are gone). The word *moto* is a ref to `bv-kraftfahrer-moto` (the Spanish Kraftfahrer deck still owns that lemma): `french-for-work` must keep that id or move the ref. `kraftfahrer.json` and `elektro-technik.json` refs to `bv-dgt-remolque`/`deposito` now point at `bv-dgt-remorque`/`bv-dgt-reservoir` (their Spanish example overrides were dropped).
+- **games-dialogue decisions:** Manners simulator (`knigge/scenes.js`) and town RPG (`lindenau/*`) are French; ids, scene ids, quest ids and the `de` / `sie` / `du` key names kept.
+  - **No-break spaces are added by the screen**, not stored: the data keeps plain French spacing (*Vous venez ?*), and `frSpace()` in `src/lib/spielKit.js` (the knigge game has its own `fr()`) turns the space before `? ! : ;` and inside « » into U+00A0 at render. Both validators require the space.
+  - **Player gender:** `check:knigge` and `check:lindenau` share one French pattern set: an adjective or participle after *je suis / tu es / vous êtes* (and other *être* forms), *enchanté(e), désolé(e), soyez le/la bienvenu(e)*. The player's lines and the any-gender small-talk answers are checked for the speaker's gender; NPC lines only for the player's (an NPC may say *je suis crevé* about himself); Alex (the date) for both, and the English around Alex must not use he/she.
+  - **tu/vous:** in the RPG only Bruno (the guide mascot) uses *tu*; shop staff, the station, the surgery and the older neighbour use *vous*, as in France. In the Manners simulator, *vous* with strangers, older neighbours, teachers on day one and the school office; *tu* where the scene offers it (team, course, friends, the date).
+  - **RPG build/say sentences end in a full stop**, never ? or !, so a tile is never separated from its mark; elided forms are one tile (*s'il*). Monster `words` and `item.label` use *le/la* only, never *l'*, which hides the gender. The RPG speaking check uses `fr-FR`.
+  - **Game voice (`spielKit.js`)**: fr-FR browser voice first, then any French voice, never another language; voices listed but none French → silent. Azure voice names in `lindenau/quests.js` `VOICES` are fr-FR placeholders until a generate script runs.
+  - Left for `routes`: the slug `/games/villabruno` and `src/data/suche-seiten.json` (generated from the built pages; still says Villabruno/Spanish until the next full build regenerates it).
+- **teachers decisions:** tandem sheets (`arbeitsblatt/*.json`, 60) and partner sheets (`partneruebungen/*.json`, 11, all still `quelle.geprueft: false`) are French; ids, keys and slots kept. Slots now hold the French topic of `grammatik/<id>.json` (e.g. `da-wo-woerter` = *y / en*, `nutzen-benutzen` = *savoir / connaître*, *visiter / rendre visite à*, *amener … emporter*, `nachschlagen-verben-mit-praepositionen` = verbs + *à / de* / no preposition).
+  - **No-break spaces are stored** in teacher data (unlike the games, which add them at render): `check-arbeitsblatt.mjs` requires U+00A0 before `? ! : ;` in questions, answers and tandem phrases, and inside « ». `joinWords` (worksheet build answers) joins with U+00A0 before `? ! ; :`.
+  - **Subject tiles, no bracket tiles:** French needs the subject, so tiles carry *je, tu, nous …*; the blue tile is the infinitive or a slash choice (*y / en*, *à / de*, *savoir / connaître*, *mes clés / pour mes clés* for verbs without a preposition).
+  - **Vocabulary worksheet part B** asks *le or la?*, and **un / une** for a noun that elides (via `drillChoice` in `generoDrill.js`), so the answer always shows the gender; same in `WortschatzDruck.astro`. Gap sentences find the word after an elided *l' d' qu' …* and leave the elision outside the gap.
+  - Lesson word fields (`seitenDaten.js`) show un / une for an l' noun; article colours le/un blue, la/une red, les green. Live-quiz nicknames: animal + adjective with one form for both genders (*Renard rapide*). Class test `GRAMMAR_WORD` holds French grammar words; questions render `lang="fr"`.
+  - Official links (`downloads.json`): France Éducation international (DELF/DALF, TCF), CCI Paris (TEF), service-public, ANEF, Académie dictionary, TV5MONDE, Sécurité routière; the old Cervantes/SIELE/RAE keys are gone from every locale, the new ones are English placeholders in de/fr/pt/it until `ui-lang-*`.
+  - `arbeitsblatt`, `partneruebungen`, `unterricht-wortschatz` are strict in `check-variety.mjs`.
+  - **Left for others:** `generate-grammatik-pdf.mjs` (German-era covers, see grammar notes → `cleanup`), `generate-wortschatz-pdf.mjs` (`vocab-a1`), `generate-berufe-pdf.mjs` and the `/spanish-for-work` path in `WortschatzDruck.astro`'s comment (`french-for-work`); `suche-seiten.json` still describes teacher games with *el or la* until the next full build regenerates it; `catalog.js` row `el / la · <level>` (`routes`/`cleanup`); renaming `TZ` to Europe/Paris in `aufgabenStatus.js` (cosmetic, same offset) not done. Native-teacher review of all sheets.
+- **french-for-work decisions:** the ten `berufe/*.json` decks are French for France (§5.12), 668 entries (306 own, 362 refs), all `reviewed: false`. Sector ids and **group ids unchanged** (progress and URL keys); own ids re-derived from the French lemmas (Spanish progress keys are gone; the site is not live in French). `situationen` stays `[]`.
+  - **Sectors and slugs:** `pflege` care-work, `gastronomie` restaurants, `kita` cleaning-childcare (cleaning **and** childcare in one deck), `elektro-technik` security (private security, replaces farm work), `bau-handwerk` construction, `einzelhandel` shops, `lager-logistik` warehouse, `kraftfahrer` driving, `hotel` hotels, `buero` office. `WORK_GROUP_SLUGS["bauteile-geraete"]` is now `equipment` (only the security deck uses that group). Hub icon of security: 🛡️. The section key is still `/spanish-for-work` until `routes`.
+  - **One definition per word across decks:** where two decks wanted the same word (*badge, gilet de sécurité, gant, palette, entrepôt, bon de livraison, relève, prendre son service, faire une ronde, sortie de secours, extincteur, serpillière …*) one deck owns it and the others ref it with their own example, `en` and `deHint`. *moto* stays `bv-kraftfahrer-moto` (the code de la route deck refs it); *constat amiable* is a ref to `bv-dgt-constat-amiable`. Refs into the code de la route deck carry a work example.
+  - **Register:** *vous* to residents, clients, guests, callers and the public in every deck; examples among colleagues use *tu* where French workplaces do (kitchens, building sites, warehouses, depots). Phrases are stored with plain spaces before `? ! : ;`, like the lexicon and the dgt deck.
+  - **Examples blank the word:** feminine person forms (*la caissière, l'infirmière*) are named in the gloss, but examples use the lemma form so the card can blank it.
+  - **Validators:** `berufeCore.js` `GENDERS` = French only, and a legacy Spanish entry (el, el/la, es-ES) is an error in the sector and dgt decks; the Business deck keeps the legacy values until `business-french` (`LEGACY_DECKS`). `LEXICON_REF_ERRORS` now has `berufe`. `berufe` is in `STRICT`. The verb-forms message names je présent · il passé composé · participe passé.
+  - **Business refs:** `business-spanish/correos.json` and `llamadas.json` refs to the Spanish deck words now point at `bv-kraftfahrer-destinataire`, `bv-buero-transferer-un-appel`, `bv-buero-prendre-un-message`, without the Spanish example overrides; `business-french` writes French examples for them.
+  - **Print list** (`generate-berufe-pdf.mjs`): headword via `withArticle` (*l'escarre*, no space), refs into the dgt deck resolve, French running heads. The PDFs were not regenerated in this run (`pnpm generate:berufe-pdf` after the next full build).
+  - **Photos:** `hub-bilder.json` has new title/query/alt for security and cleaning-childcare (neither has a photo in the manifest yet, so the pages show the icon); fetching needs the photo script, outside this queue.
+  - **Search:** the 60 sector entries in `suche-seiten.json` were rewritten from the decks (same shape as `build-suche-seiten.mjs`); the next full build regenerates them anyway.
+  - **Open:** `entry-pages.json` (de/fr/pt/it landing texts for `/spanish-for-work` and `/care-work`) still name Spanish and farm work → `ui-lang-*`. A native speaker who knows these trades should read the decks (`reviewed: false`); every rule stated in tips or glosses is "to verify" (report `french-for-work`).
+- **business-french decisions:** the six units in `src/data/business-spanish/` are French for France (§4.3), same ids, unit order, exercise ids and `BUSINESS_SLUGS`; all `reviewed: false`. 150 phrases, 12 model texts, 72 exercises, 129 words (28 own `bv-business-…`, 101 refs into the French lexicon and the sector decks).
+  - **Unit titles** lead with the French and end with the English, like the deck groups: *Les e-mails : work emails*, *Au téléphone : phone calls*, *Le CV et la lettre de motivation : CV and cover letter*, *L'entretien d'embauche : job interviews in France*, *Les réunions : meetings*, *Négocier et présenter des chiffres : negotiating and figures*.
+  - **Phrases under `fr`** (§4.3): `validateUnits()` requires `fr` and rejects a leftover `es`; the unit page reads `p.fr` and speaks it with the fr-FR voice. New phrase group *Following up* (relancer) in emails and *Vous or tu* in interviews; `use` is free text, so no code change.
+  - **No-break spaces are stored** in the units (as in teacher data, unlike the decks): U+00A0 before `: ; ? ! % €`, inside « », in 28 000 and before *h* in 14 h. No validator enforces it yet; a future check could reuse `badPunct` from `check-arbeitsblatt.mjs`.
+  - **Register:** *vous* to clients, suppliers, recruiters and offices; *tu* between colleagues in the model email, the bad-line call and the team meeting; the start-up interview shows the recruiter offering *tu*. Hub texts `biz.reg.*` now say *vous* / *tu* in all five locales (a factual swap; the rest of those locales stays with `ui-lang-*`).
+  - **frCA notes** (5, invisible until a Canada mode): *soumission* (quote), *boîte vocale*, *lettre de présentation*, *rencontre* (meeting), *rabais* (discount).
+  - **Validators:** `LEGACY_DECKS` is gone from `berufeCore.js` (every deck French only); `LEXICON_REF_ERRORS` has `business`; `business-spanish` is in `STRICT`. Own words that already existed elsewhere are refs (*devis* → `bv-bau-handwerk-devis`, *salle de réunion*, *visioconférence* → `bv-buero-…`). *poste* (extension) is a ref to `poste-emploi` with its own `en`.
+  - **Search:** the 12 Business entries in `suche-seiten.json` were rewritten from the units, and the hub entry in `searchIndex.js` has French keywords. The URL stays `/business-spanish` until `routes` (§8).
+  - **Open:** every CV, interview, contract and pay fact is "to verify" (report `business-french`), in particular what a French CV need not show, which interview questions are off limits, the attestation de comparabilité, CACES, ADVF. A native business-French reader should check register and naturalness.
+- **routes decisions:** §8 applied. Pages moved with `git mv` (`dele.astro` → `delf-dalf.astro`, `dele/` → `delf-dalf/`, `dele/language-use.astro` → `tef/language-in-use.astro`, `siele/{index,practice-set}` → `tef/`, `siele/levels/` → `tcf/` (one level up, imports fixed), `nationality*` → `residence-and-nationality*` with `dele-a2/` → `tcf-irn/`, `ccse/` → `civic-exam/`, `exams/dele-or-siele` → `exams/delf-tcf-or-tef`, `spanish-for-work/` → `french-for-work/`, `business-spanish/` → `business-french/`, `games/extranjeria` → `games/prefecture`, `games/villabruno` → `games/montbruno`). No redirects added; the only redirects stay the generated `/grammar/<slug>` → `/<slug>`.
+  - **Code:** `EXAM_PATHS` as §8; `workPath()`, `businessPath()`, the `/french-for-work` section key in `ITEM_SLUGS`; `TOPIC_SLUGS` = §3 "New slug" for all 91 slots (49 changed); `versuche.js` `pageRef()` cases (`french-for-work`, `residence-and-nationality/tcf-irn`); `deckSwap.js` `TRAINER`; `check-links.mjs` work-group rule; `llms-txt.mjs` SECTIONS (`/tcf`, `/tcf/*` added, it had no TCF before); `entry-pages.json` slugs (`french-for-work`, `french-for-work/care-work`, `civic-exam`); `i18n-luecken-baseline.json` rekeyed.
+  - **Links:** every path in src, scripts and all five `public/i18n/*.json` rewritten by one script (path-boundary match, also after `/french`), grammar-topic links in topic html, `nachschlagen` `practice`, `wortarten.json` and `prepositions.astro` in one pass (old slug → key → new slug, no chaining). Data ids, file names, i18n key names (`delesiele.*`, `telcSb.*`), filter ids in `fallen.json` (`dele`, `siele`, `ccse`) and the sim's `ort: "extranjeria"` stay (§6).
+  - **Item slugs** that still named Spanish or wrong things: `/listening/a1-medical-practice-voicemail` (was health-centre), `/listening/b1-form-teacher-meeting` (was tutor), `/reading/a2-school-enrolment-notice` and `/writing/a2-school-enrolment-form` (ids `a2-padron-*`, which had no slug), `/writing/b1-reply-to-theo` (was javier).
+  - **`/tef/language-in-use`** is under `testdaf` in `examOfPath()`; its back link now says "Back to the TEF" (`telcSb.back` in en.json; the other locales still say DELE → `ui-lang-*`). It is still linked from the DELF/DALF and TCF pages, which is right: lexique et structure is practice for all three.
+  - **Search:** `suche-seiten.json` paths follow; the six entries whose slug changed (and the Montbruno game entry) were rewritten by hand; the rest is regenerated by `build-suche-seiten.mjs` after the next full build.
+  - **PDF:** `grammatik-start.pdf` regenerated with the new topic slugs.
+  - **Open:** the step-by-step hash screen names (`#heute`, `#waehlen`, `#uebung`) stay German (saved links key on them). The de/pt/it meta texts in `entry-pages.json` for `/french-for-work` and `/civic-exam` still describe the Spanish course → `ui-lang-*`. `seo-audit.mjs` and `check:base` read `dist/`: run them at the next full build.
+- **cleanup decisions (2026-11-14):** §7 and §10.6 applied, every validator in the gate, `check:variety`, `check:base`, `check:links` and the full build clean.
+  - **Legacy branches gone (§1.6 rules 1–3):** `variety.js` has no `LEGACY_VARIETIES` / `legacyVariety()`: `variety: "es-ES"` and an `es419` note are errors. `check-variety.mjs` has every module in `STRICT` (`redemittel` was the last one) and fails if a module is left out. `articles.js` has no `LEGACY_GENDERS` / `legacyEntry()`: `el`, `el/la` are errors, `pluralArticle()` is always *les*. `lexicon.js` has no `FRENCH_LEVELS` / `SPANISH_LEVELS`; `wortgeschichteCore.js` `entryLang()` is always `fr`; `berufeCore.js` has no warning phase for dangling refs (`LEXICON_REF_ERRORS`, `deckKind`, `known.french` removed); `einfach-content.js` has no `spanishEntry`. `exampleGap.js` lost the Spanish verb-stem branch (check-karten output identical before and after). `attach-ranks.mjs` and `artikel-haeufigkeit.mjs` read only `fr_50k`. `lexicon-import.mjs` copies all four glosses (de/es/pt/it) from the sidecars for an `old` id.
+  - **Dropped (§7):** `scripts/es-ipa.mjs`; `uebersetzungen/woerter-uk.json`; the 16 empty lexicon sidecars (`ar, fa, hi, id, kmr, pl, ps, ro, ru, so, sq, ti, tl, tr, uk, vi`; `lexicon.js` no longer imports `ar/ru/uk/tr`; Arabic adds its file back when it comes). `fr` UI files, `lexicon/i18n/fr.json`, `redemittel-i18n/fr.json`, the `fr` blocks in `LanguageOffer.astro` and `schreibKorrektur.js` stay for `ui-lang-es` (§11). No unwritten paid mock exists (the TCF IRN set and both C1 sets are French). No Spanish PDF is left (`public/downloads` holds the French `grammatik-start.pdf` only); no picture showing Spain is shown (the culture hub slot never had a photo).
+  - **Grammar books (decided):** `generate-grammatik-pdf.mjs` stays German-era and is taken out of `pnpm generate:pdfs` with a header saying so; the `grammatik-*` entries in `downloads.json` stay (French texts) and remain hidden because no file exists. A French rewrite of the generator is an open point with no item yet.
+  - **Visible leftovers fixed:** JSON-LD breadcrumb names (`SECTION_PAGES`), the nav-search rows of `searchIndex.js` (German-era and Spain rows rewritten in English), `vorschau.js`, exam registry titles and pass notes (TEF, TCF), `produkte.json` pack name (TCF IRN), flashcard labels `vt.*` ("French"), `grammatik.praepositionen.intro`, `ws.set.c2-04/06`, `ak.proto`, `wissen.lernen.lead`, `telcSb.t.5bbc7d51`, `premium-features.json` link labels, `hub-bilder.json` slot texts, `catalog.js` row *le / la · level*. `lang="es"` on French text (TCF IRN mock reading text, aktivMode input, idiom quiz prompts) → `lang="fr"`; the `[lang="es"]` halves of the RTL selectors are gone.
+  - **Research file:** the `telc-*` entries of `formate-a2-c1.research.json` described SIELE tasks and linked siele.org on the TCF band-set pages. They now describe our own TCF-style band sets (shape and item counts unchanged, so `check:pruefungen` still compares), and the telc source links were removed, so those pages show no "format from public exam information" line. TCF facts there are "to verify".
+  - **Search data:** `build-suche-seiten.mjs` skips the UI-language entry pages (`/de/…`, `/pt/…`; the search is English and `check:links` knows no route for them); `suche-seiten.json` regenerated from this build.
+  - `check:grammatik-ui --update` run once (2536 known gaps in 90 topics).
+  - **Deliberate hits of the §10.6 grep that stay:** validators that reject Spanish leftovers (`check-*` regexes for ¿ ¡ ñ, `es419`), Spanish as a first language (false friends, mistakes by language, pronunciation tips, `sprachen.cmp.spanisch`), etymology mentions in word stories, `es` glosses (`lexicon/i18n/es.json`, `redemittel-i18n/es.json`, `wortschatz.json` translations), the `es` rows of `LanguageOffer.astro` and the PDF editions (Spanish UI, coming with `ui-lang-es`), internal names kept by §1.3 (`business-spanish/`, `businessSpanish*.js`, `check-business-spanish.mjs`, `check-extranjeria.mjs`), the legal texts' `es` translations (`rechtliches.json`), `grammatik-ui.json` (§9).
+  - **Open:** the de/fr/pt/it blocks of `entry-pages.json` still describe the Spanish course (DELE, SIELE, CCSE, Spain) → `ui-lang-*`, and they are live at `/french/de/` etc. until those items run. German-era fallback strings inside markup (`data-i18n` texts that the base-language build replaces) were not hunted. `llms.txt` is 11 KB, over the 10 KB the integration warns about (since `routes`). A French grammar-book generator.
+- **ui-lang-de decisions (2026-11-14):** `public/i18n/de.json` brought up to date with `en.json`: every key whose English changed since the Spanish-course copy (46fa951a) but whose German did not, every German value still equal to an English sentence, and every value with Spanish-course content was retranslated (1192 keys, machine draft, *du*). Method for `ui-lang-pt`/`ui-lang-it`: the same three sets, measured against `git show 46fa951a:apps/french/public/i18n/<code>.json`.
+  - **Civic exam in German:** one name, **Staatsbürgerkunde-Test** (*der*), with *examen civique* in brackets in titles and the disclaimer; nationality is *Staatsbürgerschaft*, the procedure *Einbürgerung*. French institutions, procedures and exam names stay French (préfecture, titre de séjour, carte de résident, CIR, formation civique).
+  - **Registry:** the `de` entry was already right (`ui` draft, `cards` draft with `fetch: true`, hreflang/urlPrefix `de`); unchanged. Entry pages: the `de` block of `entry-pages.json` rewritten for the French course; hreflang comes from `entry-pages.mjs` as before.
+  - **Grammar book:** `grammatik-start/de.json` translated (status `draft`), `"de"` back in `editions`, `grammatik-start-de.pdf` generated.
+  - **Open:** `de.json` is a machine draft and should be read by a native German speaker who knows French; the help texts (`uebersetzungen/*`), legal pages and profession decks still fall back to English for `de`.
+- **ui-lang-es decisions (2026-11-14):** Spanish replaces French as a UI language. `public/i18n/es.json` translated from the current `en.json` in full (6280 keys, machine draft; no earlier `es.json` existed). **Spanish of Spain, *tú***, «…» quotes; "Step by step" is **Paso a paso** (nav, home, offer banner); civic exam **examen cívico** (*examen civique* in brackets where the English names it in French); mock = *simulacro*, placement test = *prueba de nivel*. French institutions, procedures and exam names stay French.
+  - **Registry:** `es` entry (`ui` draft, `cards` draft with `fetch: true`, hreflang/urlPrefix `es`), `og:locale` `es_ES` in `entry-pages.mjs`, `CORE` = `en, de, es, pt, it`; `es` block in `entry-pages.json` for the French course; `es` block in `schreibKorrektur.js`. **Removed:** `public/i18n/fr.json`, `lexicon/i18n/fr.json`, `redemittel-i18n/fr.json`, the `fr` registry entry, `fr` rows in `LanguageOffer.astro`, `schreibKorrektur.js`, `OG_LOCALE`.
+  - **Where the English names English as the language of content** (civic explanations, word-list meanings, the grammar book, the "In English" text toggle, simple-English quote cards), the Spanish says *inglés*: that content is not translated. Language names in the language tree are translated through i18n, so there it says *español*.
+  - **Not switched on:** the Spanish course's old `es` blocks in `uebersetzungen/grammatik-ui.json` and `rechtliches.json` (they make `lang:coverage` show `es` help/legal at 100 % in brackets). `es` has no `help`/`legal` surface; before one is added, those blocks must be checked (they come from the Spanish course).
+  - **Open:** `es.json` should be read by a native Spanish speaker who knows French. `en.json` itself still has Spanish-course leftovers that every UI language inherits: `qb.own.promptPh` (German "Morgen ___ es regnen."), `qb.own.kindPh` ("Complete with ser or estar"), `grammatik.tf.sub` (tú/tu, por/para), `grammatik.vb.sub` (ser, estar, haber), `nsw.search.none` (fui/casa). `LanguageOffer.astro`'s comment says the "Step by step" name stays English, but de, es and it translate it.
+- **ui-lang-pt decisions (2026-11-14):** **Brazilian Portuguese, *você*** (the Spanish course's choice, kept): code and URL prefix `pt`, hreflang and `<html lang>` `pt-BR`, `og:locale` `pt_BR`. The registry entry and `OG_LOCALE` were already right; unchanged. `public/i18n/pt.json` brought up to date by the `ui-lang-de` method (measured against 46fa951a): 593 keys whose English changed but whose Portuguese did not, 658 values still equal to English (all of them sent for translation; names, Premium, Quiz, French tense names were kept identical), 11 with Spanish-course content: 1262 keys, machine draft.
+  - **Terms:** civic exam **exame cívico** (*examen civique* in brackets where the English names it in French); mock **simulado**; placement test **teste de nivelamento**; "Step by step" **Passo a passo**; CEFR **QECR**; false friend **falso cognato**; naturalisation **naturalização**; "Life in France" **Viver na França**; hedges *a verificar*, *até onde pudemos verificar*, *não é orientação jurídica*. French institutions, procedures and exam names stay French.
+  - **Grammar comparisons:** where the English compares French with English, the Portuguese compares with Portuguese only where it holds (`grammatik.temporale-nebensaetze.intro`, `grammatik.futur-2.intro`: Portuguese uses the *futuro do subjuntivo* where French uses the futur / futur antérieur).
+  - **Entry pages:** `pt` block of `entry-pages.json` rewritten for the French course (same pages and links as `de`/`es`).
+  - **Not done:** no `pt` edition of the grammar book (not in the item; as for `es`). The Spanish course's old `pt` blocks in `uebersetzungen/*` and `rechtliches.json` stay off (`lang:coverage` shows them in brackets); check them before a `pt` `help`/`legal` surface is registered.
+  - **Open:** `pt.json` should be read by a native Brazilian speaker who knows French.
+- **ui-lang-it decisions (2026-11-14):** `public/i18n/it.json` brought up to date with `en.json` by the ui-lang-de method (1265 keys: 592 English changed, 664 still English, 9 with Spanish-course content; machine draft). Standard Italian, **tu**, typographic ’ in Italian words, “…” quotes; French inside the Italian keeps its straight apostrophe as in the English. The `it` registry entry was already right (`ui` draft, `cards` draft with `fetch: true`, hreflang/urlPrefix `it`, `og:locale` `it_IT`); only its comment changed (Spanish instead of French).
+  - **Terms:** civic exam **esame civico** (*examen civique* in brackets where the English names it in French); mock **simulazione (d’esame)**; placement test **test di livello**; "Step by step" **Passo dopo passo** (the existing nav label); CEFR **QCER**; false friend **falso amico**; naturalisation **naturalizzazione**, nationality **cittadinanza**; residence permit **permesso di soggiorno**; "Life in France" **Vivere in Francia**; hedges *da verificare*, *per quanto abbiamo potuto verificare*, *non è una consulenza legale*. French institutions stay French where the English keeps them French (préfecture, titre de séjour, CAF, OFII, EHPAD …); where the English writes the anglicised "prefecture", Italian says *prefettura*.
+  - **Cognate-trap check (§10.4):** every French institution term and every French word with an accent in the English source was checked against the Italian; nothing was Italianised (the only differences are English loanwords and place names: *caffè*, *Franca Contea*, *franco-provenzale*). Gendered *tu stesso* replaced by *per conto tuo*.
+  - **Entry pages:** `it` block of `entry-pages.json` rewritten for the French course (same pages and links as `de`/`es`/`pt`).
+  - **Not done:** no `it` edition of the grammar book (not in the item; as for `es`, `pt`).
+  - **Open:** `it.json` should be read by a native Italian speaker who knows French; `sprachen.cmp.italienisch` now names the Italian false friend *salire* / *salir*.
+- **deploy-readme decisions (2026-11-14):** `README.md` rewritten for icanspeak French in the monorepo (pnpm `--filter @icanspeak/french` commands, `check:base`, the assets-only Worker `icanspeak-french`, routes `icanspeak.it/french` + `/french/*`, what `cf:prepare` does, post-deploy checks, file count). The hub's French card is `live: true` (`apps/hub/src/data/courses.ts`).
+  - **`_headers` at the assets root:** `nest-dist.mjs` copies `dist/_headers` to `cf-dist/french/_headers`, but Cloudflare reads `_headers`/`_redirects` only at the root of the assets directory. `cf:prepare` now also runs `scripts/cf-hoist-headers.mjs`, which moves them to `cf-dist/` and prints the file count (fails above 20,000). The shared root script was left alone (outside this app); the English and Spanish apps have the same issue.
+  - **File count:** 3,331 files in `dist/` on 2026-11-14 (1,594 pages), about 17 % of the free-plan limit.
+  - **Open:** `cf:prepare` itself was not run in this queue (no permission for it in the unattended run); run it once and check the log lines before the first deploy. After the first deploy, confirm the headers with `curl -sI`.

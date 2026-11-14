@@ -40,7 +40,8 @@ const strip = (s) => s.replace(/<[^>]+>/g, "");
 export function nachschlagenEntries(_opts = {}) {
   const out = [];
   for (const v of verbs) {
-    out.push([v.inf, `${v.rows[2].praes.f} · ${v.rows[2].praet.f} · ${v.rows[2].perf.f}`, verbHref(v), "verb", v.forms.join("|")]);
+    // il présent · il passé composé · il futur (the passé simple is for recognition only).
+    out.push([v.inf, `${v.rows[2].praes.f} · ${v.rows[2].perf.f} · ${v.rows[2].fut.f}`, verbHref(v), "verb", v.forms.join("|")]);
   }
   for (const [kind, ref, data] of LISTS) {
     for (const s of data.sections) {

@@ -16,7 +16,7 @@ const videoSearch = (name, q) => ({ name, href: `https://www.youtube.com/results
 const AKKUSATIV = { key: "akkusativ", name: "Direct object pronouns", href: "/object-pronouns", level: "A2" };
 const topicByKey = (k) => grammarByKey(k) ?? (k === AKKUSATIV.key ? AKKUSATIV : null);
 
-const VIDEOS = Object.fromEntries(["A1", "A2", "B1", "B2", "C1"].map((l) => [l, [videoSearch(`Videos in Spanish for ${l} (YouTube search)`, `learn Spanish from Spain ${l} with subtitles`)]]));
+const VIDEOS = Object.fromEntries(["A1", "A2", "B1", "B2", "C1"].map((l) => [l, [videoSearch(`Videos in French for ${l} (YouTube search)`, `learn French ${l} with subtitles`)]]));
 
 export function planLevels() {
   return data.niveaus.map((l) => {

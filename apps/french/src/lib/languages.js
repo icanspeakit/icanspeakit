@@ -60,14 +60,17 @@ export const LANGUAGE_REGISTRY = [
     // Named only where German text exists (docs/content-plan.md §10.4). Help texts and the
     // profession decks fall back to English; the legal pages are German already.
     // `fetch` keeps `de` out of the surfaces that inline glosses (live quiz, printable games):
-    // there, `de` on a question or option still means the Spanish being learnt.
+    // there, `de` on a question or option still means the French being learnt.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
-    code: "fr", native: "Français", de: "Französisch", en: "French", word: "Langue",
-    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "fr", urlPrefix: "fr",
-    // Same shape as German: named only where French text exists. Help texts, the legal pages
-    // and the profession decks fall back to English; print sheets don't offer French yet.
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
+    // Spanish of Spain, tú (docs/content-plan.md §10.4). Same shape as German: named only where
+    // Spanish text exists (public/i18n/es.json, the lexicon and Redemittel sidecars). Help texts,
+    // the legal pages and the profession decks fall back to English: the old `es` blocks in
+    // src/data/uebersetzungen/ come from the Spanish course and aren't used.
+    // There is no French UI: the course teaches French (content-plan §7).
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
@@ -81,7 +84,7 @@ export const LANGUAGE_REGISTRY = [
   {
     code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "it", urlPrefix: "it",
-    // Same shape as German, French and Portuguese. Help texts, the legal pages and the profession
+    // Same shape as German, Spanish and Portuguese. Help texts, the legal pages and the profession
     // decks fall back to English.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },

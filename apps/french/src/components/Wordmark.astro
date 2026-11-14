@@ -8,9 +8,9 @@ interface Props {
   onDark?: boolean;
   class?: string;
 }
-const { alt = "icanspeak Spanish", onDark = false, class: cls } = Astro.props;
+const { alt = "icanspeak French", onDark = false, class: cls } = Astro.props;
 ---
 <span class:list={["wordmark", { "wordmark--on-dark": onDark }]}>
-  <img class:list={["wordmark-img--light", cls]} src="/logos/icanspeak-spanish-wordmark.svg" alt={alt} width="933" height="161" />
-  <img class:list={["wordmark-img--dark", cls]} src="/logos/icanspeak-spanish-wordmark-dark.svg" alt={alt} width="933" height="161" />
+  <img class:list={["wordmark-img--light", cls]} src="/logos/icanspeak-french-wordmark.svg" alt={alt} width="883" height="161" />
+  <img class:list={["wordmark-img--dark", cls]} src="/logos/icanspeak-french-wordmark-dark.svg" alt={alt} width="883" height="161" />
 </span>

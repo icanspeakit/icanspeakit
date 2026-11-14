@@ -56,7 +56,7 @@ const FILME: Record<string, { sim: any; mascot?: "bruno" | "regi" | "hamsti" | "
     mascot: "hamsti",
     extra: "karten",
     steps: [
-      "Tap a card with a picture and sound: it turns over and shows the Spanish word.",
+      "Tap a card with a picture and sound: it turns over and shows the French word.",
       "Choose your own language at the top – Arabic, Ukrainian and many more.",
       "Knew it or not: the card comes back just when you are about to forget it.",
     ],
@@ -76,7 +76,7 @@ const FILME: Record<string, { sim: any; mascot?: "bruno" | "regi" | "hamsti" | "
     mascot: "regi",
     extra: "stoppuhr",
     steps: [
-      "Choose an exam and a part: reading, listening, writing or speaking – DELE and SIELE.",
+      "Choose an exam and a part: reading, listening, writing or speaking – DELF, TCF and TEF.",
       "Tasks in the real format, with a timer like in the exam.",
       "At the end, your score: points for each part and whether it is enough to pass.",
     ],
@@ -133,7 +133,7 @@ const FILME: Record<string, { sim: any; mascot?: "bruno" | "regi" | "hamsti" | "
 };
 const filme = STEPS.map((s, i) => ({ ...s, n: i + 1, ...FILME[s.href] })).filter((f) => f.sim);
 ---
-<Layout title="How it works: ten short films – icanspeak Spanish" description="The ten best features of icanspeak Spanish, each as a 15-second film in three steps: Step by step, grammar, vocabulary, pronunciation, exams, live quiz and more.">
+<Layout title="How it works: ten short films – icanspeak French" description="The ten best features of icanspeak French, each as a 15-second film in three steps: Step by step, grammar, vocabulary, pronunciation, exams, live quiz and more.">
   <SiteNav active="entdecken" />
   <main class="fi" lang="en">
     <header class="fi-head">

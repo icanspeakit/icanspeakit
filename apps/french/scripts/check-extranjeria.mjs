@@ -1,11 +1,12 @@
-// check:extranjeria — the Extranjería sim (src/lib/buergeramt, src/data/buergeramt) is consistent:
+// check:extranjeria — the Préfecture sim (src/lib/buergeramt, src/data/buergeramt) is consistent:
 // every mistake a case claims really shows on its papers, nothing else contradicts, every rule a
 // mistake needs is on that day's memo, and the fixes leave the case with what the stamp expects.
-// Also: Spanish lines have ¿ ¡, every line has English, no English-course leftovers.
+// Also: every line has French and English, no Spanish or English-course leftovers, and no line
+// sounds like a decision about somebody's status.
 import { readFileSync } from "node:fs";
 import { HANDFAELLE, DOK_ARTEN, WOERTER, spielFall, loese, richtig } from "../src/lib/buergeramt/faelle.js";
 import { REGELN, FEHLER, TAGE, WIRR, regelnBis } from "../src/lib/buergeramt/regeln.js";
-import { gleicherName, isoDatum, deDatum, wochentag } from "../src/lib/buergeramt/daten.js";
+import { gleicherName, isoDatum, deDatum, wochentag, tageZwischen } from "../src/lib/buergeramt/daten.js";
 
 const kunden = JSON.parse(readFileSync(new URL("../src/data/buergeramt/kunden.json", import.meta.url), "utf8"));
 const errs = [];
@@ -14,11 +15,10 @@ const err = (m) => errs.push(m);
 // ---- lines ------------------------------------------------------------------------------
 function linea(l, wo) {
   if (!l?.de || !l?.en) return err(`${wo}: needs de and en`);
-  for (const [abre, cierra] of [["¿", "?"], ["¡", "!"]]) {
-    const a = l.de.split(abre).length - 1, c = l.de.split(cierra).length - 1;
-    if (a !== c) err(`${wo}: ${abre}${cierra} don't pair up: ${l.de}`);
-  }
-  if (/\b(Brambleford|UK|council|parking)\b/i.test(`${l.de} ${l.en}`)) err(`${wo}: English-course leftover: ${l.de}`);
+  if (/[¿¡]/.test(l.de)) err(`${wo}: Spanish punctuation in a French line: ${l.de}`);
+  if (/\b(Brambleford|UK|council|parking|Villabruno|padr[oó]n|Extranjer[ií]a|DNI)\b/i.test(`${l.de} ${l.en}`)) err(`${wo}: leftover from another course: ${l.de}`);
+  // Never a decision about status: a missing paper means "come back with it".
+  if (/vous (ne )?(pouvez|devez) (pas )?(rester|quitter)|vous êtes expuls/i.test(l.de)) err(`${wo}: sounds like a decision about status: ${l.de}`);
 }
 for (const [k, arr] of Object.entries(kunden)) if (Array.isArray(arr)) arr.forEach((l, i) => linea(l, `kunden.${k}[${i}]`));
 WIRR.forEach((l, i) => linea(l, `WIRR[${i}]`));
@@ -47,7 +47,7 @@ for (const [art, d] of Object.entries(DOK_ARTEN)) {
 }
 for (const [tag, d] of Object.entries(TAGE)) {
   for (const r of d.regeln) if (!REGELN[r]) err(`day ${tag}: unknown rule ${r}`);
-  if (["sábado", "domingo"].includes(wochentag(d.heute))) err(`day ${tag}: ${d.heute} is a weekend, the office is closed`);
+  if (["samedi", "dimanche"].includes(wochentag(d.heute))) err(`day ${tag}: ${d.heute} is a weekend, the office is closed`);
 }
 
 // ---- the papers -------------------------------------------------------------------------
@@ -56,7 +56,6 @@ function widersprueche(c) {
   const out = [];
   const docs = c.dokumente.filter((d) => !d.weg);
   const id = docs.find((d) => d.art === "ausweis" || d.art === "pass");
-  const heute = deDatum(c.heute);
   const add = (...fids) => out.push(fids);
   if (id) {
     for (const d of docs) {
@@ -66,38 +65,45 @@ function widersprueche(c) {
       }
       if (d.felder.geburtsdatum !== undefined && d.felder.geburtsdatum !== id.felder.geburtsdatum) add(`${d.id}.geburtsdatum`, `${id.id}.geburtsdatum`);
       if (d.felder.nummer !== undefined && d.felder.nummer !== id.felder.nummer) add(`${d.id}.nummer`, `${id.id}.nummer`);
-      if (d.art === "cita" || d.art === "tasa") {
-        if (!gleicherName(d.felder.name, `${id.felder.vorname} ${id.felder.familienname}`)) add(`${d.id}.name`);
-      }
     }
     if (isoDatum(id.felder.gueltig) <= c.heute) add(`${id.id}.gueltig`);
   }
-  const by = (id2) => docs.find((d) => d.id === id2);
-  const hoja = by("meldeschein"), wgb = by("wgb"), sol = by("solicitud"), cita = by("cita"), tasa = by("tasa"), foto = by("foto");
+  const ofArt = (art) => docs.find((d) => d.art === art);
+  const rules = TAGE[c.tag].regeln;
+  const hoja = ofArt("meldeschein"), wgb = ofArt("wgb"), justif = ofArt("justif"), sol = ofArt("abmeldung");
+  const cita = ofArt("cita"), tasa = ofArt("tasa"), foto = ofArt("foto"), ribDoc = ofArt("rib");
+  const titulaire = id ? `${id.felder.vorname} ${id.felder.familienname}` : null;
   if (hoja && wgb) {
     if (hoja.felder.adresse !== wgb.felder.adresse) add("meldeschein.adresse", "wgb.adresse");
     if (hoja.felder.einzug !== wgb.felder.einzug) add("meldeschein.einzug", "wgb.einzug");
     if (!gleicherName(wgb.felder.personen, `${hoja.felder.vorname} ${hoja.felder.familienname}`)) add("wgb.personen");
   }
+  if (hoja && justif && hoja.felder.adresse !== justif.felder.adresse) add("meldeschein.adresse", `${justif.id}.adresse`);
+  if (justif) {
+    if (titulaire && !gleicherName(justif.felder.titulaire, titulaire)) add(`${justif.id}.titulaire`);
+    if (tageZwischen(isoDatum(justif.felder.datum), c.heute) > 92) add(`${justif.id}.datum`);
+  }
   if (hoja) {
     if (!hoja.felder.unterschrift) add("meldeschein.unterschrift");
-    if (TAGE[c.tag].regeln.includes("wgb") && !wgb) add("meldeschein.adresse");
-    const quiere = c.anliegen === "cambio" ? "Cambio de domicilio" : "Alta";
+    if (rules.includes("wgb") && !wgb && !justif) add("meldeschein.adresse");
+    const quiere = c.anliegen === "cambio" ? "Changement d’adresse" : "Première inscription";
     if (hoja.felder.formular !== quiere) add("meldeschein.formular");
     if (isoDatum(hoja.felder.einzug) > c.heute) add("meldeschein.einzug");
   }
+  const BOX = { anef: "Titre de séjour (ANEF)", renouv: "Renouvellement de titre (ANEF)", caf: "Allocation logement (CAF)", secu: "Carte Vitale (ameli)" };
   if (sol) {
     if (!sol.felder.unterschrift) add("solicitud.unterschrift");
     if (sol.tinte && sol.tinte !== "schwarz") add("solicitud.unterschrift");
-    const quiere = c.anliegen === "nie" ? "NIE (EX-15)" : "TIE (EX-17)";
-    if (sol.felder.formular !== quiere) add("solicitud.formular");
-    if (TAGE[c.tag].regeln.includes("tasa") && !tasa) add("solicitud.formular");
+    if (sol.felder.formular !== BOX[c.anliegen]) add("solicitud.formular");
+    if (["anef", "renouv"].includes(c.anliegen) && rules.includes("tasa") && !tasa) add("solicitud.formular");
+    if (["caf", "secu"].includes(c.anliegen) && rules.includes("rib") && !ribDoc) add("solicitud.formular");
+    if (tasa && tasa.felder.tramite !== sol.felder.formular && !out.some((x) => x.includes("solicitud.formular"))) add("solicitud.formular");
   }
-  if (cita && cita.felder.datum !== heute) add("cita.datum");
-  if (cita && !sol) err(`case ${c.nr}: an appointment without an application`);
-  for (const d of [cita, tasa]) if (d && sol && !sol.felder.formular.startsWith(d.felder.tramite) && !out.some((x) => x.includes("solicitud.formular"))) add("solicitud.formular");
+  if (cita && isoDatum(cita.felder.datum) < c.heute) add("cita.datum");
+  if (cita && titulaire && !gleicherName(cita.felder.name, titulaire)) add("cita.name");
+  if (ribDoc && titulaire && !gleicherName(ribDoc.felder.titulaire, titulaire)) add("rib.titulaire");
   if (tasa && isoDatum(tasa.felder.pagada) > c.heute) add("tasa.pagada");
-  if (foto && foto.felder.fondo !== "blanco") add("foto.fondo");
+  if (foto && foto.felder.fondo !== "uni clair") add("foto.fondo");
   if (id?.fax) add(`${id.id}.kopf`);
   return out;
 }
@@ -142,7 +148,7 @@ for (const c0 of HANDFAELLE) {
   const seen = widersprueche(c);
   const felderDerFehler = new Set(c.fehler.flatMap((f) => f.paare.flat()));
   for (const w of seen) if (!w.some((fid) => felderDerFehler.has(fid))) err(`${wo}: unlisted contradiction at ${w.join(" / ")}`);
-  const ohneWiderspruchOk = new Set(["derivar_arraigo", "derivar_regularizacion", "zimmer"]);
+  const ohneWiderspruchOk = new Set(["derivar_arraigo", "derivar_regularizacion", "derivar_naturalisation", "zimmer"]);
   for (const f of c.fehler) {
     if (ohneWiderspruchOk.has(f.code)) continue;
     if (!seen.some((w) => w.some((fid) => f.paare.flat().includes(fid)))) err(`${wo}: mistake ${f.code} doesn't show on the papers`);

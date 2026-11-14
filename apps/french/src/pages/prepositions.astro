@@ -42,11 +42,8 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
-  A2: [{ href: "/a-or-en", label: "a or en: going and being – in depth", key: "praep.more.wechsel" }],
-  B1: [
-    { href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" },
-    { href: "/grammar/conjugation?set=por-para-b1", label: "por or para in real situations", key: "conj.set.por-para-b1" },
-  ],
+  A2: [{ href: "/a-en-au-places", label: "à, en, au: towns and countries – in depth", key: "praep.more.wechsel" }],
+  B1: [{ href: "/verbs-prepositions", label: "Verbs + à and de – in depth", key: "praep.more.verben" }],
   B2: [{ href: "/adjectives-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
 };
 
@@ -61,16 +58,16 @@ const overview = {
   caption: "Which preposition when?",
   head: ["Job", "Prepositions", "Example"],
   rows: [
-    ["Time", "a (clock times), en (months, years), por (part of the day)", "a las seis, en mayo, por la mañana"],
-    ["Place", "en (in, on, at), de (origin, owner)", "en el coche, en la mesa, de Marruecos"],
-    ["Movement", "a, hacia, hasta, por, desde", "voy a Madrid, paso por el parque"],
-    ["After verbs, adjectives, nouns", "fixed: learn them together", "pensar en, harto de, ganas de"],
+    ["Time", "à (clock times), en (months, years), no preposition for parts of the day", "à six heures, en mai, le matin"],
+    ["Place", "à (towns), en / au / aux (countries), dans (inside), sur (on), de (origin)", "à Lyon, en France, au Maroc, dans la voiture, sur la table"],
+    ["Movement", "à, en, vers, jusqu'à, par, de", "je vais à Paris, je passe par le parc"],
+    ["After verbs, adjectives, nouns", "fixed: learn them together", "penser à, avoir besoin de, prêt à"],
   ],
 };
 ---
 <Layout
-  title="Prepositions – icanspeak Spanish"
-  description="Practise Spanish prepositions from A1 to B2: a, en, de, por and para, time, place and movement, and verbs with prepositions — with a rule for every topic."
+  title="Prepositions – icanspeak French"
+  description="Practise French prepositions from A1 to B2: à, de, en, dans, pour and par, time, place and movement, and verbs with prepositions — with a rule for every topic."
 >
   <SiteNav active="grammatik" />
   <TopicBar topic="praepositionen" kind="Grammar" title="Prepositions" level="A1–B2" tasks={total} showKind={false} scoped heading />
@@ -144,7 +141,7 @@ const overview = {
                         <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={level}>
                           <span class="pr-pack-body">
                             <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                            <span class="pr-pack-preps" lang="es">{p.preps}</span>
+                            <span class="pr-pack-preps" lang="fr">{p.preps}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                         </button>
@@ -163,13 +160,13 @@ const overview = {
                   <div class="nvb-panelhead">
                     <h3 data-i18n="praep.wechsel.name">Place and movement</h3>
                   </div>
-                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> in, on, at, next to, behind … <b>Where does it go?</b> to, into, through, across … “in the room” is not “into the room”.</p>
+                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> dans, sur, à côté de, derrière … <b>Where does it go?</b> à, vers, jusqu'à, dans … A town takes à, most countries en or au, for being and for going alike: <em>J'habite à Lyon. Je vais au Maroc.</em></p>
                   <section class="ap-packs">
                     {wechsel.map((p) => (
                       <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={p.level}>
                         <span class="pr-pack-body">
                           <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                          <span class="pr-pack-preps" lang="es">{p.preps}</span>
+                          <span class="pr-pack-preps" lang="fr">{p.preps}</span>
                         </span>
                         <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                       </button>
@@ -177,7 +174,7 @@ const overview = {
                   </section>
                   <section class="ap-packs pr-more">
                     <h4 class="ap-phase-head"><span data-i18n="praep.more">Ausführlich üben</span></h4>
-                    <a class="nvb-item pr-more-link" href="/a-or-en" data-i18n="praep.more.wechselShort">a or en: going and being – rule and exercises</a>
+                    <a class="nvb-item pr-more-link" href="/a-en-au-places" data-i18n="praep.more.wechselShort">à, en, au: towns and countries – rule and exercises</a>
                   </section>
                 </div>
               </div>
@@ -242,7 +239,7 @@ const overview = {
         ))}
         <section class="pr-rule pr-rule--overview">
           <RefTable table={overview} />
-          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>wait for</b>, <b>good at</b>, <b>reason for</b>.</p>
+          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>penser à</b>, <b>fier de</b>, <b>avoir envie de</b>.</p>
         </section>
       </div>
     </aside>

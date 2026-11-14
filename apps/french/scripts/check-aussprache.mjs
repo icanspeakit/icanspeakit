@@ -20,7 +20,7 @@ const md = read("src/data/aussprache-muttersprache.json");
 
 const problems = [];
 // Rule examples that show the contrast, so they are meant not to fit the rule's match.
-const NOT_MATCHING = new Set(["sch-st-sp/cosa", "ig/gato", "e-ende/dos", "e-ende/donde"]);
+const NOT_MATCHING = new Set(["silent/parlent", "s/poisson", "liaison/et un", "nasal/bonne"]);
 const drills = md.drills;
 const langs = new Map(fehler.languages.map((l) => [l.id, l]));
 const errors = new Map();
@@ -99,7 +99,7 @@ for (const r of read("src/data/ausspracheregeln.json").rules) {
   }
 }
 
-// Audio: the page falls back to the browser voice, so a missing mp3 is only a note until es-ES
+// Audio: the page falls back to the browser voice, so a missing mp3 is only a note until fr-FR
 // recordings exist (content-plan §5.6). With --audio it is a problem.
 const missing = Object.values(drills)
   .flatMap(drillTexts)

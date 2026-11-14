@@ -8,7 +8,7 @@
  * description length, H1, canonical, flags. Writes docs/seo-audit-v1.md and exits 1 if a
  * page from PRIORITY has a flag or any two indexable pages share a title.
  *
- * Flags: title > 60 · no "– icanspeak Spanish" suffix (the homepage starts with the brand
+ * Flags: title > 60 · no "– icanspeak French" suffix (the homepage starts with the brand
  * instead) · duplicate title · duplicate description · missing description · H1 missing
  * or more than one · "Da für Dich" in the title.
  */
@@ -19,16 +19,16 @@ const ROOT = path.resolve(process.argv[2] ?? "dist");
 // The Vercel adapter puts the static pages under client/; a plain static build does not.
 const BASE = existsSync(path.join(ROOT, "client")) ? path.join(ROOT, "client") : ROOT;
 const OUT = "docs/seo-audit-v1.md";
-const BRAND = "icanspeak Spanish";
+const BRAND = "icanspeak French";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/nationality/dele-a2", "/nationality/dele-a2/mock-test", "/nationality/dele-a2/practice-set", "/ccse",
-  "/ccse/test", "/exams", "/siele/levels", "/dele", "/siele",
-  "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
+  "/", "/residence-and-nationality/tcf-irn", "/residence-and-nationality/tcf-irn/mock-test", "/residence-and-nationality/tcf-irn/practice-set", "/civic-exam",
+  "/civic-exam/test", "/exams", "/tcf", "/delf-dalf", "/tef",
+  "/delf-dalf/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
   "/pronunciation-check",
 ];
-const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/dele/");
+const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/delf-dalf/");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {

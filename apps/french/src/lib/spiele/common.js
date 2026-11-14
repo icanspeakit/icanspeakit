@@ -10,6 +10,7 @@ import { getLang, loadDict, onLangChange, translate } from "../i18n.js";
 import { langsFor, languagesFor } from "../languages.js";
 import { intent } from "../intent.js";
 import { withBase } from "../paths.js";
+import { withArticle } from "../articles.js";
 
 /* ----------------------------------------------------------------- random -- */
 
@@ -76,7 +77,7 @@ export function loadLevel(level) {
             w.unitId = units[w.unit].id;
             w.unitTitle = units[w.unit].title;
             // "a table" / "some water" for a noun, the bare lemma for everything else.
-            w.display = w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.lemma;
+            w.display = w.pos === "noun" && w.gender ? withArticle(w) : w.lemma;
             return w;
           });
           return { level: data.level, units, words };
@@ -116,7 +117,7 @@ export function sheet(inner, { title, page, pages }) {
   return `<section class="sp-sheet">
     <div class="sp-sheet-body">${inner}</div>
     <footer class="sp-sheet-foot">
-      <span><b>icanspeak Spanish</b> · ${esc(title)} · ${page}/${pages}</span>
+      <span><b>icanspeak French</b> · ${esc(title)} · ${page}/${pages}</span>
       <span class="sp-sheet-url">${esc(url)}</span>
     </footer>
   </section>`;

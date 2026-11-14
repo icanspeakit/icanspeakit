@@ -85,8 +85,9 @@ function openerEn(list, first) {
     if (/ \/ /.test(w) || !/^[a-z]/.test(w)) continue; // choice tiles and names / "I" are matched by the sentence start
     const head = w.split(" ")[0];
     if (EN_IRREGULAR[head]?.test(first) || (head.length >= 2 && enForms(head).includes(first))) return w;
-    // A Spanish infinitive that opens the sentence in another form: tener → Tengo, levantarse → Se levanta.
-    if (/(ar|er|ir|ír)(se)?$/.test(head) && head.length >= 4 && head.slice(0, 2) === first.slice(0, 2)) return w;
+    // A French infinitive that opens the sentence in another form: aller → Allons, se lever → Lève-toi.
+    const inf = head === "se" || head === "s'" ? w.split(" ")[1] ?? "" : head;
+    if (/(er|ir|re|oir)$/.test(inf) && inf.length >= 4 && inf.slice(0, 2) === first.slice(0, 2)) return w;
   }
   return null;
 }
@@ -151,7 +152,7 @@ function stepZusammen(spec, s) {
     const it = by.get(l).item;
     return `
     <div class="pu-item">${letter(l)}<div class="pu-item-body">${stmt(it)}${tiles(it.frageKacheln, it.frageInfinitive ?? [], tileOrder(spec.id, `${l}?`, it.frageKacheln, it.frage))}</div></div>
-    <div class="pu-wline">¿<span class="pu-wl"></span>?</div>
+    <div class="pu-wline"><span class="pu-wl"></span>&nbsp;?</div>
     <div class="pu-wline">… <span class="pu-wl"></span>.</div>`;
   }).join("");
 }
@@ -194,7 +195,7 @@ function stepSchreiben(spec, s, k, si) {
 }
 
 function stepInterview(spec, s, k, si) {
-  return `<table class="pu-table pu-iv"><thead><tr><th>Question</th><th>${spec.modus === "gruppe" ? "Answer" : "Partner"}</th></tr></thead><tbody>${s.fragen.map((q, qi) => `<tr><td>${q.kacheln ? tiles(q.kacheln, q.infinitive ?? [], shuffle(q.kacheln, `${spec.id}:${k.rolle}:${si}:${qi}`)) + '<div class="pu-wline">¿<span class="pu-wl"></span>?</div>' : fmt(q.frage)}</td><td class="pu-gap"></td></tr>`).join("")}</tbody></table>
+  return `<table class="pu-table pu-iv"><thead><tr><th>Question</th><th>${spec.modus === "gruppe" ? "Answer" : "Partner"}</th></tr></thead><tbody>${s.fragen.map((q, qi) => `<tr><td>${q.kacheln ? tiles(q.kacheln, q.infinitive ?? [], shuffle(q.kacheln, `${spec.id}:${k.rolle}:${si}:${qi}`)) + '<div class="pu-wline"><span class="pu-wl"></span>&nbsp;?</div>' : fmt(q.frage)}</td><td class="pu-gap"></td></tr>`).join("")}</tbody></table>
     ${s.bericht ? `<div class="pu-wline pu-report">${fmt(s.bericht)} <span class="pu-wl"></span></div><div class="pu-wline"><span class="pu-wl"></span></div>` : ""}`;
 }
 
@@ -226,7 +227,7 @@ function stepTandemQa(spec, s, k) {
   const bsp = k?.rolle === "B" ? bspA : bspQ;
   return `<ol class="pu-td pu-td--qa">${bsp}${s.qa.map((q) => q.ask
     ? (q.frageKacheln
-      ? `<li class="pu-td-row pu-td-row--read pu-td-row--build"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You ask: build the question</span><span class="pu-td-task">${tiles(q.frageKacheln, [q.infinitiv], shuffle(q.frageKacheln, `${spec.id}:qa:${q.n}?`), q.frage)}</span><span class="pu-td-line pu-td-line--q"><b class="pu-td-end">¿</b><span class="pu-td-wl"></span><b class="pu-td-end">?</b></span></li>`
+      ? `<li class="pu-td-row pu-td-row--read pu-td-row--build"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You ask: build the question</span><span class="pu-td-task">${tiles(q.frageKacheln, [q.infinitiv], shuffle(q.frageKacheln, `${spec.id}:qa:${q.n}?`), q.frage)}</span><span class="pu-td-line pu-td-line--q"><span class="pu-td-wl"></span><b class="pu-td-end">&nbsp;?</b></span></li>`
       : `<li class="pu-td-row pu-td-row--read"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You ask</span><span class="pu-td-task pu-td-q">${fmt(q.frage)}</span></li>`)
     : `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${q.n}</span><span class="pu-td-do">You answer: build the sentence</span><span class="pu-td-task">${tiles(q.kacheln, [q.infinitiv], shuffle(q.kacheln, `${spec.id}:qa:${q.n}`), q.antwort)}</span><span class="pu-td-line"></span></li>`).join("")}</ol>`;
 }
@@ -314,13 +315,13 @@ function tandemStrip(spec) {
   const task = String(first[0]).replace(/^\d+\.\s*/, "");
   const panel = (name, expr, role, say, cap) => `<div class="pu-ts-step pu-ts-step--${role}">
       <span class="pu-ts-fig" data-mascot-part>${mascotSvg({ name, expr, view: "three", size: 64, label: "" })}</span>
-      <p class="pu-ts-say" lang="es">${say}</p>
+      <p class="pu-ts-say" lang="fr">${say}</p>
       <p class="pu-ts-cap">${cap}</p></div>`;
   return `<div class="pu-ts">
-    ${panel("bruno", "happy", "A", `Número 1: ${esc(task)}`, "<b>A</b> reads out")}
-    ${panel("regi", "thinking", "B", "Creo que: …", "<b>B</b> answers")}
-    ${panel("regi", "happy", "B", "Número 2: …", "Then <b>B</b> reads out")}
-    ${panel("bruno", "thinking", "A", "Creo que: …", "<b>A</b> answers")}
+    ${panel("bruno", "happy", "A", `Numéro 1&nbsp;: ${esc(task)}`, "<b>A</b> reads out")}
+    ${panel("regi", "thinking", "B", "Je crois que …", "<b>B</b> answers")}
+    ${panel("regi", "happy", "B", "Numéro 2&nbsp;: …", "Then <b>B</b> reads out")}
+    ${panel("bruno", "thinking", "A", "Je crois que …", "<b>A</b> answers")}
   </div>`;
 }
 
@@ -410,26 +411,26 @@ function kuecheTandem(spec) {
     <div class="pu-card pu-card--A pu-bt-half">${head("A", "Your picture with arrows")}
       <div class="pu-bt-pic">${kuecheSvg({ moves: true, label: "Partner A's kitchen: arrows show where Bruno puts things." })}</div>
       <ol class="pu-kt-steps">
-        <li><b>${fmt(k.teil1)}</b> Follow the arrow with that number and answer: “Pone …”.</li>
-        <li><b>${fmt(k.teil2)}</b> Ask: “¿Dónde está … ahora?” Check with your picture.</li>
+        <li><b>${fmt(k.teil1)}</b> Follow the arrow with that number and answer: “Il pose …”, “Il met …”.</li>
+        <li><b>${fmt(k.teil2)}</b> Ask: “Où est … maintenant ?” Check with your picture.</li>
       </ol>
     </div>
   </section>`;
-  // B builds the question from ["dónde", verb, "Bruno", thing] and conjugates the verb (¿Dónde pone Bruno la olla?).
-  const rows = k.items.map((it) => { const t = ["dónde", it.verb, "Bruno", it.ding]; return `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${it.n}</span><span class="pu-td-task">${tiles(t, [it.verb], shuffle(t, `${spec.id}:kt:${it.n}`), it.frage)}</span><span class="pu-td-line"></span></li>`; }).join("");
+  // B builds the question from ["où est-ce que", "Bruno", verb, thing] and conjugates the verb (Où est-ce que Bruno pose la casserole ?).
+  const rows = k.items.map((it) => { const t = ["où est-ce que", "Bruno", it.verb, it.ding]; return `<li class="pu-td-row pu-td-row--ans"><span class="pu-td-n">${it.n}</span><span class="pu-td-task">${tiles(t, [it.verb], shuffle(t, `${spec.id}:kt:${it.n}`), it.frage)}</span><span class="pu-td-line"></span></li>`; }).join("");
   const b = `<section class="pu-page pu-page--kueche pu-page--for-B">${top}
     <div class="pu-card pu-card--B pu-bt-half">${head("B", "Your picture without arrows")}
       <div class="pu-bt-pic">${kuecheSvg({ moves: false, label: "Partner B's kitchen: nine things lie around, no arrows." })}</div>
       <p class="pu-kt-teil"><b>${fmt(k.teil1)}</b> Build the question from the tiles and put the blue verb in the right form. Write down A's answer.</p>
       <ol class="pu-td pu-td--qa">${rows}</ol>
-      <p class="pu-kt-teil"><b>${fmt(k.teil2)}</b> Answer from your notes: “Pone la olla en la vitrocerámica” becomes “La olla está en la vitrocerámica”.</p>
+      <p class="pu-kt-teil"><b>${fmt(k.teil2)}</b> Answer from your notes: “Il pose la casserole sur la plaque” becomes “La casserole est sur la plaque”.</p>
     </div>
   </section>`;
   return a + b;
 }
 
 const kuecheKey = (spec) => (spec.kuecheTandem
-  ? `<h3 class="pu-h3">${esc(spec.kuecheTandem.title)}</h3><table class="pu-table pu-sol"><thead><tr><th></th><th>Part 1: poner</th><th>Part 2: estar</th></tr></thead><tbody>${spec.kuecheTandem.items.map((it) => `<tr><td class="pu-c">${it.n}</td><td>${esc(it.frage)} ${esc(it.wohin)}</td><td>${esc(it.woFrage)} ${esc(it.wo)}</td></tr>`).join("")}</tbody></table>`
+  ? `<h3 class="pu-h3">${esc(spec.kuecheTandem.title)}</h3><table class="pu-table pu-sol"><thead><tr><th></th><th>Part 1: where to?</th><th>Part 2: être</th></tr></thead><tbody>${spec.kuecheTandem.items.map((it) => `<tr><td class="pu-c">${it.n}</td><td>${esc(it.frage)} ${esc(it.wohin)}</td><td>${esc(it.woFrage)} ${esc(it.wo)}</td></tr>`).join("")}</tbody></table>`
   : "");
 
 /** Every page but the answers: intro, cards, together. One <section> per printed page. */
@@ -439,5 +440,5 @@ export const renderKey = (spec) => solutions(spec).replace(/<\/section>$/, `${bi
 
 /** The whole sheet as one <article>, answers last. */
 export function renderSheet(spec) {
-  return `<article class="pu-sheet" lang="es">${renderBody(spec)}${renderKey(spec)}</article>`;
+  return `<article class="pu-sheet" lang="fr">${renderBody(spec)}${renderKey(spec)}</article>`;
 }

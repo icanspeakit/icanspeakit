@@ -10,6 +10,7 @@ import { isDocument, readDocument } from "./dateien.js";
 import { lexiconCard, lexiconTranslations } from "./play.js";
 import { LANGUAGE_REGISTRY } from "../languages.js";
 import { withBase } from "../paths.js";
+import { withArticle } from "../articles.js";
 import { currentUser, deleteSet, getSet, isTeacher, listSets, shareToken, shareUrl, unshare, MAX_WORDS, machineText, readPhotos, saveSet, setTeacher, shrinkPhoto, stripArticle, synonymWords, translateWords, wordKey } from "./sets.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -63,7 +64,7 @@ export async function mountFotoPage(root) {
         Object.assign(draft, { id: row.id, name: row.name, level: row.level ?? "", words: row.words ?? [] });
         $("[data-page-title]").textContent = row.name;
         $("[data-photo-title]").textContent = "1 · Weiteres Foto (optional)";
-        document.title = `${row.name} – icanspeak Spanish`;
+        document.title = `${row.name} – icanspeak French`;
       }
     } catch (err) {
       console.error(err);
@@ -303,7 +304,7 @@ export async function mountFotoPage(root) {
     await Promise.all(words.map(async (w, i) => {
       const cands = lists?.[i] ?? [];
       const cards = await Promise.all(cands.map((c) => lexiconCard(c).catch(() => null)));
-      const known = cands.flatMap((c, k) => (cards[k] && (!w.pos || !cards[k].pos || cards[k].pos === w.pos) ? [cards[k].gender ? `${cards[k].gender} ${cards[k].front}` : cards[k].front] : []));
+      const known = cands.flatMap((c, k) => (cards[k] && (!w.pos || !cards[k].pos || cards[k].pos === w.pos) ? [cards[k].gender ? withArticle(cards[k]) : cards[k].front] : []));
       const pick = [...new Set([...known, ...cands.filter((c, k) => !cards[k])])].slice(0, 2);
       if (pick.length && !w.translations?.de) { (w.translations ??= {}).de = pick.join(", "); n++; }
     }));

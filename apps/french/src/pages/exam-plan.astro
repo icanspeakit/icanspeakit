@@ -18,8 +18,10 @@ import "../styles/practice.css";
 import { saetze, hrefOf } from "../lib/exam/saetze.js";
 
 // The exam names shown in this page's menu (the set data still carries the old German
-// names; the route ids goethe/telc stay until the routes are renamed).
-const EXAM_NAMES: Record<string, string> = { goethe: "DELE", telc: "SIELE" };
+// names; the route ids goethe/telc stay until the routes are renamed). The goethe slot is the
+// DELF below C1 and the DALF from C1 (content-plan §2); telc is the TCF by band.
+const examName = (exam: string, level: string) =>
+  exam === "goethe" ? (level === "C1" || level === "C2" ? "DALF" : "DELF") : "TCF";
 import paidManifest from "../data/pruefungen/paid-manifest.json";
 import dtz1 from "../data/pruefungen/dtz/uebungssatz-1.json";
 import { grammarAt } from "../lib/grammarCatalog.js";
@@ -32,17 +34,17 @@ const words = Object.fromEntries(
 );
 const exams = [
   {
-    key: "dtz", label: "DELE A2 mock test (nationality)", level: "A2", feature: "pruefungssaetze",
+    key: "dtz", label: "TCF IRN practice mock (residence and nationality)", level: "A2", feature: "pruefungssaetze",
     sets: [
-      { label: dtz1.label ?? "Practice set 1", href: "/nationality/dele-a2/practice-set" },
-      ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/nationality/dele-a2/practice-set?satz=${s.id}`, paid: true })),
+      { label: dtz1.label ?? "Practice set 1", href: "/residence-and-nationality/tcf-irn/practice-set" },
+      ...paidManifest.dtz.map((s) => ({ label: s.label, href: `/residence-and-nationality/tcf-irn/practice-set?satz=${s.id}`, paid: true })),
     ],
   },
-  { key: "start-deutsch-1", label: "DELE A1 practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/dele/a1" }] },
+  { key: "start-deutsch-1", label: "DELF A1 practice test", level: "A1", sets: [{ label: "Practice set 1", href: "/delf-dalf/a1" }] },
   ...["goethe", "telc"].flatMap((exam) =>
     [...new Set(saetze.filter((s) => s.exam === exam).map((s) => s.level))].map((level) => ({
       key: `${exam}-${level.toLowerCase()}`,
-      label: `${EXAM_NAMES[exam]} ${level}`,
+      label: `${examName(exam, level)} ${level}`,
       level,
       feature: level === "C1" ? "c1" : "pruefungssaetze",
       sets: saetze.filter((s) => s.exam === exam && s.level === level).map((s) => ({ label: s.title, href: hrefOf(s), paid: !!s.paid })),
@@ -50,7 +52,7 @@ const exams = [
   ),
 ].map((e) => ({ ...e, grammar, lernsets: words }));
 ---
-<Layout title="Exam plan – icanspeak Spanish" description="Your study plan up to exam day: a few tasks every day and a full practice set every week – for the DELE and the SIELE.">
+<Layout title="Exam plan – icanspeak French" description="Your study plan up to exam day: a few tasks every day and a full practice set every week – for the DELF, the DALF and the TCF.">
   <SiteNav active="pruefungen" />
   <main class="practice-main pp">
     <div class="practice-hero">
@@ -127,7 +129,7 @@ const exams = [
   const store = (() => { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } })();
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} };
   const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
-  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Madrid" });
+  const todayYmd = () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Paris" });
   const nice = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-GB",{ weekday: "short", day: "numeric", month: "numeric" });
 
   // Prefill: the last plan, else the Einstufungstest result for the level.
