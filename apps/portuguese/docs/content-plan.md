@@ -1275,6 +1275,6 @@ handled by the `ui-*` items where they are rendered.
   `/preterite`, `/stem-changing-verbs`); `routes` renames them.
 - Open: `typische-fehler.json` pairs are still Spanish; `wortarten.json` has `fehler` emptied until
   the common-mistakes item refills them.
-- Open: `check-verbtabellen.mjs` compares the table with the irregular-verbs list only once the table
-  holds Portuguese (`falar`); `conjugation-data` must make that comparison pass.
+- Done by `conjugation-data`: the table holds Portuguese and the comparison with the irregular-verbs list runs (40 verbs agree).
 - Open: `lang="es"` remains in `wortschatz-app.js` (flashcards); the vocabulary items change it.
+- `conjugation-data` decisions: new tense keys `subjFut`, `infPers`, `plusSimp` (mais-que-perfeito simples), `subjFutPerf` in `ROW_TENSES`; the pronoun is added the pt-PT way (enclisis in the main clause, mesoclisis in future/conditional, proclisis in the subjunctive and after não); `haver de` is taught in the haver card and the modal rule, not as a row. Open for `conjugation-trainer`: sentence sets (now empty), rule tables, vós switch default off, `conjugationTyped.js` key row, translations of the new keys in de/es/fr/it (English placeholders now).
