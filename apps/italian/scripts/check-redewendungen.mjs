@@ -41,7 +41,7 @@ function routeExists(path) {
 }
 
 // Words too common to prove an example belongs to its phrase.
-const STOP = new Set("estar tener hacer para como pero algo alguien cada aquí muy unos unas este esta esto sobre desde hasta cuando donde quien".split(" "));
+const STOP = new Set("essere avere fare stare andare dare come cosa molto quando quanto tutto tutti sempre della dello delle degli nella nello nelle negli sono mani".split(" "));
 // A word counts by its first letters, so a conjugated verb still matches when its stem holds.
 // Short names count too („Roma“), short other words don't.
 const keys = (de) =>
