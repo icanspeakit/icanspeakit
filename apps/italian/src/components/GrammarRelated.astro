@@ -33,11 +33,9 @@ const EXAMS: Record<string, { href: string; label: string }[]> = {
   ],
   B2: [
     { href: "/dele/b2", label: "CILS B2 practice test" },
-    { href: "/siele/levels/b2", label: "CELI B2 practice test" },
   ],
   C1: [
-    { href: "/dele/c1", label: "CILS C1 practice test" },
-    { href: "/siele/levels/c1", label: "CELI C1 practice test" },
+    { href: "/dele", label: "CILS C1: exam format" },
   ],
 };
 const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";

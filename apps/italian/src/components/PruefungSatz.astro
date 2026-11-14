@@ -64,7 +64,7 @@ const formatRows = set.modules.map((m: any, i: number) => {
 });
 // A band set has no points of its own (the real 250 per test belong to the whole exam).
 const hasPoints = !!ref && formatRows.some((r: any) => r.points != null);
-const band = set.exam === "telc";
+const band = false; // CELI sets hold a whole level exam like the CILS ones (the SIELE "band" wording is gone)
 // The date the format research was last checked; the older slots keep theirs until their item runs.
 const formatChecked = ref?.checked
   ? new Date(ref.checked + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })
@@ -100,7 +100,7 @@ const pageDescription = paid
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="ps.eyebrow">Prüfung simulieren</p>
       <h1><span class="hero-exam">{examLevel}</span> {set.title}</h1>
-      {/* A telc-slot set holds one band's tasks of the multilevel SIELE, not a whole exam. */}
+      {/* Both slots hold whole-level practice sets (CILS in goethe, CELI in telc). */}
       <p data-i18n={band ? "ps.heroBand" : "ps.hero"} data-i18n-vars={JSON.stringify({ n: scoredItems, min: minutes })}>
         {band
           ? `The tasks of this band, modelled on the exam's public format: ${scoredItems} automatically marked tasks, plus writing and speaking with model answers. Our suggested time: about ${minutes} minutes.`

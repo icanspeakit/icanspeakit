@@ -15,7 +15,7 @@ const exams = [
     href: "/siele/levels",
     icon: "document",
     title: "CELI by level",
-    level: "A2–C1",
+    level: "A2–B1",
     desc: "Practice tasks in the style of the CELI, the certificate of the Università per Stranieri di Perugia, one level at a time.",
     practice: "Practice sets by level",
     practiceKey: "pruefungen.practice.telc",
@@ -27,7 +27,7 @@ const exams = [
     title: "CILS",
     level: "A1–C2",
     desc: "Practice in the style of the CILS, the certificate of the Università per Stranieri di Siena, with one exam per level.",
-    practice: "Practice tests A1–C1 · language-use trainer · format of every level, including C2",
+    practice: "Practice tests A1–B2 · language-use trainer · format of every level, including C1 and C2",
     practiceKey: "pruefungen.practice.goethe",
   },
   {
@@ -99,15 +99,13 @@ const levels = [
     desc: "Independent user, advanced.",
     exams: [
       { name: "CILS B2", href: "/dele/b2" },
-      { name: "CELI B2 practice", href: "/siele/levels/b2" },
     ],
   },
   {
     level: "C1",
     desc: "Proficient user — complex topics, university and work.",
     exams: [
-      { name: "CILS C1", href: "/dele/c1" },
-      { name: "CELI C1 practice", href: "/siele/levels/c1" },
+      { name: "CILS C1 (format only, no practice set here)", href: "/dele" },
     ],
   },
   {
@@ -122,7 +120,7 @@ const levels = [
 // Comparison table — every cell restates a claim made on that exam's own page; nothing new
 // is asserted here.
 const comparison = [
-  { id: "telc", exam: "CELI by level", levels: "A2–C1", forWhom: "Practice for the CELI, one level at a time", format: "Tasks at one level, by module. Check the real format on the official page" },
+  { id: "telc", exam: "CELI by level", levels: "A2–B1", forWhom: "Practice for the CELI, one level at a time", format: "Tasks at one level, by module. Check the real format on the official page" },
   { id: "goethe", exam: "CILS", levels: "A1–C2", forWhom: "Work, study and the language proof some offices ask for; check the rules of the office", format: "One exam per level. Check the parts and timings on the official page" },
   { id: "testdaf", exam: "PLIDA", levels: "A1–C2", forWhom: "Work and study, where the institution accepts it: check its rules", format: "A practice set at B1 and the format of each level. Check the real format and pass rule on the official page" },
   { id: "dtz", exam: "B1 mock test for citizenship", levels: "B1", forWhom: "People preparing the language proof for Italian citizenship", format: "Reading, listening, writing and speaking, with a result at the end. Our own mock test, not an official one" },

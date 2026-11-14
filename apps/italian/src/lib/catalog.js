@@ -245,7 +245,7 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "CELI", short: "CELI", count: "A2–C1",
+  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "CELI", short: "CELI", count: "A2–B1",
     keywords: "celi perugia università per stranieri certificate certificato" },
   { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "CILS", short: "CILS", count: "A1–C2",
     keywords: "cils siena università per stranieri certificate certificazione" },

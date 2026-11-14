@@ -1135,3 +1135,14 @@ handled by the `ui-*` items where they are rendered.
   no-op), `check-redewendungen.mjs` (Italian stop words); wortfallen keys re-keyed in en/de/fr/pt/it. Open: `regional` notes
   (babbo, cocomero …) are only in the `info` text; idiom sources are Treccani entry URLs built from the key word, not opened one by one;
   `audio` stays false; German/French/Portuguese texts of the new keys are first drafts for their language items.
+- **`exams-cils-celi` (2026-11-14).** A1 practice test (slot `start-deutsch-1`), CILS A2/B1/B2 (`goethe-{a2,b1,b2}-1`), CELI A2/B1
+  (`telc-{a2,b1}-1`, labels "CELI 1 (A2)", "CELI 2 (B1)" from `examLabel`), `sprachbausteine` satz 1 (B2) and 2 (C1) as
+  "Strutture di comunicazione", `fallen.json` (17 traps, ids kept, chips dele = CILS / siele = CELI / ccse = civic), CILS A1–C2 and CELI
+  A2–C1 format entries (`goethe-formate.json`, `telc-formate.json`, research entries rebuilt for the five sets only). **Removed** (no
+  time to write them well, plan rule): CILS C1 (paid `goethe-c1-1`), CELI B2 (`telc-b2-1`), CELI C1 (paid `telc-c1-1`); restore
+  commands in `reports/exams-cils-celi.md`. Hub texts now say CILS practice A1–B2, CELI A2–B1 (`ExamRail`, `exams/index`, `start`,
+  `catalog`, `GrammarRelated`, `premium-features.json` links, en.json). Shell touched: `CONTENT_LANG = "it"` in `pruefungEngine.js`,
+  `band = false` in `PruefungSatz.astro`, `examLabel` in `names.js`. Open: the paid "C1 practice sets" premium feature
+  (`premium-features.json` id with i18n `premium.feature.c1`) now links to the free hubs and has no content; `routes` / `cleanup`
+  decide what it becomes. All CILS/CELI facts are "to verify". No audio (voices set to it-IT Neural, `generate-pruefungen-audio.mjs`
+  not run). New `format.t.*` keys exist in de/fr/it/pt as English placeholders for the language items.
