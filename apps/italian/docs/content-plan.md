@@ -1126,3 +1126,12 @@ handled by the `ui-*` items where they are rendered.
   `i18n/it.json` (English placeholder, deleted by `cleanup`) are first drafts for their language items; the
   `fehler-nach-sprache.json` strengths of the five languages are now about Italian, its `variety` is still `es-ES`;
   no audio (all `audio: false`).
+- **`idioms-mistakes` (2026-11-14).** `wortfallen.json` 28 groups (en 16, de 3, es 5, fr 2, pt 2), `redewendungen.json`
+  69 entries (same nine theme ids, almost all origins `unklar`), `umgangssprache.json` 51 entries (same five group ids, swearing 1–3
+  with polite alternatives), `typische-fehler.json` 43 pairs (same five group ids, part-of-speech cards re-linked in `wortarten.json`),
+  `synonyme.json` 32 groups, `fehler-nach-sprache.json` all non-pronunciation mistakes plus a Spanish-speaker interference set;
+  Romanian, Arabic, Russian, Ukrainian and Chinese kept with 4 grammar mistakes each (Albanian not added). `variety` is it-IT
+  everywhere; the six modules are now STRICT in `check-variety.mjs`. Shell touched: `check-sprachfallen.mjs` (the ¿/¡ check is a
+  no-op), `check-redewendungen.mjs` (Italian stop words); wortfallen keys re-keyed in en/de/fr/pt/it. Open: `regional` notes
+  (babbo, cocomero …) are only in the `info` text; idiom sources are Treccani entry URLs built from the key word, not opened one by one;
+  `audio` stays false; German/French/Portuguese texts of the new keys are first drafts for their language items.
