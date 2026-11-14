@@ -22,7 +22,8 @@ import { track } from "./track.js";
 import { languageOf } from "./languages.js";
 
 const RECENT_KEY = "da_lang_recent";
-const CORE = ["en", "de", "fr", "pt", "it", "ar", "tr", "uk", "ru"];
+// The interface languages of this course (docs/content-plan.md §10.4); Arabic joins when it comes.
+const CORE = ["en", "de", "es", "pt", "it"];
 const MAX_ROWS = 7;
 const REGIONS = [
   ["europa", "Europa"],

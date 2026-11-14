@@ -27,9 +27,7 @@ import { LANGUAGES } from "../lib/i18n.js";
 const EINFACH_OFFER = {
   en: { text: "New to French? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
   de: { text: "Neu im Französischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
-  // `fr` goes with the French UI (ui-lang-es removes it, docs/content-plan.md §7); `es` is ready
-  // for the Spanish UI that item adds.
-  fr: { text: "Vous débutez en français ? Commencez par « Step by step » : un petit pas à la fois.", go: "Commencer", close: "Fermer" },
+  // No `fr`: the course teaches French and has no French interface (docs/content-plan.md §7).
   es: { text: "¿Estás empezando con el francés? Empieza con «Step by step»: un pequeño paso cada vez.", go: "Empezar", close: "Cerrar" },
   pt: { text: "Começando no francês? Comece com “Step by step”: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
   it: { text: "Sei all’inizio con il francese? Comincia con “Passo dopo passo”: un piccolo passo alla volta.", go: "Inizia", close: "Chiudi" },
@@ -45,7 +43,6 @@ const EINFACH_OFFER = {
 const ASK = {
   de: "Seite auf Deutsch zeigen?",
   en: "Show this page in English?",
-  fr: "Afficher la page en français ?",
   it: "Mostrare la pagina in italiano?",
   ar: "عرض الصفحة بالعربية؟",
   tr: "Sayfa Türkçe gösterilsin mi?",
@@ -61,10 +58,10 @@ const ASK = {
 // is there on the first paint without a script.
 const showRules = LANGUAGES.map((l) => `html[data-lang-offer="${l.code}"] [data-lang-offer-for="${l.code}"]{display:flex}`).join("");
 // English plus the interface languages this course adds (docs/content-plan.md §1.1).
-const close = "Close · Schließen · Fermer · Fechar · Chiudi";
-const other = "Other · Andere · Autres · Outras · Altre …";
+const close = "Close · Schließen · Cerrar · Fechar · Chiudi";
+const other = "Other · Andere · Otros · Outras · Altre …";
 ---
-<div class="lang-offer" role="region" aria-label="Language · Sprache · Langue · Idioma · Lingua" data-lang-offer-row>
+<div class="lang-offer" role="region" aria-label="Language · Sprache · Idioma · Lingua" data-lang-offer-row>
   <svg class="lang-offer-ic" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
   {LANGUAGES.map((l) => (
     <div class="lang-offer-for" data-lang-offer-for={l.code} lang={l.htmlLang ?? l.code} dir={l.dir}>

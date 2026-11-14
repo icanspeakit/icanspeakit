@@ -48,16 +48,17 @@ const T = {
     ownOnly: "These are basic checks (a non-breaking space before ? ! : ;, accents, capitals, greeting, length), not a full correction. Compare your text with the model text too.",
     noneOwn: "The basic checks found nothing.",
   },
-  fr: {
-    button: "Corriger mon texte", again: "Corriger à nouveau", busy: "Vérification …",
-    grammatik: "Grammaire", ausdruck: "Expression", satzzeichen: "Ponctuation", rechtschreibung: "Orthographe",
-    none: "Aucune erreur trouvée. Bravo !", apply: "Appliquer la correction", applyAll: "Appliquer toutes les corrections",
-    task: "Consigne", words: "{n} mots", wordsRange: "{n} mots — la consigne demande {min}–{max}.",
-    ltDown: "Le correcteur orthographique n'est pas accessible pour le moment. Seules nos remarques s'affichent ci-dessous.",
-    empty: "Écris d'abord quelques phrases.", wait: "Un instant : tu pourras vérifier à nouveau bientôt.",
-    points: "As-tu pensé à tout ?", hint: "Remarque",
-    ownOnly: "Ce sont des vérifications de base (espace insécable avant ? ! : ;, accents, majuscules, formule d'appel, longueur), pas une correction complète. Compare aussi ton texte avec le texte modèle.",
-    noneOwn: "Les vérifications de base n'ont rien trouvé.",
+  // Spanish of Spain, tú (no French block: the course has no French interface).
+  es: {
+    button: "Corregir mi texto", again: "Corregir de nuevo", busy: "Comprobando …",
+    grammatik: "Gramática", ausdruck: "Expresión", satzzeichen: "Puntuación", rechtschreibung: "Ortografía",
+    none: "No hemos encontrado errores. ¡Muy bien!", apply: "Aplicar la corrección", applyAll: "Aplicar todas las correcciones",
+    task: "Tarea", words: "{n} palabras", wordsRange: "{n} palabras — la tarea pide {min}–{max}.",
+    ltDown: "El corrector ortográfico no está disponible ahora mismo. Abajo solo aparecen nuestras propias indicaciones.",
+    empty: "Escribe primero unas cuantas frases.", wait: "Un momento: enseguida podrás volver a comprobarlo.",
+    points: "¿Has pensado en todo?", hint: "Indicación",
+    ownOnly: "Son comprobaciones básicas (espacio indivisible antes de ? ! : ;, acentos, mayúsculas, saludo, extensión), no una corrección completa. Compara también tu texto con el texto modelo.",
+    noneOwn: "Las comprobaciones básicas no han encontrado nada.",
   },
   pt: {
     button: "Corrigir meu texto", again: "Corrigir de novo", busy: "Verificando …",
