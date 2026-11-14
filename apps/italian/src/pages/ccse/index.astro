@@ -51,22 +51,22 @@ const { meta, questions, bundeslaender } = lid;
               {meta.tareas.map((t) => (
                 <tr><td lang="it">{t.title}</td><td data-i18n={`lid.tarea.${t.n}.what`}>{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
               ))}
-              <tr><td data-i18n="lid.fmt.state.part">Our extra: comunidades autónomas</td><td data-i18n="lid.fmt.state.what">Practice questions on the comunidades autónomas (not part of the real test)</td><td data-i18n="lid.fmt.state.scope" data-i18n-vars={JSON.stringify({ st: meta.stateQuestions })}>{meta.stateQuestions}</td></tr>
+              <tr><td data-i18n="lid.fmt.state.part">Our extra: regions</td><td data-i18n="lid.fmt.state.what">Practice questions on ten regions of Italy (not part of any official test)</td><td data-i18n="lid.fmt.state.scope" data-i18n-vars={JSON.stringify({ st: meta.stateQuestions })}>{meta.stateQuestions}</td></tr>
             </tbody>
           </table>
         </div>
         <p class="format-note" data-i18n-html="lid.format.note" data-i18n-vars={JSON.stringify({ t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length })}>
-          {meta.totalQuestions} questions, {meta.minutes} minutes, pass with {meta.passScore} correct answers.
+          Our practice settings: {meta.totalQuestions} questions, {meta.minutes} minutes, a target of {meta.passScore} correct answers (not official figures).
         </p>
-        <p class="format-note" data-i18n="lid.format.more">The test is taken in Spanish at an exam centre. Test centres report a fee of €85 in 2026 and say the pass certificate is valid for 4 years. Check both with the Instituto Cervantes.</p>
-        <p class="format-note">{meta.sourceNote}</p>
+        <p class="format-note" data-i18n="lid.format.more">How the civic session of the Accordo di integrazione works, who has to take part and whether there is a test can change (to verify). Ask your Prefettura, the Sportello Unico per l'Immigrazione or your Comune. This page is practice, not a preparation for one official paper.</p>
+        <p class="format-note">{meta.sourceNoteEasy}</p>
       </section>
     </Fragment>
 
     <div class="mock-cta mock-cta--lead">
-      <h2 data-i18n="lid.cta.title" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>{questions.length} bundesweite + {meta.stateQuestions} Bundesland-Fragen</h2>
+      <h2 data-i18n="lid.cta.title" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>{questions.length} questions on life in Italy, in five areas</h2>
       <p data-i18n="lid.cta.text" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>
-        Our own questions on government, rights, territory, culture and society, each with a short explanation in English. There is also extra practice on the comunidades autónomas (bl to choose from).
+        Our own questions on the Constitution and institutions, rights and duties, territory and history, health and school, work, taxes and daily life, each with a short explanation in English. There is also extra practice on ten regions (bl to choose from).
       </p>
       <div class="exam-meta-row">
         <a class="quiz-btn quiz-btn--primary" href="/ccse/test" data-i18n="lid.cta.test">To the practice test</a>
@@ -78,7 +78,7 @@ const { meta, questions, bundeslaender } = lid;
       heading="Prepare the language side"
       headingKey="lid.practice.heading"
       introKey="lid.practice.intro"
-      intro="The CCSE checks knowledge, not a language level, but you do have to understand the questions and the answer options. These tools help with that side. It has no speaking or writing part, so the speaking and writing tools are not linked here."
+      intro="This practice checks what you know about Italy, not your level of Italian, but you do have to understand the questions and the answer options. These tools help with that side. There is no speaking or writing part, so the speaking and writing tools are not linked here."
       tools={["artikel", "grammatik", "wortschatz"]}
     />
   </ExamShell>

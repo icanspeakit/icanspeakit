@@ -79,20 +79,19 @@ export const examRegistry = [
   },
   {
     id: "leben-in-deutschland",
-    title: "CCSE",
+    title: "Civic knowledge test",
     subtitle: "Practice test",
     level: "Knowledge test",
     href: "/ccse/test",
     overview: "/ccse",
     store: { kind: "exam", key: "leben-in-deutschland" },
-    passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
+    passNote: `Our own practice target: ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions. Not an official pass mark.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "Questions on Spain", ids: lidFederalIds },
-      // The ids depend on the comunidad stored in "da-lid-land"; only the browser knows which one,
-      // so the client resolves this. An extra: the real test has no part on one comunidad, so it
-      // does not count towards the score.
-      { key: "land", label: "My comunidad (extra)", idsFrom: "lid-land", scored: false },
+      { key: "bund", label: "Questions on Italy", ids: lidFederalIds },
+      // The ids depend on the region stored in "da-lid-land"; only the browser knows which one,
+      // so the client resolves this. An extra: it does not count towards the score.
+      { key: "land", label: "My region (extra)", idsFrom: "lid-land", scored: false },
     ],
   },
   {
