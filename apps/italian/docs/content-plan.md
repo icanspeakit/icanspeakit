@@ -914,6 +914,7 @@ handled by the `ui-*` items where they are rendered.
 
 ## 13. Open points
 
+- **games (done):** the game routes keep their English names (`/games/gender-sprint`, `quaki-jumps`, `sentence-rain`, `impostor`); the rename to `/games/article-sprint` etc. with redirects is open for a routing/UI item. `games-arcade` must convert `nussnacht` (`ARTS`, `nut-night.astro`) to il/lo/la/l' and i/gli/le; until then its pool is empty. Article lanes: singular il | lo (l' before a vowel) | la, plural i | gli | le. Report: `reports/games.md`.
 - **Edgar: review** the exam map (§2): CILS in the goethe slots, CELI in the telc slots, PLIDA in
   the testdaf slot, a new CERT.IT slot, the B1 citizenship mock in the DTZ slot and the A2 permit
   mock in paid set 2, "Strutture di comunicazione" in the Sprachbausteine slot, CILS C2 without a set.
