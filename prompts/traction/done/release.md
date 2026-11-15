@@ -41,3 +41,15 @@
 
 ## Re-measure
 - 2026-12-13 (4 weeks): PostHog project 344818, `utm_source = chatgpt.com` and referring domain bing/google, for `/english/knowledge`, `/english/*/downloads`, `/english/teachers/worksheets/*`.
+
+## Update (later the same evening, worksheets session)
+- The 21:30 English deploy (`ef89977d`) was incomplete: a second English build rewrote `dist` while
+  it uploaded (e.g. `/english/audio/hoeren/*.mp3` 404). Redeployed from one clean build
+  (`check:base` and `check:links` ok): `icanspeak-english` `ea9ecafa-184c-4182-b318-29e31cf3be5d`,
+  1,676 missing assets uploaded.
+- Hub deployed too: `icanspeak-hub` `3d24b17a-63b0-4af2-a56e-e62182c67c87` (`check:base` ok), so
+  item 4 above is done (`/italiano`, `/portugues` redirects and the new favicon are live).
+- `main` pushed to `e7815ca4` (= what is deployed).
+- IndexNow sent once more, 582 URLs under worksheets/knowledge/downloads, Bing 200 OK.
+- Live check after both deploys, one request each: `/`, worksheet, `/english/knowledge`, a PDF, a
+  listening MP3, `/robots.txt`, `/sitemap.xml`, `/llms.txt`: 200; a missing page: 404.
