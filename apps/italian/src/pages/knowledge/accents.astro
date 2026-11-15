@@ -1,8 +1,9 @@
 ---
 // /knowledge/accents — regional varieties of Italian and Italy's other languages (plan 5.14).
-// Framing is Italian; the data (dialekte.json, dialekte-karte.json, dialekte.r/m/w/group keys) is
-// still the Spanish map until the `accents-languages` item. Lines (data keys benrath/speyer):
-// s in "casa" /z/ vs /s/, and passato remoto in speech.
+// Data: dialekte.json (areas, dots, word, lines, table), dialekte-karte.json (geometry) and the
+// dialekte.r/m/w/group keys in en.json. Lines (data keys benrath/speyer): s in "casa" /z/ vs /s/,
+// and passato remoto in speech. Regional notes are for recognition: the course teaches standard
+// Italian (variety it-IT).
 //
 // Built like /knowledge/languages: all prose is in public/i18n/en.json under dialekte.*, read
 // here for the server-rendered HTML. Names, places and the examples are in
@@ -41,7 +42,10 @@ const modeCss = dl.words
   .join("");
 const lines = (s: string) => s.split("\n");
 // The language dots: their examples are not Spanish.
-const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: "eu", aranes: "oc", asturiano: "ast", aragones: "an" };
+const LANG_OF: Record<string, string> = {
+  sardo: "sc", friulano: "fur", ladino: "lld", napoletano: "nap", siciliano: "scn", tedesco: "de",
+  francese: "fr", sloveno: "sl", arberesh: "aae", algherese: "ca", veneto: "vec",
+};
 ---
 <Layout
   title="Regional varieties of Italian and Italy's other languages – icanspeak Italian"
@@ -369,7 +373,7 @@ const LANG_OF: Record<string, string> = { catala: "ca", gallego: "gl", euskera: 
         }
       });
     }
-    // ?d=canarias opens a region or dot directly (shareable).
+    // ?d=sicilia opens a region or dot directly (shareable).
     const fromUrl = new URLSearchParams(location.search).get("d");
     if (fromUrl && cards.some((c) => c.dataset.card === fromUrl)) select(fromUrl);
   </script>

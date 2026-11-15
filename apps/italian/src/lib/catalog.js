@@ -1089,7 +1089,7 @@ export const navSprachen = {
     { id: "karte", titleKey: "sprachen.map.title", title: "Where Italian is spoken" },
     { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
     { id: "vergleich", titleKey: "sprachen.cmp.title", title: "How close is your language?" },
-    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Spanish: the word decoder" },
+    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Italian: the word decoder" },
   ],
 };
 

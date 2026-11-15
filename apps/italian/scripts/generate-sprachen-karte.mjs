@@ -1,48 +1,55 @@
-// Map geometry for /knowledge/languages — run once, output committed.
+// Map geometry for /knowledge/languages (Italian around the world) — run once, output committed.
 //
 //   node scripts/generate-sprachen-karte.mjs
 //
-// No packages and no network: the outlines come from the Natural Earth world view committed before
-// the Spanish conversion (see karte-geo.mjs). Each ring goes to the country whose `seeds` point
+// No packages and no network: the outlines come from the Natural Earth views committed before the
+// Spanish conversion (see karte-geo.mjs): the world view (1:110 m) for `world` and `americas`, the
+// Europe view (1:50 m) for `europe`. Each ring goes to the country whose `seeds` point
 // (sprachen-welt.json) lies in it; everything else is the grey land. Writes
-// src/data/sprachen-karte.json: { world, americas }, each with a viewBox size, one path per
+// src/data/sprachen-karte.json: { europe, world, americas }, each with a viewBox size, one path per
 // country drawn in that view, the merged land, the markers projected to x/y and the
-// Spanish-speaking regions per country (x, y, radius). `americas` is the same outline enlarged,
-// so it is coarse (1:110 m) but keeps Central America and the Caribbean selectable.
-// Pre-projected so the page ships plain <path d> and needs no map library at runtime.
+// regions where Italian is spoken per country (x, y, radius). `americas` and `europe` are the same
+// outlines enlarged. Pre-projected so the page ships plain <path d> and needs no map library.
 //
 // The English version, built with d3-geo and world-atlas: git show edf6596:scripts/generate-sprachen-karte.mjs
 import fs from "node:fs";
-import { loadSource, parseRings, contains, distance, worldProjection, smooth, ringPath, r1 } from "./karte-geo.mjs";
+import { loadSource, parseRings, contains, distance, worldProjection, europeProjection, smooth, ringPath, r1 } from "./karte-geo.mjs";
 
 const data = JSON.parse(fs.readFileSync("src/data/sprachen-welt.json", "utf8"));
-const source = loadSource().world;
+const all = loadSource();
+const source = all.world;
 const P = worldProjection(source.w, source.h);
-
-const rings = [...parseRings(source.land), ...Object.values(source.countries).flatMap(parseRings)];
+const EP = europeProjection(all.europe.w, all.europe.h);
 
 // ── which ring belongs to which country ───────────────────────────────
-const owner = new Map();
-const owned = {};
-for (const c of data.countries) {
-  owned[c.id] = [];
-  for (const seed of c.seeds) {
-    const px = P(seed);
-    // Small countries are a few whole pixels: fall back to the nearest ring within 3 px.
-    let ring = rings.find((r) => contains(r, px));
-    if (!ring) {
-      const near = rings.map((r) => [distance(r, px), r]).sort((a, b) => a[0] - b[0])[0];
-      if (near[0] <= 3) ring = near[1];
+function assign(src, proj, quiet, extra) {
+  const rings = [...parseRings(src.land), ...Object.values(src.countries).flatMap(parseRings)];
+  const owner = new Map();
+  const owned = {};
+  for (const c of data.countries) {
+    owned[c.id] = [];
+    for (const seed of [...c.seeds, ...(extra ? c[extra] ?? [] : [])]) {
+      const px = proj(seed);
+      // Small countries are a few whole pixels: fall back to the nearest ring within 3 px.
+      let ring = rings.find((r) => contains(r, px));
+      if (!ring) {
+        const near = rings.map((r) => [distance(r, px), r]).sort((a, b) => a[0] - b[0])[0];
+        if (near[0] <= 3) ring = near[1];
+      }
+      if (!ring) { if (!quiet) console.log("NO RING", c.id, seed); continue; }
+      if (owner.has(ring)) { if (!quiet) console.log("CLASH", c.id, "with", owner.get(ring), seed); continue; }
+      owner.set(ring, c.id);
+      owned[c.id].push(ring);
     }
-    if (!ring) { console.log("NO RING", c.id, seed); continue; }
-    if (owner.has(ring)) { console.log("CLASH", c.id, "with", owner.get(ring), seed); continue; }
-    owner.set(ring, c.id);
-    owned[c.id].push(ring);
   }
+  return { owned, landRings: rings.filter((r) => !owner.has(r)) };
 }
-const landRings = rings.filter((r) => !owner.has(r));
+const W = assign(source, P, false);
+// The Europe view holds only the countries of Europe: the others have no ring there.
+const E = assign(all.europe, EP, true, "seedsEurope");
 
-function view({ name, w, h, map, keep, shape }) {
+function view({ name, w, h, map, keep, shape, proj, own }) {
+  const { owned, landRings } = own;
   const countries = {};
   for (const c of data.countries) {
     const rs = owned[c.id].filter(keep);
@@ -51,7 +58,7 @@ function view({ name, w, h, map, keep, shape }) {
   const land = landRings.filter(keep).map((r) => ringPath(shape(r).map(map))).join("");
   const markers = data.markers
     .filter((m) => m.views.includes(name))
-    .map((m) => ({ id: m.id, pts: m.points.map((p) => map(P(p)).map(r1)) }));
+    .map((m) => ({ id: m.id, pts: m.points.map((p) => map(proj(p)).map(r1)) }));
   const regions = {};
   for (const c of data.countries) {
     if (!c.regions || !countries[c.id]) continue;
@@ -59,8 +66,8 @@ function view({ name, w, h, map, keep, shape }) {
       id: g.id,
       name: g.name,
       pts: g.points.map((p) => {
-        const [x, y] = map(P(p));
-        const [, y2] = map(P([p[0], p[1] + g.km / 111]));
+        const [x, y] = map(proj(p));
+        const [, y2] = map(proj([p[0], p[1] + g.km / 111]));
         return [r1(x), r1(y), r1(Math.abs(y - y2))];
       }),
     }));
@@ -82,11 +89,30 @@ const k = AW / (box.x1 - box.x0);
 const AH = Math.ceil((box.y1 - box.y0) * k);
 const inBox = (r) => r.some(([x, y]) => x >= box.x0 && x <= box.x1 && y >= box.y0 && y <= box.y1);
 
+// Europe: from the Atlantic coast of France to Albania, in the Europe view's own pixels.
+const ecorners = [[-4.5, 48.8], [21, 48.8], [-4.5, 35.8], [21, 35.8]].map(EP);
+const ebox = {
+  x0: Math.min(...ecorners.map((p) => p[0])) - pad,
+  x1: Math.max(...ecorners.map((p) => p[0])) + pad,
+  y0: Math.min(...ecorners.map((p) => p[1])) - pad,
+  y1: Math.max(...ecorners.map((p) => p[1])) + pad,
+};
+const EW = 720;
+const ek = EW / (ebox.x1 - ebox.x0);
+const EH = Math.ceil((ebox.y1 - ebox.y0) * ek);
+const inEBox = (r) => r.some(([x, y]) => x >= ebox.x0 && x <= ebox.x1 && y >= ebox.y0 && y <= ebox.y1);
+
 const out = {
-  _comment: "Generated by scripts/generate-sprachen-karte.mjs from the Natural Earth outlines (public domain) of the old world view. Do not edit by hand.",
-  world: view({ name: "world", w: source.w, h: source.h, map: (p) => p, keep: () => true, shape: (r) => r }),
+  _comment: "Generated by scripts/generate-sprachen-karte.mjs from the Natural Earth outlines (public domain) of the old Europe and world views. Do not edit by hand.",
+  europe: view({
+    name: "europe", w: EW, h: EH, proj: EP, own: E,
+    map: ([x, y]) => [(x - ebox.x0) * ek, (y - ebox.y0) * ek],
+    keep: inEBox,
+    shape: (r) => smooth(smooth(r)),
+  }),
+  world: view({ name: "world", w: source.w, h: source.h, proj: P, own: W, map: (p) => p, keep: () => true, shape: (r) => r }),
   americas: view({
-    name: "americas", w: AW, h: AH,
+    name: "americas", w: AW, h: AH, proj: P, own: W,
     map: ([x, y]) => [(x - box.x0) * k, (y - box.y0) * k],
     keep: inBox,
     shape: (r) => smooth(r),
@@ -95,6 +121,7 @@ const out = {
 out.world.sphere = source.sphere;
 fs.writeFileSync("src/data/sprachen-karte.json", JSON.stringify(out));
 const kb = (s) => (Buffer.byteLength(JSON.stringify(s)) / 1024).toFixed(0) + " KB";
+console.log("europe", kb(out.europe), EW + "x" + EH, Object.keys(out.europe.countries).join(","));
 console.log("world", kb(out.world), Object.keys(out.world.countries).join(","));
 console.log("americas", kb(out.americas), AW + "x" + AH, Object.keys(out.americas.countries).join(","));
-for (const c of data.countries) console.log(c.id, owned[c.id].map((r) => r.length).join("+") || "(marker only)");
+for (const c of data.countries) console.log(c.id, "world", W.owned[c.id].map((r) => r.length).join("+") || "-", "europe", E.owned[c.id].map((r) => r.length).join("+") || "-");
