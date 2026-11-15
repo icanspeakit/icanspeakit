@@ -339,7 +339,7 @@ const portions = packedPortions.map((parts, idx) => {
   const of = pieceCount[head.topic];
   const nth = (pieceSeen[head.topic] = (pieceSeen[head.topic] ?? 0) + 1);
   const names = parts.map((x) => x.topicLabel).filter((n, k, all) => all.indexOf(n) === k);
-  const base = of > 1 ? `${head.topicLabel} · Teil ${nth} von ${of}` : head.topicLabel;
+  const base = of > 1 ? `${head.topicLabel} · part ${nth} of ${of}` : head.topicLabel;
   const tasks = partsSize(parts);
   return {
     id: `portion-${idx + 1}`,

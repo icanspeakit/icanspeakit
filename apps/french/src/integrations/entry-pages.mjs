@@ -84,7 +84,7 @@ export function translateHtml(html, dict) {
     if (attrSpec) {
       for (const pair of attrSpec.split(';')) {
         const [attr, key] = pair.split(':').map((s) => s.trim());
-        if (attr && key && dict[key] != null) tag = setAttr(tag, attr, interpolate(dict[key], globals));
+        if (attr && key && dict[key] != null) tag = setAttr(tag, attr, interpolate(dict[key], vars));
       }
     }
     const textKey = attrOf(tag, 'data-i18n');

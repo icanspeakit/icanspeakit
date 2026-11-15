@@ -49,7 +49,7 @@ const info = mutterspracheInfo();
     <main class="uv-main fe2" id="fe-page">
       <a href="/culture" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
 
-      <SectionMascot name="hamsti" say="Welche Sprache sprichst du?" align="center" class="hub-mascot uv-hub-mascot" />
+      <SectionMascot name="hamsti" say="Which language do you speak?" sayKey="kultur.fehler.mascot" align="center" class="hub-mascot uv-hub-mascot" />
       <header class="fe-hero">
         <p class="uv-eyebrow" data-i18n="kultur.fehler.eyebrow">Landeskunde · Sprache</p>
         <h1 data-i18n="kultur.fehler.title">Typische Fehler nach Muttersprache</h1>
@@ -62,7 +62,7 @@ const info = mutterspracheInfo();
       <div class="fe-picks" role="group" aria-label="Muttersprache wählen" data-i18n-attr="aria-label:kultur.fehler.chooseLang">
         <button class="fe-pick is-on" type="button" data-lang="alle" aria-pressed="true">
           <span class="fe-mark fe-mark--all" aria-hidden="true">{languages.length}</span>
-          <span class="fe-pick-txt"><b data-i18n="kultur.fehler.all">Alle</b><i>{total} Fehler</i></span>
+          <span class="fe-pick-txt"><b data-i18n="kultur.fehler.all">Alle</b><i data-i18n="kultur.fehler.count" data-i18n-vars={JSON.stringify({ n: total })}>{total} mistakes</i></span>
         </button>
         {languages.map((l) => (
           <button class="fe-pick" type="button" data-lang={l.id} aria-pressed="false">

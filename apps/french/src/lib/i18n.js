@@ -92,7 +92,7 @@ function applyToDom(dict) {
     el.getAttribute("data-i18n-attr").split(";").forEach((pair) => {
       const [attr, key] = pair.split(":").map((s) => s.trim());
       if (!attr || !key || dict[key] == null) return;
-      el.setAttribute(attr, translate(dict, key, globals));
+      el.setAttribute(attr, translate(dict, key, varsOf(el, globals)));
     });
   });
 }

@@ -23,8 +23,8 @@ export function fallbackStep(path) {
   }
   return {
     state: "placement",
-    labelKey: "nav.next.placement", label: "Wo stehe ich?",
-    subKey: "nav.next.placementSub", sub: "Einstufungstest",
+    labelKey: "nav.next.placement", label: "Where do I stand?",
+    subKey: "nav.next.placementSub", sub: "Placement test",
     href: withBase(PLACEMENT),
   };
 }

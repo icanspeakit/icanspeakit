@@ -183,7 +183,7 @@ const rules: { id: string; who: Name; expr: string; say: string; title: string; 
           <li>
             <Fragment set:html={jungle(i)} />
             <h3><span class="ln-jungle-n">{i + 1}</span> <span data-i18n={`${K}.jungle.${JKEYS[i]}.title`}>{st.title}</span></h3>
-            <p><span data-i18n={`${K}.jungle.${JKEYS[i]}.text`}>{st.text}</span>{st.refs.map((id) => <sup class="ln-ref"><a href={`#studie-${id}`} aria-label={`Studie ${refNo(id)}`}>{refNo(id)}</a></sup>)}</p>
+            <p><span data-i18n={`${K}.jungle.${JKEYS[i]}.text`}>{st.text}</span>{st.refs.map((id) => <sup class="ln-ref"><a href={`#studie-${id}`} aria-label={`Study ${refNo(id)}`} data-i18n-attr="aria-label:wissen.lernen.studyN" data-i18n-vars={JSON.stringify({ n: refNo(id) })}>{refNo(id)}</a></sup>)}</p>
           </li>
         ))}
       </ol>
@@ -243,7 +243,7 @@ const rules: { id: string; who: Name; expr: string; say: string; title: string; 
             <p data-i18n={`${K}.rule.${r.id}.text`}>{r.text}</p>
             <div class="ln-why">
               <h3 data-i18n={`${K}.why`}>Warum?</h3>
-              <p><span data-i18n={`${K}.rule.${r.id}.why`}>{r.why}</span>{r.refs.map((id) => <sup class="ln-ref"><a href={`#studie-${id}`} aria-label={`Studie ${refNo(id)}`}>{refNo(id)}</a></sup>)}</p>
+              <p><span data-i18n={`${K}.rule.${r.id}.why`}>{r.why}</span>{r.refs.map((id) => <sup class="ln-ref"><a href={`#studie-${id}`} aria-label={`Study ${refNo(id)}`} data-i18n-attr="aria-label:wissen.lernen.studyN" data-i18n-vars={JSON.stringify({ n: refNo(id) })}>{refNo(id)}</a></sup>)}</p>
             </div>
             <div class="ln-links">
               <span data-i18n={`${K}.practiceHere`}>Hier übst du das:</span>

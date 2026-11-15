@@ -27,6 +27,46 @@ async function* htmlFiles(dir) {
   }
 }
 
+/** The legal pages (components/LegalTranslation.astro): German is the binding text and what `astro dev`
+ *  renders; in the built page the base language's translation goes into the markup and the German
+ *  original into the blob (as `de`), where the component's script finds it for German and for the
+ *  "Show German version" toggle. Only pages whose blob has a translation in `lang` are touched. */
+export function legalToBase(html, lang) {
+  const BLOB = /(<script type="application\/json" data-legal-tx>)([\s\S]*?)(<\/script>)/;
+  const m = BLOB.exec(html);
+  if (!m) return html;
+  let blob;
+  try { blob = JSON.parse(m[2]); } catch { return html; }
+  let out = html;
+  for (const [key, langs] of Object.entries(blob)) {
+    if (!langs[lang] || langs.de) continue;
+    const esc = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(<([a-z0-9]+)(?:\\s[^>]*?)?\\sdata-lx="${esc}"[^>]*>)([\\s\\S]*?)(</\\2>)`);
+    const hit = re.exec(out);
+    if (!hit) continue;
+    langs.de = hit[3];
+    out = out.replace(re, (_all, open, _tag, _inner, close) => open + langs[lang] + close);
+  }
+  const json = JSON.stringify(blob).replace(/</g, '\\u003c');
+  return out
+    .replace(BLOB, (_all, a, _b, c) => a + json + c)
+    .replace(/(<div class="legal-lang" data-legal-note)\s+hidden/, '$1')
+    .replace('<main class="legal-main"', `<main class="legal-main" lang="${lang}"`);
+}
+
+/** @param {string} root the built site')}"[^>]*>)([\s\S]*?)(</\2>)`);
+    const hit = re.exec(out);
+    if (!hit) continue;
+    langs.de = hit[3];
+    out = out.replace(re, (_, open, _t, _inner, close) => open + langs[lang] + close);
+  }
+  const json = JSON.stringify(blob).replace(/</g, '\u003c');
+  out = out.replace(/(<script type="application/json" data-legal-tx>)[sS]*?(</script>)/, (_, a, b) => a + json + b)
+    .replace(/(<div class="legal-lang" data-legal-note)s+hidden/, '$1')
+    .replace(/<main class="legal-main"/, `<main class="legal-main" lang="${lang}"`);
+  return out;
+}
+
 /** @param {string} root the built site @param {{ info?: Function }} [logger] */
 export async function renderBaseLanguage(root, logger = console) {
   const dict = JSON.parse(await readFile(path.join(ROOT, 'public', 'i18n', `${BASE}.json`), 'utf8'));
@@ -35,7 +75,7 @@ export async function renderBaseLanguage(root, logger = console) {
     const html = await readFile(file, 'utf8');
     // rebaseHtml: the dictionary strings may carry links (<a href="/…">); they move under the
     // base path here, like the rest of the page did in src/middleware.js.
-    const out = rebaseHtml(translateHtml(html, dict))
+    const out = rebaseHtml(legalToBase(translateHtml(html, dict), BASE))
       // Astro's redirect stubs write <link rel="canonical"> as site origin + destination, without
       // the base; a canonical always names a page of this site, so it goes under the base.
       .replace(CANONICAL_RE, (_, pre, p, post) => pre + absoluteUrl(p) + post)
