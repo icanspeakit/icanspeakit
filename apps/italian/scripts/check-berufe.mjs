@@ -33,7 +33,8 @@ for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".
 
 // The patente (driving) deck: the same format, under its own slug (content-plan §4.4).
 const PATENTE_DIR = "src/data/patente";
-if (existsSync(path.join(ROOT, PATENTE_DIR))) {
+const SECTORS_ONLY = process.argv.includes("--sectors"); // only src/data/berufe/*.json (used while the patente and business decks are still Spanish)
+if (!SECTORS_ONLY && existsSync(path.join(ROOT, PATENTE_DIR))) {
   for (const file of readdirSync(path.join(ROOT, PATENTE_DIR)).filter((f) => f.endsWith(".json")).sort()) {
     try { files.push({ file: `patente/${file}`, slug: "patente", deck: read(`${PATENTE_DIR}/${file}`) }); }
     catch (err) { files.push({ file: `patente/${file}`, slug: "patente", deck: null }); console.error(`  ERROR patente/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
@@ -42,7 +43,7 @@ if (existsSync(path.join(ROOT, PATENTE_DIR))) {
 
 // Business Spanish: each unit's words are one group of a single deck (content-plan §4.3).
 const BUSINESS_DIR = "src/data/business-spanish";
-if (existsSync(path.join(ROOT, BUSINESS_DIR))) {
+if (!SECTORS_ONLY && existsSync(path.join(ROOT, BUSINESS_DIR))) {
   try {
     const units = readdirSync(path.join(ROOT, BUSINESS_DIR)).filter((f) => f.endsWith(".json")).map((f) => read(`${BUSINESS_DIR}/${f}`));
     files.push({ file: "business-spanish", slug: "business", deck: businessDeck(units) });
