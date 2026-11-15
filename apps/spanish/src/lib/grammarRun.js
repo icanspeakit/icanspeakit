@@ -97,6 +97,8 @@ function levelStart(stations, topics) {
 
 export function mountGrammarRun(root, topics) {
   if (!root || !topics?.length) return;
+  // The language the course teaches, for lang= on its words and sentences (data-run-lang).
+  const TARGET_LANG = root.dataset.runLang ?? "";
   const stations = buildStations(topics);
   if (!stations.length) return;
 
@@ -113,6 +115,20 @@ export function mountGrammarRun(root, topics) {
   const restartBtn = $("[data-run-restart]");
   const doneEl = $("[data-run-done]");
   const calm = matchMedia("(prefers-reduced-motion: reduce)");
+
+  // A lesson starts with the few words it uses (lektion-extras.json), so the exercises do
+  // not stop on vocabulary. Shown with the topic's one sentence, at its first exercise only.
+  const words = document.createElement("div");
+  words.className = "run-words";
+  words.hidden = true;
+  intro?.appendChild(words);
+  function paintWords(topic) {
+    words.hidden = !topic.words?.length;
+    if (!topic.words?.length) return;
+    words.innerHTML = `<p class="run-intro-label">${esc(t("run.words", "Words for this lesson"))}</p>
+      <ul class="run-words-list">${topic.words.map((w) => `<li><span class="run-word" lang="${esc(TARGET_LANG)}">${esc(w.front)}</span>${
+        w.translations ? ` <span class="run-word-tr">${uitHtml(w.translations.en ?? "", w.translations, esc)}</span>` : ""}</li>`).join("")}</ul>`;
+  }
 
   const given = levelStart(stations, topics);
   let cursor = given ?? loadCursor(stations.length);
@@ -151,6 +167,7 @@ export function mountGrammarRun(root, topics) {
   pause.hidden = true;
   pause.innerHTML = `
     <h2 data-run-pause-title></h2>
+    <div class="run-can-say" data-run-can-say hidden></div>
     <p data-run-pause-next></p>
     <div class="run-done-actions">
       <button type="button" class="quiz-btn quiz-btn--primary" data-run-pause-go></button>
@@ -170,6 +187,14 @@ export function mountGrammarRun(root, topics) {
       done.level !== topicOf(pauseAt).level
         ? t("run.levelDone", "{level} geschafft", { level: done.level })
         : t("run.lessonDone", "Lesson done: {topic}", { topic: nameOf(done) });
+    // What the lesson was for, in one sentence the learner can now say (lektion-extras.json).
+    const canSay = pause.querySelector("[data-run-can-say]");
+    canSay.hidden = !done.canSay;
+    if (done.canSay) {
+      canSay.innerHTML = `<p class="run-can-say-label">${esc(t("run.canSay", "You can now say:"))}</p>
+        <p class="run-can-say-front" lang="${esc(TARGET_LANG)}">${esc(done.canSay.front)}</p>
+        ${done.canSay.translations ? `<p class="run-can-say-tr">${uitHtml(done.canSay.translations.en ?? "", done.canSay.translations, esc)}</p>` : ""}`;
+    }
     pause.querySelector("[data-run-pause-next]").textContent =
       t("run.lessonNext", "Next lesson: {topic}. It continues here whenever you come back.", { topic: nameOf(topicOf(pauseAt)) });
     pauseGo.textContent = t("run.goOn", "Go on");
@@ -207,7 +232,10 @@ export function mountGrammarRun(root, topics) {
 
     // A new topic gets its one sentence; the exercises inside it do not repeat it.
     intro.hidden = !station.first;
-    if (station.first) lead.textContent = leadOf(topic);
+    if (station.first) {
+      lead.textContent = leadOf(topic);
+      paintWords(topic);
+    }
 
     stage.innerHTML = `
       <p class="run-ex-title">${uitHtml(ex.title ?? "", ex.titleTr, esc)}</p>
