@@ -1,4 +1,4 @@
-// check:extranjeria — the Extranjería sim (src/lib/buergeramt, src/data/buergeramt) is consistent:
+// check:extranjeria — the Questura and Comune sim (src/lib/buergeramt, src/data/buergeramt) is consistent:
 // every mistake a case claims really shows on its papers, nothing else contradicts, every rule a
 // mistake needs is on that day's memo, and the fixes leave the case with what the stamp expects.
 // Also: Spanish lines have ¿ ¡, every line has English, no English-course leftovers.
@@ -14,11 +14,7 @@ const err = (m) => errs.push(m);
 // ---- lines ------------------------------------------------------------------------------
 function linea(l, wo) {
   if (!l?.de || !l?.en) return err(`${wo}: needs de and en`);
-  for (const [abre, cierra] of [["¿", "?"], ["¡", "!"]]) {
-    const a = l.de.split(abre).length - 1, c = l.de.split(cierra).length - 1;
-    if (a !== c) err(`${wo}: ${abre}${cierra} don't pair up: ${l.de}`);
-  }
-  if (/\b(Brambleford|UK|council|parking)\b/i.test(`${l.de} ${l.en}`)) err(`${wo}: English-course leftover: ${l.de}`);
+  if (/[¿¡ñ]|\b(Brambleford|UK|council|parking|padrón|Extranjería|Villabruno|usted)\b/i.test(l.de)) err(`${wo}: leftover from another course: ${l.de}`);
 }
 for (const [k, arr] of Object.entries(kunden)) if (Array.isArray(arr)) arr.forEach((l, i) => linea(l, `kunden.${k}[${i}]`));
 WIRR.forEach((l, i) => linea(l, `WIRR[${i}]`));
@@ -47,7 +43,7 @@ for (const [art, d] of Object.entries(DOK_ARTEN)) {
 }
 for (const [tag, d] of Object.entries(TAGE)) {
   for (const r of d.regeln) if (!REGELN[r]) err(`day ${tag}: unknown rule ${r}`);
-  if (["sábado", "domingo"].includes(wochentag(d.heute))) err(`day ${tag}: ${d.heute} is a weekend, the office is closed`);
+  if (["sabato", "domenica"].includes(wochentag(d.heute))) err(`day ${tag}: ${d.heute} is a weekend, the office is closed`);
 }
 
 // ---- the papers -------------------------------------------------------------------------
@@ -82,14 +78,15 @@ function widersprueche(c) {
   if (hoja) {
     if (!hoja.felder.unterschrift) add("meldeschein.unterschrift");
     if (TAGE[c.tag].regeln.includes("wgb") && !wgb) add("meldeschein.adresse");
-    const quiere = c.anliegen === "cambio" ? "Cambio de domicilio" : "Alta";
+    const quiere = c.anliegen === "cambio" ? "Cambio di abitazione" : "Nuova residenza";
+    if (id?.art === "pass" && TAGE[c.tag].regeln.includes("sinpermiso") && !docs.some((d) => d.art === "permesso")) add("ausweis.kopf");
     if (hoja.felder.formular !== quiere) add("meldeschein.formular");
     if (isoDatum(hoja.felder.einzug) > c.heute) add("meldeschein.einzug");
   }
   if (sol) {
     if (!sol.felder.unterschrift) add("solicitud.unterschrift");
     if (sol.tinte && sol.tinte !== "schwarz") add("solicitud.unterschrift");
-    const quiere = c.anliegen === "nie" ? "NIE (EX-15)" : "TIE (EX-17)";
+    const quiere = c.anliegen === "rilascio" ? "Primo rilascio" : "Rinnovo";
     if (sol.felder.formular !== quiere) add("solicitud.formular");
     if (TAGE[c.tag].regeln.includes("tasa") && !tasa) add("solicitud.formular");
   }
@@ -97,7 +94,7 @@ function widersprueche(c) {
   if (cita && !sol) err(`case ${c.nr}: an appointment without an application`);
   for (const d of [cita, tasa]) if (d && sol && !sol.felder.formular.startsWith(d.felder.tramite) && !out.some((x) => x.includes("solicitud.formular"))) add("solicitud.formular");
   if (tasa && isoDatum(tasa.felder.pagada) > c.heute) add("tasa.pagada");
-  if (foto && foto.felder.fondo !== "blanco") add("foto.fondo");
+  if (foto && foto.felder.fondo !== "bianco") add("foto.fondo");
   if (id?.fax) add(`${id.id}.kopf`);
   return out;
 }
@@ -142,7 +139,7 @@ for (const c0 of HANDFAELLE) {
   const seen = widersprueche(c);
   const felderDerFehler = new Set(c.fehler.flatMap((f) => f.paare.flat()));
   for (const w of seen) if (!w.some((fid) => felderDerFehler.has(fid))) err(`${wo}: unlisted contradiction at ${w.join(" / ")}`);
-  const ohneWiderspruchOk = new Set(["derivar_arraigo", "derivar_regularizacion", "zimmer"]);
+  const ohneWiderspruchOk = new Set(["derivar_cittadinanza", "derivar_ricongiungimento", "sportello_codice", "sportello_asl", "zimmer"]);
   for (const f of c.fehler) {
     if (ohneWiderspruchOk.has(f.code)) continue;
     if (!seen.some((w) => w.some((fid) => f.paare.flat().includes(fid)))) err(`${wo}: mistake ${f.code} doesn't show on the papers`);
