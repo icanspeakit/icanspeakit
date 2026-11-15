@@ -469,7 +469,7 @@ export function mountHost(root) {
     // A clue that names the word itself is held back on its own.
     // Accent-blind, because a phone keyboard often leaves the accent out.
     const plain = (s) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
-    const lemma = plain(round.word.de.replace(/^(el\/la|el|la|los|las) /, ""));
+    const lemma = plain(round.word.de.replace(/^(?:(?:il|lo|la|i|gli|le) |l')/, ""));
     const named = plain(text).includes(lemma.slice(0, Math.max(4, lemma.length - 2)));
     const clue = { id, cr: round.clueRound, text, shown: false, hidden: named, named, at: Date.now() };
     round.clues.push(clue);
