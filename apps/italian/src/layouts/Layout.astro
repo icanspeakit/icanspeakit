@@ -297,12 +297,14 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          icon changes.
          `rel="shortcut icon"` was dropped: it is a non-standard legacy alias for
          `rel="icon"` and adds a second, competing declaration for the same file. -->
-    <!-- The icanspeak.it kit (public/logos, docs/brand/BRAND.md): SVG favicon for current
+    <!-- The icanspeak kit (brand/kit/icons, BRAND.md §2: the split i): SVG favicon for current
          browsers, the .ico for the rest, the app icon for home screens. -->
-    <link rel="icon" href={withBase("/logos/favicon.ico?v=4")} sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href={withBase("/logos/favicon.svg?v=4")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/logos/icanspeak-spanish-apple-touch-icon.png?v=4")} />
-    <link rel="manifest" href={withBase("/site.webmanifest?v=4")} />
+    <link rel="icon" href={withBase("/favicon.ico?v=5")} sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg?v=5")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png?v=5")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16x16.png?v=5")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png?v=5")} />
+    <link rel="manifest" href={withBase("/site.webmanifest?v=5")} />
     <!-- The warm paper of the page (--page-bg in global.css), so the browser chrome runs
          into the page as on icanspeak.it. -->
     <meta name="theme-color" content="#fbf7ef" />
