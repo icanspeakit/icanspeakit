@@ -17,6 +17,7 @@ import AuthStatus from "./AccountSlot.astro";
 import { mascotSvg } from "../lib/mascots.js";
 import { navSections, levels, itemsOf, navLehrkraefte, navSprachen, navWortgeschichte, navNachschlagen, navLernen, navWortfallen, navUmgangssprache, navRedewendungen, navZitate, navEntdecken, navUebenMenu } from "../lib/catalog.js";
 import "../styles/site-nav.css";
+import "../styles/nav-flach.css";
 import "../styles/auth.css";
 
 // B1 has eleven grammar topics and a menu that scrolls is a menu nobody reads to the end
@@ -62,7 +63,7 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
   <div class="lp-drawer-scrim" data-drawer-close></div>
   <div class="lp-drawer-panel" role="dialog" aria-modal="true" aria-label="Menü" data-i18n-attr="aria-label:nav.menu">
     <div class="lp-drawer-top">
-      <img src="/assets/logo.png" alt="icanspeak English" />
+      <img src="/logos/icanspeak-wordmark.svg" alt="icanspeak English" />
       {/* Language sits up here, first thing in the drawer, not in the footer with the
           theme toggle. For a visitor who cannot read the rows below it, it is the one
           control in the drawer that matters, and it was the last one on the screen. */}
