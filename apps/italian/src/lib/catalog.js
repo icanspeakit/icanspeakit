@@ -1050,8 +1050,8 @@ export const navUebenMenu = {
         // Not a level: phrases, model texts and exercises for office work (/business-spanish).
         { href: "/business-spanish", titleKey: "biz.title", title: "Business Italian",
           hintKey: "biz.navHint", hint: "Emails, calls, CVs, interviews, meetings" },
-        // Not a level either: the driving words (/dgt-vocabulary).
-        { href: "/dgt-vocabulary", titleKey: "dgt.title", title: "Patente vocabulary",
+        // Not a level either: the driving words (/patente-vocabulary).
+        { href: "/patente-vocabulary", titleKey: "dgt.title", title: "Patente vocabulary",
           hintKey: "dgt.navHint", hint: "Car, road, signs, exam and paperwork" },
       ] },
     { id: "fertigkeiten", icon: "mic", href: "/skills",

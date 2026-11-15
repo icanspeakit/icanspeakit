@@ -1,6 +1,6 @@
 ---
 import { fitTitle } from "../../lib/seo/title.js";
-// /dgt-vocabulary/[gruppe]: one word group of the DGT driving deck in the shared flashcard trainer,
+// /patente-vocabulary/[gruppe]: one word group of the patente deck in the shared flashcard trainer,
 // the same page as a sector's group (spanish-for-work/[beruf]/[gruppe].astro).
 import Layout from "../../layouts/Layout.astro";
 import { workPath } from "../../lib/routes.js";
@@ -10,18 +10,18 @@ import { DECKS, groupsOf, cardsOf, LANGS } from "../../lib/berufeWortschatz.js";
 import "../../styles/berufe.css";
 
 export function getStaticPaths() {
-  return groupsOf("dgt").map((g: any) => ({ params: { gruppe: g.id }, props: { group: g } }));
+  return groupsOf("patente").map((g: any) => ({ params: { gruppe: g.id }, props: { group: g } }));
 }
 const { group } = Astro.props as any;
-const deck = DECKS.dgt;
-const cards = cardsOf("dgt", group.id);
-const deckId = `berufe-dgt-${group.id}`;
-const printHref = `${workPath("dgt", group.id)}/print`;
+const deck = DECKS.patente;
+const cards = cardsOf("patente", group.id);
+const deckId = `berufe-patente-${group.id}`;
+const printHref = `${workPath("patente", group.id)}/print`;
 ---
 <Layout
   title={fitTitle(`${group.title} – ${deck.title}`, group.title)}
   description={`${deck.title}: ${group.title} — ${cards.length} words with example sentences and translations.`}
-  breadcrumb={[{ name: deck.title, path: "/dgt-vocabulary" }]}
+  breadcrumb={[{ name: deck.title, path: "/patente-vocabulary" }]}
 >
   <VokabelTrainer
     cards={cards}

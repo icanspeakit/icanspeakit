@@ -31,12 +31,12 @@ for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".
   catch (err) { files.push({ file, deck: null }); console.error(`  ERROR ${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
-// The DGT driving deck: the same format, under its own slug (content-plan §4.4).
-const DGT_DIR = "src/data/dgt";
-if (existsSync(path.join(ROOT, DGT_DIR))) {
-  for (const file of readdirSync(path.join(ROOT, DGT_DIR)).filter((f) => f.endsWith(".json")).sort()) {
-    try { files.push({ file: `dgt/${file}`, slug: "dgt", deck: read(`${DGT_DIR}/${file}`) }); }
-    catch (err) { files.push({ file: `dgt/${file}`, slug: "dgt", deck: null }); console.error(`  ERROR dgt/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
+// The patente (driving) deck: the same format, under its own slug (content-plan §4.4).
+const PATENTE_DIR = "src/data/patente";
+if (existsSync(path.join(ROOT, PATENTE_DIR))) {
+  for (const file of readdirSync(path.join(ROOT, PATENTE_DIR)).filter((f) => f.endsWith(".json")).sort()) {
+    try { files.push({ file: `patente/${file}`, slug: "patente", deck: read(`${PATENTE_DIR}/${file}`) }); }
+    catch (err) { files.push({ file: `patente/${file}`, slug: "patente", deck: null }); console.error(`  ERROR patente/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
   }
 }
 

@@ -26,7 +26,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Empty since `variety-schema` (2026-11-12): every module still holds Spanish-course content, so
 // the Spanish course's strict list was dropped; the items re-add their modules one by one.
 // Re-added: einstufung (placement-test).
-const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "praepositionen", "verbtabellen", "hoeren", "redemittel", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen"]);
+const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "praepositionen", "verbtabellen", "hoeren", "redemittel", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen", "patente"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -53,8 +53,7 @@ const MODULES = [
   { id: "lexicon-c2", files: one("src/content/lexicon/c2.json"),
     items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
   { id: "berufe", files: jsonFiles("src/data/berufe"), items: deckWords },
-  { id: "dgt", files: jsonFiles("src/data/dgt"), items: deckWords },
-  // `patente-vocab` moves src/data/dgt to src/data/patente (content-plan §11).
+  // src/data/dgt became src/data/patente in `patente-vocab` (content-plan §11); converted: strict.
   { id: "patente", files: jsonFiles("src/data/patente"), items: deckWords },
   // A unit: its phrases and its own words (refs inherit); exercises inherit from the unit.
   // `business-italian` renames the folder in one commit (content-plan §13); both ids are listed.
