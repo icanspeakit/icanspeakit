@@ -1,4 +1,5 @@
 ---
+import ConsentBanner from "../components/ConsentBanner.astro";
 // Head and body shell for the brand-pattern landing (brand/kit/BRAND.md §5). The 404 keeps Hub.astro.
 import '../styles/tokens.css';
 import '../styles/tiles.css';
@@ -38,10 +39,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body class="landing">
     <slot />
-    <script>
-      // PostHog, cookieless (src/lib/analytics.js).
-      import { initAnalytics } from "../lib/analytics.js";
-      initAnalytics("hub");
-    </script>
+    <!-- PostHog, and the consent banner that decides cookieless or replay (src/lib/analytics.js).
+         No privacy page of its own: the English course's covers all of icanspeak.it. -->
+    <ConsentBanner app="hub" privacyHref="/english/privacy" />
   </body>
 </html>

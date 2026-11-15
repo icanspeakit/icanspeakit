@@ -1,6 +1,7 @@
 ---
 import { currentPath, stripBase } from "../lib/paths.js";
 import "../styles/global.css";
+import ConsentBanner from "../components/ConsentBanner.astro";
 import "../styles/brand.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
@@ -372,11 +373,9 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
       </script>
     )}
     {!noTracking && (
-      <script>
-        // PostHog, cookieless (src/lib/analytics.js). Pages with noTracking skip it.
-        import { initAnalytics } from "../lib/analytics.js";
-        initAnalytics("english");
-      </script>
+      // PostHog, and the consent banner that decides cookieless or replay (src/lib/analytics.js).
+      // Pages with noTracking skip both.
+      <ConsentBanner app="english" privacyHref={withBase("/privacy")} />
     )}
     <script>
 import { currentPath } from "../lib/paths.js";

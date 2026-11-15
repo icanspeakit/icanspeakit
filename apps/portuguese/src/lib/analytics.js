@@ -1,12 +1,26 @@
-// Analytics: PostHog EU Cloud (Frankfurt), cookieless. Project "icanspeak" → 344818.
+// Analytics: PostHog EU Cloud (Frankfurt). Project "icanspeak" → 344818.
 //
-// cookieless_mode "always": PostHog writes nothing to the device (no cookie, no localStorage)
-// and counts visitors server-side with a daily-rotating hash of IP + user agent. That needs
-// no consent under §25 TDDDG, so there is no banner. The trade: no session replay, no person
-// profiles, and a visitor is a new visitor every day.
+// Consent decides the mode (since 2026-11-15; before, every visitor was cookieless and there
+// was no replay and no banner):
 //
-// Needs "Cookieless server hash mode" switched ON in the PostHog project
-// (Settings → Web analytics). Without it PostHog drops every event from this module.
+//   no answer yet  → cookieless_mode "always": nothing written to the device; PostHog counts
+//   "Decline"         visitors server-side with a daily-rotating hash of IP + user agent.
+//                     That needs no consent under §25 TDDDG, so every visitor is still counted.
+//   "Accept"       → cookieless_mode "on_reject" + opt-in: PostHog keeps its ph_* storage and
+//                     records the session (session replay), inputs masked. Intent events
+//                     (intent.js) are sent too.
+//
+// The mode is chosen when PostHog starts, so an answer given on a page takes effect from the
+// next page on (PostHog cannot leave cookieless "always" mid-page). The answer itself is
+// counted at once, as "consent_answer", cookieless if need be.
+//
+// The banner is ConsentBanner.astro (same file in every app). Our answer lives in
+// localStorage["da_consent"] = "granted" | "denied" — remembering the answer to the question
+// is the one storage the law allows without asking. One answer covers all of icanspeak.it
+// (one origin). resetConsent() withdraws it (button on the privacy page).
+//
+// Needs, in the PostHog project: "Cookieless server hash mode" ON (Settings → Web analytics)
+// and session replay ON. Without the first PostHog drops every cookieless event.
 //
 // The same file lives in every app (apps/*/src/lib/analytics.js, hub and linguistics
 // included) so all of icanspeak.it reports into one project; `app` on each event says which.
@@ -20,6 +34,9 @@
 const KEY = import.meta.env.PUBLIC_POSTHOG_KEY || "phc_AMyBixjKF9itAAjG6FJ8rhzLwoWj9S7KgzPK4rCW8DpY";
 const HOST = import.meta.env.PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com";
 const DEV_ON = import.meta.env.PUBLIC_POSTHOG_DEV === "on";
+const CONSENT_KEY = "da_consent";
+// Bump when the banner's text, buttons or timing change, so acceptance can be compared.
+export const BANNER_VERSION = "ics-v1-2026-11";
 
 function blocked() {
   if (typeof window === "undefined") return true;
@@ -46,13 +63,71 @@ function blocked() {
 
 export const analyticsConfigured = Boolean(KEY) && !blocked();
 
-// The consent API stays for callers written against the old banner version. There is no
-// banner: cookieless needs no answer, and "granted" (cookies, replay) is never reached.
-// intent.js checks da_consent itself, so its intent events stay off.
-export function getConsent() { return "denied"; }
-export function setConsent(_value) {}
-export function resetConsent() {}
-export function onConsentChange(_fn) { return () => {}; }
+/** @returns {"granted" | "denied" | null} */
+export function getConsent() {
+  try {
+    const v = localStorage.getItem(CONSENT_KEY);
+    return v === "granted" || v === "denied" ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+const listeners = new Set();
+export function onConsentChange(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+
+/** @param {"granted" | "denied"} value  @param {{ trigger?: string }} [opts] what showed the banner */
+export function setConsent(value, { trigger } = {}) {
+  try {
+    localStorage.setItem(CONSENT_KEY, value);
+  } catch {}
+  try {
+    window.posthog?.capture("consent_answer", {
+      answer: value === "granted" ? "yes" : "no",
+      trigger: trigger || "unknown",
+      banner: BANNER_VERSION,
+      ui_lang: document.documentElement.lang || "",
+      mobile: window.matchMedia?.("(max-width: 820px)").matches ?? false,
+    });
+  } catch {}
+  listeners.forEach((fn) => fn(value));
+}
+
+/** Withdraw: stop the recording, delete what PostHog stored, ask again. */
+export function resetConsent() {
+  try {
+    localStorage.removeItem(CONSENT_KEY);
+  } catch {}
+  try {
+    window.posthog?.stopSessionRecording?.();
+    window.posthog?.opt_out_capturing?.();
+  } catch {}
+  clearPostHogStorage();
+  listeners.forEach((fn) => fn(null));
+}
+
+// PostHog's ph_* / __ph_* entries in both storages, and its cookies on host and domain.
+function clearPostHogStorage() {
+  try {
+    for (const store of [localStorage, sessionStorage]) {
+      Object.keys(store).filter((k) => k.startsWith("ph_") || k.startsWith("__ph_")).forEach((k) => store.removeItem(k));
+    }
+  } catch {}
+  try {
+    const host = location.hostname;
+    const domains = ["", host, "." + host.split(".").slice(-2).join(".")];
+    document.cookie
+      .split(";")
+      .map((c) => c.trim().split("=")[0])
+      .filter((n) => n.startsWith("ph_") || n.startsWith("__ph_"))
+      .forEach((n) => domains.forEach((d) => {
+        document.cookie = `${n}=; Max-Age=0; path=/${d ? `; domain=${d}` : ""}`;
+      }));
+  } catch {}
+}
 
 function loadStub() {
   // PostHog's official loader snippet: queues calls on window.posthog and fetches array.js
@@ -62,18 +137,31 @@ function loadStub() {
   /* eslint-enable */
 }
 
-/** Call once per page. `app`: which part of icanspeak.it (hub, linguistics, english, …). */
+/** Call once per page. `app`: which part of icanspeak.it (hub, linguistics, english, …).
+ *  Returns true when the visitor has not answered yet, i.e. the banner may ask. */
 export function initAnalytics(app) {
-  if (!analyticsConfigured || window.__icsPostHog) return false;
+  if (!analyticsConfigured) return false;
+  const consent = getConsent();
+  if (window.__icsPostHog) return consent === null;
   loadStub();
+  const granted = consent === "granted";
   window.posthog.init(KEY, {
     api_host: HOST,
     ui_host: "https://eu.posthog.com",
     defaults: "2026-05-30",
-    cookieless_mode: "always",
+    cookieless_mode: granted ? "on_reject" : "always",
     person_profiles: "identified_only",
+    // Replays never show what someone typed into an exercise or a form.
+    session_recording: { maskAllInputs: true },
+    // Started in loaded() below, and only after "Accept".
     disable_session_recording: true,
     capture_exceptions: true,
+    loaded: (ph) => {
+      if (!granted) return;
+      // PostHog's own opt-in flag, set once; captureEventName false: no "$opt_in" event.
+      if (!ph.has_opted_in_capturing()) ph.opt_in_capturing({ captureEventName: false });
+      ph.startSessionRecording();
+    },
     // Every event, $pageview included, says which app sent it. (register() would need the
     // storage that cookieless mode does not have.)
     before_send: (event) => {
@@ -82,7 +170,7 @@ export function initAnalytics(app) {
     },
   });
   window.__icsPostHog = true; // on window: array.js replaces the window.posthog stub
-  return false;
+  return consent === null;
 }
 
 /** Custom event, e.g. track("exam_pack_open", { pack: "dele-a2" }). Ids and numbers only. */
