@@ -5,7 +5,7 @@ import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
 // Two things are said out loud on the Start part: every
 // text and item is written by icanspeak Italian, and the rating is our own guide.
 //
-// Listening is deliberately absent: it needs recordings. The CELI sets on /siele/levels
+// Listening is deliberately absent: it needs recordings. The CELI sets on /celi
 // have listening scripts to read until audio exists.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -20,7 +20,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
-    <a href="/siele" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the PLIDA page</a>
+    <a href="/plida" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the PLIDA page</a>
 
     <div class="practice-hero">
       <p class="eyebrow"><span translate="no">PLIDA</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
@@ -346,7 +346,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           const actions = el("div", "exam-actions");
           const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the PLIDA page")));
-          back.href = withBase("/siele");
+          back.href = withBase("/plida");
           actions.appendChild(back);
           main.appendChild(actions);
         },

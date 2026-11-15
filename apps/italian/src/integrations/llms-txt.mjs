@@ -22,8 +22,8 @@ const SECTIONS = [
   ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
   ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
   ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Exams', ['/exams', '/dele', '/dele/*', '/siele', '/siele/*', '/exams/which-exam', '/certit', '/certit/*', '/ccse', '/ccse/*', '/nationality', '/nationality/*']],
-  ['Life and work in Italy', ['/spanish-for-work', '/business-italian', '/patente-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['Exams', ['/exams', '/cils', '/cils/*', '/plida', '/plida/*', '/exams/which-exam', '/certit', '/certit/*', '/civic-knowledge', '/civic-knowledge/*', '/citizenship', '/citizenship/*']],
+  ['Life and work in Italy', ['/italian-for-work', '/business-italian', '/patente-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
   ['For teachers', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],

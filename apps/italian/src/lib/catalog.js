@@ -43,7 +43,7 @@ import praepTrainer from "../data/praepositionen-trainer.json";
 // shadows the quiz entry with the same id.
 const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
 // Deutsch für den Beruf (FACHVOKABULAR-TIERED-PROMPT.md, Tier 3): the word count over every
-// profession deck, refs included — the number the /spanish-for-work hub shows.
+// profession deck, refs included — the number the /italian-for-work hub shows.
 const berufeDecks = Object.values(import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" }));
 const berufeWordCount = berufeDecks.reduce((n, d) => n + (d.groups ?? []).reduce((m, g) => m + (g.words ?? []).length, 0), 0);
 const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
@@ -135,7 +135,7 @@ export const tools = [
     titleKey: "tool.aussprache.title", title: "Aussprache-Training", shortKey: "group.short.aussprache", short: "Aussprache",
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
-  { id: "berufe", group: "woerter", href: "/spanish-for-work", icon: "target",
+  { id: "berufe", group: "woerter", href: "/italian-for-work", icon: "target",
     titleKey: "tool.berufe.title", title: "Italian for work", shortKey: "group.short.berufe", short: "Work",
     descKey: "tool.berufe.desc", desc: "Job vocabulary for Italy: care work, bars and restaurants, cleaning, farm work, construction and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
@@ -245,15 +245,15 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "CELI", short: "CELI", count: "A2–B1",
+  { id: "telc", group: "pruefungen", href: "/celi", icon: "document", title: "CELI", short: "CELI", count: "A2–B1",
     keywords: "celi perugia università per stranieri certificate certificato" },
-  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "CILS", short: "CILS", count: "A1–C2",
+  { id: "goethe", group: "pruefungen", href: "/cils", icon: "landmark", title: "CILS", short: "CILS", count: "A1–C2",
     keywords: "cils siena università per stranieri certificate certificazione" },
-  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "PLIDA", short: "PLIDA", count: "A1–C2",
+  { id: "testdaf", group: "pruefungen", href: "/plida", icon: "graduation-cap", title: "PLIDA", short: "PLIDA", count: "A1–C2",
     keywords: "plida dante alighieri certificate" },
-  { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "B1 mock for citizenship", short: "Citizenship B1", count: "B1",
+  { id: "dtz", group: "pruefungen", href: "/citizenship/b1-mock", icon: "book-open", title: "B1 mock for citizenship", short: "Citizenship B1", count: "B1",
     keywords: "citizenship cittadinanza b1 language proof mock test" },
-  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "Civic knowledge test", short: "Civic knowledge",
+  { id: "lid", group: "pruefungen", href: "/civic-knowledge", icon: "map-pin", titleKey: "exam.lid.name", title: "Civic knowledge test", short: "Civic knowledge",
     keywords: "civic knowledge educazione civica accordo di integrazione constitution costituzione italy permesso",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
@@ -635,7 +635,7 @@ const kulturInsiderItem = {
    The same facts serve both: a learner reading about Germany meets the exam, and one
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
-  id: "kultur-lid-fakten", href: "/ccse/facts", icon: "graduation-cap",
+  id: "kultur-lid-fakten", href: "/civic-knowledge/facts", icon: "graduation-cap",
   title: "Facts about Italy", titleKey: "nav.kultur.lidFakten",
   count: "Civic knowledge test", countKey: "nav.kultur.lidFaktenHint",
 };
@@ -824,9 +824,9 @@ export const skills = SKILLS.map((skill) => ({
 
 const grammatikTrainer = notSelf("/grammar", itemsOf("grammatik"));
 
-/** The Bruno Kart game (/games/gender-sprint): listed under Spiele in both menus.
+/** The Bruno Kart game (/games/article-sprint): listed under Spiele in both menus.
  *  Not in `tools`, which feeds the landing grid and the counts. */
-const sprintItem = { id: "artikel-sprint", href: "/games/gender-sprint", icon: "sparkle",
+const sprintItem = { id: "artikel-sprint", href: "/games/article-sprint", icon: "sparkle",
   titleKey: "sprint.name", title: "Bruno Kart",
   hintKey: "nav.hint.game", hint: "Spiel, auch mit Freunden",
   countKey: "nav.hint.game", count: "Spiel, auch mit Freunden" };
@@ -1044,8 +1044,8 @@ export const navUebenMenu = {
           href: `/vocabulary/${level.toLowerCase()}`,
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
-        // Not a level: the profession decks (/spanish-for-work), A2–B1, for learners who work.
-        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Italian for work",
+        // Not a level: the profession decks (/italian-for-work), A2–B1, for learners who work.
+        { href: "/italian-for-work", titleKey: "tool.berufe.title", title: "Italian for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
         // Not a level: phrases, model texts and exercises for office work (/business-italian).
         { href: "/business-italian", titleKey: "biz.title", title: "Business Italian",

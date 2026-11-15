@@ -232,7 +232,7 @@ export function buildSearchIndex() {
     t: "Spanish nationality by residence: CCSE and DELE A2",
     s: "How many years, who needs which test, who is exempt, and the steps in order",
     k: "spanish nationality citizenship residence nacionalidad española residencia ccse dele a2 exempt dispensa oath jura registro civil how to become spanish passport",
-    h: "/nationality",
+    h: "/citizenship",
   });
   // The patente deck: words for the driving course, the road and the paperwork.
   pages.push({

@@ -23,12 +23,12 @@ const BRAND = "icanspeak Italian";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/nationality/dele-a2", "/nationality/dele-a2/mock-test", "/nationality/dele-a2/practice-set", "/ccse",
-  "/ccse/test", "/exams", "/siele/levels", "/dele", "/siele",
-  "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
+  "/", "/citizenship/b1-mock", "/citizenship/b1-mock/mock-test", "/citizenship/b1-mock/practice-set", "/civic-knowledge",
+  "/civic-knowledge/test", "/exams", "/celi", "/cils", "/plida",
+  "/cils/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
   "/pronunciation-check",
 ];
-const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/dele/");
+const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/cils/");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {

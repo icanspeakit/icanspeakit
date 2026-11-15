@@ -1030,7 +1030,7 @@ export function mountLindenau(root) {
         ${canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-review>${esc(t("ld.review", "Review"))}</button>` : ""}
         ${nextArea && !canReview ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("ld.nextArea", "Next: {a}", { a: nextArea.title }))}</button>` : ""}
         <button type="button" class="quiz-btn${canReview || nextArea ? "" : " quiz-btn--primary"}" data-again>${esc(t("ld.again", "Play again"))}</button>
-        <a class="quiz-btn" href="${withBase("/games/gender-sprint")}">${esc(t("ld.more", "Another game"))}</a>
+        <a class="quiz-btn" href="${withBase("/games/article-sprint")}">${esc(t("ld.more", "Another game"))}</a>
       </div></div>`);
     panel.querySelector("[data-again]").addEventListener("click", () => start(area.id));
     panel.querySelector(".sf-result").append(spielMeldenRow("lindenau", roundInfo));

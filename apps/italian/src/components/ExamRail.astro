@@ -17,13 +17,13 @@ import "../styles/exam-rail.css";
 import { stripBase } from "../lib/paths.js";
 
 const exams = [
-  { name: "Italian A1", href: "/dele/a1", level: "A1" },
-  { name: "CILS", href: "/dele", level: "A1–C2" },
-  { name: "CELI", href: "/siele/levels", level: "A2–B1" },
-  { name: "PLIDA", href: "/siele", level: "A1–C2" },
-  { name: "Citizenship B1 mock", href: "/nationality/dele-a2", level: "B1" },
+  { name: "Italian A1", href: "/cils/a1", level: "A1" },
+  { name: "CILS", href: "/cils", level: "A1–C2" },
+  { name: "CELI", href: "/celi", level: "A2–B1" },
+  { name: "PLIDA", href: "/plida", level: "A1–C2" },
+  { name: "Citizenship B1 mock", href: "/citizenship/b1-mock", level: "B1" },
 ];
-const lid = { name: "Civic knowledge", href: "/ccse" };
+const lid = { name: "Civic knowledge", href: "/civic-knowledge" };
 const here = stripBase(Astro.url.pathname).replace(/\/+$/, "");
 ---
 <nav class="ex-rail" aria-label="Exams" data-i18n-attr="aria-label:nav.exams">

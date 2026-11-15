@@ -8,7 +8,7 @@ import { buildPlan, planToIcs } from "../src/lib/pruefungsplan.js";
 
 const exam = {
   key: "dtz", label: "DTZ", level: "B1",
-  sets: [{ label: "Übungssatz 1", href: "/nationality/dele-a2/practice-set" }, { label: "Übungssatz 2", href: "/nationality/dele-a2/practice-set#uebungssatz-2", paid: true }],
+  sets: [{ label: "Übungssatz 1", href: "/citizenship/b1-mock/practice-set" }, { label: "Übungssatz 2", href: "/citizenship/b1-mock/practice-set#uebungssatz-2", paid: true }],
   grammar: { A2: [{ name: "Perfekt", href: "/present-perfect" }], B1: [{ name: "Passiv", href: "/passive-and-se" }, { name: "Konjunktiv II", href: "/konjunktiv-2" }] },
   lernsets: { A2: [{ title: "Arbeit", href: "/vocabulary/a2-01" }], B1: [{ title: "Wohnen", href: "/vocabulary/b1-01" }] },
 };

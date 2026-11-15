@@ -26,7 +26,7 @@ const { questions, meta, bundeslaender } = lid;
       <p class="eyebrow"><span data-i18n="exam.lid.name">Civic knowledge test</span> · <span data-i18n="lid.test.eyebrow">Practice test</span></p>
       <h1><span class="hero-exam" data-i18n="exam.lid.name">Civic knowledge test</span> <span data-i18n="exam.h1.lidTest">Practice test</span></h1>
       <p data-i18n-html="lid.test.hero" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore })}>
-        n practice questions in Italian in five areas, plus extra questions on a region. A sitting here is t questions in m minutes with pass correct answers as our own target; these are not official figures. Unsure of the facts? Go through the <a href="/ccse/facts">facts page</a> first.
+        n practice questions in Italian in five areas, plus extra questions on a region. A sitting here is t questions in m minutes with pass correct answers as our own target; these are not official figures. Unsure of the facts? Go through the <a href="/civic-knowledge/facts">facts page</a> first.
       </p>
     </div>
     <ExamDisclaimer />
@@ -229,7 +229,7 @@ const { questions, meta, bundeslaender } = lid;
 
           const actions = el("div", "exam-actions");
           const facts = el("a", "quiz-btn", t("lid.toFacts"));
-          facts.href = withBase("/ccse/facts");
+          facts.href = withBase("/civic-knowledge/facts");
           actions.appendChild(facts);
           main.appendChild(actions);
         },

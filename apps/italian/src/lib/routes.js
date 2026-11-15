@@ -7,7 +7,7 @@
 //
 // Ids, data file names and localStorage keys stayed German (content-plan §1.3, §6), because code
 // and saved progress key on them. Only the URL is the course's: English, except proper names
-// (/dele, /siele, /ccse) and the Spanish grammar terms learners search for (/por-para, /gustar).
+// (/cils, /plida, /civic-knowledge) and the Spanish grammar terms learners search for (/por-para, /gustar).
 // The site at /italian is new, so there are no redirects from any earlier address (§7, §8).
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
@@ -170,7 +170,7 @@ export const ITEM_SLUGS = {
   },
   // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
   // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
-  "/spanish-for-work": {
+  "/italian-for-work": {
     "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "agriculture",
     gastronomie: "hospitality", hotel: "hotels", kita: "cleaning-domestic-work", kraftfahrer: "driving",
     "lager-logistik": "warehouse", pflege: "care-work",
@@ -210,18 +210,18 @@ export const businessPath = (unit) => `/business-italian/${BUSINESS_SLUGS[unit] 
 /** A work sector, or one word group of it. */
 export const workPath = (sector, group) => sector === "patente" ? `/patente-vocabulary${group ? `/${group}` : ""}` :
   sector === "business" ? (group ? `${businessPath(group)}/words` : "/business-italian") :
-  `/spanish-for-work/${itemSlug("/spanish-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
+  `/italian-for-work/${itemSlug("/italian-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */
 export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
-  goethe: "/dele", telc: "/siele/levels", dtz: "/nationality/dele-a2", testdaf: "/siele",
-  "leben-in-deutschland": "/ccse", "start-deutsch-1": "/dele/a1",
+  goethe: "/cils", telc: "/celi", dtz: "/citizenship/b1-mock", testdaf: "/plida",
+  "leben-in-deutschland": "/civic-knowledge", "start-deutsch-1": "/cils/a1",
 };
 /** The overview page of an exam family (registry id → path). */
 export const examPath = (exam) => EXAM_PATHS[exam] ?? `/${exam}`;
-/** The exam family (registry id) a path belongs to, or null. Longest path first (/nationality/dele-a2 is dtz). */
+/** The exam family (registry id) a path belongs to, or null. Longest path first (/citizenship/b1-mock is dtz). */
 export function examOfPath(path) {
   const hit = Object.entries(EXAM_PATHS).sort((a, b) => b[1].length - a[1].length)
     .find(([, p]) => path === p || path.startsWith(p + "/"));

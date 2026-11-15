@@ -1,6 +1,6 @@
 ---
 // "CILS, CELI, PLIDA or CERT.IT?": which certificate fits which purpose (content-plan §2). The
-// page was moved here from /exams/dele-or-siele by `exams-plida-certit` (content-plan §2: new
+// page was moved here from /exams/cils-or-siele by `exams-plida-certit` (content-plan §2: new
 // route /exams/which-exam). General orientation, every fact dated and "to verify": no prices,
 // timings or pass marks are asserted here. Text lives in public/i18n/en.json; the markup holds
 // the same English as a fallback. Keys still carry their old names (delesiele.*): .dele = CILS,
@@ -78,7 +78,7 @@ const checkRows = [
           <h3 data-i18n={`delesiele.p.${p.key}.title`}>{p.title}</h3>
           <p><strong data-i18n={`delesiele.p.${p.key}.answer`}>{p.answer}</strong></p>
           <p data-i18n={`delesiele.p.${p.key}.text`}>{p.text}</p>
-          {p.key === "nationality" && <p><a href="/nationality" data-i18n="nat.link.more">How Italian citizenship works, step by step</a></p>}
+          {p.key === "nationality" && <p><a href="/citizenship" data-i18n="nat.link.more">How Italian citizenship works, step by step</a></p>}
         </>
       ))}
       <p class="format-note" data-i18n="delesiele.purpose.note">
@@ -133,17 +133,17 @@ const checkRows = [
       <div class="mock-cta">
         <h3 data-i18n="delesiele.practice.dele.title">CILS</h3>
         <p data-i18n="delesiele.practice.dele.text">Format and practice tests for the levels on this site, in the style of the exam.</p>
-        <a class="quiz-btn quiz-btn--primary" href="/dele" data-i18n="delesiele.practice.dele.cta">To the CILS page</a>
+        <a class="quiz-btn quiz-btn--primary" href="/cils" data-i18n="delesiele.practice.dele.cta">To the CILS page</a>
       </div>
       <div class="mock-cta">
         <h3 translate="no">CELI</h3>
         <p data-i18n="delesiele.practice.celi.text">Practice sets by level, in the style of the exam.</p>
-        <a class="quiz-btn quiz-btn--primary" href="/siele/levels" data-i18n="delesiele.practice.celi.cta">To the CELI page</a>
+        <a class="quiz-btn quiz-btn--primary" href="/celi" data-i18n="delesiele.practice.celi.cta">To the CELI page</a>
       </div>
       <div class="mock-cta">
         <h3 data-i18n="delesiele.practice.siele.title">PLIDA</h3>
         <p data-i18n="delesiele.practice.siele.text">Format and a practice set, in the style of the exam.</p>
-        <a class="quiz-btn quiz-btn--primary" href="/siele" data-i18n="delesiele.practice.siele.cta">To the PLIDA page</a>
+        <a class="quiz-btn quiz-btn--primary" href="/plida" data-i18n="delesiele.practice.siele.cta">To the PLIDA page</a>
       </div>
       <div class="mock-cta">
         <h3 translate="no">CERT.IT</h3>

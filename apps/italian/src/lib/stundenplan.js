@@ -147,11 +147,11 @@ export function videoSearch(name, level) {
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // CELI = /siele/levels (the telc slot), CILS = /dele (the goethe slot), PLIDA = /siele (the
+  // CELI = /celi (the telc slot), CILS = /cils (the goethe slot), PLIDA = /plida (the
   // testdaf slot). CERT.IT has no page of its own yet.
-  if (/CELI/.test(text)) return "/siele/levels";
-  if (/CILS/.test(text)) return "/dele";
-  if (/PLIDA/.test(text)) return "/siele";
+  if (/CELI/.test(text)) return "/celi";
+  if (/CILS/.test(text)) return "/cils";
+  if (/PLIDA/.test(text)) return "/plida";
   return null;
 }
 
