@@ -34,8 +34,17 @@ function splitGap(prompt) {
 /** "Ich habe den Film gesehen ." → "Ich habe den Film gesehen." */
 export const joinWords = (words) => words.join(" ").replace(/\s+([.,!?;:])/g, "$1");
 
+/** The trainer's hint says "Tap/Click X, then Y" — on paper the learner writes a letter
+    instead. That first sentence is replaced; anything after it (a tip) stays. */
+const PAPER_MATCH = "Write the letter of the matching item in the box.";
+export function paperHint(hint) {
+  const h = String(hint ?? "");
+  if (!/^(tap|click|drag)\b/i.test(h)) return h;
+  return [PAPER_MATCH, ...h.split(/(?<=[.!?])\s+/).slice(1)].join(" ");
+}
+
 function section(ex, i, topicId) {
-  const base = { type: ex.type, title: ex.title ?? "", hint: ex.hint ?? "", n: i + 1 };
+  const base = { type: ex.type, title: ex.title ?? "", hint: paperHint(ex.hint), n: i + 1 };
   const box = (list) => (ex.choices?.length ? shuffle(ex.choices, `${topicId}:${i}:box`) : list ? shuffle([...new Set(list)], `${topicId}:${i}:box`) : null);
 
   switch (ex.type) {
@@ -51,7 +60,7 @@ function section(ex, i, topicId) {
     case "table":
       return {
         ...base,
-        columns: ex.columns ?? ["", "Lösung"],
+        columns: ex.columns ?? ["", "Answer"],
         items: (ex.rows ?? []).map((r) => ({ term: r.term, answers: answersOf(r.answer) })),
         box: box(null),
       };
@@ -61,7 +70,7 @@ function section(ex, i, topicId) {
       return {
         ...base,
         left: pairs.map((p) => p.q),
-        right: order.map((pi, k) => ({ letter: LETTERS[k], text: pairs[pi].a })),
+        right: order.map((pi, k) => ({ letter: LETTERS[k], text: pairs[pi].a, pi })),
         answers: pairs.map((_, k) => LETTERS[order.indexOf(k)]),
       };
     }
