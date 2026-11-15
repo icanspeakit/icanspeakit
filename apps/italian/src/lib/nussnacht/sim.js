@@ -63,13 +63,14 @@ export const EV = {
   BOSS_DOWN: 8, SKILL: 9, HEAL: 10, MINUTE: 11, WIN: 12, DIE: 13, SPLIT: 14, BURST: 15, ORBIT: 16,
 };
 
-// Ending radar: last letters → article index, by radar level. A word glows only when it ends that
-// way *and* has that article (el libro and la casa glow, la flor does not at the -or level), so
-// the radar never teaches anything wrong. Level 3 adds the traps: -a with el, -o with la.
+// Ending radar: last letters → article index (0 il, 1 lo, 2 la, 3 l'), by radar level. A word
+// glows only when it ends that way *and* has that article (il libro and la casa glow, la mano does
+// not at level 1), so the radar never teaches anything wrong. Level 3 adds the traps: -a with il,
+// -o with la.
 const RADAR = [
-  [[/o$/, 0], [/a$/, 1]],
-  [[/(ción|sión|dad|tad|tud|umbre)$/, 1], [/(aje|or)$/, 0]],
-  [[/a$/, 0], [/o$/, 1]],
+  [[/o$/, 0], [/a$/, 2]],
+  [[/(zione|sione|tà|tù|gione)$/, 2], [/(ore|ale)$/, 0]],
+  [[/a$/, 0], [/o$/, 2]],
 ];
 
 // Rotation of the orbiting acorns per tick (2.4 rad/s), as literal numbers: cos and sin of
@@ -94,13 +95,13 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   const ro = seeded(deckSeed(seed));
   const W = words.concat(low);
   const byArt = (from, to) => {
-    const out = [[], []];
+    const out = [[], [], [], []];
     for (let i = from; i < to; i++) out[W[i].g].push(i);
     return out;
   };
   const lvlIdx = byArt(0, words.length);
   const lowIdx = byArt(words.length, W.length);
-  // Compounds from the level below count too: Spanish has few per level.
+  // Compounds from the level below count too: there are few per level.
   const compIdx = [];
   for (let i = 0; i < W.length; i++) if (W[i].h) compIdx.push(i);
   const plIdx = [];
@@ -108,7 +109,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   // Radar: per word, the radar level that makes it glow (0 = never).
   const radarLv = new Uint8Array(W.length);
   for (let i = 0; i < W.length; i++) {
-    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: el viaje organizado ends in -e
+    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: il tavolo rotondo ends in -o
     for (let l = 0; l < RADAR.length && !radarLv[i]; l++) {
       for (const [start, art] of RADAR[l]) if (start.test(lw) && W[i].g === art) { radarLv[i] = l + 1; break; }
     }
@@ -228,10 +229,12 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     }
   }
   function pickWord() {
-    const art = Math.floor(rs() * 2);
+    // il and la are the common cases; lo and l' come up less often (each about 1 in 6)
+    const r = rs();
+    const art = r < 0.34 ? 0 : r < 0.5 ? 1 : r < 0.84 ? 2 : 3;
     const useLow = lowIdx[art].length > 0 && rs() < 0.25;
     const list = useLow ? lowIdx[art] : lvlIdx[art];
-    if (!list.length) return lvlIdx[0][0] ?? 0;
+    if (!list.length) return lvlIdx.find((l) => l.length)?.[0] ?? 0;
     return list[Math.floor(rs() * list.length)];
   }
   function spawnAt(x, y, wi, kind, hpMul, spMul) {
@@ -242,7 +245,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     c.alive = true; c.gen++;
     c.x = c.px = x; c.y = c.py = y;
     c.w = wi; c.kind = kind; c.boss = -1; c.scale = 1; c.angry = 0;
-    c.art = kind === 1 ? w.pa : w.g; // a plural takes los or las, from the noun's gender
+    c.art = kind === 1 ? w.pa : w.g; // a plural takes i, gli or le (w.pa)
     c.text = kind === 1 ? w.pl : w.w;
     c.r = T.CRE_R;
     c.maxHp = c.hp = T.CRE_HP * hpMul * (kind === 2 ? 1.5 : 1);
@@ -382,7 +385,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
       const s = shots[k];
       s.alive = true; s.x = s.px = S.hx; s.y = s.py = S.hy;
       s.vx = ux * T.SHOT_SPEED; s.vy = uy * T.SHOT_SPEED;
-      s.art = Math.floor(rs() * 4); s.life = 1.4; s.pierce = 99; s.dmg = 0; s.tgt = -1; s.tgen = 0; s.last = -1;
+      s.art = Math.floor(rs() * 7); s.life = 1.4; s.pierce = 99; s.dmg = 0; s.tgt = -1; s.tgen = 0; s.last = -1;
       S.shotN++;
     }
   }
