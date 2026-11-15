@@ -102,8 +102,8 @@ export const examRegistry = [
     href: "/citizenship/b1-mock/practice-set",
     overview: "/citizenship/b1-mock",
     store: { kind: "dtz", key: dtz1.id },
-    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
-    passNote: "Our own guide, not a exam score: listening and reading count together, and 33 of 45 points means you are well prepared.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not an exam score.
+    passNote: "Our own guide, not an exam score: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({

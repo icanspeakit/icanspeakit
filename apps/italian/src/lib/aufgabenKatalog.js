@@ -38,7 +38,7 @@ export function aufgabenKatalog() {
     // Paid sets (C1) carry only an outline here (parts is a count, no titles); their
     // parts are not listed until the catalog can read them from src/paid/.
     if (set.paid) continue;
-    const exam = set.exam === "telc" ? "SIELE" : "DELE";
+    const exam = set.exam === "telc" ? "CELI" : "CILS";
     for (const m of set.modules) {
       for (const p of m.parts) {
         if (!isScored(p)) continue;
