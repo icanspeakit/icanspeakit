@@ -163,9 +163,13 @@ export function initAnalytics(app) {
       ph.startSessionRecording();
     },
     // Every event, $pageview included, says which app sent it. (register() would need the
-    // storage that cookieless mode does not have.)
+    // storage that cookieless mode does not have.) `tz` is the browser's time zone
+    // (e.g. "Europe/Rome"): a rough region for reports, since GeoIP gets no IP in cookieless mode.
     before_send: (event) => {
-      if (event && app) event.properties = { ...event.properties, app };
+      if (!event) return event;
+      let tz;
+      try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone; } catch {}
+      event.properties = { ...event.properties, ...(app && { app }), ...(tz && { tz }) };
       return event;
     },
   });
