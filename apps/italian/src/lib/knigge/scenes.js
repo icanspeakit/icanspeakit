@@ -403,8 +403,8 @@ const arbeit = [
         who: "lena", wheel: 2, du: true, situation: "You're still in the kitchen with your coffee. What do you talk to Nerea about?",
       },
     ],
-    more: "/culture/insider/small-talk-and-sobremesa",
-  },
+    more: "/culture/insider/small-talk-and-the-aperitivo",
+},
   {
     id: "erster-tag", place: "First day at work", backdrop: "buero",
     props: [{ icon: "1F4BB", x: 22, y: 34 }, { icon: "1F4C8", x: 78, y: 20 }, { icon: "23F0", x: 50, y: 12 }],
@@ -539,7 +539,7 @@ const arbeit = [
         who: "becker", wheel: 1, du: true, situation: "Gorka sips his caña. Now it's your turn to pick a topic.",
       },
     ],
-    more: "/culture/bars-and-paying",
+    more: "/culture/the-bar-and-paying",
   },
 ];
 
@@ -582,7 +582,7 @@ const zuhause = [
         who: "schulz", wheel: 1, du: true, situation: "Carmen stays by the letter boxes. She seems to have time for a chat.",
       },
     ],
-    more: "/culture/tu-or-usted",
+    more: "/culture/tu-or-lei",
   },
   {
     id: "paket", place: "At your front door", backdrop: "wohnungstuer",
@@ -730,8 +730,8 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/small-talk-and-sobremesa",
-  },
+    more: "/culture/insider/small-talk-and-the-aperitivo",
+},
 ];
 
 const date = [
@@ -856,7 +856,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/bars-and-paying",
+    more: "/culture/the-bar-and-paying",
   },
   {
     id: "date-tschuess", place: "Saying goodbye", backdrop: "abend",
@@ -980,7 +980,7 @@ const schule = [
         who: "novak", wheel: 1, du: true, situation: "Back in class. Javier is standing next to you at the coffee machine.",
       },
     ],
-    more: "/culture/tu-or-usted",
+    more: "/culture/tu-or-lei",
   },
   {
     id: "elterngespraech", place: "Meeting your daughter's teacher", backdrop: "klasse",

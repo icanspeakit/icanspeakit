@@ -303,7 +303,7 @@ export function buildSearchIndex() {
   pages.push({
     t: "Spain from the inside",
     s: "How people in Spain live, meet and talk",
-    k: "culture spain from the inside insider dating manners everyday life sobremesa",
+    k: "culture italy from the inside insider dating manners everyday life aperitivo",
     h: "/culture/insider",
   });
   pages.push({
