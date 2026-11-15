@@ -66,10 +66,10 @@ export const STR = {
   },
   rule: {
     v2: "Usually subject, verb, object. Time and place can go at the front, and the subject can follow the verb.",
-    w: "Question word first, then straight to the verb. There is no do or does, and the question opens with ¿.",
-    janein: "A yes/no question is built like a statement. Only ¿ ? and your voice show the question.",
-    klammer: "Me, te, lo, la, le, nos and os go right before the verb, and before haber in the perfect: me ha llamado.",
-    nebensatz: "After dónde, cómo or cuándo the verb comes first, then the subject: no sé dónde está la estación.",
+    w: "Question word first, then straight to the verb. There is no do or does: Dove abiti? Come ti chiami?",
+    janein: "A yes/no question is built like a statement. Only the question mark and your voice show the question: Parli italiano?",
+    klammer: "Mi, ti, lo, la, ci, vi, li, le, gli and ne go right before the verb, and before ho/ha in the passato prossimo: mi ha chiamato.",
+    nebensatz: "After dove, come or quando the verb stays in the normal order, with no question mark: non so dove si trova la stazione.",
   },
 };
 
@@ -233,7 +233,7 @@ export function mountSatzregen(root, data) {
       .map((c, i) => {
         const x = geo.left + i * (geo.slotW + geo.gap);
         const label = c.text === null ? STR.slotEmpty : chunkLabel(c.text, i, s.e);
-        return `<span class="sr-slot${c.text === null ? " is-empty" : ""}${c.cls ? ` ${c.cls}` : ""}" data-slot="${i}" style="left:${x}px;width:${geo.slotW}px" aria-label="${esc(STR.slot(i + 1, n))}: ${esc(label)}">${c.text === null ? "" : `<span class="sr-chunk" lang="es">${esc(chunkLabel(c.text, i, s.e))}</span>`}</span>`;
+        return `<span class="sr-slot${c.text === null ? " is-empty" : ""}${c.cls ? ` ${c.cls}` : ""}" data-slot="${i}" style="left:${x}px;width:${geo.slotW}px" aria-label="${esc(STR.slot(i + 1, n))}: ${esc(label)}">${c.text === null ? "" : `<span class="sr-chunk" lang="it">${esc(chunkLabel(c.text, i, s.e))}</span>`}</span>`;
       })
       .join("");
     const endX = geo.left + n * (geo.slotW + geo.gap) - geo.gap + 3;
@@ -313,11 +313,11 @@ export function mountSatzregen(root, data) {
     if (sh.ok) {
       const text = sentenceText(sh.order, sh.s.e);
       showEl.className = "sr-show is-ok";
-      showEl.innerHTML = `<p class="sr-show-de" lang="es">${esc(text)}${sh.s.au ? ` <button type="button" class="sr-say" data-say="${sh.s.au}" aria-label="${STR.listen}">🔈</button>` : ""}</p><p class="sr-show-en">${esc(sh.s.en)}</p><p class="sr-show-pts">+${sh.pts}${sh.combo > 1 ? ` · ${STR.combo} ×${Math.min(sh.combo, E.K.comboMax)}` : ""}</p>`;
+      showEl.innerHTML = `<p class="sr-show-de" lang="it">${esc(text)}${sh.s.au ? ` <button type="button" class="sr-say" data-say="${sh.s.au}" aria-label="${STR.listen}">🔈</button>` : ""}</p><p class="sr-show-en">${esc(sh.s.en)}</p><p class="sr-show-pts">+${sh.pts}${sh.combo > 1 ? ` · ${STR.combo} ×${Math.min(sh.combo, E.K.comboMax)}` : ""}</p>`;
       showEl.style.top = `${Math.max(0, (ar - 1.6) * rowH)}px`;
     } else {
       showEl.className = "sr-show is-stone";
-      showEl.innerHTML = `<p class="sr-show-k">${STR.right}</p><p class="sr-show-de" lang="es">${esc(sentenceText(sh.best, sh.s.e))}</p><p class="sr-show-rule">${esc(ruleFor(sh.s))}</p>`;
+      showEl.innerHTML = `<p class="sr-show-k">${STR.right}</p><p class="sr-show-de" lang="it">${esc(sentenceText(sh.best, sh.s.e))}</p><p class="sr-show-rule">${esc(ruleFor(sh.s))}</p>`;
       showEl.style.top = `${Math.max(0, (ar + 1) * rowH - showEl.offsetHeight - 6)}px`;
     }
     showEl.hidden = false;
