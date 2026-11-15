@@ -1,6 +1,6 @@
 // Bruno Kart: reads the right answer out after a miss ("el agua"). Where a question carries a
 // recording (/audio/wortschatz/<audio>.mp3) it plays that; for everything else (questions.js sets no
-// clip at the moment, a clip that does not load) the browser's Spanish voice reads the text, a
+// clip at the moment, a clip that does not load) the browser's Italian voice reads the text, a
 // voice from Spain first. Silent while the game is muted.
 
 import { isMuted } from "./sound.js";
@@ -14,7 +14,7 @@ function voice(text) {
     if (!synth || !text) return;
     synth.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "es-ES";
+    u.lang = "it-IT";
     u.rate = 0.9;
     const v = synth.getVoices().find((x) => /^es(-|_)ES/i.test(x.lang)) ?? synth.getVoices().find((x) => /^es(-|_)/i.test(x.lang));
     if (v) u.voice = v;

@@ -17,7 +17,8 @@ export const ARTS = ["el", "la", "los", "las"];
 const BELOW = { A1: null, A2: "A1", B1: "A2" };
 
 const WORD = /^[a-záéíóúüñ]+(?:[ -][a-záéíóúüñ]+)?$/;
-const fits = (e) => isDrillNoun(e) && WORD.test(e.lemma) && e.lemma.length <= 16;
+const fits = (e) => isDrillNoun(e) && ARTS.includes(e.gender) && // games-arcade converts ARTS to il/lo/la/l'
+ WORD.test(e.lemma) && e.lemma.length <= 16;
 
 // The compound cracker: Spanish verb + plural noun compounds are written as one word, so nothing
 // marks the seam and it has to be listed: lemma → length of the verb part. The lesson is that they

@@ -7,9 +7,9 @@ import { reducedMotion } from "../spieleEinstellungen.js";
 
 const CAM_D = 9;
 // Masculine articles blue, feminine red (the theme keys keep their old names: der = blue,
-// die = red), the same as the Wortschatz. "el agua" shows EL in blue: the box is the article.
-const ART = { EL: "der", LOS: "der", LA: "die", LAS: "die" };
-// The trap box of the five-lane road (LO) and anything else without an article colour.
+// die = red), the same as the Wortschatz. "l'amico" shows L' in green: the box is the article, the gender hides.
+const ART = { IL: "der", I: "der", LO: "der", GLI: "der", LA: "die", LE: "die", "L'": "das" };
+// The trap box of the five-lane road and anything else without an article colour.
 const NEUTRAL_BOX = "#64748b";
 
 /** Colours from the site's tokens, so the gates use the same el/la hues as the Wortschatz. */
