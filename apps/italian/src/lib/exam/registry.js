@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the B1 mock for citizenship and the A2 mock for the long-term permit in the /nationality/dele-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -96,14 +96,14 @@ export const examRegistry = [
   },
   {
     id: "dtz",
-    title: "DELE A2 mock for nationality",
+    title: "B1 mock for citizenship",
     subtitle: dtz1.label,
     level: "A2",
     href: "/nationality/dele-a2/practice-set",
     overview: "/nationality/dele-a2",
     store: { kind: "dtz", key: dtz1.id },
     // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
-    passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",
+    passNote: "Our own guide, not a exam score: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({

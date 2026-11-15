@@ -3,12 +3,10 @@
 // General orientation, never legal advice. All text lives in public/i18n/en.json, read here so
 // that one file holds each sentence.
 //
-// ui-pages-m-z (2026-11-12) cut this page down from the Spanish course's nationality page:
-// residence periods, the DELE/CCSE exemption table, the steps and the word list were Spanish
-// law (Código Civil, BOE) and are gone from the page. Their nat.* keys are still in en.json
-// for `citizenship-path`, which writes the full Italian page (/citizenship: who is exempt, the
-// 2025 changes, the order of steps) and deletes what it doesn't reuse. Every fact here is
-// worded as orientation and listed "to verify" in reports/ui-pages-m-z.md.
+// citizenship-path (2026-11-15) wrote the full page: the two proofs (B1 / A2), who may be
+// exempt, the 2025 changes and the order of steps. The file keeps the slug /nationality until
+// `routes` renames it to /citizenship. Every fact here is worded as orientation and listed
+// "to verify" in reports/citizenship-path.md.
 import ExamDisclaimer from "../components/ExamDisclaimer.astro";
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
@@ -19,9 +17,14 @@ import en from "../../public/i18n/en.json";
 const tx = (key: string) => (en as Record<string, string>)[key];
 
 const shortVersion = ["1", "2", "3", "4"];
+const exempt = ["1", "2", "3", "4", "5"];
+const changes = ["1", "2", "3"];
+const steps = ["1", "2", "3", "4", "5", "6", "7"];
+const words = ["prefettura", "questura", "anagrafe", "patronato", "giuramento", "certificato"];
 const practice = [
   { key: "ccse", href: "/ccse" },
   { key: "mock", href: "/nationality/dele-a2/practice-set" },
+  { key: "a2", href: "/nationality/dele-a2/practice-set?satz=uebungssatz-2" },
   { key: "set", href: "/dele/a2" },
 ];
 // Proper names, not translated: no keys.
@@ -54,6 +57,57 @@ const bodies = [
         {shortVersion.map((n) => <li data-i18n={`nat.short.${n}`}>{tx(`nat.short.${n}`)}</li>)}
       </ul>
       <p class="format-note" data-i18n="nat.other">{tx("nat.other")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.two.title">{tx("nat.two.title")}</h2>
+      {["b1", "a2"].map((k) => (
+        <div class="mock-cta">
+          <h3 data-i18n={`nat.two.${k}.title`}>{tx(`nat.two.${k}.title`)}</h3>
+          <p data-i18n-html={`nat.two.${k}.text`} set:html={tx(`nat.two.${k}.text`)} />
+        </div>
+      ))}
+      <p class="format-note" data-i18n="nat.two.note">{tx("nat.two.note")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.exempt.title">{tx("nat.exempt.title")}</h2>
+      <p data-i18n="nat.exempt.intro">{tx("nat.exempt.intro")}</p>
+      <ul class="task-points">
+        {exempt.map((n) => <li data-i18n-html={`nat.exempt.${n}`} set:html={tx(`nat.exempt.${n}`)} />)}
+      </ul>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.changes.title">{tx("nat.changes.title")}</h2>
+      <ul class="task-points">
+        {changes.map((n) => <li data-i18n-html={`nat.changes.${n}`} set:html={tx(`nat.changes.${n}`)} />)}
+      </ul>
+      <p class="format-note" data-i18n="nat.changes.note">{tx("nat.changes.note")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.steps.title">{tx("nat.steps.title")}</h2>
+      {steps.map((n) => (
+        <div class="mock-cta">
+          <h3 data-i18n={`nat.step.${n}.title`}>{tx(`nat.step.${n}.title`)}</h3>
+          <p data-i18n={`nat.step.${n}.text`}>{tx(`nat.step.${n}.text`)}</p>
+        </div>
+      ))}
+      <div class="mock-cta">
+        <h3 data-i18n="nat.step.a2.title">{tx("nat.step.a2.title")}</h3>
+        <p data-i18n="nat.step.a2.text">{tx("nat.step.a2.text")}</p>
+      </div>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.words.title">{tx("nat.words.title")}</h2>
+      <table class="exam-table">
+        <thead><tr><th data-i18n="nat.words.th.it">{tx("nat.words.th.it")}</th><th data-i18n="nat.words.th.en">{tx("nat.words.th.en")}</th></tr></thead>
+        <tbody>
+          {words.map((w) => <tr><td lang="it">{w[0].toUpperCase() + w.slice(1)}</td><td data-i18n={`nat.w.${w}`}>{tx(`nat.w.${w}`)}</td></tr>)}
+        </tbody>
+      </table>
     </section>
 
     <section class="exam-section">
