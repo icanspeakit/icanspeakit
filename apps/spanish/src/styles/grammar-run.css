@@ -126,7 +126,9 @@
 /* Before the first answer "weiter" is present but not inviting: the exercise is the
    point of the station, and a full-strength button next to it is an invitation to
    leave. It comes to life the moment there is something to move on from. */
-.run-next[data-quiet] { opacity: .45; }
+/* Before an answer the button skips the exercise: an outline button, fully there, not a
+   greyed-out "Next" that reads as switched off. */
+.run-next[data-quiet] { background: transparent; color: var(--brand-blue); box-shadow: inset 0 0 0 1.5px var(--brand-blue); }
 .run-skip {
   margin-left: auto;
   border: 0;

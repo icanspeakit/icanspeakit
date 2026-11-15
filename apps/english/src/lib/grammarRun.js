@@ -59,6 +59,24 @@ export function buildStations(topics) {
   return out;
 }
 
+/** A lesson in the run asks fewer items than the topic page (2026-11-15: eight rows of
+ * one table felt like too many). The list fields of each exercise type keep their first
+ * 70 % (6 → 4, 10 → 7), at least three. Sentence building, where every sentence has its
+ * own Check, keeps three at most. A story is one text and stays whole. The topic page
+ * keeps every item. */
+const LISTS = ["items", "rows", "pairs", "sentences", "rounds"];
+export function shorten(ex) {
+  const out = { ...ex };
+  for (const k of LISTS) {
+    const list = ex[k];
+    if (!Array.isArray(list) || list.length <= 3) continue;
+    let keep = Math.max(3, Math.round(list.length * 0.7));
+    if (k === "sentences") keep = 3;
+    out[k] = list.slice(0, keep);
+  }
+  return out;
+}
+
 /** The one sentence a topic opens with. A later level's part of a split topic says that
  * it is the same topic again, one level up. */
 function leadOf(topic) {
@@ -115,6 +133,9 @@ export function mountGrammarRun(root, topics) {
   const restartBtn = $("[data-run-restart]");
   const doneEl = $("[data-run-done]");
   const calm = matchMedia("(prefers-reduced-motion: reduce)");
+  // The run labels this button itself ("Skip exercise" / "Next"); i18n.js repainting its
+  // static data-i18n would turn a skip back into "Next".
+  nextBtn?.removeAttribute("data-i18n");
 
   // A lesson starts with the few words it uses (lektion-extras.json), so the exercises do
   // not stop on vocabulary. Shown with the topic's one sentence, at its first exercise only.
@@ -246,7 +267,8 @@ export function mountGrammarRun(root, topics) {
     // the whole topic and rendering one slot mounts exactly that exercise.
     // Klassen log: the stations of one topic in a row are one set, under the topic's ref.
     setRef(`g:${topicKeyOf(topic)}`);
-    mountGrammarWorkspace(stage, topic, {
+    const short = { ...topic, exercises: topic.exercises.map((e, i) => (i === station.exIndex ? shorten(e) : e)) };
+    mountGrammarWorkspace(stage, short, {
       meldungRef: `g:${topicKeyOf(topic)}`,
       onAnswer: (ok) => {
         // The URL slug, as on the topic page and on /dashboard. topic.id is the raw id,
@@ -258,15 +280,22 @@ export function mountGrammarRun(root, topics) {
         if (!answered) {
           answered = true;
           nextBtn.removeAttribute("data-quiet");
+          nextBtn.textContent = nextLabel();
         }
       },
     });
 
-    nextBtn.textContent = cursor === stations.length - 1 ? t("run.finish", "Lauf beenden") : t("quiz.next", "Weiter");
+    // Before an answer the same button skips the exercise, and says so: a grey "Weiter"
+    // read as switched off. After an answer it is the plain "Weiter".
+    nextBtn.textContent = t("run.skipExercise", "Skip exercise");
     nextBtn.setAttribute("data-quiet", "");
     skipBtn.hidden = !!station.last && station.first;
     doneEl.hidden = true;
     root.scrollIntoView({ block: "start", behavior: calm.matches ? "auto" : "smooth" });
+  }
+
+  function nextLabel() {
+    return cursor === stations.length - 1 ? t("run.finish", "Lauf beenden") : t("quiz.next", "Weiter");
   }
 
   function go(next) {
@@ -328,7 +357,10 @@ export function mountGrammarRun(root, topics) {
     const station = stations[cursor];
     const topic = topicOf(cursor);
     paintCounters();
-    if (station.first) lead.textContent = leadOf(topic);
-    nextBtn.textContent = cursor === stations.length - 1 ? t("run.finish", "Lauf beenden") : t("quiz.next", "Weiter");
+    if (station.first) {
+      lead.textContent = leadOf(topic);
+      paintWords(topic);
+    }
+    nextBtn.textContent = answered ? nextLabel() : t("run.skipExercise", "Skip exercise");
   });
 }
