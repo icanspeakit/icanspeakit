@@ -15,8 +15,8 @@
 //   --max <n>           page limit (default 2000)    --paths a,b   only these paths (no crawl)
 //   --conc <n>          parallel pages (default 4)   --json <file> write the findings
 //   --dicts-only        only the dictionary checks   --no-dicts   skip them
-//   --per-dir <n>       pages per parent directory taken from a crawl (default 5): the 78 grammar topics are
-//                       one template; --all takes every page
+//   --per-dir <n>       pages per parent directory taken from a crawl (default 5, not with --dist): the 78 grammar
+//                       topics are one template; --all takes every page
 //   --show <n>          lines per kind (default 400)
 //
 // What counts as German: an umlaut / ß in a word, or a word from the German-only lexicon (words
@@ -48,7 +48,7 @@ const I18N = path.join(APP, "public", "i18n");
 const langs = String(opt("lang", "en")).split(",");
 const MAX = +opt("max", 2000);
 const CONC = +opt("conc", 4);
-const PER_DIR = opt("all") ? Infinity : +opt("per-dir", 5);
+const PER_DIR = opt("all") || (opt("dist") && opt("nojs") && !opt("per-dir")) ? Infinity : +opt("per-dir", 5);
 
 const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
 const tokensOf = (s) => String(s).replace(/<[^>]+>/g, " ").replace(/\{\w+\}/g, " ").match(/[A-Za-zÄÖÜäöüßÀ-ÿ]+/g) ?? [];
@@ -64,11 +64,15 @@ for (const v of Object.values(dicts.de ?? {})) for (const t of tokensOf(v)) {
   if (l.length >= 3 && !others.has(l)) GERMAN.add(l);
 }
 const allowFile = path.join(ROOT, "scripts/scan-german-ui.allow.json");
+const allowCfg = fs.existsSync(allowFile) ? read(allowFile) : {};
+const SELECTORS = allowCfg.selectors?.[app] ?? [];
+const TEXTS = (allowCfg.texts?.[app] ?? []).map((t) => new RegExp(t));
 const ALLOW = new Set(((fs.existsSync(allowFile) ? read(allowFile).words?.[app] : []) ?? []).map((w) => w.toLowerCase()));
 const UMLAUT = /[A-Za-z]*(?:[äöÄÖßÜ]|ü(?![aeiouy]))[A-Za-z]*/g;
 
 export function germanIn(text) {
   const hits = [];
+  if (TEXTS.some((r) => r.test(text))) return hits;
   for (const m of text.matchAll(UMLAUT)) if (!ALLOW.has(m[0].toLowerCase())) hits.push(m[0]);
   for (const t of tokensOf(text)) {
     const l = t.toLowerCase();
@@ -151,18 +155,19 @@ async function main() {
         n++;
         if (n % 25 === 0) console.error(`[${lang}] ${n} pages, ${queue.length} queued`);
         try {
-          const res = await page.goto(url, { waitUntil: "load", timeout: 45000 });
+          const res = await page.goto(url, { waitUntil: opt("nojs") ? "domcontentloaded" : "load", timeout: 45000 });
           if (!res || res.status() >= 400) { if (res?.status() !== 404) add("http", url, String(res?.status())); continue; }
-          await page.waitForTimeout(600);
-          const data = await page.evaluate(() => {
+          if (!opt("nojs")) await page.waitForTimeout(600);
+          const data = await page.evaluate((SELECTORS) => {
             const out = [];
             const SKIP = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEMPLATE", "CODE", "KBD"]);
             const skipped = (el) => {
-              for (let e = el; e; e = e.parentElement) {
+              for (let e = el; e && e !== document.body && e !== document.documentElement; e = e.parentElement) {
                 if (SKIP.has(e.tagName.toUpperCase())) return true;
                 const l = (e.getAttribute && e.getAttribute("lang")) || "";
                 if (/^de/i.test(l)) return true;
                 if (e.getAttribute && e.getAttribute("translate") === "no") return true;
+                if (SELECTORS.length && e.matches && e.matches(SELECTORS.join(","))) return true;
                 if (e.hasAttribute && (e.hasAttribute("data-i18n-skip") || e.hasAttribute("data-scan-skip"))) return true;
               }
               return false;
@@ -184,7 +189,7 @@ async function main() {
             out.push(["title", document.title, "title"]);
             for (const m of document.querySelectorAll('meta[name=description],meta[property="og:title"],meta[property="og:description"]')) out.push(["meta", m.content, m.getAttribute("name") || m.getAttribute("property")]);
             return { out, links: [...document.querySelectorAll("a[href]")].map((a) => a.href) };
-          });
+          }, SELECTORS);
           const pth = new URL(url).pathname.slice(basePath.length) || "/";
           for (const [kind, text, el] of data.out) {
             const g = germanIn(text);
@@ -201,7 +206,7 @@ async function main() {
             const k = norm(l);
             if (seen.has(k)) continue;
             const dir = k.slice(0, k.lastIndexOf("/")); const c = perDir.get(dir) ?? 0;
-            if (c >= PER_DIR) continue;
+            if (c >= PER_DIR && k.slice(origin.length + basePath.length).split("/").length > 2) continue;
             perDir.set(dir, c + 1); seen.add(k); queue.push(k);
           }
         } catch (e) { add("error", url, String(e.message).slice(0, 100)); }
