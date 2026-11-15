@@ -1047,8 +1047,8 @@ export const navUebenMenu = {
         // Not a level: the profession decks (/spanish-for-work), A2–B1, for learners who work.
         { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Italian for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
-        // Not a level: phrases, model texts and exercises for office work (/business-spanish).
-        { href: "/business-spanish", titleKey: "biz.title", title: "Business Italian",
+        // Not a level: phrases, model texts and exercises for office work (/business-italian).
+        { href: "/business-italian", titleKey: "biz.title", title: "Business Italian",
           hintKey: "biz.navHint", hint: "Emails, calls, CVs, interviews, meetings" },
         // Not a level either: the driving words (/patente-vocabulary).
         { href: "/patente-vocabulary", titleKey: "dgt.title", title: "Patente vocabulary",

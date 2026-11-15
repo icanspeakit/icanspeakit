@@ -241,12 +241,12 @@ export function buildSearchIndex() {
     k: "patente driving licence test theory exam italian italy autoscuola motorizzazione macchina strada segnali stradali multa ztl revisione punti conversione patente straniera vocabulary",
     h: "/patente-vocabulary",
   });
-  // Business Spanish: phrases, model texts and exercises for office work.
+  // Business Italian: phrases, model texts and exercises for office work.
   pages.push({
-    t: "Business Spanish",
+    t: "Business Italian",
     s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Spain, B1 to C1",
     k: "business spanish work office email correo formal letter phone call llamada cv currículum curriculum resume cover letter carta de presentación job interview entrevista meeting reunión negotiate negociación figures presentation estimado atentamente",
-    h: "/business-spanish",
+    h: "/business-italian",
   });
   // DELE or SIELE?: a comparison page under the exam hub.
   pages.push({

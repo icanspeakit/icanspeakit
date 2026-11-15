@@ -56,9 +56,6 @@ const MODULES = [
   // src/data/dgt became src/data/patente in `patente-vocab` (content-plan §11); converted: strict.
   { id: "patente", files: jsonFiles("src/data/patente"), items: deckWords },
   // A unit: its phrases and its own words (refs inherit); exercises inherit from the unit.
-  // `business-italian` renames the folder in one commit (content-plan §13); both ids are listed.
-  { id: "business-spanish", files: jsonFiles("src/data/business-spanish"),
-    items: (d) => [...arr(d.phrases), ...arr(d.words).filter((w) => !w.ref)].map((item) => ({ item })) },
   { id: "business-italian", files: jsonFiles("src/data/business-italian"),
     items: (d) => [...arr(d.phrases), ...arr(d.words).filter((w) => !w.ref)].map((item) => ({ item })) },
   { id: "wortschatz", files: one("src/data/wortschatz.json"), items: (d) => arr(d).map((item) => ({ item })) },

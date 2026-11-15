@@ -1,7 +1,7 @@
-// Business Spanish (docs/content-plan.md §4.3): the units in src/data/business-spanish/<id>.json.
+// Business Italian (docs/content-plan.md §4.3): the units in src/data/business-italian/<id>.json.
 //
-// Plain ESM with no Vite imports, so the build check (scripts/check-business-spanish.mjs) and the
-// pages share one set of rules. Pages get the units through src/lib/businessSpanishData.js.
+// Plain ESM with no Vite imports, so the build check (scripts/check-business-italian.mjs) and the
+// pages share one set of rules. Pages get the units through src/lib/businessItalianData.js.
 //
 // A unit: { id, level, title, variety, reviewed, intro, introEasy, phrases, models, tips, words,
 // exercises }. Its `words` are berufe deck entries, so businessDeck() folds all units into one
@@ -23,7 +23,7 @@ export function businessDeck(units) {
   const sorted = byOrder(units);
   return {
     beruf: "business",
-    title: "Business Spanish",
+    title: "Business Italian",
     level: "B1–C1",
     reviewed: sorted.length > 0 && sorted.every((u) => u.reviewed === true),
     intro: "The words for emails, phone calls, CVs, interviews, meetings and negotiating.",
@@ -53,7 +53,7 @@ export function validateUnits(files) {
     const at = (msg) => errors.push(`${file}: ${msg}`);
     if (!unit || typeof unit !== "object") { at("not a JSON object"); continue; }
     if (`${unit.id}.json` !== file) at(`id "${unit.id}" must match the file name`);
-    if (!UNIT_IDS.includes(unit.id)) at(`"${unit.id}" is not in UNIT_IDS (src/lib/businessSpanish.js)`);
+    if (!UNIT_IDS.includes(unit.id)) at(`"${unit.id}" is not in UNIT_IDS (src/lib/businessItalian.js)`);
     seen.add(unit.id);
     if (!LEVELS.includes(unit.level)) at(`level must be one of ${LEVELS.join(", ")}`);
     for (const k of ["title", "intro", "introEasy"]) if (!text(unit[k])) at(`no ${k}`);
@@ -62,8 +62,8 @@ export function validateUnits(files) {
 
     if (!Array.isArray(unit.phrases) || unit.phrases.length === 0) at("no phrases");
     for (const p of unit.phrases ?? []) {
-      const where = `phrase „${p.es ?? "?"}"`;
-      for (const k of ["use", "es", "en"]) if (!text(p[k])) at(`${where}: no ${k}`);
+      const where = `phrase „${p.it ?? "?"}"`;
+      for (const k of ["use", "it", "en"]) if (!text(p[k])) at(`${where}: no ${k}`);
       if (!REGISTERS.includes(p.register)) at(`${where}: register must be one of ${REGISTERS.join(", ")}`);
       if (!p.variety) at(`${where}: no variety`);
       for (const v of varietyProblems(p)) at(`${where}: ${v}`);
@@ -97,6 +97,6 @@ export function validateUnits(files) {
     }
   }
 
-  for (const id of UNIT_IDS) if (!seen.has(id)) errors.push(`src/data/business-spanish/${id}.json is missing`);
+  for (const id of UNIT_IDS) if (!seen.has(id)) errors.push(`src/data/business-italian/${id}.json is missing`);
   return errors;
 }

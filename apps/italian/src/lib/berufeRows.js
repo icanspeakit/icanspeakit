@@ -5,11 +5,11 @@
 // the same id VokabelTrainer gets as its deck.
 import { BERUFE, PATENTE, BUSINESS, refKind } from "./berufeCore.js";
 import { byId as lexiconById } from "./lexicon.js";
-import { businessDeck } from "./businessSpanish.js";
+import { businessDeck } from "./businessItalian.js";
 
 const modules = {
   ...import.meta.glob(["../data/berufe/*.json", "../data/patente/*.json"], { eager: true, import: "default" }),
-  business: businessDeck(Object.values(import.meta.glob("../data/business-spanish/*.json", { eager: true, import: "default" }))),
+  business: businessDeck(Object.values(import.meta.glob("../data/business-italian/*.json", { eager: true, import: "default" }))),
 };
 
 /** The decks point at lexicon ids, and check-berufe fails on one that is gone. Should a page ever

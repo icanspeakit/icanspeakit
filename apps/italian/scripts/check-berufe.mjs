@@ -11,7 +11,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validate, entryCount, ownWords } from "../src/lib/berufeCore.js";
-import { businessDeck } from "../src/lib/businessSpanish.js";
+import { businessDeck } from "../src/lib/businessItalian.js";
 import { slugify } from "../src/lib/audioSlug.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -41,13 +41,13 @@ if (!SECTORS_ONLY && existsSync(path.join(ROOT, PATENTE_DIR))) {
   }
 }
 
-// Business Spanish: each unit's words are one group of a single deck (content-plan §4.3).
-const BUSINESS_DIR = "src/data/business-spanish";
+// Business Italian: each unit's words are one group of a single deck (content-plan §4.3).
+const BUSINESS_DIR = "src/data/business-italian";
 if (!SECTORS_ONLY && existsSync(path.join(ROOT, BUSINESS_DIR))) {
   try {
     const units = readdirSync(path.join(ROOT, BUSINESS_DIR)).filter((f) => f.endsWith(".json")).map((f) => read(`${BUSINESS_DIR}/${f}`));
-    files.push({ file: "business-spanish", slug: "business", deck: businessDeck(units) });
-  } catch (err) { console.error(`  ERROR business-spanish: invalid JSON — ${err.message}`); process.exitCode = 1; }
+    files.push({ file: "business-italian", slug: "business", deck: businessDeck(units) });
+  } catch (err) { console.error(`  ERROR business-italian: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
 const { errors, warnings } = validate(files, { lexicon });

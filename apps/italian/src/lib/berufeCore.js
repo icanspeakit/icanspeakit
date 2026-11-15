@@ -33,7 +33,7 @@ export const SLUGS = BERUFE.map((b) => b.slug);
  *  and word ids (bv-patente-…), so sector decks can point at its words, but its own page, not a sector. */
 export const PATENTE = { slug: "patente", emoji: "🚗" };
 
-/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
+/** Business Italian (src/data/business-italian/<unit>.json, content-plan §4.3): each unit's words are
  *  a group of this one deck, ids bv-business-…, under its own pages. */
 export const BUSINESS = { slug: "business", emoji: "💼" };
 

@@ -28,7 +28,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECKS = [
   "check-einfach-pfad.mjs",
   "check-pruefungen.mjs",
-  "check-business-spanish.mjs",
+  "check-business-italian.mjs",
   "check-premium.mjs",
   "check-pruefungsplan.mjs",
   "check-lindenau.mjs",
