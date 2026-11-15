@@ -836,8 +836,8 @@ const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
 const spieleItems = [
-  { id: "lindenau", href: "/games/villabruno", icon: "landmark",
-    titleKey: "nav.spiele.lindenau", title: "The Legend of Villabruno",
+  { id: "lindenau", href: "/games/casalbruno", icon: "landmark",
+    titleKey: "nav.spiele.lindenau", title: "The Legend of Casalbruno",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
   { id: "hoer-safari", href: "/games/listening-safari", icon: "volume",
