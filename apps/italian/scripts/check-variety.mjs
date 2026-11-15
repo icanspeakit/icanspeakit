@@ -26,7 +26,7 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // Empty since `variety-schema` (2026-11-12): every module still holds Spanish-course content, so
 // the Spanish course's strict list was dropped; the items re-add their modules one by one.
 // Re-added: einstufung (placement-test).
-const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "praepositionen", "verbtabellen", "hoeren", "redemittel", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen", "patente"]);
+const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "praepositionen", "verbtabellen", "hoeren", "redemittel", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen", "patente", "artikel-sprint", "quaki-fragen", "hochstapler-redemittel"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -93,6 +93,10 @@ const MODULES = [
   { id: "wortfallen", files: one("src/data/wortfallen.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
   { id: "redewendungen", files: one("src/data/redewendungen.json"),
     items: (d) => arr(d.eintraege).map((item) => ({ item })) },
+  // Game data (games item): one `variety` at the top level of each file.
+  { id: "artikel-sprint", files: one("src/data/artikel-sprint/words.json"), items: (d) => [{ item: d }] },
+  { id: "quaki-fragen", files: one("src/data/quakiSpringt/fragen.json"), items: (d) => [{ item: d }] },
+  { id: "hochstapler-redemittel", files: one("src/data/hochstapler/redemittel.json"), items: (d) => [{ item: d }] },
   // Teacher material carries `variety` at the top level of each file.
   { id: "arbeitsblatt", files: jsonFiles("src/data/arbeitsblatt"), items: (d) => [{ item: d }] },
   { id: "partneruebungen", files: jsonFiles("src/data/partneruebungen"), items: (d) => [{ item: d }] },

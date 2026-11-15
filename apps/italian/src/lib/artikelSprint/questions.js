@@ -38,7 +38,7 @@ function topUp(options, candidates, n, rnd) {
 const fakePlurals = (w) => {
   const stem = w.slice(0, -1);
   const last = w.slice(-1);
-  const wrong = last === "o" ? [stem + "e", stem + "a", stem + "os"] : last === "a" ? [stem + "i", stem + "as", stem + "o"] : last === "e" ? [stem + "e", stem + "a", stem + "es"] : [w + "i", w + "e", w + "s"];
+  const wrong = last === "o" ? [stem + "e", stem + "a"] : last === "a" ? [stem + "i", stem + "o"] : last === "e" ? [stem + "a", stem + "o"] : [w + "i", w + "e"];
   return [...wrong, w];
 };
 // For the five-lane road: forms a verb does not have, or another person's.
