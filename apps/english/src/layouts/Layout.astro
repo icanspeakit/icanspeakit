@@ -88,11 +88,13 @@ const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
 const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
 const pageName = title.replace(/\s+[–|-]\s+(icanspeak English|icanspeak English)$/, "");
-const trail = trailFor(route, pageName, breadcrumb);
+// route carries the /english base; the structured data (home check, SECTION_PAGES keys) is base-free.
+const siteRoute = stripBase(route);
+const trail = trailFor(siteRoute, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
   ? [
-      ...(route === "/" ? [organizationLd(SITE_URL), websiteLd(SITE_URL)] : []),
+      ...(siteRoute === "/" ? [organizationLd(SITE_URL), websiteLd(SITE_URL)] : []),
       ...(trail ? [breadcrumbLd(SITE_URL, trail)] : []),
       ...pageSchema,
     ]

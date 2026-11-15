@@ -19,15 +19,19 @@ import { entryLanguages } from '../lib/languages.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
 const SECTIONS = [
-  ['Einstieg', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
-  ['Grammatik und Wortschatz', ['/grammar', '/vocabulary', '/present-continuous', '/pronunciation']],
-  ['Fertigkeiten', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Prüfungen', ['/exams', '/cambridge', '/cambridge/*', '/trinity', '/trinity/*', '/trinity/ise-1', '/trinity/ise-1/*', '/ielts', '/life-in-the-uk']],
-  ['Alltag, Beruf und Landeskunde', ['/english-for-work', '/culture', '/knowledge', '/knowledge/word-stories']],
-  ['Für Lehrkräfte', ['/teachers']],
+  ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
+  ['Grammar and vocabulary', ['/grammar', '/vocabulary', '/present-continuous', '/pronunciation']],
+  ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
+  ['Exams', ['/exams', '/cambridge', '/cambridge/*', '/trinity', '/trinity/*', '/trinity/ise-1', '/trinity/ise-1/*', '/ielts', '/life-in-the-uk']],
+  ['Everyday life, work and culture', ['/english-for-work', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['For teachers', ['/teachers', '/teachers/worksheets']],
+  // The worksheets index only: the section already holds ~300 pages, far over the 10 KB budget.
+  // Free downloads (PDFs): the knowledge page plus the per-language download pages of the `downloads` lane.
+  // A path that is not built is skipped, so these cost nothing until the pages exist.
+  ['Free downloads', ['/downloads', ...entryLanguages().map((l) => `/${l.urlPrefix}/downloads`)]],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   // Derived from the registry, so a language added there is listed here with no change.
-  ['In anderen Sprachen', entryLanguages().map((l) => `/${l.urlPrefix}`)],
+  ['In other languages', entryLanguages().map((l) => `/${l.urlPrefix}`)],
 ];
 
 const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&#x27;': "'" };
