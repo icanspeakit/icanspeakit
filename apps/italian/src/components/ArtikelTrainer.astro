@@ -1,6 +1,6 @@
 ---
-// The el / la trainer (the German der/die/das trainer, same machinery; the lexicon's
-// `gender` holds el or la): a rail of levels A1–B2 and the frequency order beside a
+// The il / lo / la / l' trainer (the German der/die/das trainer, same machinery; the lexicon's
+// `gender` holds il, lo, la or l'): a rail of levels A1–B2 and the frequency order beside a
 // Fokus/Testmodus workspace over every gendered noun in the lexicon, with the spoken
 // answer, Langsam and the back button. A level's pane offers "Weiter üben" and packs by
 // topic and rule; sessions are built from the learner's own per-noun history
@@ -25,7 +25,8 @@ import "../styles/rule-intro.css";
 import "../styles/artikel-fit.css";
 // The /t2 "C · Mix" look on top of that layout, and the etymology card.
 import "../styles/artikel-t2.css";
-import { buildArtikelPacks, ruleMatch } from "../lib/artikelPacks.js";
+import { buildArtikelPacks, ruleMatch, ruleHolds } from "../lib/artikelPacks.js";
+import { withArticle } from "../lib/articles.js";
 import { isDrillNoun } from "../lib/generoDrill.js";
 import { nouns } from "../lib/lexicon.js";
 // Corpus counts for the ranked nouns, written by scripts/artikel-haeufigkeit.mjs.
@@ -36,31 +37,35 @@ import { uiTr } from "../lib/grammarUi.js";
 // ~860 nouns (was 31 hand-listed ones), far too many for a single sitting.
 const SESSION_SIZE = 25;
 
-/* Why a noun takes el or la: which case of the rules in artikel-packs.json it is. The rules are
- * endings of the first word (la oferta de trabajo), so a noun either follows its pattern, breaks
- * it (el día, la mano), hides its gender behind el (el agua, las aguas), or has no pattern at all
- * (-e and most consonants: el coche, la llave). */
+/* Why a noun takes il, lo, la or l': which case of the rules in artikel-packs.json it is. A gender rule
+ * is an ending of the first word (la stazione), a noun either follows it, breaks it (la mano, il
+ * pianeta) or has no pattern at all (-e and most consonants: il fiore, la notte). The sound
+ * rules say lo before z, s+consonant, gn, ps (lo zaino) and l' before a vowel (l'amico, l'amica);
+ * l' hides the gender, so the plural is what shows it (gli amici, le amiche). */
 function articleRule(noun) {
+  if (noun.gender === "l'") return { k: "afem", ending: noun.genus === "f" ? "feminine" : "masculine" };
   const m = ruleMatch(noun);
-  if (noun.genus === "f") return { k: "afem" };
   if (!m) return { k: "none" };
-  const k = m.rule.article !== noun.gender ? "exception" : m.rule.names ? "greek" : "ending";
-  return { k, ending: m.why, expected: m.rule.article };
+  if (m.rule.starts) return ruleHolds(m.rule, noun) ? { k: "sound", ending: m.why } : { k: "none" };
+  const k = !ruleHolds(m.rule, noun) ? "exception" : m.rule.names ? "greek" : "ending";
+  return { k, ending: m.why, expected: m.rule.article, kind: m.rule.genus === "f" ? "feminine" : "masculine" };
 }
 
 const EXPLAIN = {
-  afem: "“{word}” is feminine, but a stressed a- takes el in the singular, so the two a sounds don't run together: el {word}. In the plural it is las, and adjectives stay feminine.",
-  ending: "“{word}” ends in {ending}, and nouns with that ending usually take “{article}”: {article} {word}.",
-  greek: "“{word}” is one of the words in -ma that come from Greek. They take “el”, unlike la cama or la forma: el {word}.",
+  afem: "“{word}” starts with a vowel, so the article is l' whatever the gender: l'{word}. This one is {ending}; the plural shows it.",
+  sound: "“{word}” is masculine and starts with {ending}, so it takes “lo”, not “il”: lo {word}. The plural is gli.",
+  ending: "“{word}” ends in {ending}, and nouns with that ending are usually {kind}: {article} {word}.",
+  greek: "“{word}” is one of the words in -ma that come from Greek. They are masculine, unlike la mamma or la forma: il {word}.",
   exception: "“{word}” ends in {ending}, which usually means “{expected}”, but this one takes “{article}”: {article} {word}. An exception to learn.",
   none: "This ending does not tell you the gender. Learn the noun together with its article: {article} {word}.",
 };
 
 /* The same in very simple English (A1), for the Leicht switch: see src/lib/leichteSprache.js. */
 const EXPLAIN_LEICHT = {
-  afem: "This word starts with a strong “a”. So you say “el {word}”, but the word is feminine.",
+  afem: "This word starts with a vowel. So you say “l'”: l'{word}.",
+  sound: "This masculine word starts with {ending}. So you say “lo”: lo {word}.",
   ending: "The word ends in {ending}. So you say “{article}”: {article} {word}.",
-  greek: "This word ends in -ma, but you say “el”: el {word}.",
+  greek: "This word ends in -ma, but you say “il”: il {word}.",
   exception: "This word does not follow the rule. You say “{article} {word}”.",
   none: "There is no rule here. Learn the word with its article: {article} {word}.",
 };
@@ -71,8 +76,8 @@ const fill = (text, v) => text.replace(/\{(\w+)\}/g, (m, k) => (k in v ? String(
  * it in the UI language: `ap.ex.<k>` and `ap.ex.<k>.leicht` in public/i18n. The English in the
  * dictionary is exactly the English above. */
 function explainNoun(n) {
-  const { k, ending, expected } = articleRule(n);
-  const v = { word: n.lemma, article: n.gender, ...(ending ? { ending, expected } : {}) };
+  const { k, ending, expected, kind } = articleRule(n);
+  const v = { word: n.lemma, article: n.gender, ...(ending ? { ending, expected, kind } : {}) };
   return { ex: { k, v }, explain: fill(EXPLAIN[k], v), explainLeicht: fill(EXPLAIN_LEICHT[k], v) };
 }
 
@@ -98,15 +103,15 @@ const pool = lexNouns.map((n) => ({
   lemma: n.lemma,
   freq: freqPos.has(n.id) ? haeufigkeit[n.id] : null,
   prompt: `___ ${n.lemma}`,
-  options: ["el", "la"],
+  options: ["il", "lo", "la", "l'"],
   answer: n.gender,
   ...explainNoun(n),
-  change: `${n.gender} ${n.lemma}`,
-  // Shown under the instruction, without its article: los / las would give the answer away.
+  change: withArticle(n.gender, n.lemma),
+  // Shown under the instruction, without its article: i / gli / le would give the answer away.
   ...(n.plural ? { plural: n.plural } : {}),
-  // No Spanish recordings yet (lexicon `audio` is the future file name): the browser's voice says
+  // No Italian recordings yet (lexicon `audio` is the future file name): the browser's voice says
   // "la casa" once the answer is settled, never before, because it says the article.
-  speak: `${n.gender} ${n.lemma}`,
+  speak: withArticle(n.gender, n.lemma),
 }));
 
 const AP_LEVELS = ["A1", "A2", "B1", "B2"];
@@ -126,7 +131,7 @@ for (let i = 0; i < ranked.length; i += SESSION_SIZE) {
     to: i + slice.length,
     // Floored, so the last round is the only one that says 100 %.
     cover: Math.floor((seen / freqTotal) * 100),
-    preview: slice.slice(0, 3).map((n) => `${n.gender} ${n.lemma}`).join(", ") + " …",
+    preview: slice.slice(0, 3).map((n) => withArticle(n.gender, n.lemma)).join(", ") + " …",
   });
 }
 const freq = { words: ranked.length, unranked: lexNouns.length - ranked.length, perWeek: PER_WEEK, rounds: freqRounds };
