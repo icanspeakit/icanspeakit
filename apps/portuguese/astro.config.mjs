@@ -77,6 +77,31 @@ export default defineConfig({
     allowedHosts: true,
   },
   vite: {
+    // Dev only: the course lives under its base (/francais, /espanol …) and the domain root
+    // is the separate hub site, so localhost:<port>/ was a bare 404. Send it to the course.
+    plugins: [{
+      name: 'root-to-base',
+      apply: 'serve',
+      configureServer(server) {
+        // Returned function = runs after Vite and Astro have added their middlewares; then
+        // it goes to the front, or their base handler answers "/" with a 404 first.
+        return () => {
+          server.middlewares.stack.unshift({
+            route: '',
+            handle(req, res, next) {
+              // originalUrl: Vite strips the base from req.url, so /francais/ arrives as "/".
+              const url = req.originalUrl ?? req.url;
+              if (url === '/' || url?.startsWith('/?')) {
+                res.writeHead(302, { Location: `${BASE_PATH}/` });
+                res.end();
+                return;
+              }
+              next();
+            },
+          });
+        };
+      },
+    }],
     // A Gradle build drops ~6,600 copies of the site into android/app/build; watching
     // them floods the dev server until module loads time out.
     server: {

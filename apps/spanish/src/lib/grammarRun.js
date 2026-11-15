@@ -30,7 +30,11 @@ import { endSet, setRef } from "./versuche.js";
 import { t, onUiText, uitHtml } from "./uiText.js";
 import { celebrate } from "./mascotCelebrate.js";
 
-const CURSOR_KEY = "da-grammatik-lauf";
+// The place used to be a station number (CURSOR_KEY_OLD). Halving the lessons renumbered
+// every station, so it is now kept as topic + exercise; an old number is read once and
+// translated (loadCursor).
+const CURSOR_KEY_OLD = "da-grammatik-lauf";
+const CURSOR_KEY = "da-grammatik-lauf-2";
 
 const esc = (s) => {
   const d = document.createElement("div");
@@ -40,11 +44,17 @@ const esc = (s) => {
 
 /** Every exercise of every topic, flattened — the run's addressable unit is one exercise.
  * `topic.only` (set by lauf.astro for topics split across two levels) limits a topic to
- * some of its exercises; the indexes stay those of the full list, which the engine needs. */
-export function buildStations(topics) {
+ * some of its exercises; the indexes stay those of the full list, which the engine needs.
+ *
+ * A lesson in the run is the first half of the topic's exercises (2026-11-15: seven in a
+ * row was too much for someone just starting; 7 → 4, 6 → 3, at least two). The first
+ * ones are the recognising ones, the topic page keeps all of them. `half: false` gives
+ * the full list, for reading an old saved place. */
+export function buildStations(topics, { half = true } = {}) {
   const out = [];
   topics.forEach((topic, ti) => {
-    const idx = topic.only ?? (topic.exercises ?? []).map((_, i) => i);
+    let idx = topic.only ?? (topic.exercises ?? []).map((_, i) => i);
+    if (half) idx = idx.slice(0, Math.max(Math.min(2, idx.length), Math.ceil(idx.length / 2)));
     idx.forEach((xi, n) => {
       out.push({
         topicIndex: ti,
@@ -84,16 +94,32 @@ function leadOf(topic) {
   return topic.subtitleKey ? t(topic.subtitleKey, topic.subtitle ?? "") : topic.subtitle ?? "";
 }
 
-function loadCursor(max) {
+const topicKey = (topic) => `${topic.id}${topic.part ? `:${topic.part}` : ""}`;
+
+/** The saved place as a station index: topic + exercise, or the topic's first station if
+ * that exercise is no longer in the lesson. An old station number is read against the
+ * full list it was counted in. */
+function loadCursor(stations, topics) {
+  const find = (key, x) => {
+    const inTopic = stations.map((s, i) => [s, i]).filter(([s]) => topicKey(topics[s.topicIndex]) === key);
+    if (!inTopic.length) return null;
+    return (inTopic.find(([s]) => s.exIndex === x) ?? inTopic[0])[1];
+  };
   try {
-    const n = parseInt(localStorage.getItem(CURSOR_KEY), 10);
-    if (Number.isInteger(n) && n >= 0 && n < max) return n;
+    const saved = JSON.parse(localStorage.getItem(CURSOR_KEY) ?? "null");
+    if (saved?.t) return find(saved.t, saved.x) ?? 0;
+    const n = parseInt(localStorage.getItem(CURSOR_KEY_OLD), 10);
+    const old = buildStations(topics, { half: false })[n];
+    if (Number.isInteger(n) && old) return find(topicKey(topics[old.topicIndex]), old.exIndex) ?? 0;
   } catch {}
   return 0;
 }
 
-function saveCursor(n) {
-  try { localStorage.setItem(CURSOR_KEY, String(n)); } catch {}
+function saveCursor(n, stations, topics) {
+  const s = stations[n];
+  try {
+    localStorage.setItem(CURSOR_KEY, JSON.stringify(s ? { t: topicKey(topics[s.topicIndex]), x: s.exIndex } : {}));
+  } catch {}
 }
 
 /** ?niveau=a2 → the first station of the first A2 topic, or null. Read once, then removed
@@ -152,8 +178,8 @@ export function mountGrammarRun(root, topics) {
   }
 
   const given = levelStart(stations, topics);
-  let cursor = given ?? loadCursor(stations.length);
-  if (given != null) saveCursor(given);
+  let cursor = given ?? loadCursor(stations, topics);
+  if (given != null) saveCursor(given, stations, topics);
   let answered = false;
 
   const topicOf = (i) => topics[stations[i].topicIndex];
@@ -197,7 +223,9 @@ export function mountGrammarRun(root, topics) {
   (doneEl ?? stage).insertAdjacentElement("beforebegin", pause);
   const pauseGo = pause.querySelector("[data-run-pause-go]");
   const pauseStop = pause.querySelector("[data-run-pause-stop]");
-  pauseStop.href = withBase("/");
+  // "Done for today" opens the learner's progress page, where the lesson just finished
+  // shows up, rather than the home page (2026-11-15, as on deutschacademy).
+  pauseStop.href = withBase("/progreso");
   /** The station the break leads on to, while it is shown. */
   let pauseAt = null;
 
@@ -225,7 +253,7 @@ export function mountGrammarRun(root, topics) {
   function showPause(next) {
     pauseAt = next;
     // Coming back later starts the next lesson, not the one just finished.
-    saveCursor(next);
+    saveCursor(next, stations, topics);
     stage.innerHTML = "";
     intro.hidden = true;
     nextBtn.hidden = true;
@@ -312,11 +340,11 @@ export function mountGrammarRun(root, topics) {
       count.textContent = t("run.allDone", "A1 bis B2 geschafft");
       bar.style.width = "100%";
       celebrate({ title: "Lauf geschafft!", body: t("run.allDone", "A1 bis B2 geschafft") });
-      saveCursor(0);
+      saveCursor(0, stations, topics);
       return;
     }
     cursor = next;
-    saveCursor(cursor);
+    saveCursor(cursor, stations, topics);
     nextBtn.hidden = false;
     paint();
   }
@@ -337,7 +365,7 @@ export function mountGrammarRun(root, topics) {
   });
 
   restartBtn?.addEventListener("click", () => {
-    saveCursor(0);
+    saveCursor(0, stations, topics);
     nextBtn.hidden = false;
     go(0);
   });

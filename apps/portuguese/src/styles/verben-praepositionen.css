@@ -1257,6 +1257,14 @@ html:not([data-mascots="off"]) .vp-ex-tip > .vp-ex-hint::before {
      phone row — „veröffentlichten“ ran out of its 67px pill — so they go two by two. */
   .vp-table--choices .vp-pills:has(> :nth-child(4)) { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* Sentences as choices, or a long prompt (vp-table--long, set in grammarWorkspace.js): the
+   prompt on its own line, the pills under it as wide as their text, wrapping as a group.
+   Fixed 7.75rem columns broke „Elle ne parle pas anglais.“ over three lines (2026-11-15). */
+.vp-table--long .vp-table-row:not(.vp-table-head) { flex-direction: column; align-items: stretch; gap: 8px; }
+.vp-table--long .vp-table-head span:last-child { display: none; }
+.vp-table--long .vp-pills,
+.vp-table--long .vp-pills:has(> :nth-child(4)) { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; width: auto; }
+.vp-table--long .vp-pill-opt { padding-inline: 14px; font-size: .85rem; text-align: start; max-width: 100%; }
 
 .vp-bank {
   display: flex; flex-wrap: wrap; gap: 7px;
