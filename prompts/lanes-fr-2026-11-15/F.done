@@ -1,0 +1,24 @@
+Lane F done: English and Spanish listening audio rendered with Azure TTS (no ElevenLabs calls). Nobody has listened to the clips.
+
+Voices (already set in each hoeren.json; I only replaced the stale ElevenLabs/"verify" notes with the Azure note and cleared the empty ids). All 10 names confirmed present in the Azure voice list.
+ role      English (en-GB)         Spanish (es-ES)
+ ansage    SoniaNeural             ElviraNeural
+ frau      LibbyNeural             EstrellaNeural
+ frau2     HollieNeural            AbrilNeural
+ mann      RyanNeural              AlvaroNeural
+ mann2     ThomasNeural            ArnauNeural
+
+Characters sent to Azure: English 11,418; Spanish 12,763.
+Changed: apps/{english,spanish}/scripts/generate-hoeren-audio.mjs (new, copy of the French one, xml:lang en-GB / es-ES), apps/{english,spanish}/package.json (generate:hoeren), apps/{english,spanish}/src/data/hoeren.json (voice notes only), new public/audio/hoeren/ with 16 mp3 + manifest.json in each app.
+Wiring: nothing to fix. Both apps' src/lib/hoeren.js and listening [id].astro pages already use hasClip/clipHref.
+
+Checks:
+- ffmpeg decodes all 32 mp3 without errors.
+- Real vs estimated seconds: English within -5/+6 s of the estimate in most texts (a1-ansage 20 vs 25, a1-verabredung 36 vs 30, b1-elterngespraech 71 vs 65). Spanish runs longer than the estimates on the longer texts (a2-amt-termin 62 vs 50, a2-wohnungsbesichtigung 55 vs 45, b1/b2 about 8-12 s over; a2-radio 44 vs 60). The pages read the real length from manifest.json, so nothing wrong is shown.
+- Pages: English http://localhost:4521/english/listening/a1-station-announcement -> 200, audio src /english/audio/hoeren/a1-ansage-bahnhof.mp3 -> 200 audio/mpeg (I started this server and stopped it). Spanish http://localhost:4322/espanol/comprension-auditiva/a1-aviso-estacion -> 200, src /espanol/audio/hoeren/a1-ansage-bahnhof.mp3 -> 200. For Spanish I used a dev server that was already running (PID 37756, not mine; port 4522 refused to start because of it) and left it running.
+- Builds, run one at a time: english pnpm build exit 0 (postbuild: leak checks, check:base and check:base:strict ok, 5299 files). spanish pnpm build exit 0, pnpm check:base ok (3496 files).
+
+Not verified: how the voices sound (accent, pacing, speaker change), and whether es-ES reads the es-419 variety texts naturally (all Spanish texts are es-ES in the data). ffmpeg printed "non monotonically increasing dts" warnings during the concat, same as French; harmless in the checks, but ears should test one dialogue.
+
+Re-render: in apps/english or apps/spanish, pnpm generate:hoeren (only missing clips), -- --force (all), -- --only <id>, -- --dry (cost, no API). Needs AZURE_SPEECH_KEY / AZURE_SPEECH_REGION in the repo-root .env.local and ffmpeg on PATH. A full run takes about 5 minutes per app (3.1 s between requests, free tier).
+Nothing committed.
