@@ -7,7 +7,7 @@ it does not need the canvas.*
 ## 1. Logo
 
 **Wordmark:** `i canspeak!` in **Fraunces Black (900)**, near-black `#111015`. The first letter is a
-custom lowercase **i** (round dot, upright stem, slightly wider foot) and **stands apart** from
+custom lowercase **i** (round dot, upright stem, slightly wider foot), set **close** to
 "canspeak", so it reads "i can speak!"; the closing **!** is the same shape turned upside down.
 **Every letter** carries the **four-colour split**: green and sky shifted to the upper left, sun
 yellow and coral to the lower right (like a video frame slightly out of register).
@@ -23,7 +23,7 @@ yellow and coral to the lower right (like a video frame slightly out of register
 All SVGs are outlined paths: no font needed, never re-type the logo in HTML.
 
 **Rules**
-- Never recolour, stretch, rotate or redraw; never close the gap after the i.
+- Never recolour, stretch, rotate or redraw; the i sits close to "canspeak" (gap about one letter space, changed 2026-11-14); never widen it again.
 - Clear space around the wordmark: the height of the i's dot on every side.
 - Minimum width: 120 px for the split versions, below that use `-mono`.
 - In a `<img>`: `alt="icanspeak!"` (or `alt=""` when a text name sits next to it).

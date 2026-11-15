@@ -23,9 +23,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const out = (p) => path.join(ROOT, p);
 
 const wordmark = readFileSync(out("public/logos/icanspeak-wordmark.svg"));
-// width/height 1138 × 227
+// width/height 1094 × 227
 await sharp(wordmark, { density: 300 })
-  .resize({ width: Math.round((1138 / 227) * 176) })
+  .resize({ width: Math.round((1094 / 227) * 176) })
   .png()
   .toFile(out("public/assets/logo.png"));
 console.log("wordmark: public/assets/logo.png from public/logos/icanspeak-wordmark.svg");
