@@ -35,6 +35,9 @@ export const GATES = { ui: 98 };
 // read it. A flashcard language can carry `fetch: true` to load its glosses on demand.
 const reviewed = { status: "reviewed" };
 const draft = { status: "draft" };
+// Translated but held back: the file exists and the checks measure it, but no surface offers it
+// until a native speaker has read it and it moves to draft or reviewed (passesGate below).
+const review = { status: "review" };
 
 /* Order is the order lists come out in: English first, Ukrainian before Russian (Ukrainian
    learners are not sent to Russian). A surface whose list has always had a different order
@@ -70,7 +73,9 @@ export const LANGUAGE_REGISTRY = [
     // visit whose browser asks for none of the others (COURSE_LANG below), and a choice in the
     // menu for teachers and learners who want the interface in Spanish. UI only: no entry page
     // (no urlPrefix), no cards (the cards are the Spanish being learnt).
-    surfaces: { ui: draft },
+    // Under review since 2026-11-15: the draft has strings written for English speakers (false
+    // friends, sound comparisons) that read oddly in Spanish; not offered until they are reworked.
+    surfaces: { ui: review },
   },
   {
     code: "fr", native: "Français", de: "Französisch", en: "French", word: "Langue",
@@ -104,6 +109,7 @@ export const LANGUAGE_REGISTRY = [
 export const BASE = "en";
 /** The language this course teaches: the interface language of a first visit whose browser
  *  asks for no interface language the course has (Layout.astro, i18n.js getLang). */
+// Only takes effect once that language is offered on the ui surface (not while under review).
 export const COURSE_LANG = "es";
 
 const BY_CODE = new Map(LANGUAGE_REGISTRY.map((l) => [l.code, l]));
@@ -120,6 +126,7 @@ export const coverageOf = (code, surface) => coverage.langs?.[code]?.[surface] ?
 
 function passesGate(lang, surface) {
   const gate = GATES[surface];
+  if (lang.surfaces[surface]?.status === "review") return false;
   if (gate == null || lang.code === BASE) return true;
   const pct = coverageOf(lang.code, surface);
   return pct != null && pct >= gate;
