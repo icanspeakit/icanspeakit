@@ -19,10 +19,10 @@ export function bigQuestion(text) {
 }
 
 const BILD = {
-  fragen: ["¿Quién está en la foto?", "¿Dónde están las personas?", "¿Qué hacen o qué dicen?"],
-  redemittel: ["Veo …", "En la foto hay …", "Creo que dicen: «…»"],
+  fragen: ["Chi c'è nella foto?", "Dove sono le persone?", "Che cosa fanno o che cosa dicono?"],
+  redemittel: ["Vedo …", "Nella foto c'è …", "Penso che dicano: «…»"],
 };
-const WORTIGEL = { redemittel: ["Pienso en …", "La palabra … va bien con el tema.", "En mi idioma se dice …"] };
+const WORTIGEL = { redemittel: ["Penso a …", "La parola … va bene con il tema.", "Nella mia lingua si dice …"] };
 
 /**
  * @param {{ phase: { text: string }, lesson: object, prev: object | null, block: object,

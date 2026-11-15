@@ -1,6 +1,6 @@
 // Bingo: N different cards from the chosen Lernsets, plus the caller's list.
 //
-// The teacher calls a word — in Spanish, or its meaning in the class's language, which turns
+// The teacher calls a word — in Italian, or its meaning in the class's language, which turns
 // it into a listening-and-understanding game — and the students cross it off. Every card is
 // a different SET of words, not just a different order: two cards with the same words would
 // win on the same call.
