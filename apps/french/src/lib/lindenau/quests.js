@@ -1,4 +1,4 @@
-// "The Legend of Montbruno" (/games/montbruno; internal id: lindenau): who stands where and
+// "The Legend of Montbruno" (/jeux/montbruno; internal id: lindenau): who stands where and
 // what they say. One quest per person, A1, everyday errands in Montbruno, an invented French
 // town. The French is the content (npc / de); `en` is its English meaning, the 💡 Help line.
 // (The key `de` is historical: it holds the French line the learner reads and builds.)

@@ -1,26 +1,29 @@
 ---
-// /knowledge — the Wissensdatenbank: everything on this site that is worth having on paper.
+// /knowledge: the free English PDFs and the official sample papers. The page ChatGPT and
+// search engines should cite for "free English grammar PDF" (prompts/traction/downloads.md),
+// the English course's version of deutschacademy's /wissen.
 //
 // Two halves, and the split between them is a rights decision, not a design one. Above:
 // files we wrote and therefore may give away, generated from the same data the trainers
-// load. Below: links to the official Modellsätze at telc, Goethe and BAMF, which are free
-// to use but not ours to host — so they are linked where they are published, where they
-// also stay current.
+// load (pnpm generate:pdfs). Below: links to the free sample papers of Cambridge English,
+// IELTS and Trinity, which are not ours to host, so they are linked where they are
+// published, where they also stay current.
 //
-// Publisher material (Hueber, Klett, Cornelsen) appears in neither list. See `rightsNote`
-// in src/data/downloads.json.
+// Publisher material appears in neither list. See `rightsNote` in src/data/downloads.json.
+// A copy per UI language (/es/downloads, /pt/downloads …) is written at build time by
+// src/integrations/entry-pages.mjs from this page and public/i18n/<code>.json.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import Icon from "../components/Icon.astro";
 import SectionMascot from "../components/mascots/SectionMascot.astro";
 import BookCard from "../components/wissen/BookCard.astro";
 import WortAbo from "../components/wortgeschichte/WortAbo.astro";
-import { categories, featured, files, links, rightsNote, totals } from "../lib/downloads.js";
+import { categories, featured, files, links, faq, rightsNote, totals } from "../lib/downloads.js";
 import { isRtl } from "../lib/languages.js";
 import { grammarTopics } from "../lib/catalog.js";
 import { orderOf } from "../lib/grammatikOrder.js";
-import { topicPath, workPath } from "../lib/routes.js";
-import { withBase } from "../lib/paths.js";
+import { topicPath } from "../lib/routes.js";
+import { withBase, absoluteUrl } from "../lib/paths.js";
 import { lernsets } from "../lib/lernsets.js";
 import startBook from "../data/grammatik-start/en.json";
 import "../styles/practice.css";
@@ -32,11 +35,49 @@ import "../styles/wortgeschichte.css";
 const SHELF_MASCOT: Record<string, { name: "bruno" | "regi" | "hamsti" | "quaki"; say: string }> = {
   grammatik: { name: "regi", say: "Rule by rule." },
   wortschatz: { name: "hamsti", say: "Words to take with you." },
-  berufe: { name: "hamsti", say: "Words for your job." },
+  listen: { name: "regi", say: "All the forms at a glance." },
   pruefungen: { name: "bruno", say: "Be well prepared!" },
 };
 
 const mb = (totals.bytes / 1024 / 1024).toFixed(1);
+
+// Structured data: the page as a collection of the files it offers (each a DigitalDocument
+// with its own URL), and the FAQ below as an FAQPage, since the answers are on the page.
+// The language copies swap the FAQ text for their own (src/integrations/entry-pages.mjs).
+const schema = [
+  {
+    "@type": "CollectionPage",
+    name: "Free English learning PDFs and official sample papers, A1–C1",
+    description: "Free English grammar books from A1 to C1, verb lists, word lists and the Life in the UK facts as PDFs, plus links to the official Cambridge English, IELTS and Trinity sample papers.",
+    url: absoluteUrl("/knowledge"),
+    isAccessibleForFree: true,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: files.length,
+      itemListElement: files.map((f, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        item: {
+          "@type": "DigitalDocument",
+          name: f.title,
+          description: f.desc,
+          url: absoluteUrl(f.href),
+          encodingFormat: "application/pdf",
+          educationalLevel: f.level,
+          isAccessibleForFree: true,
+          inLanguage: "en",
+          ...(f.pages ? { numberOfPages: f.pages } : {}),
+        },
+      })),
+    },
+    // The official papers, by the board that publishes them: cited, not hosted.
+    citation: links.map((l) => ({ "@type": "CreativeWork", name: l.title, url: l.href, publisher: { "@type": "Organization", name: l.source } })),
+  },
+  ...(faq.length ? [{
+    "@type": "FAQPage",
+    mainEntity: faq.map((q) => ({ "@type": "Question", name: q.q, acceptedAnswer: { "@type": "Answer", text: q.a } })),
+  }] : []),
+];
 
 // What to do once the PDF is on the phone (SEO-BRAND-TIERED-PROMPT.md, Tier 7a). Most people
 // who land here come from ChatGPT, take a file and leave. A link to the topic list was
@@ -63,7 +104,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
     const level = /^[ABC][12]$/.test(f.level) ? f.level : null;
     const t = firstTopic(level ?? "A1");
     const alt = level
-      ? { href: `/grammar#niveau-${level.toLowerCase()}`, key: "wissen.next.allTopics", label: `All ${level} topics`, vars: { level } }
+      ? { href: `/grammar#level-${level.toLowerCase()}`, key: "wissen.next.allTopics", label: `All ${level} topics`, vars: { level } }
       : PLACEMENT;
     if (!t) return { mascot: "regi", href: "/grammar", key: "wissen.next.grammatik", label: "Practise the topics online, with feedback", ...PRACTICE_SUB };
     return { mascot: "regi", href: t.href, key: "wissen.next.chapter", label: `Start with chapter 1: ${t.name}`, vars: { name: t.name }, ...PRACTICE_SUB, alt };
@@ -80,24 +121,40 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
       subKey: "wissen.next.cardsSub", sub: `With audio, ${set.words} words.`, subVars: { n: set.words }, alt,
     };
   }
-  if (f.category === "berufe") return { mascot: "hamsti", href: workPath(f.id.replace(/^berufe-/, "")), key: "wissen.next.berufe", label: "Learn the words for your job with flashcards", subKey: "wissen.next.cardsSubPlain", sub: "With audio, one set at a time." };
+  if (f.category === "listen") {
+    // The list's own page first (same data, with search), the topic that practises it second.
+    const list = ({ "irregular-verbs": "/grammar/irregular-verbs", "phrasal-verbs": "/grammar/phrasal-verbs-list", "verbs-prepositions": "/grammar/verbs-with-prepositions" } as Record<string, string>)[f.id] ?? "/grammar";
+    const topic = ({ "irregular-verbs": "perfekt", "phrasal-verbs": "trennbare-verben", "verbs-prepositions": "verben-praepositionen" } as Record<string, string>)[f.id];
+    return {
+      mascot: "regi", href: list, key: "wissen.next.list", label: "The same list online, with search", ...PRACTICE_SUB,
+      ...(topic ? { alt: { href: topicPath(topic), key: "wissen.next.grammatik", label: "Practise the topics online, with feedback" } } : {}),
+    };
+  }
   if (f.id.startsWith("lid")) return { mascot: "bruno", href: "/life-in-the-uk/test", key: "wissen.next.lid", label: "Practise the Life in the UK test online", ...PRACTICE_SUB };
   return { mascot: "bruno", ...PLACEMENT, subKey: "wissen.next.placementSub", sub: "2 minutes, then you know where to start." };
 }
 ---
 <Layout
-  title="English grammar & word lists as free PDFs – icanspeak English"
-  description="Grammar books, word lists and exam material as PDFs — download them for free, print them and share them in class. No account needed."
+  title="Free English learning PDFs and official sample papers, A1–C1 – icanspeak English"
+  description="Free English grammar PDFs from A1 to C1, an irregular verbs list, word lists and Life in the UK facts, plus links to the official Cambridge, IELTS and Trinity sample papers. No account."
+  schema={schema}
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide">
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="wissen.eyebrow">Knowledge base</p>
-      <h1 data-i18n="wissen.h1">Books and lists to download</h1>
+      <p class="eyebrow" data-i18n="wissen.eyebrow">Free downloads</p>
+      <h1 data-i18n="wissen.h1">Free English learning PDFs and official sample papers, A1–C1</h1>
       {/* One sentence that says what is here: the line answer engines quote. */}
       <p data-i18n="wissen.lead" data-i18n-vars={JSON.stringify({ files: totals.files, pages: totals.pages })}>
-        {totals.files} free PDFs with {totals.pages} pages for levels A1 to B2: grammar, word lists,
-        vocabulary for work and exam preparation, ready to download and print without an account.
+        {totals.files} free PDFs with {totals.pages} pages: grammar books for every level from A1 to C1,
+        verb lists, word lists and the Life in the UK facts. Written by icanspeak English, free to print
+        and share in class, no account needed. Below them: links to the official sample papers of
+        Cambridge English, IELTS and Trinity.
+      </p>
+      <p class="wi-jump">
+        <a href="/teachers/worksheets" data-i18n="wissen.teachers">For teachers: a printable worksheet for every grammar topic</a>
+        <a href="#official" data-i18n="wissen.jumpOfficial">Official sample papers</a>
+        <a href="#faq" data-i18n="wissen.jumpFaq">Questions and answers</a>
       </p>
     </div>
 
@@ -154,20 +211,22 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
       </section>
     ))}
 
-    <section class="wi-group" id="offiziell">
+    <section class="wi-group" id="official">
       <h2 class="wi-group-title">
         <span class="wi-group-ic"><Icon name="landmark" size={20} /></span>
         <span data-i18n="wissen.official.title">Official materials</span>
         <span class="wi-group-n">{links.length}</span>
       </h2>
       <p class="wi-group-blurb" data-i18n="wissen.official.blurb">
-        Model papers and question catalogues from the exam boards. They are free, but they are not ours —
-        so we link to them where they are published. That is also where they stay up to date.
+        Free sample papers from the exam boards themselves: Cambridge English, IELTS and Trinity, and the
+        UK government's page on the Life in the UK test. They are not ours to copy, so we link to them
+        where they are published. That is also where they stay up to date.
       </p>
       <ul class="wi-links">
         {links.map((l) => (
           <li>
-            <a href={l.href} target="_blank" rel="noopener noreferrer">
+            <a href={l.href} target="_blank" rel="noopener noreferrer" data-official={l.id}>
+              {l.level && <span class="wi-badge">{l.level}</span>}
               <b>{l.title}</b>
               {/* Keyed by id, not position: an index key silently pinned each note to whichever
                   link happened to sit in that slot once a link was added above it. The
@@ -179,6 +238,20 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
         ))}
       </ul>
     </section>
+
+    {/* The questions people ask ChatGPT about free English PDFs, answered on the page.
+        Visible, so the FAQPage in the JSON-LD above is honest. */}
+    {faq.length > 0 && (
+      <section class="wi-group wi-faq" id="faq">
+        <h2 class="wi-group-title" data-i18n="wissen.faq.title">Questions and answers</h2>
+        {faq.map((q) => (
+          <div class="wi-faq-item" data-faq>
+            <h3 data-faq-q data-i18n={`wissen.faq.${q.id}.q`}>{q.q}</h3>
+            <p data-faq-a data-i18n={`wissen.faq.${q.id}.a`}>{q.a}</p>
+          </div>
+        ))}
+      </section>
+    )}
 
     <section class="wi-rights">
       <h2 data-i18n="wissen.h2.sources">Where all this comes from</h2>
@@ -207,8 +280,8 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
           <p class="wi-meta">PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}</p>
           <p class="wi-sheet-desc" data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</p>
 
-          {/* One booklet per Bundesland: the dropdown picks which file the button below
-              fetches. Starts on the state the learner chose in the Übungstest. */}
+          {/* One practice sheet per nation: the dropdown picks which file the button below
+              fetches. Starts on the nation the learner chose in the practice test. */}
           {f.states && (
             <label class="wi-sheet-land">
               <span class="wi-sheet-toclabel" data-i18n="wissen.land.pick">Your region</span>
@@ -266,15 +339,15 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
             );
           })()}
 
-          {/* The same book with the learner's language in the translation column. Each
-              language is named in itself — that is the word its reader will spot. Right
-              under the German button, so every download sits at the top of the sheet. */}
+          {/* The same book with the explanations in the learner's language. Each language is
+              named in itself: that is the word its reader will spot. Right under the main
+              button, so every download sits at the top of the sheet. */}
           {f.editions.length > 0 && (
             <div class="wi-sheet-eds">
               <p class="wi-sheet-toclabel" data-i18n="wissen.editions.label">With a translation into your language</p>
               <div class="wi-sheet-eds-row">
                 {f.editions.map((e) => (
-                  <a class="wi-sheet-ed" href={e.href} download lang={e.lang} dir={e.rtl ? "rtl" : undefined}>
+                  <a class="wi-sheet-ed" href={e.href} download lang={e.hreflang ?? e.lang} dir={e.rtl ? "rtl" : undefined}>
                     <span>{e.label}</span>
                     <small dir="ltr">{e.size}</small>
                   </a>
@@ -283,7 +356,7 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
             </div>
           )}
 
-          {/* Bayern's classroom booklets, shown only while Bayern is picked. */}
+          {/* Extra files riding along under one card (`parent` in the catalogue). */}
           {f.extras.length > 0 && f.extras.map((x) => (
             <a class="wi-sheet-extra" href={x.href} download data-land-extra={x.state} hidden={!f.href.includes(`-${x.state}.pdf`)}>
               <span class="wi-badge">{x.level}</span>
@@ -296,14 +369,14 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
             /* Below the downloads and folded. Still in the HTML for crawlers. */
             <details class="wi-sheet-toc">
               <summary><span class="wi-sheet-toclabel" data-i18n={f.contents.labelKey} data-i18n-vars={f.contents.labelVars ? JSON.stringify(f.contents.labelVars) : undefined}>{f.contents.label}</span></summary>
-              {/* Each line stays German — it is what the book prints — and carries its
-                  translations; the interface language picks one (wissen.css, .wi-toc-tr). */}
+              {/* Each line is what the book prints (English); a line may carry translations,
+                  and the interface language picks one (wissen.css, .wi-toc-tr). */}
               <ul>{f.contents.items.map((line, i) => {
                 const k = f.contents.itemKeys?.[i];
                 const tr = f.contents.itemTr?.[i];
                 return (
                   <li>
-                    <span lang="de" dir={k ? undefined : "ltr"} data-i18n={k?.key} data-i18n-vars={k?.vars ? JSON.stringify(k.vars) : undefined}>{line}</span>
+                    <span lang="en" dir={k ? undefined : "ltr"} data-i18n={k?.key} data-i18n-vars={k?.vars ? JSON.stringify(k.vars) : undefined}>{line}</span>
                     {tr && Object.entries(tr).map(([l, v]) => <span class="wi-toc-tr" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v}</span>)}
                   </li>
                 );
@@ -381,8 +454,8 @@ import { currentPath } from "../lib/paths.js";
     }
     scrim?.addEventListener("click", closeSheet);
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSheet(); });
-    // The Bundesland picker: the button follows the dropdown, and the choice is shared
-    // with the Übungstest (same key), so the learner's state is already selected here.
+    // The nation picker: the button follows the dropdown, and the choice is shared with the
+    // practice test (same key), so the learner's nation is already selected here.
     const LAND_KEY = "da-lid-land";
     for (const sel of Array.from(document.querySelectorAll<HTMLSelectElement>("[data-land-select]"))) {
       const body = sel.closest<HTMLElement>("[data-sheet-for]")!;
@@ -409,7 +482,7 @@ import { currentPath } from "../lib/paths.js";
     for (const dl of Array.from(document.querySelectorAll<HTMLAnchorElement>(".wi-sheet-dl, .wi-sheet-ed, .wi-sheet-extra"))) {
       dl.addEventListener("click", () => {
         const body = dl.closest<HTMLElement>("[data-sheet-for]");
-        track("pdf_download", { pdf: fileName(dl.href), file: body?.dataset.sheetFor, lang: dl.getAttribute("lang") ?? "de" });
+        track("pdf_download", { pdf: fileName(dl.href), file: body?.dataset.sheetFor, lang: dl.getAttribute("lang") ?? "en", page_lang: document.documentElement.lang });
         // Say that it worked, and offer the very file just tapped (a language edition too)
         // to open in the browser instead.
         const note = body?.querySelector<HTMLElement>("[data-wi-dlnote]");
@@ -432,7 +505,11 @@ import { currentPath } from "../lib/paths.js";
       a.addEventListener("click", () => track("pdf_open_browser", { pdf: fileName(a.href), file: a.closest<HTMLElement>("[data-sheet-for]")?.dataset.sheetFor }));
     }
     for (const a of Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-ext]"))) {
-      a.addEventListener("click", () => track("pdf_download", { pdf: fileName(a.href), file: a.dataset.ext, lang: "de", external: true }));
+      a.addEventListener("click", () => track("pdf_download", { pdf: fileName(a.href), file: a.dataset.ext, lang: "en", external: true }));
+    }
+    // The official sample papers: which board people leave for.
+    for (const a of Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-official]"))) {
+      a.addEventListener("click", () => track("official_link", { id: a.dataset.official, page_lang: document.documentElement.lang }));
     }
     for (const a of Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-next-target]"))) {
       a.addEventListener("click", () => track("wissen_next_step", { target: a.dataset.nextTarget, file: a.closest<HTMLElement>("[data-sheet-for]")?.dataset.sheetFor, alt: "nextAlt" in a.dataset }));

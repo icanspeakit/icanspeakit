@@ -217,7 +217,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     if (!languages.find((l) => l.code === code)?.fetch) return Promise.resolve();
     // German rides in the page as well (lexicon.js toCard): nothing to fetch then.
     if (cards.every((c) => c.translations?.[code])) return Promise.resolve();
-    glossLoads[code] ??= fetch(withBase(`/vocabulary/glosses/${code}.json`))
+    glossLoads[code] ??= fetch(withBase(`/vocabolario/glosses/${code}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((map) => {
         for (const c of cards) if (c.id && map[c.id]) (c.translations ??= {})[code] = map[c.id];
@@ -1204,12 +1204,12 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   };
   const deckHasInfo = cards.some((c) => c.pos || c.example);
   /* Regi under the class: one line on what the class is, and the way to all of them
-     (/grammar/parts-of-speech). The figure is a mascot part, so "Maskottchen aus" leaves the
+     (/grammatica/parti-del-discorso). The figure is a mascot part, so "Maskottchen aus" leaves the
      line and drops only Regi. German on purpose, like the class name above it. */
   const WA_SAY = Object.fromEntries(wortarten.classes.map((c) => [c.id, c.say]));
   const REGI = mascotSvg({ name: "regi", view: "three", size: 34, label: "", className: "vt-wa-fig" });
-  // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
-  const posHref = (card) => withBase(`/grammar/parts-of-speech#${card.pos}`);
+  // The chip and Regi's link lead to the same place: the class on /grammatica/parti-del-discorso.
+  const posHref = (card) => withBase(`/grammatica/parti-del-discorso#${card.pos}`);
   function waHtml(card) {
     const say = WA_SAY[card.pos];
     if (!say) return "";

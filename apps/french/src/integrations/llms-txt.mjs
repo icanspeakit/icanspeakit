@@ -19,12 +19,12 @@ import { absoluteUrl } from '../lib/paths.js';
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
 // Site paths (without /francais); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
-  ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
-  ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
-  ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Exams', ['/exams', '/delf-dalf', '/delf-dalf/*', '/tcf', '/tcf/*', '/tef', '/tef/*', '/exams/delf-tcf-or-tef', '/civic-exam', '/civic-exam/*', '/residence-and-nationality', '/residence-and-nationality/*']],
-  ['Life and work in France', ['/french-for-work', '/business-french', '/code-de-la-route-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
-  ['For teachers', ['/teachers']],
+  ['Start here', ['/test-de-niveau', '/pas-a-pas', '/exercices', '/progression']],
+  ['Grammar and vocabulary', ['/grammaire', '/grammaire/conjugaison', '/vocabulaire', '/prononciation']],
+  ['Skills', ['/competences', '/expression-orale', '/ecoute', '/lecture', '/ecriture']],
+  ['Exams', ['/examens', '/delf-dalf', '/delf-dalf/*', '/tcf', '/tcf/*', '/tef', '/tef/*', '/examens/delf-tcf-ou-tef', '/examen-civique', '/examen-civique/*', '/residence-et-nationalite', '/residence-et-nationalite/*']],
+  ['Life and work in France', ['/francais-au-travail', '/francais-des-affaires', '/vocabulaire-code-de-la-route', '/culture', '/savoirs', '/savoirs/histoires-de-mots']],
+  ['For teachers', ['/enseignants']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],
 ];

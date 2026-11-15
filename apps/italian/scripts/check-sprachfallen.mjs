@@ -1,7 +1,7 @@
-// Checks the language-trap data of the idioms-mistakes pages: /knowledge/false-friends
-// (wortfallen.json and its en.json rows), /grammar/common-mistakes (typische-fehler.json and the
-// `fehler` links of wortarten.json), /knowledge/slang (umgangssprache.json), the live quiz's
-// synonyms (synonyme.json) and /culture/mistakes (fehler-nach-sprache.json).
+// Checks the language-trap data of the idioms-mistakes pages: /conoscenze/falsi-amici
+// (wortfallen.json and its en.json rows), /grammatica/errori-comuni (typische-fehler.json and the
+// `fehler` links of wortarten.json), /conoscenze/gergo (umgangssprache.json), the live quiz's
+// synonyms (synonyme.json) and /cultura/errori (fehler-nach-sprache.json).
 // Shape only, plus the things a typo would break quietly: a gap with no blank, an answer that
 // isn't an option, a picture that isn't on disk, a dead link, a Spanish question without ¿.
 // Runs in the content gate; exit 1 on any problem.

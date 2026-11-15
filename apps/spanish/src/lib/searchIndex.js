@@ -167,14 +167,14 @@ export function buildSearchIndex() {
       c: "grammatik",
     })),
     // akkusativ has its own page outside the catalog's [id] route.
-    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
-    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer conjugar verbos irregular subjunctive imperative", l: "", h: "/grammar/conjugation", c: "grammatik" },
+    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/pronombres-de-objeto", c: "grammatik" },
+    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer conjugar verbos irregular subjunctive imperative", l: "", h: "/gramatica/conjugacion", c: "grammatik" },
     ...conjugationTrainer.sets.map((s) => ({
       t: s.title,
       s: "Conjugation trainer",
       k: `conjugation ${s.id.replace(/-/g, " ")}`,
       l: s.level,
-      h: `/grammar/conjugation?set=${s.id}`,
+      h: `/gramatica/conjugacion?set=${s.id}`,
       c: "grammatik",
     })),
     ...praepTrainer.packs.map((p) => ({
@@ -182,7 +182,7 @@ export function buildSearchIndex() {
       s: "Prepositions",
       k: "präpositionen prepositions",
       l: p.id.slice(0, 2).toUpperCase(),
-      h: "/prepositions",
+      h: "/preposiciones",
       c: "praep",
     })),
     ...kultur.topics.map((k) => ({
@@ -190,7 +190,7 @@ export function buildSearchIndex() {
       s: "Kultur",
       k: kulturHay(k, "culture cultura spain españa"),
       l: k.level ?? "",
-      h: itemPath("/culture", k.id),
+      h: itemPath("/cultura", k.id),
       c: "kultur",
     })),
     // „Deutschland von innen": matched on the same kind of keywords, so „Frau" or „Dating"
@@ -200,7 +200,7 @@ export function buildSearchIndex() {
       s: "Spain from the inside",
       k: kulturHay(k, "culture spain from the inside insider cultura españa"),
       l: k.level ?? "",
-      h: itemPath("/culture/insider", k.id),
+      h: itemPath("/cultura/por-dentro", k.id),
       c: "kultur",
     })),
   ];
@@ -211,7 +211,7 @@ export function buildSearchIndex() {
     k: [e.short, e.id, e.keywords].filter(Boolean).join(" "),
     h: e.href,
   }));
-  // Typische Fehler (/grammar/common-mistakes) is a Nachschlagewerk page, not a catalog
+  // Typische Fehler (/gramatica/errores-comunes) is a Nachschlagewerk page, not a catalog
   // topic: found by its pairs („man Mann", „seit seid") as well as by its name. Its
   // Tandembogen comes along for teachers who look for a pair sheet on it.
   const fehlerWords = [...new Set(fehlerPairs.flatMap((p) => [p.a.w, p.b.w]).map((w) => w.replace(/^(der|die|das) /, "")))].join(" ").toLowerCase();
@@ -219,98 +219,98 @@ export function buildSearchIndex() {
     t: "Typische Fehler",
     s: "Wörter, die man verwechselt: man oder Mann, das oder dass, seid oder seit",
     k: `typische fehler häufige fehler verwechseln verwechselt falsch richtig common mistakes confusing words ${fehlerWords}`,
-    h: "/grammar/common-mistakes",
+    h: "/gramatica/errores-comunes",
   });
   pages.push({
     t: "Typische Fehler: Tandembogen",
     s: "Partnerübung zum Ausdrucken: fragen, antworten, mit Lösungsblatt",
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
-    h: "/teachers/worksheets/tandem/common-mistakes",
+    h: "/profesores/fichas/tandem/common-mistakes",
   });
   // The path to nationality: a guide page under the exam hub.
   pages.push({
     t: "Spanish nationality by residence: CCSE and DELE A2",
     s: "How many years, who needs which test, who is exempt, and the steps in order",
     k: "spanish nationality citizenship residence nacionalidad española residencia ccse dele a2 exempt dispensa oath jura registro civil how to become spanish passport",
-    h: "/nationality",
+    h: "/nacionalidad",
   });
   // The DGT driving deck: words for the driving course, the road and the paperwork.
   pages.push({
     t: "DGT driving vocabulary",
     s: "Spanish words for the car, the road, signs, the driving exam and the paperwork",
     k: "dgt driving licence test theory exam spanish spain carné de conducir permiso autoescuela coche carretera señales tráfico road signs car words multa itv puntos canje vocabulary",
-    h: "/dgt-vocabulary",
+    h: "/vocabulario-dgt",
   });
   // Business Spanish: phrases, model texts and exercises for office work.
   pages.push({
     t: "Business Spanish",
     s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Spain, B1 to C1",
     k: "business spanish work office email correo formal letter phone call llamada cv currículum curriculum resume cover letter carta de presentación job interview entrevista meeting reunión negotiate negociación figures presentation estimado atentamente",
-    h: "/business-spanish",
+    h: "/espanol-de-negocios",
   });
   // DELE or SIELE?: a comparison page under the exam hub.
   pages.push({
     t: "DELE or SIELE?",
     s: "Which Spanish exam fits your purpose: nationality, university or work",
     k: "dele siele compare difference which exam comparison nationality university work price validity diferencia nacionalidad",
-    h: "/exams/dele-or-siele",
+    h: "/examenes/dele-o-siele",
   });
-  // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
+  // Prüfungsfallen (/examenes/trampas): a page under the exam hub, not an exam of its own.
   pages.push({
     t: "Exam traps: DELE, SIELE, CCSE",
     s: "Parts of the exams with a catch, briefly explained, with an example and a task",
     k: "exam traps exam tips dele siele ccse trampas examen consejos reading listening writing speaking language use uso de la lengua",
-    h: "/exams/traps",
+    h: "/examenes/trampas",
   });
-  // Über mich (/about): who teaches behind the site.
+  // Über mich (/acerca-de): who teaches behind the site.
   pages.push({
     t: "Über mich: Edgar Kretschmann",
     s: "Deutschlehrer seit 2015 – China, Korea, Philippinen, Deutschland",
     k: "über mich ueber mich edgar kretschmann lehrer lehrkraft gründer team wer about me teacher founder",
-    h: "/about",
+    h: "/acerca-de",
   });
   // The placement test is a hub tile (catalog.js), not one of the tools, so it needs its own row.
   pages.push({
     t: "Einstufungstest",
     s: "Wo stehst du? Höchstens acht Fragen, A1 bis B2",
     k: "einstufungstest einstufung einstufen test niveau niveautest sprachniveau level welches niveau habe ich mein niveau testen wo stehe ich deutschtest a1 a2 b1 b2 placement test level test what is my level",
-    h: "/placement-test",
+    h: "/prueba-de-nivel",
   });
   pages.push({
     t: "Stundenplan-Generator für Lehrkräfte",
     s: "Unterricht für einen Themenblock planen: Phasen, Zeiten, Aktivitäten, passende Übungen",
     k: "stundenplan unterrichtsplanung unterrichtsentwurf lehrplan verlaufsplan stunde planen lehrkräfte lehrer unterricht generator lesson plan teacher",
-    h: "/teachers/timetable",
+    h: "/profesores/horario",
   });
   pages.push({
     t: "Course content A1–C1",
     s: "What do you learn in each course? Topics, goals and grammar per level",
     k: "course content syllabus spanish course curriculum plan topics goals progression level a1 a2 b1 b2 c1 a1.1 a1.2 b2.1 what do i learn contenidos curso de español",
-    h: "/syllabus",
+    h: "/programa",
   });
   pages.push({
     t: "Einstufungstest für die Klasse",
     s: "Für Lehrkräfte: per QR-Code, mit dem Niveau jeder Person",
     k: "einstufungstest klasse klassentest thementest test erstellen lehrkräfte lehrer lehrerin unterricht kurs einstufung niveau einstufen grammatiktest prüfen ergebnisse schüler placement test teacher class test quiz results",
-    h: "/teachers/tests",
+    h: "/profesores/pruebas",
   });
   pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country spain all topics life in spain hispanic world cultura españa",
-    h: "/knowledge/country-and-culture",
+    h: "/conocimientos/pais-y-cultura",
   });
   pages.push({
     t: "Spain from the inside",
     s: "How people in Spain live, meet and talk",
     k: "culture spain from the inside insider dating manners everyday life sobremesa",
-    h: "/culture/insider",
+    h: "/cultura/por-dentro",
   });
   pages.push({
     t: "Spanish around the world",
     s: "World map, language family, how close is your language?",
     k: "spanish around the world where is spanish spoken official language countries world map spanish-speaking countries latin america hispanic world language family tree romance indo-european related languages cognates english spanish word decoder false friends puerto rico equatorial guinea united states ladino sprachen weltkarte",
-    h: "/knowledge/languages",
+    h: "/conocimientos/lenguas",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
   // verbs too: "warten auf" finds Verben mit Präpositionen) and the Wortarten.
@@ -318,7 +318,7 @@ export function buildSearchIndex() {
     t: "Nachschlagewerk",
     s: "Verbtabellen, Nomen in allen Fällen, Wortarten und mehr zum Nachschlagen",
     k: "nachschlagewerk nachschlagen nachschauen tabellen grammatik übersicht reference look up tables",
-    h: "/reference",
+    h: "/referencia",
   });
   for (const [ref, d, k] of [
     ["starke-schwache-verben", starkSchwach, "starke verben schwache verben unregelmäßige verben strong verbs weak verbs irregular verbs vokalwechsel ablaut präteritum partizip stammformen"],
@@ -332,21 +332,21 @@ export function buildSearchIndex() {
     t: "Wortarten",
     s: "Nomen, Verb, Adjektiv und Co.: was sie sind, woran du sie erkennst",
     k: "wortarten wortart word classes parts of speech nomen substantiv verb adjektiv adverb pronomen präposition konjunktion artikel zahlwort",
-    h: "/grammar/parts-of-speech",
+    h: "/gramatica/clases-de-palabras",
   });
   pages.push({
     t: "Accents: the map",
     s: "Accents of Spanish in Spain, and Spain's other languages",
     k: "accents accent map dialects dialect spanish accents regional accents spain andaluz andalusian canario canarian murciano extremeño castellano castilian madrid seville cadiz seseo ceceo distincion yeismo leismo laismo voseo ustedes vosotros guagua catalan valencian galician basque euskera aranese asturian aragonese co-official languages mexican caribbean andean rioplatense chilean latin america dialekte",
-    h: "/knowledge/accents",
+    h: "/conocimientos/acentos",
   });
-  // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
+  // Every Redemittel set (/vocabulario/frases/<id>), found by its name and its phrases.
   for (const set of redemittel.sets) {
     pages.push({
       t: `Useful phrases: ${set.name}`,
       s: `${set.phrases.length} phrases, e.g. “${set.phrases[0]?.de ?? ""}”`,
       k: `useful phrases frases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
-      h: itemPath("/vocabulary/phrases", set.id),
+      h: itemPath("/vocabulario/frases", set.id),
     });
   }
   // Redewendungen & Sprichwörter: the hub and every phrase, found by its words, its meaning
@@ -356,7 +356,7 @@ export function buildSearchIndex() {
       t: "Redewendungen & Sprichwörter",
       s: "Was sie bedeuten, wann man sie sagt und woher sie kommen",
       k: "redewendung redewendungen sprichwort sprichwörter idiom idioms proverb proverbs redensart redensarten",
-      h: "/knowledge/idioms",
+      h: "/conocimientos/modismos",
     });
     for (const e of rwEintraege) {
       pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} redewendung`.toLowerCase(), h: rwHref(e) });
@@ -366,7 +366,7 @@ export function buildSearchIndex() {
     t: "Umgangssprache, Slang und Schimpfwörter",
     s: "Wie man wirklich spricht – mit Hochdeutsch daneben und was man nie sagt",
     k: "umgangssprache slang jugendsprache jugendwort schimpfwörter schimpfwort fluchen vulgär beleidigung kurzformen haste biste nö gucken kriegen kohle bock krass digga alter chillen geil cringe lost zwo fuffzig mist scheiße colloquial swear words curse insults youth slang",
-    h: "/knowledge/slang",
+    h: "/conocimientos/jerga",
   });
 
   // A word links to its Lernset when that set has a page, else to the level's full list,
@@ -382,11 +382,11 @@ export function buildSearchIndex() {
       w.plural ?? "",
       w.en,
       w.level,
-      `${builtSets.has(w.unit) ? `/vocabulary/${w.unit}` : `/vocabulary/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
+      `${builtSets.has(w.unit) ? `/vocabulario/${w.unit}` : `/vocabulario/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
       w.pos ?? "",
     ]);
 
-  // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
+  // Verb tables (/gramatica/verbos): [infinitive, preview, href, every form]. Every form
   // so that "tengo", "hizo" or "haga" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
@@ -403,7 +403,7 @@ export function buildSearchIndex() {
     .map((s) => [
       s.title,
       s.level ?? "",
-      `/vocabulary/${s.id}`,
+      `/vocabulario/${s.id}`,
       [s.moduleTitle ?? "", ...(s.topics ?? []), lernsetKeywords(s.id)].join(" ").replace(/&/g, " ").replace(/\s+/g, " ").trim(),
       [...new Set(lernsetCardsWords(s.id))].join("|"),
     ]);
@@ -422,7 +422,7 @@ export function buildSearchIndex() {
   const have = new Set(pages.map((p) => p.h));
   for (const p of seitenSuche) if (!have.has(p.h)) pages.push(p);
   // Zitat des Tages: found by every author, not by its 366 single quotes.
-  const zitatHub = pages.find((p) => p.h === "/knowledge/quotes");
+  const zitatHub = pages.find((p) => p.h === "/conocimientos/citas");
   if (zitatHub) zitatHub.k = `${zitatHub.k ?? ""} zitat zitate ${Object.values(zitate.authors).map((a) => a.name).join(" ")}`.toLowerCase();
   return { topics, pages, words, verbs, sets, refs };
 }

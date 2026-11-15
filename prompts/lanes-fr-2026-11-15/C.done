@@ -1,0 +1,122 @@
+LANE C - course URLs in the target language (apps/spanish, italian, portuguese, english)  -  2026-11-15
+Nothing committed, nothing staged except the `git mv` renames (they show as staged renames). Sections are appended per app.
+
+======================================================================================================
+1. apps/spanish  (base /espanol/)   DONE
+======================================================================================================
+SLUG MAP: full table in apps/spanish/docs/slug-map.md. Section level (old -> new):
+  /skills habilidades | /listening comprension-auditiva | /reading comprension-lectora | /writing expresion-escrita
+  /speaking expresion-oral (/set serie) | /grammar gramatica | /vocabulary vocabulario (/phrases frases, /print imprimir)
+  /pronunciation pronunciacion | /pronunciation-check comprobar-pronunciacion | /intonation entonacion (/check comprobar)
+  /placement-test prueba-de-nivel | /step-by-step paso-a-paso | /exercises ejercicios | /exams examenes (/dele-or-siele dele-o-siele, /traps trampas)
+  /culture cultura (/films-and-series peliculas-y-series, /insider por-dentro, /mistakes errores, /quiz cuestionario)
+  /knowledge conocimientos | /explore explorar | /games juegos | /teachers profesores | /nationality nacionalidad (/dele-a2 kept; /mock-test simulacro, /practice-set practica)
+  /business-spanish espanol-de-negocios (/words palabras, /print imprimir) | /spanish-for-work espanol-para-el-trabajo | /dgt-vocabulary vocabulario-dgt
+  /about acerca-de | /account cuenta | /join unirse | /legal-notice aviso-legal | /privacy privacidad | /terms condiciones | /progress progreso
+  /my-mistakes mis-errores | /start empezar | /lesson leccion | /survey encuesta | /syllabus programa | /mascots mascotas | /game juego | /card-set juego-de-tarjetas
+  /exam-plan plan-de-examen | /reading-writing lectura-y-escritura | /speaking-b1-b2 expresion-oral-b1-b2 | /object-pronouns pronombres-de-objeto
+  /prepositions preposiciones | /reference referencia | /tongue-twisters trabalenguas | /siele/levels siele/niveles | /ccse/facts datos, /test prueba
+  kept: dele, siele, ccse, dele-a2, extranjeria, villabruno, impostor, quaki (name), bingo, domino, tandem, quiz-chapters.
+  Data-driven slugs (src/lib/routes.js, values only; keys/ids untouched): TOPIC_SLUGS (~100: noun-gender -> genero-de-los-sustantivos,
+  present-perfect -> preterito-perfecto ...; ones already Spanish kept: por-para, gustar, desde-hace ...), REF_SLUGS, SHEET_SLUGS,
+  ITEM_SLUGS (listening/reading/writing/speaking/culture/insider/phrases/work sectors, ~135 items), WORK_GROUP_SLUGS, BUSINESS_SLUGS.
+  Fragments: /habilidades#comprension-auditiva|comprension-lectora|expresion-escrita|expresion-oral (old #hoeren/#lesen/#schreiben/#sprechen still
+  work: alias map in habilidades.astro; tab ids and sessionStorage key da-fertigkeiten-tab unchanged), #niveau-x -> #nivel-x, #gruppe-<id> -> #grupo-<id>,
+  #bestenliste -> #clasificacion, #offiziell -> #oficial.
+
+REDIRECTS: src/data/legacy-redirects.json = 1683 old -> new addresses (generated once from the previous dist, which listed all 1715 old pages incl. the
+  /de /fr /it /pt entry copies and the old /grammar/<topic> stubs). astro.config.mjs reads it (legacyRedirects()) next to grammarTopicRedirects(), which
+  now yields /gramatica/<topic> -> /<topic>. Astro writes meta-refresh stubs under /espanol/. NEW src/integrations/legacy-redirects.mjs writes dist/_redirects
+  with real 301s (same idea as lane B): 1506 static + 6 dynamic rules (identical-last-segment groups of >=20, e.g. /vocabulary/:p -> /vocabulario/:p, collapse
+  into one rule so the 2000-static limit holds). NEW scripts/cf-hoist-headers.mjs + package.json `cf:prepare` moves _headers and _redirects from
+  cf-dist/espanol/ to the cf-dist root (Workers static assets only read them there; this also fixes the existing _headers, which was nested and ignored).
+  Hub: /spanish/* -> /espanol/:splat (hub _redirects) then the app redirect = two hops, fine.
+
+FILES TOUCHED: 145 page files git-mv'd in src/pages; ~470 files rewritten (src, public/i18n/*.json, tests, scripts, data JSON, integrations, config).
+  Hand edits: src/lib/routes.js, versuche.js (first-segment switch), deckSwap.js, mascotHelp.js, liveQuizNav.js, arbeitsblatt/client.js, LanguageOffer.astro,
+  habilidades.astro, entry-pages.json (slugs of the /de /fr /it /pt copies), astro.config.mjs, scripts/check-links.mjs (+legacy file skipped),
+  check-i18n-luecken.mjs + i18n-luecken-baseline.json, build-suche-seiten.mjs, check-einfach-pfad.mjs, package.json.
+  Other lanes' uncommitted edits in the same files (i18n json, grammarRun.js, track.js, grammar/ruta.astro, prueba-de-nivel.astro) were kept as they were.
+
+VERIFICATION: pnpm build ok (prebuild checks incl. check-links 1731 links / 154 routes; 1603 pages), pnpm check:base ok (3496 files), pnpm test:unterricht 56/56.
+  Node check against dist: all 1715 pages of the old build still exist (page or stub); all 1683 stubs point at an existing page under /espanol/.
+  git grep for old section routes in src/scripts/tests/public: clean.
+
+LEFTOVERS / NOTES
+  - Left English on purpose (internal endpoints): *.json endpoints (suche.json, klassen-katalog.json, lernset-woerter.json, fehler-regeln.json, profesores/tarjetas/lexikon/[level].json,
+    profesores/quiz-chapters, profesores/pruebas/fertigkeiten|fragen.json, juegos/*/woerter-[level].json, gloss-[lang].json, vocabulario/glosses/[lang].json) and /design-system.
+  - Still not Spanish because they are data ids: vocab decks a1-teil-NN (German "Teil" from the source lessons), partner sheets pa-a1-*, ga-a1-*, /juego/hochstapler,
+    quiz chapter ids (g-...), "lexikon", "glosses", "woerter-".
+  - Fragments left German (data/tab ids, not linked from elsewhere or keyed by data ids): /entonacion#hoeren|quiz|akzent|labyrinth|regel, /nacionalidad/dele-a2/practica#uebungssatz-2|l5|schreiben,
+    /conocimientos#grammatik-start|grammatik-a1|wortschatz-b1 (download ids), dele/siele task ids (#reading-1, #writing-1 ...), #gruppe-<id> tail (unregelmaessig).
+  - Analytics: spiele/common.js sends tool "game_<last path segment>", so game names change (game_listening-safari -> game_safari-auditivo); worksheet tool names were kept English on purpose.
+  - Saved "recents" in localStorage hold old paths; they still work through the redirects.
+  - docs/, README.md, ARCHITECTURE.md and comments still mention old routes (docs not rewritten); stale file paths remain in a few `_note` fields.
+  - llms.txt is over 10 KB (build warning, longer slugs): trim SECTIONS in src/integrations/llms-txt.mjs.
+  - German UI text noticed (not touched): habilidades LEAD strings, many data-i18n fallbacks (hub.werkstatt, nsw.*, lesen.hero.*, lq.host.title), aviso-legal/condiciones bodies, "Wortschatz-Karten" etc. in LearnShell.
+  - Do NOT run two `pnpm build` of one app at once (dist/.prerender is shared; it crashes with ERR_MODULE_NOT_FOUND / ENOENT).
+
+======================================================================================================
+2. apps/italian  (base /italian/)   DONE - but see the first point: the app is still the Spanish course
+======================================================================================================
+WHAT IT IS: an unconverted copy of apps/spanish at HEAD (byte-identical src; Spanish content, README "icanspeak Spanish", /spanish in public files).
+  So only routes whose meaning carries over were renamed; everything Spanish-specific was left (listed below), not invented.
+SLUG MAP (old -> new), full table in apps/italian/docs/slug-map.md:
+  /about chi-siamo | /card-set set-di-carte | /game gioco | /join partecipa | /legal-notice note-legali | /terms condizioni | /progress progressi | /my-mistakes i-miei-errori
+  /start inizia | /lesson lezione | /survey sondaggio | /syllabus programma | /mascots mascotte | /skills competenze | /listening ascolto | /reading lettura | /writing scrittura
+  /speaking parlato (/set serie) | /speaking-b1-b2 parlato-b1-b2 | /reading-writing lettura-e-scrittura | /grammar grammatica | /vocabulary vocabolario (/phrases espressioni, /print stampa)
+  /pronunciation pronuncia | /pronunciation-check verifica-pronuncia | /intonation intonazione (/check verifica) | /placement-test test-di-livello | /step-by-step passo-passo
+  /exercises esercizi | /exams esami (/traps trappole) | /exam-plan piano-d-esame | /culture cultura (film-e-serie, dietro-le-quinte, errori) | /knowledge conoscenze (accenti, paese-e-cultura,
+  falsi-amici, modi-di-dire, lingue, apprendimento, dizionario-illustrato, citazioni/scheda, gergo, storie-di-parole/ripasso|settimanale) | /explore esplora (/films film) | /games giochi
+  (sprint-dei-generi, safari-d-ascolto, buone-maniere, notte-delle-noci, salti-di-quaki, pioggia-di-frasi, impostore) | /teachers insegnanti (carte, classi, giochi, lezione, quiz/crea, sondaggi,
+  test, orario, schede/{cartella,grammatica,coppie,tandem,vocabolario}) | /object-pronouns pronomi-complemento | /prepositions preposizioni | /reference consultazione | /tongue-twisters scioglilingua
+  /grammar reference tables: verbi-irregolari, elenco-verbi-riflessivi, verbi-con-preposizioni (REF_SLUGS in routes.js).
+  Unchanged because they are already Italian words / international: /account, /privacy, /quiz, /dele-a2 ...
+  Fragments: /competenze#ascolto|lettura|scrittura|parlato (old German ones still work), #livello-x, #gruppo-<id>, #classifica, #ufficiale.
+REDIRECTS: src/data/legacy-redirects.json (1433 old -> new, built from the identical old page list), config + integration + cf-hoist-headers.mjs + cf:prepare exactly as in
+  apps/spanish: 402 static + 11 dynamic rules in dist/_redirects.
+FILES: 122 page files git-mv'd; ~490 files rewritten; same hand-fix list as Spanish (versuche.js switch, deckSwap, mascotHelp, liveQuizNav, arbeitsblatt/client, LanguageOffer,
+  entry-pages.json slugs esami/conoscenze, scripts' regexes, i18n-luecken baseline, check-links skip).
+EXTRA FIXES NEEDED FOR check:base/check-links (pre-existing, unrelated to slugs): public/robots.txt, site.webmanifest, _headers said /spanish/ -> /italian/ (logo file names keep "spanish");
+  scripts/check-links.mjs known base path "/spanish" -> "/italian". Also fixed in apps/spanish: check-links segs[0] test and 2 stale "/team" work-group links in suche-seiten.json.
+VERIFICATION: pnpm build ok (1603 pages), pnpm check:base ok (3249 files), all 1715 old pages still resolve (page or stub), all 1433 stubs land on an existing page under /italian/.
+LEFTOVERS (Spanish-specific, not renamed): /dele, /siele (+/levels, /practice-set), /ccse, /nationality (/dele-a2 ...), /business-spanish, /spanish-for-work, /dgt-vocabulary (+/words, /print),
+  /exams/dele-or-siele, /games/extranjeria, /games/villabruno; all item/topic/sheet/work-group/business slugs in routes.js (English translations of Spanish content, ITEM_SLUGS etc.);
+  *.json endpoints, /design-system, data-id slugs (a1-teil-NN ...). Fragments left: same as Spanish list.
+  BASE PATH: /italian (not /italiano). The hub entry (slug 'italian'), wrangler.jsonc routes and src/lib/paths.js would change together with a hub redirect; not done (hub is out of lane).
+  Not done: the app content is Spanish, UI strings German; the page names above are in Italian but the pages still teach Spanish.
+
+======================================================================================================
+3. apps/portuguese  (base /portuguese/)   DONE - same situation as Italian (unconverted Spanish copy)
+======================================================================================================
+SLUG MAP: apps/portuguese/docs/slug-map.md. Section level: /about sobre | /account conta | /card-set conjunto-de-cartoes | /game jogo | /join entrar | /legal-notice aviso-legal | /privacy privacidade
+  /terms termos | /progress progresso | /my-mistakes meus-erros | /start comecar | /lesson licao | /survey inquerito | /syllabus programa | /mascots mascotes | /skills competencias
+  /listening compreensao-oral | /reading leitura | /writing escrita | /speaking expressao-oral (/set serie) | /speaking-b1-b2 expressao-oral-b1-b2 | /reading-writing leitura-e-escrita
+  /grammar gramatica (erros-comuns, conjugacao, classes-de-palavras, percurso, verbos; tables verbos-irregulares, lista-de-verbos-reflexivos, verbos-com-preposicoes) | /vocabulary vocabulario (/expressoes, /imprimir)
+  /pronunciation pronuncia | /pronunciation-check verificar-pronuncia | /intonation entoacao (/verificar) | /placement-test teste-de-nivel | /step-by-step passo-a-passo | /exercises exercicios
+  /exams exames (/armadilhas) | /exam-plan plano-de-exame | /culture cultura (filmes-e-series, por-dentro, erros) | /knowledge conhecimentos (acentos, pais-e-cultura, falsos-amigos, expressoes-idiomaticas,
+  linguas, aprendizagem, dicionario-ilustrado, citacoes/cartao, giria, historias-de-palavras/revisao|semanal) | /explore explorar (/filmes) | /games jogos (sprint-dos-generos, safari-auditivo, boas-maneiras,
+  noite-das-nozes, saltos-do-quaki, chuva-de-frases, impostor) | /teachers professores (cartoes, turmas, jogos, licao, quiz/criar, inqueritos, testes, horario, fichas/{pasta,gramatica,pares,tandem,vocabulario})
+  /object-pronouns pronomes-complemento | /prepositions preposicoes | /reference consulta | /tongue-twisters trava-linguas.
+  Fragments: /competencias#compreensao-oral|leitura|escrita|expressao-oral (old German ones still work), #nivel-x, #grupo-<id>, #classificacao, #oficial.
+REDIRECTS: legacy-redirects.json 1435 old -> new, config + src/integrations/legacy-redirects.mjs + scripts/cf-hoist-headers.mjs + cf:prepare as in the other apps: 406 static + 11 dynamic rules in dist/_redirects.
+FILES: 124 page files git-mv'd, ~490 files rewritten; same hand-fix list. Pre-existing /spanish/ in public/robots.txt, site.webmanifest, _headers and scripts/check-links.mjs corrected to /portuguese/.
+VERIFICATION: pnpm build ok (1603 pages), pnpm check:base ok (3251 files), all 1715 old pages resolve, all 1435 stubs land on an existing page under /portuguese/.
+LEFTOVERS: identical to Italian (Spanish-specific routes dele/siele/ccse/nationality/business-spanish/spanish-for-work/dgt-vocabulary/dele-or-siele/extranjeria/villabruno and all item/topic slugs stay;
+  base path /portuguese is not /portugues; app content is still Spanish).
+
+======================================================================================================
+4. apps/english  (base /english/)   DONE (fragments only)
+======================================================================================================
+Route slugs were already English and German route names are already handled (existing redirects in astro.config.mjs, e.g. /berufe -> /english-for-work); nothing renamed.
+Fragment ids translated (hash links, ids and the tab alias in skills.astro; old #hoeren/#lesen/#schreiben/#sprechen still work): /skills#hoeren -> #listening, #sprechen -> #speaking (+ #reading, #writing),
+  #niveau-x -> #level-x, #gruppe-<id> -> #group-<id>, #bestenliste -> #leaderboard (games; API path /api/*/bestenliste untouched), #offiziell -> #official. 20 files; no page moved, so no redirects needed.
+VERIFICATION: pnpm build ok (1700 pages), pnpm check:base ok. (The existing `pnpm check:links` reports 2 links from /english/ to /espanol/ and /francais/ as "outside /english": pre-existing, they are the course cross-links.)
+LEFTOVERS: German fragment/data ids remain (#grammatik-start, #grammatik-a1, #wortschatz-b1 download ids, #klassensatz, #pk-parlamente, #l5/#schreiben/#h1 exam task ids, #labyrinth on /intonation);
+  data links to /politik, /steueroasen and /merch (the first two have redirects in astro.config.mjs, /merch has no page); src/oldux/* still holds old German tab ids.
+  Other lanes' uncommitted changes in apps/english were left in place.
+
+OVERALL NOTES
+- Nothing committed; renames are staged by `git mv` only. Scratch tooling (map files, generator for legacy-redirects.json) lives in the session scratchpad, not in the repo; the JSON files are the result.
+- Do not run two builds of one app at the same time (shared dist/.prerender): it corrupts both.
+- To keep Spanish/French parallel: Spanish section names mirror the French ones in meaning (competences=habilidades, ecoute=comprension-auditiva, ...), fragments follow the same scheme, redirects use the same JSON + _redirects mechanism as lane B.

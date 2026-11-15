@@ -1,4 +1,4 @@
-// Bruno at the desk (/games/prefecture, the Préfecture sim): Bruno, our dachshund, works
+// Bruno at the desk (/jeux/prefecture, the Préfecture sim): Bruno, our dachshund, works
 // guichet 3 in the invented town of Montbruno: two days at the mairie, then the ANEF help point,
 // the CAF / sécurité sociale desk, and a day of questions this desk never decides (refusal, OQTF,
 // naturalisation). The number display dings, a customer slides papers across the desk, and the

@@ -80,7 +80,6 @@ const stations = ordered.map((w) => ({
   exercises: w.exercises.map((ex) => ({ ...ex, titleTr: uiTr(ex.title), hintTr: uiTr(ex.hint) })),
 }));
 
-const exerciseCount = stations.reduce((n, t) => n + t.exercises.length, 0);
 ---
 <Layout
   title="Guided path – Grammar – icanspeak English"
@@ -114,9 +113,9 @@ const exerciseCount = stations.reduce((n, t) => n + t.exercises.length, 0);
 
       <div class="run-done" data-run-done hidden>
         <h2 data-i18n="run.done">Durch.</h2>
-        <p data-i18n="run.doneText" data-i18n-vars={JSON.stringify({ n: exerciseCount, t: stations.length })}>
-          Alle {exerciseCount} Aufgaben aus {stations.length} Themen von A1 bis B2. Der Lauf
-          steht wieder auf Station 1 — oder such dir auf der Übersicht gezielt ein Thema aus.
+        <p data-i18n="run.doneText">
+          Alle Lektionen von A1 bis B2. Der Lauf steht wieder am Anfang – oder such dir auf der
+          Übersicht gezielt ein Thema aus.
         </p>
         <div class="run-done-actions">
           <button type="button" class="quiz-btn quiz-btn--primary" data-run-restart data-i18n="run.again">Noch einmal</button>

@@ -1,5 +1,5 @@
 // Business French (docs/content-plan.md §4.3): the units in src/data/business-spanish/<id>.json
-// (folder, file and unit ids stay Spanish internally, §1.3; the page is /business-french).
+// (folder, file and unit ids stay Spanish internally, §1.3; the page is /francais-des-affaires).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-business-spanish.mjs) and the
 // pages share one set of rules. Pages get the units through src/lib/businessSpanishData.js.

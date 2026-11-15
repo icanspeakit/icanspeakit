@@ -1,5 +1,5 @@
-// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammar/verbs) and the
-// lists of /grammar/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
+// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammaire/verbes) and the
+// lists of /grammaire/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
 // topic, so the worksheet (…/arbeitsblaetter/grammatik/<slug>) and the Tandembogen
 // (…/arbeitsblaetter/tandem/<slug>) are built for them exactly as for a topic.
 //
@@ -48,7 +48,7 @@ function roundRobin(lists, n, skip = 0) {
 /** "Der Zug fährt um acht Uhr ab." → ["Der", "Zug", …, "ab", "."] */
 const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?¿¡]/gu) ?? [];
 
-/* ---- /grammar/verbs ---------------------------------------------------------------- */
+/* ---- /grammaire/verbes ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
   // A verb with gaps in its table (falloir, pleuvoir) only has il forms, so it is asked in the
@@ -64,7 +64,7 @@ function verbTopic() {
     name: "Verb tables: the most important verbs",
     level: "A1",
     subtitle: "Présent, passé composé and futur simple of the most important verbs",
-    reference: "/grammar/verbs",
+    reference: "/grammaire/verbes",
     concept: {
       qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[1], g.hilfsverb?.regel?.[0]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
@@ -101,7 +101,7 @@ function verbTopic() {
   };
 }
 
-/* ---- /grammar/irregular-verbs ------------------------------------------------- */
+/* ---- /grammaire/verbes-irreguliers ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
   // forms: "prends · a pris · pris" (je présent · il passé composé · participe passé)
@@ -126,7 +126,7 @@ function starkTopic(file, data) {
   };
 }
 
-/* ---- /grammar/reflexive-verbs-list (reflexive and pronominal verbs) ------------------------------------------------------- */
+/* ---- /grammaire/liste-verbes-pronominaux (reflexive and pronominal verbs) ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
@@ -156,7 +156,7 @@ function trennbarTopic(file, data) {
   };
 }
 
-/* ---- /grammar/verbs-with-prepositions ---------------------------------------------- */
+/* ---- /grammaire/verbes-avec-prepositions ---------------------------------------------- */
 function praepTopic(file, data) {
   // The example with its preposition blanked; rows whose preposition is merged (al, del) or
   // missing in the example are left out — their gap would be ambiguous.
@@ -206,7 +206,7 @@ function listTopic(file) {
   };
 }
 
-/* ---- /grammar/common-mistakes -------------------------------------------------------
+/* ---- /grammaire/erreurs-frequentes -------------------------------------------------------
    One exercise per group of the page: each pair's gap sentence, its two words as the
    choices. The rule box: the difference of the first pairs. */
 function fehlerTopic() {
@@ -216,7 +216,7 @@ function fehlerTopic() {
     name: "Common mistakes: words people mix up",
     level: "A1",
     subtitle: "tú or tu, sé or se, por or para",
-    reference: "/grammar/common-mistakes",
+    reference: "/grammaire/erreurs-frequentes",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
       type: "table",

@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nacionalidad/dele-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -63,7 +63,7 @@ export const examRegistry = [
     title: "SIELE reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
-    href: "/siele/practice-set",
+    href: "/siele/practica",
     overview: "/siele",
     store: { kind: "exam", key: "testdaf" },
     // Deliberately no pass percentage: the SIELE gives a score per test and every
@@ -82,7 +82,7 @@ export const examRegistry = [
     title: "CCSE",
     subtitle: "Practice test",
     level: "Knowledge test",
-    href: "/ccse/test",
+    href: "/ccse/prueba",
     overview: "/ccse",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
@@ -100,8 +100,8 @@ export const examRegistry = [
     title: "DELE A2 mock for nationality",
     subtitle: dtz1.label,
     level: "A2",
-    href: "/nationality/dele-a2/practice-set",
-    overview: "/nationality/dele-a2",
+    href: "/nacionalidad/dele-a2/practica",
+    overview: "/nacionalidad/dele-a2",
     store: { kind: "dtz", key: dtz1.id },
     // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
     passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",

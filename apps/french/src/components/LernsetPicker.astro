@@ -122,9 +122,9 @@ const freq = frequencyCounts();
 const cohortList = cohorts();
 const isFreq = current.startsWith("haeufigkeit-");
 
-// On a profession deck (/french-for-work/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
+// On a profession deck (/francais-au-travail/<beruf>/<gruppe>, deck id berufe-<beruf>-<gruppe>) the panel
 // shows the Berufe — this one open with its word groups — instead of an A1 list that has
-// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /french-for-work.
+// nothing to do with the page. Elsewhere the Berufe icon stays a plain link to /francais-au-travail.
 const berufList = [...BERUFE, DGT, BUSINESS].filter((b) => berufGroups(b.slug).length > 0).map((b) => ({
   ...b,
   title: BERUF_DECKS[b.slug].title,
@@ -139,7 +139,7 @@ const showBerufe = true;
 // is a tab and the pane lists the curated Alltag deck and the speech-act sets
 // (src/data/redemittel.json), instead of an A1 list that has nothing to do with the page.
 const isRm = !select && !rmOnLevel && (current === "redemittel" || current.startsWith("redemittel-"));
-// A teacher's own card set (/teachers/cards/learn?set=…): its rail entry is open there.
+// A teacher's own card set (/enseignants/cartes/apprendre?set=…): its rail entry is open there.
 const isOwn = current === "vokabel-set";
 const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level === openLevel;
 ---
@@ -288,7 +288,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         <input type="search" class="ls-search-input" data-ls-q placeholder="Lernset oder Wort suchen …" data-i18n-attr="placeholder:sets.searchPh;aria-label:sets.searchPh" aria-label="Lernset oder Wort suchen" autocomplete="off" />
         <div class="ls-search-results" data-ls-results hidden>
           {searchSets.map(({ level, set, words }) => (
-            <a class="nvb-item ls-search-row" href={`/vocabulary/${set.id}`} data-pick={`unit:${set.id}`} data-level={level} data-hay={`${set.title}~${words}`.toLowerCase()} data-words={words} hidden>
+            <a class="nvb-item ls-search-row" href={`/vocabulaire/${set.id}`} data-pick={`unit:${set.id}`} data-level={level} data-hay={`${set.title}~${words}`.toLowerCase()} data-words={words} hidden>
               <span class="ls-search-lv" aria-hidden="true">{level}</span>
               <span class="ls-name">
                 <span data-i18n={`ws.set.${set.id}`}>{set.title}</span>
@@ -314,7 +314,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         {/* "x von N sicher" — filled by the script once this browser has learnt a word here. */}
         {/* Choosing: the whole level, mixed, before its Lernsets. */}
         {select && (
-          <a class:list={["nvb-item", "ls-item--whole", current === level.toLowerCase() && "active"]} href={`/vocabulary/${level.toLowerCase()}`} data-pick={`level:${level}`} data-level={level}>
+          <a class:list={["nvb-item", "ls-item--whole", current === level.toLowerCase() && "active"]} href={`/vocabulaire/${level.toLowerCase()}`} data-pick={`level:${level}`} data-level={level}>
             <span class="nv-icon" aria-hidden="true">🎲</span>
             <span data-i18n="lq.host.wholeLevelRow" data-i18n-vars={JSON.stringify({ level })}>Ganze Stufe {level}, gemischt</span>
             <span class="nv-count">{c[level].words}</span>
@@ -380,7 +380,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
                 {group.sets.map((set) => (
                   <a
                     class:list={["nvb-item", set.id === current && "active"]}
-                    href={`/vocabulary/${set.id}`}
+                    href={`/vocabulaire/${set.id}`}
                     aria-current={set.id === current ? "page" : undefined}
                     data-pick={`unit:${set.id}`}
                     data-level={level}
@@ -406,7 +406,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
                 {levelRmSets(level).map((s) => {
                   const on = current === `redemittel-${s.id}`;
                   return (
-                    <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulary/phrases", s.id)} aria-current={on ? "page" : undefined}>
+                    <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulaire/formules", s.id)} aria-current={on ? "page" : undefined}>
                       <span class="nv-icon" aria-hidden="true">{s.icon}</span>
                       <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
                       <span class="nv-count">{s.phrases.length}</span>
@@ -434,7 +434,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
             {teileList[level].map((teil) => (
               <a
                 class:list={["nvb-item", "ls-item--teil", "ls-item--lead", teil.id === current && "active"]}
-                href={`/vocabulary/${teil.id}`}
+                href={`/vocabulaire/${teil.id}`}
                 aria-current={teil.id === current ? "page" : undefined}
               >
                 <span class="nv-icon ls-num">{teil.index}</span>
@@ -499,10 +499,10 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         </section>
       ))}
       {!select && (currentBeruf?.slug === "dgt"
-        ? <a class="ls-prog-more" href="/code-de-la-route-vocabulary" data-i18n="dgt.back">← Code de la route vocabulary</a>
+        ? <a class="ls-prog-more" href="/vocabulaire-code-de-la-route" data-i18n="dgt.back">← Code de la route vocabulary</a>
         : currentBeruf?.slug === "business"
-        ? <a class="ls-prog-more" href="/business-french" data-i18n="biz.back">← Business French</a>
-        : <a class="ls-prog-more" href="/french-for-work" data-i18n="berufe.back.hub">← Alle Berufe</a>)}
+        ? <a class="ls-prog-more" href="/francais-des-affaires" data-i18n="biz.back">← Business French</a>
+        : <a class="ls-prog-more" href="/francais-au-travail" data-i18n="berufe.back.hub">← Alle Berufe</a>)}
     </div>
     )}
 
@@ -511,7 +511,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       <div class="nvb-panelhead">
         <h3><span data-i18n="sets.redemittel">Redemittel</span></h3>
       </div>
-      <a class:list={["nvb-item", "ls-item--whole", current === "redemittel" && "active"]} href="/vocabulary" aria-current={current === "redemittel" ? "page" : undefined}>
+      <a class:list={["nvb-item", "ls-item--whole", current === "redemittel" && "active"]} href="/vocabulaire" aria-current={current === "redemittel" ? "page" : undefined}>
         <span class="nv-icon" aria-hidden="true">💬</span>
         <span class="ls-name" data-i18n="rm.set.alltag">Alltag: die wichtigsten Sätze</span>
         <span class="nv-count">{curated.length}</span>
@@ -519,7 +519,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       {RM_SETS.filter((s) => !s.level).map((s) => {
         const on = current === `redemittel-${s.id}`;
         return (
-          <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulary/phrases", s.id)} aria-current={on ? "page" : undefined}>
+          <a class:list={["nvb-item", on && "active"]} href={itemPath("/vocabulaire/formules", s.id)} aria-current={on ? "page" : undefined}>
             <span class="nv-icon" aria-hidden="true">{s.icon}</span>
             <span class="ls-name" data-i18n={`rm.set.${s.id}`}>{s.name}</span>
             <span class="nv-count">{s.phrases.length}</span>
@@ -557,7 +557,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         {cohortList.map((co) => (
           <a
             class:list={["nvb-item", "ls-item--lead", co.id === current && "active"]}
-            href={`/vocabulary/${co.id}`}
+            href={`/vocabulaire/${co.id}`}
             aria-current={co.id === current ? "page" : undefined}
           >
             <span class="nv-icon ls-num">{co.index}</span>
@@ -751,7 +751,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
       const scope = btn.closest(".ls-cut-panel") ?? btn.closest(".nvb-section") ?? root;
       const panel = document.getElementById(`ls-block-${btn.dataset.block}`);
       const open = panel.hidden;
-      // The same pivot as the exam rail on /progress: the one that was open slides
+      // The same pivot as the exam rail on /progression: the one that was open slides
       // shut while this one slides open, and its rows arrive staggered — so the two
       // movements read as one list being replaced rather than as the page jumping.
       scope.querySelectorAll(".ls-block-toggle").forEach((b) => {
@@ -812,7 +812,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
     const data = getProgress();
     const here = currentPath().replace(/\/+$/, "");
     const mine = (resume ? [resume.last, ...resume.recents] : []).filter(
-      (r) => r && stripBase(r.path).startsWith("/vocabulary")
+      (r) => r && stripBase(r.path).startsWith("/vocabulaire")
     );
     const next = mine.find((r) => stripBase(r.path) !== here);
     const words = (data.vocabMastered || []).filter((k) => k.startsWith("wortschatz:")).length;
@@ -850,7 +850,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         </a>`)
         .join("")}</div>` : ""}
 
-      <a class="ls-prog-more" href="${withBase("/progress")}">${esc(say("sets.prog.more"))}</a>`;
+      <a class="ls-prog-more" href="${withBase("/progression")}">${esc(say("sets.prog.more"))}</a>`;
   }
 
   const progEl = root.querySelector("[data-ls-prog]");
@@ -897,7 +897,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
   addEventListener("da:progress", loadCounts);
 
   // ── Where a level deck is ─────────────────────────────────────────────────────
-  // On /vocabulary/b1 no row is the page, so the trainer says what is on screen
+  // On /vocabulaire/b1 no row is the page, so the trainer says what is on screen
   // (wortschatz-app.js, "da:deck-here") and the rail lights it: in "Der Reihe nach" the
   // Runde (Runde n is Portion n — the same 25-word ruler), in "Nach Thema" the Lernset the
   // card belongs to, with its Bereich opened when the Runde moves into a new one.
@@ -949,13 +949,13 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
         ? sets.map((s) => {
             const n = s.words?.length ?? 0;
             const on = !select && s.id === here;
-            return `<a class="nvb-item${on ? " active" : ""}" href="${withBase("/teachers/cards/learn")}?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
+            return `<a class="nvb-item${on ? " active" : ""}" href="${withBase("/enseignants/cartes/apprendre")}?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
               <span class="nv-icon" aria-hidden="true">🗂️</span>
               <span class="ls-name"><span>${esc(s.name)}</span>${s.level ? `<small class="ls-item-sub">${esc(s.level)}</small>` : ""}</span>
               <span class="nv-count">${n}</span>
             </a>`;
-          }).join("") + (select ? "" : `<p class="ls-plan"><a href="${withBase("/teachers/cards")}">Manage all card sets</a></p>`)
-        : `<p class="ls-plan">No card sets of your own yet. With <a href="${withBase("/teachers/cards/photo")}">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
+          }).join("") + (select ? "" : `<p class="ls-plan"><a href="${withBase("/enseignants/cartes")}">Manage all card sets</a></p>`)
+        : `<p class="ls-plan">No card sets of your own yet. With <a href="${withBase("/enseignants/cartes/photo")}">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
       ownBtn.hidden = false;
     })();
   }

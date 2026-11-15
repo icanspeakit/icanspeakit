@@ -19,12 +19,12 @@ import { absoluteUrl } from '../lib/paths.js';
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
 // Site paths (without /espanol); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
-  ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
-  ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
-  ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Exams', ['/exams', '/dele', '/dele/*', '/siele', '/siele/*', '/exams/dele-or-siele', '/ccse', '/ccse/*', '/nationality', '/nationality/*']],
-  ['Life and work in Spain', ['/spanish-for-work', '/business-spanish', '/dgt-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
-  ['For teachers', ['/teachers']],
+  ['Start here', ['/prueba-de-nivel', '/paso-a-paso', '/ejercicios', '/progreso']],
+  ['Grammar and vocabulary', ['/gramatica', '/gramatica/conjugacion', '/vocabulario', '/pronunciacion']],
+  ['Skills', ['/habilidades', '/expresion-oral', '/comprension-auditiva', '/comprension-lectora', '/expresion-escrita']],
+  ['Exams', ['/examenes', '/dele', '/dele/*', '/siele', '/siele/*', '/examenes/dele-o-siele', '/ccse', '/ccse/*', '/nacionalidad', '/nacionalidad/*']],
+  ['Life and work in Spain', ['/espanol-para-el-trabajo', '/espanol-de-negocios', '/vocabulario-dgt', '/cultura', '/conocimientos', '/conocimientos/historias-de-palabras']],
+  ['For teachers', ['/profesores']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],
 ];

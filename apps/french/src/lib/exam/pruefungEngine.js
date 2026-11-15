@@ -2,7 +2,7 @@
  * src/data/pruefungen/saetze/ (shape: src/lib/exam/saetze.js, rules:
  * PRUEFUNGEN-A2-C1-TIERED-PROMPT.md). It sits on the same shell as every other trainer
  * (src/lib/examApp.js): one section per exam part, a result section at the end, answers in
- * "da-exam-v1:<setId>" so /progress reads them like any other exam.
+ * "da-exam-v1:<setId>" so /progression reads them like any other exam.
  *
  * Part types
  *   tf        richtig/falsch (or ja/nein via `labels`)       item: { id, statement, correct }
@@ -634,7 +634,7 @@ function renderResult(main, set, ctx) {
   if (anyScored && hasPass) box.appendChild(el("p", "format-note", escapeHtml(tx("ps.result.rule", "Richtwert: ab {p} % der Punkte gilt ein Teil als bestanden.", { p: pass }))));
   if (set.scoring?.note) box.appendChild(el("p", "format-note", escapeHtml(set.scoring.note)));
   const wrong = Object.values(ctx.state.answers ?? {}).filter((a) => a && a.correct === false).length;
-  if (wrong) box.appendChild(el("p", "format-note", `<a href="${withBase("/my-mistakes")}">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
+  if (wrong) box.appendChild(el("p", "format-note", `<a href="${withBase("/mes-erreurs")}">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
   main.appendChild(box);
 }
 

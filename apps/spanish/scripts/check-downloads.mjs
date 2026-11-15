@@ -1,4 +1,4 @@
-// Checks everything /knowledge promises: that our own PDFs exist, and that the external
+// Checks everything /conocimientos promises: that our own PDFs exist, and that the external
 // links still lead somewhere.
 //
 //   pnpm check:downloads          files + links

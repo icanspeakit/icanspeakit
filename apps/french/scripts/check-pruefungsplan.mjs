@@ -12,7 +12,7 @@ const exam = {
   grammar: { A2: [{ name: "Perfekt", href: "/passe-compose-avoir" }], B1: [{ name: "Passiv", href: "/passive-voice" }, { name: "Konjunktiv II", href: "/konjunktiv-2" }] },
   lernsets: { A2: [{ title: "Arbeit", href: "/vocabulary/a2-01" }], B1: [{ title: "Wohnen", href: "/vocabulary/b1-01" }] },
 };
-const known = new Set(["/pronunciation-check", ...exam.sets.map((s) => s.href), ...Object.values(exam.grammar).flat().map((g) => g.href), ...Object.values(exam.lernsets).flat().map((w) => w.href)]);
+const known = new Set(["/verification-prononciation", ...exam.sets.map((s) => s.href), ...Object.values(exam.grammar).flat().map((g) => g.href), ...Object.values(exam.lernsets).flat().map((w) => w.href)]);
 const today = "2026-10-05";
 const daysBefore = (plan, d) => Math.round((Date.parse(plan.examDate) - Date.parse(d.date)) / 86_400_000);
 

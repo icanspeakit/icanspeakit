@@ -1,4 +1,4 @@
-// The tile on a language's card on /culture/mistakes and /test123: a lettermark rather than a
+// The tile on a language's card on /cultura/errori and /test123: a lettermark rather than a
 // flag, because a language is not a country (English, Arabic, Portuguese are spoken in many).
 const MARK = {
   arabisch: "ع", russisch: "Ру", ukrainisch: "Ук",

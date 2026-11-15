@@ -1,6 +1,6 @@
 ---
 // Satzmelodie: the same words as statement, question, Nachfrage and exclamation.
-// /pronunciation trains sounds, /pronunciation-check scores them; this page trains the melody at
+// /prononciation trains sounds, /verification-prononciation scores them; this page trains the melody at
 // the end of a sentence and the Satzakzent. Content: src/data/satzmelodie.json. Audio:
 // scripts/generate-satzmelodie-audio.mjs (Azure, SSML contours). A line without a recording
 // is read by the browser's German voice, and the page says so.
@@ -73,7 +73,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
     </header>
 
     {/* The exercises as tabs; on the right the pill that folds the rule column — the grammar
-        topics' and /pronunciation's „Regel einblenden / ausblenden“, same words, same setting. */}
+        topics' and /prononciation's „Regel einblenden / ausblenden“, same words, same setting. */}
     <div class="sm-tabbar">
     <nav class="sm-tabs" role="tablist" aria-label="Exercises" data-i18n-attr="aria-label:nav.exercises">
       <button role="tab" id="sm-tab-hoeren" aria-controls="sm-p-hoeren" aria-selected="true" data-i18n="satzmelodie.tab.hoeren">1 · Hören &amp; vergleichen</button>
@@ -572,7 +572,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   if (fromHash) open(fromHash);
 
   // ---- rule column ----
-  // Folded and unfolded like a grammar topic's rule and /pronunciation's, with the same
+  // Folded and unfolded like a grammar topic's rule and /prononciation's, with the same
   // remembered choice (da-grammatik-rule), so it is one setting site-wide. Below 1001px it
   // is a sheet: opening it there is for this visit only.
   const RULE_KEY = "da-grammatik-rule";

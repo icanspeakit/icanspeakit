@@ -66,35 +66,35 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 }
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
-// themselves (short). A step that is not a page (/speaking/set) is left
-// out of the trail rather than pointing at a 404; a dynamic one (/french-for-work/care-work) is named by
+// themselves (short). A step that is not a page (/expression-orale/serie) is left
+// out of the trail rather than pointing at a 404; a dynamic one (/francais-au-travail/soins) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammar": "Grammar",
-  "/vocabulary": "Vocabulary & phrases",
-  "/exams": "Exams",
+  "/grammaire": "Grammar",
+  "/vocabulaire": "Vocabulary & phrases",
+  "/examens": "Exams",
   "/delf-dalf": "DELF and DALF",
   "/tcf": "TCF",
-  "/residence-and-nationality/tcf-irn": "TCF IRN",
+  "/residence-et-nationalite/tcf-irn": "TCF IRN",
   "/tef": "TEF",
-  "/french-for-work": "French for work",
-  "/civic-exam": "Civic exam",
-  "/residence-and-nationality": "Residence and nationality",
-  "/knowledge": "Knowledge base",
-  "/knowledge/word-stories": "Word stories",
+  "/francais-au-travail": "French for work",
+  "/examen-civique": "Civic exam",
+  "/residence-et-nationalite": "Residence and nationality",
+  "/savoirs": "Knowledge base",
+  "/savoirs/histoires-de-mots": "Word stories",
   "/culture": "Culture",
-  "/culture/insider": "France from the inside",
-  "/teachers": "For teachers",
-  "/teachers/worksheets": "Worksheets",
-  "/teachers/games": "Printable games",
-  "/teachers/classes": "Classes",
-  "/teachers/surveys": "Surveys",
-  "/teachers/tests": "Placement test for the class",
-  "/teachers/quiz": "Live quiz",
-  "/speaking": "Speaking",
-  "/listening": "Listening",
-  "/reading": "Reading",
-  "/writing": "Writing",
+  "/culture/codes-sociaux": "France from the inside",
+  "/enseignants": "For teachers",
+  "/enseignants/fiches": "Worksheets",
+  "/enseignants/jeux": "Printable games",
+  "/enseignants/classes": "Classes",
+  "/enseignants/sondages": "Surveys",
+  "/enseignants/tests": "Placement test for the class",
+  "/enseignants/quiz": "Live quiz",
+  "/expression-orale": "Speaking",
+  "/ecoute": "Listening",
+  "/lecture": "Reading",
+  "/ecriture": "Writing",
   "/intonation": "Intonation",
 };
 

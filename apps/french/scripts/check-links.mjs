@@ -63,10 +63,10 @@ function resolves(segs) {
   if (segs.length === 0) return true;
   if (isTopicPage(segs)) return true;
   if (rawId(segs)) return false;
-  // An id-based section with a work group: /french-for-work/<sector>/<group>.
-  if (segs[0] === "french-for-work" && segs[1]) {
-    if (!Object.values(ITEM_SLUGS["/french-for-work"]).includes(segs[1])) return false;
-    if (segs[2] && segs[2] !== "print" && !Object.values(WORK_GROUP_SLUGS).includes(segs[2]) && segs[2] in WORK_GROUP_SLUGS) return false;
+  // An id-based section with a work group: /francais-au-travail/<sector>/<group>.
+  if (segs[0] === "francais-au-travail" && segs[1]) {
+    if (!Object.values(ITEM_SLUGS["/francais-au-travail"]).includes(segs[1])) return false;
+    if (segs[2] && segs[2] !== "impression" && !Object.values(WORK_GROUP_SLUGS).includes(segs[2]) && segs[2] in WORK_GROUP_SLUGS) return false;
   }
   return routes.some((r) => {
     if (r.length !== segs.length) return false;
@@ -90,9 +90,9 @@ const KNOWN = new Map([
   ["/index.html", "a file name in the sitemap code"],
   ["/month", "price text: 9 € /month"],
   ["/audio", "recordings, which arrive with a fr-FR voice; the player hides without them"],
-  ["/teachers/cards/lexikon", "folder of the JSON endpoint lexikon/[level].json"],
+  ["/enseignants/cartes/lexikon", "folder of the JSON endpoint lexikon/[level].json"],
   ["/test", "a class test needs a backend: no page until there is one (src/lib/klassentest)"],
-  ["/game/hochstapler", "class mode of the impostor game needs live rooms: no page in this build"],
+  ["/jeu/hochstapler", "class mode of the impostor game needs live rooms: no page in this build"],
   ["/intern/meldungen", "demo dock only, not in a visitor's page"],
 ]);
 const isKnown = (raw) => {
@@ -123,7 +123,7 @@ for (const file of files) {
     const raw = m[0];
     const line = src.slice(0, m.index).split("\n").length;
     if (isKnown(raw) || NOT_A_PAGE.test(raw) || PUBLIC.has(raw.split("/")[1]) || /\.(png|jpe?g|webp|svg|gif|ico|mp3|mp4|webm|pdf|woff2?|css|js|txt|xml|map)$/.test(raw)) { skipped.add(raw); continue; }
-    if (raw.endsWith(".json") && !raw.startsWith("/games/")) { skipped.add(raw); continue; }
+    if (raw.endsWith(".json") && !raw.startsWith("/jeux/")) { skipped.add(raw); continue; }
     // A template part stands for one segment or more; check what is fixed around it.
     const parts = raw.replace(/\/+$/, "").split("/").filter(Boolean);
     if (parts.some((s) => s.includes("${"))) {

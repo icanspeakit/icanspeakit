@@ -1,4 +1,4 @@
-// /teachers/lesson: start a Stunde from the plan with a group, then teach it step by
+// /enseignants/lecon: start a Stunde from the plan with a group, then teach it step by
 // step on the projector. Two views on one static page:
 //   ?niveau=a1-1&block=1&stunden=3&stunde=1&min=90   pick (or create) the group, then
 //                                                    "Unterricht starten" / "Fortsetzen"
@@ -41,7 +41,7 @@ export async function mountUnterricht(root, data) {
   const show = (name) => views.forEach((v) => (v.hidden = v.dataset.view !== name));
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/compte")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {

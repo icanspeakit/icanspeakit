@@ -1,4 +1,4 @@
-// The verb tables behind /grammar/verbs (the "mini grammar"), the search lens's verb hits, the
+// The verb tables behind /grammaire/verbes (the "mini grammar"), the search lens's verb hits, the
 // worksheet and the live quiz. Data: src/data/verbtabellen.json. Generator:
 // src/lib/verbtabellenCore.js, which has no Vite imports so the checker can run it too.
 import data from "../data/verbtabellen.json";
@@ -24,4 +24,4 @@ export const verbs = buildAll(data.verbs).map((v) => {
 /** The rows to show: all of them. French has no row that a Canada mode would hide (content-plan §1.5). */
 export const visibleRows = (v) => v.rows;
 
-export const verbHref = (v) => `/grammar/verbs#${v.id}`;
+export const verbHref = (v) => `/grammaire/verbes#${v.id}`;

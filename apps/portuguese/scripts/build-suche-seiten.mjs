@@ -6,7 +6,7 @@
 //
 //   pnpm build && node scripts/build-suche-seiten.mjs   (then build again to ship the result)
 //
-// Entries hold site paths without the base (/grammar), like all other data; rebaseHtml adds it.
+// Entries hold site paths without the base (/gramatica), like all other data; rebaseHtml adds it.
 //
 // Re-run when pages are added. Left out on purpose: print versions, worksheets, single
 // quotes (the Zitate hub is found by its authors instead), the translated landing pages and
@@ -18,12 +18,12 @@ const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
   /^\/(es|hi|id|tl|vi|pt-br)(\/|$)/,
-  /^\/vocabulary\/print\//,
-  /^\/teachers\/worksheets\//,
+  /^\/vocabulario\/imprimir\//,
+  /^\/professores\/fichas\//,
   /\/(drucken|print)$/,
-  /^\/knowledge\/quotes\/(?!$)/,
-  /^\/knowledge\/word-stories\/(review|weekly)$/,
-  /^\/(legal-notice|privacy|widerruf|terms|konto-loeschen)$/,
+  /^\/conhecimentos\/citacoes\/(?!$)/,
+  /^\/conhecimentos\/historias-de-palavras\/(review|weekly)$/,
+  /^\/(aviso-legal|privacidade|widerruf|termos|konto-loeschen)$/,
 ];
 
 const decode = (s) => s

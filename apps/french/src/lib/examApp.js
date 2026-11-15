@@ -168,7 +168,7 @@ export function mountExamApp(root, { examId, sections, onAnswer, unit = "Fragen"
     // Klassen log: each section (Teil) of a set is its own exercise; the result page ends it.
     if (section.key === "ergebnis") {
       endSet();
-      // A learner's Stunde (/lesson, lernstunde.js): the exam part of the step is done.
+      // A learner's Stunde (/lecon, lernstunde.js): the exam part of the step is done.
       dispatchEvent(new CustomEvent("da:set-end", { detail: { exam: examId } }));
     }
     else setRef(examRef(examId, section.key));

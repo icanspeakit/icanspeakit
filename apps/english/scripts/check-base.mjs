@@ -61,7 +61,7 @@ function offenders(text, html) {
 
 // The other apps on icanspeak.it. A page may link to them with an absolute URL (the course
 // home's "five languages" pills); sitemap.xml, llms.txt and robots.txt may not list them.
-const SIBLINGS = ['/english', '/espanol', '/francais', '/spanish', '/french', '/portuguese', '/italian', '/linguistics'];
+const SIBLINGS = ['/english', '/espanol', '/francais', '/italiano', '/portugues', '/spanish', '/french', '/portuguese', '/italian', '/linguistics'];
 const sibling = (p) => SIBLINGS.some((b) => p === b || p.startsWith(b + '/'));
 
 /** Own-domain absolute URLs outside the base. @param {string} text @param {boolean} [page] */

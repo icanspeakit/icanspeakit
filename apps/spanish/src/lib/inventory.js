@@ -3,7 +3,7 @@
 // was typed into copy; these are derived at build time, so they grow as content is added.
 //
 // grammarTopicCount: every topic in grammarCatalog, plus Akkusativ, which has its own page
-// (/object-pronouns) and so sits outside the catalogue. Deduplicated by key: Passiv and
+// (/pronombres-de-objeto) and so sits outside the catalogue. Deduplicated by key: Passiv and
 // Präpositionen exist both as a workspace and as a grammatik.json entry.
 import { grammarCatalog } from "./grammarCatalog.js";
 

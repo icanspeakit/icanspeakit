@@ -36,7 +36,7 @@ export const COURSES: Course[] = [
     live: true,
   },
   {
-    slug: 'portuguese',
+    slug: 'portugues',
     code: 'PT',
     name: 'Português',
     english: 'Portuguese',
@@ -44,7 +44,7 @@ export const COURSES: Course[] = [
     live: false,
   },
   {
-    slug: 'italian',
+    slug: 'italiano',
     code: 'IT',
     name: 'Italiano',
     english: 'Italian',

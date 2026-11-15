@@ -8,12 +8,23 @@ import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
 import llmsTxt from './src/integrations/llms-txt.mjs';
+import legacyRedirectsIntegration from './src/integrations/legacy-redirects.mjs';
 import { SITE_ORIGIN, BASE_PATH } from './src/lib/paths.js';
 
 const r301 = (destination) => ({ status: 301, destination });
 
-/* A grammar topic lives at /<slug>, but /grammar/<slug> is the address people guess. Pages and
- * reference tables under /grammar win over a guessed topic address. Keys are the workspaces'
+/* 2026-11-15: every address moved into Spanish (/grammar -> /gramatica, /listening/a1-supermarket
+ * -> /comprension-auditiva/a1-supermercado, /articles -> /articulos ...). src/data/legacy-redirects.json
+ * maps each address of the English-slug build to its new one (generated once from that build's
+ * output; see docs/slug-map.md). Site paths, like every other redirect here. Astro writes them as
+ * meta-refresh stubs; src/integrations/legacy-redirects.mjs adds real 301s as dist/_redirects. */
+function legacyRedirects() {
+  const map = JSON.parse(readFileSync(new URL('./src/data/legacy-redirects.json', import.meta.url), 'utf8'));
+  return Object.fromEntries(Object.entries(map).map(([from, to]) => [from, r301(to)]));
+}
+
+/* A grammar topic lives at /<slug>, but /gramatica/<slug> is the address people guess. Pages and
+ * reference tables under /gramatica win over a guessed topic address. Keys are the workspaces'
  * `slug ?? id`. The site at /espanol (/spanish until 2026-11-14, 301 from the hub) has only this redirect: nothing was
  * ever public under an earlier address (docs/content-plan.md §7, §8). */
 function grammarTopicRedirects() {
@@ -23,11 +34,11 @@ function grammarTopicRedirects() {
     .map((w) => w.slug ?? w.id);
   const taken = new Set([
     ...readdirSync(new URL('./src/data/nachschlagen/', import.meta.url)).flatMap((f) => [f.replace(/\.json$/, ''), refSlug(f.replace(/\.json$/, ''))]),
-    ...readdirSync(new URL('./src/pages/grammar/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
+    ...readdirSync(new URL('./src/pages/gramatica/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
   ]);
   const out = {};
   for (const key of keys) {
-    if (!taken.has(topicSlug(key))) out[`/grammar/${topicSlug(key)}`] = r301(`/${topicSlug(key)}`);
+    if (!taken.has(topicSlug(key))) out[`/gramatica/${topicSlug(key)}`] = r301(`/${topicSlug(key)}`);
   }
   return out;
 }
@@ -53,9 +64,9 @@ export default defineConfig({
 
   // React is available for islands; the site itself is vanilla .astro plus the JS modules in
   // src/lib/ — the zero-JS default on content pages is deliberate.
-  integrations: [react(), baseLanguage(), entryPages(), sitemap(), llmsTxt()],
+  integrations: [react(), baseLanguage(), entryPages(), sitemap(), llmsTxt(), legacyRedirectsIntegration()],
 
-  redirects: grammarTopicRedirects(),
+  redirects: { ...legacyRedirects(), ...grammarTopicRedirects() },
   server: {
     // Listen on every interface, not just 127.0.0.1, so the dev server is reachable
     // from a phone on the same Wi-Fi — and from a tunnel — without passing --host

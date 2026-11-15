@@ -193,7 +193,7 @@ export const landingTools = (() => {
   const t = Object.fromEntries(tools.map((x) => [x.id, x]));
   const merged = {
     hoerenAussprache: {
-      id: "hoeren-aussprache", group: "fertigkeiten", href: "/skills#hoeren", icon: "volume",
+      id: "hoeren-aussprache", group: "fertigkeiten", href: "/skills#listening", icon: "volume",
       titleKey: "tool.hoerenAussprache.title", title: "Hören & Aussprache",
       shortKey: "group.short.hoeren", short: "Hören",
       descKey: "tool.hoerenAussprache.desc",
@@ -203,7 +203,7 @@ export const landingTools = (() => {
       count: sumCount(`${hoeren.texts.length} Hörtexte`, `${wortschatz.length + artikel.length} Wörter`),
     },
     fertigkeiten: {
-      id: "fertigkeiten", group: "fertigkeiten", href: "/skills#sprechen", icon: "mic",
+      id: "fertigkeiten", group: "fertigkeiten", href: "/skills#speaking", icon: "mic",
       titleKey: "tool.fertigkeiten.title", title: "Sprechen, Lesen & Schreiben",
       shortKey: "group.short.sprechen", short: "Fertigkeiten",
       descKey: "tool.fertigkeiten.desc",
@@ -480,7 +480,7 @@ export const levels = NAV_LEVELS.map((level) => {
     slug,
     blurbKey: `level.${slug}.blurb`,
     blurb: LEVEL_BLURB[level],
-    href: `/grammar#niveau-${slug}`,
+    href: `/grammar#level-${slug}`,
     grammar,
     vocab,
     words,
@@ -536,7 +536,7 @@ const grammarLevelView = (level) => {
       { id: "b", items: rows.slice(half) },
     ],
     more: {
-      href: `/grammar#niveau-${head.slug}`,
+      href: `/grammar#level-${head.slug}`,
       labelKey: "nav.level.allTopics", labelVars: { n: rows.length }, label: `Alle ${rows.length} Themen`,
     },
   };
@@ -965,7 +965,7 @@ export const navUeben = {
   levels: levels.map((lv) => ({
     level: lv.level,
     slug: lv.slug,
-    href: `/grammar#niveau-${lv.slug}`,
+    href: `/grammar#level-${lv.slug}`,
     blurbKey: lv.blurbKey,
     blurb: lv.blurb,
   })),
@@ -1181,7 +1181,7 @@ export const navWissenMenu = {
         titleKey: "nav.kultur.allTopics", title: "Alle Themen",
         hintKey: "tool.kultur.count", hintVars: { n: kulturTopicCount }, hint: `${kulturTopicCount} Themen` },
       items: kulturLevelGroups.map((g) => ({
-        href: `/culture#niveau-${g.slug}`, level: g.level, titleKey: g.blurbKey, title: g.blurb,
+        href: `/culture#level-${g.slug}`, level: g.level, titleKey: g.blurbKey, title: g.blurb,
       })) },
     { id: "buecher", icon: "document", href: "/knowledge",
       nameKey: "nav.wissen.books", name: "Bücher",
@@ -1190,7 +1190,7 @@ export const navWissenMenu = {
         hintKey: "nav.subject.wissen.blurb", hint: "Bücher und Listen als PDF" },
       items: [
         ...downloads.categories.map((c) => ({ href: `/knowledge#${c.id}`, titleKey: `wissen.cat.${c.id}.name`, title: c.name })),
-        { href: "/knowledge#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
+        { href: "/knowledge#official", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
     // "English around the world" (/knowledge/languages): one page. Only its map section gets a row;

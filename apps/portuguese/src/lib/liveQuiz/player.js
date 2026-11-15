@@ -1,4 +1,4 @@
-// The phone side of the live quiz: /game. See protocol.js for the messages.
+// The phone side of the live quiz: /jogo. See protocol.js for the messages.
 //
 // A student types (or scans) the PIN, picks a nickname and the language meanings should
 // appear in, and plays — no account. The phone never holds the answer: it shows the four
@@ -68,7 +68,7 @@ export function mountPlayer(root) {
 
   const params = new URLSearchParams(location.search);
   if (params.get("pin")) form.pin.value = params.get("pin").replace(/\D/g, "").slice(0, 6);
-  // ?test=1 is the host's test-mode preview (an iframe on /teachers/quiz): it joins
+  // ?test=1 is the host's test-mode preview (an iframe on /professores/quiz): it joins
   // on its own, and its name must not overwrite the one this browser remembers.
   const testMode = params.get("test") === "1";
 
@@ -100,7 +100,7 @@ export function mountPlayer(root) {
       if (at && Date.now() - at > SEAT_KEEP_MS) store.removeItem(k);
     }
   } catch {}
-  // ?solo=1 is "Solo spielen" from /teachers/quiz: one person, no room. This tab builds
+  // ?solo=1 is "Solo spielen" from /professores/quiz: one person, no room. This tab builds
   // the questions itself and plays the host's part (playSolo below); the settings come in
   // the address. Only the meaning language is asked, and not for synonyms.
   const solo = params.get("solo") === "1"
@@ -133,11 +133,11 @@ export function mountPlayer(root) {
     const back = $("[data-solo-back]");
     const keep = new URLSearchParams();
     for (const k of ["set", "mode", "level", "grammar"]) if (params.get(k)) keep.set(k, params.get(k));
-    back.href = `${withBase("/teachers/quiz")}${keep.size ? `?${keep}` : ""}`;
+    back.href = `${withBase("/professores/quiz")}${keep.size ? `?${keep}` : ""}`;
     back.addEventListener("click", (e) => {
       let from = null;
       try { from = new URL(document.referrer); } catch {}
-      if (from?.origin === location.origin && stripBase(from.pathname).replace(/\/$/, "") === "/teachers/quiz" && history.length > 1) {
+      if (from?.origin === location.origin && stripBase(from.pathname).replace(/\/$/, "") === "/professores/quiz" && history.length > 1) {
         e.preventDefault();
         history.back();
       }
@@ -758,7 +758,7 @@ export function mountPlayer(root) {
     else if (r?.rank <= 3) { sfx("correct"); confetti({ count: 70 }); }
   }
 
-  /* The round into the learner's record on /progress (record.js): solo rounds and this
+  /* The round into the learner's record on /progresso (record.js): solo rounds and this
      phone's place in a class game, signed in only. The end screen says where it went — or,
      signed out after a solo round, that signing in would keep it. */
   function keepRecord(r, total) {
@@ -786,10 +786,10 @@ export function mountPlayer(root) {
     recordRound(round).then((saved) => {
       if (!note) return;
       if (saved) {
-        note.innerHTML = `<a href="${withBase("/progress")}?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${withBase("/progresso")}?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
         note.hidden = false;
       } else if (solo && !/(?:^|;\s*)sb-[^=]+-auth-token/.test(document.cookie)) {
-        note.innerHTML = `<a href="${withBase("/account")}">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${withBase("/conta")}">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
         note.hidden = false;
       }
     });

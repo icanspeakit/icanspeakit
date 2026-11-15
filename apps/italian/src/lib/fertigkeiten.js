@@ -11,7 +11,7 @@
 //   from: "sprechen-dtz"      one picture of src/data/sprechen.json,       by `index`
 //   from: "sprechen-telc"     one prompt of src/data/sprechen-b1b2.json,   by `index`
 //
-// Borrowing rather than copying, because /reading-writing, /speaking and
+// Borrowing rather than copying, because /lettura-e-scrittura, /parlato and
 // the DTZ mock test all still read those files. Two copies of a Prüfungstext would drift
 // apart, and the one that drifted would be the one nobody reopened.
 //
@@ -124,7 +124,7 @@ function resolveSprechen(entry) {
           // The card's points read on from "Explica:"; as bullets of their own they
           // start with a capital and drop the "y" before the last one.
           : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
-        href: "/speaking-b1-b2",
+        href: "/parlato-b1-b2",
         hrefLabel: "in the long-turn trainer",
       };
     }

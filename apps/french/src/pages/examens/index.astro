@@ -1,0 +1,341 @@
+---
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+import Layout from "../../layouts/Layout.astro";
+import HubBild from "../../components/HubBild.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import Icon from "../../components/Icon.astro";
+import { grammarTopicCount } from "../../lib/inventory.js";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import "../../styles/exam-dashboard.css";
+
+const exams = [
+  {
+    id: "telc",
+    href: "/tcf",
+    icon: "document",
+    title: "TCF by level",
+    level: "A2–C1",
+    desc: "Practice for the TCF, one band at a time, from A2 to C1. The real TCF is one test whose questions get harder as you go, and its result is a level; each of our sets covers one band.",
+    practice: "Practice sets by band",
+    practiceKey: "pruefungen.practice.telc",
+  },
+  {
+    id: "goethe",
+    href: "/delf-dalf",
+    icon: "landmark",
+    title: "DELF / DALF",
+    level: "A1–C2",
+    desc: "The official French diplomas of France's Ministry of Education: one exam per level, the DELF from A1 to B2 and the DALF at C1 and C2, recognised by employers and universities.",
+    practice: "Practice tests · language-use trainer · links to official sample papers",
+    practiceKey: "pruefungen.practice.goethe",
+  },
+  {
+    id: "testdaf",
+    href: "/tef",
+    icon: "graduation-cap",
+    title: "TEF",
+    level: "A1–C2",
+    desc: "The test of CCI Paris Île-de-France, with versions such as the TEF Canada. There is no pass mark: each paper gets a score that is matched to a CEFR level.",
+    practice: "Format and scores · reading and writing practice set",
+    practiceKey: "pruefungen.practice.testdaf",
+  },
+  {
+    id: "dtz",
+    href: "/residence-et-nationalite/tcf-irn",
+    icon: "book-open",
+    title: "TCF IRN practice mock",
+    level: "A2–B1",
+    desc: "A full mock test in the style of the TCF IRN, a test used for French residence cards and nationality, with a result at the end. It does not copy the real test.",
+    practice: "Practice set in exam format · reading mock test",
+    practiceKey: "pruefungen.practice.dtz",
+  },
+  {
+    id: "lid",
+    href: "/examen-civique",
+    icon: "map-pin",
+    title: "Civic exam",
+    titleKey: "exam.lid.name",
+    level: "No language level (a knowledge test)",
+    desc: "The multiple-choice test on the values, institutions, history and daily life of France, which many applicants for a residence card or French nationality now have to pass.",
+    practice: "Facts study page · practice test",
+    practiceKey: "pruefungen.practice.lid",
+  },
+];
+
+// Which exam on this site fits which CEFR level: /delf-dalf = DELF/DALF, /tcf = TCF by band,
+// /residence-et-nationalite/tcf-irn = TCF IRN mock, /tef = TEF, /delf-dalf/a1 = DELF A1 (content-plan §8).
+// An entry without href is shown as plain text (exam not on this site yet).
+// The civic exam has no CEFR level (a knowledge test), so it is in no row.
+const levels = [
+  {
+    level: "A1",
+    desc: "First steps — understanding and using simple everyday expressions.",
+    exams: [
+      { name: "DELF A1 practice test", href: "/delf-dalf/a1" },
+      { name: "TCF practice, A1–A2 band", href: "/tcf/a2" },
+    ],
+  },
+  {
+    level: "A2",
+    desc: "Basic user — exchanging simple, direct information.",
+    exams: [
+      { name: "DELF A2", href: "/delf-dalf/a2" },
+      { name: "TCF IRN practice mock", href: "/residence-et-nationalite/tcf-irn" },
+      { name: "TCF practice, A1–A2 band", href: "/tcf/a2" },
+    ],
+  },
+  {
+    level: "B1",
+    desc: "Independent user — familiar topics at home, work and school.",
+    exams: [
+      { name: "DELF B1", href: "/delf-dalf/b1" },
+      { name: "TCF practice, B1 band", href: "/tcf/b1" },
+    ],
+  },
+  {
+    level: "B2",
+    desc: "Independent user, advanced.",
+    exams: [
+      { name: "DELF B2", href: "/delf-dalf/b2" },
+      { name: "TCF practice, B2 band", href: "/tcf/b2" },
+    ],
+  },
+  {
+    level: "C1",
+    desc: "Proficient user — complex topics, university and work.",
+    exams: [
+      { name: "DALF C1", href: "/delf-dalf/c1" },
+      { name: "TCF practice, C1 band", href: "/tcf/c1" },
+    ],
+  },
+  {
+    level: "C2",
+    desc: "Near-native proficiency.",
+    exams: [
+      { name: "DALF C2 (format only, no practice set here)", href: "/delf-dalf" },
+    ],
+  },
+];
+
+// Comparison table — every cell restates a claim made on that exam's own page; nothing new
+// is asserted here.
+const comparison = [
+  { id: "telc", exam: "TCF by level", levels: "A2–C1", forWhom: "Practice for the TCF, one band at a time", format: "Tasks at one band, by module" },
+  { id: "goethe", exam: "DELF / DALF", levels: "A1–C2", forWhom: "Work, study, and residence or nationality in France; one diploma per level", format: "One exam per level, with reading, listening, writing and speaking parts" },
+  { id: "testdaf", exam: "TEF", levels: "A1–C2", forWhom: "Work, study and immigration to Canada (TEF Canada), where the institution accepts it — check its rules", format: "Reading, listening, writing and speaking papers, each with a score and a CEFR level; no pass or fail" },
+  { id: "dtz", exam: "TCF IRN practice mock", levels: "A2–B1", forWhom: "People preparing the language part of a residence card or of French nationality", format: "Reading, listening, writing and speaking, with a result at the end" },
+  { id: "lid", exam: "Civic exam", levels: "No language level (a knowledge test)", forWhom: "Many applicants for a residence card or French nationality", format: "Multiple choice on the values, institutions, history and daily life of France. Check the current format on service-public.gouv.fr" },
+];
+---
+<Layout
+  title="French exams compared: DELF, DALF, TCF, TEF, civic exam – icanspeak French"
+  description="Compare the DELF and DALF, the TCF, the TEF and France's civic exam — by exam or by level, with a side-by-side look at the formats."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide">
+    <!-- No exam rail here: the cards below already list every exam. The switcher lives
+         one level down, on each exam's page (ExamRail.astro). -->
+    <div class="pr-hub">
+      <section>
+    <HubBild id="pruefungen" />
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="pruefungen.hero.eyebrow">Prüfungsvorbereitung</p>
+      <h1 data-i18n="pruefungen.hero.title">Welche Prüfung machst du?</h1>
+      <p data-i18n="pruefungen.hero.subtitle">Ein Überblick über die fünf wichtigsten deutschen Sprach- und Integrationsprüfungen — Niveau, Aufbau und wie du dich vorbereiten kannst.</p>
+      <a class="plan-link" href="/plan-d-examen" data-i18n="plan.link">Dein Plan bis zur Prüfung →</a>
+    </div>
+
+    <a class="fs-entry" href="/progression">
+      <span class="fs-entry-txt">
+        <b data-i18n="nav.account.progress">Mein Fortschritt</b>
+        <i data-i18n="pruefungen.dashboard.blurb">Punkte, begonnene Teile und der nächste offene Prüfungsteil — für jede Prüfung.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/residence-et-nationalite">
+      <span class="fs-entry-txt">
+        <b data-i18n="nat.entry.title">Residence and nationality in France: the path</b>
+        <i data-i18n="nat.entry.blurb">Residence cards, nationality, language level and civic exam: who needs what, who is exempt, and the steps in order.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/vocabulaire-code-de-la-route">
+      <span class="fs-entry-txt">
+        <b data-i18n="dgt.title">Code de la route vocabulary</b>
+        <i data-i18n="dgt.entry.blurb">The French words for driving lessons, the road and the paperwork. Vocabulary only, no exam questions.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/examens/delf-tcf-ou-tef">
+      <span class="fs-entry-txt">
+        <b data-i18n="delesiele.title">DELF, TCF or TEF?</b>
+        <i data-i18n="delesiele.entry.blurb">Which exam fits your purpose: residence card, nationality, Canada, university or work.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+    <a class="fs-entry" href="/examens/pieges">
+      <span class="fs-entry-txt">
+        <b data-i18n="fallen.title">Exam traps</b>
+        <i data-i18n="fallen.entry.blurb">Spots with a catch – briefly explained, with an example and a task to try.</i>
+      </span>
+      <span class="fs-entry-go" aria-hidden="true">→</span>
+    </a>
+
+    <div class="topic-tabs hub-switch" id="hub-view-tabs">
+      <span class="hub-switch-pill" aria-hidden="true"></span>
+      <button class="topic-tab active" type="button" data-view="exam" data-i18n="pruefungen.tab.byExam">Nach Prüfung</button>
+      <button class="topic-tab" type="button" data-view="level" data-i18n="pruefungen.tab.byLevel">Nach Niveau</button>
+    </div>
+
+    <div id="view-exam" class="hub-view">
+      <div class="exam-grid">
+        {exams.map((e) => (
+          <a class="exam-card" href={e.href}>
+            <div class="exam-card-icon"><Icon name={e.icon} /></div>
+            {/* Top to bottom, the order a learner asks in: which exam, which levels, what it
+                is, what there is to practise here. */}
+            <h3 data-i18n={e.titleKey}>{e.title}</h3>
+            <span class="exam-card-level" data-i18n={e.levelKey ?? (e.id === "lid" ? "pruefungen.card.lid.level" : undefined)}>{e.level}</span>
+            <p data-i18n={`pruefungen.card.${e.id}.desc`}>{e.desc}</p>
+            {e.practice && <p class="exam-card-practice" data-i18n={e.practiceKey}>{e.practice}</p>}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div id="view-level" class="hub-view" hidden>
+      <div class="level-grid">
+        {levels.map((l) => (
+          <div class="level-card">
+            <div class="level-card-badge">{l.level}</div>
+            <p data-i18n={`pruefungen.level.${l.level}.desc`}>{l.desc}</p>
+            <div class="level-card-exams">
+              {l.exams.map((e) => e.href ? <a href={e.href}>{e.name}</a> : <span class="level-card-soon">{e.name}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="format-note" style="max-width:780px;margin:20px auto 0;" data-i18n-html="pruefungen.levelNote">
+        „Leben in Deutschland“ hat kein CEFR-Sprachniveau — es ist ein Wissenstest zu Gesellschaft,
+        Geschichte und Recht, kein Sprachtest. Deshalb erscheint er in keiner Niveau-Zeile oben; siehe
+        die <a href="/examen-civique">eigene Prüfungsseite</a>.
+      </p>
+    </div>
+
+    <section class="exam-section" style="margin-top:48px;">
+      <h2 data-i18n="pruefungen.compare.title">Prüfungen im Vergleich</h2>
+      <div class="format-table-wrap">
+        <table class="format-table">
+          <thead><tr><th data-i18n="pruefungen.compare.exam">Prüfung</th><th data-i18n="pruefungen.compare.level">Niveau</th><th data-i18n="pruefungen.compare.forWhom">Für wen</th><th data-i18n="pruefungen.compare.format">Format</th></tr></thead>
+          <tbody>
+            {comparison.map((c) => (
+              <tr>
+                {/* The exam's name is a proper noun; the level column is codes. Only the
+                    two prose columns carry a key. */}
+                <td data-i18n={c.id === "lid" ? "exam.lid.name" : undefined}>{c.exam}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.levels`}>{c.levels}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.forWhom`}>{c.forWhom}</td>
+                <td data-i18n={`pruefungen.compare.${c.id}.format`}>{c.format}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <ExamDisclaimer foot />
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    // "Nach Prüfung" / "Nach Niveau": the pill slides to the chosen option, the old view
+    // fades out and the new one comes in from the side of the option that was tapped, its
+    // cards one after another. With reduced motion it simply swaps, as it always did.
+    const tabs = document.getElementById("hub-view-tabs");
+    const pill = tabs.querySelector(".hub-switch-pill");
+    const buttons = [...tabs.querySelectorAll(".topic-tab")];
+    const views = { exam: document.getElementById("view-exam"), level: document.getElementById("view-level") };
+    const order = ["exam", "level"];
+    const still = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let current = "exam";
+    let busy = null;
+
+    function placePill(btn, animate) {
+      pill.style.transition = animate && !still() ? "" : "none";
+      pill.style.width = `${btn.offsetWidth}px`;
+      pill.style.transform = `translateX(${btn.offsetLeft}px)`;
+      pill.style.height = `${btn.offsetHeight}px`;
+      pill.style.top = `${btn.offsetTop}px`;
+    }
+
+    async function show(target) {
+      if (target === current) return;
+      const from = views[current];
+      const to = views[target];
+      const dir = order.indexOf(target) > order.indexOf(current) ? 1 : -1;
+      current = target;
+      busy?.forEach((a) => a.cancel());
+      if (still()) {
+        from.hidden = true;
+        to.hidden = false;
+        return;
+      }
+      const out = from.animate(
+        [{ opacity: 1, transform: "none" }, { opacity: 0, transform: `translateX(${-24 * dir}px)` }],
+        { duration: 160, easing: "ease-in" },
+      );
+      busy = [out];
+      await out.finished.catch(() => {});
+      if (current !== target) return;
+      from.hidden = true;
+      to.hidden = false;
+      const cards = [...to.firstElementChild.children];
+      busy = cards.map((card, i) =>
+        card.animate(
+          [{ opacity: 0, transform: `translateX(${32 * dir}px)` }, { opacity: 1, transform: "none" }],
+          { duration: 320, delay: Math.min(i, 8) * 45, easing: "cubic-bezier(.2,.8,.2,1)", fill: "backwards" },
+        ),
+      );
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        buttons.forEach((b) => b.classList.toggle("active", b === btn));
+        placePill(btn, true);
+        show(btn.dataset.view);
+      });
+    });
+    // Placed once without a slide, and again whenever the buttons change size (a language
+    // switch changes their labels, a narrow screen wraps them).
+    const active = () => buttons.find((b) => b.classList.contains("active"));
+    placePill(active(), false);
+    new ResizeObserver(() => placePill(active(), false)).observe(tabs);
+    tabs.classList.add("is-ready");
+  </script>
+
+  <style>
+    /* The switch is a segmented control here: one pill behind the chosen option that slides,
+       instead of two buttons swapping their colours. Before the script has placed it, the
+       active button keeps its own gradient, so nothing is missing without JavaScript. */
+    .hub-switch { position: relative; width: max-content; margin-inline: auto; padding: 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); gap: 4px; }
+    .hub-switch .topic-tab { position: relative; z-index: 1; border-color: transparent; background: transparent; transition: color 0.25s ease; }
+    .hub-switch:not(.is-ready) .topic-tab.active { background: var(--gradient-brand); }
+    .hub-switch .topic-tab.active { color: #fff; }
+    .hub-switch-pill {
+      position: absolute;
+      left: 0;
+      border-radius: 999px;
+      background: var(--gradient-brand);
+      box-shadow: 0 4px 14px rgb(13 148 136 / 0.28);
+      opacity: 0;
+      transition: transform 0.38s cubic-bezier(0.3, 1.3, 0.5, 1), width 0.38s cubic-bezier(0.3, 1.3, 0.5, 1);
+    }
+    .hub-switch.is-ready .hub-switch-pill { opacity: 1; }
+    .level-card-soon { color: var(--muted); font-size: var(--text-sm); }
+    @media (prefers-reduced-motion: reduce) {
+      .hub-switch-pill, .hub-switch .topic-tab { transition: none; }
+    }
+  </style>
+</Layout>

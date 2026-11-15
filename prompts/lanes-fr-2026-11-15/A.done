@@ -1,0 +1,7 @@
+Lane A done: French listening audio rendered with Azure TTS (no ElevenLabs calls).
+
+Files (apps/french/public/audio/hoeren/, bytes): a1-ansage-bahnhof 113564, a1-anruf-arzt 192044, a1-supermarkt 164252, a1-verabredung 195500, a2-amt-termin 361676, a2-wohnungsbesichtigung 312572, a2-radio-wetter-verkehr 261884, a2-paketdienst 276572, b1-krankmeldung 459308, b1-elterngespraech 472988, b1-radio-muelltrennung 573068, b1-durchsage-ersatzverkehr 216812, b2-diskussion-homeoffice 524972, b2-interview-anerkennung 600860, b2-beschwerde-versicherung 581276, b2-vortrag-ehrenamt 553196, plus manifest.json (real durations, 19-100 s).
+Changed: apps/french/scripts/generate-hoeren-audio.mjs (new), apps/french/package.json (generate:hoeren), apps/french/src/data/hoeren.json (5 voice notes).
+Characters sent to Azure: 14,110 (102 requests, one per turn; joined by ffmpeg concat with 0.45 s gaps).
+Verified: http://localhost:4393/francais/listening/a1-station-announcement -> 200, <audio src="/francais/audio/hoeren/a1-ansage-bahnhof.mp3">; that URL -> 200 audio/mpeg.
+Notes: file names stay the old ids (a1-ansage-bahnhof); lane B's English slugs are only URLs (src/lib/routes.js ITEM_SLUGS), so no clash. ffmpeg printed "non monotonically increasing dts" warnings during mp3 concat; harmless, but ears should check one dialogue. Not listened to. Re-render: pnpm generate:hoeren -- --force (--only <id> for one).

@@ -7,13 +7,13 @@
  * through this file. Plain JS with no Astro or Vite imports, so astro.config.mjs, the build
  * integrations, node scripts and browser modules can all import it.
  *
- *   withBase("/grammar")        → "/francais/grammar"
+ *   withBase("/grammaire")        → "/francais/grammaire"
  *   withBase("/")               → "/francais/"
  *   withBase("/francais/x")      → "/francais/x"        (idempotent)
- *   stripBase("/francais/grammar") → "/grammar"        (for comparing location.pathname)
+ *   stripBase("/francais/grammaire") → "/grammaire"        (for comparing location.pathname)
  *   currentPath()               → location.pathname without the base
- *   absoluteUrl("/grammar")     → "https://icanspeak.it/francais/grammar"
- *   langPath("de", "/grammar")  → "/francais/de/grammar" (UI-language prefix after the base)
+ *   absoluteUrl("/grammaire")     → "https://icanspeak.it/francais/grammaire"
+ *   langPath("de", "/grammaire")  → "/francais/de/grammar" (UI-language prefix after the base)
  *   rebaseHtml(html)            → every root-absolute href/src/action/srcset/url()/refresh
  *                                 in an HTML string moved under the base
  *
@@ -47,7 +47,7 @@ export function withBase(path) {
   return /** @type {T} */ (/** @type {unknown} */ (BASE_PATH + p));
 }
 
-/** The site path of a pathname that may carry the base: "/francais/grammar" → "/grammar",
+/** The site path of a pathname that may carry the base: "/francais/grammaire" → "/grammaire",
  *  "/francais" and "/francais/" → "/". Anything else comes back unchanged. @param {string} pathname */
 export function stripBase(pathname) {
   if (typeof pathname !== 'string') return pathname;

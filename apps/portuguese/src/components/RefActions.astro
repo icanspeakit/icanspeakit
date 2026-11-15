@@ -1,17 +1,17 @@
 ---
-// The Nachschlagewerk pages' row (Verbtabellen, the /grammar/<ref> lists, Wortarten):
+// The Nachschlagewerk pages' row (Verbtabellen, the /gramatica/<ref> lists, Wortarten):
 //   „Drucken / PDF“  this page on paper: the browser's print, with the page's own print
 //                    sheet (verbtabellen.css, nachschlagen.css, wortarten.css). Folded
 //                    rules are printed open; the page keeps the learner's choice.
-//   „Arbeitsblatt“   the page's worksheet (/teachers/worksheets/grammar/<sheet>):
+//   „Arbeitsblatt“   the page's worksheet (/professores/fichas/gramatica/<sheet>):
 //                    rows of the list as exercises, with an answer key; built like a
 //                    grammar topic's (arbeitsblatt/nachschlagen.js).
-//   „Partnerblatt“   the same rows as a Tandembogen (/teachers/worksheets/tandem/
+//   „Partnerblatt“   the same rows as a Tandembogen (/professores/fichas/tandem/
 //                    <sheet>), for everyone, as on a grammar topic (GrammarActions).
 //   „Teilen“         ShareButton, as on every exercise.
-//   „Live-Quiz“      /teachers/quiz?grammar=<chapter>: the list as four-button
+//   „Live-Quiz“      /professores/quiz?grammar=<chapter>: the list as four-button
 //                    questions („Nur Grammatik“, liveQuiz/chapters.js). Not in the
-//                    Android app, whose build drops /teachers.
+//                    Android app, whose build drops /professores.
 import ShareButton from "./ShareButton.astro";
 import { hasChapter } from "../lib/liveQuiz/chapters.js";
 import { sheetTopics, topicSlug } from "../lib/arbeitsblatt/grammatik.js";
@@ -45,7 +45,7 @@ const tandem = !!sheet && web && !!tandemFor(sheet);
   )}
   <ShareButton label size="sm" title={title} />
   {quiz && (
-    <a class="ra-btn" href={`/teachers/quiz?grammar=${encodeURIComponent(chapter!)}`} target="_blank" rel="noopener">
+    <a class="ra-btn" href={`/professores/quiz?grammar=${encodeURIComponent(chapter!)}`} target="_blank" rel="noopener">
       <span aria-hidden="true">🎯</span>
       <span data-i18n="pr.quizGrammar">Live-Quiz</span>
     </a>

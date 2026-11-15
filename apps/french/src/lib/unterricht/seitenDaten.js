@@ -1,5 +1,5 @@
 // What the lesson pages embed for the browser, built at build time: the teacher's
-// /teachers/lesson and the learner's /lesson make the very same Stunde from it.
+// /enseignants/lecon and the learner's /lecon make the very same Stunde from it.
 //   levels      planLevels(): per level its blocks, grammar links, Wortliste, game, videos
 //   bilder      Einstieg photos: niveau → per block { src (without -<width>.<ext>), alt, credit } or null
 //   themen      per grammar topic href: up to three example sentences (aktiv.listen), three gap

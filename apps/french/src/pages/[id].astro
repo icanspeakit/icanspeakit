@@ -120,13 +120,13 @@ const introHtml = introMarked
   && introMarked.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\{([^{}]+)\}/g, '<u class="vp-art">$1</u>');
 const concept = workspace?.concept;
 // `lookup` in a topic's JSON: its reference page, linked from the Kurz-erklärt box. With
-// `chips: "wortarten"` each class is its own chip (→ /grammar/parts-of-speech#noun), the same
+// `chips: "wortarten"` each class is its own chip (→ /grammaire/natures-des-mots#noun), the same
 // chips that page opens with, so practice and lookup point at each other class by class.
 const lookup = workspace?.lookup;
 const lookupChips = lookup?.chips === "wortarten" ? wortartenRef.classes.map((c) => ({ id: c.id, name: c.name })) : [];
 // A verb topic links the drill or set that practises its forms (conjugation-trainer.json, topicLinks).
 const drillLink = workspace?.id ? conjugationTrainer.topicLinks[workspace.id] : null;
-const drillHref = drillLink ? `/grammar/conjugation?${drillLink.replace(":", "=")}` : null;
+const drillHref = drillLink ? `/grammaire/conjugaison?${drillLink.replace(":", "=")}` : null;
 const reference = concept?.reference;
 // The rule in the learner's language (src/data/uebersetzungen/grammatik.json). A topic with
 // no entry renders exactly as before: no switch, no empty blocks.
@@ -220,7 +220,7 @@ const BEATS = [
 // projector deck, from this JSON only. Loaded only when asked for.
 const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
 ---
-<Layout title={fitTitle(level ? `${name} – exercises ${level}` : null, `${name} – exercises`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammar", path: "/grammar" }]} noindex={noindex || draft}>
+<Layout title={fitTitle(level ? `${name} – exercises ${level}` : null, `${name} – exercises`, name, name.replace(/:.*$/, ""))} description={description} schema={schema} breadcrumb={[{ name: "Grammar", path: "/grammaire" }]} noindex={noindex || draft}>
   {/* ?mode=present: the page stays hidden until the deck covers it (praesentationDeck.js
       loads after the first paint, and a glimpse of the exercises flashed before it).
       Inline and before the content, so it holds from the first frame; the deck lifts it,

@@ -1,13 +1,13 @@
-// The chapters a teacher can build a live quiz from (/teachers/quiz/create), and
+// The chapters a teacher can build a live quiz from (/enseignants/quiz/creer), and
 // the ready-made questions each one offers. Build time only: the page gets the list in
-// its markup and each chapter's questions from /teachers/quiz-chapters/<slug>.json.
+// its markup and each chapter's questions from /enseignants/quiz-chapters/<slug>.json.
 //
 // Two kinds of chapter:
 //   g:<key>  a grammar topic — its fill-in, table and matching items turned into
 //            multiple choice. The wrong options are other answers of the same exercise
 //            (werde / wirst / wird / werden), so they are always forms a learner could
 //            plausibly mix up, never random words.
-//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the présent,
+//   g:verbtabellen  the verb tables of /grammaire/verbes: a form of each verb in the présent,
 //            futur simple and passé composé, the wrong options being the same verb's other
 //            forms, the other auxiliary and the form the regular pattern would wrongly give
 //            (venissons, venirai, a prendu).
@@ -75,10 +75,10 @@ function toChoices(pairs, kind, src, extraPool = []) {
   return out;
 }
 
-/** The verb tables (/grammar/verbs) as questions, one group per verb group. Per verb:
+/** The verb tables (/grammaire/verbes) as questions, one group per verb group. Per verb:
  *  a Präsens form (the first irregular one of du / er, else du), the Präteritum of ich and
  *  the Perfekt of er/sie/es. */
-// The Wortfallen of /knowledge/false-friends (embarazada, éxito, carpeta): each trap's gap sentences,
+// The Wortfallen of /savoirs/faux-amis (embarazada, éxito, carpeta): each trap's gap sentences,
 // the wrong options being the words it is mixed up with. Not a grammar topic, so like the
 // verb tables it stays out of the Aufgaben catalog.
 const WF_KEY = "wortfallen";
@@ -90,7 +90,7 @@ function wortfallenGroups() {
   }).filter((g) => g.items.length);
 }
 
-// Typische Fehler (/grammar/common-mistakes): each pair's gap, the wrong option its
+// Typische Fehler (/grammaire/erreurs-frequentes): each pair's gap, the wrong option its
 // look-alike. Two buttons, not four: the pair is the question. Built here rather than with
 // mcq(), whose case-blind de-duplication would drop Sevilla / sevilla, the very point of a pair.
 const TF_KEY = "typische-fehler";
@@ -135,7 +135,7 @@ function verbGroups() {
   }).filter((g) => g.items.length);
 }
 
-/* ---- The Nachschlagewerk lists (/grammar/<ref>, src/data/nachschlagen/*.json) ------
+/* ---- The Nachschlagewerk lists (/grammaire/<ref>, src/data/nachschlagen/*.json) ------
    Chapter g-nachschlagen-<file>, one group per section of the list. Rows are
    [verb, forms, example, level]; a "# …" string is a sub-heading and is skipped.
      starke-schwache-verben     il passé composé and participle of each verb; wrong: the other
@@ -270,7 +270,7 @@ export function chapterList() {
     grammar.push({ key: "akkusativ", name: a.name, level: a.level });
     grammar.sort(byPlan((t) => [t.key])).sort((x, y) => QUIZ_LEVELS.indexOf(x.level) - QUIZ_LEVELS.indexOf(y.level));
   }
-  // The verb tables are a reference page (/grammar/verbs), not a topic in the catalog.
+  // The verb tables are a reference page (/grammaire/verbes), not a topic in the catalog.
   // `assign: false` keeps it out of the Aufgaben catalog, which counts what a student
   // finished from the topic pages' scored exercises. Last of A1 (the sort is stable).
   grammar.push({ key: VERB_KEY, name: "Verb tables: the most important verbs", level: "A1", assign: false });

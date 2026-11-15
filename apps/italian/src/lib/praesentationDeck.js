@@ -7,14 +7,14 @@
 // → / Space / PageDown / click: next · ← / PageUp: back · Esc or ✕: the normal page.
 // The last screen says the deck is over and offers the rule on the page or the way back
 // to the lesson (or, opened on its own, to the exercises).
-// ?niveau=A1 (set by /teachers/lesson) leaves out rule cards marked for a higher
+// ?niveau=A1 (set by /insegnanti/lezione) leaves out rule cards marked for a higher
 // level; without it the page's own level counts.
 import "../styles/praesentation.css";
 import { fitsLevel } from "./praesentation.js";
 import { LERN_KEY, stundeHref } from "./unterricht/lernen.js";
 import { withBase, currentPath } from "./paths.js";
 
-// Opened from a lesson: the teacher's (?ut=1) or a learner's Stunde (?ls=1, /lesson).
+// Opened from a lesson: the teacher's (?ut=1) or a learner's Stunde (?ls=1, /lezione).
 const from = () => {
   const q = new URLSearchParams(location.search);
   return q.get("ut") === "1" ? "ut" : q.get("ls") === "1" ? "ls" : null;
@@ -50,7 +50,7 @@ function slideHtml(s, name) {
       ${s.audio ? `<button type="button" class="pr-audio" data-pr-audio="${esc(s.audio)}" aria-label="Listen">▶ Listen</button>` : ""}`;
   }
   if (s.kind === "end") {
-    // Opened from a lesson (?ut=1, /teachers/lesson): back to it; else to the exercises.
+    // Opened from a lesson (?ut=1, /insegnanti/lezione): back to it; else to the exercises.
     const lesson = from() != null;
     return `<p class="pr-label">${esc(name)}</p><p class="pr-reveal">End of the presentation<br><span>Any questions? Then show the whole rule.</span></p>
       <div class="pr-end">
@@ -203,11 +203,11 @@ export function mountDeck(deck, { name, level, rule = false }) {
   // deck is still here (on its end screen or the rule) when the teacher comes back.
   async function back() {
     if (!fromLesson) return close();
-    // A learner's Stunde opens its material in the same tab: back to /lesson.
+    // A learner's Stunde opens its material in the same tab: back to /lezione.
     if (from() === "ls") {
       let k = null;
       try { k = JSON.parse(localStorage.getItem(LERN_KEY) ?? "null")?.key; } catch {}
-      location.assign(withBase(k ? stundeHref(k) : "/lesson"));
+      location.assign(withBase(k ? stundeHref(k) : "/lezione"));
       return;
     }
     if (document.fullscreenElement) await document.exitFullscreen().catch(() => {});

@@ -1,4 +1,4 @@
-// /teachers/lesson: start a Stunde from the plan with a group, then teach it step by
+// /insegnanti/lezione: start a Stunde from the plan with a group, then teach it step by
 // step on the projector. Two views on one static page:
 //   ?niveau=a1-1&block=1&stunden=3&stunde=1&min=90   pick (or create) the group, then
 //                                                    "Unterricht starten" / "Fortsetzen"

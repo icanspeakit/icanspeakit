@@ -1,4 +1,4 @@
-// Map geometry for /knowledge/languages — run once, output committed.
+// Map geometry for /conoscenze/lingue — run once, output committed.
 //
 //   node scripts/generate-sprachen-karte.mjs
 //

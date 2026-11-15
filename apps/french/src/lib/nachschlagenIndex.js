@@ -53,10 +53,10 @@ export function nachschlagenEntries(_opts = {}) {
     }
   }
   for (const c of wortarten.classes) {
-    out.push([c.name, c.also ?? "", `/grammar/parts-of-speech#${c.id}`, "wortart", c.also ?? ""]);
+    out.push([c.name, c.also ?? "", `/grammaire/natures-des-mots#${c.id}`, "wortart", c.also ?? ""]);
   }
   for (const p of fehlerPairs) {
-    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammar/common-mistakes#${p.id}`, "fehler", ""]);
+    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammaire/erreurs-frequentes#${p.id}`, "fehler", ""]);
   }
   return out;
 }

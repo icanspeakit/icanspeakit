@@ -167,14 +167,14 @@ export function buildSearchIndex() {
       c: "grammatik",
     })),
     // akkusativ has its own page outside the catalog's [id] route.
-    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
-    { t: "Conjugation trainer", s: "Grammar", k: "conjugation conjugaison verbs verbes tenses temps drill trainer irregular subjunctive subjonctif imperative impératif passé composé avoir être agreement accord", l: "", h: "/grammar/conjugation", c: "grammatik" },
+    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/pronoms-complements", c: "grammatik" },
+    { t: "Conjugation trainer", s: "Grammar", k: "conjugation conjugaison verbs verbes tenses temps drill trainer irregular subjunctive subjonctif imperative impératif passé composé avoir être agreement accord", l: "", h: "/grammaire/conjugaison", c: "grammatik" },
     ...conjugationTrainer.sets.map((s) => ({
       t: s.title,
       s: "Conjugation trainer",
       k: `conjugation ${s.id.replace(/-/g, " ")}`,
       l: s.level,
-      h: `/grammar/conjugation?set=${s.id}`,
+      h: `/grammaire/conjugaison?set=${s.id}`,
       c: "grammatik",
     })),
     ...praepTrainer.packs.map((p) => ({
@@ -200,7 +200,7 @@ export function buildSearchIndex() {
       s: "France from the inside",
       k: kulturHay(k, "culture france from the inside insider everyday life"),
       l: k.level ?? "",
-      h: itemPath("/culture/insider", k.id),
+      h: itemPath("/culture/codes-sociaux", k.id),
       c: "kultur",
     })),
   ];
@@ -211,7 +211,7 @@ export function buildSearchIndex() {
     k: [e.short, e.id, e.keywords].filter(Boolean).join(" "),
     h: e.href,
   }));
-  // Typische Fehler (/grammar/common-mistakes) is a Nachschlagewerk page, not a catalog
+  // Typische Fehler (/grammaire/erreurs-frequentes) is a Nachschlagewerk page, not a catalog
   // topic: found by its pairs („man Mann", „seit seid") as well as by its name. Its
   // Tandembogen comes along for teachers who look for a pair sheet on it.
   const fehlerWords = [...new Set(fehlerPairs.flatMap((p) => [p.a.w, p.b.w]).map((w) => w.replace(/^(der|die|das) /, "")))].join(" ").toLowerCase();
@@ -219,98 +219,98 @@ export function buildSearchIndex() {
     t: "Common mistakes: words people mix up",
     s: "a or à, ou or où, ce or se: French words that are easy to mix up, side by side",
     k: `common mistakes typical mistakes confusing words mix up wrong right homophones ${fehlerWords}`,
-    h: "/grammar/common-mistakes",
+    h: "/grammaire/erreurs-frequentes",
   });
   pages.push({
     t: "Common mistakes: tandem sheet",
     s: "Pair work to print: ask, answer and check each other, with answers",
     k: "common mistakes tandem sheet pair work worksheet print teachers class",
-    h: "/teachers/worksheets/tandem/common-mistakes",
+    h: "/enseignants/fiches/tandem/erreurs-frequentes",
   });
   // The path to nationality: a guide page under the exam hub.
   pages.push({
     t: "French residence card and nationality: language level and civic exam",
     s: "Which language level and civic exam each step asks for, who may be exempt, and the steps in order",
     k: "french nationality naturalisation citizenship residence titre de séjour carte de résident multi-year card tcf irn b1 b2 civic exam examen civique exempt contrat d integration republicaine ofii décret how to become french",
-    h: "/residence-and-nationality",
+    h: "/residence-et-nationalite",
   });
   // The code de la route deck: words for the driving course, the road and the paperwork.
   pages.push({
     t: "Code de la route vocabulary",
     s: "French words for the car, the road, signs, the driving exam and the paperwork",
     k: "code de la route driving licence test theory exam french france permis de conduire auto-école voiture route panneaux circulation amende contrôle technique carte grise points échange de permis road signs car words vocabulary",
-    h: "/code-de-la-route-vocabulary",
+    h: "/vocabulaire-code-de-la-route",
   });
   // Business French: phrases, model texts and exercises for office work.
   pages.push({
     t: "Business French",
     s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in France, B1 to C1",
     k: "business french work office email e-mail courriel formal letter phone call appel téléphone cv curriculum resume cover letter lettre de motivation candidature job interview entretien d'embauche meeting réunion compte rendu negotiate négociation figures chiffres presentation madame monsieur cordialement salutations distinguées vous tu",
-    h: "/business-french",
+    h: "/francais-des-affaires",
   });
   // DELF, TCF or TEF?: a comparison page under the exam hub.
   pages.push({
     t: "DELF, TCF or TEF?",
     s: "Which French exam fits your purpose: residence card, nationality, Canada, university or work",
     k: "delf dalf tcf tef tcf irn tcf canada tef canada compare difference which exam comparison residence card titre de séjour nationality naturalisation canada immigration university work price validity",
-    h: "/exams/delf-tcf-or-tef",
+    h: "/examens/delf-tcf-ou-tef",
   });
-  // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
+  // Prüfungsfallen (/examens/pieges): a page under the exam hub, not an exam of its own.
   pages.push({
     t: "Exam traps: DELF, DALF, TCF, TEF",
     s: "Parts of the exams with a catch, briefly explained, with an example and a task",
     k: "exam traps exam tips delf dalf tcf tef civic exam pièges examen conseils reading listening writing speaking language in use structures de la langue",
-    h: "/exams/traps",
+    h: "/examens/pieges",
   });
-  // About me (/about): who teaches behind the site.
+  // About me (/a-propos): who teaches behind the site.
   pages.push({
     t: "About me: Edgar Kretschmann",
     s: "Language teacher since 2015: China, Korea, the Philippines, Germany",
     k: "about me edgar kretschmann teacher founder team who",
-    h: "/about",
+    h: "/a-propos",
   });
   // The placement test is a hub tile (catalog.js), not one of the tools, so it needs its own row.
   pages.push({
     t: "Placement test",
     s: "Where do you stand? A short test from A1 to C1",
     k: "placement test level test what is my level find my level french test niveau test de niveau a1 a2 b1 b2 c1",
-    h: "/placement-test",
+    h: "/test-de-niveau",
   });
   pages.push({
     t: "Lesson plan generator for teachers",
     s: "Plan lessons for a topic block: stages, timings, activities and matching exercises",
     k: "lesson plan lesson planning timetable generator teacher teachers class course plan stages",
-    h: "/teachers/timetable",
+    h: "/enseignants/emploi-du-temps",
   });
   pages.push({
     t: "Course content A1–C1",
     s: "What do you learn in each course? Topics, goals and grammar per level",
     k: "course content syllabus french course curriculum plan topics goals progression level a1 a2 b1 b2 c1 a1.1 a1.2 b2.1 what do i learn programme cours de français",
-    h: "/syllabus",
+    h: "/programme",
   });
   pages.push({
     t: "Placement test for your class",
     s: "For teachers: via a QR code, with each person's level",
     k: "placement test class test topic test create teacher teachers course level grammar test results students quiz",
-    h: "/teachers/tests",
+    h: "/enseignants/tests",
   });
   pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country france all topics life in france francophone world civic exam",
-    h: "/knowledge/country-and-culture",
+    h: "/savoirs/pays-et-culture",
   });
   pages.push({
     t: "France from the inside",
     s: "How people in France really live, meet and talk",
     k: "culture france from the inside insider greetings la bise meal times tu vous neighbours friendship everyday life manners",
-    h: "/culture/insider",
+    h: "/culture/codes-sociaux",
   });
   pages.push({
     t: "French around the world",
     s: "World map, language family, how close is your language?",
     k: "french around the world where is french spoken official language countries world map french-speaking countries francophonie francophone africa canada quebec belgium switzerland luxembourg haiti senegal maghreb morocco algeria tunisia overseas france louisiana language family tree romance indo-european related languages cognates english french word decoder false friends sprachen weltkarte",
-    h: "/knowledge/languages",
+    h: "/savoirs/langues",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
   // verbs too: "warten auf" finds Verben mit Präpositionen) and the Wortarten.
@@ -332,21 +332,21 @@ export function buildSearchIndex() {
     t: "Parts of speech",
     s: "Noun, verb, adjective and the others: what they are and how to recognise them",
     k: "parts of speech word classes noun verb adjective adverb pronoun preposition conjunction article number nom verbe adjectif",
-    h: "/grammar/parts-of-speech",
+    h: "/grammaire/natures-des-mots",
   });
   pages.push({
     t: "Accents: the map",
     s: "Accents of French in France, and France's regional languages",
     k: "accents accent map dialects dialect french accents regional accents regional french france paris ch'ti nord picardy normandy lorraine alsace lyon marseille toulouse bordeaux midi southern accent accent du midi corsica chocolatine pain au chocolat serpillière wassingue panosse oil oc langue d'oc langue d'oïl regional languages breton occitan alsatian corsican basque catalan gallo franco-provençal quebec acadia belgium switzerland septante nonante huitante africa maghreb antilles dialekte",
-    h: "/knowledge/accents",
+    h: "/savoirs/accents",
   });
-  // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
+  // Every Redemittel set (/vocabulaire/formules/<id>), found by its name and its phrases.
   for (const set of redemittel.sets) {
     pages.push({
       t: `Useful phrases: ${set.name}`,
       s: `${set.phrases.length} phrases, e.g. “${set.phrases[0]?.de ?? ""}”`,
       k: `useful phrases frases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
-      h: itemPath("/vocabulary/phrases", set.id),
+      h: itemPath("/vocabulaire/formules", set.id),
     });
   }
   // Redewendungen & Sprichwörter: the hub and every phrase, found by its words, its meaning
@@ -356,7 +356,7 @@ export function buildSearchIndex() {
       t: "Idioms and proverbs",
       s: "What they mean, when to say them and where they come from",
       k: "idiom idioms proverb proverbs sayings expressions expressions idiomatiques",
-      h: "/knowledge/idioms",
+      h: "/savoirs/expressions",
     });
     for (const e of rwEintraege) {
       pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} idiom`.toLowerCase(), h: rwHref(e) });
@@ -366,7 +366,7 @@ export function buildSearchIndex() {
     t: "Informal French and slang",
     s: "How people really talk in France, with standard French next to it and what never to say",
     k: "informal french slang colloquial spoken french verlan swear words youth slang bosser kiffer ouf fric boulot truc mec meuf relou chelou t'as y a",
-    h: "/knowledge/slang",
+    h: "/savoirs/argot",
   });
 
   // A word links to its Lernset when that set has a page, else to the level's full list,
@@ -382,11 +382,11 @@ export function buildSearchIndex() {
       w.plural ?? "",
       w.en,
       w.level,
-      `${builtSets.has(w.unit) ? `/vocabulary/${w.unit}` : `/vocabulary/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
+      `${builtSets.has(w.unit) ? `/vocabulaire/${w.unit}` : `/vocabulaire/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
       w.pos ?? "",
     ]);
 
-  // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
+  // Verb tables (/grammaire/verbes): [infinitive, preview, href, every form]. Every form
   // so that "prends", "fait" or "fasse" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
@@ -403,7 +403,7 @@ export function buildSearchIndex() {
     .map((s) => [
       s.title,
       s.level ?? "",
-      `/vocabulary/${s.id}`,
+      `/vocabulaire/${s.id}`,
       [s.moduleTitle ?? "", ...(s.topics ?? []), lernsetKeywords(s.id)].join(" ").replace(/&/g, " ").replace(/\s+/g, " ").trim(),
       [...new Set(lernsetCardsWords(s.id))].join("|"),
     ]);
@@ -422,7 +422,7 @@ export function buildSearchIndex() {
   const have = new Set(pages.map((p) => p.h));
   for (const p of seitenSuche) if (!have.has(p.h)) pages.push(p);
   // Zitat des Tages: found by every author, not by its 366 single quotes.
-  const zitatHub = pages.find((p) => p.h === "/knowledge/quotes");
+  const zitatHub = pages.find((p) => p.h === "/savoirs/citations");
   if (zitatHub) zitatHub.k = `${zitatHub.k ?? ""} zitat zitate ${Object.values(zitate.authors).map((a) => a.name).join(" ")}`.toLowerCase();
   return { topics, pages, words, verbs, sets, refs };
 }

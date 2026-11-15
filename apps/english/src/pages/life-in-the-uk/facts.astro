@@ -59,10 +59,10 @@ const glossTx = (term: string) => tx.glossary?.[term] ?? {};
 const editions = (id: string, what: string, key: string) =>
   (files.find((f) => f.id === id)?.editions ?? []).map((e: any) => ({ href: e.href, label: `${what} · ${e.label}`, key, vars: { lang: e.label } }));
 const downloads: { href: string; label: string; key?: string; vars?: Record<string, string> }[] = [
-  { href: "/downloads/leben-in-deutschland-fakten.pdf", label: "Fakten als PDF", key: "lid.fk.dl.facts" },
-  ...editions("lid-fakten", "Fakten", "lid.fk.dl.factsEd"),
-  { href: "/downloads/leben-in-deutschland-fakten-einfach.pdf", label: "Fakten in einfachem Deutsch (PDF)", key: "lid.fk.dl.easy" },
-  ...editions("lid-fakten-einfach", "Einfach", "lid.fk.dl.easyEd"),
+  { href: "/downloads/life-in-the-uk-facts.pdf", label: "Facts as PDF", key: "lid.fk.dl.facts" },
+  ...editions("lid-fakten", "Facts", "lid.fk.dl.factsEd"),
+  { href: "/downloads/life-in-the-uk-facts-simple.pdf", label: "Facts in simple English (PDF)", key: "lid.fk.dl.easy" },
+  ...editions("lid-fakten-einfach", "Simple", "lid.fk.dl.easyEd"),
 ];
 const dlVars = (d: { vars?: Record<string, string> }) => (d.vars ? JSON.stringify(d.vars) : undefined);
 ---

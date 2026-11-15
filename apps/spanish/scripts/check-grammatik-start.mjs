@@ -7,7 +7,7 @@
 //   node scripts/check-grammatik-start.mjs --skeleton ro   writes ro.json with the English
 //                                                          text in every slot, to translate
 //
-// A skeleton has status "skeleton": no PDF edition and no chapter titles on /knowledge, and this
+// A skeleton has status "skeleton": no PDF edition and no chapter titles on /conocimientos, and this
 // check only names it. Whoever translates it sets the status to "draft"; the check then applies.
 //
 // What gets translated (the book rule): the explaining blocks — intro, why, h, rule, merke,

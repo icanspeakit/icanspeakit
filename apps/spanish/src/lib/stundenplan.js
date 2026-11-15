@@ -1,4 +1,4 @@
-// The Stundenplan generator (/teachers/timetable): one block of the course plan
+// The Stundenplan generator (/profesores/horario): one block of the course plan
 // (src/data/kursinhalte.json) → N lessons of M minutes, each split into timed phases with
 // an activity and links to what the site has for it. No AI and no randomness: the same
 // block, number of lessons and length always give the same plan, so a link to it can be
@@ -146,8 +146,8 @@ export function videoSearch(name, level) {
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // SIELE = /siele/levels, DELE = /dele.
-  if (/SIELE/.test(text)) return "/siele/levels";
+  // SIELE = /siele/niveles, DELE = /dele.
+  if (/SIELE/.test(text)) return "/siele/niveles";
   if (/DELE/.test(text)) return "/dele";
   return null;
 }
@@ -238,8 +238,8 @@ export function build({ level, block, n, minutes, links }) {
   const gPer = spread(grammarIdx, teach);
   const kPer = spread(block.kannZiele, teach);
   const seen = new Set();
-  const quiz = { name: "Start a live quiz", href: "/teachers/quiz" };
-  const test = { name: "Topic test by QR code", href: "/teachers/tests" };
+  const quiz = { name: "Start a live quiz", href: "/profesores/cuestionario" };
+  const test = { name: "Topic test by QR code", href: "/profesores/pruebas" };
 
   const lessons = [];
   for (let i = 0; i < n; i++) {

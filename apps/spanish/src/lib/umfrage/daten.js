@@ -21,7 +21,7 @@ export const normCode = (s) => String(s ?? "").toUpperCase().replace(/[^A-Z0-9]/
 export const isCode = (s) => CODE_RE.test(normCode(s));
 
 /** The link a student opens (or the QR code encodes). */
-export const umfrageLink = (code, origin = location.origin) => `${origin}${withBase("/survey")}?c=${encodeURIComponent(code)}`;
+export const umfrageLink = (code, origin = location.origin) => `${origin}${withBase("/encuesta")}?c=${encodeURIComponent(code)}`;
 
 /* ------------------------------------------------------------------ teacher ---- */
 

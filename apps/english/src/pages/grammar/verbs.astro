@@ -67,7 +67,7 @@ const COLS = [
     <nav class="vb-jump" aria-label="Verbs" data-i18n-attr="aria-label:verben.jumpLabel">
       {byGroup.map((g) => (
         <div class="vb-jump-group">
-          <a class="vb-jump-label" href={`#gruppe-${g.id}`} data-i18n={`${gKey(g.id)}.name`}>{g.name}</a>
+          <a class="vb-jump-label" href={`#group-${g.id}`} data-i18n={`${gKey(g.id)}.name`}>{g.name}</a>
           <div class="vb-jump-list" lang="en">
             {g.verbs.map((v) => <a class={`vb-chip vb-chip--${g.id}`} href={`#${v.id}`}>{v.inf}</a>)}
           </div>
@@ -76,7 +76,7 @@ const COLS = [
     </nav>
 
     {byGroup.map((g, i) => (
-      <section class={`vb-group vb-group--${g.id}`} id={`gruppe-${g.id}`}>
+      <section class={`vb-group vb-group--${g.id}`} id={`group-${g.id}`}>
         <header class="vb-group-head">
           <span class="vb-group-num" aria-hidden="true">{i + 1}</span>
           <div>

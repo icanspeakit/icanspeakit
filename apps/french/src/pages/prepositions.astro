@@ -43,8 +43,8 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
   A2: [{ href: "/a-en-au-places", label: "à, en, au: towns and countries – in depth", key: "praep.more.wechsel" }],
-  B1: [{ href: "/verbs-prepositions", label: "Verbs + à and de – in depth", key: "praep.more.verben" }],
-  B2: [{ href: "/adjectives-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
+  B1: [{ href: "/verbes-et-prepositions", label: "Verbs + à and de – in depth", key: "praep.more.verben" }],
+  B2: [{ href: "/adjectifs-et-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
 };
 
 // Everything the client needs: questions by pack, with the pack id on each question.
@@ -120,7 +120,7 @@ const overview = {
                 <div class="nvb-section ap-sets" id="ap-pane-fortschritt" data-pane="fortschritt" hidden>
                   <div class="nvb-panelhead"><h3 data-i18n="sets.prog.title">Dein Fortschritt</h3></div>
                   <div data-snav-overview></div>
-                  <a class="snav-more" href="/progress" data-i18n="sets.prog.more">Alles im Fortschritt ansehen</a>
+                  <a class="snav-more" href="/progression" data-i18n="sets.prog.more">Alles im Fortschritt ansehen</a>
                 </div>
                 {LEVELS.map((level, i) => (
                   <div class="nvb-section ap-sets" id={`ap-pane-${level}`} data-pane={level} hidden={i !== 0}>

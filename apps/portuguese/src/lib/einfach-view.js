@@ -1,4 +1,4 @@
-/* /step-by-step — the screens.
+/* /passo-a-passo — the screens.
  *
  * One <div> is handed in and every screen is rendered into it, so there is exactly one
  * thing on the phone at a time and no scroll position to lose between steps. Routing is
@@ -125,7 +125,7 @@ const articleQuestion = (task) => {
   const o = articleOptions(task);
   return `${o.slice(0, -1).join(", ")} or ${o[o.length - 1]}?`;
 };
-const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="${withBase("/account")}">Account → Settings</a>.</p>`;
+const MASCOTS_OFF_NOTE = `<p class="el-note" role="status">The mascots are off. To turn them on again: <a href="${withBase("/conta")}">Account → Settings</a>.</p>`;
 
 export function mountEinfach(root) {
   let state = loadState();

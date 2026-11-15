@@ -431,18 +431,26 @@ const opening = views.reduce((best, s) => (s.total > best.total ? s : best), vie
     });
   });
 
+  // The address names the skill in the course language (#listening); the tab ids and the
+  // remembered choice stay the skill ids of the data (hoeren, lesen, schreiben, sprechen).
+  // The old German fragments keep working because they are the ids themselves.
+  const FRAGMENT: Record<string, string> = {
+    "listening": "hoeren", "reading": "lesen",
+    "writing": "schreiben", "speaking": "sprechen",
+  };
+  const hashId = () => { const h = location.hash.slice(1); return FRAGMENT[h] ?? h; };
   const known = (id: string) => tabs.some((t) => t.dataset.fkTab === id);
 
   // A #hoeren style link (or the remembered choice) opens that skill rather than the
   // default one. hashchange as well as load: a link to #sprechen from elsewhere on this
   // page never reloads it, so without this the hash would change and nothing would move.
   function fromHash() {
-    const id = location.hash.slice(1);
+    const id = hashId();
     if (known(id)) show(id);
   }
   addEventListener("hashchange", fromHash);
 
-  if (known(location.hash.slice(1))) {
+  if (known(hashId())) {
     fromHash();
   } else {
     let saved = "";

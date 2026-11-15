@@ -1,4 +1,4 @@
-// Shared, honest progress tracking for the /exercises dashboard. No accounts, no server —
+// Shared, honest progress tracking for the /exercicios dashboard. No accounts, no server —
 // everything lives in this browser's localStorage. Every number the dashboard shows is derived
 // from real recorded activity; nothing here is a placeholder or estimate presented as fact.
 const STORE_KEY = "da_progress_v1";
@@ -54,7 +54,7 @@ function save(data) {
 // Where the learner was when something got graded. recordAttempt/recordSession always run
 // inside the tool's own page, so the route and its <title> ARE the record — no call site has
 // to pass them, and a page that never grades anything never appears here. This is the only
-// thing the "Weitermachen" card on /exercises and / is built from; if it is empty, that card
+// thing the "Weitermachen" card on /exercicios and / is built from; if it is empty, that card
 // does not render at all rather than inventing a plausible last session.
 function remember(data) {
   if (typeof location === "undefined") return;

@@ -3,7 +3,7 @@
  *
  * The site has almost no redirects (docs/content-plan.md §7, §8), so a link to an address that
  * has no page is a 404. This scans src/ and public/i18n/en.json for strings that are a site path
- * ("/por-para", href="/dele/a2#lesen", `/listening/${id}`) and checks each one against the page
+ * ("/por-para", href="/dele/a2#lesen", `/comprension-auditiva/${id}`) and checks each one against the page
  * files in src/pages. A [param] folder accepts any segment, except where the id tables in
  * src/lib/routes.js know better: the top level takes only grammar topics, an item section takes
  * no raw data id that has a URL slug of its own. `pnpm check:base` looks at the built HTML; this
@@ -63,9 +63,9 @@ function resolves(segs) {
   if (segs.length === 0) return true;
   if (isTopicPage(segs)) return true;
   if (rawId(segs)) return false;
-  // An id-based section with a work group: /spanish-for-work/<sector>/<group>.
-  if (segs[0] === "spanish-for-work" && segs[1]) {
-    if (!Object.values(ITEM_SLUGS["/spanish-for-work"]).includes(segs[1])) return false;
+  // An id-based section with a work group: /espanol-para-el-trabajo/<sector>/<group>.
+  if (segs[0] === "espanol-para-el-trabajo" && segs[1]) {
+    if (!Object.values(ITEM_SLUGS["/espanol-para-el-trabajo"]).includes(segs[1])) return false;
     if (segs[2] && segs[2] !== "print" && !Object.values(WORK_GROUP_SLUGS).includes(segs[2]) && segs[2] in WORK_GROUP_SLUGS) return false;
   }
   return routes.some((r) => {
@@ -81,7 +81,7 @@ function resolves(segs) {
 // `(` of a markdown link or `=` of a query (?next=/x). Ends at a quote, #, ?, ) or \.
 const LINK = /(?<=["'`(=])\/[a-z0-9][a-zA-Z0-9_./[\]-]*(?:\$\{[^}]*\}[a-zA-Z0-9_./-]*)*(?=["'`)#?\\&]|\$\{|$)/gm;
 
-const SKIP_FILE = /[\\/]styles[\\/]|\.css$|\.svg$|hub-bilder\.manifest\.json$/;
+const SKIP_FILE = /[\\/]styles[\\/]|\.css$|\.svg$|hub-bilder\.manifest\.json$|legacy-redirects\.json$/;
 // Fields that hold a path that isn't this site's: API paths, data files read from public/.
 const NOT_A_PAGE = /^\/(api|node_modules|src|tmp|usr|dev|bin|etc|sb-|_astro|\.)/;
 // Looks like a link, is none, or is known to have no page. Say why, so the list stays short.
@@ -90,9 +90,9 @@ const KNOWN = new Map([
   ["/index.html", "a file name in the sitemap code"],
   ["/month", "price text: 9 € /month"],
   ["/audio", "recordings, which arrive with an es-ES voice; the player hides without them"],
-  ["/teachers/cards/lexikon", "folder of the JSON endpoint lexikon/[level].json"],
+  ["/profesores/tarjetas/lexikon", "folder of the JSON endpoint lexikon/[level].json"],
   ["/test", "a class test needs a backend: no page until there is one (src/lib/klassentest)"],
-  ["/game/hochstapler", "class mode of the impostor game needs live rooms: no page in this build"],
+  ["/juego/hochstapler", "class mode of the impostor game needs live rooms: no page in this build"],
   ["/intern/meldungen", "demo dock only, not in a visitor's page"],
 ]);
 const isKnown = (raw) => {
@@ -123,7 +123,7 @@ for (const file of files) {
     const raw = m[0];
     const line = src.slice(0, m.index).split("\n").length;
     if (isKnown(raw) || NOT_A_PAGE.test(raw) || PUBLIC.has(raw.split("/")[1]) || /\.(png|jpe?g|webp|svg|gif|ico|mp3|mp4|webm|pdf|woff2?|css|js|txt|xml|map)$/.test(raw)) { skipped.add(raw); continue; }
-    if (raw.endsWith(".json") && !raw.startsWith("/games/")) { skipped.add(raw); continue; }
+    if (raw.endsWith(".json") && !raw.startsWith("/juegos/")) { skipped.add(raw); continue; }
     // A template part stands for one segment or more; check what is fixed around it.
     const parts = raw.replace(/\/+$/, "").split("/").filter(Boolean);
     if (parts.some((s) => s.includes("${"))) {

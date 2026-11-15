@@ -2,8 +2,8 @@
 // Decision and table: NAV-CTA-PROMPT.md. Checked in this order:
 //
 //   A · resume     has practised           → "Weiter üben" + the topic   → last.path
-//   B · level      took the placement test → "Mit A2 starten"            → /grammar#niveau-a2
-//   C · placement  nothing known           → "Wo stehe ich?" + "Einstufungstest" → /placement-test
+//   B · level      took the placement test → "Mit A2 starten"            → /gramatica#nivel-a2
+//   C · placement  nothing known           → "Wo stehe ich?" + "Einstufungstest" → /prueba-de-nivel
 //
 // C is also what the server renders, so no JS, no storage and any failure here all land on
 // the same honest button. Reads only existing keys; writes nothing.
@@ -11,7 +11,7 @@ import { getResume } from "./progress.js";
 import { withBase, stripBase, currentPath } from "./paths.js";
 
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
-const PLACEMENT = "/placement-test";
+const PLACEMENT = "/prueba-de-nivel";
 
 const norm = (p) => (stripBase(String(p || "").split(/[?#]/)[0]).replace(/\/+$/, "") || "/");
 
@@ -19,7 +19,7 @@ const norm = (p) => (stripBase(String(p || "").split(/[?#]/)[0]).replace(/\/+$/,
 export function fallbackStep(path) {
   // The button never links to the page it is on: on the test itself, point onward.
   if (norm(path) === PLACEMENT) {
-    return { state: "placement", labelKey: "nav.next.toExercises", label: "To the exercises", href: withBase("/exercises") };
+    return { state: "placement", labelKey: "nav.next.toExercises", label: "To the exercises", href: withBase("/ejercicios") };
   }
   return {
     state: "placement",
@@ -63,7 +63,7 @@ export function getNextStep(path = typeof location !== "undefined" ? currentPath
 
   const level = placementLevel();
   if (level) {
-    const href = `/grammar#niveau-${level.toLowerCase()}`;
+    const href = `/gramatica#nivel-${level.toLowerCase()}`;
     if (norm(href) !== here) {
       return { state: "level", labelKey: "nav.next.level", label: `Mit ${level} starten`, vars: { level }, href: withBase(href) };
     }

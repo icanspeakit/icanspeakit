@@ -1,4 +1,4 @@
-// /teachers/tests/result — one test's QR code and results. The results are read again
+// /insegnanti/test/risultato — one test's QR code and results. The results are read again
 // every few seconds while the tab is visible, so the table fills as the class hands in.
 //
 // The grading happened in the database (klassentest_abgeben); `korrekt` is per question, in
@@ -101,7 +101,7 @@ export async function mountErgebnis(root) {
   // Model text and examiner checklist for the writing task: teacher-only, from the pool.
   let fk = { schreiben: [] };
   if (PARTS.includes("schreiben")) {
-    try { fk = await (await fetch(withBase("/teachers/tests/fertigkeiten.json"))).json(); } catch (err) { console.error(err); }
+    try { fk = await (await fetch(withBase("/insegnanti/test/fertigkeiten.json"))).json(); } catch (err) { console.error(err); }
   }
   const entwurf = new Map(); // student key → unsaved rating, so a refresh does not wipe it
 

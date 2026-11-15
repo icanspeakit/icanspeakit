@@ -1,4 +1,4 @@
-// Shared machinery for the printable group games (/teachers/games/*): the seeded
+// Shared machinery for the printable group games (/enseignants/jeux/*): the seeded
 // shuffle, the settings in the URL, the word data, the Lernset picker, the on-screen
 // preview and the A4 sheet frame. Each game (bingo.js, domino.js, erklaeren.js) only
 // decides what goes on the sheets.
@@ -47,7 +47,7 @@ export function shuffle(list, rand) {
 
 /* ------------------------------------------------------------------ words -- */
 
-// Column order of the rows in /teachers/games/woerter-<level>.json — see
+// Column order of the rows in /enseignants/jeux/woerter-<level>.json — see
 // src/pages/lehrkraefte/spiele/woerter-[level].json.ts: five word fields, then one column per
 // card language of the registry, in its order.
 const WORD_FIELDS = ["unit", "lemma", "pos", "gender", "plural", ...langsFor("cards")];
@@ -65,7 +65,7 @@ export function loadLevel(level) {
   if (!levelCache.has(key)) {
     levelCache.set(
       key,
-      fetch(withBase(`/teachers/games/woerter-${key}.json`))
+      fetch(withBase(`/enseignants/jeux/woerter-${key}.json`))
         .then((r) => {
           if (!r.ok) throw new Error(String(r.status));
           return r.json();

@@ -42,8 +42,8 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /french-for-work/care-work, or a top-level grammar topic that belongs
-      under /grammar). Start and the page itself are added. */
+      them (a dynamic parent such as /francais-au-travail/soins, or a top-level grammar topic that belongs
+      under /grammaire). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
       GA and the Meta Pixel never load. For pages that promise it. */
@@ -75,7 +75,7 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-// The site path without the base (/francais/grammar → /grammar, src/lib/paths.js): routes,
+// The site path without the base (/francais/grammaire → /grammaire, src/lib/paths.js): routes,
 // hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
 const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
@@ -119,7 +119,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {canonical && !noindex && <link rel="canonical" href={canonical} />}
     <!-- Rights reservation for text and data mining (§ 44b UrhG, TDMRep). Same reservation as
-         robots.txt, public/.well-known/tdmrep.json and /terms. -->
+         robots.txt, public/.well-known/tdmrep.json and /conditions-generales. -->
     <meta name="tdm-reservation" content="1" />
     <!-- No "Translate this page?" prompt from Chrome or Edge.
 
@@ -138,7 +138,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /french-for-work and
+         on iOS ignores the meta tag but honours the attribute; it translated /francais-au-travail and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (NotFoundError on insertBefore; the same translation also loaded its CSS from
          www.gstatic.com). -->
@@ -369,7 +369,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         <PartOfIcanspeak />
       </footer>
     )}
-    {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
+    {/* A lesson is running (/enseignants/lecon): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
@@ -378,10 +378,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !currentPath().startsWith("/teachers/lesson")) {
+        if (running && !currentPath().startsWith("/enseignants/lecon")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && currentPath() !== "/lesson") {
-          // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
+        } else if (!running && lernt && currentPath() !== "/lecon") {
+          // A learner's Stunde (/lecon): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
         }
@@ -397,7 +397,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <script>import "../lib/notReady.js";</script>
     {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
-        Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
+        Inside the quiz pages themselves (builder, /jeu) links keep the same tab. */}
     {(
       <script is:inline define:vars={{ BASE_PATH }}>
         // Paths compared without the base (/francais, src/lib/paths.js).
@@ -414,9 +414,9 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
           }
           if (a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
+          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/enseignants/quiz") return;
           const here = strip(location.pathname);
-          if (here.startsWith("/teachers/quiz") || here.startsWith("/game")) return;
+          if (here.startsWith("/enseignants/quiz") || here.startsWith("/jeu")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
@@ -451,7 +451,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        const onProgress = currentPath().startsWith("/progress");
+        const onProgress = currentPath().startsWith("/progression");
         if (localStorage.getItem("da-tips-v1") == null || onProgress) {
           tips().then((m) => { m.noteVisit(); if (onProgress) m.markProgressSeen(); });
         }

@@ -65,13 +65,13 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 }
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
-// themselves (short). A step that is not a page (/speaking/set) is left
+// themselves (short). A step that is not a page (/expressao-oral/serie) is left
 // out of the trail rather than pointing at a 404; a dynamic one (/spanish-for-work/care-work) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammar": "Grammar",
-  "/vocabulary": "Vocabulary & phrases",
-  "/exams": "Exams",
+  "/gramatica": "Grammar",
+  "/vocabulario": "Vocabulary & phrases",
+  "/exames": "Exams",
   "/dele": "DELE",
   "/siele/levels": "SIELE by level",
   "/nationality/dele-a2": "DELE A2 for nationality",
@@ -79,22 +79,22 @@ export const SECTION_PAGES: Record<string, string> = {
   "/spanish-for-work": "Spanish for work",
   "/ccse": "CCSE",
   "/nationality": "Spanish nationality",
-  "/knowledge": "Knowledge base",
-  "/knowledge/word-stories": "Word stories",
-  "/culture": "Culture",
-  "/culture/insider": "Spain from the inside",
-  "/teachers": "For teachers",
-  "/teachers/worksheets": "Worksheets",
-  "/teachers/games": "Printable games",
-  "/teachers/classes": "Classes",
-  "/teachers/surveys": "Surveys",
-  "/teachers/tests": "Placement test for the class",
-  "/teachers/quiz": "Live quiz",
-  "/speaking": "Speaking",
-  "/listening": "Listening",
-  "/reading": "Reading",
-  "/writing": "Writing",
-  "/intonation": "Intonation",
+  "/conhecimentos": "Knowledge base",
+  "/conhecimentos/historias-de-palavras": "Word stories",
+  "/cultura": "Culture",
+  "/cultura/por-dentro": "Spain from the inside",
+  "/professores": "For teachers",
+  "/professores/fichas": "Worksheets",
+  "/professores/jogos": "Printable games",
+  "/professores/turmas": "Classes",
+  "/professores/inqueritos": "Surveys",
+  "/professores/testes": "Placement test for the class",
+  "/professores/quiz": "Live quiz",
+  "/expressao-oral": "Speaking",
+  "/compreensao-oral": "Listening",
+  "/leitura": "Reading",
+  "/escrita": "Writing",
+  "/entoacao": "Intonation",
 };
 
 /** The trail for `route` (no trailing slash): Start, each known parent page, the page itself.

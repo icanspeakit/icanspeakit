@@ -35,9 +35,9 @@ const levels = GRAMMAR_LEVELS.map((level) => ({
 }));
 const exams = [
   { label: "DELE A1 practice test", icon: "document", href: "/dele/a1", meta: "A1" },
-  { label: "DELE A2 mock for nationality", icon: "book-open", href: "/nationality/dele-a2/practice-set", meta: "A2" },
-  { label: "SIELE practice set", icon: "graduation-cap", href: "/siele/practice-set", meta: "Score" },
-  { label: "CCSE practice test", icon: "map-pin", href: "/ccse/test", meta: "Test" },
+  { label: "DELE A2 mock for nationality", icon: "book-open", href: "/nacionalidad/dele-a2/practica", meta: "A2" },
+  { label: "SIELE practice set", icon: "graduation-cap", href: "/siele/practica", meta: "Score" },
+  { label: "CCSE practice test", icon: "map-pin", href: "/ccse/prueba", meta: "Test" },
 ];
 
 // Opens on the level this topic belongs to, so the first thing in the panel is its own
@@ -131,7 +131,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
             ))}
           </div>
         </div>
-        <a class="snav-more" href="/exercises" data-i18n="tr.ov.course">Kursübersicht öffnen</a>
+        <a class="snav-more" href="/ejercicios" data-i18n="tr.ov.course">Kursübersicht öffnen</a>
       </div>
 
       {levels.map((sec) => (
@@ -169,7 +169,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
             <span class="nv-count">{item.meta}</span>
           </a>
         ))}
-        <a class="snav-more" href="/exams" data-i18n="tr.ov.exams">Alle Prüfungen öffnen</a>
+        <a class="snav-more" href="/examenes" data-i18n="tr.ov.exams">Alle Prüfungen öffnen</a>
       </div>
     </div>
   </div>

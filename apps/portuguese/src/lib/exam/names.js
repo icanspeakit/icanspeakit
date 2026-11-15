@@ -1,6 +1,6 @@
 // Display names of the exams behind the generic practice sets. The slot ids stay goethe/telc
 // (routes and storage keys); the exams they hold are the DELE and practice for the SIELE by
-// level (docs/content-plan.md §2). Kept apart from saetze.js so the /progress registry can use
+// level (docs/content-plan.md §2). Kept apart from saetze.js so the /progresso registry can use
 // the names without bundling the sets.
 export const EXAM_NAMES = { goethe: "DELE", telc: "SIELE" };
 

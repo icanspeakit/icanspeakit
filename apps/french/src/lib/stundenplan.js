@@ -1,4 +1,4 @@
-// The Stundenplan generator (/teachers/timetable): one block of the course plan
+// The Stundenplan generator (/enseignants/emploi-du-temps): one block of the course plan
 // (src/data/kursinhalte.json) → N lessons of M minutes, each split into timed phases with
 // an activity and links to what the site has for it. No AI and no randomness: the same
 // block, number of lessons and length always give the same plan, so a link to it can be
@@ -41,7 +41,7 @@ const GRAMMAR_RULES = [
   [/^Discourse markers/, ["modalpartikeln"]],
   [/^Adjectives \+ prepositions/, ["adjektive-mit-praepositionen"]],
   [/^Collocations/, ["nomen-verb-verbindungen"]],
-  [/linkers$/, ["konnektoren-grund-gegengrund"]],
+  [/connecteurs$/, ["konnektoren-grund-gegengrund"]],
   // B1
   [/^Passé composé or imparfait|Review: past tenses/, ["praeteritum-plusquamperfekt"]],
   [/^Futur simple/, ["futur"]],
@@ -239,8 +239,8 @@ export function build({ level, block, n, minutes, links }) {
   const gPer = spread(grammarIdx, teach);
   const kPer = spread(block.kannZiele, teach);
   const seen = new Set();
-  const quiz = { name: "Start a live quiz", href: "/teachers/quiz" };
-  const test = { name: "Topic test by QR code", href: "/teachers/tests" };
+  const quiz = { name: "Start a live quiz", href: "/enseignants/quiz" };
+  const test = { name: "Topic test by QR code", href: "/enseignants/tests" };
 
   const lessons = [];
   for (let i = 0; i < n; i++) {

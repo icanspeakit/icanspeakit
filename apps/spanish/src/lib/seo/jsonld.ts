@@ -66,36 +66,36 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 }
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
-// themselves (short). A step that is not a page (/speaking/set) is left
-// out of the trail rather than pointing at a 404; a dynamic one (/spanish-for-work/care-work) is named by
+// themselves (short). A step that is not a page (/expresion-oral/serie) is left
+// out of the trail rather than pointing at a 404; a dynamic one (/espanol-para-el-trabajo/cuidados) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammar": "Grammar",
-  "/vocabulary": "Vocabulary & phrases",
-  "/exams": "Exams",
+  "/gramatica": "Grammar",
+  "/vocabulario": "Vocabulary & phrases",
+  "/examenes": "Exams",
   "/dele": "DELE",
-  "/siele/levels": "SIELE by level",
-  "/nationality/dele-a2": "DELE A2 for nationality",
+  "/siele/niveles": "SIELE by level",
+  "/nacionalidad/dele-a2": "DELE A2 for nationality",
   "/siele": "SIELE",
-  "/spanish-for-work": "Spanish for work",
+  "/espanol-para-el-trabajo": "Spanish for work",
   "/ccse": "CCSE",
-  "/nationality": "Spanish nationality",
-  "/knowledge": "Knowledge base",
-  "/knowledge/word-stories": "Word stories",
-  "/culture": "Culture",
-  "/culture/insider": "Spain from the inside",
-  "/teachers": "For teachers",
-  "/teachers/worksheets": "Worksheets",
-  "/teachers/games": "Printable games",
-  "/teachers/classes": "Classes",
-  "/teachers/surveys": "Surveys",
-  "/teachers/tests": "Placement test for the class",
-  "/teachers/quiz": "Live quiz",
-  "/speaking": "Speaking",
-  "/listening": "Listening",
-  "/reading": "Reading",
-  "/writing": "Writing",
-  "/intonation": "Intonation",
+  "/nacionalidad": "Spanish nationality",
+  "/conocimientos": "Knowledge base",
+  "/conocimientos/historias-de-palabras": "Word stories",
+  "/cultura": "Culture",
+  "/cultura/por-dentro": "Spain from the inside",
+  "/profesores": "For teachers",
+  "/profesores/fichas": "Worksheets",
+  "/profesores/juegos": "Printable games",
+  "/profesores/clases": "Classes",
+  "/profesores/encuestas": "Surveys",
+  "/profesores/pruebas": "Placement test for the class",
+  "/profesores/cuestionario": "Live quiz",
+  "/expresion-oral": "Speaking",
+  "/comprension-auditiva": "Listening",
+  "/comprension-lectora": "Reading",
+  "/expresion-escrita": "Writing",
+  "/entonacion": "Intonation",
 };
 
 /** The trail for `route` (no trailing slash): Start, each known parent page, the page itself.

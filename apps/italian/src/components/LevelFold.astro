@@ -58,7 +58,7 @@ const ENTRY = [
 
 // A phone panel that scrolls is a panel nobody reads to the end of, and B1 has
 // eleven topics. So the level's own entry topic leads, four more follow, and the
-// rest live one tap further on at /grammar.
+// rest live one tap further on at /grammatica.
 const PANEL_TOPICS = 5;
 
 const LEVELS = ENTRY.map(({ level, slug }) => {
@@ -76,7 +76,7 @@ const LEVELS = ENTRY.map(({ level, slug }) => {
     count: all.length,
     slug: level.toLowerCase(),
     topics: [...all.filter((t) => t.href === href), ...all.filter((t) => t.href !== href)],
-    words: words > 0 ? { href: `/vocabulary/${level.toLowerCase()}`, count: words } : null,
+    words: words > 0 ? { href: `/vocabolario/${level.toLowerCase()}`, count: words } : null,
   };
 });
 
@@ -85,7 +85,7 @@ const LEVELS = ENTRY.map(({ level, slug }) => {
 // notice, go back, guess again. Someone who cannot place themselves on the CEFR scale also
 // cannot tell from one exercise whether a topic is beneath them, so the guess mostly stood.
 // Eight questions answer it instead.
-const unsureHref = "/placement-test";
+const unsureHref = "/test-di-livello";
 
 const EXAM_CHIPS = [
   { label: "DELE", href: "/dele" },
@@ -152,7 +152,7 @@ const EXAM_CHIPS = [
             ))}
           </div>
           {l.topics.length > PANEL_TOPICS && (
-            <a class="lf-panel-all" href={`/grammar#niveau-${l.slug}`} data-i18n="fold.allTopics" data-i18n-vars={JSON.stringify({ n: l.topics.length })}>
+            <a class="lf-panel-all" href={`/grammatica#livello-${l.slug}`} data-i18n="fold.allTopics" data-i18n-vars={JSON.stringify({ n: l.topics.length })}>
               Alle {l.topics.length} Themen →
             </a>
           )}

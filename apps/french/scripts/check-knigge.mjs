@@ -42,7 +42,7 @@ const GENDERED = { test: (s) => SELF.test(s) || TO_PLAYER.test(s) };
 // Spanish leftovers in the French, English-course leftovers in the English.
 const LEFTOVER = /[ñ¿¡]|\b(usted|señora?|gracias|hola|vale|vosotros|camarero|euros? con)\b/i;
 
-const culture = new Set(Object.values(ITEM_SLUGS["/culture/insider"] ?? {}).map((s) => `/culture/insider/${s}`));
+const culture = new Set(Object.values(ITEM_SLUGS["/culture/codes-sociaux"] ?? {}).map((s) => `/culture/codes-sociaux/${s}`));
 const topics = Array.isArray(kultur) ? kultur : kultur.topics ?? Object.values(kultur).find(Array.isArray);
 for (const x of topics ?? []) culture.add(`/culture/${ITEM_SLUGS["/culture"]?.[x.id] ?? x.id}`);
 

@@ -613,10 +613,10 @@ async function build(lang) {
     y += draw(ui.backLead, MARGIN, y, W, { size: 11, rtl: r, color: MUTED }) + 12;
 
     const links = [
-      [ui.back1, `${SITE}/grammar`],
-      [ui.back2, `${SITE}/vocabulary`],
-      [ui.back3, `${SITE}/placement-test`],
-      [ui.back4, `${SITE}/exams`],
+      [ui.back1, `${SITE}/grammatica`],
+      [ui.back2, `${SITE}/vocabolario`],
+      [ui.back3, `${SITE}/test-di-livello`],
+      [ui.back4, `${SITE}/esami`],
     ];
     const qrW = 118;
     const listW = W - qrW - 24;

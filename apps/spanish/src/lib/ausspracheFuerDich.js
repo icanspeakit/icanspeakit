@@ -1,7 +1,7 @@
 // „Für dich": the pronunciation drills by first language, wired up in the browser —
-// src/components/AusspracheFuerDich.astro renders them, on /culture/mistakes (under each
+// src/components/AusspracheFuerDich.astro renders them, on /cultura/errores (under each
 // language) and in the Aussprache-Check (the „Für dich" section). Was ausspracheDrills.js,
-// which only served /culture/mistakes.
+// which only served /cultura/errores.
 //
 // Three things per drill:
 //   [data-say]        a word or sentence to hear — the pre-made Azure mp3, the browser's
@@ -172,7 +172,7 @@ function mountRecord(root, ctx) {
  * Wire up every „Für dich" block under `scope`.
  *   info     the first-language data (src/lib/mutterspracheData.ts), embedded by the page
  *   lang()   the learner's first language for findings; a block with data-af-lang uses its own
- *   why      show „Warum passiert das?" links (false on /culture/mistakes, where the reason is on screen)
+ *   why      show „Warum passiert das?" links (false on /cultura/errores, where the reason is on screen)
  *   onFindings(box)  called after findings render, for the page to intercept links
  */
 export function mountFuerDich(scope, { info, lang = () => null, why = true, onFindings } = {}) {

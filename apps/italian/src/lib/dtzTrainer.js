@@ -478,7 +478,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
   const hoerenIds = ids.filter((i) => i <= 20);
   const lesenIds = ids.filter((i) => i > 20);
   let current = 0; // index into data.parts; data.parts.length === the Schreiben tab
-  // A link may open one part: /nationality/dele-a2/practice-set#l5, #schreiben (the cards on /exams/traps).
+  // A link may open one part: /nationality/dele-a2/practice-set#l5, #schreiben (the cards on /esami/trappole).
   const hash = location.hash.slice(1);
   if (hash === "schreiben") current = data.parts.length;
   else if (data.parts.some((p) => p.key === hash)) current = data.parts.findIndex((p) => p.key === hash);
@@ -660,7 +660,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
           <table class="format-table"><thead><tr><th>${escapeHtml(t("dtz.th.part"))}</th><th>${escapeHtml(t("dtz.th.correct"))}</th></tr></thead><tbody>${rows}</tbody></table>
         </div>
         ${upsell(data)}
-        ${score < total ? `<p class="dtz-note"><a href="${withBase("/my-mistakes")}">${escapeHtml(tOr("fehler.saved", `${total - score} mistakes saved: My mistakes`, { n: total - score }))}</a></p>` : ""}
+        ${score < total ? `<p class="dtz-note"><a href="${withBase("/i-miei-errori")}">${escapeHtml(tOr("fehler.saved", `${total - score} mistakes saved: My mistakes`, { n: total - score }))}</a></p>` : ""}
         <div class="dtz-actions">
           <button type="button" class="vp-link-btn" data-dtz-reset>${escapeHtml(t("dtz.restart"))}</button>
         </div>`;

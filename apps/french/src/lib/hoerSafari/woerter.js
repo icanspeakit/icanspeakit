@@ -4,7 +4,7 @@
 //
 // `a` keeps the lexicon's clip slug for when recordings exist; until then the browser's French
 // voice speaks (game.js say()). `m` is the English meaning; the other interface languages are
-// fetched from /vocabulary/glosses/ by the game.
+// fetched from /vocabulaire/glosses/ by the game.
 import { nouns } from "../lexicon.js";
 import { wortBild } from "../wortBild.js";
 // le / la only: hearing l'école can't tell the gender (content-plan §5.9).
