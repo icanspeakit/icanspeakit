@@ -10,6 +10,7 @@
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import lehrplan from "../../data/grammatik-lehrplan.json";
+import extras from "../../data/lektion-extras.json";
 import "../../styles/practice.css";
 import "../../styles/verben-praepositionen.css";
 import "../../styles/grammar-run.css";
@@ -76,6 +77,9 @@ const stations = ordered.map((w) => ({
   ...(w.part ? { part: w.part } : { subtitle: w.subtitle, subtitleKey: w.subtitleKey }),
   only: w.only,
   href: topicPath(w.slug ?? w.id),
+  // The words a lesson starts with and the sentence it ends with (lektion-extras.json).
+  // A later level's part of a split topic gets neither: the first part already had them.
+  ...(!w.part && extras.topics[w.id] ? { words: extras.topics[w.id].words, canSay: extras.topics[w.id].canSay } : {}),
   // Each exercise's title and hint in the UI languages, for grammarRun.js (uitHtml).
   exercises: w.exercises.map((ex) => ({ ...ex, titleTr: uiTr(ex.title), hintTr: uiTr(ex.hint) })),
 }));
@@ -90,7 +94,7 @@ const stations = ordered.map((w) => ({
   <main class="run-page" id="run-page">
     <a href="/grammaire" class="vp-back-link" data-i18n="run.back">Selbst auswählen</a>
 
-    <div class="run-shell" data-run>
+    <div class="run-shell" data-run data-run-lang={extras.lang}>
       <!-- The rail is the whole chrome: where you are, and nothing else to decide. -->
       <div class="run-rail">
         <div class="run-track"><i data-run-bar></i></div>
