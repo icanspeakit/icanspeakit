@@ -1,0 +1,135 @@
+/* The nav look of deutschacademy since 2026-11-14 (its nav-kompakt.css "5 · Kacheln" plus
+   nav-flach.css), ported 2026-11-15. Square and flat: panels hang flush under the bar with
+   no frame, every column headed by a filled square, the "All …" box as a plain grey tile,
+   no box inside the box (the chip rows and level codes are plain text links).
+   icanspeak differences on purpose (brand/kit/BRAND.md): Inter stays the font, the head
+   squares use the four brand colours (Regi yellow = grammar, Hamsti green = vocabulary,
+   Quaki coral = speaking, Bruno sky = the rest), and the header stays white.
+   Loaded after site-nav.css (SiteNav, NavMenubar, NavDrawer) and identical in every app. */
+
+.lp-nav {
+  --nf-yellow: #FFC21A;
+  --nf-sky: #6FD6FF;
+  --nf-coral: #FF6F5E;
+  --nf-green: #4CD98B;
+  --nf-tile: #f3f4f6;
+  --nf-start: #fff8e1;
+  --nf-open: #fff1c7;
+  --nf-sq-ink: #172A6E;
+}
+:root[data-theme="dark"] .lp-nav {
+  --nf-tile: var(--surface);
+  --nf-start: var(--surface);
+  --nf-open: var(--surface);
+}
+
+/* ── The bar ─────────────────────────────────────────────────────────────── */
+.lp-nav .lp-menu-btn { border-radius: 4px; font-size: 15px; font-weight: var(--fw-medium); letter-spacing: 0; }
+.lp-nav .lp-menu-btn[aria-expanded="true"] { background: var(--nf-open); }
+.lp-nav :is(.lp-nav-icon, .theme-toggle, .lp-nav-einfach, .lp-acct-btn, .da-auth-avatar, .lang-switcher-btn) { border-radius: 6px; }
+.lp-nav .lp-nav-utils > * :is(button, a) { border-radius: 6px; }
+.lp-nav .lp-next { box-shadow: none; border-radius: 6px; }
+
+/* ── Panels: flush, square, no frame ─────────────────────────────────────── */
+.lp-nav .lp-panel { top: 100%; border: 0; border-radius: 6px; box-shadow: 0 18px 40px rgba(15, 23, 42, .14); }
+.lp-nav .lp-panel--mega { padding: 0; overflow: hidden; }
+.lp-nav .lp-panel::before { inset: -14px 0 100% 0; }
+/* The mega panels are wider than the room right of icanspeak's lockup (wordmark + course pill
+   is twice deutschacademy's logo): they open from the bar's left edge instead of from their
+   button, so they never run off the screen. */
+.lp-nav .lp-nav-row { position: relative; }
+.lp-nav .lp-menu:has(> .lp-panel--mega) { position: static; }
+.lp-nav .lp-panel--mega { left: 0; right: auto; max-width: 100%; }
+
+.lp-nav .lp-mega-cols { gap: 0; }
+.lp-nav .lp-mega-col { padding: 18px 18px 20px; }
+.lp-nav .lp-mega-col + .lp-mega-col { border-left: 0; }
+.lp-nav .lp-mega-col--start { background: var(--nf-start); }
+.lp-nav .lp-mega-rule { display: none; }
+
+/* Column heads: a filled square with the icon. */
+.lp-nav .lp-mega-head .lp-panel-head-ic,
+.lp-nav #lp-panel-lehrkraefte .lp-panel-head .lp-panel-head-ic {
+  flex: 0 0 auto; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 3px;
+  color: var(--nf-sq-ink); background: var(--nf-sky);
+}
+.lp-nav #lp-panel-ueben .lp-mega-col:nth-child(2) .lp-panel-head-ic { background: var(--nf-yellow); }
+.lp-nav #lp-panel-ueben .lp-mega-col:nth-child(3) .lp-panel-head-ic { background: var(--nf-green); }
+.lp-nav #lp-panel-ueben .lp-mega-col:nth-child(4) .lp-panel-head-ic { background: var(--nf-coral); }
+.lp-nav #lp-panel-ueben .lp-mega-col:nth-child(5) .lp-panel-head-ic { background: var(--nf-sky); }
+.lp-nav .lp-panel--wissen .lp-mega-col:nth-child(1) .lp-panel-head-ic { background: var(--nf-yellow); }
+.lp-nav .lp-panel--wissen .lp-mega-col:nth-child(2) .lp-panel-head-ic { background: var(--nf-sky); }
+.lp-nav .lp-panel--wissen .lp-mega-col:nth-child(3) .lp-panel-head-ic { background: var(--nf-coral); }
+.lp-nav .lp-panel--wissen .lp-mega-col:nth-child(4) .lp-panel-head-ic { background: var(--nf-green); }
+
+/* The "All …" box: a plain grey tile. */
+.lp-nav .lp-mega-primary { border: 0; border-radius: 4px; margin-bottom: 12px; background: var(--nf-tile); }
+.lp-nav .lp-mega-primary:hover { background: var(--blue-50); }
+.lp-nav .lp-mega-primary b { color: var(--ink); }
+.lp-nav .lp-mega-col li a,
+.lp-nav .lp-panel-list a,
+.lp-nav .lp-panel-ic,
+.lp-nav .lp-ent-card { border-radius: 4px; }
+.lp-nav :is(.lp-panel--entdecken, .lp-panel--exams) { padding: 18px; }
+
+/* "Where to start?": the level code as plain bold text, not a badge. */
+.lp-nav .lp-mega-level-code {
+  min-width: 1.6em; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+  font-weight: var(--fw-bold); color: var(--brand-blue-dark);
+}
+.lp-nav .lp-mega-col li a.lp-mega-level:hover .lp-mega-level-code { border: 0; color: var(--ink); }
+
+/* ── Rows of one kind as one row (NavMenubar): plain text links, no box in the box ── */
+.lp-nav .lp-mega-col li .lp-mega-chips {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0;
+  margin: 0 8px 8px; padding: 0;
+}
+.lp-nav .lp-mega-col li .lp-mega-chips a {
+  display: inline; min-height: 0; padding: 3px 0; margin: 0;
+  border: 0; border-radius: 0; background: none; box-shadow: none;
+  font-size: .9rem; font-weight: var(--fw-semibold); color: var(--brand-blue-dark);
+  text-decoration: none;
+}
+/* A1 A2 … C2: one line, separated by space only (deutschacademy 2026-11-15). */
+.lp-nav .lp-mega-col li .lp-mega-chips--lv { flex-direction: row; flex-wrap: nowrap; align-items: baseline; column-gap: .7em; white-space: nowrap; }
+.lp-nav .lp-mega-col li .lp-mega-chips--lv a { padding: 4px 0; }
+.lp-nav .lp-mega-col li .lp-mega-chips a:hover,
+.lp-nav .lp-mega-col li .lp-mega-chips a:focus-visible {
+  color: var(--ink); text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* ── For teachers: the same panel standard ───────────────────────────────── */
+.lp-nav #lp-panel-lehrkraefte { padding: 22px 24px 18px; }
+.lp-nav #lp-panel-lehrkraefte .lp-lk-cols { gap: 10px 24px; }
+.lp-nav #lp-panel-lehrkraefte .lp-lk-col { padding: 0; margin: 0; border: 0; }
+.lp-nav #lp-panel-lehrkraefte .lp-panel-head {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 6px; padding: 4px 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink);
+}
+.lp-nav #lp-panel-lehrkraefte .lp-lk-col:nth-child(1) .lp-panel-head-ic { background: var(--nf-yellow); }
+.lp-nav #lp-panel-lehrkraefte .lp-lk-col:nth-child(2) .lp-panel-head-ic { background: var(--nf-sky); }
+.lp-nav #lp-panel-lehrkraefte .lp-lk-col:nth-child(3) .lp-panel-head-ic { background: var(--nf-coral); }
+.lp-nav #lp-panel-lehrkraefte .lp-mega-primary { display: block; margin: 0 0 14px; padding: 9px 10px; }
+.lp-nav #lp-panel-lehrkraefte .lp-panel-ic { display: none; }
+.lp-nav #lp-panel-lehrkraefte .lp-panel-list a { display: block; margin: 0; padding: 7px 8px; }
+
+/* ── The phone drawer ────────────────────────────────────────────────────── */
+.lp-drawer .lp-drawer-ic { width: 28px; height: 28px; border-radius: 3px; background: none; color: var(--brand-blue-dark); box-shadow: none; }
+.lp-drawer .lp-drawer-row[data-drawer-to="sub:grammatik"] .lp-drawer-ic { background: #FFC21A; color: #172A6E; }
+.lp-drawer .lp-drawer-row[data-drawer-to="sub:wortschatz"] .lp-drawer-ic { background: #4CD98B; color: #172A6E; }
+.lp-drawer .lp-drawer-row[data-drawer-to="sub:fertigkeiten"] .lp-drawer-ic { background: #FF6F5E; color: #172A6E; }
+.lp-drawer .lp-drawer-row[data-drawer-to="sub:spiele"] .lp-drawer-ic { background: #6FD6FF; color: #172A6E; }
+.lp-drawer .lp-drawer-einfach { border: 1px solid var(--border); background: var(--surface); box-shadow: none; }
+.lp-drawer .lp-drawer-foot .lp-btn { background: var(--brand-blue); background-image: none; box-shadow: none; border: 0; border-radius: 999px; }
+.lp-drawer .lp-drawer-foot .lp-btn:hover { background: var(--brand-blue-dark); }
+.lp-drawer .lp-drawer-levelbar { background: none; box-shadow: none; column-gap: .9em; }
+.lp-drawer .lp-drawer-levelbar a {
+  min-width: 0; min-height: 40px; padding: 0 2px; border: 0; border-radius: 0; background: none; box-shadow: none;
+  display: inline-flex; align-items: center; font-weight: 700; color: var(--brand-blue-dark);
+}
+.lp-drawer .lp-drawer-row--overview { border: 0; border-radius: 4px; background: #f3f4f6; color: var(--ink); }
+:root[data-theme="dark"] .lp-drawer .lp-drawer-row--overview { background: var(--surface); }
+.lp-drawer .lp-drawer-levels { gap: 0 12px; }
+.lp-drawer .lp-drawer-levels .lp-level-tile { min-height: 0; padding: 10px 8px; border: 0; border-radius: 4px; background: none; box-shadow: none; }
+.lp-drawer .lp-drawer-levels .lp-level-tile:hover { background: var(--surface); }
+.lp-drawer .lp-drawer-levels .lp-level-tile b { font-size: 18px; color: var(--brand-blue-dark); }

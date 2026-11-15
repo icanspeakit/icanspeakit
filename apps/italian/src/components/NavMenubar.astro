@@ -37,6 +37,7 @@ import Icon from "./Icon.astro";
 import { navSections, navUeben, navUebenMenu, navWissenMenu, navLehrkraefte, navNachschlagen, navEntdecken } from "../lib/catalog.js";
 import { mascotSvg } from "../lib/mascots.js";
 import "../styles/site-nav.css";
+import "../styles/nav-flach.css";
 
 interface Props {
   /** Marks the current section so its menu button reads as active. */
@@ -59,6 +60,43 @@ const OLD_LIKE = ["lean", "old", "oldplus", "oldbooks", "oldchips"];
 const wissenCols = OLD_LIKE.includes(wissenVariant)
   ? navWissenMenu.columns.filter((c) => c.id !== "nachschlagen")
   : navWissenMenu.columns;
+
+// The deutschacademy nav standard (its commits 080d3d7 "dicht" and da6d8f2, 2026-11-13/14),
+// ported 2026-11-15: rows of one kind become one row with links under it, so the columns
+// stay short. Quick trainers as one row, the word lists as "A1 A2 B1 B2", the pronunciation
+// rows under Pronunciation, Kulturwissen's level topics as one level row. Nothing is dropped.
+// The look is in nav-flach.css.
+const uebenCols = navUebenMenu.columns.map((col) => {
+  const it = col.items;
+  if (col.id === "grammatik") {
+    const tr = it.filter((i) => i.titleKey !== "nav.wissen.nachschlagen");
+    if (tr.length < 2) return col;
+    return { ...col, items: [{ href: tr[0].href, titleKey: "nav.quick.title", title: "Schnelltrainer", hintKey: "nav.quick.hint", hint: "je ca. 5 Min", chips: tr }, ...it.filter((i) => !tr.includes(i))] };
+  }
+  if (col.id === "wortschatz") {
+    const lists = it.filter((i) => i.titleVars?.level);
+    if (lists.length < 2) return col;
+    return { ...col, items: [{ href: lists[0].href, titleKey: "nav.vocab.lists", title: "Wortlisten", hintKey: "nav.grammatik.allHint", hint: "nach Niveau sortiert", chips: lists.map((i) => ({ href: i.href, label: i.titleVars.level })) }, ...it.filter((i) => !lists.includes(i))] };
+  }
+  if (col.id === "fertigkeiten") {
+    const sub = it.filter((i) => i.nested);
+    const primary = col.primary ?? (col.href ? { href: col.href, titleKey: "nav.all.fertigkeiten", title: "Alle Fertigkeiten", hintKey: "nav.subject.fertigkeiten.blurb", hint: "Hören, Lesen, Schreiben, Sprechen" } : undefined);
+    if (!sub.length) return { ...col, primary };
+    return { ...col, primary, items: [...it.filter((i) => !i.nested), { ...sub[0], nested: false, chips: sub.slice(1) }] };
+  }
+  return col;
+});
+const wissenShown = wissenCols.map((col) => {
+  const it = col.items;
+  const lv = it.filter((i) => i.level);
+  if (lv.length > 1) {
+    return { ...col, items: [{ href: col.primary?.href ?? col.href, titleKey: "nav.wissen.byLevel", title: "Nach Niveau", hintKey: "nav.wissen.byLevelHint", hint: "ein Thema pro Stufe", chips: lv.map((i) => ({ href: i.href, label: i.level, title: i.title })) }, ...it.filter((i) => !i.level)] };
+  }
+  return col;
+});
+// Für Lehrkräfte: a head square per column, like Üben and Wissen (deutschacademy navPanels.ts).
+const LK_ICONS = ["sparkle", "document", "user"];
+const isLevels = (chips) => chips.every((c) => /^[ABC][12]$/.test(c.label ?? ""));
 
 const WISSEN_HREF = "/conoscenze";
 // The teacher section: worksheets, printable games and the live quiz.
@@ -114,7 +152,7 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
           <a class="lp-mega-more" href={navUebenMenu.start.placement.href} role="menuitem" data-i18n={navUebenMenu.start.placement.titleKey}>{navUebenMenu.start.placement.title}</a>
         </div>
 
-        {navUebenMenu.columns.map((col) => (
+        {uebenCols.map((col) => (
           <div class="lp-mega-col">
             {/* The column head is a link, not a caption: "Grammatik" is a page, and a
                 heading you cannot click next to rows you can is a small lie. */}
@@ -147,6 +185,13 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
                     {item.titleKey ? <b data-i18n={item.titleKey} data-i18n-vars={vars(item.titleVars)}>{item.title}</b> : <b><bdi>{item.title}</bdi></b>}
                     {item.hint && <i data-i18n={item.hintKey}>{item.hint}</i>}
                   </a>
+                  {item.chips && (
+                    <span class:list={["lp-mega-chips", isLevels(item.chips) && "lp-mega-chips--lv"]}>
+                      {item.chips.map((c) => c.label
+                        ? <a href={c.href} role="menuitem" title={c.title}>{c.label}</a>
+                        : <a href={c.href} role="menuitem" data-i18n={c.titleKey} data-i18n-vars={vars(c.titleVars)}>{c.title}</a>)}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -232,7 +277,7 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
         </div>
       )}
       <div class="lp-mega-cols">
-        {wissenCols.map((col, i) => (
+        {wissenShown.map((col, i) => (
           <div class:list={["lp-mega-col", wissenVariant === "tabs" && i === 0 && "is-shown"]} data-wpane={i}>
             <a class="lp-mega-head" href={col.href} role="menuitem">
               <span class="lp-panel-head-ic"><Icon name={col.icon} size={16} /></span>
@@ -260,6 +305,11 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
                       {item.titleKey ? <b data-i18n={item.titleKey}>{item.title}</b> : <b><bdi>{item.title}</bdi></b>}
                       {item.hint && <i data-i18n={item.hintKey} data-i18n-vars={vars(item.hintVars)}>{item.hint}</i>}
                     </a>
+                  )}
+                  {item.chips && (
+                    <span class:list={["lp-mega-chips", isLevels(item.chips) && "lp-mega-chips--lv"]}>
+                      {item.chips.map((c) => <a href={c.href} role="menuitem" title={c.title}>{c.label}</a>)}
+                    </span>
                   )}
                 </li>
               ))}
@@ -326,9 +376,9 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
         <i data-i18n={navLehrkraefte.primary.hintKey}>{navLehrkraefte.primary.hint}</i>
       </a>
       <div class="lp-lk-cols">
-        {navLehrkraefte.groups.map((g) => (
+        {navLehrkraefte.groups.map((g, gi) => (
           <div class="lp-lk-col">
-            <p class="lp-panel-head" data-i18n={g.nameKey}>{g.name}</p>
+            <p class="lp-panel-head"><span class="lp-panel-head-ic" aria-hidden="true"><Icon name={LK_ICONS[gi % LK_ICONS.length]} size={16} /></span><span data-i18n={g.nameKey}>{g.name}</span></p>
             <ul class="lp-panel-list">
               {navLehrkraefte.items.filter((item) => item.group === g.id).map((item) => (
                 <li>
