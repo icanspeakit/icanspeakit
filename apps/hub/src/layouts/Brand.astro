@@ -3,6 +3,7 @@
 import '../styles/tokens.css';
 import '../styles/tiles.css';
 import '../styles/landing.css';
+import { BING_VERIFICATION, GOOGLE_VERIFICATION } from '../data/verification';
 
 interface Props {
   title: string;
@@ -19,6 +20,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {BING_VERIFICATION && <meta name="msvalidate.01" content={BING_VERIFICATION} />}
+    {GOOGLE_VERIFICATION && <meta name="google-site-verification" content={GOOGLE_VERIFICATION} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

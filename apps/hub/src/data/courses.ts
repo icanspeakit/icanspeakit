@@ -52,3 +52,8 @@ export const COURSES: Course[] = [
     live: false,
   },
 ];
+
+// Course slugs whose app publishes /<slug>/sitemap.xml and /<slug>/llms.txt (the linguistics
+// section is not a course and has neither yet; add it to SECTIONS_WITH_SITEMAP when it does).
+export const liveCourses = () => COURSES.filter((c) => c.live);
+export const SECTIONS_WITH_SITEMAP: string[] = [];
