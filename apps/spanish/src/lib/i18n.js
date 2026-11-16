@@ -2,6 +2,7 @@ import { languagesFor, htmlLang, BASE } from "./languages.js";
 import { loadScriptFont } from "./scriptFonts.js";
 import { applyLangCss } from "./langCss.js";
 import { withBase, rebaseHtml } from "./paths.js";
+import { showReviewBanner } from "./reviewBanner.js";
 
 /** The interface languages, from the registry (src/lib/languages.js), in menu order. */
 // `htmlLang` is what <html lang> says: the code, or its hreflang where the registry has one
@@ -121,6 +122,8 @@ export async function applyLang(code) {
   loadScriptFont(lang.code);
   // Which translation spans show for this language (langCss.js).
   applyLangCss(lang.code);
+  // The course's own language is a draft until a native speaker has read it (reviewBanner.js).
+  showReviewBanner(lang.code);
   const dict = await mergedDict(lang.code);
   applyToDom(dict);
   listeners.forEach((fn) => fn(lang.code, dict));

@@ -75,7 +75,7 @@ export const LANGUAGE_REGISTRY = [
     // (no urlPrefix), no cards (the cards are the French being learnt).
     // Under review since 2026-11-15: the draft has strings written for English speakers (false
     // friends, sound comparisons) that read oddly in French; not offered until they are reworked.
-    surfaces: { ui: review },
+    surfaces: { ui: draft },
   },
   {
     code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
