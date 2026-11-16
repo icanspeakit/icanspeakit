@@ -79,11 +79,12 @@ export const LANGUAGE_REGISTRY = [
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
-    code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",
-    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "it", urlPrefix: "it",
-    // Same shape as German, French and Portuguese. Help texts, the legal pages and the profession
-    // decks fall back to English.
-    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
+    // Neutral Spanish (tú, no region tag), the interface for Spanish speakers learning Italian.
+    // Only the interface so far; flashcard glosses, help texts, the legal pages and the profession
+    // decks fall back to English until the vocabulary items add them.
+    surfaces: { ui: draft },
   },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface

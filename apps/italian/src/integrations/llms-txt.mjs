@@ -26,7 +26,7 @@ const SECTIONS = [
   ['Life and work in Italy', ['/italian-for-work', '/business-italian', '/patente-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
   ['For teachers', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
-  ['In other languages', ['/de', '/fr', '/pt', '/it']],
+  ['In other languages', ['/de', '/fr', '/pt', '/es']],
 ];
 
 const ENTITIES = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&#x27;': "'" };
