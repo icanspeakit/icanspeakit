@@ -70,7 +70,7 @@ Order for the first go-live: linguistics and english first, the hub last. The hu
 ## Local preview
 
 - `pnpm --filter @icanspeak/hub dev` on http://localhost:4320
-- `pnpm --filter @icanspeak/linguistics dev` → http://localhost:4321/linguistics/
+- `pnpm --filter @icanspeak/linguistics dev` → http://localhost:4310/linguistics/ (the hub on 4320 sends its /linguistics links there)
 - `pnpm --filter englishacademy dev`
 - `wrangler dev` in an app folder serves its built output as Cloudflare would (`preview`).
 

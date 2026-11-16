@@ -1,4 +1,5 @@
 ---
+import LogoDrop from '../components/LogoDrop.astro';
 // icanspeak.it root: the umbrella landing in the brand pattern (brand/kit/BRAND.md §5):
 // header, ribbon, hero with the 3×3 mascot tile grid, "Choose a course", the linguistics
 // band and the navy footer. Tiles are CSS (styles/tiles.css) and decoration only: aria-hidden.
@@ -28,6 +29,13 @@ const HERO = [
   { cls: '', bg: 'var(--isk-coral)', a: 'var(--isk-navy)', b: '#fff', mascot: 'quaki' },
   { cls: '', bg: 'var(--isk-green)', a: 'var(--isk-navy)', b: '#fff', mascot: 'hamsti' },
 ];
+// The linguistics band: four tiles in the word-card style (apps/linguistics WordCards.astro).
+const lingTiles = [
+  { href: '/linguistics/blog/', title: 'Word stories', tag: 'Magazine', desc: 'Where words came from, told properly.', bg: 'var(--isk-sky)', motif: 'isk-tile--half', a: 'var(--isk-navy)', b: 'var(--isk-yellow)' },
+  { href: '/linguistics/words/', title: 'Word cards', tag: 'Bite-sized', desc: "Flip a card, learn a word's secret.", bg: 'var(--isk-yellow)', motif: 'isk-tile--quarter', a: 'var(--isk-coral)', b: '#fff' },
+  { href: '/linguistics/exercises/', title: 'Speech exercises', tag: 'Practice', desc: 'Articulation, prosody, voice and pace.', bg: 'var(--isk-coral)', motif: 'isk-tile--dots', a: 'var(--isk-navy)', b: '#fff' },
+  { href: '/linguistics/', title: 'All of linguistics', tag: 'Start here', desc: 'Everything for the curious, in one place.', bg: 'var(--isk-navy)', motif: 'isk-tile--dome', a: 'var(--isk-green)', b: '#fff', dark: true },
+];
 ---
 <Brand
   title="icanspeak.it — learn a language, properly"
@@ -36,7 +44,7 @@ const HERO = [
   <div class="l-frame">
   <header class="l-header">
     <div class="l-wrap">
-      <a href="/" aria-label="icanspeak.it home"><img src="/logos/icanspeak-wordmark.svg" alt="icanspeak!" width="164" height="34" /></a>
+      <a href="/" aria-label="icanspeak.it home"><LogoDrop src="/logos/icanspeak-wordmark.svg" alt="icanspeak!" width={164} height={34} /></a>
       <nav aria-label="Main"><a href="/linguistics/">Linguistics</a></nav>
     </div>
   </header>
@@ -118,11 +126,18 @@ const HERO = [
           <h2 id="ling-title">Linguistics: where words come from and how speech works</h2>
           <p>Word origin stories, word cards and speech exercises for articulation, prosody, voice and pace: the mechanics behind sounding like yourself in another language.</p>
         </div>
-        <ul>
-          <li><a href="/linguistics/blog/">Word stories <span>Magazine</span></a></li>
-          <li><a href="/linguistics/words/">Word cards <span>Bite-sized</span></a></li>
-          <li><a href="/linguistics/exercises/">Speech exercises <span>Practice</span></a></li>
-          <li><a href="/linguistics/">All of linguistics <span>→</span></a></li>
+        <ul class="l-ling__tiles">
+          {lingTiles.map((t, i) => (
+            <li style={`--i:${i};--front:${t.bg}`} class={t.dark ? 'is-dark' : undefined}>
+              <a href={t.href}>
+                <span class={`isk-tile ${t.motif} l-ling__motif`} aria-hidden="true" style={`--t:96px;--bg:transparent;--a:${t.a};--b:${t.b}`}></span>
+                <span class="l-ling__tag">{t.tag}</span>
+                <span class="l-ling__title">{t.title}</span>
+                <span class="l-ling__desc">{t.desc}</span>
+                <span class="l-ling__go" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
@@ -137,20 +152,53 @@ const HERO = [
   </div>
   <script is:inline>
     (function () {
-      // Two circles, each with its own step through the four brand colours. A click moves only the
-      // clicked circle, and the page background takes that circle's new colour. The layout never changes.
-      var TONES = ['green', 'red', 'blue', 'yellow'];
-      document.body.dataset.tone = TONES[0];
+      // Every tile on the page plays along: a click spins it and the page background takes on that
+      // tile's look: its colour, and its dots or stripes when it has them. The two half-moon buttons
+      // first step through their own four colours, then hand their new look to the page the same way.
+      // One delegated listener and transform-only animation on the clicked tile: cheap at any tile count.
+      var body = document.body;
+      var frame = document.querySelector('.l-frame');
+      body.dataset.tone = 'green';
+      // Same look as the page already wears: the card gives a short wobble so the click still answers.
+      function bump() {
+        frame.classList.remove('l-bump');
+        void frame.offsetWidth;
+        frame.classList.add('l-bump');
+      }
+      function wear(t) {
+        var cs = getComputedStyle(t);
+        var bg = cs.getPropertyValue('--bg').trim(), a = cs.getPropertyValue('--a').trim();
+        var img = 'none', size = 'auto', pos = '0 0';
+        if (t.classList.contains('isk-tile--dots')) {
+          img = 'radial-gradient(' + a + ' 22%, transparent 24%)'; size = '28px 28px'; pos = '14px 14px';
+        } else if (t.classList.contains('isk-tile--stripes')) {
+          img = 'repeating-linear-gradient(to bottom, ' + a + ' 0 24px, ' + cs.getPropertyValue('--b').trim() + ' 24px 48px)';
+        }
+        var bs = getComputedStyle(body), was = bs.backgroundColor + bs.backgroundImage;
+        body.style.backgroundColor = bg;
+        body.style.backgroundImage = img;
+        body.style.backgroundSize = size;
+        body.style.backgroundPosition = pos;
+        if (bs.backgroundColor + bs.backgroundImage === was) bump();
+      }
       document.querySelectorAll('.l-turn, .l-flip').forEach(function (b) {
         var step = 0;
         b.dataset.step = '0';
         b.addEventListener('click', function () {
-          step = (step + 1) % TONES.length;
+          step = (step + 1) % 4;
           b.dataset.step = String(step);
           b.style.setProperty('--spin', (step * 360) + 'deg');
           b.setAttribute('aria-pressed', step === 0 ? 'false' : 'true');
-          document.body.dataset.tone = TONES[step];
+          wear(b);
         });
+      });
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest && e.target.closest('.l-frame .isk-tile');
+        if (!t || t.matches('.l-turn, .l-flip')) return;
+        var turns = (+t.dataset.turns || 0) + 1;
+        t.dataset.turns = String(turns);
+        t.style.setProperty('--spin', (turns * 360) + 'deg');
+        wear(t);
       });
     })();
   </script>

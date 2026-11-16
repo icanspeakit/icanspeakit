@@ -54,11 +54,37 @@ a.l-course--live:hover { background: var(--isk-cream); }
 .l-ling__copy { flex: 1 1 380px; display: flex; flex-direction: column; gap: 16px; }
 .l-ling h2 { font-size: 34px; line-height: 1.15; }
 .l-ling p { margin: 0; font-size: 17px; max-width: 34em; }
-.l-ling ul { flex: 1 1 320px; list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.l-ling li a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 18px; border: 2px solid var(--isk-navy); border-radius: 18px;
-  font-weight: 700; color: var(--isk-navy); text-decoration: none; }
-.l-ling li a:hover { background: var(--isk-cream); }
-.l-ling li a span { font-weight: 600; font-size: 13px; background: var(--isk-yellow); border-radius: var(--isk-radius-pill); padding: 2px 10px; align-self: center; }
+/* Linguistics tiles: the word-card look (apps/linguistics/src/components/WordCards.astro). */
+.l-ling__tiles { flex: 1 1 420px; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.l-ling__tiles a { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px; min-height: 190px; padding: 18px;
+  background: var(--front); color: var(--isk-navy); text-decoration: none; border: 3px solid var(--isk-navy); border-radius: var(--isk-radius-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.l-ling__motif { position: absolute; top: -14px; right: -14px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.l-ling__tag { position: relative; align-self: flex-start; font-size: 12px; font-weight: 700; background: var(--isk-white);
+  border: 2px solid var(--isk-navy); border-radius: var(--isk-radius-pill); padding: 2px 10px; }
+.l-ling__title { position: relative; margin-top: auto; font: 900 24px/1.05 var(--isk-font-display); letter-spacing: -0.01em; }
+.l-ling__desc { position: relative; font-size: 14px; font-weight: 500; }
+.l-ling__go { position: absolute; right: 14px; bottom: 14px; display: grid; place-items: center; width: 34px; height: 34px;
+  border-radius: 50%; background: var(--isk-navy); color: var(--isk-white); font-weight: 700; transition: transform 0.25s ease; }
+.l-ling__tiles li:has(.l-ling__go) .l-ling__desc { padding-right: 40px; }
+.l-ling__tiles .is-dark a { color: var(--isk-white); }
+.l-ling__tiles .is-dark .l-ling__tag { color: var(--isk-navy); background: var(--isk-yellow); }
+.l-ling__tiles .is-dark .l-ling__go { background: var(--isk-yellow); color: var(--isk-navy); }
+.l-ling__tiles a:focus-visible { outline: 3px solid var(--isk-coral); outline-offset: 3px; }
+@media (hover: hover) {
+  .l-ling__tiles a:hover { transform: translateY(-4px) rotate(-0.8deg); box-shadow: 6px 8px 0 var(--isk-navy); }
+  .l-ling__tiles li:nth-child(even) a:hover { transform: translateY(-4px) rotate(0.8deg); }
+  .l-ling__tiles a:hover .l-ling__motif { transform: rotate(-90deg) scale(1.1); }
+  .l-ling__tiles a:hover .l-ling__go { transform: translateX(4px); }
+}
+/* The tiles rise in one by one as the band scrolls into view (where scroll timelines exist). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .l-ling__tiles li { animation: l-ling-rise linear both; animation-timeline: view(); animation-range: entry calc(var(--i) * 6%) entry calc(60% + var(--i) * 6%); }
+  }
+}
+@keyframes l-ling-rise { from { opacity: 0; transform: translateY(40px) scale(0.94); } }
+@media (max-width: 520px) { .l-ling__tiles { grid-template-columns: 1fr; } .l-ling__tiles a { min-height: 150px; } }
 
 .l-footer { background: var(--isk-navy); color: var(--isk-white); }
 .l-footer .l-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-top: 28px; padding-bottom: 28px; }
@@ -73,6 +99,23 @@ a.l-course--live:hover { background: var(--isk-cream); }
 .l-hero { padding-top: 56px; padding-bottom: 72px; }
 .l-ling { background: var(--isk-cream); }
 @media (max-width: 640px) { body.landing { padding: 10px; } .l-frame { border-radius: 22px; } }
+
+/* Every other tile: a click spins its shape (and mascot/glyph) and moves the page colour on.
+   `rotate` (not transform) so it stacks on shapes that already carry a transform, e.g. the bubble tail. */
+.l-frame .isk-tile { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.l-frame .isk-tile:not(.l-flip, .l-turn)::before, .l-frame .isk-tile:not(.l-flip, .l-turn)::after, .l-frame .isk-tile__fill {
+  rotate: var(--spin, 0deg); transition: rotate .6s cubic-bezier(.3,.7,.3,1); }
+/* Clicking a tile whose look the page already wears: the card wobbles once instead. */
+.l-bump { animation: l-bump .45s cubic-bezier(.3,.7,.3,1); }
+@keyframes l-bump {
+  0%, 100% { transform: none; }
+  20% { transform: translateX(-6px) rotate(-.4deg); }
+  45% { transform: translateX(5px) rotate(.3deg); }
+  70% { transform: translateX(-2px) rotate(-.1deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .l-bump { animation: none; }
+  .l-frame .isk-tile::before, .l-frame .isk-tile::after, .l-frame .isk-tile__fill,
+  .l-flip::before, .l-turn::before { transition: none; } }
 
 /* Colour switch: the top-right half-moon. A click moves the page colour on; the layout never changes. */
 .l-flip { border: 0; padding: 0; cursor: pointer; font: inherit; }
