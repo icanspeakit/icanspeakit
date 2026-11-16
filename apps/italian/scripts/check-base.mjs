@@ -2,7 +2,7 @@
 // @ts-check
 /* pnpm check:base — every URL in the build output stays under the base path.
  *
- * icanspeak Italian lives at https://icanspeak.it/italian/ (src/lib/paths.js); the domain
+ * icanspeak Italian lives at https://icanspeak.it/italiano/ (src/lib/paths.js); the domain
  * root is another site. A root-absolute link that does not start with /italiano/ leaves the
  * course (or 404s), so this fails on any of them in dist/:
  *

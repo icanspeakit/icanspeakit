@@ -30,7 +30,7 @@ Words used below:
 | Decision | Value |
 |---|---|
 | Brand | **icanspeak Italian**. No "icanspeak Spanish", "EnglishAcademy", "englishacademy", "deutschacademy" in anything a visitor sees (titles, meta, OG, JSON-LD, PDFs, llms.txt, rendered `source` strings). Internal code comments may keep the history. |
-| Site and base | `site: 'https://icanspeak.it'`, `base: '/italian'`. Never a hard-coded root path. Every URL goes through the base helper `src/lib/paths.js` (`withBase`, `absoluteUrl`, `langPath`) that the Spanish course already has; `base-path-and-brand` changes `/spanish` to `/italian` in it. UI-language prefixes come after the base: `/italian/de/…`. `pnpm check:base` checks `/italian/`. |
+| Site and base | `site: 'https://icanspeak.it'`, `base: '/italian'`. Never a hard-coded root path. Every URL goes through the base helper `src/lib/paths.js` (`withBase`, `absoluteUrl`, `langPath`) that the Spanish course already has; `base-path-and-brand` changes `/spanish` to `/italian` in it. UI-language prefixes come after the base: `/italian/de/…`. `pnpm check:base` checks `/italian/`. **Superseded by `sync-monorepo` (2026-11-16):** the monorepo moved every course to a base in its own language, so the live base is `/italiano` (`src/lib/paths.js`, wrangler route `icanspeak.it/italiano/*`), with UI prefixes `/italiano/de/…` and course slugs in Italian (`docs/slug-map.md`). |
 | Target learner | Adults (16+) learning Italian, any first language, **with a strong group of immigrants and residents in Italy and people applying for Italian citizenship**. Real situations (Questura, Comune, Anagrafe, ASL and medico di base, landlord, work, school) beat tourist phrases. |
 | Variety | **Standard Italian (italiano standard)**: neutral, widely used vocabulary, standard pronunciation (open and closed *e/o*, geminates, /ʎ ɲ ʃ ts dz/), correct accents (*è, é, perché, città, più, può, là, lì*). Formal address: *Lei*. |
 | Regional Italian | Italian has no second standard to switch to. Every vocabulary, grammar and audio item carries `variety: "it-IT"`. Where a learner meets a regional difference in daily life (north/south, Tuscany, Rome, Swiss Italian: *anguria/cocomero/melone d'acqua*, *pomeriggio* "di sera" in the south, *stare* for *essere* in the south, *passato remoto* in southern speech, *ho mangiato/mangiai*, *il sacchetto/la busta*) a `regional` note records it (§1.5). Notes are data only; nothing shows them yet. |
@@ -913,6 +913,8 @@ handled by the `ui-*` items where they are rendered.
 ---
 
 ## 13. Open points
+
+- **Base path (sync-monorepo, 2026-11-16):** the base is `/italiano`, not `/italian` (monorepo decision, Italian slugs per `docs/slug-map.md`). Later items build every URL with `withBase` as before; printed addresses read `icanspeak.it/italiano`. The PDFs in `public/downloads/` still print the old address until they are regenerated, and some PDF scripts still print old English/German slugs after the base (`/wortschatz/…`, `workPath`).
 
 - **games (done):** the game routes keep their English names (`/games/gender-sprint`, `quaki-jumps`, `sentence-rain`, `impostor`); the rename to `/games/article-sprint` etc. with redirects is open for a routing/UI item. `games-arcade` must convert `nussnacht` (`ARTS`, `nut-night.astro`) to il/lo/la/l' and i/gli/le; until then its pool is empty. Article lanes: singular il | lo (l' before a vowel) | la, plural i | gli | le. Report: `reports/games.md`.
 - **Edgar: review** the exam map (§2): CILS in the goethe slots, CELI in the telc slots, PLIDA in

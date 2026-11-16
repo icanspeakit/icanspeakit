@@ -9,7 +9,7 @@
 // it was left untouched deliberately rather than copied here on a guess.
 
 export const LEGAL = {
-  // Who operates icanspeak.it/italian — the "Verantwortlicher" under Art. 4(7) DSGVO.
+  // Who operates icanspeak.it/italiano — the "Verantwortlicher" under Art. 4(7) DSGVO.
   operatorName: "Edgar Kretschmann",
   operatorStreet: "Ansbacher Straße 48",
   operatorPostcode: "10777",

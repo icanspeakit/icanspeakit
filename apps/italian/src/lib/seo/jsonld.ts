@@ -18,7 +18,7 @@ export function organizationLd(site: string) {
     "@type": "Organization",
     "@id": orgId(site),
     name: "icanspeak Italian",
-    alternateName: ["icanspeak", "icanspeak.it/italian"],
+    alternateName: ["icanspeak", "icanspeak.it/italiano"],
     url: `${site}/`,
     // Square, ≥ 112 px: what Google needs for the logo next to the result. The course mark
     // from the icanspeak.it kit (docs/brand/BRAND.md); the wide wordmark does not qualify.
