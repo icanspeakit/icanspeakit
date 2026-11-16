@@ -31,9 +31,9 @@ const GENDERED = new RegExp(
 );
 const LEFTOVER = /[¿¡ñ]|\b(vosotros|vosotras|usted|ustedes|Señor|Señora|gracias|hola|buenos|buenas|tío|tía|vale|Mr|Mrs|Ms|pub|pint|queue|lift)\b|£|British|England|Britain|\bUK\b/i;
 
-const culture = new Set(Object.values(ITEM_SLUGS["/culture/insider"] ?? {}).map((s) => `/culture/insider/${s}`));
+const culture = new Set(Object.values(ITEM_SLUGS["/cultura/dietro-le-quinte"] ?? {}).map((s) => `/cultura/dietro-le-quinte/${s}`));
 const topics = Array.isArray(kultur) ? kultur : kultur.topics ?? Object.values(kultur).find(Array.isArray);
-for (const x of topics ?? []) culture.add(`/culture/${ITEM_SLUGS["/culture"]?.[x.id] ?? x.id}`);
+for (const x of topics ?? []) culture.add(`/cultura/${ITEM_SLUGS["/cultura"]?.[x.id] ?? x.id}`);
 
 const topicIds = new Set(TOPICS.map((t) => t.id));
 for (const t of TOPICS) {

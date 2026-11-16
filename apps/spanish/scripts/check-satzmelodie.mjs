@@ -1,4 +1,4 @@
-// Checks src/data/satzmelodie.json, the content of /intonation.
+// Checks src/data/satzmelodie.json, the content of /entonacion.
 //   pnpm check:satzmelodie
 // Exits non-zero on any problem.
 import data, { allLines } from "../src/lib/satzmelodieData.js";

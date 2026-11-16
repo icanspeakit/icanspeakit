@@ -60,7 +60,6 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
                   : <div class="uv-card-icon"><Icon name={t.icon} /></div>}
                 <h3 data-i18n={t.titleKey}>{t.title}</h3>
                 <p data-i18n={t.descKey}>{t.desc}</p>
-                <span class="uv-pill" data-i18n={t.countKey} data-i18n-vars={JSON.stringify(t.countVars)}>{t.count}</span>
               </a>
             ))}
           </div>
@@ -118,7 +117,6 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
                   ? <div class="uv-card-icon uv-card-icon--exam hub-pic"><img src={emojiSrc(hubBilder.exams[e.href])} alt="" width="52" height="52" loading="lazy" /></div>
                   : <div class="uv-card-icon uv-card-icon--exam"><Icon name={e.icon} /></div>}
                 <h3 data-i18n={e.titleKey}>{e.title}</h3>
-                <span class="uv-pill uv-pill--exam" data-i18n={e.countKey} data-i18n-vars={e.countVars ? JSON.stringify(e.countVars) : undefined}>{e.count}</span>
               </a>
             ))}
           </div>
@@ -220,6 +218,7 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
     import { getProgress, getWeeklyCount, getWeeklyGoal, setWeeklyGoal, getDisplayName, setDisplayName, activeToday } from "../../lib/progress.js";
     import { getLang, loadDict, onLangChange } from "../../lib/i18n.js";
     import { mountPracticePicker } from "../../lib/practicePicker.js";
+    import { BASE_PATH } from "../../lib/paths.js";
 
     // The picker is the default view, so it mounts on load rather than with the dashboard.
     // `remote` stays null until there is an account to read a last session from; see
@@ -430,7 +429,7 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
           <p class="dash-callout-eyebrow">${tr("dash.callout.startEyebrow")}</p>
           <h3>${tr("dash.callout.noDataTitle")}</h3>
           <p>${tr("dash.callout.noDataBody")}</p>
-          <a class="quiz-btn quiz-btn--primary" href="/vocabulary">${tr("dash.cta.start")}</a>`;
+          <a class="quiz-btn quiz-btn--primary" href="${BASE_PATH}/vocabulary">${tr("dash.cta.start")}</a>`;
       }
 
       renderWeekBars(data);

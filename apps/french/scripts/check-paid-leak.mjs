@@ -32,8 +32,8 @@ function texts(v, acc = []) {
     const plain = v.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
     if (plain.length >= 40) acc.push(plain);
   } else if (Array.isArray(v)) v.forEach((x) => texts(x, acc));
-  // `meta` (sourceNote, audioNote) is boilerplate the free set shares, not paid content.
-  else if (v && typeof v === "object") Object.entries(v).forEach(([k, x]) => k !== "meta" && texts(x, acc));
+  // `meta` (sourceNote, audioNote) and `sourcing` (shown on the public format pages and in paid-manifest.json) are boilerplate the free set shares, not paid content.
+  else if (v && typeof v === "object") Object.entries(v).forEach(([k, x]) => k !== "meta" && k !== "sourcing" && texts(x, acc));
   return acc;
 }
 

@@ -1,4 +1,4 @@
-// The Manners Simulator (/games/manners): the scenes of one day in Italy, in five areas.
+// The Manners Simulator (/giochi/buone-maniere): the scenes of one day in Italy, in five areas.
 //
 // A scene = place + backdrop + people + turns. A turn: someone says something (`npc`, Italian,
 // with its English meaning `en`) or a `situation` (English) sets the scene, then the learner
@@ -173,7 +173,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/queues-and-personal-space",
+    more: "/cultura/dietro-le-quinte/queues-and-personal-space",
   },
   {
     id: "sbahn", place: "On the metro", backdrop: "sbahn",
@@ -222,7 +222,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/queues-and-personal-space",
+    more: "/cultura/dietro-le-quinte/queues-and-personal-space",
   },
   {
     id: "aufzug", place: "In the lift", backdrop: "aufzug",
@@ -276,7 +276,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/saying-hello",
+    more: "/cultura/dietro-le-quinte/saying-hello",
   },
   {
     id: "weg", place: "In the street", backdrop: "strasse",
@@ -312,7 +312,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/insider/please-and-thank-you",
+    more: "/cultura/dietro-le-quinte/please-and-thank-you",
   },
   {
     id: "menu-del-dia", place: "Lunch out", backdrop: "cafe",
@@ -361,7 +361,7 @@ const unterwegs = [
         ],
       },
     ],
-    more: "/culture/daily-rhythm",
+    more: "/cultura/daily-rhythm",
   },
 ];
 
@@ -403,7 +403,7 @@ const arbeit = [
         who: "lena", wheel: 2, du: true, situation: "You're still at the coffee machine. What do you talk to Chiara about?",
       },
     ],
-    more: "/culture/insider/small-talk-and-the-aperitivo",
+    more: "/cultura/dietro-le-quinte/small-talk-and-the-aperitivo",
   },
   {
     id: "erster-tag", place: "First day at work", backdrop: "buero",
@@ -451,7 +451,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/culture/insider/time-and-timing",
+    more: "/cultura/dietro-le-quinte/time-and-timing",
   },
   {
     id: "meeting", place: "In the meeting", backdrop: "buero",
@@ -485,7 +485,7 @@ const arbeit = [
         ],
       },
     ],
-    more: "/culture/insider/directness",
+    more: "/cultura/dietro-le-quinte/directness",
   },
   {
     id: "feierabend", place: "After work", backdrop: "kneipe",
@@ -539,7 +539,7 @@ const arbeit = [
         who: "becker", wheel: 1, du: true, situation: "Giorgio sips his spritz. Now it's your turn to pick a topic.",
       },
     ],
-    more: "/culture/the-bar-and-paying",
+    more: "/cultura/the-bar-and-paying",
   },
 ];
 
@@ -582,7 +582,7 @@ const zuhause = [
         who: "schulz", wheel: 1, du: true, situation: "Maria Teresa stays by the letter boxes. She seems to have time for a chat.",
       },
     ],
-    more: "/culture/tu-or-lei",
+    more: "/cultura/tu-or-lei",
   },
   {
     id: "paket", place: "At your front door", backdrop: "wohnungstuer",
@@ -618,7 +618,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/please-and-thank-you",
+    more: "/cultura/dietro-le-quinte/please-and-thank-you",
   },
   {
     id: "party", place: "Your party", backdrop: "party",
@@ -654,7 +654,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/please-and-thank-you",
+    more: "/cultura/dietro-le-quinte/please-and-thank-you",
   },
   {
     id: "einladung", place: "Invited for dinner", backdrop: "esszimmer",
@@ -730,7 +730,7 @@ const zuhause = [
         ],
       },
     ],
-    more: "/culture/insider/small-talk-and-the-aperitivo",
+    more: "/cultura/dietro-le-quinte/small-talk-and-the-aperitivo",
   },
 ];
 
@@ -769,7 +769,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/insider/dating",
+    more: "/cultura/dietro-le-quinte/dating",
   },
   {
     id: "date-smalltalk", place: "In the café", backdrop: "cafe",
@@ -820,7 +820,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/insider/dating",
+    more: "/cultura/dietro-le-quinte/dating",
   },
   {
     id: "date-rechnung", place: "The bill", backdrop: "cafe",
@@ -857,7 +857,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/the-bar-and-paying",
+    more: "/cultura/the-bar-and-paying",
   },
   {
     id: "date-tschuess", place: "Saying goodbye", backdrop: "abend",
@@ -892,7 +892,7 @@ const date = [
         ],
       },
     ],
-    more: "/culture/insider/dating",
+    more: "/cultura/dietro-le-quinte/dating",
   },
 ];
 
@@ -927,7 +927,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/insider/time-and-timing",
+    more: "/cultura/dietro-le-quinte/time-and-timing",
   },
   {
     id: "du-oder-sie", place: "First day of the course", backdrop: "klasse",
@@ -981,7 +981,7 @@ const schule = [
         who: "novak", wheel: 1, du: true, situation: "Back in class. Marco is standing next to you at the coffee machine.",
       },
     ],
-    more: "/culture/tu-or-lei",
+    more: "/cultura/tu-or-lei",
   },
   {
     id: "elterngespraech", place: "Meeting your daughter's teacher", backdrop: "klasse",
@@ -1014,7 +1014,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/school-system",
+    more: "/cultura/school-system",
   },
   {
     id: "gruppenarbeit", place: "Group work", backdrop: "klasse",
@@ -1047,7 +1047,7 @@ const schule = [
         ],
       },
     ],
-    more: "/culture/insider/directness",
+    more: "/cultura/dietro-le-quinte/directness",
   },
 ];
 

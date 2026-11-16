@@ -7,13 +7,13 @@
  * through this file. Plain JS with no Astro or Vite imports, so astro.config.mjs, the build
  * integrations, node scripts and browser modules can all import it.
  *
- *   withBase("/grammar")        → "/spanish/grammar"
+ *   withBase("/gramatica")        → "/spanish/grammar"
  *   withBase("/")               → "/spanish/"
  *   withBase("/spanish/x")      → "/spanish/x"        (idempotent)
- *   stripBase("/spanish/grammar") → "/grammar"        (for comparing location.pathname)
+ *   stripBase("/spanish/grammar") → "/gramatica"        (for comparing location.pathname)
  *   currentPath()               → location.pathname without the base
- *   absoluteUrl("/grammar")     → "https://icanspeak.it/spanish/grammar"
- *   langPath("de", "/grammar")  → "/spanish/de/grammar" (UI-language prefix after the base)
+ *   absoluteUrl("/gramatica")     → "https://icanspeak.it/spanish/grammar"
+ *   langPath("de", "/gramatica")  → "/spanish/de/grammar" (UI-language prefix after the base)
  *   rebaseHtml(html)            → every root-absolute href/src/action/srcset/url()/refresh
  *                                 in an HTML string moved under the base
  *
@@ -24,7 +24,7 @@
 /** The domain, no trailing slash. */
 export const SITE_ORIGIN = 'https://icanspeak.it';
 /** The base path, no trailing slash. */
-export const BASE_PATH = '/portuguese';
+export const BASE_PATH = '/portugues';
 /** The base language of the interface (src/lib/languages.js BASE); it has no URL prefix. */
 const BASE_LANG = 'en';
 
@@ -47,7 +47,7 @@ export function withBase(path) {
   return /** @type {T} */ (/** @type {unknown} */ (BASE_PATH + p));
 }
 
-/** The site path of a pathname that may carry the base: "/spanish/grammar" → "/grammar",
+/** The site path of a pathname that may carry the base: "/spanish/grammar" → "/gramatica",
  *  "/spanish" and "/spanish/" → "/". Anything else comes back unchanged. @param {string} pathname */
 export function stripBase(pathname) {
   if (typeof pathname !== 'string') return pathname;

@@ -11,7 +11,7 @@ import { setWaiting } from "../notReady.js";
 import { t } from "../uiText.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = `/anmelden?next=${encodeURIComponent("/games/countable-sprint#bestenliste")}`;
+const LOGIN = `/anmelden?next=${encodeURIComponent("/games/countable-sprint#leaderboard")}`;
 
 export function mountBoard(el, { modeName, diffName }) {
   const noop = { show() {}, runOver() {}, render() {} };
@@ -114,7 +114,7 @@ export function mountBoard(el, { modeName, diffName }) {
   function renderOver() {
     if (!overEl || !overState) return;
     const mine = data?.rows?.find((r) => r.ich);
-    const link = `<a href="#bestenliste" data-lb-jump>${esc(t("sprint.lb.see", "Bestenliste ansehen"))}</a>`;
+    const link = `<a href="#leaderboard" data-lb-jump>${esc(t("sprint.lb.see", "Bestenliste ansehen"))}</a>`;
     let html = "";
     if (overState === "login") html = `${esc(t("sprint.lb.overLogin", "Melde dich an, dann kommt dieser Lauf in die Bestenliste."))} <a href="${LOGIN}">${esc(t("sprint.lb.login", "Anmelden"))}</a>`;
     else if (overState === "name") html = `${esc(t("sprint.lb.overName", "Gespeichert. Wähl noch einen Namen, dann stehst du in der Bestenliste."))} ${link}`;

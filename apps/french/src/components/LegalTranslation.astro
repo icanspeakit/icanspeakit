@@ -2,7 +2,11 @@
 // The legal pages in the learner's language — without ever letting the translation pass for
 // the binding text.
 //
-// The German stays what the server renders, byte for byte. When the UI language is en/ar/tr/uk
+// The German stays the binding text. The built page shows it in English (base-language.mjs puts
+// the English translation into the markup and the German original into the blob below, so
+// search engines, link previews and no-JS visitors do not get German either; the note on top
+// is then visible from the start). In `astro dev` the server still renders the German.
+// Before that change: the German stays what the server renders, byte for byte. When the UI language is en/ar/tr/uk
 // this swaps each [data-lx] element for its translation (src/data/uebersetzungen/rechtliches.json,
 // via src/lib/legalTranslation.js) and puts a note on top saying, in that language, that only
 // the German version is binding. One button flips back to the German original and again to
@@ -70,7 +74,9 @@ const payload = JSON.stringify(legalPayload(page)).replace(/</g, "\\u003c");
       note.hidden = code === "de";
       for (const el of nodes) {
         const html = translate ? tx[el.dataset.lx!]?.[txLang] : undefined;
-        el.innerHTML = html ?? original.get(el)!;
+        // `de` is the German original that src/integrations/base-language.mjs moves into the blob
+        // when it renders the page in English; in `astro dev` the page itself still holds it.
+        el.innerHTML = html ?? tx[el.dataset.lx!]?.de ?? original.get(el)!;
       }
       relabel();
       // The German original inside an Arabic page still reads left to right, and says it is German.
@@ -80,7 +86,7 @@ const payload = JSON.stringify(legalPayload(page)).replace(/</g, "\\u003c");
       note.dir = isRtl(code) ? "rtl" : "ltr";
       note.lang = code;
       const title = translate ? tx.title?.[txLang] : undefined;
-      document.title = title ? `${title.replace(/<[^>]+>/g, "")} – icanspeak Spanish` : originalTitle;
+      document.title = title ? `${title.replace(/<[^>]+>/g, "")} – icanspeak French` : originalTitle;
       toggle.setAttribute("aria-pressed", String(showGerman));
       toggle.textContent =
         dict[showGerman ? "legal.toggle.translation" : "legal.toggle.german"] ??

@@ -10,7 +10,7 @@ import {
   MAX_MITGLIEDER, codeErneuern, joinLink, klasseAnlegen, klasseArchivieren, klasseLoeschen,
   meineKlassen, mitgliedEntfernen, mitglieder,
 } from "./klassen.js";
-import { currentPath } from "./paths.js";
+import { currentPath, BASE_PATH } from "./paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
@@ -23,7 +23,7 @@ export async function mountKlassen(root) {
   await loadText(() => { if (mounted) render(); });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
+  $("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -80,7 +80,7 @@ export async function mountKlassen(root) {
         <li class="lq-card kl-class kl-class--archived" data-id="${k.id}">
           ${head}
           <div class="kl-row">
-            <a class="lq-btn lq-btn--ghost" href="/teachers/classes/class?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
+            <a class="lq-btn lq-btn--ghost" href="${BASE_PATH}/teachers/classes/class?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
             <button type="button" class="lq-btn lq-btn--ghost" data-act="unarchive">${esc(t("kl.t.unarchive", "Zurückholen"))}</button>
             <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("kl.t.delete", "Klasse löschen"))}</button>
           </div>
@@ -103,7 +103,7 @@ export async function mountKlassen(root) {
           <button type="button" class="lq-btn lq-btn--ghost" data-act="copy">${esc(t("kl.t.copy", "Link kopieren"))}</button>
         </div>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="/teachers/classes/class?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
+          <a class="lq-btn lq-btn--primary" href="${BASE_PATH}/teachers/classes/class?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="members" aria-expanded="${!!members}">${esc(t("kl.t.members", "Mitglieder"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="renew">${esc(t("kl.t.renew", "Code erneuern"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="archive">${esc(t("kl.t.archive", "Archivieren"))}</button>

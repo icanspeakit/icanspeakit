@@ -8,63 +8,63 @@
 // Ids, data file names and localStorage keys stayed German (content-plan §1.3, §6), because code
 // and saved progress key on them. Only the URL is the course's: English, except proper names
 // (/dele, /siele, /ccse) and the Spanish grammar terms learners search for (/por-para, /gustar).
-// The site at /spanish is new, so there are no redirects from any earlier address (§7, §8).
+// The site was at /spanish until 2026-11-14; the hub 301s that (apps/hub/public/_redirects).
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
-export const NOT_RESUMABLE = new Set(["/", "/exercises", "/exams", "/progress", "/grammar", "/knowledge", "/teachers", "/game",
-  "/legal-notice", "/privacy", "/terms", "/placement-test", "/account",
-  "/listening", "/reading", "/writing", "/speaking", "/culture", "/vocabulary", "/skills"]);
+export const NOT_RESUMABLE = new Set(["/", "/ejercicios", "/examenes", "/progreso", "/gramatica", "/conocimientos", "/profesores", "/juego",
+  "/aviso-legal", "/privacidad", "/condiciones", "/prueba-de-nivel", "/cuenta",
+  "/comprension-auditiva", "/comprension-lectora", "/expresion-escrita", "/expresion-oral", "/cultura", "/vocabulario", "/habilidades"]);
 
 // Grammar topics live at the top level (/<slug>). The key (the workspace's `slug ?? id`, what
 // progress, lehrplan and verwandt use) stays; the URL follows content-plan §3 "New slug".
 // topicPath(key) is the one way from a key to its URL.
 export const TOPIC_SLUGS = {
   // A1
-  nomen: "noun-gender", artikel: "articles", personalpronomen: "subject-pronouns",
-  praesens: "present-regular", konjugation: "present-irregular",
-  "praeteritum-sein-haben": "stem-changing-verbs", "verb-position-2": "ser-estar-basics",
-  "berufe-mit-in": "hay-estar", "w-fragen": "question-words", "ja-nein-fragen": "yes-no-questions",
-  plural: "plurals", "adjektive-nach-sein": "adjective-agreement", possessivartikel: "possessives",
-  "welcher-dieser": "demonstratives", gern: "gustar", "temporale-praepositionen": "time-and-days",
-  aduso: "y-o-pero-porque", zahlen: "numbers", wortarten: "parts-of-speech",
+  nomen: "genero-de-los-sustantivos", artikel: "articulos", personalpronomen: "pronombres-personales",
+  praesens: "presente-regular", konjugation: "presente-irregular",
+  "praeteritum-sein-haben": "verbos-con-cambio-vocalico", "verb-position-2": "ser-y-estar-basico",
+  "berufe-mit-in": "hay-y-estar", "w-fragen": "interrogativos", "ja-nein-fragen": "preguntas-de-si-o-no",
+  plural: "plurales", "adjektive-nach-sein": "concordancia-del-adjetivo", possessivartikel: "posesivos",
+  "welcher-dieser": "demostrativos", gern: "gustar", "temporale-praepositionen": "tiempo-y-dias",
+  aduso: "y-o-pero-porque", zahlen: "numeros", wortarten: "clases-de-palabras",
   // A2
-  perfekt: "present-perfect", "zusammengesetzte-verben": "preterite", "n-deklination": "imperfect",
-  "trennbare-verben": "ir-a-infinitive", komposita: "estar-gerund",
-  "reflexive-verben": "reflexive-verbs", akkusativ: "object-pronouns",
-  dativ: "indirect-object-pronouns", modalverben: "tener-que-poder",
-  "komparativ-superlativ": "comparatives", "lokale-praepositionen": "prepositions-of-place",
-  wechselpraepositionen: "a-or-en", indefinitpronomen: "indefinites", satzstellung: "muy-mucho",
-  negation: "negation", "nebensaetze-weil-dass": "porque-como",
-  "konjunktiv2-hoeflich": "polite-requests", positionsadverbien: "frequency-soler",
-  "adjektivdeklination-a2": "adverbs-mente", "artikel-oder-nicht": "article-or-not",
-  ordinalzahlen: "ordinals-dates",
+  perfekt: "preterito-perfecto", "zusammengesetzte-verben": "preterito-indefinido", "n-deklination": "preterito-imperfecto",
+  "trennbare-verben": "ir-a-infinitivo", komposita: "estar-gerundio",
+  "reflexive-verben": "verbos-reflexivos", akkusativ: "pronombres-de-complemento-directo",
+  dativ: "pronombres-de-complemento-indirecto", modalverben: "tener-que-poder",
+  "komparativ-superlativ": "comparativos", "lokale-praepositionen": "preposiciones-de-lugar",
+  wechselpraepositionen: "a-or-en", indefinitpronomen: "indefinidos", satzstellung: "muy-mucho",
+  negation: "negacion", "nebensaetze-weil-dass": "porque-como",
+  "konjunktiv2-hoeflich": "peticiones-educadas", positionsadverbien: "frecuencia-y-soler",
+  "adjektivdeklination-a2": "adverbios-en-mente", "artikel-oder-nicht": "articulo-o-no",
+  ordinalzahlen: "ordinales-y-fechas",
   // B1
-  zustandspassiv: "perfecto-vs-indefinido", "praeteritum-plusquamperfekt": "preterite-vs-imperfect",
-  "passiv-b1": "pluperfect", futur: "future-simple", "funktionen-von-werden": "conditional",
-  imperativ: "imperative", "infinitiv-mit-zu": "present-subjunctive",
-  "verben-als-nomen": "subjunctive-wishes", "infinitiv-ohne-zu": "infinitive-or-subjunctive",
-  finalsaetze: "para-que", "temporale-nebensaetze": "cuando-subjunctive",
+  zustandspassiv: "perfecto-vs-indefinido", "praeteritum-plusquamperfekt": "indefinido-o-imperfecto",
+  "passiv-b1": "pluscuamperfecto", futur: "futuro-simple", "funktionen-von-werden": "condicional",
+  imperativ: "imperativo", "infinitiv-mit-zu": "presente-de-subjuntivo",
+  "verben-als-nomen": "subjuntivo-deseos", "infinitiv-ohne-zu": "infinitivo-o-subjuntivo",
+  finalsaetze: "para-que", "temporale-nebensaetze": "cuando-con-subjuntivo",
   konditionalsaetze: "si-real", "als-oder-wenn": "por-para",
-  "temporale-praepositionen-b1": "desde-hace", relativpronomen: "relative-clauses",
-  "indirekte-fragen": "indirect-questions", lassen: "verbal-periphrases",
-  "konnektoren-grund-gegengrund": "linkers", genitiv: "possessive-pronouns",
-  adjektivdeklination: "adjective-position", "partizip-als-adjektiv": "estar-participle",
-  "verben-praepositionen": "verbs-prepositions", "da-wo-woerter": "prepositional-pronouns",
-  "nutzen-benutzen": "ser-estar-advanced", positionsverben: "verbs-like-gustar",
-  "wortbildung-nomen": "word-formation", "adjektive-als-nomen": "lo-adjective",
+  "temporale-praepositionen-b1": "desde-hace", relativpronomen: "oraciones-de-relativo",
+  "indirekte-fragen": "preguntas-indirectas", lassen: "perifrasis-verbales",
+  "konnektoren-grund-gegengrund": "conectores", genitiv: "pronombres-posesivos",
+  adjektivdeklination: "posicion-del-adjetivo", "partizip-als-adjektiv": "estar-participio",
+  "verben-praepositionen": "verbos-y-preposiciones", "da-wo-woerter": "pronombres-preposicionales",
+  "nutzen-benutzen": "ser-y-estar-avanzado", positionsverben: "verbos-como-gustar",
+  "wortbildung-nomen": "formacion-de-palabras", "adjektive-als-nomen": "lo-con-adjetivo",
   // B2
-  konjunktiv2: "imperfect-subjunctive", modalsaetze: "si-unreal", passiv: "passive-and-se",
-  "relativsaetze-was-wo": "relative-clauses-advanced", "zumal-wohingegen": "reported-speech",
-  "zweiteilige-konnektoren": "subjunctive-opinion", konsekutivsaetze: "aunque-subjunctive",
-  negationswoerter: "probability", irgend: "accidental-se", fokuspartikeln: "verbs-of-change",
-  modalpartikeln: "discourse-markers", "adjektive-mit-praepositionen": "adjectives-prepositions",
-  "nomen-verb-verbindungen": "collocations",
+  konjunktiv2: "imperfecto-de-subjuntivo", modalsaetze: "si-unreal", passiv: "pasiva-y-se-pasiva",
+  "relativsaetze-was-wo": "relativos-avanzados", "zumal-wohingegen": "estilo-indirecto",
+  "zweiteilige-konnektoren": "subjuntivo-y-opinion", konsekutivsaetze: "aunque-con-subjuntivo",
+  negationswoerter: "probabilidad", irgend: "se-accidental", fokuspartikeln: "verbos-de-cambio",
+  modalpartikeln: "marcadores-del-discurso", "adjektive-mit-praepositionen": "adjetivos-y-preposiciones",
+  "nomen-verb-verbindungen": "colocaciones",
   // C1
-  "konjunktiv-1": "sequence-of-tenses", "es-korrelat": "cleft-sentences",
-  passiversatz: "conditions-without-si", "futur-2": "non-finite-clauses",
-  "irreale-vergleiche": "como-si", "subjektive-modalverben": "modal-periphrases",
-  "nominale-praepositionen": "formal-connectors", nominalisierung: "nominalisation",
-  partizipialattribute: "formal-relatives", textkohaerenz: "cohesion", verbpraefixe: "prefixes",
+  "konjunktiv-1": "concordancia-de-tiempos", "es-korrelat": "oraciones-hendidas",
+  passiversatz: "condiciones-sin-si", "futur-2": "oraciones-no-finitas",
+  "irreale-vergleiche": "como-si", "subjektive-modalverben": "perifrasis-modales",
+  "nominale-praepositionen": "conectores-formales", nominalisierung: "nominalizacion",
+  partizipialattribute: "relativos-formales", textkohaerenz: "cohesion", verbpraefixe: "prefijos",
 };
 const TOPIC_KEYS = Object.fromEntries(Object.entries(TOPIC_SLUGS).map(([k, v]) => [v, k]));
 
@@ -75,123 +75,123 @@ export const topicKeyFromSlug = (slug) => TOPIC_KEYS[slug] ?? slug;
 /** The page of a grammar topic. */
 export const topicPath = (key) => `/${topicSlug(key)}`;
 
-// The reference tables under /grammar/<ref> (src/data/nachschlagen/<file>.json). The file
+// The reference tables under /gramatica/<ref> (src/data/nachschlagen/<file>.json). The file
 // names stayed; the URL is English.
 export const REF_SLUGS = {
-  "starke-schwache-verben": "irregular-verbs",
-  "trennbare-verben": "reflexive-verbs-list",
-  "verben-mit-praepositionen": "verbs-with-prepositions",
+  "starke-schwache-verben": "verbos-irregulares",
+  "trennbare-verben": "lista-de-verbos-reflexivos",
+  "verben-mit-praepositionen": "verbos-con-preposiciones",
 };
 /** A reference table's URL slug from its file name. */
 export const refSlug = (file) => REF_SLUGS[file] ?? file;
 /** The page of a reference table. */
-export const refPath = (file) => `/grammar/${refSlug(file)}`;
+export const refPath = (file) => `/gramatica/${refSlug(file)}`;
 
 // Teachers' worksheets and tandem sheets per topic: keyed like the topic (plus the
 // reference sheets nachschlagen-<file>, verbtabellen, typische-fehler); the URL is English.
-const SHEET_SLUGS = { verbtabellen: "verb-tables", "typische-fehler": "common-mistakes" };
+const SHEET_SLUGS = { verbtabellen: "tablas-de-verbos", "typische-fehler": "errores-comunes" };
 /** A worksheet's URL slug from its key. */
 export const sheetSlug = (key) =>
-  String(key).startsWith("nachschlagen-") ? `reference-${refSlug(String(key).slice("nachschlagen-".length))}`
+  String(key).startsWith("nachschlagen-") ? `referencia-${refSlug(String(key).slice("nachschlagen-".length))}`
     : SHEET_SLUGS[key] ?? topicSlug(key);
 /** The worksheet page of a topic key. */
-export const sheetPath = (key) => `/teachers/worksheets/grammar/${sheetSlug(key)}`;
+export const sheetPath = (key) => `/profesores/fichas/gramatica/${sheetSlug(key)}`;
 /** The tandem (pair work) sheet of a topic key. */
-export const tandemPath = (key) => `/teachers/worksheets/tandem/${sheetSlug(key)}`;
+export const tandemPath = (key) => `/profesores/fichas/tandem/${sheetSlug(key)}`;
 // Item pages under a section (content-plan §1.3: "kebab-case of the English title, keep any
 // level prefix"). Keyed by the section's English path, then by the item's id, which stays
 // the key in the data, in progress and in class-task refs (h:<id>, l:<id>, k:<id> …).
 export const ITEM_SLUGS = {
-  "/listening": {
-    "a1-ansage-bahnhof": "a1-station-announcement", "a1-anruf-arzt": "a1-health-centre-voicemail",
-    "a1-supermarkt": "a1-supermarket", "a1-verabredung": "a1-arranging-to-meet",
-    "a2-amt-termin": "a2-town-hall-appointment", "a2-wohnungsbesichtigung": "a2-flat-viewing",
-    "a2-radio-wetter-verkehr": "a2-radio-weather-traffic", "a2-paketdienst": "a2-parcel-voicemails",
-    "b1-krankmeldung": "b1-calling-in-sick", "b1-elterngespraech": "b1-tutor-meeting",
-    "b1-radio-muelltrennung": "b1-radio-recycling", "b1-durchsage-ersatzverkehr": "b1-replacement-buses",
-    "b2-diskussion-homeoffice": "b2-working-from-home-meeting", "b2-interview-anerkennung": "b2-degree-recognition-interview",
-    "b2-beschwerde-versicherung": "b2-insurance-complaint", "b2-vortrag-ehrenamt": "b2-volunteering-talk",
+  "/comprension-auditiva": {
+    "a1-ansage-bahnhof": "a1-aviso-estacion", "a1-anruf-arzt": "a1-mensaje-centro-de-salud",
+    "a1-supermarkt": "a1-supermercado", "a1-verabredung": "a1-quedar",
+    "a2-amt-termin": "a2-cita-ayuntamiento", "a2-wohnungsbesichtigung": "a2-visita-al-piso",
+    "a2-radio-wetter-verkehr": "a2-radio-tiempo-y-trafico", "a2-paketdienst": "a2-mensajes-de-paqueteria",
+    "b1-krankmeldung": "b1-baja-por-enfermedad", "b1-elterngespraech": "b1-reunion-de-tutoria",
+    "b1-radio-muelltrennung": "b1-radio-reciclaje", "b1-durchsage-ersatzverkehr": "b1-autobuses-sustitutivos",
+    "b2-diskussion-homeoffice": "b2-reunion-teletrabajo", "b2-interview-anerkennung": "b2-entrevista-homologacion",
+    "b2-beschwerde-versicherung": "b2-queja-seguro", "b2-vortrag-ehrenamt": "b2-charla-voluntariado",
   },
-  "/reading": {
-    "a1-schilder-im-haus": "a1-notices-in-flats", "a1-nachricht-einladung": "a1-text-invitation",
-    "a2-wohnungsanzeigen": "a2-flat-adverts", "a2-email-kurs-absage": "a2-language-school-email",
-    "b1-digitales-buero": "b1-paperless-office", "b1-anzeigen": "b1-matching-notices",
-    "b1-zeitungsartikel": "b1-local-news-article", "b1-forumsbeitraege": "b1-forum-posts",
-    "b2-artikel-homeoffice": "b2-teleworking-article", "b2-kommentare-innenstadt": "b2-car-free-town-centre",
+  "/comprension-lectora": {
+    "a1-schilder-im-haus": "a1-avisos-en-el-portal", "a1-nachricht-einladung": "a1-mensaje-invitacion",
+    "a2-wohnungsanzeigen": "a2-anuncios-de-pisos", "a2-email-kurs-absage": "a2-correo-escuela-de-idiomas",
+    "b1-digitales-buero": "b1-oficina-sin-papel", "b1-anzeigen": "b1-anuncios-emparejados",
+    "b1-zeitungsartikel": "b1-noticia-local", "b1-forumsbeitraege": "b1-mensajes-de-foro",
+    "b2-artikel-homeoffice": "b2-articulo-teletrabajo", "b2-kommentare-innenstadt": "b2-centro-sin-coches",
   },
-  "/writing": {
-    "a1-formular-anmeldung": "a1-sports-centre-form", "a1-nachricht-absage": "a1-cant-come",
-    "a2-email-nachbarn": "a2-email-to-neighbour", "a2-formular-arztpraxis": "a2-health-centre-form",
-    "a2-email-school": "a2-email-to-school",
-    "b1-email-landlord": "b1-email-to-landlady", "b1-email-employer": "b1-time-off-email",
-    "b1-formular-vhs": "b1-completing-a-form", "b1-brief-david": "b1-reply-to-javier",
-    "b1-fehlerjagd": "b1-error-hunt", "b2-beschwerde-reiseveranstalter": "b2-holiday-complaint",
+  "/expresion-escrita": {
+    "a1-formular-anmeldung": "a1-formulario-polideportivo", "a1-nachricht-absage": "a1-no-puedo-ir",
+    "a2-email-nachbarn": "a2-correo-al-vecino", "a2-formular-arztpraxis": "a2-formulario-centro-de-salud",
+    "a2-email-school": "a2-correo-al-colegio",
+    "b1-email-landlord": "b1-correo-a-la-casera", "b1-email-employer": "b1-correo-dias-libres",
+    "b1-formular-vhs": "b1-rellenar-un-formulario", "b1-brief-david": "b1-respuesta-a-javier",
+    "b1-fehlerjagd": "b1-caza-de-errores", "b2-beschwerde-reiseveranstalter": "b2-reclamacion-de-viaje",
   },
-  "/speaking": {
-    "a1-sich-vorstellen": "a1-introducing-yourself", "a1-bild-bahnhof": "a1-picture-station",
-    "a1-bild-kueche": "a1-picture-kitchen", "a1-bild-supermarkt": "a1-picture-supermarket",
-    "a1-bild-spielplatz": "a1-picture-park", "a2-bild-gartenarbeit": "a2-picture-outdoor-work",
-    "a2-bild-bus": "a2-picture-tram", "a2-bild-nachbarschaftsfest": "a2-picture-garden-meal",
-    "a2-bild-wartezimmer": "a2-picture-doctors", "b1-bild-rolltreppe": "b1-picture-park",
-    "b1-bild-bewerbungsgespraech": "b1-picture-job-interview", "b1-bild-werkstatt": "b1-picture-workshop",
-    "b1-bild-buergeramt": "b1-picture-front-desk", "b2-vortrag-ehrenamt": "b2-talk-volunteering",
-    "b2-diskussion-ehrenamt-schule": "b2-discussion-volunteering-school", "b2-planen-abschiedsfeier": "b2-planning-leaving-party",
-    "b2-bild-wochenmarkt": "b2-picture-market", "b2-bild-videokonferenz": "b2-picture-video-call",
-    "b2-bild-baustelle-innenstadt": "b2-picture-building-work", "b2-bild-wertstoffhof": "b2-picture-recycling-centre",
+  "/expresion-oral": {
+    "a1-sich-vorstellen": "a1-presentarse", "a1-bild-bahnhof": "a1-imagen-estacion",
+    "a1-bild-kueche": "a1-imagen-cocina", "a1-bild-supermarkt": "a1-imagen-supermercado",
+    "a1-bild-spielplatz": "a1-imagen-parque", "a2-bild-gartenarbeit": "a2-imagen-trabajo-al-aire-libre",
+    "a2-bild-bus": "a2-imagen-tranvia", "a2-bild-nachbarschaftsfest": "a2-imagen-comida-en-el-jardin",
+    "a2-bild-wartezimmer": "a2-imagen-consulta", "b1-bild-rolltreppe": "b1-imagen-parque",
+    "b1-bild-bewerbungsgespraech": "b1-imagen-entrevista-de-trabajo", "b1-bild-werkstatt": "b1-imagen-taller",
+    "b1-bild-buergeramt": "b1-imagen-recepcion", "b2-vortrag-ehrenamt": "b2-charla-voluntariado",
+    "b2-diskussion-ehrenamt-schule": "b2-debate-voluntariado-escolar", "b2-planen-abschiedsfeier": "b2-planear-fiesta-de-despedida",
+    "b2-bild-wochenmarkt": "b2-imagen-mercado", "b2-bild-videokonferenz": "b2-imagen-videollamada",
+    "b2-bild-baustelle-innenstadt": "b2-imagen-obras", "b2-bild-wertstoffhof": "b2-imagen-punto-limpio",
   },
-  "/speaking/set": {
-    "a1-zuhause": "a1-at-home", "a2-unterwegs": "a2-out-and-about", "b1-arbeit": "b1-work", "b2-gesellschaft": "b2-society",
+  "/expresion-oral/serie": {
+    "a1-zuhause": "a1-en-casa", "a2-unterwegs": "a2-por-ahi", "b1-arbeit": "b1-trabajo", "b2-gesellschaft": "b2-sociedad",
   },
-  "/culture": {
-    "duzen-siezen": "tu-or-usted", pfand: "greetings", sonntagsruhe: "daily-rhythm", trinkgeld: "bars-and-paying",
-    bundeslaender: "autonomous-communities", feiertage: "public-holidays", comida: "food-and-meals", fiestas: "festivals",
-    muelltrennung: "recycling", termine: "cita-previa",
-    anmeldung: "empadronamiento", krankenversicherung: "public-health", mieten: "renting", schulsystem: "school-system",
-    "arbeit-finden": "finding-a-job", "lenguas-cooficiales": "languages-of-spain", "mundo-hispano": "hispanic-world",
-    ausbildung: "fp-and-university", kuendigung: "leaving-a-job",
-    "oeffentlich-rechtlicher-rundfunk": "public-media", vereine: "associations-and-volunteering",
-    "tradiciones-america": "latin-america-traditions",
-    foederalismus: "state-of-autonomies", sozialversicherung: "seguridad-social", wahlen: "elections",
-    "historia-compartida": "spain-and-latin-america",
-    erinnerungskultur: "the-transition", grundgesetz: "constitution", mitbestimmung: "unions-and-convenios",
+  "/cultura": {
+    "duzen-siezen": "tu-o-usted", pfand: "saludos", sonntagsruhe: "ritmo-del-dia", trinkgeld: "bares-y-cuentas",
+    bundeslaender: "comunidades-autonomas", feiertage: "festivos", comida: "comidas", fiestas: "fiestas-populares",
+    muelltrennung: "reciclaje", termine: "cita-previa",
+    anmeldung: "empadronamiento", krankenversicherung: "sanidad-publica", mieten: "alquiler", schulsystem: "sistema-educativo",
+    "arbeit-finden": "buscar-trabajo", "lenguas-cooficiales": "lenguas-de-espana", "mundo-hispano": "mundo-hispano",
+    ausbildung: "fp-y-universidad", kuendigung: "dejar-un-trabajo",
+    "oeffentlich-rechtlicher-rundfunk": "medios-publicos", vereine: "asociaciones-y-voluntariado",
+    "tradiciones-america": "tradiciones-de-america",
+    foederalismus: "estado-de-las-autonomias", sozialversicherung: "seguridad-social", wahlen: "elecciones",
+    "historia-compartida": "espana-y-america",
+    erinnerungskultur: "la-transicion", grundgesetz: "constitucion", mitbestimmung: "sindicatos-y-convenios",
   },
-  "/culture/insider": {
-    "hallo-sagen": "saying-hello", "naehe-abstand": "queues-and-personal-space", "hoefliche-notluegen": "please-and-thank-you",
-    puenktlichkeit: "time-and-timing", "zusammen-oder-getrennt": "paying-the-bill", "leute-kennenlernen": "small-talk-and-sobremesa",
-    "freunde-finden": "making-friends", "arbeit-finden": "how-hiring-works", "deutschland-und-das-auto": "cars-and-driving",
-    gleichberechtigung: "women-and-men-at-work", "erstes-date": "dating", direktheit: "directness",
-    vertrauen: "humour-and-banter",
+  "/cultura/por-dentro": {
+    "hallo-sagen": "saludar", "naehe-abstand": "colas-y-espacio-personal", "hoefliche-notluegen": "por-favor-y-gracias",
+    puenktlichkeit: "tiempo-y-puntualidad", "zusammen-oder-getrennt": "pagar-la-cuenta", "leute-kennenlernen": "charla-y-sobremesa",
+    "freunde-finden": "hacer-amigos", "arbeit-finden": "como-se-contrata", "deutschland-und-das-auto": "coches-y-conducir",
+    gleichberechtigung: "mujeres-y-hombres-en-el-trabajo", "erstes-date": "primera-cita", direktheit: "franqueza",
+    vertrauen: "humor-y-bromas",
   },
-  "/vocabulary/phrases": {
-    zustimmen: "agreeing", widersprechen: "disagreeing", zweifeln: "doubt", troesten: "comforting",
-    meinung: "opinions", nachfragen: "checking-understanding", bitten: "asking-for-help", entschuldigen: "apologising",
-    danken: "thanking", vorschlagen: "suggestions", gratulieren: "congratulating", begruessen: "greetings",
-    bildbeschreibung: "describing-pictures", "wo-ist-der-ball": "wheres-the-ball",
+  "/vocabulario/frases": {
+    zustimmen: "estar-de-acuerdo", widersprechen: "no-estar-de-acuerdo", zweifeln: "dudar", troesten: "consolar",
+    meinung: "opiniones", nachfragen: "comprobar-que-se-entiende", bitten: "pedir-ayuda", entschuldigen: "disculparse",
+    danken: "dar-las-gracias", vorschlagen: "sugerencias", gratulieren: "felicitar", begruessen: "saludos",
+    bildbeschreibung: "describir-imagenes", "wo-ist-der-ball": "donde-esta-la-pelota",
   },
   // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
   // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
-  "/spanish-for-work": {
-    "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "agriculture",
-    gastronomie: "hospitality", hotel: "hotels", kita: "cleaning-domestic-work", kraftfahrer: "driving",
-    "lager-logistik": "warehouse", pflege: "care-work",
+  "/espanol-para-el-trabajo": {
+    "bau-handwerk": "construccion", buero: "oficina", einzelhandel: "comercio", "elektro-technik": "agricultura",
+    gastronomie: "hosteleria", hotel: "hoteles", kita: "limpieza-y-servicio-domestico", kraftfahrer: "conduccion",
+    "lager-logistik": "almacen", pflege: "cuidados",
   },
 };
 export const WORK_GROUP_SLUGS = {
-  "baustelle-werkzeug": "site-and-tools", taetigkeiten: "tasks", ablaeufe: "workflow", sicherheit: "safety",
-  "kunden-team": "customers-and-team", "buero-geraete": "office-and-equipment", datenschutz: "data-protection",
-  "kasse-laden": "till-and-shop-floor", "bauteile-geraete": "tools-and-machines", "kueche-geraete": "kitchen-and-equipment",
-  "hygiene-sicherheit": "hygiene-and-safety", "gaeste-team": "guests-and-team", "rezeption-zimmer": "reception-and-rooms",
-  "sicherheit-hygiene": "safety-and-cleaning", "kita-material": "products-and-tools", tagesablauf: "working-day",
-  "sicherheit-gesundheit": "safety-and-health", "eltern-team": "family-and-team", fahrzeug: "vehicle",
-  "sicherheit-regeln": "safety-and-rules", "lager-geraete": "warehouse-and-equipment", team: "team",
-  "pflege-kurz": "people-and-places",
+  "baustelle-werkzeug": "obra-y-herramientas", taetigkeiten: "tareas", ablaeufe: "procesos", sicherheit: "seguridad",
+  "kunden-team": "clientes-y-equipo", "buero-geraete": "oficina-y-equipos", datenschutz: "proteccion-de-datos",
+  "kasse-laden": "caja-y-tienda", "bauteile-geraete": "herramientas-y-maquinas", "kueche-geraete": "cocina-y-equipos",
+  "hygiene-sicherheit": "higiene-y-seguridad", "gaeste-team": "huespedes-y-equipo", "rezeption-zimmer": "recepcion-y-habitaciones",
+  "sicherheit-hygiene": "seguridad-y-limpieza", "kita-material": "productos-y-herramientas", tagesablauf: "jornada",
+  "sicherheit-gesundheit": "seguridad-y-salud", "eltern-team": "familias-y-equipo", fahrzeug: "vehiculo",
+  "sicherheit-regeln": "seguridad-y-normas", "lager-geraete": "almacen-y-equipos", team: "equipo",
+  "pflege-kurz": "personas-y-lugares",
 };
 const invert = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [v, k]));
 const ITEM_KEYS = Object.fromEntries(Object.entries(ITEM_SLUGS).map(([s, m]) => [s, invert(m)]));
 const WORK_GROUP_KEYS = invert(WORK_GROUP_SLUGS);
 const ITEM_SECTIONS = Object.keys(ITEM_SLUGS).sort((a, b) => b.length - a.length);
 
-/** An item's URL slug in a section (English path, e.g. "/listening"). Unknown ids pass through. */
+/** An item's URL slug in a section (English path, e.g. "/comprension-auditiva"). Unknown ids pass through. */
 export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
 /** An item's id from its URL slug. Unknown slugs pass through. */
 export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
@@ -199,29 +199,29 @@ export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
 export const itemPath = (section, id) => `${section}/${itemSlug(section, id)}`;
 /** Business Spanish units: the id is the Spanish name of the file, the URL says it in English. */
 export const BUSINESS_SLUGS = {
-  correos: "emails",
-  llamadas: "phone-calls",
-  curriculum: "cv-and-cover-letter",
-  entrevista: "job-interviews",
-  reuniones: "meetings",
-  negociacion: "negotiating",
+  correos: "correos",
+  llamadas: "llamadas",
+  curriculum: "curriculum-y-carta",
+  entrevista: "entrevistas-de-trabajo",
+  reuniones: "reuniones",
+  negociacion: "negociacion",
 };
-export const businessPath = (unit) => `/business-spanish/${BUSINESS_SLUGS[unit] ?? unit}`;
+export const businessPath = (unit) => `/espanol-de-negocios/${BUSINESS_SLUGS[unit] ?? unit}`;
 /** A work sector, or one word group of it. */
-export const workPath = (sector, group) => sector === "dgt" ? `/dgt-vocabulary${group ? `/${group}` : ""}` :
-  sector === "business" ? (group ? `${businessPath(group)}/words` : "/business-spanish") :
-  `/spanish-for-work/${itemSlug("/spanish-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
+export const workPath = (sector, group) => sector === "dgt" ? `/vocabulario-dgt${group ? `/${group}` : ""}` :
+  sector === "business" ? (group ? `${businessPath(group)}/palabras` : "/espanol-de-negocios") :
+  `/espanol-para-el-trabajo/${itemSlug("/espanol-para-el-trabajo", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */
 export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
-  goethe: "/dele", telc: "/siele/levels", dtz: "/nationality/dele-a2", testdaf: "/siele",
+  goethe: "/dele", telc: "/siele/niveles", dtz: "/nacionalidad/dele-a2", testdaf: "/siele",
   "leben-in-deutschland": "/ccse", "start-deutsch-1": "/dele/a1",
 };
 /** The overview page of an exam family (registry id → path). */
 export const examPath = (exam) => EXAM_PATHS[exam] ?? `/${exam}`;
-/** The exam family (registry id) a path belongs to, or null. Longest path first (/nationality/dele-a2 is dtz). */
+/** The exam family (registry id) a path belongs to, or null. Longest path first (/nacionalidad/dele-a2 is dtz). */
 export function examOfPath(path) {
   const hit = Object.entries(EXAM_PATHS).sort((a, b) => b[1].length - a[1].length)
     .find(([, p]) => path === p || path.startsWith(p + "/"));

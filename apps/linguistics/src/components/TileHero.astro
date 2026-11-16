@@ -1,0 +1,68 @@
+---
+// Page hero in the tile-world style: eyebrow, headline with a yellow marker, lede, optional
+// actions (default slot) and a 2×2 tile cluster with a mascot and a speech bubble.
+// Mascots own a colour (BRAND.md §3): regi yellow, bruno sky, quaki coral, hamsti green.
+import { u } from '../lib/url';
+import '../styles/tiles.css';
+
+type Mascot = 'regi' | 'bruno' | 'quaki' | 'hamsti';
+interface Props {
+  eyebrow: string;
+  /** Headline before the marker, and the marked words (may be empty). */
+  title: string;
+  mark?: string;
+  lede?: string;
+  mascot: Mascot;
+  bubble: string;
+  /** h1 by default; "h2" when the page already has an h1. */
+  as?: 'h1' | 'h2';
+}
+const { eyebrow, title, mark, lede, mascot, bubble, as: Heading = 'h1' } = Astro.props;
+
+const own: Record<Mascot, string> = { regi: 'var(--isk-yellow)', bruno: 'var(--isk-sky)', quaki: 'var(--isk-coral)', hamsti: 'var(--isk-green)' };
+// The other three tiles take the remaining colours so all four brand colours appear once.
+const rest = ['var(--isk-sky)', 'var(--isk-coral)', 'var(--isk-yellow)', 'var(--isk-green)'].filter((c) => c !== own[mascot]);
+const [bubbleBg, halfBg] = [rest[0], rest[1]];
+---
+
+<section class="tile-hero">
+  <div class="container tile-hero__inner">
+    <div class="tile-hero__text">
+      <p class="eyebrow">{eyebrow}</p>
+      <Heading class="tile-hero__title">{title}{mark && <>{title ? ' ' : ''}<span class="isk-mark">{mark}</span></>}</Heading>
+      {lede && <p class="lede">{lede}</p>}
+      {Astro.slots.has('default') && <div class="tile-hero__actions"><slot /></div>}
+    </div>
+    <div class="tile-hero__cluster" aria-hidden="true">
+      <div class="isk-tile isk-tile--dots" style="--t:var(--ct);--bg:var(--isk-navy);--a:var(--isk-yellow)"></div>
+      <div class="isk-tile isk-tile--bubble" style={`--t:var(--ct);--bg:${bubbleBg};--a:#fff`}><span class="isk-tile__say">{bubble}</span></div>
+      <div class="isk-tile isk-tile--half tile-hero__spin" style={`--t:var(--ct);--bg:${halfBg};--a:var(--isk-navy);--b:${rest[2]}`}></div>
+      <div class="isk-tile tile-hero__mascot" style={`--t:var(--ct);--bg:${own[mascot]}`}><div class="isk-tile__fill"><img src={u(`/mascots/${mascot}.svg`)} alt="" width="120" height="120" /></div></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tile-hero { padding-block: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 3vw, 2.5rem); }
+  .tile-hero__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3rem; align-items: center; }
+  .tile-hero__title { margin-block: 0.75rem 1rem; font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3.5rem); line-height: 1.04; }
+  .tile-hero__actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-block-start: 1.6rem; }
+  .tile-hero__cluster { --ct: 130px; display: grid; grid-template-columns: repeat(2, var(--ct)); border: 3px solid var(--isk-navy); }
+  @media (prefers-reduced-motion: no-preference) {
+    .tile-hero__text > * { animation: isk-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .tile-hero__text > :nth-child(2) { animation-delay: 0.07s; }
+    .tile-hero__text > :nth-child(3) { animation-delay: 0.14s; }
+    .tile-hero__text > :nth-child(4) { animation-delay: 0.21s; }
+    .tile-hero__cluster > * { animation: isk-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+    .tile-hero__cluster > :nth-child(2) { animation-delay: 0.08s; }
+    .tile-hero__cluster > :nth-child(3) { animation-delay: 0.16s; }
+    .tile-hero__cluster > :nth-child(4) { animation-delay: 0.24s; }
+    .tile-hero__spin::before { animation: isk-spin 9s linear infinite; }
+    .tile-hero__mascot img { animation: isk-bob 3.2s ease-in-out infinite; }
+  }
+  @media (max-width: 860px) {
+    .tile-hero__inner { grid-template-columns: 1fr; gap: 2rem; }
+    .tile-hero__cluster { --ct: 90px; grid-template-columns: repeat(4, var(--ct)); justify-self: start; order: -1; }
+  }
+  @media (max-width: 420px) { .tile-hero__cluster { --ct: 70px; } }
+</style>

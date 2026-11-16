@@ -9,11 +9,11 @@
 // Not on the quiz pages themselves.
 import { withBase, currentPath } from "./paths.js";
 
-const ON_QUIZ = /^\/(teachers\/quiz|game)(\/|$)/;
+const ON_QUIZ = /^\/(professores\/quiz|jogo)(\/|$)/;
 
 function contextHref() {
-  const a = document.querySelector(`[data-lq-link] a[href], a.da-btn[href^="${withBase("/teachers/quiz")}"]`);
-  return a?.getAttribute("href") || withBase("/teachers/quiz");
+  const a = document.querySelector(`[data-lq-link] a[href], a.da-btn[href^="${withBase("/professores/quiz")}"]`);
+  return a?.getAttribute("href") || withBase("/professores/quiz");
 }
 
 function show(buttons) {

@@ -1,61 +1,56 @@
 {
-  "note": "The placement test behind the “I don't know” tile on the homepage (src/pages/placement-test.astro). The A1 set is also the quick check on /step-by-step.\n\nSix items per level; the test draws two, so someone who takes it twice does not get the same sentences. Each item tests exactly one feature that is typical of its level and not yet expected at the level below: ser, estar, present regular, el/la, gustar and hay for A1; indefinido, perfecto (irregular participle), imperfecto, direct object pronouns, ir a + infinitive and comparatives for A2; indefinido against imperfecto, present subjunctive after a wish, por/para, conditional, negative imperative (vosotros) and cuando + subjunctive for B1; imperfect subjunctive, unreal si, passive se, backshift in reported speech, subjunctive in relatives and unreal si in the past for B2; sequence of tenses, como si, conditions without si (de + infinitive), formal relatives (cuyo), cleft sentences with a repeated preposition and ni que for C1.\n\nThe standard is Castilian (Spain). Only one option is right, and the wrong ones are not nonsense words but the mistakes learners really make at that point (escribido, Si tendría, que su contrato). A test you can pass by ruling out the silly answer measures nothing. Options that a native speaker could also accept in some context are deliberately left out, and that rules out more than it first seems: es cerca, the imperfect for the conditional (yo en tu lugar hablaba), courtesy podías, laísmo and leísmo (la escribo, le encuentro), the impersonal venden next to se venden, venía for vendría in reported speech, Fue… que in clefts, indicative after por mucho que. Second forms of a right answer (-se for -ra, a la que for a quien) are simply not offered, so nobody has to choose between two correct answers.\n\nThe items on the perfecto avoid the choice between he ido and fui for today's events, because Spain and Latin America answer it differently. Items with Spain-only words or vosotros carry an es419 note (docs/content-plan.md §1.5); the page ignores the field for now.\n\nItem order is part of the problem-report ref (x:einstufung/<level>/q<n>).",
-  "variety": "es-ES",
+  "note": "The placement test behind the “I don't know” tile on the homepage (src/pages/placement-test.astro). The A1 set is also the quick check on /pas-a-pas.\n\nSix items per level; the test draws two, so someone who takes it twice does not get the same sentences. Each item tests exactly one feature that is typical of its level and not yet expected at the level below: être and avoir, the -er present, le/la, ne…pas, est-ce que and adjective agreement for A1; the passé composé with avoir (irregular participle) and with être, the imparfait, direct object pronouns, the futur proche and the partitive for A2; passé composé against imparfait, the subjunctive after a wish, en, dont, the conditional and the future after quand for B1; si + imparfait, bien que + subjunctive, the passive, backshift in reported speech, past participle agreement with a preceding direct object and the gérondif for B2; the past subjunctive, cleft sentences with a preposition (C'est à… que), à condition que, comme si + imparfait, nominalisation and the journalistic conditional for C1.\n\nThe standard is the French of France, traditional spelling. Only one option is right, and the wrong ones are the mistakes learners really make at that point (écrivé, je parlerai for je parlerais, the present after quand for a future event, Si nous aurions, C'est à Lucie à qui). A test you can pass by ruling out the silly answer measures nothing. Options that a native speaker could also accept in some context are left out: sonnait next to a sonné (hence soudain), the plus-que-parfait next to the passé composé (étions allés), aura fait for the journalistic conditional, doit/devra in a news sentence, viendra in reported speech with le lendemain. Spoken forms that drop ne or the agreement of the participle are never the right answer; the written standard is tested.\n\nItems on things that differ in Québec (the health card, the préfecture) carry a frCA note (docs/content-plan.md §1.5); the page ignores the field for now. Prompts keep a non-breaking space before ? ! : ; (§1.2); options and answers never hold one.\n\nItem order is part of the problem-report ref (x:einstufung/<level>/q<n>).",
+  "variety": "fr-FR",
   "levels": {
     "A1": [
-      { "prompt": "Carmen ___ enfermera.", "options": ["es", "está", "tiene"], "answer": "es" },
-      { "prompt": "Mi hermano ___ en Valencia.", "options": ["vive", "vivo", "vivir"], "answer": "vive" },
-      { "prompt": "___ farmacia está abierta.", "options": ["La", "El", "Las"], "answer": "La" },
-      { "prompt": "Me ___ el café con leche.", "options": ["gusta", "gusto", "gustan"], "answer": "gusta" },
-      { "prompt": "En mi barrio ___ dos supermercados.", "options": ["hay", "están", "son"], "answer": "hay" },
-      { "prompt": "Los niños ___ en el colegio.", "options": ["están", "son", "hay"], "answer": "están" }
+      { "prompt": "Nous ___ un rendez-vous à la mairie.", "options": ["avons", "sommes", "êtes"], "answer": "avons" },
+      { "prompt": "Mon frère ___ à Lyon.", "options": ["habite", "habites", "habiter"], "answer": "habite" },
+      { "prompt": "___ pharmacie ferme à 19 heures.", "options": ["La", "Le", "Les"], "answer": "La" },
+      { "prompt": "Je ___ parle pas bien français.", "options": ["ne", "pas", "non"], "answer": "ne" },
+      {
+        "prompt": "___ vous avez votre carte Vitale ?",
+        "options": ["Est-ce que", "Qu'est-ce que", "Est-ce"],
+        "answer": "Est-ce que",
+        "frCA": { "note": "In Québec the health card is the carte d'assurance maladie (RAMQ), not the carte Vitale.", "form": "___ vous avez votre carte d'assurance maladie ?" }
+      },
+      { "prompt": "Ma voisine est très ___.", "options": ["gentille", "gentil", "gentils"], "answer": "gentille" }
     ],
     "A2": [
-      { "prompt": "Ayer ___ al médico con mi hija.", "options": ["fui", "he ido", "voy"], "answer": "fui" },
-      { "prompt": "He ___ un correo a la casera, pero no contesta.", "options": ["escrito", "escribido", "escribiendo"], "answer": "escrito" },
-      { "prompt": "De pequeña, ___ al colegio en autobús todos los días.", "options": ["iba", "voy", "iré"], "answer": "iba" },
-      {
-        "prompt": "He perdido el móvil y no ___ encuentro.",
-        "options": ["lo", "la", "los"],
-        "answer": "lo",
-        "es419": { "note": "In Latin America: el celular.", "form": "He perdido el celular y no ___ encuentro." }
-      },
-      { "prompt": "Mañana voy ___ pedir cita en el centro de salud.", "options": ["a", "de", "en"], "answer": "a" },
-      {
-        "prompt": "Mi piso es ___ grande que el tuyo.",
-        "options": ["más", "muy", "tan"],
-        "answer": "más",
-        "es419": { "note": "In much of Latin America: el departamento or el apartamento.", "form": "Mi departamento es ___ grande que el tuyo." }
-      }
+      { "prompt": "J'ai ___ une lettre à la propriétaire.", "options": ["écrit", "écrivé", "écrire"], "answer": "écrit" },
+      { "prompt": "Samedi, nous ___ allés au marché.", "options": ["sommes", "avons", "allons"], "answer": "sommes" },
+      { "prompt": "Enfant, ma mère ___ à l'école à pied tous les jours.", "options": ["allait", "va", "ira"], "answer": "allait" },
+      { "prompt": "J'ai perdu ma carte bancaire et je ne ___ trouve pas.", "options": ["la", "le", "lui"], "answer": "la" },
+      { "prompt": "Demain, je vais ___ rendez-vous chez le médecin.", "options": ["prendre", "pris", "prends"], "answer": "prendre" },
+      { "prompt": "Le matin, je bois ___ café.", "options": ["du", "de", "des"], "answer": "du" }
     ],
     "B1": [
-      { "prompt": "Ayer estaba en la ducha cuando ___ el teléfono.", "options": ["sonó", "sonaba", "ha sonado"], "answer": "sonó" },
-      { "prompt": "Espero que te ___ pronto.", "options": ["mejores", "mejoras", "mejorar"], "answer": "mejores" },
-      { "prompt": "Necesito el certificado ___ el viernes.", "options": ["para", "por", "en"], "answer": "para" },
-      { "prompt": "Yo, en tu lugar, ___ con el casero.", "options": ["hablaría", "hablaré", "hablé"], "answer": "hablaría" },
-      {
-        "prompt": "Chicos, no ___ tarde mañana, por favor.",
-        "options": ["lleguéis", "llegáis", "llegad"],
-        "answer": "lleguéis",
-        "es419": { "note": "Latin America uses ustedes, not vosotros: no lleguen tarde.", "skip": true }
-      },
-      { "prompt": "Te llamaré cuando ___ a casa.", "options": ["llegue", "llego", "llegaré"], "answer": "llegue" }
+      { "prompt": "Hier soir, j'étais sous la douche quand soudain le téléphone ___.", "options": ["a sonné", "sonnait", "avait sonné"], "answer": "a sonné" },
+      { "prompt": "Je voudrais que tu ___ avec moi à la mairie.", "options": ["viennes", "viens", "venir"], "answer": "viennes" },
+      { "prompt": "Des enfants ? Nous ___ avons deux.", "options": ["en", "les", "y"], "answer": "en" },
+      { "prompt": "C'est le document ___ j'ai besoin pour mon dossier.", "options": ["dont", "que", "où"], "answer": "dont" },
+      { "prompt": "À ta place, je ___ au propriétaire.", "options": ["parlerais", "parlerai", "parlais"], "answer": "parlerais" },
+      { "prompt": "Je t'appellerai quand je ___ à la maison.", "options": ["serai", "suis", "sois"], "answer": "serai" }
     ],
     "B2": [
-      { "prompt": "Mi jefa quería que ___ el sábado.", "options": ["trabajara", "trabajaba", "trabajaría"], "answer": "trabajara" },
-      { "prompt": "Si ___ más tiempo, haría un curso de informática.", "options": ["tuviera", "tendría", "tengo"], "answer": "tuviera" },
-      { "prompt": "Para hacer este trámite ___ dos documentos.", "options": ["se necesitan", "se necesita", "se necesiten"], "answer": "se necesitan" },
-      { "prompt": "Javier me dijo que ___ al día siguiente.", "options": ["vendría", "vendrá", "viene"], "answer": "vendría" },
-      { "prompt": "No hay nadie en la oficina que ___ árabe.", "options": ["hable", "habla", "hablar"], "answer": "hable" },
-      { "prompt": "Si me lo ___ antes, te habría ayudado.", "options": ["hubieras dicho", "habrías dicho", "dijiste"], "answer": "hubieras dicho" }
+      { "prompt": "Si nous ___ plus de temps, nous suivrions une formation.", "options": ["avions", "aurions", "avons"], "answer": "avions" },
+      { "prompt": "Bien qu'il ___ malade, il est venu travailler.", "options": ["soit", "est", "serait"], "answer": "soit" },
+      {
+        "prompt": "Mon dossier ___ par la préfecture la semaine dernière.",
+        "options": ["a été accepté", "est accepté", "a accepté"],
+        "answer": "a été accepté",
+        "frCA": { "note": "Canada has no préfecture: immigration files go to IRCC, and in Québec also to the MIFI.", "form": "Mon dossier ___ par IRCC la semaine dernière." }
+      },
+      { "prompt": "Karim m'a dit qu'il ___ le lendemain.", "options": ["viendrait", "viendra", "vient"], "answer": "viendrait" },
+      { "prompt": "Les lettres que j'ai ___ sont sur la table.", "options": ["écrites", "écrit", "écrits"], "answer": "écrites" },
+      { "prompt": "Je me suis cassé le bras ___ du vélo.", "options": ["en faisant", "en faire", "pour faire"], "answer": "en faisant" }
     ],
     "C1": [
-      { "prompt": "La directora lamentó que nadie ___ el informe antes de la reunión.", "options": ["hubiera leído", "haya leído", "había leído"], "answer": "hubiera leído" },
-      { "prompt": "Me habla como si yo no ___ español.", "options": ["entendiera", "entienda", "entendería"], "answer": "entendiera" },
-      { "prompt": "De ___ sabido antes, no habría firmado el contrato.", "options": ["haberlo", "lo haber", "habiéndolo"], "answer": "haberlo" },
-      { "prompt": "La inquilina, ___ contrato vence en junio, ha pedido una prórroga.", "options": ["cuyo", "cuya", "que su"], "answer": "cuyo" },
-      { "prompt": "Fue a Lucía ___ despidieron, no a mí.", "options": ["a quien", "quien", "cual"], "answer": "a quien" },
-      { "prompt": "¿Vas a pagar tanto por un reloj? ¡Ni que ___ millonario!", "options": ["fueras", "seas", "eres"], "answer": "fueras" }
+      { "prompt": "La directrice regrette que personne ___ le rapport avant la réunion.", "options": ["n'ait lu", "n'a lu", "n'avait lu"], "answer": "n'ait lu" },
+      { "prompt": "C'est à Lucie ___ j'ai parlé, pas à son frère.", "options": ["que", "à qui", "qui"], "answer": "que" },
+      { "prompt": "Je vous prête la voiture, à condition que vous me la ___ dimanche.", "options": ["rendiez", "rendez", "rendrez"], "answer": "rendiez" },
+      { "prompt": "Il me parle comme si je ne ___ pas le français.", "options": ["comprenais", "comprenne", "comprendrais"], "answer": "comprenais" },
+      { "prompt": "Les habitants protestent contre ___ de la maternité.", "options": ["la fermeture", "la fermeté", "le fermage"], "answer": "la fermeture" },
+      { "prompt": "Selon une source non confirmée, l'incendie ___ fait trois victimes.", "options": ["aurait", "avait", "ait"], "answer": "aurait" }
     ]
   }
 }

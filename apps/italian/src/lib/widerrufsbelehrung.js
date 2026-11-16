@@ -1,5 +1,5 @@
 // The Widerrufsbelehrung and the Muster-Widerrufsformular — one source for /widerruf, the
-// section in /terms and the purchase mail (emails/content.mjs), so the three
+// section in /condizioni and the purchase mail (emails/content.mjs), so the three
 // can never say different things (WIDERRUF-14-TAGE-PROMPT.md).
 //
 // Since 2026-10-04 buyers keep the full 14-day right of withdrawal: no § 356 Abs. 5 BGB
@@ -15,7 +15,7 @@
 // TODO(legal): the lawyer confirms the filled-in model (docs/legal-drafts/offene-rechtsfragen.md).
 import { LEGAL } from "./legal.js";
 
-const SITE = "https://icanspeak.it/italian";
+const SITE = "https://icanspeak.it/italiano";
 const ADDRESS = `${LEGAL.operatorName}, icanspeak Italian, ${LEGAL.operatorStreet}, ${LEGAL.operatorPostcode} ${LEGAL.operatorCity}`;
 
 /** @type {{ heading: string, paragraphs: string[] }[]} plain text, no HTML */

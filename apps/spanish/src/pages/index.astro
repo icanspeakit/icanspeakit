@@ -7,6 +7,7 @@
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import Mascot from "../components/mascots/Mascot.astro";
+import HeroEgg from "../components/HeroEgg.astro";
 import { landingTools } from "../lib/catalog.js";
 import "../styles/home4.css";
 
@@ -38,20 +39,22 @@ const HERO = [
 
 // The four mascots, one card each in the navy band.
 const CREW = [
-  { name: "regi", colour: "var(--isk-yellow)", kicker: undefined, kickerText: "con Regi", title: undefined, titleText: "Gramática", desc: undefined, descText: "Tiempos, preguntas, condicionales y orden de palabras, de A1 a C1, paso a paso." },
-  { name: "bruno", colour: "var(--isk-sky)", kicker: undefined, kickerText: "con Bruno", title: undefined, titleText: "Español cotidiano", desc: undefined, descText: "Las situaciones del día a día: en la tienda, en el médico, charlas en el trabajo." },
-  { name: "quaki", colour: "var(--isk-coral)", kicker: undefined, kickerText: "con Quaki", title: undefined, titleText: "Hablar", desc: undefined, descText: "Juegos de rol, tareas en pareja y descripciones de imágenes: lo que la mayoría de apps deja fuera." },
-  { name: "hamsti", colour: "var(--isk-green)", kicker: undefined, kickerText: "con Hamsti", title: undefined, titleText: "Vocabulario y exámenes", desc: undefined, descText: "Tarjetas que vuelven en el momento justo, y simulacros para DELE, SIELE y CCSE." },
+  { name: "regi", colour: "var(--isk-yellow)", kicker: undefined, kickerText: "con Regi", title: undefined, titleText: "Gramática", desc: "home4.crew.regi.desc", descText: "Tenses, questions, conditionals and word order, from A1 to C1, step by step." },
+  { name: "bruno", colour: "var(--isk-sky)", kicker: undefined, kickerText: "con Bruno", title: undefined, titleText: "Español cotidiano", desc: "home4.crew.bruno.desc", descText: "Everyday situations: at the shop, at the doctor’s, small talk at work." },
+  { name: "quaki", colour: "var(--isk-coral)", kicker: undefined, kickerText: "con Quaki", title: undefined, titleText: "Hablar", desc: "home4.crew.quaki.desc", descText: "Role plays, pair work and picture descriptions: what most apps leave out." },
+  { name: "hamsti", colour: "var(--isk-green)", kicker: undefined, kickerText: "con Hamsti", title: undefined, titleText: "Vocabulario y exámenes", desc: "home4.crew.hamsti.desc", descText: "Flashcards that come back at just the right time, and practice tests for DELE, SIELE and CCSE." },
 ];
 
-// The exercise cards come from the one catalogue (src/lib/catalog.js), as on /exercises.
+// The exercise cards come from the one catalogue (src/lib/catalog.js), as on /ejercicios.
 const CARD_GLYPHS = ["Aa", "“”", "¿", "!", "¡", "?"];
 
-// The five courses. Only english is live; the others are shown, not linked, until they are.
+// The five courses: this one, the other live ones (absolute URLs: they are other Workers on
+// icanspeak.it, outside this app's base), and the rest shown, not linked, until they are live.
+// Keep the live ones in step with apps/hub/src/data/courses.ts (scripts/check-parity.mjs checks it).
 const COURSES = [
-  { label: "español", live: true, href: "/" },
-  { label: "english" },
-  { label: "français" },
+  { label: "español", live: true, current: true, href: "/" },
+  { label: "english", live: true, href: "https://icanspeak.it/english/" },
+  { label: "français", live: true, href: "https://icanspeak.it/francais/" },
   { label: "português" },
   { label: "italiano" },
 ];
@@ -68,7 +71,8 @@ const COURSES = [
       ))}
     </div>
 
-    <!-- Hero -->
+    <!-- Hero (the tiles are an easter egg: src/components/HeroEgg.astro) -->
+    <div class="egg-stage">
     <section class="h4-hero">
       <div class="h4-hero__copy">
         <p class="h4-eyebrow" lang="es">Español de A1 a C1</p>
@@ -78,8 +82,8 @@ const COURSES = [
         </h1>
         <p class="h4-lead" data-i18n="home3.hero.lead">Grammar, everyday Spanish and speaking, from A1 to C1: short exercises with instant feedback, free and without an account.</p>
         <div class="h4-cta">
-          <a href="/placement-test" class="h4-btn h4-btn--primary" lang="es">Empieza donde estás</a>
-          <a href="/exams" class="h4-btn h4-btn--outline" lang="es">Ver los exámenes</a>
+          <a href="/prueba-de-nivel" class="h4-btn h4-btn--primary" lang="es">Empieza donde estás</a>
+          <a href="/examenes" class="h4-btn h4-btn--outline" lang="es">Ver los exámenes</a>
         </div>
         <p class="h4-free" data-i18n="home4.free">Free exercises, no account needed.</p>
       </div>
@@ -93,6 +97,35 @@ const COURSES = [
         ))}
       </div>
     </section>
+    </div>
+    <HeroEgg />
+
+    <!-- Exercise cards: the catalogue, right under the hero -->
+    <section class="h4-exband">
+    <div class="h4-wrap h4-exercises">
+      <div class="h4-row">
+        <h2 class="h4-h2" data-i18n="home4.exercises.title">All exercises</h2>
+        <a href="/ejercicios" class="h4-link" data-i18n="home4.exercises.all">Browse everything</a>
+      </div>
+      <div class="h4-grid">
+        {landingTools.map((t, i) => (
+          <a href={t.href} class="h4-ex">
+            <span class="isk-tile isk-tile--dots h4-ex__glyph" aria-hidden="true" style="--t:56px;--bg:var(--isk-navy);--a:var(--isk-yellow);--b:#fff"><span class="isk-tile__fill">{CARD_GLYPHS[i % CARD_GLYPHS.length]}</span></span>
+            <span class="h4-ex__title" data-i18n={t.titleKey}>{t.title}</span>
+            <span class="h4-ex__desc" data-i18n={t.descKey}>{t.desc}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    </section>
+
+    <div class="isk-ribbon h4-ribbon" aria-hidden="true">
+      {RIBBON_TILES.map((t) => (
+        <div class={`isk-tile ${t.cls}`} style={`--t:var(--isk-tile);--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
+          {t.glyph && <span class="isk-tile__fill">{t.glyph}</span>}
+        </div>
+      ))}
+    </div>
 
     <!-- Navy band -->
     <section class="h4-band">
@@ -105,8 +138,8 @@ const COURSES = [
                 <Mascot name={c.name} size={140} />
               </div>
               <div class="h4-card__body">
-                <span class="h4-kicker" data-i18n={c.kicker}>{c.kickerText}</span>
-                <h3 class="h4-h3" data-i18n={c.title}>{c.titleText}</h3>
+                <span class="h4-kicker" lang="es" data-i18n={c.kicker}>{c.kickerText}</span>
+                <h3 class="h4-h3" lang="es" data-i18n={c.title}>{c.titleText}</h3>
                 <p class="h4-p" data-i18n={c.desc}>{c.descText}</p>
               </div>
             </article>
@@ -123,24 +156,6 @@ const COURSES = [
       ))}
     </div>
 
-    <!-- Exercise cards: the catalogue -->
-    <section class="h4-wrap h4-exercises">
-      <div class="h4-row">
-        <h2 class="h4-h2" data-i18n="home4.exercises.title">All exercises</h2>
-        <a href="/exercises" class="h4-link" data-i18n="home4.exercises.all">Browse everything</a>
-      </div>
-      <div class="h4-grid">
-        {landingTools.map((t, i) => (
-          <a href={t.href} class="h4-ex">
-            <span class="isk-tile isk-tile--dots h4-ex__glyph" aria-hidden="true" style="--t:56px;--bg:var(--isk-navy);--a:var(--isk-yellow);--b:#fff"><span class="isk-tile__fill">{CARD_GLYPHS[i % CARD_GLYPHS.length]}</span></span>
-            <span class="h4-ex__title" data-i18n={t.titleKey}>{t.title}</span>
-            <span class="h4-ex__desc" data-i18n={t.descKey}>{t.desc}</span>
-            <span class="h4-badge" data-i18n={t.countKey} data-i18n-vars={t.countVars ? JSON.stringify(t.countVars) : undefined}>{t.count}</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
     <!-- Glass band: the five courses -->
     <section class="h4-glass">
       <div class="h4-wrap h4-glass__row">
@@ -152,7 +167,7 @@ const COURSES = [
           <p class="h4-p h4-p--light" data-i18n="home4.langs.lead">The same method, the same crew, for every course on icanspeak.it.</p>
           <div class="h4-pills">
             {COURSES.map((c) => c.live
-              ? <a href={c.href} class="h4-pill h4-pill--live" aria-current="page">{c.label}</a>
+              ? <a href={c.href} class="h4-pill h4-pill--live" aria-current={c.current ? "page" : undefined}>{c.label}</a>
               : <span class="h4-pill">{c.label}</span>)}
           </div>
         </div>
@@ -167,7 +182,7 @@ const COURSES = [
           <h2 class="h4-h2" data-i18n="home4.place.title">Not sure where to start?</h2>
           <p class="h4-p" data-i18n="home4.place.lead">Take the placement test and start at your level.</p>
         </div>
-        <a href="/placement-test" class="h4-btn h4-btn--primary" data-i18n="home4.place.cta">Find your level</a>
+        <a href="/prueba-de-nivel" class="h4-btn h4-btn--primary" data-i18n="home4.place.cta">Find your level</a>
       </div>
     </section>
 
@@ -179,16 +194,5 @@ const COURSES = [
       ))}
     </div>
 
-    <footer class="h4-footer">
-      <div class="h4-wrap h4-footer__row">
-        <img src="/logos/icanspeak-wordmark-dark.svg" alt="icanspeak!" class="h4-footer__logo" />
-        <nav class="h4-footer__links" aria-label="Footer">
-          <a href="/legal-notice" data-i18n="home.footer.link.imprint">Legal notice</a>
-          <a href="/privacy" data-i18n="home.footer.link.privacy">Privacy</a>
-          <a href="/terms" data-i18n="home.footer.link.terms">Terms</a>
-          <a href="https://icanspeak.it/" data-i18n="home4.footer.part">part of icanspeak.it</a>
-        </nav>
-      </div>
-    </footer>
   </div>
 </Layout>

@@ -1,45 +1,42 @@
 {
   "id": "indefinitpronomen",
-  "name": "algo, nada, alguien, nadie, algún, ningún, otro",
+  "name": "quelqu'un, quelque chose, personne, rien, tout, chaque, autre",
   "level": "A2",
   "status": "entwurf",
-  "variety": "es-ES",
-  "subtitle": "algo is something, nada is nothing. alguien is someone, nadie is no one. algún and ningún go with a noun: ¿Hay algún problema? No hay ningún problema. otro means another: otro café.",
-  "briefMarks": ["algo", "nada", "alguien", "nadie", "algún", "ningún", "otro"],
-  "source": "icanspeak Spanish original text (grammar-a2 run, 2026-11-04)",
+  "variety": "fr-FR",
+  "subtitle": "Quelqu'un is someone and quelque chose is something. Their negatives are ne … personne and ne … rien: Je ne vois personne. Je n'ai rien. Use tout, chaque and autre for \"all\", \"each\" and \"other\": tous les jours, chaque matin, un autre café.",
+  "briefMarks": ["quelqu'un", "quelque chose", "personne", "rien", "quelque chose de", "tout", "tous", "toute", "toutes", "chaque", "chacun", "autre", "d'autres"],
+  "source": "icanspeak French original text (grammar-a2 run, 2026-11-08)",
   "concept": {
-    "flow": [
-      { "text": "yes, question: algo · alguien · algún", "variant": "prep" },
-      { "text": "no: nada · nadie · ningún", "variant": "verb" }
-    ],
-    "exampleHtml": "¿Quieres <span class=\"vp-prep\">algo</span>? · No quiero <span class=\"vp-prep\">nada</span>. · ¿Hay <span class=\"vp-prep\">alguien</span> en casa? · No hay <span class=\"vp-prep\">nadie</span>. · ¿Tienes <span class=\"vp-prep\">algún</span> problema? · No tengo <span class=\"vp-prep\">ningún</span> problema.",
+    "flow": [{ "text": "yes, question: quelqu'un · quelque chose", "variant": "prep" }, { "text": "no: ne … personne · ne … rien", "variant": "verb" }],
+    "exampleHtml": "Il y a <span class=\"vp-prep\">quelqu'un</span> ? · Tu veux <span class=\"vp-prep\">quelque chose</span> ? · Je ne vois <span class=\"vp-prep\">personne</span>. · Je n'ai <span class=\"vp-prep\">rien</span>. · Je voudrais <span class=\"vp-prep\">quelque chose de</span> bon. · <span class=\"vp-prep\">Tous</span> les jours.",
     "qa": [
       {
-        "html": "<strong>algo</strong> (something, anything) and <strong>nada</strong> (nothing, anything after <em>no</em>) are for things: <em>¿Necesitas algo? No necesito nada.</em>",
-        "tag": "Things"
+        "html": "<strong>quelqu'un</strong> (someone, anyone) is for people. Its negative is <strong>ne … personne</strong>: <em>Il y a quelqu'un ? Non, il n'y a personne. Je ne connais personne ici.</em> <em>Personne</em> can also answer alone: <em>Qui est là ? Personne.</em>",
+        "tag": "quelqu'un ↔ personne"
       },
       {
-        "html": "<strong>alguien</strong> (someone, anyone) and <strong>nadie</strong> (no one) are for people: <em>¿Hay alguien? No hay nadie.</em> As an object they take the personal <em>a</em>: <em>¿Conoces a alguien? No veo a nadie.</em>",
-        "tag": "People"
+        "html": "<strong>quelque chose</strong> (something, anything) is for things. Its negative is <strong>ne … rien</strong>: <em>Tu veux quelque chose ? Non, je ne veux rien.</em> In the passé composé, <em>rien</em> goes before the participle and <em>personne</em> after it: <em>Je n'ai rien vu. Je n'ai vu personne.</em>",
+        "tag": "quelque chose ↔ rien"
       },
       {
-        "html": "<strong>alguno</strong> and <strong>ninguno</strong> go with a noun and agree with it. Before a masculine singular noun they become <strong>algún</strong> and <strong>ningún</strong>: <em>algún libro, alguna carta, algunos libros, algunas cartas; ningún libro, ninguna carta</em>.",
-        "tag": "With a noun"
+        "html": "An adjective after <em>quelque chose</em> or <em>rien</em> needs <strong>de</strong> (<strong>d'</strong> before a vowel) and stays masculine: <em>quelque chose de bon, quelque chose d'intéressant, rien de nouveau</em>.",
+        "tag": "quelque chose de"
       },
       {
-        "html": "<strong>ninguno</strong> is nearly always singular: <em>No tengo ningún amigo aquí. No tengo ninguna duda.</em>",
-        "tag": "Singular"
+        "html": "<strong>tout</strong> agrees with its noun: <em>tout le pain, toute la journée, tous les jours, toutes les semaines</em>. Alone it means \"everything\": <em>Tout va bien. J'ai tout compris.</em> <em>Tout le monde</em> (everyone) takes a singular verb.",
+        "tag": "tout, tous, toute, toutes"
       },
       {
-        "html": "After <strong>no</strong> + verb, Spanish uses <em>nada, nadie, ningún</em>, not <em>algo, alguien, algún</em>. More in <a href=\"/negation\">negation</a>.",
-        "tag": "After no"
+        "html": "<strong>chaque</strong> (each, every) always comes before a singular noun and never changes: <em>chaque matin, chaque semaine</em>. Without a noun, use <strong>chacun</strong> (<strong>chacune</strong>): <em>Chacun a son livre.</em>",
+        "tag": "chaque, chacun"
       },
       {
-        "html": "<strong>otro</strong> never takes <em>un</em> or <em>una</em>: <em>otro café, otra cita, otros papeles</em>. Not: <em>un otro café</em>. “The other one” is <em>el otro</em>.",
-        "tag": "otro"
+        "html": "<strong>autre</strong> comes after <em>un, une</em>: <em>un autre café, une autre date</em>. Plural: <strong>d'autres</strong>, not <em>des autres</em>: <em>Il faut d'autres papiers.</em> With the article it means \"the other\": <em>l'autre, les autres</em>.",
+        "tag": "autre, d'autres"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>No quiero algo</em> → ✓ <em>No quiero nada</em>. ✗ <em>No hay alguien</em> → ✓ <em>No hay nadie</em>. ✗ <em>alguno problema</em> → ✓ <em>algún problema</em>. ✗ <em>un otro café</em> → ✓ <em>otro café</em>. ✗ <em>No veo nadie</em> → ✓ <em>No veo a nadie</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>Je ne vois quelqu'un</em> → ✓ <em>Je ne vois personne</em>. ✗ <em>Je n'ai quelque chose</em> → ✓ <em>Je n'ai rien</em>. ✗ <em>quelque chose bon</em> → ✓ <em>quelque chose de bon</em>. ✗ <em>tout les jours</em> → ✓ <em>tous les jours</em>. ✗ <em>chaque jours</em> → ✓ <em>chaque jour</em>. ✗ <em>des autres papiers</em> → ✓ <em>d'autres papiers</em>. In fast speech people drop <em>ne</em> (<em>Je vois personne</em>), but write <em>ne … personne</em>. More in <a href=\"/ne-pas\">negation</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
@@ -48,30 +45,30 @@
           "caption": "Yes or no",
           "head": ["About", "Positive, question", "Negative"],
           "rows": [
-            ["things", "algo", "nada"],
-            ["people", "alguien", "nadie"],
-            ["with a noun (masc.)", "algún problema", "ningún problema"],
-            ["with a noun (fem.)", "alguna duda", "ninguna duda"]
+            ["things", "quelque chose", "ne … rien"],
+            ["people", "quelqu'un", "ne … personne"],
+            ["thing + adjective", "quelque chose de bon", "rien de bon"],
+            ["thing + à + verb", "quelque chose à faire", "rien à faire"]
           ]
         },
         {
-          "caption": "algún, ningún, otro: all the forms",
+          "caption": "tout, chaque, autre: all the forms",
           "head": ["", "masc. sing.", "fem. sing.", "masc. pl.", "fem. pl."],
           "rows": [
-            ["algún", "algún", "alguna", "algunos", "algunas"],
-            ["ningún", "ningún", "ninguna", "–", "–"],
-            ["otro", "otro", "otra", "otros", "otras"]
+            ["tout", "tout le pain", "toute la journée", "tous les jours", "toutes les semaines"],
+            ["chaque", "chaque matin", "chaque semaine", "–", "–"],
+            ["autre", "un autre café", "une autre date", "d'autres papiers", "d'autres photos"]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Without a noun",
+          "badge": "Careful",
           "variant": "dat",
           "items": [
-            "¿Tienes algún libro? Sí, tengo alguno.",
-            "¿Tienes algún libro? No, no tengo ninguno.",
-            "alguno and ninguno keep the -o when no noun follows."
+            "personne and rien alone answer a question: Qu'est-ce que tu veux ? Rien.",
+            "Past tense: Je n'ai rien mangé. Je n'ai vu personne.",
+            "tout le monde = everyone, with a singular verb: Tout le monde est là."
           ]
         }
       ]
@@ -79,19 +76,27 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "¿Necesitas algo?", "note": "A question: algo." },
-      { "text": "No necesito nada.", "note": "After no: nada." },
-      { "text": "No hay nadie en la oficina.", "note": "People: nadie." },
-      { "text": "¿Hay algún problema?", "note": "algún, before a masculine noun." },
-      { "text": "Quiero otro café, por favor.", "note": "No un before otro." }
+      { "text": "Tu veux quelque chose ?", "note": "A question: quelque chose." },
+      { "text": "Je ne veux rien.", "note": "Negative: ne … rien." },
+      { "text": "Il n'y a personne au bureau.", "note": "People: ne … personne." },
+      { "text": "Je voudrais quelque chose de bon.", "note": "quelque chose de + adjective." },
+      { "text": "Je voudrais un autre café, s'il vous plaît.", "note": "un autre." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "¿Hay alguien en casa?", "choices": ["¿Hay algo en casa?", "¿Hay alguien en casa?", "No hay nadie en casa."], "correct": 1 },
-        { "text": "No tengo nada.", "choices": ["No tengo nada.", "Tengo algo.", "No tengo ninguno."], "correct": 0 },
-        { "text": "No tengo ninguna duda.", "choices": ["No tengo ningún problema.", "Tengo alguna duda.", "No tengo ninguna duda."], "correct": 2 },
-        { "text": "Necesito otra cita.", "choices": ["Necesito otra cita.", "Necesito una cita.", "Necesito otro café."], "correct": 0 }
+        { "text": "Il y a quelqu'un ?", "choices": ["Il y a quelque chose ?", "Il y a quelqu'un ?", "Il n'y a personne."], "correct": 1 },
+        { "text": "Je ne vois rien.", "choices": ["Je ne vois rien.", "Je vois quelque chose.", "Je ne vois personne."], "correct": 0 },
+        {
+          "text": "Il vient tous les jours.",
+          "choices": ["Il vient toutes les semaines.", "Il vient chaque jour.", "Il vient tous les jours."],
+          "correct": 2
+        },
+        {
+          "text": "Il faut d'autres papiers.",
+          "choices": ["Il faut un autre papier.", "Il faut d'autres papiers.", "Il faut les autres papiers."],
+          "correct": 1
+        }
       ]
     },
     "sprechen": {
@@ -99,12 +104,23 @@
         {
           "label": "1 · Say no",
           "instruction": "You hear a question. Answer no.",
-          "example": { "prompt": "¿Quieres algo?", "answer": "No, no quiero nada." },
+          "example": { "prompt": "Tu veux quelque chose ?", "answer": "Non, je ne veux rien." },
           "items": [
-            { "prompt": "¿Necesitas algo?", "answer": "No, no necesito nada." },
-            { "prompt": "¿Hay alguien?", "answer": "No, no hay nadie." },
-            { "prompt": "¿Tienes algún problema?", "answer": "No, no tengo ningún problema." },
-            { "prompt": "¿Tienes alguna duda?", "answer": "No, no tengo ninguna duda." }
+            { "prompt": "Tu vois quelqu'un ?", "answer": "Non, je ne vois personne." },
+            { "prompt": "Il y a quelqu'un ?", "answer": "Non, il n'y a personne." },
+            { "prompt": "Tu as quelque chose à dire ?", "answer": "Non, je n'ai rien à dire." },
+            { "prompt": "Tu cherches quelqu'un ?", "answer": "Non, je ne cherche personne." }
+          ]
+        },
+        {
+          "label": "2 · All the time",
+          "instruction": "You hear a time expression. Say that you work then, with tout, tous, toute or toutes.",
+          "example": { "prompt": "les jours", "answer": "Je travaille tous les jours." },
+          "items": [
+            { "prompt": "les semaines", "answer": "Je travaille toutes les semaines." },
+            { "prompt": "la journée", "answer": "Je travaille toute la journée." },
+            { "prompt": "les matins", "answer": "Je travaille tous les matins." },
+            { "prompt": "le week-end", "answer": "Je travaille tout le week-end." }
           ]
         }
       ]
@@ -113,43 +129,73 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "algo or nada, alguien or nadie?",
-      "hint": "Things: algo, nada. People: alguien, nadie. After no: nada, nadie.",
+      "title": "quelque chose, quelqu'un, rien or personne?",
+      "hint": "Things: quelque chose, rien. People: quelqu'un, personne. With ne: rien, personne.",
       "placeholder": "Word",
       "items": [
-        { "prompt": "¿Quieres ___ de la tienda?", "answer": "algo", "choices": ["algo", "nada", "alguien"] },
-        { "prompt": "No, gracias, no quiero ___.", "answer": "nada", "choices": ["algo", "nada", "nadie"] },
-        { "prompt": "¿Conoces a ___ en esta oficina?", "answer": "alguien", "choices": ["algo", "alguien", "nadie"] },
-        { "prompt": "Llamo a la puerta, pero no abre ___.", "answer": "nadie", "choices": ["alguien", "nada", "nadie"] },
-        { "prompt": "Tengo que decirte ___ importante.", "answer": "algo", "choices": ["algo", "alguien", "nada"] },
-        { "prompt": "No veo a ___ en la sala.", "answer": "nadie", "choices": ["nada", "nadie", "alguien"] }
-      ]
-    },
-    {
-      "type": "table",
-      "title": "Which form with this noun?",
-      "hint": "Masculine singular: algún, ningún. Feminine: alguna, ninguna.",
-      "columns": ["Sentence", "Form"],
-      "placeholder": "Form",
-      "rows": [
-        { "term": "¿Tienes ___ problema?", "answer": "algún", "choices": ["alguno", "algún", "alguna"] },
-        { "term": "¿Hay ___ farmacia cerca?", "answer": "alguna", "choices": ["algún", "alguno", "alguna"] },
-        { "term": "No tengo ___ amigo aquí.", "answer": "ningún", "choices": ["ningún", "ninguno", "alguno"] },
-        { "term": "No hay ___ carta para ti.", "answer": "ninguna", "choices": ["ningún", "ninguna", "ningunas"] },
-        { "term": "¿Tienes ___ documentos?", "answer": "algunos", "choices": ["algún", "algunos", "algunas"] },
-        { "term": "He visto ___ tiendas buenas.", "answer": "algunas", "choices": ["algunas", "algún", "algunos"] }
+        { "prompt": "Tu veux ___ à boire ?", "answer": "quelque chose", "choices": ["quelque chose", "rien", "personne"] },
+        { "prompt": "Non, merci, je ne veux ___.", "answer": "rien", "choices": ["rien", "quelque chose", "personne"] },
+        { "prompt": "Il y a ___ dans le bureau ?", "answer": "quelqu'un", "choices": ["quelqu'un", "personne", "rien"] },
+        { "prompt": "Je sonne, mais il n'y a ___.", "answer": "personne", "choices": ["personne", "quelqu'un", "rien"] },
+        { "prompt": "Tu connais ___ dans ce quartier ?", "answer": "quelqu'un", "choices": ["quelqu'un", "quelque chose", "rien"] },
+        { "prompt": "Je ne connais ___ ici.", "answer": "personne", "choices": ["personne", "quelqu'un", "rien"] }
       ]
     },
     {
       "type": "fill",
-      "title": "otro, otra, otros, otras.",
-      "hint": "Agrees with the noun. No un, una in front.",
+      "title": "quelque chose de bon.",
+      "hint": "Put de (d' before a vowel) between quelque chose / rien and the adjective.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "Quiero ___ café, por favor.", "answer": "otro", "choices": ["otro", "un otro", "otra"] },
-        { "prompt": "Necesito ___ cita con el médico.", "answer": "otra", "choices": ["otro", "una otra", "otra"] },
-        { "prompt": "Me piden ___ papeles.", "answer": "otros", "choices": ["otros", "otras", "unos otros"] },
-        { "prompt": "Hay ___ opciones.", "answer": "otras", "choices": ["otros", "otras", "unas otras"] }
+        { "prompt": "Je voudrais quelque chose ___.", "hint": "good", "answer": "de bon", "choices": ["de bon", "bon", "du bon"] },
+        {
+          "prompt": "Il y a quelque chose ___ ce soir.",
+          "hint": "interesting",
+          "answer": "d'intéressant",
+          "choices": ["d'intéressant", "de intéressant", "intéressant"]
+        },
+        { "prompt": "Il n'y a rien ___ à la télé.", "hint": "new", "answer": "de nouveau", "choices": ["de nouveau", "nouveau", "du nouveau"] },
+        { "prompt": "Je cherche quelque chose ___ pour ma mère.", "hint": "nice", "answer": "de sympa", "choices": ["de sympa", "sympa", "du sympa"] },
+        { "prompt": "Elle ne mange rien ___.", "hint": "salty", "answer": "de salé", "choices": ["de salé", "salé", "du salé"] }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "tout, tous, toute or toutes?",
+      "hint": "Tout agrees with the noun: masculine or feminine, singular or plural.",
+      "columns": ["Sentence", "Form"],
+      "placeholder": "Form",
+      "rows": [
+        { "term": "Je travaille ___ les jours.", "answer": "tous", "choices": ["tous", "tout", "toutes"] },
+        { "term": "Elle reste à la maison ___ la journée.", "answer": "toute", "choices": ["toute", "tout", "toutes"] },
+        { "term": "Il y a une réunion ___ les semaines.", "answer": "toutes", "choices": ["toutes", "tous", "toute"] },
+        { "term": "___ le monde est là.", "answer": "Tout", "choices": ["Tout", "Tous", "Toute"] },
+        { "term": "J'ai invité ___ mes amis.", "answer": "tous", "choices": ["tous", "tout", "toutes"] },
+        { "term": "Nous aimons ___ la famille.", "answer": "toute", "choices": ["toute", "tout", "toutes"] }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "chaque, chacun, autre.",
+      "hint": "chaque + noun. chacun alone. un autre / d'autres / l'autre.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Elle boit un café ___ matin.", "answer": "chaque", "choices": ["chaque", "chacun", "tous"] },
+        { "prompt": "Les enfants ont ___ un livre.", "answer": "chacun", "choices": ["chacun", "chaque", "chacune"] },
+        {
+          "prompt": "Je voudrais ___ café, s'il vous plaît.",
+          "hint": "another",
+          "answer": "un autre",
+          "choices": ["un autre", "d'autres", "les autres"]
+        },
+        { "prompt": "Il faut ___ papiers.", "hint": "other", "answer": "d'autres", "choices": ["d'autres", "des autres", "un autre"] },
+        {
+          "prompt": "J'ai deux sœurs : l'une habite à Lyon, ___ à Paris.",
+          "hint": "the other",
+          "answer": "l'autre",
+          "choices": ["l'autre", "autre", "d'autre"]
+        },
+        { "prompt": "___ élève a son cahier.", "hint": "each", "answer": "Chaque", "choices": ["Chaque", "Chacun"] }
       ]
     },
     {
@@ -157,42 +203,62 @@
       "title": "Question and answer.",
       "hint": "Find the answer that fits.",
       "pairs": [
-        { "q": "¿Quieres algo?", "a": "No, nada, gracias." },
-        { "q": "¿Hay alguien en casa?", "a": "No, no hay nadie." },
-        { "q": "¿Tienes algún problema?", "a": "No, ninguno." },
-        { "q": "¿Tienes alguna pregunta?", "a": "No, ninguna." },
-        { "q": "¿Te pongo otro café?", "a": "Sí, otro, por favor." }
+        { "q": "Tu veux quelque chose ?", "a": "Non, je ne veux rien." },
+        { "q": "Il y a quelqu'un ?", "a": "Non, il n'y a personne." },
+        { "q": "Tu vois quelqu'un ?", "a": "Non, je ne vois personne." },
+        { "q": "Tu as quelque chose de nouveau ?", "a": "Non, je n'ai rien de nouveau." },
+        { "q": "Je te sers un autre café ?", "a": "Oui, un autre, merci." }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: at the office.",
+      "title": "Fill the gaps: at the préfecture.",
       "hint": "Choose the word that fits each gap.",
-      "choices": ["algo", "nada", "alguien", "nadie", "ningún"],
+      "choices": ["quelqu'un", "personne", "quelque chose", "tout", "rien"],
       "segments": [
-        { "text": "Llego a la oficina de empleo a las nueve. Hay mucha gente. Pregunto: “¿Hay " },
-        { "blank": 0, "answer": "alguien" },
-        { "text": " aquí? Necesito ayuda”. Pero en la primera mesa no hay " },
-        { "blank": 1, "answer": "nadie" },
-        { "text": ". Por fin me atiende una señora: “¿Necesita " },
-        { "blank": 2, "answer": "algo" },
-        { "text": "?”. Yo le doy mis papeles y ella dice: “Todo está bien. No hay " },
-        { "blank": 3, "answer": "ningún" },
-        { "text": " problema. No tiene que hacer " },
-        { "blank": 4, "answer": "nada" },
-        { "text": " más”." }
+        { "text": "J'arrive à la préfecture à neuf heures. Il y a beaucoup de monde. Je demande : « Il y a " },
+        { "blank": 0, "answer": "quelqu'un" },
+        { "text": " pour m'aider ? » Mais au premier guichet, je ne vois " },
+        { "blank": 1, "answer": "personne" },
+        { "text": " qui travaille. Enfin, une dame me dit : « Vous avez " },
+        { "blank": 2, "answer": "quelque chose" },
+        { "text": " à signaler ? » Je lui donne mes papiers et elle répond : « " },
+        { "blank": 3, "answer": "Tout" },
+        { "text": " est en ordre. Vous n'avez " },
+        { "blank": 4, "answer": "rien" },
+        { "text": " d'autre à faire. »" }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
-      "hint": "After no: nada, nadie, ningún.",
+      "hint": "With ne: rien, personne. quelque chose de + adjective. tous les + plural noun.",
       "sentences": [
-        { "id": "in1", "hint": "Do you need anything?", "correct": ["¿Necesitas", "algo", "?"], "shuffled": ["algo","?","¿Necesitas"] },
-        { "id": "in2", "hint": "There is no one at home", "correct": ["No", "hay", "nadie", "en", "casa", "."], "shuffled": ["casa","en","hay","No",".","nadie"] },
-        { "id": "in3", "hint": "I don't have any problem", "correct": ["No", "tengo", "ningún", "problema", "."], "shuffled": ["tengo","ningún","problema",".","No"] },
-        { "id": "in4", "hint": "I want another appointment", "correct": ["Quiero", "otra", "cita", "."], "shuffled": ["otra",".","cita","Quiero"] },
-        { "id": "in5", "hint": "Do you know anyone here?", "correct": ["¿Conoces", "a", "alguien", "aquí", "?"], "shuffled": ["a","alguien","aquí","¿Conoces","?"] }
+        {
+          "id": "ip1",
+          "hint": "Do you want something?",
+          "correct": ["Tu", "veux", "quelque", "chose", "?"],
+          "shuffled": ["?", "chose", "Tu", "quelque", "veux"]
+        },
+        {
+          "id": "ip2",
+          "hint": "There is no one at home",
+          "correct": ["Il", "n'y", "a", "personne", "à", "la", "maison", "."],
+          "shuffled": ["maison", "n'y", "la", "Il", ".", "personne", "a", "à"]
+        },
+        { "id": "ip3", "hint": "I don't want anything", "correct": ["Je", "ne", "veux", "rien", "."], "shuffled": ["rien", ".", "veux", "Je", "ne"] },
+        {
+          "id": "ip4",
+          "hint": "I would like something good",
+          "correct": ["Je", "voudrais", "quelque", "chose", "de", "bon", "."],
+          "shuffled": ["de", "bon", ".", "Je", "chose", "voudrais", "quelque"]
+        },
+        {
+          "id": "ip5",
+          "hint": "I work every day",
+          "correct": ["Je", "travaille", "tous", "les", "jours", "."],
+          "shuffled": [".", "les", "Je", "jours", "travaille", "tous"]
+        }
       ]
     }
   ]

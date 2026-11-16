@@ -17,7 +17,7 @@ import path from 'path';
 import { langsFor } from '../src/lib/languages.js';
 
 const DIR = 'public/i18n';
-const BASE = 'de';
+const BASE = "en";
 // Every interface language of the registry, gated or not: the check is how a new one gets there.
 const OTHERS = langsFor('ui', { gated: false }).filter((c) => c !== BASE);
 

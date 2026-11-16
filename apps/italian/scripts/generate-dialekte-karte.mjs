@@ -1,4 +1,4 @@
-// Map geometry for /knowledge/accents (regional varieties of Italian, Italy's other languages) —
+// Map geometry for /conoscenze/accenti (regional varieties of Italian, Italy's other languages) —
 // run once, output committed.
 //
 //   node scripts/generate-dialekte-karte.mjs

@@ -17,14 +17,14 @@ import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
-// Site paths (without /italian); the URLs are built with absoluteUrl() (src/lib/paths.js).
+// Site paths (without /italiano); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
-  ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
-  ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
-  ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Exams', ['/exams', '/cils', '/cils/*', '/plida', '/plida/*', '/exams/which-exam', '/certit', '/certit/*', '/civic-knowledge', '/civic-knowledge/*', '/citizenship', '/citizenship/*']],
-  ['Life and work in Italy', ['/italian-for-work', '/business-italian', '/patente-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
-  ['For teachers', ['/teachers']],
+  ['Start here', ['/test-di-livello', '/passo-passo', '/esercizi', '/progressi']],
+  ['Grammar and vocabulary', ['/grammatica', '/grammatica/coniugazione', '/vocabolario', '/pronuncia']],
+  ['Skills', ['/competenze', '/parlato', '/ascolto', '/lettura', '/scrittura']],
+  ['Exams', ['/esami', '/cils', '/cils/*', '/plida', '/plida/*', '/esami/quale-esame', '/certit', '/certit/*', '/cultura-civica', '/cultura-civica/*', '/cittadinanza', '/cittadinanza/*']],
+  ['Life and work in Italy', ['/italiano-per-il-lavoro', '/italiano-commerciale', '/vocabolario-patente', '/cultura', '/conoscenze', '/conoscenze/storie-di-parole']],
+  ['For teachers', ['/insegnanti']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/es']],
 ];

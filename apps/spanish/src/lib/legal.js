@@ -9,7 +9,7 @@
 // it was left untouched deliberately rather than copied here on a guess.
 
 export const LEGAL = {
-  // Who operates icanspeak.it/spanish — the "Verantwortlicher" under Art. 4(7) DSGVO.
+  // Who operates icanspeak.it/espanol — the "Verantwortlicher" under Art. 4(7) DSGVO.
   operatorName: "Edgar Kretschmann",
   operatorStreet: "Ansbacher Straße 48",
   operatorPostcode: "10777",
@@ -32,7 +32,7 @@ export const LEGAL = {
   contactEmail: "hello@englishacademy.com",
 
   // Bumped by hand when the substance of a page changes, not on every deploy.
-  lastUpdated: "29. Oktober 2026",
+  lastUpdated: "15. November 2026",
 
   // Where signed-in learners' data physically sits. Matches the Supabase project region
   // (eu-central-1). If the project is ever moved, this line moves with it.

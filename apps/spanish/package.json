@@ -10,6 +10,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "generate:hoeren": "node --env-file=../../.env.local scripts/generate-hoeren-audio.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
@@ -67,7 +68,7 @@
     "check:base": "node scripts/check-base.mjs",
     "check:links": "node scripts/check-links.mjs",
     "check:extranjeria": "node scripts/check-extranjeria.mjs",
-    "cf:prepare": "node ../../scripts/nest-dist.mjs dist /spanish",
+    "cf:prepare": "node ../../scripts/nest-dist.mjs dist /espanol && node scripts/cf-hoist-headers.mjs",
     "cf:preview": "pnpm cf:prepare && wrangler dev",
     "deploy": "pnpm build && pnpm cf:prepare && wrangler deploy"
   },

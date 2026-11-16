@@ -193,7 +193,7 @@ export const landingTools = (() => {
   const t = Object.fromEntries(tools.map((x) => [x.id, x]));
   const merged = {
     hoerenAussprache: {
-      id: "hoeren-aussprache", group: "fertigkeiten", href: "/skills#hoeren", icon: "volume",
+      id: "hoeren-aussprache", group: "fertigkeiten", href: "/skills#listening", icon: "volume",
       titleKey: "tool.hoerenAussprache.title", title: "Hören & Aussprache",
       shortKey: "group.short.hoeren", short: "Hören",
       descKey: "tool.hoerenAussprache.desc",
@@ -203,7 +203,7 @@ export const landingTools = (() => {
       count: sumCount(`${hoeren.texts.length} Hörtexte`, `${wortschatz.length + artikel.length} Wörter`),
     },
     fertigkeiten: {
-      id: "fertigkeiten", group: "fertigkeiten", href: "/skills#sprechen", icon: "mic",
+      id: "fertigkeiten", group: "fertigkeiten", href: "/skills#speaking", icon: "mic",
       titleKey: "tool.fertigkeiten.title", title: "Sprechen, Lesen & Schreiben",
       shortKey: "group.short.sprechen", short: "Fertigkeiten",
       descKey: "tool.fertigkeiten.desc",
@@ -244,12 +244,12 @@ export const landingTools = (() => {
 })();
 
 export const exams = [
-  { id: "telc", group: "pruefungen", href: "/trinity", icon: "document", title: "telc", short: "telc", count: "A1–C2" },
-  { id: "goethe", group: "pruefungen", href: "/cambridge", icon: "landmark", title: "Goethe-Zertifikat", short: "Goethe", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/ielts", icon: "graduation-cap", title: "TestDaF", short: "TestDaF", count: "≈ B2–C1" },
-  { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "DTZ", short: "DTZ", count: "A2 / B1" },
-  { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "Leben in Deutschland (Einbürgerungstest)", short: "Leben in DE",
-    keywords: "einbürgerungstest einbürgerung einbuergerungstest staatsbürgerschaft citizenship naturalisation orientierungskurs",
+  { id: "telc", group: "pruefungen", href: "/trinity", icon: "document", title: "Trinity ISE", short: "Trinity", count: "A2–B2" },
+  { id: "goethe", group: "pruefungen", href: "/cambridge", icon: "landmark", title: "Cambridge English", short: "Cambridge", count: "A2–B2" },
+  { id: "testdaf", group: "pruefungen", href: "/ielts", icon: "graduation-cap", title: "IELTS Academic", short: "IELTS", count: "Band 0–9" },
+  { id: "dtz", group: "pruefungen", href: "/trinity/ise-1", icon: "book-open", title: "Trinity ISE I", short: "ISE I", count: "B1" },
+  { id: "lid", group: "pruefungen", href: "/life-in-the-uk", icon: "map-pin", titleKey: "exam.lid.name", title: "Life in the UK test", short: "Life in the UK",
+    keywords: "life in the uk citizenship naturalisation settlement indefinite leave to remain ilr british citizenship",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} Bundesländer` },
 ];
 
@@ -258,7 +258,7 @@ export const groups = [
   { id: "woerter", icon: "folder", nameKey: "group.woerter.name", name: "Wörter & Aussprache", blurbKey: "group.woerter.blurb", blurb: "Vokabeln hören und behalten" },
   { id: "fertigkeiten", icon: "mic", nameKey: "group.fertigkeiten.name", name: "Sprechen, Lesen & Schreiben", blurbKey: "group.fertigkeiten.blurb", blurb: "Prüfungsteile am Stück üben" },
   { id: "kultur", icon: "map-pin", nameKey: "group.kultur.name", name: "Landeskunde", blurbKey: "group.kultur.blurb", blurb: "Alltag und Kultur in Deutschland" },
-  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "telc, Goethe, TestDaF, DTZ" },
+  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "Cambridge, IELTS, Trinity, Life in the UK" },
 ];
 
 export const entries = [...tools, ...exams];
@@ -480,7 +480,7 @@ export const levels = NAV_LEVELS.map((level) => {
     slug,
     blurbKey: `level.${slug}.blurb`,
     blurb: LEVEL_BLURB[level],
-    href: `/grammar#niveau-${slug}`,
+    href: `/grammar#level-${slug}`,
     grammar,
     vocab,
     words,
@@ -536,7 +536,7 @@ const grammarLevelView = (level) => {
       { id: "b", items: rows.slice(half) },
     ],
     more: {
-      href: `/grammar#niveau-${head.slug}`,
+      href: `/grammar#level-${head.slug}`,
       labelKey: "nav.level.allTopics", labelVars: { n: rows.length }, label: `Alle ${rows.length} Themen`,
     },
   };
@@ -905,7 +905,7 @@ export const navSections = [
 
   { id: "pruefungen", icon: "graduation-cap", href: "/exams",
     nameKey: "nav.exams", name: "Prüfungen",
-    blurbKey: "group.pruefungen.blurb", blurb: "telc, Goethe, TestDaF, DTZ",
+    blurbKey: "group.pruefungen.blurb", blurb: "Cambridge, IELTS, Trinity, Life in the UK",
     // The Führerschein simulation has no row of its own: it is one of the hub's actions.
     items: notSelf("/exams", itemsOf("pruefungen")) },
 ];
@@ -965,7 +965,7 @@ export const navUeben = {
   levels: levels.map((lv) => ({
     level: lv.level,
     slug: lv.slug,
-    href: `/grammar#niveau-${lv.slug}`,
+    href: `/grammar#level-${lv.slug}`,
     blurbKey: lv.blurbKey,
     blurb: lv.blurb,
   })),
@@ -1181,7 +1181,7 @@ export const navWissenMenu = {
         titleKey: "nav.kultur.allTopics", title: "Alle Themen",
         hintKey: "tool.kultur.count", hintVars: { n: kulturTopicCount }, hint: `${kulturTopicCount} Themen` },
       items: kulturLevelGroups.map((g) => ({
-        href: `/culture#niveau-${g.slug}`, level: g.level, titleKey: g.blurbKey, title: g.blurb,
+        href: `/culture#level-${g.slug}`, level: g.level, titleKey: g.blurbKey, title: g.blurb,
       })) },
     { id: "buecher", icon: "document", href: "/knowledge",
       nameKey: "nav.wissen.books", name: "Bücher",
@@ -1190,7 +1190,7 @@ export const navWissenMenu = {
         hintKey: "nav.subject.wissen.blurb", hint: "Bücher und Listen als PDF" },
       items: [
         ...downloads.categories.map((c) => ({ href: `/knowledge#${c.id}`, titleKey: `wissen.cat.${c.id}.name`, title: c.name })),
-        { href: "/knowledge#offiziell", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
+        { href: "/knowledge#official", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
     // "English around the world" (/knowledge/languages): one page. Only its map section gets a row;

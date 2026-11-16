@@ -415,6 +415,12 @@ function mountTable(root, ex, notify) {
   const rowOptions = ex.rows.map((r) =>
     Array.isArray(r.choices) && r.choices.length ? (ex.choiceArt ? r.choices : shuffleList(r.choices)) : many ? nearChoices(r.answer, options) : null);
   const perRow = rowOptions.every(Boolean);
+  // Whole sentences as choices ("Elle ne parle pas anglais.") or a long prompt do not fit
+  // three fixed pill columns beside the prompt: they broke over two or three lines inside
+  // 124px pills (2026-11-15). Then the prompt takes its own line and the pills sit under it,
+  // each as wide as its text.
+  const long = perRow && !ex.choiceArt &&
+    (rowOptions.some((o) => o.some((x) => String(x).length > 12)) || ex.rows.some((r) => String(r.term ?? "").length > 20));
   const state = { values: {}, checked: false };
 
   function render() {
@@ -436,7 +442,7 @@ function mountTable(root, ex, notify) {
       ? ex.rows.map((row, i) => ({ row, given: state.values[i] || "" })).filter((w) => !accepts(w.row.answer, w.given))
       : [];
     root.innerHTML = `
-      <div class="vp-table${perRow ? " vp-table--choices" : ""}">${head}${rows}</div>
+      <div class="vp-table${perRow ? " vp-table--choices" : ""}${long ? " vp-table--long" : ""}">${head}${rows}</div>
       <div class="vp-actions">
         ${state.checked ? "" : `<button type="button" class="vp-btn-check" data-table-check>${LABEL.check}</button>`}
         <button type="button" class="vp-link-btn" data-table-reset>${LABEL.reset}</button>

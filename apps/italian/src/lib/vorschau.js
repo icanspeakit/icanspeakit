@@ -14,7 +14,7 @@ const KEY = "da-vorschau";
 
 export const STEPS = [
   {
-    href: "/step-by-step",
+    href: "/passo-passo",
     title: "Step by step",
     pitch: "One step per screen, for complete beginners. No menu, no choices – Bruno leads the way.",
     tap: "Tap the first step and show how little is on the screen.",
@@ -26,49 +26,49 @@ export const STEPS = [
     tap: "Fill a gap wrongly: the explanation appears at once.",
   },
   {
-    href: "/vocabulary/a1-04",
+    href: "/vocabolario/a1-04",
     title: "Vocabulary in your own language",
     pitch: "Flashcards with a picture, audio and a translation into your first language, A1 to B2, with spaced repetition.",
     tap: "Turn a card over, then choose another language at the top.",
   },
   {
-    href: "/pronunciation-check",
+    href: "/verifica-pronuncia",
     title: "Pronunciation check",
     pitch: "Say a sentence and see at once which words sound right and which don't yet. Runs in the browser, no app.",
     tap: "Tap the microphone and say a sentence.",
   },
   {
-    href: "/exams",
+    href: "/esami",
     title: "Exam practice: CILS, CELI, PLIDA, CERT.IT",
     pitch: "Practice sets in the format of the real exams, with a timer and a score – the reason many people come.",
     tap: "Open an exam and show how it is built.",
   },
   {
-    href: "/progress",
+    href: "/progressi",
     title: "Progress",
     pitch: "Every number comes from real practice: streak, topics, common mistakes. Filled with demo data here.",
     tap: "Point to the list of mistakes: it becomes the next exercise.",
   },
   {
-    href: "/teachers/quiz",
+    href: "/insegnanti/quiz",
     title: "Live quiz for the class",
     pitch: "The teacher shows the code on the projector, the class plays on their phones – from any chapter, no account for learners.",
     tap: "Choose a chapter and start the quiz.",
   },
   {
-    href: "/teachers/timetable",
+    href: "/insegnanti/orario",
     title: "Lesson plan and lesson",
     pitch: "A whole lesson planned in stages, with a timer, slides and exercises – click through it step by step in class.",
     tap: "Tap “Start the lesson” and show the timer.",
   },
   {
-    href: "/teachers/surveys",
+    href: "/insegnanti/sondaggi",
     title: "Polls and tests via QR code",
     pitch: "The class says anonymously what they want to learn, or takes a test – live results, scored without marking.",
     tap: "Bruno shows how it works in three steps.",
   },
   {
-    href: "/teachers/worksheets",
+    href: "/insegnanti/schede",
     title: "Worksheets and games to print",
     pitch: "Ready-made worksheets for the grammar topics and games for the group – to print or as a PDF.",
     tap: "Open a sheet and show the print view.",

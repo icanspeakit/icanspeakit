@@ -1,4 +1,4 @@
-// Hör-Safari (/games/listening-safari): a listening game in the spirit of the classic shooting
+// Hör-Safari (/jogos/safari-auditivo): a listening game in the spirit of the classic shooting
 // galleries. A voice says a noun with el or la ("la cuchara"); birds — our own "Pieper",
 // not anybody's chicken — fly over a wide landscape carrying picture or word cards, and the
 // player hits the matching one with the Gummi-Blaster, a toy that fires harmless rubber
@@ -390,7 +390,7 @@ export function mountHoerSafari(root, allWords) {
     const l = glossLang();
     if (INLINE.includes(l) || fetched[l]) return;
     try {
-      fetched[l] = await (await fetch(withBase(`/vocabulary/glosses/${l}.json`))).json();
+      fetched[l] = await (await fetch(withBase(`/vocabulario/glosses/${l}.json`))).json();
     } catch {
       fetched[l] = {};
     }

@@ -111,7 +111,7 @@ export function mountArtikelSprint(root, data) {
   const pools = new Map();
   async function wordsForRoom(lvl) {
     if (!roomWords.has(lvl)) {
-      roomWords.set(lvl, fetch(withBase(`/games/gender-sprint/woerter-${lvl.toLowerCase()}.json`))
+      roomWords.set(lvl, fetch(withBase(`/jeux/sprint-des-genres/woerter-${lvl.toLowerCase()}.json`))
         .then((r) => (r.ok ? r.json() : { nouns: [] }))
         .catch(() => ({ nouns: [] }))
         .then((lex) => {
@@ -403,7 +403,7 @@ export function mountArtikelSprint(root, data) {
           else showToast(t("sprint.toast.correct", "Richtig: {w}", { w: right }), "bad");
           // A miss: say the right form out loud ("der Tisch"), after the buzz of the wrong sound.
           if (!r.ok) setTimeout(() => { if (phase === "play") speak(r.q); }, 380);
-          // Progress (/progress, "Wörter gelernt"): every answer that was given; riding under the box is no answer.
+          // Progress (/progression, "Wörter gelernt"): every answer that was given; riding under the box is no answer.
           if (!r.nojump) {
             const q = r.q;
             recordAttempt({
@@ -518,7 +518,7 @@ export function mountArtikelSprint(root, data) {
     const list = $("[data-o-missed]");
     list.innerHTML = lastMissed.map((m, i) => {
       const g = meaning(m);
-      return `<li><span class="asp-miss-de" lang="es" title="${esc(meaningTitle(g))}">${esc(m.full)}</span><span class="asp-miss-en" lang="${g.lang}" dir="${g.dir}">${esc(g.text)}</span><button type="button" class="asp-miss-hear" data-hear="${i}" aria-label="${esc(t("sprint.hear", "Anhören"))}" title="${esc(t("sprint.hear", "Anhören"))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></li>`;
+      return `<li><span class="asp-miss-de" lang="fr" title="${esc(meaningTitle(g))}">${esc(m.full)}</span><span class="asp-miss-en" lang="${g.lang}" dir="${g.dir}">${esc(g.text)}</span><button type="button" class="asp-miss-hear" data-hear="${i}" aria-label="${esc(t("sprint.hear", "Anhören"))}" title="${esc(t("sprint.hear", "Anhören"))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></li>`;
     }).join("");
   }
   $("[data-o-missed]").addEventListener("click", (e) => {

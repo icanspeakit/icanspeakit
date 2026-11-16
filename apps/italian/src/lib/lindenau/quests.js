@@ -1,4 +1,4 @@
-// "The Legend of Casalbruno" (/games/casalbruno; internal id: lindenau): who stands where and what
+// "The Legend of Casalbruno" (/giochi/casalbruno; internal id: lindenau): who stands where and what
 // they say. One quest per person, A1, everyday errands in Casalbruno, an invented Italian town.
 // The Italian is the content (npc / de); `en` is its English meaning, the 💡 Help line. (The key
 // `de` is historical: it holds the Italian line the learner reads and builds.)

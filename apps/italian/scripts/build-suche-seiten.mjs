@@ -6,7 +6,7 @@
 //
 //   pnpm build && node scripts/build-suche-seiten.mjs   (then build again to ship the result)
 //
-// Entries hold site paths without the base (/grammar), like all other data; rebaseHtml adds it.
+// Entries hold site paths without the base (/grammatica), like all other data; rebaseHtml adds it.
 //
 // Re-run when pages are added. Left out on purpose: print versions, worksheets, single
 // quotes (the Zitate hub is found by its authors instead), the translated landing pages and
@@ -18,12 +18,12 @@ const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
   /^\/(es|hi|id|tl|vi|pt-br)(\/|$)/,
-  /^\/vocabulary\/print\//,
-  /^\/teachers\/worksheets\//,
+  /^\/vocabolario\/stampa\//,
+  /^\/insegnanti\/schede\//,
   /\/(drucken|print)$/,
-  /^\/knowledge\/quotes\/(?!$)/,
-  /^\/knowledge\/word-stories\/(review|weekly)$/,
-  /^\/(legal-notice|privacy|widerruf|terms|konto-loeschen)$/,
+  /^\/conoscenze\/citazioni\/(?!$)/,
+  /^\/conoscenze\/storie-di-parole\/(review|weekly)$/,
+  /^\/(note-legali|privacy|widerruf|condizioni|konto-loeschen)$/,
 ];
 
 const decode = (s) => s
@@ -32,7 +32,7 @@ const decode = (s) => s
 const text = (html) => decode(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
 const xml = readFileSync(`${DIST}/sitemap.xml`, "utf8");
-const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/italian(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
+const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/italiano(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
 
 // What the search already finds from its own sources: the index minus this file's entries.
 const ix = JSON.parse(readFileSync(`${DIST}/suche.json`, "utf8"));

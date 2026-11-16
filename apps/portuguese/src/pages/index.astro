@@ -14,7 +14,7 @@ import LevelFold from "../components/LevelFold.astro";
 import PracticePicker from "../components/PracticePicker.astro";
 import Icon from "../components/Icon.astro";
 import WortDesTagesCard from "../components/wortgeschichte/WortDesTagesCard.astro";
-// One catalogue for / and /exercises — see src/lib/catalog.js.
+// One catalogue for / and /exercicios — see src/lib/catalog.js.
 import { tools, landingTools, exams } from "../lib/catalog.js";
 import { grammarTopicCount } from "../lib/inventory.js";
 import "../styles/landing.css";
@@ -30,7 +30,7 @@ const examCount = exams.length;
 // Paywall kill switch (src/lib/access.js): with it on, the footer carries § 312k's link.
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
 ---
-<Layout umbrella={false}>
+<Layout footer="none">
   <div class="lp">
     <SiteNav />
 
@@ -67,7 +67,7 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
             </p>
             <div class="fr-actions">
               <NextStepCta variant="hero" />
-              <a href="/exams" class="lp-btn lp-btn--outline" data-i18n="home3.hero.cta2">Prüfungen ansehen</a>
+              <a href="/exames" class="lp-btn lp-btn--outline" data-i18n="home3.hero.cta2">Prüfungen ansehen</a>
             </div>
           </div>
 
@@ -206,7 +206,6 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
                   <div class="lp-tool-tile"><Icon name={t.icon} /></div>
                   <h4 data-i18n={t.titleKey}>{t.title}</h4>
                   <p data-i18n={t.descKey}>{t.desc}</p>
-                  <span class="badge badge-brand" data-i18n={t.countKey} data-i18n-vars={JSON.stringify(t.countVars)}>{t.count}</span>
                 </a>
               ))}
             </div>
@@ -218,7 +217,6 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
                 <a href={e.href} class="lp-tool-card">
                   <div class="lp-tool-tile"><Icon name={e.icon} /></div>
                   <h4 data-i18n={e.titleKey}>{e.title}</h4>
-                  <span class="badge badge-neutral" data-i18n={e.countKey} data-i18n-vars={e.countVars ? JSON.stringify(e.countVars) : undefined}>{e.count}</span>
                 </a>
               ))}
             </div>
@@ -258,8 +256,8 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
       <div class="lp-wrap lp-final-cta-inner">
         <h2 data-i18n="home3.finalcta.title">Einstufungstest</h2>
         <p data-i18n="home3.finalcta.subtitle">Finde heraus, ob du bei A1, A2, B1 oder B2 einsteigst, und fang dort an.</p>
-        <a href="/placement-test" class="lp-final-cta-btn" data-i18n="home3.finalcta.cta">Test starten</a>
-        <div class="lp-final-cta-login"><span data-i18n="home.finalcta.loginQuestion">Schon dabei?</span> <a href="/account" data-i18n="home.finalcta.loginAction">Einloggen</a></div>
+        <a href="/teste-de-nivel" class="lp-final-cta-btn" data-i18n="home3.finalcta.cta">Test starten</a>
+        <div class="lp-final-cta-login"><span data-i18n="home.finalcta.loginQuestion">Schon dabei?</span> <a href="/conta" data-i18n="home.finalcta.loginAction">Einloggen</a></div>
       </div>
     </section>
 
@@ -276,10 +274,10 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
                construction site as a footer of filler text, only harder to spot. -->
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.practise">Üben</h5>
-            <a href="/grammar" data-i18n="nav.subject.grammatik">Grammatik</a>
-            <a href="/vocabulary" data-i18n="nav.subject.wortschatz">Wortschatz</a>
-            <a href="/skills" data-i18n="nav.subject.fertigkeiten">Fertigkeiten</a>
-            <a href="/culture" data-i18n="group.kultur.name">Landeskunde</a>
+            <a href="/gramatica" data-i18n="nav.subject.grammatik">Grammatik</a>
+            <a href="/vocabulario" data-i18n="nav.subject.wortschatz">Wortschatz</a>
+            <a href="/competencias" data-i18n="nav.subject.fertigkeiten">Fertigkeiten</a>
+            <a href="/cultura" data-i18n="group.kultur.name">Landeskunde</a>
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="nav.exams">Prüfungen</h5>
@@ -298,24 +296,24 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
           </div>
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.more">Mehr</h5>
-            <a href="/exercises" data-i18n="nav.exercises">Übungen</a>
-            <a href="/placement-test" data-i18n="home.footer.link.placement">Einstufungstest</a>
-            <a href="/knowledge" data-i18n="home.footer.link.knowledge">Wissen</a>
-            <a href="/progress" data-i18n="home.footer.link.dashboard">Dein Fortschritt</a>
-            <a href="/mascots" data-i18n="home.footer.link.mascots">Die Maskottchen</a>
-            <a href="/account" data-i18n="home.footer.link.merch">Merch</a>
-            <a href="/about" data-i18n="home.footer.link.about">Über mich</a>
+            <a href="/exercicios" data-i18n="nav.exercises">Übungen</a>
+            <a href="/teste-de-nivel" data-i18n="home.footer.link.placement">Einstufungstest</a>
+            <a href="/conhecimentos" data-i18n="home.footer.link.knowledge">Wissen</a>
+            <a href="/progresso" data-i18n="home.footer.link.dashboard">Dein Fortschritt</a>
+            <a href="/mascotes" data-i18n="home.footer.link.mascots">Die Maskottchen</a>
+            <a href="/conta" data-i18n="home.footer.link.merch">Merch</a>
+            <a href="/sobre" data-i18n="home.footer.link.about">Über mich</a>
           </div>
           <!-- Pflichtangaben. Impressum and Datenschutz are not "more links" — a German
                site has to carry them, and they have to be reachable from every page, so
                they get their own column rather than being appended to one above. -->
           <div class="lp-footer-col">
             <h5 data-i18n="home.footer.col.legal">Rechtliches</h5>
-            <a href="/legal-notice" data-i18n="home.footer.link.imprint">Impressum</a>
-            <a href="/privacy" data-i18n="home.footer.link.privacy">Datenschutz</a>
-            <a href="/terms" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
-            {PAYWALL && <a href="/account" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
-            {PAYWALL && <a href="/account" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
+            <a href="/aviso-legal" data-i18n="home.footer.link.imprint">Impressum</a>
+            <a href="/privacidade" data-i18n="home.footer.link.privacy">Datenschutz</a>
+            <a href="/termos" data-i18n="home.footer.link.terms">Nutzungsbedingungen</a>
+            {PAYWALL && <a href="/conta" data-i18n="home.footer.link.cancel">Cancel a contract</a>}
+            {PAYWALL && <a href="/conta" data-i18n="home.footer.link.withdraw">Withdraw from a contract</a>}
           </div>
         </div>
         <div class="lp-footer-bottom">

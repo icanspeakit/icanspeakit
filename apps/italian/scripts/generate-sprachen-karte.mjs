@@ -1,4 +1,4 @@
-// Map geometry for /knowledge/languages (Italian around the world) — run once, output committed.
+// Map geometry for /conoscenze/lingue (Italian around the world) — run once, output committed.
 //
 //   node scripts/generate-sprachen-karte.mjs
 //

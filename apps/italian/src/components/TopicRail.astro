@@ -35,9 +35,9 @@ const levels = GRAMMAR_LEVELS.map((level) => ({
 }));
 const exams = [
   { label: "Italian A1 practice test", icon: "document", href: "/cils/a1", meta: "A1" },
-  { label: "B1 mock for citizenship", icon: "book-open", href: "/citizenship/b1-mock/practice-set", meta: "B1" },
-  { label: "PLIDA practice set", icon: "graduation-cap", href: "/plida/practice-set", meta: "B1" },
-  { label: "Civic knowledge test", icon: "map-pin", href: "/civic-knowledge/test", meta: "Test" },
+  { label: "B1 mock for citizenship", icon: "book-open", href: "/cittadinanza/prova-b1/esercitazione", meta: "B1" },
+  { label: "PLIDA practice set", icon: "graduation-cap", href: "/plida/esercitazione", meta: "B1" },
+  { label: "Civic knowledge test", icon: "map-pin", href: "/cultura-civica/test", meta: "Test" },
 ];
 
 // Opens on the level this topic belongs to, so the first thing in the panel is its own
@@ -131,7 +131,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
             ))}
           </div>
         </div>
-        <a class="snav-more" href="/exercises" data-i18n="tr.ov.course">Kursübersicht öffnen</a>
+        <a class="snav-more" href="/esercizi" data-i18n="tr.ov.course">Kursübersicht öffnen</a>
       </div>
 
       {levels.map((sec) => (
@@ -169,7 +169,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
             <span class="nv-count">{item.meta}</span>
           </a>
         ))}
-        <a class="snav-more" href="/exams" data-i18n="tr.ov.exams">Alle Prüfungen öffnen</a>
+        <a class="snav-more" href="/esami" data-i18n="tr.ov.exams">Alle Prüfungen öffnen</a>
       </div>
     </div>
   </div>
@@ -280,7 +280,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
     onUiText(() => paint());
 
     // The fold: one behaviour and one remembered state for every side nav.
-    const fold = mountSideNavFold(nvb);
+    const fold = mountSideNavFold(nvb, { foldOnAnyClick: true });
 
     for (const b of $$<HTMLElement>("[data-rail-sec]")) {
       b.addEventListener("click", () => {

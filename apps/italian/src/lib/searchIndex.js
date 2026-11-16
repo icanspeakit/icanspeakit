@@ -167,14 +167,14 @@ export function buildSearchIndex() {
       c: "grammatik",
     })),
     // akkusativ has its own page outside the catalog's [id] route.
-    { t: "Object pronouns", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
-    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer coniugazione verbi irregular subjunctive imperative", l: "", h: "/grammar/conjugation", c: "grammatik" },
+    { t: "Object pronouns", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/pronomi-complemento", c: "grammatik" },
+    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer coniugazione verbi irregular subjunctive imperative", l: "", h: "/grammatica/coniugazione", c: "grammatik" },
     ...conjugationTrainer.sets.map((s) => ({
       t: s.title,
       s: "Conjugation trainer",
       k: `conjugation ${s.id.replace(/-/g, " ")}`,
       l: s.level,
-      h: `/grammar/conjugation?set=${s.id}`,
+      h: `/grammatica/coniugazione?set=${s.id}`,
       c: "grammatik",
     })),
     ...praepTrainer.packs.map((p) => ({
@@ -182,7 +182,7 @@ export function buildSearchIndex() {
       s: "Prepositions",
       k: "präpositionen prepositions",
       l: p.id.slice(0, 2).toUpperCase(),
-      h: "/prepositions",
+      h: "/preposizioni",
       c: "praep",
     })),
     ...kultur.topics.map((k) => ({
@@ -190,7 +190,7 @@ export function buildSearchIndex() {
       s: "Kultur",
       k: kulturHay(k, "culture cultura italy italia"),
       l: k.level ?? "",
-      h: itemPath("/culture", k.id),
+      h: itemPath("/cultura", k.id),
       c: "kultur",
     })),
     // „Deutschland von innen": matched on the same kind of keywords, so „Frau" or „Dating"
@@ -200,7 +200,7 @@ export function buildSearchIndex() {
       s: "Italy from the inside",
       k: kulturHay(k, "culture italy from the inside insider cultura"),
       l: k.level ?? "",
-      h: itemPath("/culture/insider", k.id),
+      h: itemPath("/cultura/dietro-le-quinte", k.id),
       c: "kultur",
     })),
   ];
@@ -211,7 +211,7 @@ export function buildSearchIndex() {
     k: [e.short, e.id, e.keywords].filter(Boolean).join(" "),
     h: e.href,
   }));
-  // Typische Fehler (/grammar/common-mistakes) is a Nachschlagewerk page, not a catalog
+  // Typische Fehler (/grammatica/errori-comuni) is a Nachschlagewerk page, not a catalog
   // topic: found by its pairs („man Mann", „seit seid") as well as by its name. Its
   // Tandembogen comes along for teachers who look for a pair sheet on it.
   const fehlerWords = [...new Set(fehlerPairs.flatMap((p) => [p.a.w, p.b.w]).map((w) => w.replace(/^(der|die|das) /, "")))].join(" ").toLowerCase();
@@ -219,98 +219,98 @@ export function buildSearchIndex() {
     t: "Typische Fehler",
     s: "Wörter, die man verwechselt: man oder Mann, das oder dass, seid oder seit",
     k: `typische fehler häufige fehler verwechseln verwechselt falsch richtig common mistakes confusing words ${fehlerWords}`,
-    h: "/grammar/common-mistakes",
+    h: "/grammatica/errori-comuni",
   });
   pages.push({
     t: "Typische Fehler: Tandembogen",
     s: "Partnerübung zum Ausdrucken: fragen, antworten, mit Lösungsblatt",
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
-    h: "/teachers/worksheets/tandem/common-mistakes",
+    h: "/insegnanti/schede/tandem/common-mistakes",
   });
   // The path to nationality: a guide page under the exam hub.
   pages.push({
     t: "Italian citizenship and the long-term permit: language and civic requirements",
     s: "How many years, who needs which test, who is exempt, and the steps in order",
     k: "italian citizenship cittadinanza residence permesso di soggiorno long-term eu permit b1 a2 language certificate exempt oath giuramento how to become italian passport",
-    h: "/citizenship",
+    h: "/cittadinanza",
   });
   // The patente deck: words for the driving course, the road and the paperwork.
   pages.push({
     t: "Patente vocabulary",
     s: "Italian words for the car, the road, signs, the driving exam and the paperwork",
     k: "patente driving licence test theory exam italian italy autoscuola motorizzazione macchina strada segnali stradali multa ztl revisione punti conversione patente straniera vocabulary",
-    h: "/patente-vocabulary",
+    h: "/vocabolario-patente",
   });
   // Business Italian: phrases, model texts and exercises for office work.
   pages.push({
     t: "Business Italian",
     s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Italy, B1 to C1",
     k: "business italian work office email formal letter phone call telefonata cv curriculum resume cover letter lettera di presentazione job interview colloquio meeting riunione negotiate trattativa figures presentation gentile cordiali saluti",
-    h: "/business-italian",
+    h: "/italiano-commerciale",
   });
   // CILS, CELI, PLIDA or CERT.IT?: a comparison page under the exam hub.
   pages.push({
     t: "CILS, CELI, PLIDA or CERT.IT?",
     s: "Which Italian exam fits your purpose: citizenship, residence permit, university or work",
     k: "cils celi plida certit compare difference which exam comparison citizenship cittadinanza permit university work price validity",
-    h: "/exams/which-exam",
+    h: "/esami/quale-esame",
   });
-  // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
+  // Prüfungsfallen (/esami/trappole): a page under the exam hub, not an exam of its own.
   pages.push({
     t: "Exam traps: CILS, CELI, PLIDA, CERT.IT",
     s: "Parts of the exams with a catch, briefly explained, with an example and a task",
     k: "exam traps exam tips cils celi plida certit trappole esame consigli reading listening writing speaking language use",
-    h: "/exams/traps",
+    h: "/esami/trappole",
   });
-  // Über mich (/about): who teaches behind the site.
+  // Über mich (/chi-siamo): who teaches behind the site.
   pages.push({
     t: "Über mich: Edgar Kretschmann",
     s: "Deutschlehrer seit 2015 – China, Korea, Philippinen, Deutschland",
     k: "über mich ueber mich edgar kretschmann lehrer lehrkraft gründer team wer about me teacher founder",
-    h: "/about",
+    h: "/chi-siamo",
   });
   // The placement test is a hub tile (catalog.js), not one of the tools, so it needs its own row.
   pages.push({
     t: "Einstufungstest",
     s: "Wo stehst du? Höchstens acht Fragen, A1 bis B2",
     k: "einstufungstest einstufung einstufen test niveau niveautest sprachniveau level welches niveau habe ich mein niveau testen wo stehe ich deutschtest a1 a2 b1 b2 placement test level test what is my level",
-    h: "/placement-test",
+    h: "/test-di-livello",
   });
   pages.push({
     t: "Stundenplan-Generator für Lehrkräfte",
     s: "Unterricht für einen Themenblock planen: Phasen, Zeiten, Aktivitäten, passende Übungen",
     k: "stundenplan unterrichtsplanung unterrichtsentwurf lehrplan verlaufsplan stunde planen lehrkräfte lehrer unterricht generator lesson plan teacher",
-    h: "/teachers/timetable",
+    h: "/insegnanti/orario",
   });
   pages.push({
     t: "Course content A1–C1",
     s: "What do you learn in each course? Topics, goals and grammar per level",
     k: "course content syllabus italian course curriculum plan topics goals progression level a1 a2 b1 b2 c1 a1.1 a1.2 b2.1 what do i learn programma corso di italiano",
-    h: "/syllabus",
+    h: "/programma",
   });
   pages.push({
     t: "Einstufungstest für die Klasse",
     s: "Für Lehrkräfte: per QR-Code, mit dem Niveau jeder Person",
     k: "einstufungstest klasse klassentest thementest test erstellen lehrkräfte lehrer lehrerin unterricht kurs einstufung niveau einstufen grammatiktest prüfen ergebnisse schüler placement test teacher class test quiz results",
-    h: "/teachers/tests",
+    h: "/insegnanti/test",
   });
   pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country italy all topics life in italy italian world cultura italia",
-    h: "/knowledge/country-and-culture",
+    h: "/conoscenze/paese-e-cultura",
   });
   pages.push({
     t: "Italy from the inside",
     s: "How people in Italy live, meet and talk",
     k: "culture italy from the inside insider dating manners everyday life aperitivo",
-    h: "/culture/insider",
+    h: "/cultura/dietro-le-quinte",
   });
   pages.push({
     t: "Italian around the world",
     s: "Map of where Italian is spoken, language family, how close is your language?",
     k: "italian around the world where is italian spoken official language countries europe world map italian-speaking switzerland ticino san marino vatican istria slovenia croatia malta albania eritrea diaspora argentina brazil united states australia canada language family tree romance indo-european related languages cognates english italian word decoder false friends sprachen weltkarte",
-    h: "/knowledge/languages",
+    h: "/conoscenze/lingue",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
   // verbs too: "warten auf" finds Verben mit Präpositionen) and the Wortarten.
@@ -318,7 +318,7 @@ export function buildSearchIndex() {
     t: "Nachschlagewerk",
     s: "Verbtabellen, Nomen in allen Fällen, Wortarten und mehr zum Nachschlagen",
     k: "nachschlagewerk nachschlagen nachschauen tabellen grammatik übersicht reference look up tables",
-    h: "/reference",
+    h: "/consultazione",
   });
   for (const [ref, d, k] of [
     ["starke-schwache-verben", starkSchwach, "starke verben schwache verben unregelmäßige verben strong verbs weak verbs irregular verbs vokalwechsel ablaut präteritum partizip stammformen"],
@@ -332,21 +332,21 @@ export function buildSearchIndex() {
     t: "Wortarten",
     s: "Nomen, Verb, Adjektiv und Co.: was sie sind, woran du sie erkennst",
     k: "wortarten wortart word classes parts of speech nomen substantiv verb adjektiv adverb pronomen präposition konjunktion artikel zahlwort",
-    h: "/grammar/parts-of-speech",
+    h: "/grammatica/parti-del-discorso",
   });
   pages.push({
     t: "Accents: the map",
     s: "Regional varieties of Italian, and Italy's other languages",
     k: "accents accent map dialects dialect regional italian italiano regionale north south milan turin genoa venice bologna florence tuscan gorgia toscana rome romanesco naples neapolitan sicilian sicily sardinian sardinia friulian ladin venetian south tyrol german aosta valley french slovene arberesh albanian alghero catalan swiss italian ticino anguria cocomero watermelon passato remoto casa voiced s minority languages dialekte",
-    h: "/knowledge/accents",
+    h: "/conoscenze/accenti",
   });
-  // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
+  // Every Redemittel set (/vocabolario/espressioni/<id>), found by its name and its phrases.
   for (const set of redemittel.sets) {
     pages.push({
       t: `Useful phrases: ${set.name}`,
       s: `${set.phrases.length} phrases, e.g. “${set.phrases[0]?.de ?? ""}”`,
       k: `useful phrases frases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
-      h: itemPath("/vocabulary/phrases", set.id),
+      h: itemPath("/vocabolario/espressioni", set.id),
     });
   }
   // Redewendungen & Sprichwörter: the hub and every phrase, found by its words, its meaning
@@ -356,7 +356,7 @@ export function buildSearchIndex() {
       t: "Redewendungen & Sprichwörter",
       s: "Was sie bedeuten, wann man sie sagt und woher sie kommen",
       k: "redewendung redewendungen sprichwort sprichwörter idiom idioms proverb proverbs redensart redensarten",
-      h: "/knowledge/idioms",
+      h: "/conoscenze/modi-di-dire",
     });
     for (const e of rwEintraege) {
       pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} redewendung`.toLowerCase(), h: rwHref(e) });
@@ -366,7 +366,7 @@ export function buildSearchIndex() {
     t: "Umgangssprache, Slang und Schimpfwörter",
     s: "Wie man wirklich spricht – mit Hochdeutsch daneben und was man nie sagt",
     k: "umgangssprache slang jugendsprache jugendwort schimpfwörter schimpfwort fluchen vulgär beleidigung kurzformen haste biste nö gucken kriegen kohle bock krass digga alter chillen geil cringe lost zwo fuffzig mist scheiße colloquial swear words curse insults youth slang",
-    h: "/knowledge/slang",
+    h: "/conoscenze/gergo",
   });
 
   // A word links to its Lernset when that set has a page, else to the level's full list,
@@ -382,11 +382,11 @@ export function buildSearchIndex() {
       w.plural ?? "",
       w.en,
       w.level,
-      `${builtSets.has(w.unit) ? `/vocabulary/${w.unit}` : `/vocabulary/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
+      `${builtSets.has(w.unit) ? `/vocabolario/${w.unit}` : `/vocabolario/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
       w.pos ?? "",
     ]);
 
-  // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
+  // Verb tables (/grammatica/verbi): [infinitive, preview, href, every form]. Every form
   // so that "tengo", "hizo" or "haga" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
@@ -403,7 +403,7 @@ export function buildSearchIndex() {
     .map((s) => [
       s.title,
       s.level ?? "",
-      `/vocabulary/${s.id}`,
+      `/vocabolario/${s.id}`,
       [s.moduleTitle ?? "", ...(s.topics ?? []), lernsetKeywords(s.id)].join(" ").replace(/&/g, " ").replace(/\s+/g, " ").trim(),
       [...new Set(lernsetCardsWords(s.id))].join("|"),
     ]);
@@ -422,7 +422,7 @@ export function buildSearchIndex() {
   const have = new Set(pages.map((p) => p.h));
   for (const p of seitenSuche) if (!have.has(p.h)) pages.push(p);
   // Zitat des Tages: found by every author, not by its 366 single quotes.
-  const zitatHub = pages.find((p) => p.h === "/knowledge/quotes");
+  const zitatHub = pages.find((p) => p.h === "/conoscenze/citazioni");
   if (zitatHub) zitatHub.k = `${zitatHub.k ?? ""} zitat zitate ${Object.values(zitate.authors).map((a) => a.name).join(" ")}`.toLowerCase();
   return { topics, pages, words, verbs, sets, refs };
 }

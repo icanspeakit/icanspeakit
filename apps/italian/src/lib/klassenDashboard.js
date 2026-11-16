@@ -1,4 +1,4 @@
-// /teachers/classes/class?id=… — the teacher dashboard (KLASSEN-TIERED-PROMPT.md, Tier 3).
+// /insegnanti/classi/classe?id=… — the teacher dashboard (KLASSEN-TIERED-PROMPT.md, Tier 3).
 // Loads the class, its members and their attempts of the last four weeks, then draws three
 // views from them: Übersicht, Themen, and one student's attempts. The numbers come from
 // ./klassenAuswertung.js; this file only draws, sorts and exports.
@@ -282,8 +282,8 @@ export async function mountKlassenDashboard(root, names) {
   }
 
   /* „Für Abwesende freigeben“: a lesson taught to the end becomes an Aufgabe – the same Stunde,
-     walked alone on /lesson, due in a week. An Aufgabe and not a lighter flag: students
-     already see Aufgaben (/exercises, /konto), it has a due date and a done state, and the
+     walked alone on /lezione, due in a week. An Aufgabe and not a lighter flag: students
+     already see Aufgaben (/esercizi, /konto), it has a due date and a done state, and the
      teacher can delete it. Whoever was there may do it too; nobody has to. */
   function renderNachholen() {
     const el = $("[data-kld-nachholen]");
@@ -346,7 +346,7 @@ export async function mountKlassenDashboard(root, names) {
     try {
       const titel = $("[data-task-title]").value.trim() || taskName(ref);
       // A card set: students open it by its share link, so the task carries the link's token
-      // (made now if the set isn't shared yet); their attempts on /card-set log the same ref.
+      // (made now if the set isn't shared yet); their attempts on /set-di-carte log the same ref.
       if (ref.startsWith("vs-set:")) {
         const set = mySets.find((x) => `vs-set:${x.id}` === ref);
         ref = `vs:${await (await import("./vokabelFoto/sets.js")).shareToken(set)}`;

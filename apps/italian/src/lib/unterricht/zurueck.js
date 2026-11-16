@@ -11,13 +11,13 @@ import { withBase } from "../paths.js";
 export const LESSON_WINDOW = "da-unterricht";
 /** The one tab the lesson's material opens in, so a second click does not stack tabs. */
 export const MATERIAL_WINDOW = "da-unterricht-material";
-/** The learner's Stunde (/lesson) and the tab its word cards open in: the same way back. */
+/** The learner's Stunde (/lezione) and the tab its word cards open in: the same way back. */
 export const LERN_WINDOW = "da-stunde";
 export const LERN_MATERIAL_WINDOW = "da-stunde-material";
 
 export function toLesson() {
   const local = readLocal();
-  toTab(LESSON_WINDOW, local ? sessionHref(local.id) : "/teachers/lesson");
+  toTab(LESSON_WINDOW, local ? sessionHref(local.id) : "/insegnanti/lezione");
 }
 
 /** Switches to the tab named `name`, or opens `href` in it when that tab is gone. */

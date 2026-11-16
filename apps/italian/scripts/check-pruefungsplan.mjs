@@ -8,11 +8,11 @@ import { buildPlan, planToIcs } from "../src/lib/pruefungsplan.js";
 
 const exam = {
   key: "dtz", label: "DTZ", level: "B1",
-  sets: [{ label: "Übungssatz 1", href: "/citizenship/b1-mock/practice-set" }, { label: "Übungssatz 2", href: "/citizenship/b1-mock/practice-set#uebungssatz-2", paid: true }],
+  sets: [{ label: "Übungssatz 1", href: "/cittadinanza/prova-b1/esercitazione" }, { label: "Übungssatz 2", href: "/cittadinanza/prova-b1/esercitazione#uebungssatz-2", paid: true }],
   grammar: { A2: [{ name: "Perfekt", href: "/present-perfect" }], B1: [{ name: "Passiv", href: "/passive-and-se" }, { name: "Konjunktiv II", href: "/konjunktiv-2" }] },
-  lernsets: { A2: [{ title: "Arbeit", href: "/vocabulary/a2-01" }], B1: [{ title: "Wohnen", href: "/vocabulary/b1-01" }] },
+  lernsets: { A2: [{ title: "Arbeit", href: "/vocabolario/a2-01" }], B1: [{ title: "Wohnen", href: "/vocabolario/b1-01" }] },
 };
-const known = new Set(["/pronunciation-check", ...exam.sets.map((s) => s.href), ...Object.values(exam.grammar).flat().map((g) => g.href), ...Object.values(exam.lernsets).flat().map((w) => w.href)]);
+const known = new Set(["/verifica-pronuncia", ...exam.sets.map((s) => s.href), ...Object.values(exam.grammar).flat().map((g) => g.href), ...Object.values(exam.lernsets).flat().map((w) => w.href)]);
 const today = "2026-10-05";
 const daysBefore = (plan, d) => Math.round((Date.parse(plan.examDate) - Date.parse(d.date)) / 86_400_000);
 

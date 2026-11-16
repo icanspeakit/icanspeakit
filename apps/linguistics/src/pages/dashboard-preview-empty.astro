@@ -1,0 +1,448 @@
+---
+// TEST PAGE — isolated Tier 1 empty-state preview. Not linked from nav,
+// not wired to real progress data. Safe to delete once reviewed; nothing
+// else in the app references this file.
+import Layout from '../layouts/Layout.astro';
+
+const formats = [
+  { slug: 'articulation', title: 'Articulation' },
+  { slug: 'phonology', title: 'Phonology' },
+  { slug: 'prosody', title: 'Prosody' },
+  { slug: 'voice', title: 'Voice' },
+  { slug: 'volume', title: 'Volume' },
+  { slug: 'pace', title: 'Pace & pausing' },
+  { slug: 'rhetoric', title: 'Rhetoric & delivery' },
+];
+
+const heroSlug = 'articulation';
+---
+
+<Layout title="Empty-state preview — icanspeak.it" hideHeader hideFooter>
+  <div class="ep-devbar">
+    Tier 1 empty-state test — zero-session mock data, isolated from the real dashboard. Delete this page when done.
+  </div>
+
+  <div class="ep-shell">
+    <div class="ep-topbar">
+      <div class="ep-topbar__inner">
+        <span class="ep-topbar__brand">icanspeak<span class="ep-topbar__accent">.it</span></span>
+      </div>
+    </div>
+
+    <div class="ep-body">
+      <aside class="ep-rail">
+        <div class="ep-rail__overview ep-rail__item" data-active="true">
+          <span class="ep-rail__bar"></span>
+          <span class="ep-rail__name">Overview</span>
+        </div>
+        <div class="ep-rail__divider"></div>
+        <div class="ep-rail__label">Formats · mastery</div>
+        <div class="ep-rail__list">
+          {formats.map((f) => (
+            <div class="ep-rail__item">
+              <span class="ep-rail__bar"></span>
+              <span class="ep-rail__body">
+                <span class="ep-rail__top">
+                  <span class="ep-rail__name">{f.title}</span>
+                  <span class="ep-rail__due">Not started</span>
+                </span>
+                <span class="ep-rail__meter"><span class="ep-rail__meter-fill" style="width:0%"></span></span>
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div class="ep-rail__streak">
+          <div class="ep-rail__label">This week</div>
+          <div class="ep-streak">
+            <svg class="ep-streak__flame" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7d8aa0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2c1 3-2 4-2 7a4 4 0 1 0 8 0c0-1-.5-2-1-2 .5 2-1 3-2 2 1-2-1-3-1-5s-1-2-2-2Z" />
+            </svg>
+            <span class="ep-streak__count">0-day streak</span>
+          </div>
+          <div class="ep-streak__dots">
+            {['M','T','W','T','F','S','S'].map((d) => (
+              <span class="ep-streak__dot">{d}</span>
+            ))}
+          </div>
+          <p class="ep-streak__caption">Practice once today to light your first day.</p>
+        </div>
+      </aside>
+
+      <main class="ep-main">
+        <div class="ep-headline">
+          <span class="ep-eyebrow">Get started</span>
+          <h1>Ready when you are</h1>
+          <p class="ep-sub">Nothing logged yet — pick a format below.</p>
+        </div>
+
+        <div class="ep-grid">
+          {formats.map((f) => (
+            f.slug === heroSlug ? (
+              <button type="button" class="ep-hero">
+                <span class="ep-hero__tag">Start here</span>
+                <span class="ep-hero__icon">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#24201b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="2" width="6" height="12" rx="3"></rect>
+                    <path d="M5 11a7 7 0 0 0 14 0"></path>
+                    <path d="M12 18v4"></path>
+                    <path d="M8 22h8"></path>
+                  </svg>
+                </span>
+                <span class="ep-hero__title">{f.title}</span>
+                <span class="ep-hero__sub">A quick first set to get your first data point on the board.</span>
+                <span class="ep-hero__cta">Begin Articulation →</span>
+              </button>
+            ) : (
+              <button type="button" class="ep-tile">
+                <span class="ep-tile__ring">
+                  <svg viewBox="0 0 84 84" class="ep-tile__ring-svg">
+                    <circle cx="42" cy="42" r="36" fill="none" stroke="#EFE6D3" stroke-width="8" stroke-dasharray="4 6"></circle>
+                  </svg>
+                  <svg class="ep-tile__mic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9BD9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="2" width="6" height="12" rx="3"></rect>
+                    <path d="M5 11a7 7 0 0 0 14 0"></path>
+                    <path d="M12 18v4"></path>
+                    <path d="M8 22h8"></path>
+                  </svg>
+                </span>
+                <span class="ep-tile__body">
+                  <span class="ep-tile__title">{f.title}</span>
+                  <span class="ep-tile__sub">Not started yet</span>
+                </span>
+              </button>
+            )
+          ))}
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .ep-devbar {
+    background: #1a2940;
+    color: var(--isk-yellow);
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    text-align: center;
+    padding: 0.5rem 1rem;
+  }
+
+  .ep-shell {
+    background: #fbf7ef;
+    min-height: 100vh;
+  }
+
+  .ep-topbar {
+    background: #1a2940;
+  }
+
+  .ep-topbar__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.9rem 1.5rem;
+  }
+
+  .ep-topbar__brand {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: #fff;
+  }
+
+  .ep-topbar__accent {
+    color: var(--isk-yellow);
+  }
+
+  .ep-body {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+  }
+
+  @media (max-width: 900px) {
+    .ep-body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ep-rail {
+    background: #1a2940;
+    padding: 1.6rem 0 1.7rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ep-rail__item {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    padding: 0.7rem 1.4rem 0.75rem 1.15rem;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .ep-rail__overview {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 1.4rem;
+  }
+
+  .ep-rail__overview .ep-rail__bar {
+    display: none;
+  }
+
+  .ep-rail__overview[data-active='true'] {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .ep-rail__overview .ep-rail__name {
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+
+  .ep-rail__divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 0.6rem 1.4rem 1rem;
+  }
+
+  .ep-rail__label {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    padding: 0 1.4rem 0.75rem;
+  }
+
+  .ep-rail__bar {
+    background: transparent;
+  }
+
+  .ep-rail__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .ep-rail__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  .ep-rail__name {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .ep-rail__due {
+    font-family: ui-monospace, monospace;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  .ep-rail__meter {
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  .ep-rail__meter-fill {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--isk-yellow);
+    display: block;
+  }
+
+  .ep-rail__streak {
+    margin-top: 1.4rem;
+    padding: 1.1rem 1.4rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .ep-streak {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .ep-streak__count {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .ep-streak__dots {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .ep-streak__dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    color: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .ep-streak__caption {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.45);
+    margin: 0 0 1rem;
+  }
+
+  .ep-main {
+    padding: 2.2rem 2rem 3rem;
+  }
+
+  .ep-headline {
+    margin-bottom: 1.8rem;
+  }
+
+  .ep-eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a621f;
+    margin-bottom: 0.5rem;
+  }
+
+  .ep-headline h1 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: #24201b;
+    margin: 0 0 0.4rem;
+  }
+
+  .ep-sub {
+    font-family: var(--font-sans);
+    color: #7a6f60;
+    margin: 0;
+  }
+
+  .ep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .ep-tile,
+  .ep-hero {
+    background: #fff;
+    border: 1px solid #e3d6bd;
+    border-radius: 12px;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .ep-tile__ring {
+    position: relative;
+    width: 56px;
+    height: 56px;
+  }
+
+  .ep-tile__ring-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ep-tile__mic {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ep-tile__title {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: #24201b;
+  }
+
+  .ep-tile__sub {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: #7a6f60;
+  }
+
+  .ep-hero {
+    grid-column: span 2;
+    background: linear-gradient(160deg, #fffaf0, #fff);
+    border-color: var(--isk-yellow);
+    box-shadow: 0 0 0 1px rgba(232, 200, 121, 0.4);
+  }
+
+  @media (max-width: 560px) {
+    .ep-hero {
+      grid-column: span 1;
+    }
+  }
+
+  .ep-hero__tag {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8a621f;
+    background: rgba(232, 200, 121, 0.25);
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+  }
+
+  .ep-hero__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #f2ead9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ep-hero__title {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: #24201b;
+  }
+
+  .ep-hero__sub {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: #7a6f60;
+    margin-top: -0.3rem;
+  }
+
+  .ep-hero__cta {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1a2940;
+    margin-top: 0.3rem;
+  }
+</style>

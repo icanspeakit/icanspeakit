@@ -1,4 +1,4 @@
-// Bruno at the desk (/games/questura): Bruno, our dachshund, works
+// Bruno at the desk (/giochi/questura): Bruno, our dachshund, works
 // sportello 3 in the invented town of Casalbruno: two days at the Anagrafe (residenza), then the
 // Questura desk (permesso di soggiorno via the Poste kit, renewal, questions about citizenship,
 // the codice fiscale and the ASL). The number display dings, a

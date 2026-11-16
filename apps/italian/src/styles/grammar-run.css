@@ -1,4 +1,4 @@
-/* The guided run (/grammar/path).
+/* The guided run (/grammatica/percorso).
 
    One station on the screen at a time, so the page is sized for one: a narrow column,
    a progress rail at the top, the exercise, and one button. Everything a hub page has —
@@ -92,7 +92,25 @@
 }
 .run-lead { margin: 0; font-size: .9375rem; line-height: 1.6; color: var(--ink); }
 
+/* The lesson's words, under its one sentence: a short list, word then meaning. */
+.run-words { margin-top: 12px; }
+.run-words-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 4px 16px; }
+.run-words-list li { font-size: .9375rem; line-height: 1.5; min-width: 0; overflow-wrap: anywhere; }
+.run-word { font-weight: var(--fw-semibold); color: var(--ink); }
+.run-word-tr { color: var(--muted); }
+
+/* The lesson break: the sentence the learner can now say. */
+.run-can-say { margin: 0 auto 18px; max-width: 46ch; padding: 12px 16px; border-radius: var(--radius); background: var(--blue-50); }
+.run-done .run-can-say p { margin: 0; }
+.run-done .run-can-say-label { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+.run-done .run-can-say-front { font-size: 1.0625rem; font-weight: var(--fw-semibold); color: var(--ink); margin-top: 4px; }
+.run-done .run-can-say-tr { margin-top: 2px; }
+
 .run-stage { margin-bottom: 20px; }
+/* At a lesson break and at the end the stage is emptied: no empty card frame. And a
+   button's own display (.quiz-btn) must not undo the hidden attribute the run sets. */
+.run-stage:empty { display: none; }
+.run-shell [hidden] { display: none !important; }
 .run-ex-title {
   margin: 0 0 6px;
   font-size: 1.0625rem;
@@ -108,7 +126,9 @@
 /* Before the first answer "weiter" is present but not inviting: the exercise is the
    point of the station, and a full-strength button next to it is an invitation to
    leave. It comes to life the moment there is something to move on from. */
-.run-next[data-quiet] { opacity: .45; }
+/* Before an answer the button skips the exercise: an outline button, fully there, not a
+   greyed-out "Next" that reads as switched off. */
+.run-next[data-quiet] { background: transparent; color: var(--brand-blue); box-shadow: inset 0 0 0 1.5px var(--brand-blue); }
 .run-skip {
   margin-left: auto;
   border: 0;

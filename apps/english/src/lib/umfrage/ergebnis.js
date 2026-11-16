@@ -9,7 +9,7 @@ import QRCode from "qrcode";
 import { currentUser } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { antworten, umfrage, umfrageLink, umfrageOffen } from "./daten.js";
-import { currentPath } from "../paths.js";
+import { currentPath, BASE_PATH } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const REFRESH_MS = 5000;
@@ -52,7 +52,7 @@ export async function mountErgebnis(root) {
   let shareOpen = params.has("neu");
   await loadText(() => { if (u) render(); });
 
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
+  $("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   if (!(await currentUser())) return gate("signin");
   try {
     u = await umfrage(params.get("id"));
@@ -174,8 +174,8 @@ export async function mountErgebnis(root) {
         <h3>${esc(t("uf.t.next.skill", "Mehr üben"))}</h3>
         <ol class="uf-next-list">${skill.map((x) => `<li><strong>${esc(label(x.o))}</strong> <small>${votes(x)}</small></li>`).join("")}</ol>
         <span class="uf-next-acts">
-          <a href="/speaking">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
-          <a href="/teachers/worksheets/partner">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
+          <a href="${BASE_PATH}/speaking">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
+          <a href="${BASE_PATH}/teachers/worksheets/partner">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
         </span>
       </article>`);
     }

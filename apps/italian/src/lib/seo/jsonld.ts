@@ -65,36 +65,36 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 }
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
-// themselves (short). A step that is not a page (/speaking/set) is left
-// out of the trail rather than pointing at a 404; a dynamic one (/italian-for-work/care-work) is named by
+// themselves (short). A step that is not a page (/parlato/serie) is left
+// out of the trail rather than pointing at a 404; a dynamic one (/italiano-per-il-lavoro/care-work) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammar": "Grammar",
-  "/vocabulary": "Vocabulary & phrases",
-  "/exams": "Exams",
+  "/grammatica": "Grammar",
+  "/vocabolario": "Vocabulary & phrases",
+  "/esami": "Exams",
   "/cils": "CILS",
   "/celi": "CELI by level",
-  "/citizenship/b1-mock": "Citizenship B1 mock",
+  "/cittadinanza/prova-b1": "Citizenship B1 mock",
   "/plida": "PLIDA",
-  "/italian-for-work": "Italian for work",
-  "/civic-knowledge": "Civic knowledge",
-  "/citizenship": "Italian citizenship",
-  "/knowledge": "Knowledge base",
-  "/knowledge/word-stories": "Word stories",
-  "/culture": "Culture",
-  "/culture/insider": "Italy from the inside",
-  "/teachers": "For teachers",
-  "/teachers/worksheets": "Worksheets",
-  "/teachers/games": "Printable games",
-  "/teachers/classes": "Classes",
-  "/teachers/surveys": "Surveys",
-  "/teachers/tests": "Placement test for the class",
-  "/teachers/quiz": "Live quiz",
-  "/speaking": "Speaking",
-  "/listening": "Listening",
-  "/reading": "Reading",
-  "/writing": "Writing",
-  "/intonation": "Intonation",
+  "/italiano-per-il-lavoro": "Italian for work",
+  "/cultura-civica": "Civic knowledge",
+  "/cittadinanza": "Italian citizenship",
+  "/conoscenze": "Knowledge base",
+  "/conoscenze/storie-di-parole": "Word stories",
+  "/cultura": "Culture",
+  "/cultura/dietro-le-quinte": "Italy from the inside",
+  "/insegnanti": "For teachers",
+  "/insegnanti/schede": "Worksheets",
+  "/insegnanti/giochi": "Printable games",
+  "/insegnanti/classi": "Classes",
+  "/insegnanti/sondaggi": "Surveys",
+  "/insegnanti/test": "Placement test for the class",
+  "/insegnanti/quiz": "Live quiz",
+  "/parlato": "Speaking",
+  "/ascolto": "Listening",
+  "/lettura": "Reading",
+  "/scrittura": "Writing",
+  "/intonazione": "Intonation",
 };
 
 /** The trail for `route` (no trailing slash): Start, each known parent page, the page itself.

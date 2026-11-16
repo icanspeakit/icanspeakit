@@ -74,10 +74,14 @@ const PER_LEVEL = 2;
       <p class="quiz-progress" data-i18n="placement.result">Dein Einstieg</p>
       <p class="es-result-level" data-es-result-level></p>
       <p class="es-result-lead" data-es-result-lead></p>
+      <!-- One way on, not two hubs (2026-11-14): the first lesson of the guided run at this
+           level. The topic wall and the word lists stay one tap away for those who want them. -->
       <div class="es-actions">
-        <a class="quiz-btn quiz-btn--primary" data-es-go-grammar data-i18n="placement.goGrammar">Grammatik anfangen</a>
-        <a class="quiz-btn" data-es-go-vocab data-i18n="placement.goVocab">Wortschatz anfangen</a>
+        <a class="quiz-btn quiz-btn--primary" data-es-go-lesson data-i18n="placement.goLesson">Start your first lesson</a>
       </div>
+      <p class="es-browse">
+        <a data-es-go-grammar data-i18n="placement.allGrammar">All grammar topics</a><span aria-hidden="true"> · </span><a data-es-go-vocab data-i18n="placement.vocab">Vocabulary</a>
+      </p>
       <!-- A1 is the floor of the test, so "A1" also stands for "not even that yet". Those
            learners get the gentler way in offered right here, next to the A1 buttons. -->
       <div class="es-einfach" data-es-einfach hidden><EinfachEntry variant="row" /></div>
@@ -117,6 +121,8 @@ const PER_LEVEL = 2;
   .es-result-lead { margin: 10px 0 22px; max-width: 46ch; color: var(--muted); }
   .es-actions { display: flex; flex-wrap: wrap; gap: 10px; }
   .es-actions .quiz-btn { text-decoration: none; }
+  .es-browse { margin: 12px 0 0; font-size: .9rem; color: var(--muted); }
+  .es-browse a { color: var(--brand-blue); }
 
   .es-nudge { margin: 20px 0 0; font-size: .85rem; color: var(--muted); }
   .es-link { padding: 0; font: inherit; color: var(--brand-blue); background: none; border: none; cursor: pointer; text-decoration: underline; }
@@ -127,6 +133,7 @@ const PER_LEVEL = 2;
   import { intent } from "../lib/intent.js";
   import { flagElement, meldenLink } from "../lib/meldung.js";
   import { fingerprint } from "../lib/meldungRef.js";
+  import { BASE_PATH } from "../lib/paths.js";
 
   // The questions are English on purpose — they are the test. Everything the script
   // writes around them follows the UI language: each such element carries its key in
@@ -264,8 +271,9 @@ const PER_LEVEL = 2;
     result.querySelector<HTMLElement>("[data-es-result-level]")!.textContent = level;
     setT(result.querySelector<HTMLElement>("[data-es-result-lead]")!, `placement.lead.${level}`, LEAD[level] ?? "");
     const slug = level.toLowerCase();
-    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = `/grammar#niveau-${slug}`;
-    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = `/vocabulary/${slug}`;
+    result.querySelector<HTMLAnchorElement>("[data-es-go-lesson]")!.href = `${BASE_PATH}/grammar/path?niveau=${slug}`;
+    result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = `${BASE_PATH}/grammar#level-${slug}`;
+    result.querySelector<HTMLAnchorElement>("[data-es-go-vocab]")!.href = `${BASE_PATH}/vocabulary/${slug}`;
     result.querySelector<HTMLElement>("[data-es-einfach]")!.hidden = level !== LEVELS[0];
 
     // The neighbours, named rather than implied: a test this short can land one step off,

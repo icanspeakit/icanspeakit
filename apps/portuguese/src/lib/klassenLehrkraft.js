@@ -1,4 +1,4 @@
-// /teachers/classes — the teacher's list of classes (KLASSEN-TIERED-PROMPT.md, Tier 1).
+// /professores/turmas — the teacher's list of classes (KLASSEN-TIERED-PROMPT.md, Tier 1).
 // Data goes through src/lib/klassen.js; this file only draws and wires the buttons.
 //
 // The whole list is redrawn after every change. Which classes have their QR code or member
@@ -23,7 +23,7 @@ export async function mountKlassen(root) {
   await loadText(() => { if (mounted) render(); });
 
   /* -------------------------------------------------------------- who ---- */
-  $("[data-signin-link]").href = withBase(`/account?next=${encodeURIComponent(currentPath() + location.search)}`);
+  $("[data-signin-link]").href = withBase(`/conta?next=${encodeURIComponent(currentPath() + location.search)}`);
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -80,7 +80,7 @@ export async function mountKlassen(root) {
         <li class="lq-card kl-class kl-class--archived" data-id="${k.id}">
           ${head}
           <div class="kl-row">
-            <a class="lq-btn lq-btn--ghost" href="${withBase("/teachers/classes/class")}?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
+            <a class="lq-btn lq-btn--ghost" href="${withBase("/professores/turmas/turma")}?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
             <button type="button" class="lq-btn lq-btn--ghost" data-act="unarchive">${esc(t("kl.t.unarchive", "Zurückholen"))}</button>
             <button type="button" class="lq-btn lq-btn--quiet" data-act="delete">${esc(t("kl.t.delete", "Klasse löschen"))}</button>
           </div>
@@ -103,7 +103,7 @@ export async function mountKlassen(root) {
           <button type="button" class="lq-btn lq-btn--ghost" data-act="copy">${esc(t("kl.t.copy", "Link kopieren"))}</button>
         </div>
         <div class="kl-row">
-          <a class="lq-btn lq-btn--primary" href="${withBase("/teachers/classes/class")}?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
+          <a class="lq-btn lq-btn--primary" href="${withBase("/professores/turmas/turma")}?id=${k.id}">${esc(t("kl.t.open", "Übersicht"))}</a>
           <button type="button" class="lq-btn lq-btn--ghost" data-act="members" aria-expanded="${!!members}">${esc(t("kl.t.members", "Mitglieder"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="renew">${esc(t("kl.t.renew", "Code erneuern"))}</button>
           <button type="button" class="lq-btn lq-btn--quiet" data-act="archive">${esc(t("kl.t.archive", "Archivieren"))}</button>
@@ -114,7 +114,7 @@ export async function mountKlassen(root) {
 
   function memberList(list) {
     if (list === null) return `<p class="kl-muted">${esc(t("kl.loading", "Einen Moment …"))}</p>`;
-    if (!list.length) return `<p class="kl-muted">${esc(t("kl.t.noMembers", "Noch niemand beigetreten. Zeig den QR-Code oder gib den Code weiter: {link}", { link: `${location.host}${withBase("/join")}` }))}</p>`;
+    if (!list.length) return `<p class="kl-muted">${esc(t("kl.t.noMembers", "Noch niemand beigetreten. Zeig den QR-Code oder gib den Code weiter: {link}", { link: `${location.host}${withBase("/entrar")}` }))}</p>`;
     return `<ul class="kl-members">${list
       .map((m) => `
         <li>

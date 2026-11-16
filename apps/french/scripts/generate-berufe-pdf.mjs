@@ -1,4 +1,4 @@
-// Builds the downloadable word lists for Spanish for work: one PDF per sector deck, grouped like
+// Builds the downloadable word lists for French for work: one PDF per sector deck, grouped like
 // the deck, with article and plural folded into the word, the English meaning and the example.
 //
 //   pnpm generate:berufe-pdf
@@ -13,7 +13,7 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { byId, pluralArticle } from "../src/lib/lexicon.js";
+import { byId, pluralArticle, withArticle } from "../src/lib/lexicon.js";
 import { workPath } from "../src/lib/routes.js";
 import { createDoc, MUTED } from "./lib/pdf-brand.mjs";
 import { langsFor, languageOf } from "../src/lib/languages.js";
@@ -34,7 +34,9 @@ const ONLY = process.argv.find((a) => a.startsWith("--lang="))?.slice(7).split("
 const EDITION_LANGS = langsFor("berufe").filter((c) => EDITIONS[c] && (!ONLY || ONLY.includes(c)));
 
 const decks = readdirSync(DIR).filter((f) => f.endsWith(".json")).map((f) => JSON.parse(readFileSync(path.join(DIR, f), "utf8")));
-const own = new Map(decks.flatMap((d) => (d.groups ?? []).flatMap((g) => g.words.filter((w) => !w.ref).map((w) => [w.id, w]))));
+// The code de la route deck too: a sector word may point there (bv-dgt-…).
+const dgt = JSON.parse(readFileSync(path.join(ROOT, "src", "data", "dgt", "vocabulario.json"), "utf8"));
+const own = new Map([...decks, dgt].flatMap((d) => (d.groups ?? []).flatMap((g) => g.words.filter((w) => !w.ref).map((w) => [w.id, w]))));
 
 /** Any entry → one flat row: lemma, pos, gender, plural, hint, example, translations. */
 function row(w) {
@@ -51,7 +53,8 @@ function refRow(w) {
 }
 const headword = (w) => {
   if (w.pos !== "noun") return w.lemma;
-  const base = w.gender ? `${w.gender} ${w.lemma}` : w.lemma;
+  // withArticle: l'école with no space, le/la for common gender (content-plan §1.4).
+  const base = w.gender ? withArticle(w) : w.lemma;
   if (w.pluralOnly) return `${pluralArticle(w)} ${w.plural ?? w.lemma}`;
   return w.plural ? `${base}, ${pluralArticle(w)} ${w.plural}` : base;
 };
@@ -70,12 +73,12 @@ async function build(deck, lang = null) {
   const outPath = path.join(outDir, fileName);
   const pdf = createDoc({
     outPath,
-    runningHead: `ICANSPEAK SPANISH · SPANISH FOR WORK${ed ? ` · SPANISH–${ed.column.toUpperCase()}` : ""}`,
+    runningHead: `ICANSPEAK FRENCH · FRENCH FOR WORK${ed ? ` · FRENCH–${ed.column.toUpperCase()}` : ""}`,
     unicode: true,
     script: lang ? languageOf(lang)?.script : null,
   });
   pdf.cover({
-    eyebrow: ed ? `SPANISH FOR WORK · SPANISH–${ed.column.toUpperCase()}` : "ICANSPEAK SPANISH · SPANISH FOR WORK",
+    eyebrow: ed ? `FRENCH FOR WORK · FRENCH–${ed.column.toUpperCase()}` : "ICANSPEAK FRENCH · FRENCH FOR WORK",
     art: art.mascot.words,
     title: deck.title,
     // No subtitle: the cover band is a fixed 210pt, and a two-line profession title next to
@@ -86,10 +89,10 @@ async function build(deck, lang = null) {
       deck.introEasy ?? deck.intro,
       `${rows.length} words in ${groups.length} ${groups.length === 1 ? "group" : "groups"} · ${deck.level}`,
       `${rows.filter((r) => r.example).length} example sentences`,
-      `As flashcards: icanspeak.it/spanish${workPath(deck.beruf)}`,
+      `As flashcards: icanspeak.it/french${workPath(deck.beruf)}`,
     ],
     footer:
-      "Written by icanspeak Spanish. You may download this PDF, print it and share it in class or at work. No account, no cost." +
+      "Written by icanspeak French. You may download this PDF, print it and share it in class or at work. No account, no cost." +
       (deck.reviewed ? "" : " The content is a draft and is still being checked."),
   });
 
@@ -97,7 +100,7 @@ async function build(deck, lang = null) {
   pdf.doc.addPage();
   // The tips in Regi's box, the one place a learner should not skip.
   if (deck.tipps?.length) {
-    pdf.h2("Tips for Spanish at work", { icon: art.icon.note, keep: 60 });
+    pdf.h2("Tips for French at work", { icon: art.icon.note, keep: 60 });
     for (const t of deck.tipps) pdf.tip(t, { art: art.mascot.idea });
   }
   for (const g of groups) {
@@ -117,7 +120,7 @@ async function build(deck, lang = null) {
       { widths: [w * 0.27, w * 0.11, w * 0.2, w * 0.42], inkCols: [2], ...(ed.rtl && { rtl: [2] }) }
     );
   }
-  pdf.tip(`All the words as flashcards: icanspeak.it/spanish${workPath(deck.beruf)}`, {
+  pdf.tip(`All the words as flashcards: icanspeak.it/french${workPath(deck.beruf)}`, {
     art: art.mascot.wordsCheer,
     title: "Keep practising",
   });

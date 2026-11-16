@@ -1,15 +1,16 @@
-// The chapters a teacher can build a live quiz from (/teachers/quiz/create), and
+// The chapters a teacher can build a live quiz from (/enseignants/quiz/creer), and
 // the ready-made questions each one offers. Build time only: the page gets the list in
-// its markup and each chapter's questions from /teachers/quiz-chapters/<slug>.json.
+// its markup and each chapter's questions from /enseignants/quiz-chapters/<slug>.json.
 //
 // Two kinds of chapter:
 //   g:<key>  a grammar topic — its fill-in, table and matching items turned into
 //            multiple choice. The wrong options are other answers of the same exercise
 //            (werde / wirst / wird / werden), so they are always forms a learner could
 //            plausibly mix up, never random words.
-//   g:verbtabellen  the verb tables of /grammar/verbs: a form of each verb in the presente,
-//            indefinido and perfecto, the wrong options being the same verb's other forms
-//            and the form the regular pattern would wrongly give (teno, hací, ha hacido).
+//   g:verbtabellen  the verb tables of /grammaire/verbes: a form of each verb in the présent,
+//            futur simple and passé composé, the wrong options being the same verb's other
+//            forms, the other auxiliary and the form the regular pattern would wrongly give
+//            (venissons, venirai, a prendu).
 //   w:<id>   a Wortschatz Lernset — its words, asked German → translation by default.
 //            Stored as a reference ({ t: "word", id }) and turned into a question on the
 //            projector, where the lexicon is loaded anyway: that is what lets every
@@ -24,7 +25,7 @@ import wortfallen from "../../data/wortfallen.json";
 import { fehlerGroups, answerOf, wrongOf } from "../typischeFehler.js";
 import { units, byUnit, spokenForm } from "../lexicon.js";
 import { MEANING_LANGS } from "./protocol.js";
-import { groups as verbGroupList, verbs as verbList, PERSONS, regularPraes, regularPraet, regularP2 } from "../verbtabellen.js";
+import { groups as verbGroupList, verbs as verbList, PERSONS, regularPraes, regularFut, regularP2 } from "../verbtabellen.js";
 
 const workspaceMods = import.meta.glob("../../data/grammatik/*.json", { eager: true });
 const workspaces = Object.values(workspaceMods).map((m) => m.default ?? m);
@@ -74,10 +75,10 @@ function toChoices(pairs, kind, src, extraPool = []) {
   return out;
 }
 
-/** The verb tables (/grammar/verbs) as questions, one group per verb group. Per verb:
+/** The verb tables (/grammaire/verbes) as questions, one group per verb group. Per verb:
  *  a Präsens form (the first irregular one of du / er, else du), the Präteritum of ich and
  *  the Perfekt of er/sie/es. */
-// The Wortfallen of /knowledge/false-friends (embarazada, éxito, carpeta): each trap's gap sentences,
+// The Wortfallen of /savoirs/faux-amis (embarazada, éxito, carpeta): each trap's gap sentences,
 // the wrong options being the words it is mixed up with. Not a grammar topic, so like the
 // verb tables it stays out of the Aufgaben catalog.
 const WF_KEY = "wortfallen";
@@ -89,7 +90,7 @@ function wortfallenGroups() {
   }).filter((g) => g.items.length);
 }
 
-// Typische Fehler (/grammar/common-mistakes): each pair's gap, the wrong option its
+// Typische Fehler (/grammaire/erreurs-frequentes): each pair's gap, the wrong option its
 // look-alike. Two buttons, not four: the pair is the question. Built here rather than with
 // mcq(), whose case-blind de-duplication would drop Sevilla / sevilla, the very point of a pair.
 const TF_KEY = "typische-fehler";
@@ -114,27 +115,32 @@ function verbGroups() {
     const items = [];
     for (const v of verbList.filter((x) => x.group === g.id)) {
       const praes = v.rows.map((r) => r.praes.f);
-      const praet = v.rows.map((r) => r.praet.f);
-      // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+      const fut = v.rows.map((r) => r.fut.f);
+      // The person whose form breaks the pattern (prennent, viens), else il/elle. The je row is
+      // asked as "je/j'" so elision doesn't give the answer away.
       const pi = v.rows.findIndex((r) => r.praes.x);
       const p = pi === -1 ? 2 : pi;
-      items.push(q(`${PERSONS[p]} ___ (${v.inf}) · presente`, praes[p], [regularPraes(v.inf)[p], ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
-      // A verb with gaps in its table (haber, soler) hardly uses the indefinido: not asked.
-      if (!v.defective) items.push(q(`yo ___ (${v.inf}) · indefinido`, praet[0], [regularPraet(v.inf)[0], ...praet], g.name, `g:${VERB_KEY}#${v.id}-praet`));
+      const who = (i) => (i === 0 ? "je/j'" : PERSONS[i]);
+      items.push(q(`${who(p)} ___ (${v.inf}) · présent`, praes[p], [regularPraes(v.inf)[p], ...praes], g.name, `g:${VERB_KEY}#${v.id}-praes`));
+      // A verb with gaps in its table (falloir, pleuvoir) is asked in the il form only.
+      const fp = v.defective ? 2 : 3;
+      items.push(q(`${who(fp)} ___ (${v.inf}) · futur simple`, fut[fp], [regularFut(v.inf)[fp], v.rows[fp].cond.f, praes[fp], ...fut], g.name, `g:${VERB_KEY}#${v.id}-fut`));
+      // The passé composé: the right auxiliary and participle (est allé(e), not a allé).
       const perf = v.rows[2].perf.f;
       const withPart = (part) => perf.replace(v.p2, part);
-      items.push(q(`él/ella ___ (${v.inf}) · pretérito perfecto`, perf, [v.rows[5].perf.f, withPart(regularP2(v.inf)), withPart(v.plain), v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
+      const otherAux = v.auxName === "être" ? perf.replace(/^(s'|se )?est /, "a ") : perf.replace(/^a /, "est ");
+      items.push(q(`il/elle ___ (${v.inf}) · passé composé`, perf, [otherAux, withPart(regularP2(v.inf)), v.rows[5].perf.f, v.rows[0].perf.f], g.name, `g:${VERB_KEY}#${v.id}-perf`));
     }
     return { title: g.name, items: items.filter(Boolean) };
   }).filter((g) => g.items.length);
 }
 
-/* ---- The Nachschlagewerk lists (/grammar/<ref>, src/data/nachschlagen/*.json) ------
+/* ---- The Nachschlagewerk lists (/grammaire/<ref>, src/data/nachschlagen/*.json) ------
    Chapter g-nachschlagen-<file>, one group per section of the list. Rows are
    [verb, forms, example, level]; a "# …" string is a sub-heading and is skipped.
-     starke-schwache-verben     él indefinido and participle of each verb; wrong: the other
-                                forms, the regular pattern (tenió, hacido)
-     trennbare-verben           yo present of the pronominal verb; wrong: no pronoun, another pronoun
+     starke-schwache-verben     il passé composé and participle of each verb; wrong: the other
+                                forms, the regular pattern (prendu), the other auxiliary
+     trennbare-verben           je present of the pronominal verb; wrong: no pronoun, another pronoun
      verben-mit-praepositionen  the preposition in the example sentence; wrong: the others */
 const REF_PREFIX = "nachschlagen-";
 const refMods = import.meta.glob("../../data/nachschlagen/*.json", { eager: true });
@@ -143,9 +149,11 @@ const refLists = Object.fromEntries(Object.entries(refMods).map(([path, m]) => [
 const REF_LEVEL = { "starke-schwache-verben": "A1", "trennbare-verben": "A1", "verben-mit-praepositionen": "A2" };
 const rowsOf = (sec) => (sec.items ?? []).filter((it) => Array.isArray(it));
 const bareVerb = (v) => String(v).replace(/[[\]|]/g, "");
-// The form a learner guesses from the regular pattern: wrong for an irregular verb.
-const regularEl = (inf) => inf.replace(/ar$/, "ó").replace(/(er|ir|ír)$/, "ió");
-const regularPart = (inf) => inf.replace(/ar$/, "ado").replace(/(er|ir|ír)$/, "ido");
+// The participle a learner guesses from the regular pattern: wrong for an irregular verb
+// (prendre → prendu, mettre → mettu). Equal to the right form for a regular one; mcq() drops it then.
+const regularPart = (inf) => inf.replace(/oir$/, "u").replace(/re$/, "u").replace(/ir$/, "i").replace(/er$/, "é");
+// The same participle with the other auxiliary: "est arrivé" ↔ "a arrivé".
+const otherAux = (pc) => (pc.startsWith("est ") ? `a ${pc.slice(4)}` : pc.startsWith("a ") ? `est ${pc.slice(2)}` : "");
 const mcq = (prompt, right, wrong, kind, src) => {
   const seen = new Set([right.toLowerCase()]);
   const opts = shuffle(wrong).filter((w) => w && !seen.has(w.toLowerCase()) && seen.add(w.toLowerCase())).slice(0, 3);
@@ -162,17 +170,21 @@ function refGroups(file) {
       const [v, forms, example] = row;
       const inf = bareVerb(v);
       if (file === "starke-schwache-verben") {
-        // "tengo · tuvo · tenido": yo presente · él indefinido · participio
-        const [yo, past, p2] = String(forms).split(" · ").map((f) => f.trim());
+        // "prends · a pris · pris": je présent · il passé composé · participe passé
+        const [je, past, p2] = String(forms).split(" · ").map((f) => f.trim());
         if (!past || !p2) return;
-        items.push(mcq(`Ayer ella ___ (${inf}) · indefinido`, past, [regularEl(inf), yo, p2, inf], sec.name, src(sec, i, "praet")));
-        items.push(mcq(`Ella ha ___ (${inf}) · perfecto`, p2, [regularPart(inf), past, inf, yo], sec.name, src(sec, i, "perf")));
+        const aux = past.startsWith("est ") ? "est" : "a";
+        items.push(mcq(`Hier, il ___ (${inf}) · passé composé`, past, [otherAux(past), `${aux} ${regularPart(inf)}`, je, p2], sec.name, src(sec, i, "praet")));
+        items.push(mcq(`${inf} → participe passé ___`, p2, [regularPart(inf), je, inf, past], sec.name, src(sec, i, "perf")));
       } else if (file === "trennbare-verben") {
-        // The yo form with its pronoun; wrong: no pronoun, or the pronoun of another person.
-        const yo = String(forms).split(" · ")[0].trim();
-        if (!yo.startsWith("me ")) return;
-        const bare = yo.slice(3);
-        items.push(mcq(`Yo ___ (${inf}) · presente`, yo, [bare, `se ${bare}`, `te ${bare}`], sec.name, src(sec, i)));
+        // The je form with its pronoun; wrong: no pronoun, or the pronoun of another person
+        // (elided before a vowel: m'habille → s'habille, t'habille).
+        const je = String(forms).split(" · ")[0].trim();
+        const elided = je.startsWith("m'");
+        if (!elided && !je.startsWith("me ")) return;
+        const bare = elided ? je.slice(2) : je.slice(3);
+        const pron = (p) => (elided ? `${p}'${bare}` : `${p}e ${bare}`);
+        items.push(mcq(`Je ___ (${inf}) · présent`, je, [bare, pron("s"), pron("t")], sec.name, src(sec, i)));
       } else if (file === "verben-mit-praepositionen") {
         const prep = sec.name;
         const verb = String(v).endsWith(` ${prep}`) ? String(v).slice(0, -prep.length - 1) : String(v);
@@ -258,7 +270,7 @@ export function chapterList() {
     grammar.push({ key: "akkusativ", name: a.name, level: a.level });
     grammar.sort(byPlan((t) => [t.key])).sort((x, y) => QUIZ_LEVELS.indexOf(x.level) - QUIZ_LEVELS.indexOf(y.level));
   }
-  // The verb tables are a reference page (/grammar/verbs), not a topic in the catalog.
+  // The verb tables are a reference page (/grammaire/verbes), not a topic in the catalog.
   // `assign: false` keeps it out of the Aufgaben catalog, which counts what a student
   // finished from the topic pages' scored exercises. Last of A1 (the sort is stable).
   grammar.push({ key: VERB_KEY, name: "Verb tables: the most important verbs", level: "A1", assign: false });

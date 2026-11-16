@@ -1,4 +1,4 @@
-// /teachers/surveys/result — one poll's QR code and results. The answers are read
+// /profesores/encuestas/resultado — one poll's QR code and results. The answers are read
 // again every few seconds while the tab is visible, so the bars grow as the class votes.
 //
 // Counts only. A choice question shows each option's votes as a share of the people who
@@ -52,7 +52,7 @@ export async function mountErgebnis(root) {
   let shareOpen = params.has("neu");
   await loadText(() => { if (u) render(); });
 
-  $("[data-signin-link]").href = `${withBase("/account")}?next=${encodeURIComponent(location.pathname + location.search)}`;
+  $("[data-signin-link]").href = `${withBase("/cuenta")}?next=${encodeURIComponent(location.pathname + location.search)}`;
   if (!(await currentUser())) return gate("signin");
   try {
     u = await umfrage(params.get("id"));
@@ -69,7 +69,7 @@ export async function mountErgebnis(root) {
   const qrSvg = await QRCode.toString(link, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
   $("[data-qr]").innerHTML = qrSvg;
   $("[data-beamer-qr]").innerHTML = qrSvg;
-  const shortHost = `${location.host}${withBase("/survey")}`;
+  const shortHost = `${location.host}${withBase("/encuesta")}`;
   $("[data-host]").textContent = shortHost;
   $("[data-beamer-host]").textContent = shortHost;
   $("[data-code]").textContent = u.code;
@@ -174,8 +174,8 @@ export async function mountErgebnis(root) {
         <h3>${esc(t("uf.t.next.skill", "Mehr üben"))}</h3>
         <ol class="uf-next-list">${skill.map((x) => `<li><strong>${esc(label(x.o))}</strong> <small>${votes(x)}</small></li>`).join("")}</ol>
         <span class="uf-next-acts">
-          <a href="${withBase("/speaking")}">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
-          <a href="${withBase("/teachers/worksheets/partner")}">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
+          <a href="${withBase("/expresion-oral")}">${esc(t("uf.t.next.speak", "Sprechen-Übungen"))}</a>
+          <a href="${withBase("/profesores/fichas/parejas")}">${esc(t("uf.t.next.partner", "Partnerübungen"))}</a>
         </span>
       </article>`);
     }

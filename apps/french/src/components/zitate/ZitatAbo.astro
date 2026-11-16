@@ -17,7 +17,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
         <button type="submit" class="btn btn-primary" data-i18n="wg.abo.submit">Anmelden</button>
       </div>
       <div class="zt-hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label></div>
-      <p class="zt-abo-fine" data-i18n-html="zitate.abo.note">Du bekommst zuerst eine E-Mail mit einem Bestätigungslink. Erst nach dem Klick schicken wir dir Zitate. <a href="/privacy">Datenschutz</a></p>
+      <p class="zt-abo-fine" data-i18n-html="zitate.abo.note">Du bekommst zuerst eine E-Mail mit einem Bestätigungslink. Erst nach dem Klick schicken wir dir Zitate. <a href="/confidentialite">Datenschutz</a></p>
       <p class="zt-abo-status" role="status" aria-live="polite" data-zt-status></p>
     </form>
 
@@ -30,8 +30,8 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
       <h3 class="zt-sent-h" tabindex="-1" data-i18n="zitate.abo.sentH">Fast geschafft: Schau jetzt in dein Postfach</h3>
       <p class="zt-sent-to" data-zt-sent-to></p>
       <div class="zt-sent-mail" lang="en">
-        <span class="zt-sent-from">icanspeak Spanish</span>
-        <span class="zt-sent-subj">Please confirm: Quote of the week from icanspeak Spanish</span>
+        <span class="zt-sent-from">icanspeak French</span>
+        <span class="zt-sent-subj">Please confirm: Quote of the week from icanspeak French</span>
       </div>
       <div class="zt-sent-warn" data-i18n-html="zitate.abo.warn">
         <b>Keine E-Mail da?</b> Schau unter <b>„Werbung“</b> (Gmail: „Promotions“) und im <b>Spam</b>. Dort landet sie oft.
@@ -115,7 +115,7 @@ const show = import.meta.env.PUBLIC_ZITAT_ABO === "an" || import.meta.env.DEV;
   // Webmail by domain. Gmail gets a search across all folders (in:anywhere also covers Spam),
   // so the confirmation mail shows up even when it sits under „Werbung“.
   const WEBMAIL: [RegExp, string][] = [
-    [/^(gmail|googlemail)\.com$/, "https://mail.google.com/mail/u/0/#search/in%3Aanywhere+icanspeak Spanish+confirm"],
+    [/^(gmail|googlemail)\.com$/, "https://mail.google.com/mail/u/0/#search/in%3Aanywhere+icanspeak French+confirm"],
     [/^(outlook|hotmail|live|msn)\.[a-z.]+$/, "https://outlook.live.com/mail/"],
     [/^gmx\.[a-z.]+$/, "https://www.gmx.net/"],
     [/^web\.de$/, "https://web.de/"],

@@ -14,7 +14,7 @@ import { enhanceSwitch } from "./segSwitch.js";
 import { keyFromRef, stundeRef, stundenStand } from "./unterricht/lernen.js";
 import { keyOf } from "./unterricht/speichern.js";
 import { track } from "./track.js";
-import { withBase } from "./paths.js";
+import { withBase, BASE_PATH } from "./paths.js";
 import { currentPath } from "./paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -29,7 +29,7 @@ export async function mountKlassenDashboard(root, names) {
   await loadText(() => { if (ready) renderAll(); });
 
   const id = new URLSearchParams(location.search).get("id");
-  $("[data-signin-link]").href = `/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
+  $("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${encodeURIComponent(currentPath() + location.search)}`;
   const user = await currentUser();
   if (!user) return gate("signin");
 

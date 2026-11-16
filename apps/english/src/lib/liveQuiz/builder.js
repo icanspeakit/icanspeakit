@@ -6,7 +6,7 @@
 // the projector page with ?quiz=<id>.
 import { cleanQuestion, currentUser, deleteQuiz, getQuiz, isTeacher, listQuizzes, MAX_QUESTIONS, saveQuiz, setTeacher } from "./custom.js";
 import { loadText, t } from "./text.js";
-import { withBase } from "../paths.js";
+import { withBase, BASE_PATH } from "../paths.js";
 import { currentPath } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -29,7 +29,7 @@ export async function mountBuilder(root) {
 
   /* -------------------------------------------------------------- who ---- */
   const next = encodeURIComponent(currentPath() + location.search);
-  $("[data-signin-link]").href = `/anmelden?next=${next}`;
+  $("[data-signin-link]").href = `${BASE_PATH}/anmelden?next=${next}`;
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -90,7 +90,7 @@ export async function mountBuilder(root) {
             <b>${esc(q.title)}</b>
             <small>${esc(t("qb.mine.count", "{n} Fragen", { n: q.questions?.length ?? 0 }))}${q.chapter ? ` · ${esc(chapterName(q.chapter))}` : ""}</small>
           </button>
-          <a class="qb-mine-play" href="/teachers/quiz?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
+          <a class="qb-mine-play" href="${BASE_PATH}/teachers/quiz?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
         </li>`)
       .join("");
   }

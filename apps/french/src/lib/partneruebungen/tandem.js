@@ -13,6 +13,8 @@ import { LEVELS, validateSheet } from "./schema.js";
 import { isReviewed } from "../topicStatus.js";
 
 const MAX_ITEMS = 10;
+// French puts a no-break space before ? ! : ; (content-plan §5.10).
+const NB = " ";
 const plain = (s) => String(s ?? "").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/\*/g, "").replace(/\s+/g, " ").trim();
 // Short enough for half a page: a task line and its solution side by side.
 const fits = (p) => p.task.length >= 2 && p.task.length <= 110 && p.answer.length >= 1 && p.answer.length <= 70;
@@ -139,9 +141,9 @@ export function tandemSpec(topic) {
     intro: {
       grammatik: { ...positions(topic, items), regel: plain(topic.subtitle) || name },
       redemittel: [
-        { p1: "Número 1: … ¿Qué es correcto?", p2: "Creo que es: …" },
-        { p1: "Yo creo que es: … ¿Y tú?", p2: "Mi respuesta es: …" },
-        { p1: "Perdona, ¿puedes repetir, por favor?", p2: "Número 2: …" },
+        { p1: `Numéro 1${NB}: … Qu'est-ce qui est juste${NB}?`, p2: `Je crois que c'est${NB}: …` },
+        { p1: `Moi, je pense que c'est${NB}: … Et toi${NB}?`, p2: `Ma réponse, c'est${NB}: …` },
+        { p1: `Pardon, tu peux répéter, s'il te plaît${NB}?`, p2: `Numéro 2${NB}: …` },
       ],
       soGehts: [
         "Cut the cards down the middle. Partner A takes the left half, Partner B the right half.",
@@ -171,9 +173,9 @@ export function tandemSpec(topic) {
       "Finally, swap cards and do it all again – faster.",
     ];
     spec.intro.redemittel = extra.tandemRedemittel ?? [
-      { p1: "Número 1: ¿…?", p2: "Un momento … Creo que: …" },
-      { p1: "¿Está bien?", p2: "Creo que sí. / No, mejor: …" },
-      { p1: "Perdona, ¿puedes repetir, por favor?", p2: "Número 2: ¿…?" },
+      { p1: `Numéro 1${NB}: …${NB}?`, p2: `Attends … Je crois que${NB}: …` },
+      { p1: `C'est juste${NB}?`, p2: `Je crois que oui. / Non, plutôt${NB}: …` },
+      { p1: `Pardon, tu peux répéter, s'il te plaît${NB}?`, p2: `Numéro 2${NB}: …${NB}?` },
     ];
   }
   if (extra?.regel) spec.woWohin = extra.regel;

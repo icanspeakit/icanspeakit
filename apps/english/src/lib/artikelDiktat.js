@@ -5,6 +5,7 @@
 // sees the right form, can hear it again, and goes on. Each answer is recorded like any other
 // Artikel answer, so it counts on /progress.
 import { recordAttempt } from "./progress.js";
+import { withBase } from "./paths.js";
 
 const shuffle = (a) => {
   for (let i = a.length - 1; i > 0; i--) {
@@ -65,7 +66,7 @@ export function mountDiktat(root, { round: ROUND, pool }) {
     const q = items[i];
     if (!q) return;
     audio.pause();
-    audio.src = q.audio;
+    audio.src = withBase(q.audio);
     audio.playbackRate = slow.getAttribute("aria-pressed") === "true" ? 0.7 : 1;
     audio.play().catch(() => {});
   }
@@ -84,7 +85,7 @@ export function mountDiktat(root, { round: ROUND, pool }) {
     count.textContent = `${i + 1} / ${items.length}`;
     score.textContent = i ? `${right} richtig` : "";
     if (!q) return;
-    audio.src = q.audio;
+    audio.src = withBase(q.audio);
   }
 
   function start() {

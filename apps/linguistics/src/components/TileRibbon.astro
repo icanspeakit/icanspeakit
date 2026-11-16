@@ -1,0 +1,33 @@
+---
+// One row of small tiles that drop in one by one, under the site header on every page
+// (the same ribbon as the icanspeak.it start page). Decoration only.
+import '../styles/tiles.css';
+
+const base = [
+  { cls: 'isk-tile--half', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff' },
+  { cls: 'isk-tile--dots', bg: 'var(--isk-sky)', a: 'var(--isk-navy)', b: '#fff' },
+  { cls: 'isk-tile--bowl', bg: '#fff', a: 'var(--isk-navy)', b: 'var(--isk-yellow)' },
+  { cls: 'isk-tile--quarter', bg: 'var(--isk-coral)', a: 'var(--isk-navy)', b: '#fff' },
+  { cls: 'isk-tile--stripes', bg: '#fff', a: 'var(--isk-yellow)', b: '#fff' },
+  { cls: 'isk-tile--dside', bg: 'var(--isk-navy)', a: 'var(--isk-coral)', b: '#fff' },
+  { cls: 'isk-tile--dome', bg: 'var(--isk-green)', a: 'var(--isk-navy)', b: '#fff' },
+  { cls: '', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff', glyph: '¿' },
+];
+const row = [...base, ...base, ...base, ...base];
+---
+
+<div class="isk-ribbon tile-ribbon" aria-hidden="true">
+  {row.map((t, i) => (
+    <div class={`isk-tile ${t.cls}`} style={`--t:var(--isk-tile);--bg:${t.bg};--a:${t.a};--b:${t.b};--i:${i}`}>
+      {t.glyph && <span class="isk-tile__fill">{t.glyph}</span>}
+    </div>
+  ))}
+</div>
+
+<style>
+  .tile-ribbon { --isk-tile: 48px; border-block-end: 3px solid var(--isk-navy); background: var(--isk-navy); }
+  @media (max-width: 640px) { .tile-ribbon { --isk-tile: 32px; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .tile-ribbon > * { animation: isk-drop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: calc(var(--i) * 30ms); }
+  }
+</style>

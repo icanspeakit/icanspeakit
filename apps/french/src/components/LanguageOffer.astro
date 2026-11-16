@@ -21,28 +21,28 @@
 // reader who cannot read the current page language.
 import { LANGUAGES } from "../lib/i18n.js";
 // The follow-up after a pick: someone who needed the offer to read the page is very often
-// someone for whom "Step by step" (/step-by-step, the beginner path) is the right first door.
+// someone for whom "Step by step" (/pas-a-pas, the beginner path) is the right first door.
 // Written per language here for the same reason as the row itself; the product name stays
 // English, as it is on the page the button opens.
 const EINFACH_OFFER = {
-  en: { text: "New to Spanish? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
-  de: { text: "Neu im Spanischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
-  fr: { text: "Vous débutez en espagnol ? Commencez par « Step by step » : un petit pas à la fois.", go: "Commencer", close: "Fermer" },
-  pt: { text: "Começando no espanhol? Comece com “Step by step”: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
-  it: { text: "Sei all’inizio con lo spagnolo? Comincia con “Passo dopo passo”: un piccolo passo alla volta.", go: "Inizia", close: "Chiudi" },
-  ar: { text: "جديد في تعلّم الإسبانية؟ ابدأ بـ «Step by step» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
-  tr: { text: "İspanyolcaya yeni mi başlıyorsun? “Step by step” ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
-  uk: { text: "Тільки починаєте вчити іспанську? Почніть з «Step by step» — крок за кроком.", go: "Почати", close: "Закрити" },
-  vi: { text: "Mới bắt đầu học tiếng Tây Ban Nha? Hãy bắt đầu với “Step by step”: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
-  hi: { text: "स्पेनिश सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
-  id: { text: "Baru mulai belajar bahasa Spanyol? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
-  tl: { text: "Bago ka pa lang sa Espanyol? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
+  en: { text: "New to French? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
+  de: { text: "Neu im Französischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
+  // No `fr`: the course teaches French and has no French interface (docs/content-plan.md §7).
+  es: { text: "¿Estás empezando con el francés? Empieza con «Paso a paso»: un pequeño paso cada vez.", go: "Empezar", close: "Cerrar" },
+  pt: { text: "Começando no francês? Comece com “Step by step”: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
+  it: { text: "Sei all’inizio con il francese? Comincia con “Passo dopo passo”: un piccolo passo alla volta.", go: "Inizia", close: "Chiudi" },
+  ar: { text: "جديد في تعلّم الفرنسية؟ ابدأ بـ «Step by step» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
+  tr: { text: "Fransızcaya yeni mi başlıyorsun? “Step by step” ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
+  uk: { text: "Тільки починаєте вчити французьку? Почніть з «Step by step» — крок за кроком.", go: "Почати", close: "Закрити" },
+  vi: { text: "Mới bắt đầu học tiếng Pháp? Hãy bắt đầu với “Step by step”: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
+  hi: { text: "फ़्रेंच सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
+  id: { text: "Baru mulai belajar bahasa Prancis? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
+  tl: { text: "Bago ka pa lang sa Pranses? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
 };
 // „Show this page in …?" per language, beside the language's name, in that language.
 const ASK = {
   de: "Seite auf Deutsch zeigen?",
   en: "Show this page in English?",
-  fr: "Afficher la page en français ?",
   it: "Mostrare la pagina in italiano?",
   ar: "عرض الصفحة بالعربية؟",
   tr: "Sayfa Türkçe gösterilsin mi?",
@@ -58,10 +58,10 @@ const ASK = {
 // is there on the first paint without a script.
 const showRules = LANGUAGES.map((l) => `html[data-lang-offer="${l.code}"] [data-lang-offer-for="${l.code}"]{display:flex}`).join("");
 // English plus the interface languages this course adds (docs/content-plan.md §1.1).
-const close = "Close · Schließen · Fermer · Fechar · Chiudi";
-const other = "Other · Andere · Autres · Outras · Altre …";
+const close = "Close · Schließen · Cerrar · Fechar · Chiudi";
+const other = "Other · Andere · Otros · Outras · Altre …";
 ---
-<div class="lang-offer" role="region" aria-label="Language · Sprache · Langue · Idioma · Lingua" data-lang-offer-row>
+<div class="lang-offer" role="region" aria-label="Language · Sprache · Idioma · Lingua" data-lang-offer-row>
   <svg class="lang-offer-ic" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
   {LANGUAGES.map((l) => (
     <div class="lang-offer-for" data-lang-offer-for={l.code} lang={l.htmlLang ?? l.code} dir={l.dir}>
@@ -78,7 +78,7 @@ const other = "Other · Andere · Autres · Outras · Altre …";
 
 <div class="lang-einfach" role="region" aria-live="polite" data-einfach-offer-row data-copy={JSON.stringify(EINFACH_OFFER)}>
   <span class="lang-einfach-txt" data-einfach-offer-text></span>
-  <a class="lang-einfach-go" href="/step-by-step" data-einfach-offer-go>Step by step</a>
+  <a class="lang-einfach-go" href="/pas-a-pas" data-einfach-offer-go>Step by step</a>
   <button type="button" class="lang-offer-x" data-einfach-offer-dismiss>
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"></line><line x1="18" y1="6" x2="6" y2="18"></line></svg>
   </button>
@@ -171,10 +171,10 @@ const other = "Other · Andere · Autres · Outras · Altre …";
 
   const html = document.documentElement;
   const hide = () => html.removeAttribute("data-lang-offer");
-  // After a pick in a language other than English, point once at "Step by step" (/step-by-step).
-  // Never on /step-by-step itself, never for someone already using it, never twice. Never where a
+  // After a pick in a language other than English, point once at "Step by step" (/pas-a-pas).
+  // Never on /pas-a-pas itself, never for someone already using it, never twice. Never where a
   // class is waiting either (live quiz, class poll, joining a class): a player picked Español
-  // on /game, read „Empezar“ as starting the quiz and left the game for /step-by-step (replay
+  // on /jeu, read „Empezar“ as starting the quiz and left the game for /pas-a-pas (replay
   // 2026-10-22). There the pick just sets the language, with no follow-up.
   const row = document.querySelector<HTMLElement>("[data-einfach-offer-row]");
   const doneOffer = () => { try { localStorage.setItem("da_einfach_offer", "done"); } catch {} html.removeAttribute("data-einfach-offer"); };

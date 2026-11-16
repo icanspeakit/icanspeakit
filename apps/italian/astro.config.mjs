@@ -8,13 +8,23 @@ import sitemap from './src/integrations/sitemap.mjs';
 import baseLanguage from './src/integrations/base-language.mjs';
 import entryPages from './src/integrations/entry-pages.mjs';
 import llmsTxt from './src/integrations/llms-txt.mjs';
+import legacyRedirectsIntegration from './src/integrations/legacy-redirects.mjs';
 import { SITE_ORIGIN, BASE_PATH } from './src/lib/paths.js';
 
 const r301 = (destination) => ({ status: 301, destination });
 
-/* A grammar topic lives at /<slug>, but /grammar/<slug> is the address people guess. Pages and
- * reference tables under /grammar win over a guessed topic address. Keys are the workspaces'
- * `slug ?? id`. The site at /italian is new, so this is the only redirect it has: nothing was
+/* 2026-11-15: every address moved into Italian (/grammar -> /grammatica, /listening -> /ascolto ...). src/data/legacy-redirects.json
+ * maps each address of the English-slug build to its new one (generated once from that build's
+ * output; see docs/slug-map.md). Site paths, like every other redirect here. Astro writes them as
+ * meta-refresh stubs; src/integrations/legacy-redirects.mjs adds real 301s as dist/_redirects. */
+function legacyRedirects() {
+  const map = JSON.parse(readFileSync(new URL('./src/data/legacy-redirects.json', import.meta.url), 'utf8'));
+  return Object.fromEntries(Object.entries(map).map(([from, to]) => [from, r301(to)]));
+}
+
+/* A grammar topic lives at /<slug>, but /grammatica/<slug> is the address people guess. Pages and
+ * reference tables under /grammatica win over a guessed topic address. Keys are the workspaces'
+ * `slug ?? id`. Besides the legacy redirects above, this is the only redirect it has: nothing was
  * ever public under an earlier address (docs/content-plan.md §7, §8). */
 function grammarTopicRedirects() {
   const dir = new URL('./src/data/grammatik/', import.meta.url);
@@ -23,16 +33,16 @@ function grammarTopicRedirects() {
     .map((w) => w.slug ?? w.id);
   const taken = new Set([
     ...readdirSync(new URL('./src/data/nachschlagen/', import.meta.url)).flatMap((f) => [f.replace(/\.json$/, ''), refSlug(f.replace(/\.json$/, ''))]),
-    ...readdirSync(new URL('./src/pages/grammar/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
+    ...readdirSync(new URL('./src/pages/grammatica/', import.meta.url)).map((f) => f.replace(/\.astro$/, '')),
   ]);
   const out = {};
   for (const key of keys) {
-    if (!taken.has(topicSlug(key))) out[`/grammar/${topicSlug(key)}`] = r301(`/${topicSlug(key)}`);
+    if (!taken.has(topicSlug(key))) out[`/grammatica/${topicSlug(key)}`] = r301(`/${topicSlug(key)}`);
   }
   return out;
 }
 
-/* The live address: https://icanspeak.it/italian/ (src/lib/paths.js owns both values; the
+/* The live address: https://icanspeak.it/italiano/ (src/lib/paths.js owns both values; the
  * domain root is a separate site). Canonical URLs, og:url, hreflang, /sitemap.xml and
  * llms.txt are built from them. Redirect sources and destinations stay site paths: Astro
  * writes the stubs under the base, and the destinations are moved under it by the base-path
@@ -53,9 +63,14 @@ export default defineConfig({
 
   // React is available for islands; the site itself is vanilla .astro plus the JS modules in
   // src/lib/ — the zero-JS default on content pages is deliberate.
-  integrations: [react(), baseLanguage(), entryPages(), sitemap(), llmsTxt()],
+  integrations: [react(), baseLanguage(), entryPages(), sitemap(), llmsTxt(), legacyRedirectsIntegration()],
 
-  redirects: grammarTopicRedirects(),
+  redirects: {
+    ...legacyRedirects(),
+    ...grammarTopicRedirects(),
+    // /inizia was a draft of a tidied-up homepage (EXPERIMENTE.md, Archiv); the course home replaced it.
+    '/inizia': r301('/'),
+  },
   server: {
     // Listen on every interface, not just 127.0.0.1, so the dev server is reachable
     // from a phone on the same Wi-Fi — and from a tunnel — without passing --host
@@ -67,6 +82,31 @@ export default defineConfig({
     allowedHosts: true,
   },
   vite: {
+    // Dev only: the course lives under its base (/francais, /espanol …) and the domain root
+    // is the separate hub site, so localhost:<port>/ was a bare 404. Send it to the course.
+    plugins: [{
+      name: 'root-to-base',
+      apply: 'serve',
+      configureServer(server) {
+        // Returned function = runs after Vite and Astro have added their middlewares; then
+        // it goes to the front, or their base handler answers "/" with a 404 first.
+        return () => {
+          server.middlewares.stack.unshift({
+            route: '',
+            handle(req, res, next) {
+              // originalUrl: Vite strips the base from req.url, so /francais/ arrives as "/".
+              const url = req.originalUrl ?? req.url;
+              if (url === '/' || url?.startsWith('/?')) {
+                res.writeHead(302, { Location: `${BASE_PATH}/` });
+                res.end();
+                return;
+              }
+              next();
+            },
+          });
+        };
+      },
+    }],
     // A Gradle build drops ~6,600 copies of the site into android/app/build; watching
     // them floods the dev server until module loads time out.
     server: {

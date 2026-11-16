@@ -1,3 +1,9 @@
+## Brand
+
+Logo, icons, colours, fonts and the tile layout: `brand/kit/BRAND.md` (files and destinations in
+`brand/kit/MANIFEST.md`). Never redraw or recolour the logo. The relaunch prompts are in
+`prompts/site-launch/` (start with `start-site-launch.cmd`).
+
 ## Development
 
 When starting the dev server, use background mode:

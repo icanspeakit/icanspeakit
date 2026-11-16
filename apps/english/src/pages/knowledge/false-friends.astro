@@ -296,6 +296,7 @@ const K = (id: string) => `wortfallen.${id}`;
     import { track } from "../../lib/track.js";
     import { enhanceSwitch } from "../../lib/segSwitch.js";
     import { t, i18nAttrs } from "../../lib/uiText.js";
+    import { withBase } from "../../lib/paths.js";
 
     // One player for the page: a new sentence stops the one before.
     const player = new Audio();
@@ -305,7 +306,7 @@ const K = (id: string) => `wortfallen.${id}`;
     player.addEventListener("pause", stopMark);
     function play(src: string, btn?: HTMLElement | null) {
       player.pause();
-      player.src = src;
+      player.src = withBase(src);
       player.play().then(() => { if (btn) { playing = btn; btn.classList.add("is-playing"); } }).catch(() => {});
     }
     for (const b of Array.from(document.querySelectorAll<HTMLElement>(".wf-card [data-play]"))) {

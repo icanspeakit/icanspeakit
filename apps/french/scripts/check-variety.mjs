@@ -1,15 +1,14 @@
-// Checks the `variety` field and the `es419` note (docs/content-plan.md §1.5):
+// Checks the `variety` field, the `frCA` note and `regional` (docs/content-plan.md §1.5):
 //
 //   node scripts/check-variety.mjs
 //
-// 1. Shape, everywhere: every `variety` / `es419` key in any JSON under src/data, src/content
-//    and src/paid is checked by varietyProblems() in src/lib/variety.js (allowed values,
-//    es419.note present and ≤ 160 characters, es419.gender only el/la, no unknown keys).
-//    A wrong shape is an error.
-// 2. Coverage, per module (the table in §1.5): items that should carry `variety` but don't.
-//    While a module is still English this is one summary line. Once the module's content item
-//    has run, that item adds the module id to STRICT below, and every missing `variety` becomes
-//    an error.
+// 1. Shape, everywhere: every `variety` / `frCA` / `regional` key in any JSON under src/data,
+//    src/content and src/paid is checked by varietyProblems() in src/lib/variety.js (allowed
+//    values, frCA.note present and ≤ 160 characters, frCA.gender only le/la/l', no unknown keys).
+//    A wrong shape is an error, and so is a leftover Spanish-course `variety: "es-ES"` or `es419`
+//    note (the legacy branch of §1.6 rule 1 was removed by `cleanup`).
+// 2. Coverage, per module (the table in §1.5): every item that should carry `variety` and
+//    doesn't is an error. All modules are strict since `cleanup`; a new module goes into STRICT.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,41 +18,9 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 
 // Modules whose content item has run: missing `variety` is an error there. Add the module id
-// in the same commit that converts the module.
-const STRICT = new Set([
-  "einstufung",
-  "grammatik",
-  "grammatik-quiz",
-  "grammatik-start",
-  "praepositionen",
-  "verbtabellen",
-  "conjugation-trainer",
-  "lexicon-a1",
-  "lexicon-a2",
-  "lexicon-b1",
-  "lexicon-b2",
-  "lexicon-c1",
-  "lexicon-c2",
-  "wortschatz",
-  "hoeren",
-  "redemittel",
-  "aussprache-check",
-  "zungenbrecher",
-  "satzmelodie",
-  "ausspracheregeln",
-  "redewendungen",
-  "wortfallen",
-  "typische-fehler",
-  "fehler-nach-sprache",
-  "umgangssprache",
-  "synonyme",
-  "dgt",
-  "arbeitsblatt",
-  "partneruebungen",
-  "unterricht-wortschatz",
-  "berufe",
-  "business-spanish",
-]);
+// in the same commit that adds a module. Empty at the start of the French queue
+// (variety-schema); every module since `cleanup`. The ids are those of MODULES below.
+const STRICT = new Set(["conjugation-trainer", "einstufung", "grammatik", "grammatik-quiz", "grammatik-start", "hoeren", "lesen", "fertigkeiten-lesen", "fertigkeiten-schreiben", "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2", "praepositionen", "verbtabellen", "wortschatz", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "redewendungen", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "dgt", "berufe", "business-spanish", "arbeitsblatt", "partneruebungen", "unterricht-wortschatz", "redemittel"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -91,7 +58,7 @@ const MODULES = [
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
     items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
-  // The starter book carries `variety` at the top level; its translations hold no Spanish of their own.
+  // The starter book carries `variety` at the top level; its translations hold no French of their own.
   { id: "grammatik-start", files: one("src/data/grammatik-start/en.json"), items: (d) => [{ item: d }] },
   { id: "praepositionen", files: one("src/data/praepositionen-trainer.json"),
     items: (d) => arr(d.packs).map((item) => ({ item })) },
@@ -101,6 +68,9 @@ const MODULES = [
   { id: "conjugation-trainer", files: one("src/data/conjugation-trainer.json"),
     items: (d) => arr(d.sets ?? d).map((item) => ({ item })) },
   { id: "hoeren", files: one("src/data/hoeren.json"), items: (d) => arr(d.texts).map((item) => ({ item })) },
+  { id: "lesen", files: one("src/data/lesen.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
+  { id: "fertigkeiten-lesen", files: one("src/data/fertigkeiten/lesen.json"), items: (d) => arr(d.texts).map((item) => ({ item })) },
+  { id: "fertigkeiten-schreiben", files: one("src/data/fertigkeiten/schreiben.json"), items: (d) => arr(d.tasks).map((item) => ({ item })) },
   { id: "aussprache-check", files: one("src/data/aussprache-check.json"),
     items: (d) => arr(d.levels).flatMap((l) => arr(l.sentences).map((item) => ({ item }))) },
   { id: "zungenbrecher", files: one("src/data/zungenbrecher.json"),
@@ -128,12 +98,12 @@ const read = (file) => {
   catch (e) { errors.push(`${file}: invalid JSON — ${e.message}`); return undefined; }
 };
 
-// --- 1. shape, every JSON file --------------------------------------------------------------
+// --- 1. shape, every JSON file -----------------------------------------------------------------
 function walk(node, file, where) {
   if (Array.isArray(node)) { node.forEach((v, i) => walk(v, file, `${where}[${i}]`)); return; }
   if (!node || typeof node !== "object") return;
   for (const p of varietyProblems(node)) errors.push(`${file} ${where || "(top)"}: ${p}`);
-  for (const [k, v] of Object.entries(node)) if (k !== "es419") walk(v, file, where ? `${where}.${k}` : k);
+  for (const [k, v] of Object.entries(node)) if (k !== "frCA") walk(v, file, where ? `${where}.${k}` : k);
 }
 function allJson(dir, out = []) {
   const abs = path.join(ROOT, dir);
@@ -158,29 +128,30 @@ for (const file of ["src/data", "src/content", "src/paid"].flatMap((d) => allJso
 // --- 2. coverage per module -----------------------------------------------------------------
 const lines = [];
 for (const m of MODULES) {
-  let total = 0, missing = 0, latam = 0;
+  let total = 0, missing = 0, canada = 0;
   for (const file of m.files) {
     const data = cache.get(file) ?? read(file);
     if (data === undefined) continue;
     for (const { item } of m.items(data)) {
       if (!item || typeof item !== "object") continue;
       total++;
-      if (item.es419) latam++;
+      if (item.frCA) canada++;
+      const label = item.id ?? item.lemma ?? item.front ?? item.de ?? item.inf ?? "?";
       if ("variety" in item) continue;
       missing++;
-      if (STRICT.has(m.id)) {
-        const label = item.id ?? item.lemma ?? item.front ?? item.de ?? item.inf ?? "?";
-        errors.push(`${file} ${label}: no "variety" (module ${m.id} is strict)`);
-      }
+      if (STRICT.has(m.id)) errors.push(`${file} ${label}: no "variety" (module ${m.id} is strict)`);
     }
   }
   if (!m.files.length) continue;
   const state = STRICT.has(m.id) ? "strict" : "not strict yet";
-  lines.push(`  ${m.id}: ${total - missing}/${total} with variety, ${latam} es419 notes (${state})`);
+  lines.push(`  ${m.id}: ${total - missing}/${total} with variety, ${canada} frCA notes (${state})`);
 }
 
 for (const e of errors) console.error(`  ERROR ${e}`);
-const pending = MODULES.filter((m) => m.files.length && !STRICT.has(m.id)).length;
-console.log(`variety: ${scanned} JSON files scanned, ${errors.length} errors · ${STRICT.size} strict modules, ${pending} still warning-only`);
+const pending = MODULES.filter((m) => m.files.length && !STRICT.has(m.id)).map((m) => m.id);
+// Every module is strict since `cleanup`: a module left out of STRICT is a mistake, not a phase.
+for (const id of pending) errors.push(`module ${id} is not in STRICT`);
+if (pending.length) console.error(`  ERROR module(s) not in STRICT: ${pending.join(", ")}`);
+console.log(`variety: ${scanned} JSON files scanned, ${errors.length} errors · ${STRICT.size} strict modules`);
 for (const l of lines) console.log(l);
 if (errors.length) process.exit(1);

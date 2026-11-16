@@ -22,7 +22,8 @@ import { track } from "./track.js";
 import { languageOf } from "./languages.js";
 
 const RECENT_KEY = "da_lang_recent";
-const CORE = ["en", "de", "fr", "pt", "it", "ar", "tr", "uk", "ru"];
+// The interface languages of this course (docs/content-plan.md §10.4); Arabic joins when it comes.
+const CORE = ["en", "de", "es", "pt", "it"];
 const MAX_ROWS = 7;
 const REGIONS = [
   ["europa", "Europa"],
@@ -86,7 +87,7 @@ function topRows(items, current, surface) {
   for (const i of items) if (i.special) add(i.code, "top");
   const languages = items.filter((i) => !i.special).map((i) => i.code);
   const suggested = suggestedLang(languages);
-  if (suggested && suggested !== current) add(suggested, "suggested", t("langpicker.suggested", "Vorschlag"));
+  if (suggested && suggested !== current) add(suggested, "suggested", t("langpicker.suggested", "Sprache deines Geräts"));
   for (const code of recentLangs(surface).filter((c) => c !== current).slice(0, 2)) add(code, "top");
   for (const code of CORE) add(code, "top");
   return rows;

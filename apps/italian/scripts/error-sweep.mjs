@@ -37,7 +37,7 @@ const ONLY = opt("--only");
 const NO_MOBILE = flag("--no-mobile");
 const MOBILE_SAMPLE = flag("--mobile-sample");
 
-const BASE_IN = (process.env.BASE ?? "https://icanspeak.it/italian").replace(/\/$/, "");
+const BASE_IN = (process.env.BASE ?? "https://icanspeak.it/italiano").replace(/\/$/, "");
 
 // The routes that render on demand never appear in the sitemap but must not break for a
 // logged-out visitor. The last one must answer with a real 404.

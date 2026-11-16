@@ -44,7 +44,7 @@ const groups = LEVELS
     </div>
 
     {groups.map((g) => (
-      <section class="ku-group" id={`niveau-${g.level.toLowerCase()}`}>
+      <section class="ku-group" id={`level-${g.level.toLowerCase()}`}>
         <h2 class="ku-group-title">
           <span class="ku-badge">{g.level}</span>
           <span data-i18n={`level.name.${g.level}`}>{LEVEL_NAMES[g.level as keyof typeof LEVEL_NAMES] ?? g.level}</span>

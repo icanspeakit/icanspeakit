@@ -10,6 +10,12 @@ bring it back.
 
 ## Archiv
 
+- `/comecar`: a draft of a tidied-up homepage with a slim menu (its own mock menu, no shared
+  components, noindex, linked from nowhere). **Decision:** the course home replaced it
+  (Edgar, 2026-11-16); `/comecar` 301s to the course home (astro.config.mjs). Added in `1849445`, removed in `3c43343`.
+  Bring back: `git checkout 3c43343~1 -- apps/portuguese/src/pages/comecar.astro` (plus the redirect
+  in astro.config.mjs), or `git revert 3c43343` for all five courses.
+
 - `/nav1`–`/nav6`, `/newfont`, `/testnavbarlanguages`, `/test`: deutschacademy experiments,
   not carried into englishacademy. They live in the deutschacademy repo.
 - `/games/stadtfahrt` (Stadtfahrt, a driving prototype on the German Führerschein question bank,

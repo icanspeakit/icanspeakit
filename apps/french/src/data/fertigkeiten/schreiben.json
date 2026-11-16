@@ -13,15 +13,22 @@
     "  prompt  a situation plus points to cover (messages, emails, letters, opinion texts)",
     "  errors  a text with mistakes to find",
     "",
-    "Language: `situation` and `points` are English at A1–A2 and Spanish at B1–B2, like the",
-    "reading questions. Form labels, `phrases`, `source` and `model` are Spanish at every level",
-    "(a form in Spain is in Spanish). `title`, `blurb` and `check` are English. A `situation` gives",
-    "its length as “(30–40 words)” or “(80–100 palabras)”: src/lib/schreibKorrektur.js reads it.",
+    "Language: `situation` and `points` are English at A1–A2 and French at B1–B2, like the",
+    "reading questions. Form labels, `phrases`, `source` and `model` are French at every level",
+    "(a form in France is in French). `title`, `blurb` and `check` are English. A `situation` gives",
+    "its length as “(30–40 words)” or “(80–100 mots)”: src/lib/schreibKorrektur.js reads it.",
+    "Every task states tu or vous; formal letters use the fixed formulas (Madame, Monsieur, … /",
+    "Veuillez agréer, … l'expression de mes salutations distinguées). The greeting of an email or",
+    "letter ends with a comma. A non-breaking space goes before ? ! ; : and inside « ».",
+    "",
+    "Original practice material; not an official exam task. Administrative details (what a mairie",
+    "asks for, what a school expects) are general orientation and vary by place.",
     "",
     "The three B1 entries with `from` are the B1 simulation from src/data/lesen.json, pulled in at",
     "build time so there is exactly one copy of that text on the site. Form `answer` values keep",
     "their accents, because the check marks a missing one as a near miss."
   ],
+  "variety": "fr-FR",
   "types": {
     "formular": "Form",
     "nachricht": "Short message",
@@ -36,27 +43,58 @@
       "level": "A1",
       "type": "formular",
       "kind": "form",
+      "variety": "fr-FR",
       "title": "Joining the sports centre",
-      "blurb": "Ten fields, one short text – and two surnames, as on many forms in Spain.",
+      "blurb": "Ten fields, one short text – and the order French forms use: nom, then prénom.",
       "minutes": 6,
-      "source": "¡Hola! Me llamo Valentina Ríos Mejía. Mi fecha de nacimiento es el 4 de marzo de 1996. Vivo en la calle del Olmo, número 12, en Valdelora. El código postal es 46999. Mi móvil es el 600 000 012 y mi correo es valentina.rios@example.com. Quiero ir a natación dos veces por semana, por la tarde. Soy principiante.",
+      "source": "Bonjour ! Je m'appelle Valentina Ríos. Je suis née le 4 mars 1996. J'habite 12, rue de l'Orme, à Valdaure. Le code postal est 46999. Mon portable est le 06 39 98 00 12 et mon adresse e-mail est valentina.rios@example.com. Je veux faire de la natation deux fois par semaine, l'après-midi. Je suis débutante.",
       "fields": [
-        { "label": "Nombre", "answer": "Valentina" },
-        { "label": "Primer apellido", "answer": "Ríos" },
-        { "label": "Segundo apellido", "answer": "Mejía" },
-        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "04/03/1996" },
-        { "label": "Domicilio (calle y número)", "answer": "calle del Olmo, 12" },
-        { "label": "Código postal", "answer": "46999" },
-        { "label": "Municipio", "answer": "Valdelora" },
-        { "label": "Teléfono móvil", "answer": "600 000 012" },
-        { "label": "Correo electrónico", "answer": "valentina.rios@example.com" },
-        { "label": "Actividad", "answer": "natación" }
+        {
+          "label": "Prénom",
+          "answer": "Valentina"
+        },
+        {
+          "label": "Nom",
+          "answer": "Ríos"
+        },
+        {
+          "label": "Date de naissance (JJ/MM/AAAA)",
+          "answer": "04/03/1996"
+        },
+        {
+          "label": "Adresse (numéro et rue)",
+          "answer": "12, rue de l'Orme"
+        },
+        {
+          "label": "Code postal",
+          "answer": "46999"
+        },
+        {
+          "label": "Commune",
+          "answer": "Valdaure"
+        },
+        {
+          "label": "Téléphone portable",
+          "answer": "06 39 98 00 12"
+        },
+        {
+          "label": "Adresse e-mail",
+          "answer": "valentina.rios@example.com"
+        },
+        {
+          "label": "Activité",
+          "answer": "natation"
+        },
+        {
+          "label": "Niveau",
+          "answer": "débutante"
+        }
       ],
       "check": [
-        "“Nombre” is your first name; “apellidos” are your surnames. Many Spanish forms ask for two (“primer” and “segundo apellido”). If you only have one, leave the second empty.",
+        "“Prénom” is your first name; “nom” is your surname. Many French forms put the surname first (“Nom, prénom”). Read the labels, not the order in the text.",
         "The date is day/month/year: 04/03/1996. 03/04/1996 would be 3 April.",
-        "“Código postal” and “municipio” go in separate fields, even if they are together in the text.",
-        "Accents count: “natación”, “Ríos”, “Mejía”."
+        "“Code postal” and “commune” go in separate fields, even if they are together in the text. The number comes before the street: “12, rue de l'Orme”.",
+        "Accents count: “natation”, “Ríos”, “débutante”. A woman writes “débutante”, a man “débutant”."
       ]
     },
     {
@@ -64,10 +102,11 @@
       "level": "A1",
       "type": "nachricht",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "You can't come",
       "blurb": "Saying no in three sentences: the reason, sorry, a new idea.",
       "minutes": 8,
-      "situation": "Your friend Lucía has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short WhatsApp message in Spanish (30–40 words).",
+      "situation": "Your friend Lucie has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short message in French (30–40 words). You are friends, so use “tu”.",
       "points": [
         "Say that you can't come.",
         "Give the reason.",
@@ -75,17 +114,17 @@
         "Suggest another day to meet."
       ],
       "phrases": [
-        "Lo siento, no puedo ir.",
-        "El sábado tengo que trabajar.",
-        "¡Feliz cumpleaños!",
-        "¿Quedamos el domingo?"
+        "Je suis désolé(e), je ne peux pas venir.",
+        "Samedi, je dois travailler.",
+        "Joyeux anniversaire !",
+        "On se voit dimanche ?"
       ],
-      "model": "¡Hola, Lucía!\n\nGracias por la invitación. Lo siento mucho, pero el sábado no puedo ir porque tengo que trabajar.\n\n¡Feliz cumpleaños! ¿Quedamos el domingo y te invito a un café?\n\nUn abrazo,\nKevin",
+      "model": "Salut Lucie,\n\nMerci pour l'invitation. Je suis vraiment désolé, mais samedi, je ne peux pas venir parce que je dois travailler.\n\nJoyeux anniversaire ! On se voit dimanche ? Je t'invite à prendre un café.\n\nGros bisous,\nKevin",
       "check": [
         "All four points are there: in an exam, a missing point costs more than a small grammar mistake.",
-        "There is a greeting and a sign-off (¡Hola, Lucía! / Un abrazo).",
-        "Questions and exclamations open and close: ¿…? and ¡…!",
-        "The sentences are short. At A1, “Tengo que trabajar.” is better than a long sentence with a mistake."
+        "There is a greeting and a sign-off (Salut Lucie, / Gros bisous).",
+        "French puts a non-breaking space before ? and !: “On se voit dimanche ?”, “Joyeux anniversaire !”. No space at all is the typical mistake.",
+        "The sentences are short. At A1, “Je dois travailler.” is better than a long sentence with a mistake. Note “ne … pas” around the verb: “je ne peux pas venir”."
       ]
     },
     {
@@ -93,28 +132,29 @@
       "level": "A2",
       "type": "email",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "An email to your neighbour",
-      "blurb": "Asking for help politely – with “¿Podría…?” instead of “Tiene que…”.",
+      "blurb": "Asking for help politely – with “Pourriez-vous… ?” instead of “Vous devez…”.",
       "minutes": 10,
-      "situation": "You are going on holiday for two weeks. Your neighbour, señora Ortega, has offered to help while you are away. Write her an email in Spanish (50–60 words). You don't know her very well, so use “usted”.",
+      "situation": "You are going on holiday for two weeks. Your neighbour, Madame Ortega, has offered to help while you are away. Write her an email in French (50–60 words). You don't know her very well, so use “vous”.",
       "points": [
         "Say when you will be away.",
         "Ask her to water your plants.",
-        "Ask her to collect your letters.",
+        "Ask her to collect your post.",
         "Say when you will bring the key, and thank her."
       ],
       "phrases": [
-        "Estaré fuera del … al …",
-        "¿Podría …?",
-        "¿Le importaría …?",
-        "Muchas gracias por su ayuda."
+        "Je serai absent(e) du … au …",
+        "Pourriez-vous … ?",
+        "Cela vous dérangerait-il de … ?",
+        "Merci beaucoup pour votre aide."
       ],
-      "model": "Buenos días, señora Ortega:\n\nEstaré fuera del 3 al 17 de julio. ¿Podría regar mis plantas? Con dos veces por semana es suficiente.\n\n¿Le importaría también recoger mis cartas? Si no, el buzón se llena.\n\nEl martes por la tarde le llevo la llave. ¡Muchas gracias por su ayuda!\n\nUn saludo,\nNoor Haddad",
+      "model": "Bonjour Madame Ortega,\n\nJe serai absente du 3 au 17 juillet. Pourriez-vous arroser mes plantes ? Deux fois par semaine, c'est suffisant.\n\nCela vous dérangerait-il aussi de relever mon courrier ? Sinon, la boîte aux lettres va déborder.\n\nMardi après-midi, je vous apporte la clé. Merci beaucoup pour votre aide !\n\nCordialement,\nNoor Haddad",
       "check": [
-        "The requests are questions (“¿Podría…?”, “¿Le importaría…?”), not orders (“Riegue mis plantas”, “Tiene que…”).",
-        "After “¿Le importaría…?” comes the infinitive: “¿Le importaría recoger mis cartas?”.",
-        "“Usted” all the way through: “le llevo”, “su ayuda”, “podría”. One “tú” in the middle would stand out.",
-        "Greeting and sign-off match: “Buenos días, señora Ortega:” → “Un saludo”. “Un beso” is too familiar for a neighbour you hardly know."
+        "The requests are questions (“Pourriez-vous… ?”, “Cela vous dérangerait-il de… ?”), not orders (“Arrosez mes plantes”, “Vous devez…”).",
+        "After “Cela vous dérangerait-il de…” comes the infinitive: “de relever mon courrier”.",
+        "“Vous” all the way through: “je vous apporte”, “votre aide”, “pourriez-vous”. One “tu” in the middle would stand out.",
+        "Greeting and sign-off match: “Bonjour Madame Ortega,” → “Cordialement,”. “Bises” is too familiar for a neighbour you hardly know. The greeting ends with a comma."
       ]
     },
     {
@@ -122,10 +162,11 @@
       "level": "A2",
       "type": "email",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "An email to your child's school",
       "blurb": "Your child is ill: say so clearly, and ask about the homework.",
       "minutes": 8,
-      "situation": "Your son Adam (class 3.º A) is ill and can't go to school today or tomorrow. Write an email in Spanish to his class teacher, señora Lorca (35–45 words).",
+      "situation": "Your son Adam (class CE2) is ill and can't go to school today or tomorrow. Write an email in French to his class teacher, Madame Lorca (35–45 words). Use “vous”.",
       "points": [
         "Say who you are and who your child is.",
         "Say why he can't go, and for how long.",
@@ -133,16 +174,16 @@
         "Thank her."
       ],
       "phrases": [
-        "Soy el padre / la madre de …",
-        "Mi hijo está enfermo. / Tiene fiebre.",
-        "Hoy no puede ir a clase.",
-        "¿Podría decirme qué deberes tiene?"
+        "Je suis le père / la mère de …",
+        "Mon fils est malade. / Il a de la fièvre.",
+        "Aujourd'hui, il ne peut pas aller à l'école.",
+        "Pourriez-vous me dire quels sont ses devoirs ?"
       ],
-      "model": "Buenos días, señora Lorca:\n\nSoy Amina Yusuf, la madre de Adam, de 3.º A. Mi hijo tiene fiebre y hoy no puede ir a clase. Mañana tampoco. ¿Podría decirme qué deberes tiene?\n\nMuchas gracias.\n\nUn saludo,\nAmina Yusuf",
+      "model": "Bonjour Madame Lorca,\n\nJe suis Amina Yusuf, la mère d'Adam, de la classe de CE2. Mon fils a de la fièvre et ne peut pas venir aujourd'hui, ni demain. Pourriez-vous me dire quels sont ses devoirs ?\n\nMerci beaucoup.\n\nCordialement,\nAmina Yusuf",
       "check": [
-        "“Está enfermo” with “estar”, because being ill is a state: “es enfermo” is a typical mistake.",
-        "The teacher can tell at once which child and which class it is about.",
-        "A polite question: “¿Podría decirme…?”. Some schools use “tú” with parents; “usted” is the safe choice in a first message."
+        "“Il est malade” with “être”, or “il a de la fièvre” with “avoir”. “Il a malade” is a typical mistake.",
+        "The teacher can tell at once which child and which class it is about. Schools usually also expect a written reason for an absence; this message does that job.",
+        "A polite question: “Pourriez-vous me dire… ?”. “Vous” is the safe choice in a first message to a teacher; there is no need to switch to “tu”, even if the teacher is friendly."
       ]
     },
     {
@@ -150,24 +191,49 @@
       "level": "A2",
       "type": "formular",
       "kind": "form",
+      "variety": "fr-FR",
       "title": "Booking at the health centre",
       "blurb": "One phone call, one form – and two details that are not said in so many words.",
       "minutes": 7,
-      "source": "— Centro de salud Las Acacias, buenos días.\n— Buenos días. Me llamo Piotr Kowalczyk. Quería pedir cita con el médico, por favor.\n— Claro. ¿Ha venido antes a este centro?\n— No, me cambié de barrio el mes pasado y todavía no conozco a ningún médico aquí.\n— ¿Su fecha de nacimiento?\n— El veinte de noviembre de mil novecientos ochenta y ocho.\n— ¿Un teléfono de contacto?\n— Mi móvil: seiscientos, cero cero cero, trescientos quince.\n— ¿Qué le pasa?\n— Me duele mucho la espalda desde hace diez días.\n— La doctora Pardo puede verle el jueves 14, a las tres y media de la tarde.\n— Perfecto, muchas gracias.",
+      "source": "— Centre de santé Les Acacias, bonjour.\n— Bonjour. Je m'appelle Piotr Kowalczyk. Je voudrais prendre rendez-vous avec un médecin, s'il vous plaît.\n— Bien sûr. Êtes-vous déjà venu dans ce centre ?\n— Non, j'ai déménagé le mois dernier et je ne connais encore aucun médecin ici.\n— Votre date de naissance ?\n— Le vingt novembre mille neuf cent quatre-vingt-huit.\n— Un numéro de téléphone ?\n— Mon portable : zéro six, trente-neuf, quatre-vingt-dix-huit, zéro trois, quinze.\n— Qu'est-ce qui vous arrive ?\n— J'ai très mal au dos depuis dix jours.\n— Le docteur Pardo peut vous recevoir le jeudi 14, à quinze heures trente.\n— Parfait, merci beaucoup.",
       "fields": [
-        { "label": "Apellido y nombre", "answer": "Kowalczyk, Piotr" },
-        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "20/11/1988" },
-        { "label": "Teléfono de contacto", "answer": "600 000 315" },
-        { "label": "¿Primera cita en este centro? (sí/no)", "answer": "sí" },
-        { "label": "Motivo de la cita", "answer": "dolor de espalda (10 días)" },
-        { "label": "Médica", "answer": "doctora Pardo" },
-        { "label": "Fecha de la cita", "answer": "jueves 14" },
-        { "label": "Hora de la cita (HH:MM)", "answer": "15:30" }
+        {
+          "label": "Nom, prénom",
+          "answer": "Kowalczyk, Piotr"
+        },
+        {
+          "label": "Date de naissance (JJ/MM/AAAA)",
+          "answer": "20/11/1988"
+        },
+        {
+          "label": "Téléphone de contact",
+          "answer": "06 39 98 03 15"
+        },
+        {
+          "label": "Premier rendez-vous dans ce centre ? (oui/non)",
+          "answer": "oui"
+        },
+        {
+          "label": "Motif de la consultation",
+          "answer": "mal au dos (10 jours)"
+        },
+        {
+          "label": "Médecin",
+          "answer": "docteur Pardo"
+        },
+        {
+          "label": "Date du rendez-vous",
+          "answer": "jeudi 14"
+        },
+        {
+          "label": "Heure du rendez-vous (HH:MM)",
+          "answer": "15:30"
+        }
       ],
       "check": [
-        "Numbers are spoken, not written: “el veinte de noviembre de mil novecientos ochenta y ocho” → 20/11/1988. Spaniards often say a mobile number in groups: “seiscientos, cero cero cero, trescientos quince”.",
-        "Careful with “¿Primera cita?”. He answers “No” to a different question (“¿Ha venido antes?”), so here the right answer is “sí”.",
-        "“Perfecto” means the appointment is confirmed, so fill in the doctor, the date and the time. “Las tres y media de la tarde” is 15:30."
+        "Numbers are spoken, not written: “le vingt novembre mille neuf cent quatre-vingt-huit” → 20/11/1988. French phone numbers are said in pairs: “zéro six, trente-neuf, quatre-vingt-dix-huit, zéro trois, quinze” → 06 39 98 03 15.",
+        "Careful with “Premier rendez-vous ?”. He answers “Non” to a different question (“Êtes-vous déjà venu ?”), so here the right answer is “oui”.",
+        "“Parfait” means the appointment is confirmed, so fill in the doctor, the date and the time. “Quinze heures trente” is 15:30."
       ]
     },
     {
@@ -175,27 +241,58 @@
       "level": "A2",
       "type": "formular",
       "kind": "form",
-      "title": "The padrón form (practice)",
-      "blurb": "A practice version of a form you will really meet. Every town hall has its own, so check yours.",
+      "variety": "fr-FR",
+      "title": "The school enrolment form (practice)",
+      "blurb": "A practice version of a form you may really meet. Every mairie has its own, so check yours.",
       "minutes": 7,
-      "source": "Hola, soy Youssef Amrani Haddad. Nací en Tánger, en Marruecos, el 9 de enero de 1990. Mi NIE es X0000000T. Desde el 1 de septiembre vivo en la calle de las Eras, 5, 1.º B, en Valdelora. Antes vivía en Murcia. Vivo con mi mujer y con nuestro hijo pequeño: somos tres personas en casa.",
+      "source": "Bonjour, je suis Youssef Amrani. Je voudrais inscrire mon fils Adam à l'école. Adam est né à Tanger, au Maroc, le 9 janvier 2019. Mon titre de séjour porte le numéro 0000000000 (numéro d'exemple). Depuis le 1er septembre, nous habitons au 5, rue des Prés, 1er étage, porte B, à Valdaure. Avant, nous habitions à Marseille. Nous vivons avec ma femme : nous sommes trois à la maison.",
       "fields": [
-        { "label": "Primer apellido", "answer": "Amrani" },
-        { "label": "Segundo apellido", "answer": "Haddad" },
-        { "label": "Nombre", "answer": "Youssef" },
-        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "09/01/1990" },
-        { "label": "Lugar de nacimiento", "answer": "Tánger" },
-        { "label": "País de nacimiento", "answer": "Marruecos" },
-        { "label": "Documento de identidad (NIE)", "answer": "X0000000T" },
-        { "label": "Domicilio", "answer": "calle de las Eras, 5, 1.º B" },
-        { "label": "Municipio anterior", "answer": "Murcia" },
-        { "label": "Personas en la vivienda (número)", "answer": "3" }
+        {
+          "label": "Nom de famille",
+          "answer": "Amrani"
+        },
+        {
+          "label": "Prénom du parent",
+          "answer": "Youssef"
+        },
+        {
+          "label": "Prénom de l'enfant",
+          "answer": "Adam"
+        },
+        {
+          "label": "Date de naissance de l'enfant (JJ/MM/AAAA)",
+          "answer": "09/01/2019"
+        },
+        {
+          "label": "Lieu de naissance",
+          "answer": "Tanger"
+        },
+        {
+          "label": "Pays de naissance",
+          "answer": "Maroc"
+        },
+        {
+          "label": "Pièce d'identité du parent (numéro)",
+          "answer": "0000000000"
+        },
+        {
+          "label": "Adresse",
+          "answer": "5, rue des Prés, 1er étage, porte B"
+        },
+        {
+          "label": "Commune précédente",
+          "answer": "Marseille"
+        },
+        {
+          "label": "Personnes au foyer (nombre)",
+          "answer": "3"
+        }
       ],
       "check": [
-        "A Spanish address runs street, number, floor, door: “calle de las Eras, 5, 1.º B”.",
-        "“Municipio anterior” asks where you lived before: Murcia, not Valdelora and not Tánger.",
-        "Copy your document number exactly, letter by letter. The number here is a made-up example.",
-        "This is language practice, not official guidance: the real form and the papers to bring vary, so ask at your own “ayuntamiento”."
+        "A French address runs number, street, then floor and door: “5, rue des Prés, 1er étage, porte B”.",
+        "“Commune précédente” asks where you lived before: Marseille, not Valdaure and not Tanger.",
+        "Copy your document number exactly, digit by digit. The number here is a made-up example.",
+        "This is language practice, not official guidance: the real form and the papers to bring vary, so ask at your own mairie."
       ]
     },
     {
@@ -203,6 +300,7 @@
       "level": "B1",
       "type": "formular",
       "kind": "form",
+      "variety": "fr-FR",
       "title": "B1 task 5: completing a form",
       "blurb": "One confirmation email, eight fields.",
       "minutes": 8,
@@ -213,7 +311,8 @@
       "level": "B1",
       "type": "brief",
       "kind": "prompt",
-      "title": "B1 writing: reply to Javier",
+      "variety": "fr-FR",
+      "title": "B1 writing: reply to Théo",
       "blurb": "Five points, one informal email to a friend.",
       "minutes": 25,
       "from": "dtz-writingPrompt"
@@ -223,29 +322,30 @@
       "level": "B1",
       "type": "email",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "An email to your landlady",
       "blurb": "The boiler has broken: describe the problem, ask for a date, stay polite.",
       "minutes": 20,
-      "situation": "La caldera de tu piso se ha estropeado y hace tres días que no tienes agua caliente. Escribe un correo a tu casera, la señora Ibáñez (80–100 palabras).",
+      "situation": "La chaudière de votre appartement est tombée en panne et vous n'avez plus d'eau chaude depuis trois jours. Écrivez un e-mail à votre propriétaire, Mme Lefèvre (80–100 mots). Vous la vouvoyez.",
       "points": [
-        "Explica qué ha pasado y desde cuándo.",
-        "Di por qué es un problema serio para ti o para tu familia.",
-        "Pídele que venga un técnico y di cuándo estás en casa.",
-        "Pregúntale si llama ella al técnico o si lo llamas tú."
+        "Expliquez ce qui s'est passé et depuis quand.",
+        "Dites pourquoi c'est un problème sérieux pour vous ou pour votre famille.",
+        "Demandez qu'un technicien vienne et dites quand vous êtes chez vous.",
+        "Demandez-lui si elle appelle elle-même le technicien ou si c'est à vous de le faire."
       ],
       "phrases": [
-        "Le escribo porque …",
-        "Desde el lunes no tenemos …",
-        "¿Podría enviar a un técnico lo antes posible?",
-        "Estamos en casa todas las tardes, a partir de las 17:00.",
-        "Quedo a la espera de su respuesta."
+        "Je vous écris car …",
+        "Depuis lundi, nous n'avons plus …",
+        "Pourriez-vous envoyer un technicien dès que possible ?",
+        "Nous sommes chez nous tous les soirs à partir de 17 h 00.",
+        "Dans l'attente de votre réponse, …"
       ],
-      "model": "Estimada señora Ibáñez:\n\nLe escribo porque la caldera del piso se estropeó el lunes y, desde entonces, no tenemos agua caliente ni calefacción. Es un problema serio, sobre todo para mis hijos, que son pequeños.\n\n¿Podría enviar a un técnico lo antes posible? Estamos en casa todas las tardes, a partir de las 17:00, y el sábado por la mañana. ¿Llama usted al técnico o prefiere que lo llame yo?\n\nQuedo a la espera de su respuesta. Muchas gracias.\n\nUn saludo,\nIonuț Popa",
+      "model": "Madame Lefèvre,\n\nJe vous écris car la chaudière de l'appartement est tombée en panne lundi et, depuis, nous n'avons plus ni eau chaude ni chauffage. C'est un problème sérieux, surtout pour mes enfants, qui sont petits.\n\nPourriez-vous envoyer un technicien dès que possible ? Nous sommes chez nous tous les soirs à partir de 17 h 00, ainsi que le samedi matin. Est-ce vous qui appelez le technicien, ou préférez-vous que je m'en charge ?\n\nDans l'attente de votre réponse, je vous remercie par avance.\n\nCordialement,\nIonuț Popa",
       "check": [
         "All four points are there, and the landlady can act on them: what is broken, since when, when someone can come.",
-        "The tenses tell the story: “se estropeó el lunes” (one event) and “no tenemos” after “desde entonces” (still true now).",
-        "“Usted” throughout, and a colon after the greeting: “Estimada señora Ibáñez:”. In a formal letter, Spanish uses a colon there, not a comma.",
-        "“Prefiere que lo llame yo”: “preferir que” takes the subjunctive."
+        "The tenses tell the story: “est tombée en panne lundi” (one event, passé composé) and “nous n'avons plus” after “depuis” (still true now, present tense).",
+        "“Vous” throughout, and a comma after the greeting: “Madame Lefèvre,”. “Chère Madame” is more personal than a first message to a landlady needs.",
+        "“Préférez-vous que je m'en charge” : “préférer que” takes the subjunctive."
       ]
     },
     {
@@ -253,28 +353,29 @@
       "level": "B1",
       "type": "email",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "Asking your employer for time off",
       "blurb": "An appointment you can't move, a shift to swap: asking for something at work.",
       "minutes": 20,
-      "situation": "El jueves por la mañana tienes una cita en una oficina de la Administración y no puedes cambiarla. Escribe un correo a tu jefa, Carmen Soler, para pedirle permiso (70–90 palabras).",
+      "situation": "Jeudi matin, vous avez un rendez-vous à la préfecture et vous ne pouvez pas le déplacer. Écrivez un e-mail à votre responsable, Carmen Soler, pour lui demander l'autorisation de vous absenter (70–90 mots). Dans votre équipe, on se tutoie.",
       "points": [
-        "Explica por qué necesitas esa mañana y a qué hora es la cita.",
-        "Propón una solución concreta para el trabajo que no vas a hacer.",
-        "Pídele que te conteste antes de una fecha.",
-        "Dale las gracias."
+        "Expliquez pourquoi vous avez besoin de ce matin-là et à quelle heure est le rendez-vous.",
+        "Proposez une solution concrète pour le travail que vous ne ferez pas.",
+        "Demandez-lui de répondre avant une date.",
+        "Remerciez-la."
       ],
       "phrases": [
-        "Te escribo para pedirte un favor.",
-        "El jueves a las 10:00 tengo una cita y no puedo cambiarla.",
-        "Si te parece bien, puedo …",
-        "¿Me puedes decir algo antes del martes?"
+        "Je t'écris pour te demander un service.",
+        "Jeudi à 10 h 00, j'ai un rendez-vous et je ne peux pas le déplacer.",
+        "Si cela te convient, je peux …",
+        "Peux-tu me répondre avant mardi ?"
       ],
-      "model": "Hola, Carmen:\n\nTe escribo para pedirte un favor. El jueves a las 10:00 tengo una cita en una oficina de la Administración y no puedo cambiarla, porque era la única fecha disponible. Por eso, no podré trabajar esa mañana.\n\nSi te parece bien, puedo cambiar el turno con Jordi, que ya me ha dicho que no le importa, o recuperar las horas el sábado.\n\n¿Me puedes decir algo antes del martes? Muchas gracias.\n\nUn saludo,\nAmina",
+      "model": "Bonjour Carmen,\n\nJe t'écris pour te demander un service. Jeudi à 10 h 00, j'ai un rendez-vous à la préfecture et je ne peux pas le déplacer, car c'était le seul créneau disponible. Je ne pourrai donc pas travailler ce matin-là.\n\nSi cela te convient, je peux échanger mon service avec Jordi, qui m'a déjà dit que ça ne le dérangeait pas, ou rattraper mes heures samedi.\n\nPeux-tu me répondre avant mardi ? Merci beaucoup.\n\nCordialement,\nAmina",
       "check": [
-        "A solution comes with the request: the boss reads “puedo cambiar el turno con Jordi” and only has to say yes.",
-        "“Tú” with your boss is normal in many Spanish workplaces. If yours uses “usted”, keep to it: “Le escribo para pedirle…”.",
-        "The tone is a request, not an announcement: “Si te parece bien” softens it.",
-        "Time off for official appointments depends on your contract and your “convenio”; this task practises the email, not your rights."
+        "A solution comes with the request: the boss reads “je peux échanger mon service avec Jordi” and only has to say yes.",
+        "“Tu” with your boss is normal in many French workplaces. If yours uses “vous”, keep to it: “Je vous écris pour vous demander un service”, “Pourriez-vous me répondre… ?”.",
+        "The tone is a request, not an announcement: “Si cela te convient” softens it.",
+        "Time off for official appointments depends on your contract and your collective agreement (“convention collective”); this task practises the email, not your rights."
       ]
     },
     {
@@ -282,6 +383,7 @@
       "level": "B1",
       "type": "fehlerjagd",
       "kind": "errors",
+      "variety": "fr-FR",
       "title": "Error hunt in a model letter",
       "blurb": "Find the mistakes in someone else's text first – then you start seeing them in your own.",
       "minutes": 10,
@@ -292,29 +394,30 @@
       "level": "B2",
       "type": "brief",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "A complaint to a holiday company",
       "blurb": "Staying calm and factual while still making a clear demand – the hardest tone at B2.",
       "minutes": 30,
-      "situation": "Reservaste un viaje combinado de una semana. Al llegar, muchas cosas no coincidían con el folleto: el hotel no estaba en la playa, sino a 3 km; la piscina estaba cerrada por obras y las excursiones que habías pagado no se hicieron. Escribe una carta de reclamación a la agencia de viajes (180–200 palabras).",
+      "situation": "Vous avez réservé un voyage organisé d'une semaine. À l'arrivée, beaucoup de choses ne correspondaient pas à la brochure : l'hôtel n'était pas en bord de mer, mais à 3 km ; la piscine était fermée pour travaux et les excursions que vous aviez payées n'ont pas eu lieu. Écrivez une lettre de réclamation à l'agence de voyages (180–200 mots).",
       "points": [
-        "Indica tu número de reserva, las fechas y el destino.",
-        "Describe los problemas de forma clara y objetiva.",
-        "Explica por qué eran importantes para ti.",
-        "Di exactamente qué pides y pon un plazo."
+        "Indiquez votre numéro de réservation, les dates et la destination.",
+        "Décrivez les problèmes de façon claire et objective.",
+        "Expliquez pourquoi ils étaient importants pour vous.",
+        "Dites exactement ce que vous demandez et fixez un délai."
       ],
       "phrases": [
-        "Me dirijo a ustedes en relación con mi reserva (n.º …).",
-        "En su folleto se indicaba claramente que …",
-        "Sin embargo, en realidad …",
-        "Por ello, les ruego que … antes del …",
-        "De no recibir respuesta antes del …, me veré obligado/a a …"
+        "Je me permets de vous écrire au sujet de ma réservation (n° …).",
+        "Dans votre brochure, il était clairement indiqué que …",
+        "Or, en réalité, …",
+        "Je vous demande donc de … avant le …",
+        "Faute de réponse avant le …, je me verrai contraint(e) de …"
       ],
-      "model": "Estimados señores:\n\nMe dirijo a ustedes en relación con mi reserva (n.º 884-2210) de un viaje combinado a Tenerife del 12 al 19 de septiembre. Lamento comunicarles que surgieron varios problemas graves, que detallo a continuación.\n\nEn su folleto se describía el hotel como «en primera línea de playa». Sin embargo, en realidad se encontraba a unos tres kilómetros, y la única forma de llegar era un autobús lanzadera de pago. La piscina, que también se anunciaba, estuvo cerrada por obras durante toda nuestra estancia, sin que nos avisaran con antelación. Además, las dos excursiones incluidas en el precio se cancelaron sin que se nos ofreciera ninguna alternativa.\n\nDado que elegí este viaje precisamente por la playa y las instalaciones, las vacaciones fueron mucho menos agradables de lo que esperaba. No se trató de detalles sin importancia, sino de las características principales del viaje que pagué.\n\nPor ello, les ruego que me ofrezcan una devolución parcial adecuada antes del 15 de octubre. De no recibir respuesta antes de esa fecha, me veré obligada a presentar una reclamación ante los organismos de consumo competentes.\n\nAtentamente,\nClara Menéndez",
+      "model": "Madame, Monsieur,\n\nJe me permets de vous écrire au sujet de ma réservation (n° 884-2210) pour un voyage organisé à Majorque du 12 au 19 septembre. J'ai le regret de vous informer que plusieurs problèmes graves se sont produits ; je les détaille ci-dessous.\n\nVotre brochure présentait l'hôtel comme étant « en bord de plage ». Or, il se trouvait en réalité à environ trois kilomètres, et le seul moyen de s'y rendre était une navette payante. La piscine, également annoncée, est restée fermée pour travaux pendant tout notre séjour, sans que nous en ayons été prévenus. De plus, les deux excursions comprises dans le prix ont été annulées sans qu'aucune solution de remplacement nous soit proposée.\n\nComme j'avais choisi ce voyage précisément pour la plage et les équipements, mes vacances ont été bien moins agréables que prévu. Il ne s'agissait pas de détails sans importance, mais des caractéristiques essentielles du voyage que j'ai payé.\n\nJe vous demande donc de me proposer un remboursement partiel adapté avant le 15 octobre. Faute de réponse avant cette date, je me verrai contrainte de saisir les organismes compétents en matière de consommation.\n\nVeuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\nClara Menéndez",
       "check": [
-        "No angry words: “Lamento comunicarles que surgieron varios problemas graves” instead of “es una vergüenza”. At B2 the tone is part of the mark: firm, but never rude.",
-        "Each problem is set against a promise (“En su folleto se describía… Sin embargo, en realidad…”). A complaint without that comparison is only an opinion.",
+        "No angry words: “J'ai le regret de vous informer que plusieurs problèmes graves se sont produits” instead of “c'est une honte”. At B2 the tone is part of the mark: firm, but never rude.",
+        "Each problem is set against a promise (“Votre brochure présentait… Or, il se trouvait en réalité…”). A complaint without that comparison is only an opinion.",
         "There is a clear demand AND a deadline. Without a date, a letter of complaint is not complete.",
-        "B2 linking words and forms: “dado que”, “además”, “sin embargo”, “por ello”, “sin que” + subjunctive. “Estimados señores:” with a colon, then “Atentamente”."
+        "B2 linking words and forms: “or”, “de plus”, “comme”, “donc”, “sans que” + subjunctive. The formal frame: “Madame, Monsieur,” at the top (with a comma) and the fixed closing formula “Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées” : it repeats the form of address you opened with."
       ]
     },
     {
@@ -322,29 +425,30 @@
       "level": "B2",
       "type": "opinion",
       "kind": "prompt",
+      "variety": "fr-FR",
       "title": "An opinion text: a car-free town centre",
       "blurb": "Take a position, give reasons, answer the other side – and end on a clear conclusion.",
       "minutes": 30,
-      "situation": "La revista de tu barrio pide opiniones sobre esta pregunta: ¿debería ser peatonal el centro de tu ciudad? Escribe un texto de opinión (150–180 palabras).",
+      "situation": "Le magazine de votre quartier demande des opinions sur cette question : le centre de votre ville devrait-il être piéton ? Écrivez un texte d'opinion (150–180 mots).",
       "points": [
-        "Presenta el tema y di claramente cuál es tu postura.",
-        "Da dos argumentos, cada uno con un ejemplo.",
-        "Responde a un argumento contrario.",
-        "Termina con una conclusión clara."
+        "Présentez le sujet et dites clairement quelle est votre position.",
+        "Donnez deux arguments, chacun avec un exemple.",
+        "Répondez à un argument contraire.",
+        "Terminez par une conclusion claire."
       ],
       "phrases": [
-        "En mi opinión, …",
-        "Por un lado, … Por otro lado, …",
-        "Es cierto que …; sin embargo, …",
-        "No se trata de …, sino de …",
-        "En definitiva, …"
+        "À mon avis, …",
+        "D'un côté, … De l'autre, …",
+        "Il est vrai que … ; cependant, …",
+        "Il ne s'agit pas de …, mais de …",
+        "En définitive, …"
       ],
-      "model": "¿Un centro sin coches?\n\nCada vez más ciudades limitan el tráfico en el centro, y creo que la nuestra debería hacer lo mismo. En mi opinión, un centro peatonal mejoraría la vida diaria de casi todos los vecinos.\n\nPor un lado, sería más seguro y más sano. Mis hijos van andando al colegio y cruzan cada día dos calles con mucho tráfico; sin coches, podrían ir solos antes. Por otro lado, ganaría el comercio de proximidad: quien pasea sin prisa entra en más tiendas que quien busca aparcamiento.\n\nEs cierto que algunas personas dependen del coche y que muchos comerciantes temen perder clientes. Sin embargo, eso no es motivo para renunciar a la idea, sino para hacerla bien: más autobuses, aparcamientos en las afueras y permisos para vecinos y repartidores.\n\nEn definitiva, no se trata de estar en contra de los coches, sino de decidir para qué queremos usar nuestras calles. Yo prefiero que sirvan para vivir en ellas.",
+      "model": "Un centre sans voitures ?\n\nDe plus en plus de villes limitent la circulation dans leur centre, et je crois que la nôtre devrait faire de même. À mon avis, un centre piéton améliorerait la vie quotidienne de presque tous les habitants.\n\nD'un côté, il serait plus sûr et meilleur pour la santé. Mes enfants vont à l'école à pied et traversent chaque jour deux rues très fréquentées ; sans voitures, ils pourraient y aller seuls plus tôt. De l'autre, le commerce de proximité y gagnerait : celui qui se promène sans se presser entre dans plus de boutiques que celui qui cherche à se garer.\n\nIl est vrai que certaines personnes dépendent de leur voiture et que beaucoup de commerçants craignent de perdre des clients. Cependant, ce n'est pas une raison pour renoncer à l'idée, mais pour bien la mettre en œuvre : plus de bus, des parkings à l'entrée de la ville et des autorisations pour les riverains et les livreurs.\n\nEn définitive, il ne s'agit pas d'être contre les voitures, mais de décider à quoi nous voulons employer nos rues. Je préfère qu'elles servent à y vivre.",
       "check": [
         "The position is clear in the first paragraph, and the last paragraph comes back to it.",
-        "Each argument has an example of its own. “Sería más seguro” alone is a claim; the two streets on the way to school make it real.",
-        "The other side gets a fair sentence before the answer: “Es cierto que…; sin embargo…”.",
-        "B2 forms: the conditional for what would happen (“mejoraría”, “ganaría”), “no se trata de…, sino de…”, “prefiero que” + subjunctive."
+        "Each argument has an example of its own. “Il serait plus sûr” alone is a claim; the two busy streets on the way to school make it real.",
+        "The other side gets a fair sentence before the answer: “Il est vrai que… ; cependant…”.",
+        "B2 forms: the conditional for what would happen (“améliorerait”, “gagnerait”), “il ne s'agit pas de…, mais de…”, “je préfère que” + subjunctive."
       ]
     }
   ]

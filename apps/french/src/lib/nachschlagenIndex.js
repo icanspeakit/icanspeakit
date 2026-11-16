@@ -40,7 +40,8 @@ const strip = (s) => s.replace(/<[^>]+>/g, "");
 export function nachschlagenEntries(_opts = {}) {
   const out = [];
   for (const v of verbs) {
-    out.push([v.inf, `${v.rows[2].praes.f} · ${v.rows[2].praet.f} · ${v.rows[2].perf.f}`, verbHref(v), "verb", v.forms.join("|")]);
+    // il présent · il passé composé · il futur (the passé simple is for recognition only).
+    out.push([v.inf, `${v.rows[2].praes.f} · ${v.rows[2].perf.f} · ${v.rows[2].fut.f}`, verbHref(v), "verb", v.forms.join("|")]);
   }
   for (const [kind, ref, data] of LISTS) {
     for (const s of data.sections) {
@@ -52,10 +53,10 @@ export function nachschlagenEntries(_opts = {}) {
     }
   }
   for (const c of wortarten.classes) {
-    out.push([c.name, c.also ?? "", `/grammar/parts-of-speech#${c.id}`, "wortart", c.also ?? ""]);
+    out.push([c.name, c.also ?? "", `/grammaire/natures-des-mots#${c.id}`, "wortart", c.also ?? ""]);
   }
   for (const p of fehlerPairs) {
-    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammar/common-mistakes#${p.id}`, "fehler", ""]);
+    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammaire/erreurs-frequentes#${p.id}`, "fehler", ""]);
   }
   return out;
 }

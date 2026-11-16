@@ -1,6 +1,6 @@
 ---
-// Renders a "practice for this exam" section on a /exams detail page,
-// reusing the existing /exercises tool catalog. `tools` picks which of the five
+// Renders a "practice for this exam" section on a /exames detail page,
+// reusing the existing /exercicios tool catalog. `tools` picks which of the five
 // existing tools to show — see docs/exams-hub-tier2-v1.md for which exams get which,
 // and why (DTZ-authentic tools aren't shown as exam-authentic for exams they don't match).
 import Icon from "./Icon.astro";
@@ -40,7 +40,7 @@ const catalog = {
     countVars: { n: artikel.length },
   },
   grammatik: {
-    href: "/grammar",
+    href: "/gramatica",
     icon: "book",
     title: "Grammatik",
     titleKey: "tool.grammatik.title",
@@ -51,7 +51,7 @@ const catalog = {
     countVars: { n: grammatik.length, q: grammarQuestionCount },
   },
   wortschatz: {
-    href: "/vocabulary",
+    href: "/vocabulario",
     icon: "folder",
     title: "Wortschatz & Redemittel",
     titleKey: "tool.wortschatz.title",
@@ -62,7 +62,7 @@ const catalog = {
     countVars: { n: wortschatz.length },
   },
   sprechen: {
-    href: "/speaking/set/a2-out-and-about",
+    href: "/expressao-oral/serie/a2-out-and-about",
     icon: "mic",
     title: "Sprechen: Bildbeschreibung",
     titleKey: "exam.tool.sprechen.title",
@@ -73,7 +73,7 @@ const catalog = {
     countVars: { n: sprechen.length },
   },
   lesen: {
-    href: "/reading-writing",
+    href: "/leitura-e-escrita",
     icon: "pencil",
     title: "Lesen & Schreiben",
     titleKey: "lesen.hero.title.plain",
@@ -100,7 +100,6 @@ const catalog = {
           <div class="tool-card-icon"><Icon name={t.icon} /></div>
           <h3 data-i18n={t.titleKey}>{t.title}</h3>
           <p data-i18n={t.descKey}>{t.desc}</p>
-          <span class="tool-card-count" data-i18n={t.countKey} data-i18n-vars={JSON.stringify(t.countVars)}>{t.count}</span>
         </a>
       );
     })}

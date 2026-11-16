@@ -11,8 +11,8 @@
 // Plain ESM with a JSON import, like lexicon.js: the pages, the client bundles and the Node
 // scripts (scripts/check-*.mjs, scripts/lang-coverage.mjs) all load it.
 // Coverage per language and surface (% of the base keys), written by `pnpm lang:coverage`
-// once a second language exists. englishacademy ships English only, so it starts empty.
-const coverage = { langs: {} };
+// (scripts/lang-coverage.mjs); rerun it after a dictionary in public/i18n changes.
+import coverage from "../../docs/lang-coverage.json" with { type: "json" };
 
 /** The surfaces a language can be offered on, and what each one is:
  *  ui            public/i18n/<code>.json — the interface and the header menu
@@ -52,6 +52,45 @@ export const LANGUAGE_REGISTRY = [
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
     // The source language: the interface and every text exist in English first.
     surfaces: { ui: { ...reviewed, order: 0 }, cards: reviewed, help: reviewed, legal: { ...reviewed, order: 0 }, sheets: reviewed, berufe: reviewed },
+  },
+  // German UI (ui-lang-de): public/i18n/de.json carries every key of en.json (machine draft, du-form,
+  // not yet read by a native speaker; scripts/check-i18n-keys.mjs enforces it). The header picker
+  // stays hidden until coverage passes GATES.ui; /english/de/ entry pages are built and linked (hreflang).
+  {
+    code: "de", native: "Deutsch", de: "Deutsch", en: "German", word: "Sprache",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "de", urlPrefix: "de",
+    surfaces: { ui: { status: "draft" } },
+  },
+  // Spanish UI (ui-lang-es): public/i18n/es.json carries every key of en.json (machine draft, tú-form,
+  // not yet read by a native speaker). Same gating as German: picker hidden until GATES.ui is met.
+  {
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "es", urlPrefix: "es",
+    surfaces: { ui: { status: "draft" } },
+  },
+  // Portuguese UI (ui-lang-pt): European Portuguese (pt-PT, tu-form), machine draft, not yet read by a
+  // native speaker. Same gating as de/es.
+  {
+    code: "pt", native: "Português", de: "Portugiesisch", en: "Portuguese", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "pt-PT", urlPrefix: "pt",
+    surfaces: { ui: { status: "draft" } },
+  },
+  // French UI (ui-lang-fr): machine draft, tu-form, not yet read by a native speaker. Same gating as de/es/pt.
+  {
+    code: "fr", native: "Français", de: "Französisch", en: "French", word: "Langue",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "fr", urlPrefix: "fr",
+    surfaces: { ui: { status: "draft" } },
+  },
+  // Italian UI (ui-lang-it): machine draft, tu-form, not yet read by a native speaker. Same gating as de/es/pt/fr.
+  {
+    code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null,
+    hreflang: "it", urlPrefix: "it",
+    surfaces: { ui: { status: "draft" } },
   },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface

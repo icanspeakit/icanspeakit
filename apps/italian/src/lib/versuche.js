@@ -20,7 +20,7 @@
 //   next page load in that tab.
 // - A row: uebung_ref, skill, richtig/gesamt (both empty for practice without a score),
 //   start and end time, duration, and the Hinweis counts from ./hinweise.js.
-// - Einfach (/step-by-step, refs "e:") is never logged: the join page promises that
+// - Einfach (/passo-passo, refs "e:") is never logged: the join page promises that
 //   (KlassenConsent.astro).
 //
 // TRUST: these rows are "selbst gemeldet" (quelle = 'client'). They are scored in this
@@ -75,31 +75,32 @@ export function pageRef(path = currentPath()) {
   const s = path.replace(/\/+$/, "").split("/").filter(Boolean);
   const [a, b, c] = s;
   switch (a) {
-    case undefined: case "step-by-step": return null;
-    case "vocabulary": return `w:${!b || b === "phrases" ? "redemittel" : b}`;
+    case undefined: case "passo-passo": return null;
+    case "vocabolario": return `w:${!b || b === "espressioni" ? "redemittel" : b}`;
     // A teacher's shared card set: the class task for it carries the same ref.
-    case "card-set": {
+    case "set-di-carte": {
       const t = new URLSearchParams(location.search).get("t");
       return t ? `vs:${t}` : null;
     }
-    case "italian-for-work": return b && c ? `w:berufe-${itemKey("/italian-for-work", b)}-${workGroupKey(c)}` : null;
-    case "listening": return b ? `h:${itemKey("/listening", b)}` : null;
-    case "reading": return b ? `l:${itemKey("/reading", b)}` : null;
-    case "reading-writing": return "l:ls";
-    case "culture":
-      if (b === "insider") return c ? `k:insider/${itemKey("/culture/insider", c)}` : null;
-      return b ? `k:${itemKey("/culture", b)}` : null;
-    case "writing": return b ? `s:${itemKey("/writing", b)}` : null;
-    case "speaking": return b ? `sp:${itemKey("/speaking", b)}` : null;
-    case "speaking-b1-b2": return "sp:b1b2";
-    case "pronunciation": return "a:aussprache";
-    case "nationality":
-      if (b !== "dele-a2" || !c) return null;
-      return `x:dtz/${c === "practice-set" ? "uebungssatz-1" : c}`;
-    case "grammar": return b === "quiz" ? "g:quiz" : b === "path" ? "g:lauf" : null;
-    case "prepositions": return "g:praepositionen";
+    case "italiano-per-il-lavoro": return b && c ? `w:berufe-${itemKey("/italiano-per-il-lavoro", b)}-${workGroupKey(c)}` : null;
+    case "ascolto": return b ? `h:${itemKey("/ascolto", b)}` : null;
+    case "lettura": return b ? `l:${itemKey("/lettura", b)}` : null;
+    case "lettura-e-scrittura": return "l:ls";
+    case "cultura":
+      if (b === "dietro-le-quinte") return c ? `k:insider/${itemKey("/cultura/dietro-le-quinte", c)}` : null;
+      return b ? `k:${itemKey("/cultura", b)}` : null;
+    case "scrittura": return b ? `s:${itemKey("/scrittura", b)}` : null;
+    case "parlato": return b ? `sp:${itemKey("/parlato", b)}` : null;
+    case "parlato-b1-b2": return "sp:b1b2";
+    case "pronuncia": return "a:aussprache";
+    case "cittadinanza":
+      // The B1 mock (/cittadinanza/prova-b1/…); the refs keep their data ids.
+      if (b !== "prova-b1" || !c) return null;
+      return `x:dtz/${c === "esercitazione" ? "uebungssatz-1" : c === "simulazione" ? "mock-test" : c}`;
+    case "grammatica": return b === "quiz" ? "g:quiz" : b === "percorso" ? "g:lauf" : null;
+    case "preposizioni": return "g:praepositionen";
   }
-  // Root-level grammar topics (/present-perfect, /object-pronouns, …).
+  // Root-level grammar topics (/present-perfect, /pronomi-complemento, …).
   const key = document.getElementById("vp-page")?.dataset.topicKey;
   return s.length === 1 ? `g:${key || topicKeyFromSlug(a)}` : null;
 }

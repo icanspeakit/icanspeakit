@@ -17,6 +17,7 @@ import { fingerprint } from "./meldungRef.js";
 import { PAYWALL, APP, can } from "./access.js";
 import { intent } from "./intent.js";
 import paidManifest from "../data/pruefungen/paid-manifest.json";
+import { BASE_PATH } from "./paths.js";
 
 /* Module-level because the renderers here are module functions, not closures inside the
    mount. Everything this trainer paints goes through render(), so filling the dict and
@@ -597,7 +598,7 @@ export function mountDtzTrainer(root, data, { onAnswer } = {}) {
           <table class="format-table"><thead><tr><th>${escapeHtml(t("dtz.th.part"))}</th><th>${escapeHtml(t("dtz.th.correct"))}</th></tr></thead><tbody>${rows}</tbody></table>
         </div>
         ${upsell(data)}
-        ${score < total ? `<p class="dtz-note"><a href="/my-mistakes">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
+        ${score < total ? `<p class="dtz-note"><a href="${BASE_PATH}/my-mistakes">${escapeHtml(tOr("fehler.saved", `${total - score} Fehler gespeichert → Meine Fehler`, { n: total - score }))}</a></p>` : ""}
         <div class="dtz-actions">
           <button type="button" class="vp-link-btn" data-dtz-reset>${escapeHtml(t("dtz.restart"))}</button>
         </div>`;

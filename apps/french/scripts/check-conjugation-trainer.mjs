@@ -3,17 +3,20 @@
 //   node scripts/check-conjugation-trainer.mjs
 //
 // 1. Sets: shape, unique ids, exactly one blank, one right option, the answer among the options,
-//    English explanations, inverted marks in Spanish questions.
-// 2. Drills: every verb in exactly one drill group or on notDrilled; presets and limits name real
-//    verbs, groups and tenses; every topic link points at a real topic and a real drill or set.
+//    English explanations, variety fr-FR, a no-break space before ? ! : ; in the French prompts,
+//    no Spanish punctuation left.
+// 2. Drills: exactly the drilled tenses of §4.2 with a French mood; every verb in exactly one drill
+//    group or on notDrilled; presets and limits name real verbs, groups and tenses; every topic
+//    link points at a real topic and a real drill or set.
 // 3. Generated questions, every form of every drilled verb: the right form is among the options
-//    exactly once, 3–4 distinct options, no dash, no wrong option that is also right (-se forms),
-//    the answer passes judge() and a wrong option doesn't. A vosotros-free pool has no vosotros.
+//    exactly once, 3–4 distinct options, no dash, no wrong option that is also right (variants,
+//    agreement), the answer passes judge() and a wrong option doesn't.
+// 4. judge() on French cases: accents, a missing pronoun or ne … pas, agreement, typed subjects.
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTrainer, judge, LEVELS } from "../src/lib/conjugationTrainer.js";
-import { DASH, VOSOTROS } from "../src/lib/verbtabellenCore.js";
+import { DASH } from "../src/lib/verbtabellenCore.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (f) => JSON.parse(readFileSync(path.join(ROOT, f), "utf8"));
@@ -23,14 +26,17 @@ const errors = [];
 const err = (m) => errors.push(m);
 
 // --- 1. sets ---------------------------------------------------------------------------------
+if (data.variety !== "fr-FR") err("conjugation-trainer.json: top-level variety must be fr-FR");
 const ids = new Set();
 const once = (id) => { if (ids.has(id)) err(`${id}: id used twice`); ids.add(id); };
+// French typography (content-plan §1.2): ? ! : ; take a no-break space before them.
+const NBSP_BEFORE = /(^|[^  ])[?!:;]/;
 for (const set of data.sets) {
   once(set.id);
   for (const k of ["title", "lead"]) if (!set[k]) err(`${set.id}: needs ${k}`);
   if (!set.rule?.text) err(`${set.id}: needs rule.text`);
   if (!LEVELS.includes(set.level)) err(`${set.id}: level ${set.level}`);
-  if (set.variety !== "es-ES") err(`${set.id}: variety must be es-ES`);
+  if (set.variety !== "fr-FR") err(`${set.id}: variety must be fr-FR`);
   if (!["choice", "form"].includes(set.kind)) err(`${set.id}: kind ${set.kind}`);
   if (set.items.length < 8) err(`${set.id}: only ${set.items.length} items`);
   const prompts = new Set();
@@ -42,10 +48,9 @@ for (const set of data.sets) {
     prompts.add(it.prompt);
     if ((it.prompt.match(/___/g) ?? []).length !== 1) err(`${at}: needs exactly one ___`);
     if (!it.explain || it.explain.length < 8) err(`${at}: needs explain`);
-    // ¿ ¡ open what ? ! close (a sentence may hold both kinds, so count them).
-    for (const [open, close] of [["¿", "?"], ["¡", "!"]]) {
-      if (it.prompt.split(open).length !== it.prompt.split(close).length) err(`${at}: ${open} and ${close} don't pair`);
-    }
+    if (NBSP_BEFORE.test(it.prompt)) err(`${at}: needs a no-break space before ? ! : ;`);
+    const texts = [it.prompt, ...(it.options ?? []), ...[].concat(it.answer ?? [])];
+    if (texts.some((x) => /[¿¡ñ]/.test(x))) err(`${at}: Spanish punctuation or letter left`);
     if (set.kind === "choice") {
       if (!Array.isArray(it.options) || it.options.length < 2) err(`${at}: needs options`);
       else {
@@ -61,8 +66,14 @@ for (const set of data.sets) {
 }
 
 // --- 2. drills -------------------------------------------------------------------------------
+// (Paused by `conjugation-data` while the drills still named Spanish verbs; `conjugation-trainer`
+// rewrote them for French and turned every check back on.)
+const MOODS = ["indicatif", "conditionnel", "subjonctif", "impératif"];
+// content-plan §4.2: these are drilled; passé simple and the literary subjunctives are not.
+const DRILLED = ["praes", "perf", "imperf", "plusc", "fut", "futPerf", "cond", "condPerf", "subj", "subjPerf", "imp", "impNeg"];
 const { tenses, groups, presets, limits, notDrilled } = data.drills;
 const tenseKeys = new Set(tenses.map((t) => t.key));
+if ([...tenseKeys].sort().join() !== [...DRILLED].sort().join()) err(`drills.tenses must be exactly ${DRILLED.join(", ")}`);
 const groupIds = new Set(groups.map((g) => g.id));
 const infs = new Set(verbData.verbs.map((v) => v.inf));
 const placed = new Map();
@@ -84,6 +95,7 @@ for (const [inf, lim] of Object.entries(limits)) {
 }
 for (const t of tenses) {
   for (const k of ["name", "tip", "mood", "level"]) if (!t[k]) err(`tense ${t.key}: needs ${k}`);
+  if (!MOODS.includes(t.mood)) err(`tense ${t.key}: mood ${t.mood}`);
   if (!t.rule?.text) err(`tense ${t.key}: needs rule.text`);
 }
 const presetIds = new Set();
@@ -125,11 +137,10 @@ for (const stub of pool) {
   }
   if (!judge(q, q.answer).ok) err(`${at}: its own answer fails the check`);
   if (!q.prompt.includes("___")) err(`${at}: no blank in the prompt`);
-  if (q.negative && !q.change.includes(" no ")) err(`${at}: a negative command without no`);
+  if (q.negative && !(/^(ne |n')/.test(q.answer) && / pas$/.test(q.answer))) err(`${at}: a negative command without ne … pas`);
   if (/undefined|null/.test(q.explain + q.prompt + q.change)) err(`${at}: undefined text`);
 }
-if (trainer.poolFor({ vosotros: false }).some((s) => s.person === VOSOTROS)) err("a pool without vosotros still has vosotros forms");
-for (const p of presets) if (!trainer.presetCount(p.id, true)) err(`preset ${p.id}: asks nothing`);
+for (const p of presets) if (!trainer.presetCount(p.id)) err(`preset ${p.id}: asks nothing`);
 for (const set of data.sets) {
   for (const q of trainer.setQuestions(set.id)) {
     if (!judge(q, q.answer).ok) err(`${q.id}: its own answer fails the check`);
@@ -137,22 +148,37 @@ for (const set of data.sets) {
   }
 }
 
-// The accent rule itself, on forms that differ by nothing else (content-plan §1.2).
+// --- 4. judge() on French cases (content-plan §1.2, §4.2) --------------------------------------
 const ask = (verb, tense, person) => trainer.question({ id: "x", verb, tense, person });
 const cases = [
-  [ask("hablar", "praet", 2), "hablo", "accent"],
-  [ask("saber", "praes", 0), "se", "accent"],
-  [ask("hablar", "praes", 4), "hablais", "accent"],
-  [ask("levantarse", "praes", 0), "levanto", "pronoun"],
-  [ask("tener", "praet", 0), "tení", "wrong"],
+  [ask("preferer", "praes", 0), "prefere", "accent"],
+  [ask("parler", "perf", 0), "ai parle", "accent"],
+  [ask("se-lever", "praes", 0), "lève", "pronoun"],
+  [ask("se-lever", "imp", 1), "lève", "pronoun"],
+  [ask("parler", "impNeg", 1), "parle", "negation"],
+  [ask("prendre", "perf", 0), "ai prendu", "wrong"],
+  [ask("aller", "perf", 0), "ai allé", "wrong"],
+  [ask("parler", "praes", 2), "je parle", "wrong"],
 ];
 for (const [q, typed, why] of cases) {
   const got = judge(q, typed);
   if (got.ok || got.why !== why) err(`judge: "${typed}" for ${q.change} gives ${JSON.stringify(got)}, wanted ${why}`);
 }
-for (const [q, typed] of [[ask("tener", "subjImpf", 0), "tuviese"], [ask("hablar", "impNeg", 1), "no hables"], [ask("hablar", "impNeg", 1), "hables"], [ask("tener", "praes", 0), "  Tengo "]]) {
-  if (!judge(q, typed).ok) err(`judge: "${typed}" for ${q.change} should pass`);
-}
+const passes = [
+  [ask("aller", "perf", 0), "suis allée"],
+  [ask("aller", "perf", 0), "je suis allé"],
+  [ask("aller", "perf", 4), "êtes allée"],
+  [ask("aller", "perf", 3), "sommes allés"],
+  [ask("s-asseoir", "perf", 5), "se sont assises"],
+  [ask("payer", "praes", 0), "paye"],
+  [ask("aimer", "praes", 0), "j'aime"],
+  [ask("aimer", "praes", 0), "j’aime"],
+  [ask("etre", "subj", 2), "qu'il soit"],
+  [ask("parler", "impNeg", 1), "ne parle pas"],
+  [ask("avoir", "praes", 0), "  Ai "],
+  [ask("connaitre", "praes", 2), "connait"],
+];
+for (const [q, typed] of passes) if (!judge(q, typed).ok) err(`judge: "${typed}" for ${q.change} should pass`);
 
 for (const e of errors.slice(0, 60)) console.error(`  ERROR ${e}`);
 if (errors.length > 60) console.error(`  … and ${errors.length - 60} more`);

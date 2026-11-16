@@ -25,7 +25,7 @@
 // page (the comic counts as three), never on top of text.
 //
 // Every page says where it is from (footer, in the reader's language and English); the last
-// page sends the reader back to icanspeak.it/spanish, with a QR code.
+// page sends the reader back to icanspeak.it/espanol, with a QR code.
 import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -39,7 +39,7 @@ import { topicPath } from "../src/lib/routes.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data", "grammatik-start");
 const outDir = path.join(root, "public", "downloads");
-const SITE = "icanspeak.it/spanish";
+const SITE = "icanspeak.it/espanol";
 const LOGO = readFileSync(path.join(root, "public", "assets", "logo.png"));
 // Fredoka at SemiBold as a static TTF (pdfkit cannot subset the site's variable WOFF2); see scripts/fonts/README.md.
 const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf");
@@ -613,10 +613,10 @@ async function build(lang) {
     y += draw(ui.backLead, MARGIN, y, W, { size: 11, rtl: r, color: MUTED }) + 12;
 
     const links = [
-      [ui.back1, `${SITE}/grammar`],
-      [ui.back2, `${SITE}/vocabulary`],
-      [ui.back3, `${SITE}/placement-test`],
-      [ui.back4, `${SITE}/exams`],
+      [ui.back1, `${SITE}/gramatica`],
+      [ui.back2, `${SITE}/vocabulario`],
+      [ui.back3, `${SITE}/prueba-de-nivel`],
+      [ui.back4, `${SITE}/examenes`],
     ];
     const qrW = 118;
     const listW = W - qrW - 24;

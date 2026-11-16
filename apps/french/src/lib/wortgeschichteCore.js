@@ -17,18 +17,18 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, SPANISH_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, withArticle, TRANSLATION_LANGS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
 export const STATUS = { DRAFT: "entwurf", REVIEWED: "geprueft" };
 export const CERTAINTY = ["sicher", "wahrscheinlich", "umstritten", "unklar"];
-/** How a word in another language is linked to the German one. „parallele" is not in the
+/** How a word in another language is linked to the French one. „parallele" is not in the
  *  prompt's list of three: same picture, different word (window ‚Wind-Auge' / окно ‚Auge'),
  *  marked as unrelated so it cannot be read as a cognate. */
 export const KINDS = ["verwandt", "entlehnt", "zufall", "parallele"];
 
-/** The language stories are written in: a Spanish word, explained in English (content-plan §5.13). */
+/** The language stories are written in: a French word, explained in English (content-plan §5.13). */
 export const PROSE_LANG = "en";
 
 /** Language names as the page prints them. */
@@ -78,7 +78,7 @@ const rowByLemma = (lemma) => lexicon().find((r) => r.lemma === lemma) ?? null;
 
 /** URL slug: the lexicon id (Arbeit → arbeit, Straße → strasse). */
 export const slugOf = (entry) => lexiconRow(entry)?.id ?? slugify(entry.lemma);
-export const hrefOf = (entry) => `/knowledge/word-stories/${slugOf(entry)}`;
+export const hrefOf = (entry) => `/savoirs/histoires-de-mots/${slugOf(entry)}`;
 
 /** "die Arbeit" / "arbeiten" */
 export function headword(entry) {
@@ -96,22 +96,13 @@ export function formsOf(entry) {
     const row = lemma === entry.lemma ? lexiconRow(entry) : rowByLemma(lemma);
     if (!row) continue;
     const parts = [];
-    const spanish = SPANISH_LEVELS.has(row.level);
-    if (row.pos === "noun" && spanish) {
-      // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
-      parts.push(spokenForm(row));
-      if (row.plural && !row.pluralOnly) parts.push(`${pluralArticle(row)} ${row.plural}`);
-    } else if (row.pos === "verb" && spanish && Array.isArray(row.forms) && row.forms.length === 3) {
-      // infinitive · yo present · él indefinido · participle
-      parts.push(row.lemma, ...row.forms);
-    } else if (row.pos === "noun") {
-      const g = row.gender ?? (row.pluralOnly ? "die" : null);
-      parts.push(g ? `${g} ${row.lemma}` : row.lemma);
-      if (row.plural) parts.push(`die ${row.plural}`);
-      else if (!row.pluralOnly) parts.push("kein Plural");
+    if (row.pos === "noun") {
+      // l'école · les écoles / les lunettes (content-plan §1.4: gender = the article, plural without it)
+      parts.push(withArticle(row));
+      if (row.plural && !row.pluralOnly) parts.push(`les ${row.plural}`);
     } else if (row.pos === "verb" && Array.isArray(row.forms) && row.forms.length === 3) {
-      const [third, praet, partizip] = row.forms;
-      parts.push(row.lemma, third, praet, `${row.aux === "sein" ? "ist" : "hat"} ${partizip}`);
+      // infinitive · je présent · il passé composé · participe passé
+      parts.push(row.lemma, ...row.forms);
     } else if (row.comparative) {
       parts.push(row.lemma, row.comparative, row.superlative);
     } else {
@@ -122,11 +113,10 @@ export function formsOf(entry) {
   return lines;
 }
 
-/** The language of the headword: "es" for a lemma in a Spanish lexicon level. The prose about
- *  it is PROSE_LANG. */
-export function entryLang(entry) {
-  const row = lexiconRow(entry);
-  return row && SPANISH_LEVELS.has(row.level) ? "es" : "en";
+/** The language of the headword: "fr". Every story is about a French word since `word-stories`,
+ *  and the validator refuses a lemma outside the lexicon. The prose about it is PROSE_LANG. */
+export function entryLang() {
+  return "fr";
 }
 
 /** A meaning in single quotes as the entry's language writes them: ‘…’ / ‚…‘. */
@@ -245,6 +235,7 @@ export function validate(items) {
     const warn = (msg) => warnings.push(`${file}: ${msg}`);
     if (!e || typeof e !== "object") { at("not a JSON object"); continue; }
     if (!e.lemma) at("no lemma");
+    // The lemma must be a lexicon word (content-plan §1.6 rule 3: an error again since word-stories).
     else if (!lexiconRow(e)) at(`lemma „${e.lemma}" is not in the lexicon`);
     else {
       // The file name is the lexicon id (content-plan §1.3), the level the lexicon's.
@@ -265,7 +256,7 @@ export function validate(items) {
     else days.set(e.publishOn, file);
     if (e.lemma) {
       const slug = slugOf(e);
-      if (slugs.has(slug)) at(`same URL /knowledge/word-stories/${slug} as ${slugs.get(slug)}`);
+      if (slugs.has(slug)) at(`same URL /savoirs/histoires-de-mots/${slug} as ${slugs.get(slug)}`);
       slugs.set(slug, file);
     }
     if (!e.root?.form || !e.root?.lang) at("root needs form and lang");

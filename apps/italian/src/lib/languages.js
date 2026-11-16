@@ -71,6 +71,14 @@ export const LANGUAGE_REGISTRY = [
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
+    // Spanish of Spain, tú, interface only (2026-11-16): public/i18n/es.json reuses the Spanish the
+    // French, English and Spanish courses carry for the same English strings. No Spanish card
+    // sidecars yet, so `cards` stays off; help, legal and profession decks fall back to English.
+    surfaces: { ui: draft },
+  },
+  {
     code: "pt", native: "Português", de: "Portugiesisch", en: "Portuguese", word: "Idioma",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "pt-BR", urlPrefix: "pt",
     // Brazilian Portuguese: the code and URL say pt, <html lang> and hreflang say pt-BR. Same

@@ -1,12 +1,12 @@
 ---
-// The printable sheet of one word set — a Lernset (/vocabulary/print/<set>) or a Berufe
-// group (/spanish-for-work/<beruf>/<gruppe>/drucken). Three parts on paper:
+// The printable sheet of one word set — a Lernset (/vocabulaire/impression/<set>) or a Berufe
+// group (/francais-au-travail/<beruf>/<gruppe>/drucken). Three parts on paper:
 //
 //   1  Wortliste      every word with its article and plural, the meaning in the language the
 //                     learner picked (English, or German from deHint) and the example sentence;
 //                     „Wusstest du?“ — facts on the topic, where the set has some
 //   2  Kleiner Test   the teachers' worksheet parts (src/lib/arbeitsblatt/wortschatz.js):
-//                     Wort ↔ Bedeutung, der/die/das, Lückensätze — fillable on screen too
+//                     Wort ↔ Bedeutung, le/la (un/une for l' nouns), Lückensätze — fillable on screen too
 //   3  Lösungen       on its own page, optional
 //
 // The paper reuses the teachers' worksheet look and behaviour (arbeitsblatt.css, client.js):
@@ -15,7 +15,7 @@ import SiteNav from "./SiteNav.astro";
 import "../styles/arbeitsblatt.css";
 import "../styles/drucken.css";
 import { LANG_NAMES } from "../lib/arbeitsblatt/wortschatz.js";
-import { pluralArticle } from "../lib/lexicon.js";
+import { pluralArticle, genderOf } from "../lib/lexicon.js";
 import { isRtl } from "../lib/languages.js";
 import { mascotSvg } from "../lib/mascots.js";
 
@@ -55,8 +55,9 @@ const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
 const regi = mascotSvg({ name: "regi", size: 52, label: "" });
 let gap = 0;
 // Part B asks for the article the nouns carry (docs/content-plan.md §1.4).
-const artQuestion = "el or la?";
-const artInstr = "Write el or la.";
+// Nouns that elide (l'école) are asked as un / une, so the answer shows the gender (generoDrill.js).
+const artQuestion = "le or la?";
+const artInstr = "Write le or la. Before a vowel or a mute h (… école), write un or une.";
 ---
 <SiteNav active={active} />
 
@@ -89,9 +90,9 @@ const artInstr = "Write el or la.";
   <article class="ab-sheet pr-sheet" lang="en">
     <header class="ab-head pr-head">
       <div>
-        <p class="ab-eyebrow">icanspeak Spanish · Vocabulary · {level}</p>
+        <p class="ab-eyebrow">icanspeak French · Vocabulary · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="pr-sub">{words.length} words · el / la, meaning and example sentence</p>
+        <p class="pr-sub">{words.length} words · le / la / l', meaning and example sentence</p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
     </header>
@@ -108,7 +109,7 @@ const artInstr = "Write el or la.";
         {words.map((e: any) => (
           <tr>
             <td class="pr-word">
-              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? ""} </b>}
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : genderOf(e) ?? "x"}`}>{e.pluralOnly && ["le", "la", "l'"].includes(e.gender) ? pluralArticle(e) : e.gender ?? ""}{e.gender === "l'" ? "" : " "}</b>}
               <b>{e.lemma}</b>
               {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
               {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}
@@ -134,14 +135,14 @@ const artInstr = "Write el or la.";
       </aside>
     )}
 
-    <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{footPath} · flashcards with audio online</footer>
+    <footer class="ab-foot">icanspeak French · icanspeak.it/french{footPath} · flashcards with audio online</footer>
   </article>
 
   <!-- 2 · Kleiner Test -->
   <article class="ab-sheet pr-sheet pr-test" lang="en">
     <header class="ab-head pr-head">
       <div>
-        <p class="ab-eyebrow">icanspeak Spanish · Short test · {level}</p>
+        <p class="ab-eyebrow">icanspeak French · Short test · {level}</p>
         <h2 class="ab-title">{title}</h2>
         <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </div>
@@ -207,13 +208,13 @@ const artInstr = "Write el or la.";
       </section>
     )}
 
-    <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{footPath}</footer>
+    <footer class="ab-foot">icanspeak French · icanspeak.it/french{footPath}</footer>
   </article>
 
   <!-- 3 · Lösungen -->
   <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
     <header class="ab-head">
-      <p class="ab-eyebrow">icanspeak Spanish · Answers · {level}</p>
+      <p class="ab-eyebrow">icanspeak French · Answers · {level}</p>
       <h2 class="ab-title ab-title--key">{title}</h2>
     </header>
     {sheet.match.left.length > 0 && (
@@ -228,7 +229,7 @@ const artInstr = "Write el or la.";
       <section class="ab-sec">
         <h3 class="ab-h"><b>B</b> {artQuestion}</h3>
         <ol class="ab-keylist ab-keylist--cols">
-          {sheet.nouns.map((n) => <li><b>{n.gender}</b> {n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
+          {sheet.nouns.map((n) => <li><b>{n.gender}</b>{n.gender === "l'" ? "" : " "}{n.lemma}{byLemma.get(n.lemma)?.genderAlt && <span class="ab-muted"> (also: {byLemma.get(n.lemma).genderAlt})</span>}{n.plural && <span class="ab-muted">, pl. {n.plural}</span>}</li>)}
         </ol>
       </section>
     )}
@@ -240,7 +241,7 @@ const artInstr = "Write el or la.";
         </ol>
       </section>
     )}
-    <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{footPath}</footer>
+    <footer class="ab-foot">icanspeak French · icanspeak.it/french{footPath}</footer>
   </article>
 </main>
 

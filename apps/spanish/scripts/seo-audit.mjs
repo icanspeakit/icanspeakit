@@ -23,10 +23,10 @@ const BRAND = "icanspeak Spanish";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/nationality/dele-a2", "/nationality/dele-a2/mock-test", "/nationality/dele-a2/practice-set", "/ccse",
-  "/ccse/test", "/exams", "/siele/levels", "/dele", "/siele",
-  "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
-  "/pronunciation-check",
+  "/", "/nacionalidad/dele-a2", "/nacionalidad/dele-a2/simulacro", "/nacionalidad/dele-a2/practica", "/ccse",
+  "/ccse/prueba", "/examenes", "/siele/niveles", "/dele", "/siele",
+  "/dele/a1", "/prueba-de-nivel", "/gramatica", "/vocabulario", "/ejercicios",
+  "/comprobar-pronunciacion",
 ];
 const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/dele/");
 

@@ -1,5 +1,4 @@
 ---
-import { fitTitle } from "../../../../lib/seo/title.js";
 import { isDraft } from "../../../../lib/topicStatus.js";
 // A grammar worksheet for one topic: the topic's own exercises in paper form, a compact
 // rule box on top, the answer key on its own page. Built by src/lib/arbeitsblatt/grammatik.js;
@@ -21,6 +20,8 @@ import MascotComic from "../../../../components/MascotComic.astro";
 import ZimmerSzene from "../../../../components/arbeitsblatt/ZimmerSzene.astro";
 import { kuecheSvg } from "../../../../lib/arbeitsblatt/kuecheSzene.js";
 import { mascotSvg } from "../../../../lib/mascots.js";
+import { absoluteUrl } from "../../../../lib/paths.js";
+import { topicPath } from "../../../../lib/routes.js";
 
 export function getStaticPaths() {
   return sheetTopics.map((t) => ({ params: { id: sheetSlug(topicSlug(t)) }, props: { topic: t } }));
@@ -47,11 +48,39 @@ const zOff = off + sheet.sections.length;
 // A topic that teaches a second level on its page ("A2: …" exercises) says so in the header.
 const upTo = ["A2", "B1", "B2", "C1"].filter((l) => l > topic.level && (topic.exercises ?? []).some((ex) => ex.title?.startsWith(`${l}:`))).pop();
 const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
+
+// SEO: how teachers search ("present perfect worksheet b1 pdf"). The full name first; a long
+// one loses its tail after ":", "—", "?" or "(". Counts are the sheet's own.
+const shortName = topic.name.replace(/\s*[:—?(].*$/, "");
+const TAIL = ` worksheet (${levelLabel}) – free PDF with answers`;
+const pageTitle = [topic.name + TAIL, shortName + TAIL, `${shortName} worksheet (${levelLabel})`].find((t) => t.length <= 72)
+  ?? `${shortName} worksheet (${levelLabel})`;
+const countItems = (s: any) => s.type === "match" ? s.left.length : s.type === "story" ? s.segments.filter((x: any) => x.blank).length : (s.items?.length ?? 0);
+const nItems = sheet.sections.reduce((a: number, s: any) => a + countItems(s), 0);
+const nEx = sheet.sections.length + pics.length + (zusatz?.uebungen.length ?? 0);
+const description = `${topic.name.replace(/[.?]$/, "")} (${levelLabel}): a free printable worksheet with the rule in a box, ${nEx} exercises with ${nItems} items and the answer key on a separate page. Print or save as PDF.`;
+const pageUrl = Astro.site ? absoluteUrl(path) : undefined;
+// Reference sheets (verb tables, common mistakes, nachschlagen-*) have no topic page of their own.
+const key = String(topicSlug(topic));
+const isTopic = !key.startsWith("nachschlagen-") && !["verbtabellen", "typische-fehler"].includes(key);
+const schema = {
+  "@type": "LearningResource",
+  name: `${topic.name} worksheet (${levelLabel})`,
+  description,
+  ...(pageUrl ? { url: pageUrl } : {}),
+  learningResourceType: "worksheet",
+  educationalLevel: levelLabel,
+  teaches: topic.name,
+  isAccessibleForFree: true,
+  audience: { "@type": "EducationalAudience", educationalRole: "teacher" },
+  ...(isTopic && Astro.site ? { isBasedOn: absoluteUrl(topicPath(key)) } : {}),
+};
 ---
 <Layout
-  title={fitTitle(`Grammar worksheet: ${topic.name} (${topic.level})`, `Worksheet: ${topic.name} (${topic.level})`, `Worksheet: ${topic.name.replace(/\s*[:—].*$/, "")} (${topic.level})`, `Worksheet: ${topic.name.replace(/\s*[:—].*$/, "")}`)}
-  description={`Worksheet “${topic.name}” (${topic.level}): the rule at a glance and all the exercises, to print or fill in online, with an answer sheet.`}
+  title={pageTitle}
+  description={description}
   noindex={isDraft(topic)}
+  schema={schema}
 >
   <SiteNav active="lehrkraefte" />
 
@@ -66,6 +95,8 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
       </div>
       <div class="ab-actions ab-only-print">
         <label class="ab-check"><input type="checkbox" data-ab-withkey checked /> <span data-i18n="ab.withKey">Lösungsblatt mitdrucken</span></label>
+        <button type="button" class="ab-btn" data-ws-new title="Same exercises in a new order. The version number goes into the URL and the footer, so a printed sheet and its key can be opened again." data-i18n="ab.newVersion" data-i18n-attr="title:ab.newVersionTitle">New version</button>
+        <button type="button" class="ab-btn ab-btn--quiet" data-ws-original hidden data-i18n="ab.original">Original order</button>
         <button type="button" class="ab-btn ab-btn--primary" data-ab-print data-i18n="ab.print">Drucken / als PDF speichern</button>
       </div>
       <div class="ab-actions ab-only-online">
@@ -77,7 +108,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
 
     <article class="ab-sheet" lang="en">
       <header class="ab-head">
-        <p class="ab-eyebrow">icanspeak English · Grammar worksheet · {levelLabel}</p>
+        <p class="ab-eyebrow">icanspeak English · Grammar worksheet · {levelLabel}<span data-ws-ver=" · Version {v}" hidden></span></p>
         <h1 class="ab-title">{topic.name}</h1>
         <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </header>
@@ -169,15 +200,15 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
       )}
 
       {sheet.sections.map((s, si) => (
-        <section class="ab-sec">
+        <section class="ab-sec" data-ws-sec={si}>
           <h2 class="ab-h"><b>{LETTER[si + off]}</b> {s.title}</h2>
           {s.hint && <p class="ab-instr">{s.hint}</p>}
-          {s.box && <p class="ab-box">{s.box.map((b) => <span>{b}</span>)}</p>}
+          {s.box && <p class="ab-box" data-ws-shuffle>{s.box.map((b) => <span>{b}</span>)}</p>}
 
           {s.type === "fill" && (
-            <ol class="ab-lines">
-              {s.items.map((it) => (
-                <li>
+            <ol class="ab-lines" data-ws-items>
+              {s.items.map((it, k) => (
+                <li data-ws-i={k}>
                   {it.before}<input class="ab-in" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" />{it.after}
                   {it.hint && <span class="ab-hint"> ({it.hint})</span>}
                 </li>
@@ -188,9 +219,9 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
           {s.type === "table" && (
             <table class="ab-table">
               <thead><tr>{s.columns.map((c) => <th>{c}</th>)}</tr></thead>
-              <tbody>
-                {s.items.map((it) => (
-                  <tr>
+              <tbody data-ws-items>
+                {s.items.map((it, k) => (
+                  <tr data-ws-i={k}>
                     <td set:html={markedHtml(it.term)} />
                     <td><input class="ab-in ab-in--cell" style={w(it.answers)} data-a={json(it.answers)} data-kind="text" aria-label={`Gap ${++gap}`} autocomplete="off" autocapitalize="off" /></td>
                   </tr>
@@ -201,25 +232,25 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
 
           {s.type === "match" && (
             <div class="ab-match">
-              <ol class="ab-match-left">
+              <ol class="ab-match-left" data-ws-items>
                 {s.left.map((q, i) => (
-                  <li>
+                  <li data-ws-i={i} data-ws-pair={i}>
                     <input class="ab-in ab-in--letter" data-a={json([s.answers[i]])} data-kind="letter" maxlength="1" aria-label={`Letter for line ${i + 1}`} autocomplete="off" />
                     <span set:html={markedHtml(q)} />
                   </li>
                 ))}
               </ol>
-              <ul class="ab-match-right">
-                {s.right.map((r) => <li><b>{r.letter})</b> <span set:html={markedHtml(r.text)} /></li>)}
+              <ul class="ab-match-right" data-ws-right>
+                {s.right.map((r) => <li data-ws-r={r.pi}><b>{r.letter})</b> <span set:html={markedHtml(r.text)} /></li>)}
               </ul>
             </div>
           )}
 
           {s.type === "build" && (
-            <ol class="ab-build">
-              {s.items.map((it) => (
-                <li>
-                  <p class="ab-words">{it.words.map((wd) => <span>{wd}</span>)}{it.hint && <span class="ab-hint">({it.hint})</span>}</p>
+            <ol class="ab-build" data-ws-items>
+              {s.items.map((it, k) => (
+                <li data-ws-i={k}>
+                  <p class="ab-words"><span class="ws-tiles" data-ws-shuffle>{it.words.map((wd) => <span>{wd}</span>)}</span>{it.hint && <span class="ab-hint">({it.hint})</span>}</p>
                   <input class="ab-in ab-in--line" data-a={json(it.answers)} data-kind="sentence" aria-label={`Sentence ${++gap}`} autocomplete="off" autocapitalize="off" />
                 </li>
               ))}
@@ -262,12 +293,12 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
         </div>
       )}
 
-      <footer class="ab-foot">icanspeak English · icanspeak.it/english{path} · free to copy for use in class</footer>
+      <footer class="ab-foot">icanspeak English · <span data-ws-url>icanspeak.it/english{path}</span> · free to copy for use in class</footer>
     </article>
 
     <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
       <header class="ab-head">
-        <p class="ab-eyebrow">icanspeak English · Answers · {levelLabel}</p>
+        <p class="ab-eyebrow">icanspeak English · Answers · {levelLabel}<span data-ws-ver=" · Version {v}" hidden></span></p>
         <h2 class="ab-title ab-title--key">{topic.name}</h2>
       </header>
       {pics.map((s: any, si: number) => (
@@ -278,12 +309,12 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
         </section>
       ))}
       {sheet.sections.map((s, si) => (
-        <section class="ab-sec">
+        <section class="ab-sec" data-ws-sec={si}>
           <h3 class="ab-h"><b>{LETTER[si + off]}</b> {s.title}</h3>
-          {s.type === "fill" && <ol class="ab-keylist">{s.items.map((it) => <li>{it.before}<b>{it.answers.join(" / ")}</b>{it.after}</li>)}</ol>}
-          {s.type === "table" && <ol class="ab-keylist ab-keylist--cols">{s.items.map((it) => <li><Fragment set:html={markedHtml(it.term)} />: <b>{it.answers.join(" / ")}</b></li>)}</ol>}
-          {s.type === "match" && <ol class="ab-keylist ab-keylist--cols">{s.left.map((q, i) => <li><Fragment set:html={markedHtml(q)} />: <b>{s.answers[i]}</b></li>)}</ol>}
-          {s.type === "build" && <ol class="ab-keylist">{s.items.map((it) => <li><b>{it.answers[0]}</b></li>)}</ol>}
+          {s.type === "fill" && <ol class="ab-keylist" data-ws-items>{s.items.map((it, k) => <li data-ws-i={k}>{it.before}<b>{it.answers.join(" / ")}</b>{it.after}</li>)}</ol>}
+          {s.type === "table" && <ol class="ab-keylist ab-keylist--cols" data-ws-items>{s.items.map((it, k) => <li data-ws-i={k}><Fragment set:html={markedHtml(it.term)} />: <b>{it.answers.join(" / ")}</b></li>)}</ol>}
+          {s.type === "match" && <ol class="ab-keylist ab-keylist--cols" data-ws-items>{s.left.map((q, i) => <li data-ws-i={i} data-ws-pair={i}><Fragment set:html={markedHtml(q)} /> → <b data-ws-letter>{s.answers[i]}</b></li>)}</ol>}
+          {s.type === "build" && <ol class="ab-keylist" data-ws-items>{s.items.map((it, k) => <li data-ws-i={k}><b>{it.answers[0]}</b></li>)}</ol>}
           {s.type === "story" && (
             <p class="ab-story ab-story--key">
               {s.segments.map((seg) => (seg.blank ? <b>{seg.answers.join(" / ")}</b> : seg.text))}
@@ -297,7 +328,7 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
           <ol class="ab-keylist">{s.items.map((it: any) => <li>{it.seg.map((x: any) => (isGap(x) ? <b>{x.a.join(" / ")}</b> : x))}</li>)}</ol>
         </section>
       ))}
-      <footer class="ab-foot">icanspeak English · icanspeak.it/english{path}</footer>
+      <footer class="ab-foot">icanspeak English · <span data-ws-url>icanspeak.it/english{path}</span></footer>
     </article>
   </main>
 
@@ -306,11 +337,16 @@ const levelLabel = upTo ? `${topic.level}–${upTo}` : topic.level;
     .ab-zusatz { margin-top: 2rem; padding-top: 1.25rem; border-top: 2px dashed var(--paper-ink); }
     .ab-zusatz-title { margin: 0 0 .5rem; font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
     @media print { .ab-zusatz { break-before: page; margin-top: 0; padding-top: 0; border-top: 0; } }
+    /* A build item's word tiles reorder as one group; the hint stays after them. */
+    .ws-tiles { display: contents; }
+    .ab-btn--quiet { border-color: transparent; background: none; color: var(--brand-blue-dark); }
   </style>
 
   <script>
     import { mountWorksheet } from "../../../../lib/arbeitsblatt/client.js";
     const root = document.getElementById("ab-root");
+    import { mountVersions } from "../../../../lib/worksheet/version.js";
     if (root) mountWorksheet(root);
+    if (root) mountVersions(root);
   </script>
 </Layout>

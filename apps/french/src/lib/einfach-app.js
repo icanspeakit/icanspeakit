@@ -1,4 +1,4 @@
-/* Einfach lernen (/step-by-step) — the brain: which unit comes next, what the learner can do,
+/* Einfach lernen (/pas-a-pas) — the brain: which unit comes next, what the learner can do,
  * and the little state that is only this mode's.
  *
  * Started as a UX study (one thing at a time, no totals, progress as something the
@@ -162,12 +162,13 @@ export function setPlacement(items) {
 }
 export const placementItems = () => PLACEMENT;
 
-/** Right answers → where to start. The quick check only asks A1 (ser, estar, hay, el/la, the
- *  regular present, gustar), so the ceiling is mid-A1: 5–6 right skips greetings and pronouns,
- *  articles, ser/estar, adjectives, numbers, questions, the present and the key irregulars,
- *  and starts at the stem-changing verbs; 3–4 skips only pronouns and articles. */
+/** Right answers → where to start. The quick check only asks A1 (être/avoir, the -er present,
+ *  le/la, ne … pas, est-ce que, adjective agreement), so the ceiling is mid-A1: 5–6 right skips
+ *  pronouns, être/avoir, articles, agreement, numbers, the present, ne … pas and questions, and
+ *  starts at il y a / c'est (a1-weg); 3–4 skips pronouns, être/avoir and articles and starts at
+ *  agreement (a1-describe). */
 export function placementStart(right) {
-  const at = right >= 5 ? "a1-cafe" : right >= 3 ? "a1-who-where" : UNITS[0]?.id;
+  const at = right >= 5 ? "a1-weg" : right >= 3 ? "a1-describe" : UNITS[0]?.id;
   return unitById(at) ? at : UNITS[0]?.id;
 }
 

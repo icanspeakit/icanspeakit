@@ -2,7 +2,7 @@
 
 A Spanish course for adults, A1 to C1, with Castilian Spanish as the standard, DELE, SIELE and
 CCSE practice, and a strong focus on living in Spain. It lives at
-<https://icanspeak.it/italian/>. The domain root is a separate site.
+<https://icanspeak.it/italiano/>. The domain root is a separate site.
 
 It is a static Astro site with no backend and no integrations: everything runs in the browser.
 See **ARCHITECTURE.md** for the structure and the backend seam (`src/lib/backend.js`), and
@@ -18,7 +18,7 @@ pnpm install
 pnpm dev            # http://localhost:4321/italian/
 pnpm build          # writes dist/, takes a few minutes
 pnpm preview        # serves dist/ at http://localhost:4321/italian/
-pnpm check:base     # run after the build: every URL in dist/ stays under /italian/
+pnpm check:base     # run after the build: every URL in dist/ stays under /italiano/
 ```
 
 `pnpm build` includes these steps:
@@ -34,12 +34,12 @@ listed in `package.json` under `check:*`. `pnpm check:site` crawls a running sit
 
 ## The base path
 
-`src/lib/paths.js` holds the origin (`https://icanspeak.it`) and the base path (`/italian`), and
+`src/lib/paths.js` holds the origin (`https://icanspeak.it`) and the base path (`/italiano`), and
 `astro.config.mjs` reads them from there. Never hard-code a root-absolute URL: build it with
 `withBase()` or `absoluteUrl()` from that file. UI languages are a prefix after the base, for
-example `/italian/de/`.
+example `/italiano/de/`.
 
-`dist/` is flat: `dist/index.html` is the page at `/italian/`. There is no `dist/spanish/` folder.
+`dist/` is flat: `dist/index.html` is the page at `/italiano/`. There is no `dist/spanish/` folder.
 
 ## Deploy
 
@@ -58,17 +58,17 @@ The Worker config will look like this (Wrangler 4.148.0 or newer, which `assets.
   "routes": [{ "pattern": "icanspeak.it/italian/*", "zone_name": "icanspeak.it" }],
   "assets": {
     "directory": "./dist",
-    "base_path": "/italian",
+    "base_path": "/italiano",
     "not_found_handling": "404-page"
   }
 }
 ```
 
-- `assets.base_path` maps `/italian/about/` to `dist/about/index.html`, so the files stay at the
+- `assets.base_path` maps `/italiano/chi-siamo/` to `dist/about/index.html`, so the files stay at the
   root of `dist/`.
 - `not_found_handling` makes unknown URLs show `dist/404.html` with a 404 status.
 - `public/_headers` becomes `dist/_headers` and sets the response headers. Its rule paths are
-  public URLs, so they start with `/italian/`.
+  public URLs, so they start with `/italiano/`.
 
 To deploy, run these from `apps/spanish`, in a clean checkout so no old files in `dist/` ship:
 
@@ -85,22 +85,22 @@ pnpm runs a package's scripts in that package's folder.
 
 Check these on the live site:
 
-- `/italian/` and `/italian/de/` load with their styles and images.
-- `/italian/` still comes from this Worker and `/` still comes from the umbrella site.
-- `/italian` without the slash reaches the course. The route may not cover it (see below).
-- An unknown URL such as `/italian/nope` shows the course's 404 page with status 404.
-- `/italian/inhalt/` files send `X-Robots-Tag: noindex, nofollow`, and pages send
+- `/italiano/` and `/italiano/de/` load with their styles and images.
+- `/italiano/` still comes from this Worker and `/` still comes from the umbrella site.
+- `/italiano` without the slash reaches the course. The route may not cover it (see below).
+- An unknown URL such as `/italiano/nope` shows the course's 404 page with status 404.
+- `/italiano/inhalt/` files send `X-Robots-Tag: noindex, nofollow`, and pages send
   `X-Content-Type-Options: nosniff`.
-- `/italian/sitemap.xml` and `/italian/llms.txt` list only `https://icanspeak.it/italian/` URLs.
-- `pnpm check:site` passes; it crawls `https://icanspeak.it/italian` by default.
+- `/italiano/sitemap.xml` and `/italiano/llms.txt` list only `https://icanspeak.it/italiano/` URLs.
+- `pnpm check:site` passes; it crawls `https://icanspeak.it/italiano` by default.
 
 ### What the umbrella site has to do
 
 Some things only work at the domain root, so this repo can't do them:
 
-- **`/italian` without a slash:** the route may not match it. If it doesn't, redirect it to
-  `/italian/` from the umbrella site, or add a second route for it.
+- **`/italiano` without a slash:** the route may not match it. If it doesn't, redirect it to
+  `/italiano/` from the umbrella site, or add a second route for it.
 - **`robots.txt`:** crawlers only read `https://icanspeak.it/robots.txt`. `public/robots.txt`
   holds the lines to merge there, including the sitemap line. Its AI-crawler group says
   `Disallow: /`, which would cover the whole domain once merged, so decide that scope on purpose.
-- **Search Console:** submit `https://icanspeak.it/italian/sitemap.xml`.
+- **Search Console:** submit `https://icanspeak.it/italiano/sitemap.xml`.

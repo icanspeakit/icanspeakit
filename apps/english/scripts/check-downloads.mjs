@@ -4,7 +4,7 @@
 //   pnpm check:downloads          files + links
 //   pnpm check:downloads --files  skip the network, just the PDFs
 //
-// Why it exists: three of the four "Offizielle Materialien" links rotted without anyone
+// Why it exists: three of the four "official materials" links rotted (deutschacademy, 2026) without anyone
 // noticing. Two answered 404 and one quietly redirected from the exam page to the generic
 // goethe.de/de/spr.html hub — which is worse than a 404, because the page loads and the
 // learner just cannot find what the card promised. Nothing on the site could have caught
@@ -29,7 +29,7 @@ let bad = 0;
 
 /* ----------------------------------------------------------------- files -- */
 
-console.log(`Dateien (${data.files.length})`);
+console.log(`Files (${data.files.length})`);
 for (const f of data.files) {
   const p = path.join(root, "public", "downloads", f.file);
   if (!existsSync(p)) {

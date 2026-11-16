@@ -6,14 +6,14 @@
 // collide with a topic added later.
 //
 // Ids, data file names and localStorage keys stayed German (content-plan §1.3, §6), because code
-// and saved progress key on them. Only the URL is the course's: English, except proper names
-// (/cils, /plida, /civic-knowledge) and the Spanish grammar terms learners search for (/por-para, /gustar).
-// The site at /italian is new, so there are no redirects from any earlier address (§7, §8).
+// and saved progress key on them. Only the URL is the course's: section paths are Italian since
+// the 2026-11-15 target-language URL pass (docs/slug-map.md); item, topic and unit slugs inside
+// a section are still English. The English section paths 301 via src/data/legacy-redirects.json.
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
-export const NOT_RESUMABLE = new Set(["/", "/exercises", "/exams", "/progress", "/grammar", "/knowledge", "/teachers", "/game",
-  "/legal-notice", "/privacy", "/terms", "/placement-test", "/account",
-  "/listening", "/reading", "/writing", "/speaking", "/culture", "/vocabulary", "/skills"]);
+export const NOT_RESUMABLE = new Set(["/", "/esercizi", "/esami", "/progressi", "/grammatica", "/conoscenze", "/insegnanti", "/gioco",
+  "/note-legali", "/privacy", "/condizioni", "/test-di-livello", "/account",
+  "/ascolto", "/lettura", "/scrittura", "/parlato", "/cultura", "/vocabolario", "/competenze"]);
 
 // Grammar topics live at the top level (/<slug>). The key (the workspace's `slug ?? id`, what
 // progress, lehrplan and verwandt use) stays; the URL follows content-plan §3 "New slug".
@@ -75,17 +75,17 @@ export const topicKeyFromSlug = (slug) => TOPIC_KEYS[slug] ?? slug;
 /** The page of a grammar topic. */
 export const topicPath = (key) => `/${topicSlug(key)}`;
 
-// The reference tables under /grammar/<ref> (src/data/nachschlagen/<file>.json). The file
+// The reference tables under /grammatica/<ref> (src/data/nachschlagen/<file>.json). The file
 // names stayed; the URL is English.
 export const REF_SLUGS = {
-  "starke-schwache-verben": "irregular-verbs",
-  "trennbare-verben": "reflexive-verbs-list",
-  "verben-mit-praepositionen": "verbs-with-prepositions",
+  "starke-schwache-verben": "verbi-irregolari",
+  "trennbare-verben": "elenco-verbi-riflessivi",
+  "verben-mit-praepositionen": "verbi-con-preposizioni",
 };
 /** A reference table's URL slug from its file name. */
 export const refSlug = (file) => REF_SLUGS[file] ?? file;
 /** The page of a reference table. */
-export const refPath = (file) => `/grammar/${refSlug(file)}`;
+export const refPath = (file) => `/grammatica/${refSlug(file)}`;
 
 // Teachers' worksheets and tandem sheets per topic: keyed like the topic (plus the
 // reference sheets nachschlagen-<file>, verbtabellen, typische-fehler); the URL is English.
@@ -95,14 +95,14 @@ export const sheetSlug = (key) =>
   String(key).startsWith("nachschlagen-") ? `reference-${refSlug(String(key).slice("nachschlagen-".length))}`
     : SHEET_SLUGS[key] ?? topicSlug(key);
 /** The worksheet page of a topic key. */
-export const sheetPath = (key) => `/teachers/worksheets/grammar/${sheetSlug(key)}`;
+export const sheetPath = (key) => `/insegnanti/schede/grammatica/${sheetSlug(key)}`;
 /** The tandem (pair work) sheet of a topic key. */
-export const tandemPath = (key) => `/teachers/worksheets/tandem/${sheetSlug(key)}`;
+export const tandemPath = (key) => `/insegnanti/schede/tandem/${sheetSlug(key)}`;
 // Item pages under a section (content-plan §1.3: "kebab-case of the English title, keep any
 // level prefix"). Keyed by the section's English path, then by the item's id, which stays
 // the key in the data, in progress and in class-task refs (h:<id>, l:<id>, k:<id> …).
 export const ITEM_SLUGS = {
-  "/listening": {
+  "/ascolto": {
     "a1-ansage-bahnhof": "a1-station-announcement", "a1-anruf-arzt": "a1-health-centre-voicemail",
     "a1-supermarkt": "a1-supermarket", "a1-verabredung": "a1-arranging-to-meet",
     "a2-amt-termin": "a2-town-hall-appointment", "a2-wohnungsbesichtigung": "a2-flat-viewing",
@@ -112,14 +112,14 @@ export const ITEM_SLUGS = {
     "b2-diskussion-homeoffice": "b2-working-from-home-meeting", "b2-interview-anerkennung": "b2-degree-recognition-interview",
     "b2-beschwerde-versicherung": "b2-insurance-complaint", "b2-vortrag-ehrenamt": "b2-volunteering-talk",
   },
-  "/reading": {
+  "/lettura": {
     "a1-schilder-im-haus": "a1-notices-in-flats", "a1-nachricht-einladung": "a1-text-invitation",
     "a2-wohnungsanzeigen": "a2-flat-adverts", "a2-email-kurs-absage": "a2-language-school-email",
     "b1-digitales-buero": "b1-paperless-office", "b1-anzeigen": "b1-matching-notices",
     "b1-zeitungsartikel": "b1-local-news-article", "b1-forumsbeitraege": "b1-forum-posts",
     "b2-artikel-homeoffice": "b2-teleworking-article", "b2-kommentare-innenstadt": "b2-car-free-town-centre",
   },
-  "/writing": {
+  "/scrittura": {
     "a1-formular-anmeldung": "a1-sports-centre-form", "a1-nachricht-absage": "a1-cant-come",
     "a2-email-nachbarn": "a2-email-to-neighbour", "a2-formular-arztpraxis": "a2-health-centre-form",
     "a2-email-school": "a2-email-to-school",
@@ -127,7 +127,7 @@ export const ITEM_SLUGS = {
     "b1-formular-vhs": "b1-completing-a-form", "b1-brief-david": "b1-reply-to-javier",
     "b1-fehlerjagd": "b1-error-hunt", "b2-beschwerde-reiseveranstalter": "b2-holiday-complaint",
   },
-  "/speaking": {
+  "/parlato": {
     "a1-sich-vorstellen": "a1-introducing-yourself", "a1-bild-bahnhof": "a1-picture-station",
     "a1-bild-kueche": "a1-picture-kitchen", "a1-bild-supermarkt": "a1-picture-supermarket",
     "a1-bild-spielplatz": "a1-picture-park", "a2-bild-gartenarbeit": "a2-picture-outdoor-work",
@@ -139,10 +139,10 @@ export const ITEM_SLUGS = {
     "b2-bild-wochenmarkt": "b2-picture-market", "b2-bild-videokonferenz": "b2-picture-video-call",
     "b2-bild-baustelle-innenstadt": "b2-picture-building-work", "b2-bild-wertstoffhof": "b2-picture-recycling-centre",
   },
-  "/speaking/set": {
+  "/parlato/serie": {
     "a1-zuhause": "a1-at-home", "a2-unterwegs": "a2-out-and-about", "b1-arbeit": "b1-work", "b2-gesellschaft": "b2-society",
   },
-  "/culture": {
+  "/cultura": {
     "duzen-siezen": "tu-or-lei", pfand: "greetings", sonntagsruhe: "daily-rhythm", trinkgeld: "the-bar-and-paying",
     bundeslaender: "regions-of-italy", feiertage: "public-holidays", comida: "food-and-meals", fiestas: "festivals",
     muelltrennung: "recycling", termine: "appointments",
@@ -155,14 +155,14 @@ export const ITEM_SLUGS = {
     "historia-compartida": "italian-emigration",
     erinnerungskultur: "the-republic", grundgesetz: "constitution", mitbestimmung: "unions-and-ccnl",
   },
-  "/culture/insider": {
+  "/cultura/dietro-le-quinte": {
     "hallo-sagen": "saying-hello", "naehe-abstand": "queues-and-personal-space", "hoefliche-notluegen": "please-and-thank-you",
     puenktlichkeit: "time-and-timing", "zusammen-oder-getrennt": "paying-the-bill", "leute-kennenlernen": "small-talk-and-the-aperitivo",
     "freunde-finden": "making-friends", "arbeit-finden": "how-hiring-works", "deutschland-und-das-auto": "cars-and-getting-around",
     gleichberechtigung: "women-and-men-at-work", "erstes-date": "dating", direktheit: "directness",
     vertrauen: "humour-and-banter",
   },
-  "/vocabulary/phrases": {
+  "/vocabolario/espressioni": {
     zustimmen: "agreeing", widersprechen: "disagreeing", zweifeln: "doubt", troesten: "comforting",
     meinung: "opinions", nachfragen: "checking-understanding", bitten: "asking-for-help", entschuldigen: "apologising",
     danken: "thanking", vorschlagen: "suggestions", gratulieren: "congratulating", begruessen: "greetings",
@@ -170,7 +170,7 @@ export const ITEM_SLUGS = {
   },
   // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
   // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
-  "/italian-for-work": {
+  "/italiano-per-il-lavoro": {
     "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "agriculture",
     gastronomie: "hospitality", hotel: "hotels", kita: "cleaning-domestic-work", kraftfahrer: "driving",
     "lager-logistik": "warehouse", pflege: "care-work",
@@ -191,7 +191,7 @@ const ITEM_KEYS = Object.fromEntries(Object.entries(ITEM_SLUGS).map(([s, m]) => 
 const WORK_GROUP_KEYS = invert(WORK_GROUP_SLUGS);
 const ITEM_SECTIONS = Object.keys(ITEM_SLUGS).sort((a, b) => b.length - a.length);
 
-/** An item's URL slug in a section (English path, e.g. "/listening"). Unknown ids pass through. */
+/** An item's URL slug in a section (English path, e.g. "/ascolto"). Unknown ids pass through. */
 export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
 /** An item's id from its URL slug. Unknown slugs pass through. */
 export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
@@ -206,22 +206,22 @@ export const BUSINESS_SLUGS = {
   reuniones: "meetings",
   negociacion: "negotiating",
 };
-export const businessPath = (unit) => `/business-italian/${BUSINESS_SLUGS[unit] ?? unit}`;
+export const businessPath = (unit) => `/italiano-commerciale/${BUSINESS_SLUGS[unit] ?? unit}`;
 /** A work sector, or one word group of it. */
-export const workPath = (sector, group) => sector === "patente" ? `/patente-vocabulary${group ? `/${group}` : ""}` :
-  sector === "business" ? (group ? `${businessPath(group)}/words` : "/business-italian") :
-  `/italian-for-work/${itemSlug("/italian-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
+export const workPath = (sector, group) => sector === "patente" ? `/vocabolario-patente${group ? `/${group}` : ""}` :
+  sector === "business" ? (group ? `${businessPath(group)}/parole` : "/italiano-commerciale") :
+  `/italiano-per-il-lavoro/${itemSlug("/italiano-per-il-lavoro", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */
 export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
-  goethe: "/cils", telc: "/celi", dtz: "/citizenship/b1-mock", testdaf: "/plida",
-  "leben-in-deutschland": "/civic-knowledge", "start-deutsch-1": "/cils/a1",
+  goethe: "/cils", telc: "/celi", dtz: "/cittadinanza/prova-b1", testdaf: "/plida",
+  "leben-in-deutschland": "/cultura-civica", "start-deutsch-1": "/cils/a1",
 };
 /** The overview page of an exam family (registry id → path). */
 export const examPath = (exam) => EXAM_PATHS[exam] ?? `/${exam}`;
-/** The exam family (registry id) a path belongs to, or null. Longest path first (/citizenship/b1-mock is dtz). */
+/** The exam family (registry id) a path belongs to, or null. Longest path first (/cittadinanza/prova-b1 is dtz). */
 export function examOfPath(path) {
   const hit = Object.entries(EXAM_PATHS).sort((a, b) => b[1].length - a[1].length)
     .find(([, p]) => path === p || path.startsWith(p + "/"));

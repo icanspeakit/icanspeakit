@@ -1,9 +1,15 @@
-// Spanish letters first (docs/content-plan.md §1.2): ñ is ny, so año is anyo and never ano. The
-// German ones stay for leftovers; ü is u because Spanish has it (pingüino).
+// French letters (docs/content-plan.md §1.2): accents folded, ç → c, œ → oe, æ → ae; apostrophe
+// and space become "-" below (aujourd'hui → aujourd-hui, s'appeler → s-appeler).
+// ñ → ny stays from the Spanish course (ids are stable progress keys); French has no ñ, so it
+// changes nothing for French words. The German ones stay for leftovers.
 const LETTER_MAP = {
-  á: "a", é: "e", í: "i", ó: "o", ú: "u", ü: "u", ñ: "ny", Á: "A", É: "E", Í: "I", Ó: "O", Ú: "U", Ü: "U", Ñ: "Ny",
+  à: "a", â: "a", é: "e", è: "e", ê: "e", ë: "e", î: "i", ï: "i", ô: "o", ù: "u", û: "u", ÿ: "y", ç: "c",
+  À: "A", Â: "A", É: "E", È: "E", Ê: "E", Ë: "E", Î: "I", Ï: "I", Ô: "O", Ù: "U", Û: "U", Ÿ: "Y", Ç: "C",
+  œ: "oe", Œ: "Oe", æ: "ae", Æ: "Ae",
+  á: "a", í: "i", ó: "o", ú: "u", ü: "u", ñ: "ny", Á: "A", Í: "I", Ó: "O", Ú: "U", Ü: "U", Ñ: "Ny",
   ä: "ae", ö: "oe", Ä: "Ae", Ö: "Oe", ß: "ss",
 };
+const LETTERS = new RegExp(`[${Object.keys(LETTER_MAP).join("")}]`, "g");
 
 /** A sentence's file name: its slug, cut to 70 characters, plus a short hash of the full
  *  text — two long sentences that start alike must not share a file. Used by
@@ -15,7 +21,7 @@ export function satzSlug(text) {
 }
 
 export function slugify(text) {
-  const transliterated = text.replace(/[áéíóúüñÁÉÍÓÚÜÑäöÄÖß]/g, (ch) => LETTER_MAP[ch]);
+  const transliterated = text.replace(LETTERS, (ch) => LETTER_MAP[ch]);
   return transliterated
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")

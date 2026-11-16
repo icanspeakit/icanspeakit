@@ -24,7 +24,7 @@ import { isId } from "./speichern.js";
 import { LERN_MATERIAL_WINDOW, LERN_WINDOW } from "./zurueck.js";
 import { endSet, logSession } from "../versuche.js";
 import { mascotSvg } from "../mascots.js";
-import { withBase } from "../paths.js";
+import { withBase, BASE_PATH } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const stepsOf = (lesson) => lesson.phases.map((p) => ({ id: p.id, name: p.name, minutes: p.minutes }));
@@ -258,7 +258,7 @@ export async function mountLernstunde(root, data) {
       const goalsList = lesson.goals.length ? lesson.goals : [block.thema];
       body = `<ul class="ut-goals">${goalsList.map((g) => `<li>${esc(g)}</li>`).join("")}</ul>
         ${typed(ph, 6, "Your sentences")}
-        <div class="ls-links"><a class="ls-link" href="/pronunciation-check">Rather speak? Go to the pronunciation check<small>Say your sentences and hear how they sound</small></a></div>`;
+        <div class="ls-links"><a class="ls-link" href="${BASE_PATH}/pronunciation-check">Rather speak? Go to the pronunciation check<small>Say your sentences and hear how they sound</small></a></div>`;
     } else if (ph.id === "pruefung") {
       body = `<div class="ls-links">${(ph.links ?? []).map((l) => `<a class="ls-link ls-link--main" href="${esc(l.href)}">${esc(l.name)}<small>Through to the result</small></a>`).join("")}</div>`;
     } else if (ph.id === "abschluss") {

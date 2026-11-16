@@ -8,7 +8,7 @@ import Wordmark from "../Wordmark.astro";
 // Grammatik, Wortschatz, Sprechen and Prüfungen: here the sidebar leads to
 // Grammatik plus the three areas that mock never shows — Aussprache (real audio
 // files), Bildbeschreibung (the exam picture task) and Kulturwissen (the
-// CCSE question format). Everything is driven by the same data the
+// civic-exam question format). Everything is driven by the same data the
 // real pages use, so nothing here can promise something the site does not have.
 import grammatik from "../../data/grammatik.json";
 import { isReviewed } from "../../lib/topicStatus.js";
@@ -43,29 +43,30 @@ const bildQuestions = sprechen.reduce((n, b) => n + b.beschreibung.length + b.pe
 // --- Grammatik: one question per level band, each lifted from the topic it
 // names so the demo round is a real sample. `answer` indexes `choices`.
 //
-// Deliberately disjoint from DashboardMock's quiz next door, which covers ser/estar,
-// el/la and the indefinido — both mocks are visible at once on the homepage, so an
+// Deliberately disjoint from DashboardMock's quiz next door, which covers être/avoir,
+// le/la and the passé composé — both mocks are visible at once on the homepage, so an
 // overlapping first question made the pair look like one screenshot twice. This round
-// leads with por/para instead. Castilian Spanish (docs/content-plan.md §1.1).
+// leads with en + country instead. Standard French of France (docs/content-plan.md §1.1);
+// a non-breaking space before ? in the French text (§1.2).
 const ROUND = [
-  { topic: "Por or para", level: "B1", pre: "Este regalo es ", post: " ti.", hint: "Who receives something: use para.", choices: ["por", "para", "a"], answer: 1 },
-  { topic: "Gustar", level: "A1", pre: "A mí ", post: " las películas de miedo.", hint: "gustar agrees with what is liked — here a plural.", choices: ["me gusta", "me gustan", "gusto"], answer: 1 },
-  { topic: "Hay or está", level: "A1", pre: "", post: " una farmacia en esta calle.", hint: "Something exists, with un/una: use hay.", choices: ["Hay", "Está", "Es"], answer: 0 },
-  { topic: "Object pronouns", level: "A2", pre: "¿El libro? Ya ", post: " he leído.", hint: "Direct object, a masculine thing.", choices: ["le", "la", "lo"], answer: 2 },
-  { topic: "Present subjunctive", level: "B1", pre: "Quiero que ", post: " a mi fiesta.", hint: "A wish for someone else: que + subjunctive.", choices: ["vienes", "vengas", "venir"], answer: 1 },
-  { topic: "Imperfect subjunctive", level: "B2", pre: "Si ", post: " más tiempo, viajaría más.", hint: "An unreal condition with si.", choices: ["tengo", "tendría", "tuviera"], answer: 2 },
+  { topic: "À, au or en", level: "A1", pre: "J'habite ", post: " France depuis deux ans.", hint: "Feminine countries take en: en France, en Italie.", choices: ["à", "en", "au"], answer: 1 },
+  { topic: "Negation", level: "A1", pre: "Je ne mange ", post: " de viande.", hint: "ne … pas goes around the verb.", choices: ["pas", "non", "rien"], answer: 0 },
+  { topic: "Partitive articles", level: "A2", pre: "Le matin, je bois ", post: " café.", hint: "An amount you don't count, masculine: du (de + le).", choices: ["le", "du", "de la"], answer: 1 },
+  { topic: "Object pronouns", level: "A2", pre: "Les clés ? Je ", post: " cherche partout.", hint: "Direct object, plural: les.", choices: ["les", "leur", "lui"], answer: 0 },
+  { topic: "Present subjunctive", level: "B1", pre: "Je voudrais que tu ", post: " à ma fête.", hint: "A wish for someone else: que + subjunctive.", choices: ["viens", "viennes", "venir"], answer: 1 },
+  { topic: "Si clauses", level: "B2", pre: "Si j'", post: " plus de temps, je voyagerais plus.", hint: "An unreal condition: si + imparfait, then the conditional.", choices: ["ai", "aurais", "avais"], answer: 2 },
 ];
 
 // --- Aussprache: five entries, as an explicit list rather than a slice of the data
-// files. The Spanish recordings do not exist yet (they come with an es-ES TTS voice,
+// files. The French recordings do not exist yet (they come with a fr-FR TTS voice,
 // BACKEND.speech); until then the play button fails softly, as it does for every
-// missing file.
+// missing file. File names follow audioSlug (§1.2).
 const PRON = [
-  { text: "En mi opinión, …", audio: "/audio/aussprache/en-mi-opinion.mp3", note: "The stress falls on the last syllable, o-pi-NIÓN — the written accent shows it." },
-  { text: "pero / perro", audio: "/audio/aussprache/pero-perro.mp3", note: "One r between vowels is a single quick tap; rr is a rolled trill. They are different words." },
-  { text: "Gracias", audio: "/audio/aussprache/gracias.mp3", note: "In Spain, c before i sounds like “th” in “think”: GRA-thias." },
-  { text: "la cerveza", audio: "/audio/aussprache/la-cerveza.mp3", note: "c before e and z both sound like “th”; the v is a soft b: ther-BE-tha." },
-  { text: "¿Qué tal?", audio: "/audio/aussprache/que-tal.mp3", note: "qu sounds like k — the u is silent." },
+  { text: "À mon avis, …", audio: "/audio/aussprache/a-mon-avis.mp3", note: "Liaison: the n of mon runs into avis, mo-na-VI. The final s stays silent." },
+  { text: "tu / tout", audio: "/audio/aussprache/tu-tout.mp3", note: "u is “ee” said with rounded lips; ou is like oo in “food”. They are different words." },
+  { text: "Merci", audio: "/audio/aussprache/merci.mp3", note: "The French r is made at the back of the throat, close to a soft gargle. It is never rolled." },
+  { text: "le pain", audio: "/audio/aussprache/le-pain.mp3", note: "ain is a nasal vowel: the air goes through the nose, and there is no n sound at the end." },
+  { text: "Ça va ?", audio: "/audio/aussprache/ca-va.mp3", note: "ç always sounds like s. The voice rises at the end, which makes it a question." },
 ];
 
 // --- Kulturwissen: four questions in the Einbürgerungstest format.
@@ -76,10 +77,10 @@ const CULTURE = lid.questions.slice(0, 4).map((q) => ({
 }));
 
 const PANELS = [
-  { key: "grammatik", url: "icanspeak.it/spanish/grammar" },
-  { key: "aussprache", url: "icanspeak.it/spanish/pronunciation" },
-  { key: "bild", url: "icanspeak.it/spanish/speaking" },
-  { key: "kultur", url: "icanspeak.it/spanish/culture" },
+  { key: "grammatik", url: "icanspeak.it/francais/grammaire" },
+  { key: "aussprache", url: "icanspeak.it/francais/prononciation" },
+  { key: "bild", url: "icanspeak.it/francais/expression-orale" },
+  { key: "kultur", url: "icanspeak.it/francais/culture" },
 ];
 
 const firstQ = ROUND[0];
@@ -235,7 +236,7 @@ const firstC = CULTURE[0];
           <div class="lp-dash-stat"><strong>0€</strong><span data-i18n="home.mock.costLabel">Kosten</span></div>
         </div>
         <div class="lp-dash-question">
-          <div class="lp-quiz-kicker" data-i18n="home.mock.kulturSub">CCSE practice</div>
+          <div class="lp-quiz-kicker" data-i18n="home.mock.kulturSub">Civic exam practice</div>
           <p class="lp-quiz-prompt" data-kultur-prompt>{firstC.prompt}</p>
           <div class="lp-kultur-options" data-kultur-options>
             {firstC.options.map((opt, i) => (
@@ -316,7 +317,7 @@ const firstC = CULTURE[0];
         const q = ROUND[index];
         position.textContent = t("home.mock.position", "Question {i} of {n}", { i: index + 1, n: ROUND.length });
         kicker.textContent = `${q.topic} · ${q.level}`;
-        // The hint explains the rule, so it follows the UI language; the sentence stays Spanish.
+        // The hint explains the rule, so it follows the UI language; the sentence stays French.
         hint.textContent = t(`home.mock.hint.${index}`, q.hint);
 
         // The blank fills in with the word once it is right — the small payoff

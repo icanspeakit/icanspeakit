@@ -1,7 +1,9 @@
 ---
 import "../styles/global.css";
+import ConsentBanner from "../components/ConsentBanner.astro";
 import LanguageOffer from "../components/LanguageOffer.astro";
-import PartOfIcanspeak from "../components/PartOfIcanspeak.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { footerFor } from "../lib/navFooter.js";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
 // HTML is what it was before the paywall existed.
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
@@ -42,14 +44,14 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
       them (a dynamic parent such as /spanish-for-work/care-work, or a top-level grammar topic that belongs
-      under /grammar). Start and the page itself are added. */
+      under /gramatica). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
       GA and the Meta Pixel never load. For pages that promise it. */
   noTracking?: boolean;
-  /** The slim "part of icanspeak.it" row at the very bottom (PartOfIcanspeak.astro). Off for
-      a page whose own footer already carries it (the home page). */
-  umbrella?: boolean;
+  /** The site footer (SiteFooter.astro). Unset = by route (footerFor in src/lib/navFooter.js);
+      "none" for a page that carries its own. */
+  footer?: "full" | "slim" | "none";
 }
 
 const {
@@ -59,7 +61,7 @@ const {
   schema,
   breadcrumb,
   noTracking = false,
-  umbrella = true,
+  footer: footerProp,
 } = Astro.props;
 
 // Open Graph / Twitter. There were none, so every link anyone pasted into WhatsApp,
@@ -74,8 +76,10 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-// The site path without the base (/spanish/grammar → /grammar, src/lib/paths.js): routes,
+// The site path without the base (/spanish/grammar → /gramatica, src/lib/paths.js): routes,
 // hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
+// The site footer by route (src/lib/navFooter.js), since 2026-11-16; a page may set its own.
+const footer = footerProp ?? footerFor(stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/");
 const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
@@ -118,7 +122,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {canonical && !noindex && <link rel="canonical" href={canonical} />}
     <!-- Rights reservation for text and data mining (§ 44b UrhG, TDMRep). Same reservation as
-         robots.txt, public/.well-known/tdmrep.json and /terms. -->
+         robots.txt, public/.well-known/tdmrep.json and /termos. -->
     <meta name="tdm-reservation" content="1" />
     <!-- No "Translate this page?" prompt from Chrome or Edge.
 
@@ -297,12 +301,14 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          icon changes.
          `rel="shortcut icon"` was dropped: it is a non-standard legacy alias for
          `rel="icon"` and adds a second, competing declaration for the same file. -->
-    <!-- The icanspeak.it kit (public/logos, docs/brand/BRAND.md): SVG favicon for current
+    <!-- The icanspeak kit (brand/kit/icons, BRAND.md §2: the split i): SVG favicon for current
          browsers, the .ico for the rest, the app icon for home screens. -->
-    <link rel="icon" href={withBase("/logos/favicon.ico?v=4")} sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href={withBase("/logos/favicon.svg?v=4")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/logos/icanspeak-spanish-apple-touch-icon.png?v=4")} />
-    <link rel="manifest" href={withBase("/site.webmanifest?v=4")} />
+    <link rel="icon" href={withBase("/favicon.ico?v=5")} sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg?v=5")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png?v=5")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16x16.png?v=5")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png?v=5")} />
+    <link rel="manifest" href={withBase("/site.webmanifest?v=5")} />
     <!-- The warm paper of the page (--page-bg in global.css), so the browser chrome runs
          into the page as on icanspeak.it. -->
     <meta name="theme-color" content="#fbf7ef" />
@@ -341,12 +347,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
   <body>
     <LanguageOffer />
     <slot />
-    {umbrella && (
-      <footer class="umbrella-row">
-        <PartOfIcanspeak />
-      </footer>
-    )}
-    {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
+    {footer !== "none" && <SiteFooter size={footer} paywall={PAYWALL} />}
+    {/* A lesson is running (/professores/licao): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
@@ -355,10 +357,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !currentPath().startsWith("/teachers/lesson")) {
+        if (running && !currentPath().startsWith("/professores/licao")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && currentPath() !== "/lesson") {
-          // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
+        } else if (!running && lernt && currentPath() !== "/licao") {
+          // A learner's Stunde (/licao): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
         }
@@ -372,9 +374,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <script>import "../lib/jumpNav.js";</script>
     {/* Not-ready buttons stay tappable and say what is missing (src/lib/notReady.js). */}
     <script>import "../lib/notReady.js";</script>
+    {/* Every <audio controls> gets our player: the position dot always visible (src/lib/audioPlayer.js). */}
+    <script>import "../lib/audioPlayer.js";</script>
     {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
-        Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
+        Inside the quiz pages themselves (builder, /jogo) links keep the same tab. */}
     {(
       <script is:inline define:vars={{ BASE_PATH }}>
         // Paths compared without the base (/spanish, src/lib/paths.js).
@@ -391,13 +395,18 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
           }
           if (a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
+          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/professores/quiz") return;
           const here = strip(location.pathname);
-          if (here.startsWith("/teachers/quiz") || here.startsWith("/game")) return;
+          if (here.startsWith("/professores/quiz") || here.startsWith("/jogo")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
       </script>
+    )}
+    {!noTracking && (
+      // PostHog, and the consent banner that decides cookieless or replay (src/lib/analytics.js).
+      // Pages with noTracking skip both.
+      <ConsentBanner app="portuguese" privacyHref={withBase("/privacidade")} />
     )}
     <script>
       import { initI18n } from "../lib/i18n.js";
@@ -421,7 +430,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        const onProgress = currentPath().startsWith("/progress");
+        const onProgress = currentPath().startsWith("/progresso");
         if (localStorage.getItem("da-tips-v1") == null || onProgress) {
           tips().then((m) => { m.noteVisit(); if (onProgress) m.markProgressSeen(); });
         }

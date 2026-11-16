@@ -1,8 +1,12 @@
 ---
+import ConsentBanner from "../components/ConsentBanner.astro";
 import { u } from '../lib/url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
 import '../styles/global.css';
+import '../styles/brand-ui.css';
+import TileRibbon from '../components/TileRibbon.astro';
 
 interface Props {
   title: string;
@@ -35,24 +39,24 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
-    <link rel="icon" href={u("/favicon-32.png")} type="image/png" sizes="32x32" />
-    <link rel="icon" href={u("/favicon-16.png")} type="image/png" sizes="16x16" />
-    <link rel="apple-touch-icon" href={u("/apple-touch-icon.png")} />
+    <link rel="icon" href={u("/favicon.svg?v=4")} type="image/svg+xml" />
+    <link rel="icon" href={u("/favicon-32.png?v=4")} type="image/png" sizes="32x32" />
+    <link rel="icon" href={u("/favicon-16.png?v=4")} type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" sizes="180x180" href={u("/apple-touch-icon.png?v=4")} />
     <meta name="description" content={description} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Literata:ital,opsz,wght@0,7..72,500;0,7..72,600&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href={u("/fonts/icanspeak/fonts.css")} />
+    <meta name="theme-color" content="#172A6E" />
     <title>{title}</title>
   </head>
   <body>
     {!hideHeader && <Header altHref={altHref} />}
+    {!hideHeader && <TileRibbon />}
     <main>
       <slot />
     </main>
     {!hideFooter && <Footer />}
+    <!-- PostHog, and the consent banner that decides cookieless or replay (src/lib/analytics.js).
+         No privacy page of its own: the English course's covers all of icanspeak.it. -->
+    <ConsentBanner app="linguistics" privacyHref="/english/privacy" />
   </body>
 </html>

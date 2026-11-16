@@ -1,0 +1,500 @@
+---
+// /competencias — the Fertigkeiten hub.
+//
+// The nav's Fertigkeiten menu used to lead to /expressao-oral: clicking the subject
+// dropped the learner into the Bildbeschreibung trainer, one of four skills, with no way
+// to see the other three except by reopening the menu. The subject now has a page of its
+// own, and it answers the question the menu label asks — what is here for Hören, Lesen,
+// Schreiben and Sprechen.
+//
+// The four cards are the page's navigation, not a preview of it: picking one swaps the
+// list below instead of scrolling to it. Written out end to end the page was 23 rows in a
+// single column — a screen and a half of scrolling on a desktop, with the right half of
+// the page empty — and the cards at the top repeated every count in it. One skill at a
+// time, its levels side by side, is the same shape the nav panel uses for this subject.
+//
+// Built from the same `skills` the nav panel reads (src/lib/catalog.js), so the counts and
+// the level coverage here cannot drift from the menu: both are measured from the material.
+import Layout from "../layouts/Layout.astro";
+import HubBild from "../components/HubBild.astro";
+import SiteNav from "../components/SiteNav.astro";
+import Icon from "../components/Icon.astro";
+import { skills } from "../lib/catalog.js";
+import "../styles/practice.css";
+
+// What each skill is, in one line. Not in catalog.js: the nav shows these as tabs with a
+// count and has no room for a sentence, so this is the only place that needs them.
+const LEAD = {
+  hoeren: "Durchsagen, Telefonate, Gespräche und Radiobeiträge — mit Fragen, Transkript und langsamer Wiedergabe.",
+  lesen: "Schilder, Anzeigen, E-Mails, Zeitungsartikel und Forumsbeiträge — mit Fragen und Erklärungen.",
+  schreiben: "Formulare, Nachrichten und Briefe — mit Leitpunkten, Redemitteln und Modelltext.",
+  sprechen: "Sich vorstellen, Bilder beschreiben, planen, Kurzvortrag und Diskussion — mit Timer.",
+};
+
+// The DTZ parts, folded into one row each.
+//
+// Lesen's B1 column listed "DTZ Aufgabe 1" through "DTZ Aufgabe 4" and Schreiben's listed
+// two more: six of the eleven rows on this page were one exam, itemised, which made B1
+// look like the level with the most choice when it is really the level with one long
+// simulation. They are one row here and stay four and two on the skill's own page, where
+// picking a single Aufgabe is the point. The row opens the first part; every task page
+// carries prev/next, so the sequence still walks end to end.
+const DTZ_ROW = { lesen: "DTZ Leseverstehen", schreiben: "DTZ Schreiben" };
+
+/** Minutes out of a count line like "Anzeigen · ca. 8 Min." — null if it does not say. */
+const minutesIn = (count) => {
+  const m = /ca\.\s*(\d+)\s*Min/.exec(count ?? "");
+  return m ? Number(m[1]) : null;
+};
+
+function foldDtz(items, skillId) {
+  const dtz = items.filter((i) => i.title.startsWith("DTZ"));
+  // Sprechen's "Bildbeschreibung (DTZ)" is a standalone trainer, not part of a run, and
+  // it does not start with the word — which is exactly why the test is a prefix.
+  if (dtz.length < 2) return items;
+
+  const minutes = dtz.map((i) => minutesIn(i.count));
+  const total = minutes.every((n) => n !== null) ? minutes.reduce((a, b) => a + b, 0) : null;
+  const folded = {
+    ...dtz[0],
+    title: DTZ_ROW[skillId] ?? "DTZ-Aufgaben",
+    count: `${dtz.length} Aufgaben${total ? ` · ca. ${total} Min.` : ""}`,
+  };
+  const rest = items.filter((i) => !i.title.startsWith("DTZ"));
+  // Where the run stood, not appended: B1 reads "Kurztext, dann die Prüfung".
+  const at = items.indexOf(dtz[0]);
+  return [...rest.slice(0, at), folded, ...rest.slice(at)];
+}
+
+const views = skills.map((skill) => {
+  const items = skill.levels.flatMap((lv) => lv.items);
+  // All four skills own a hub with a route per exercise now. Lesen and Schreiben used to
+  // share one B1 page between them, which is why this used to have to pick an anchor
+  // instead of a link — and why the counts here used to say "2" and "16" while meaning
+  // "two sections" and "sixteen exercises".
+  const href = skill.href;
+  return {
+    ...skill,
+    lead: LEAD[skill.id],
+    leadKey: `fertigkeiten.lead.${skill.id}`,
+    href,
+    linkLabel: `Alle ${skill.total} ansehen`,
+    linkLabelVars: { n: skill.total },
+    cols: skill.levels
+      .filter((lv) => lv.items.length > 0)
+      .map((lv) => ({ ...lv, items: foldDtz(lv.items, skill.id) })),
+    levels: skill.levels.map((lv) => ({ ...lv, has: lv.items.length > 0 })),
+    items,
+  };
+}).map((skill) => ({
+  ...skill,
+  // One list in level order, each row carrying its level: the level is a filter above the
+  // list, not four columns beside each other (Edgar 2026-11-16: the columns read as a wall
+  // of text, their level slogans – „Selbstständig sprechen“ over Hören – confused).
+  rows: skill.cols.flatMap((lv) => lv.items.map((item) => ({ ...item, level: lv.level }))),
+}));
+
+// The filter's levels: every level any skill has. A level the chosen skill lacks stays
+// pickable and says so, instead of vanishing when the tab changes.
+const filterLevels = [...new Set(views.flatMap((s) => s.rows.map((r) => r.level)))];
+
+const exerciseCount = views.reduce((n, s) => n + s.total, 0);
+// Open on Hören, the first of the four and the usual way in (Edgar 2026-11-16). It used to
+// open on the skill with the most rows, which put Sprechen first, at the far end of the
+// switch. A #sprechen link or the remembered choice still opens another one.
+const opening = views[0];
+// Per skill and level, for the counts on the filter and the level headings in the list.
+const perLevel = (skill, level) => skill.rows.filter((r) => r.level === level).length;
+---
+<Layout
+  title="Practise listening, reading, writing and speaking – icanspeak Spanish"
+  description="The four skills in one place: listening from A1 to B2, exam-style reading and writing tasks, and speaking with typical examiner questions, with a level for every exercise."
+>
+  <SiteNav active="fertigkeiten" />
+  <main class="practice-main practice-main--wide">
+    <HubBild id="fertigkeiten" />
+    <div class="practice-hero practice-hero--tight">
+      <p class="eyebrow" data-i18n="nav.subject.fertigkeiten">Fertigkeiten</p>
+      <h1 data-i18n="fertigkeiten.hero.title">Hören, Lesen, Schreiben, Sprechen</h1>
+      <p data-i18n="fertigkeiten.hero.lead" data-i18n-vars={JSON.stringify({ n: exerciseCount })}>
+        Die vier Fertigkeiten, die DTZ und telc einzeln prüfen — {exerciseCount} Übungen im Prüfungsformat.
+      </p>
+    </div>
+
+    <!-- The four skills as one switch, not four cards: the cards each repeated A1–B2 and a
+         sentence, and their selected state was a faint border nobody read as "chosen". -->
+    <div class="fk-tabs" role="tablist" aria-label="Fertigkeiten" data-i18n-attr="aria-label:nav.subject.fertigkeiten">
+      {views.map((skill) => (
+        <button
+          class:list={["fk-tab", skill.id === opening.id && "is-on"]}
+          type="button"
+          role="tab"
+          id={`fk-tab-${skill.id}`}
+          aria-selected={skill.id === opening.id ? "true" : "false"}
+          aria-controls={`fk-panel-${skill.id}`}
+          data-fk-tab={skill.id}
+        >
+          <span class="fk-tab-ic"><Icon name={skill.icon} size={18} /></span>
+          <b data-i18n={skill.nameKey}>{skill.name}</b>
+          <span class="fk-tab-n" aria-hidden="true">{skill.total}</span>
+        </button>
+      ))}
+    </div>
+
+    <!-- What the chosen skill is, once, right under the switch that chose it. -->
+    {views.map((skill) => (
+      <p class="fk-lead" data-fk-lead={skill.id} data-i18n={skill.leadKey} hidden={skill.id !== opening.id}>{skill.lead}</p>
+    ))}
+
+    <!-- One bar: the level filter on the left, the way to the skill's own page on the right.
+         The filter is one for all four skills: a learner on B1 stays on B1 when they move
+         from Hören to Lesen. It opens on "Alle", or on the learner's own level when the
+         site knows it (Einstufungstest or sign-up). -->
+    <div class="fk-bar">
+      <div class="fk-lvs" role="group" aria-label="Niveau">
+        <button type="button" class="fk-lv is-on" aria-pressed="true" data-fk-lv="" data-i18n="fallen.filter.all">Alle</button>
+        {filterLevels.map((lv) => (
+          <button
+            type="button"
+            class:list={["fk-lv", perLevel(opening, lv) === 0 && "is-empty"]}
+            aria-pressed="false"
+            data-fk-lv={lv}
+          >{lv}</button>
+        ))}
+      </div>
+      {views.map((skill) => (
+        <a class="fk-panel-all" href={skill.href} data-fk-all={skill.id} hidden={skill.id !== opening.id}>
+          <span data-i18n="fertigkeiten.seeAll" data-i18n-vars={JSON.stringify(skill.linkLabelVars)}>{skill.linkLabel}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+
+    {views.map((skill) => (
+      <section
+        class="fk-panel"
+        id={`fk-panel-${skill.id}`}
+        role="tabpanel"
+        aria-labelledby={`fk-tab-${skill.id}`}
+        data-fk-panel={skill.id}
+        hidden={skill.id !== opening.id}
+      >
+        {skill.rows.length > 0 ? (
+          <>
+            <ul class="fk-rows">
+              {skill.rows.map((item, i) => (
+                <>
+                  {/* Under "Alle" the level is a heading across the grid, once, instead
+                      of a badge on every card. Hidden when one level is filtered. */}
+                  {(i === 0 || skill.rows[i - 1].level !== item.level) && (
+                    <li class="fk-lvhead" data-lvhead aria-hidden="true">
+                      <span class="fk-lvhead-lv">{item.level}</span>
+                    </li>
+                  )}
+                  <li data-level={item.level}>
+                    <a href={item.href}>
+                      <span class="fk-row-txt">
+                        <b>{item.title}</b>
+                        {item.meta && <i data-i18n={item.meta.typeKey}>{item.meta.typeText}</i>}
+                      </span>
+                      <span class="fk-row-go" aria-hidden="true">›</span>
+                    </a>
+                  </li>
+                </>
+              ))}
+            </ul>
+            <p class="fk-empty" data-fk-none hidden data-i18n="nav.skill.soon">Übungen für dieses Niveau folgen.</p>
+          </>
+        ) : (
+          <p class="fk-empty" data-i18n="fertigkeiten.empty">Übungen für diese Fertigkeit folgen.</p>
+        )}
+      </section>
+    ))}
+
+
+    <!-- Aussprache is not one of the four — no exam tests it as its own Teil. It stays an
+         aside under the list, a link rather than a fifth tab. -->
+    <p class="fk-aside">
+      <span data-i18n="fertigkeiten.aside">Einzelne Wörter statt ganzer Texte?</span>{" "}
+      <a href="/pronuncia" data-i18n="fertigkeiten.toAussprache">Zum Aussprache-Training</a>
+    </p>
+  </main>
+</Layout>
+
+<style>
+  /* The hero on a hub is a signpost, not a chapter opening: left-aligned and small. Both
+     classes on every selector — practice.css centres the same elements at the same
+     specificity and loads after this. */
+  .practice-hero.practice-hero--tight { text-align: left; margin-bottom: 22px; }
+  .practice-hero.practice-hero--tight .eyebrow { text-align: left; }
+  .practice-hero.practice-hero--tight h1 { margin: 2px 0 6px; font-size: clamp(1.5rem, 4vw, 2.1rem); }
+  .practice-hero.practice-hero--tight p { margin: 0; max-width: 62ch; font-size: .95rem; }
+
+  /* --- the four skills: one segmented switch -------------------------------- */
+  .fk-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    background: var(--surface-sunken, rgba(0, 0, 0, .04));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  @media (max-width: 560px) { .fk-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .fk-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 8px 12px;
+    font: inherit;
+    color: var(--muted);
+    background: transparent;
+    border: 0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: color .15s ease;
+  }
+  .fk-tab b { font-size: .95rem; font-weight: var(--fw-semibold); }
+  .fk-tab:hover { color: var(--ink); }
+  .fk-tab:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .fk-tab.is-on { color: var(--ink); background: var(--surface-card); box-shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 4px 12px rgba(43,65,98, .08); }
+  .fk-tab-ic { display: inline-flex; color: var(--brand-blue-dark); opacity: .7; }
+  .fk-tab.is-on .fk-tab-ic { opacity: 1; }
+  .fk-tab-n {
+    min-width: 22px;
+    padding: 1px 7px;
+    border-radius: var(--radius-pill);
+    font-size: .72rem;
+    font-weight: var(--fw-semibold);
+    background: var(--gradient-brand-soft);
+    color: var(--brand-blue-dark);
+  }
+
+  /* --- level filter ---------------------------------------------------------- */
+  .fk-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin: 0 0 18px;
+  }
+  .fk-bar .fk-panel-all[hidden] { display: none; }
+  .fk-lvs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fk-lv {
+    min-height: 34px;
+    padding: 4px 14px;
+    font: inherit;
+    font-size: .82rem;
+    font-weight: var(--fw-semibold);
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fk-lv.is-empty { opacity: .5; }
+  .fk-lv:hover { color: var(--ink); border-color: var(--blue-200); }
+  .fk-lv:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  .fk-lv.is-on { color: #fff; background: var(--brand-blue); border-color: var(--brand-blue); }
+
+  /* --- the chosen skill ------------------------------------------------------- */
+  .fk-lead { margin: 10px 2px 14px; max-width: 70ch; font-size: .85rem; line-height: 1.5; color: var(--muted); }
+  .fk-lead[hidden] { display: none; }
+  .fk-panel-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .85rem;
+    font-weight: var(--fw-semibold);
+    color: var(--brand-blue-dark);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .fk-panel-all:hover { text-decoration: underline; }
+
+  /* Rows as small cards in an even grid: one per line on a phone, two beside each other on
+     a wider screen. Rows in a line stretch to the same height, so the grid stays
+     a grid whatever the titles do. */
+  .fk-rows {
+    list-style: none;
+    margin: 0 0 8px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  /* Two, not three: most levels hold four, and three columns left one card alone in a row
+     under every heading. */
+  @media (min-width: 720px) { .fk-rows { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .fk-rows li[hidden] { display: none; }
+  .fk-rows a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px 12px 16px;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .fk-rows a:hover { border-color: var(--blue-200); box-shadow: 0 4px 14px rgba(43,65,98, .08); transform: translateY(-1px); }
+  .fk-rows a:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+  /* A level heading across the whole grid, under "Alle". */
+  .fk-lvhead {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    padding-bottom: 4px;
+    font-size: .78rem;
+    color: var(--muted);
+  }
+  .fk-lvhead:first-child { margin-top: 0; }
+  .fk-lvhead::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+  .fk-lvhead-lv {
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--gradient-brand-soft);
+    color: var(--brand-blue-dark);
+    font-size: .75rem;
+    font-weight: var(--fw-semibold);
+  }
+  .fk-rows.is-filtered .fk-lvhead { display: none; }
+  .fk-row-txt { flex: 1; min-width: 0; }
+  .fk-row-txt b { display: block; font-size: .92rem; font-weight: var(--fw-semibold); line-height: 1.35; }
+  .fk-row-txt i { display: block; margin-top: 2px; font-style: normal; font-size: .76rem; color: var(--muted); }
+  .fk-row-go { flex-shrink: 0; font-size: 1.2rem; color: var(--muted); transition: transform .15s ease, color .15s ease; }
+  .fk-rows a:hover .fk-row-go { color: var(--brand-blue); transform: translateX(2px); }
+
+  .fk-empty { margin: 4px 0 0; font-size: .875rem; color: var(--muted); }
+
+  /* The Aussprache line: an aside to the four, not a fifth of them. */
+  .fk-aside { margin: 26px 0 0; font-size: var(--text-sm); color: var(--muted); }
+  .fk-aside a { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); text-decoration: none; }
+  .fk-aside a:hover { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fk-tab, .fk-rows a, .fk-row-go { transition: none; }
+  }
+</style>
+
+<script>
+  // Tabs, keyed like the nav's own tabs (NavMenubar.astro): click switches, arrow keys move
+  // between the four. The sliding pill and the panel's entrance come from switchRegistry.js.
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-fk-tab]"));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-fk-panel]"));
+  const lvs = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-fk-lv]"));
+
+  function show(id: string, focus = false) {
+    for (const tab of tabs) {
+      const on = tab.dataset.fkTab === id;
+      tab.classList.toggle("is-on", on);
+      tab.setAttribute("aria-selected", String(on));
+      tab.tabIndex = on ? 0 : -1;
+      if (on && focus) tab.focus();
+    }
+    for (const panel of panels) {
+      if (panel.dataset.fkPanel === id) panel.removeAttribute("hidden");
+      else panel.setAttribute("hidden", "");
+    }
+    for (const el of document.querySelectorAll<HTMLElement>("[data-fk-lead], [data-fk-all]")) {
+      el.hidden = (el.dataset.fkLead ?? el.dataset.fkAll) !== id;
+    }
+    // A level the chosen skill has nothing on is greyed (still pickable, it says so).
+    const panel = panels.find((p) => p.dataset.fkPanel === id);
+    for (const b of lvs) {
+      const lv = b.dataset.fkLv;
+      if (!lv || !panel) continue;
+      b.classList.toggle("is-empty", !panel.querySelector(`li[data-level="${lv}"]`));
+    }
+    // The chosen skill survives a trip into an exercise and back.
+    try { sessionStorage.setItem("da-fertigkeiten-tab", id); } catch {}
+  }
+
+  // One level filter for all four panels. "" = all levels.
+  function filter(level: string) {
+    for (const b of lvs) {
+      const on = b.dataset.fkLv === level;
+      b.classList.toggle("is-on", on);
+      b.setAttribute("aria-pressed", String(on));
+    }
+    for (const panel of panels) {
+      let shown = 0;
+      for (const li of panel.querySelectorAll<HTMLElement>("li[data-level]")) {
+        const on = !level || li.dataset.level === level;
+        li.hidden = !on;
+        if (on) shown++;
+      }
+      panel.querySelector(".fk-rows")?.classList.toggle("is-filtered", !!level);
+      const none = panel.querySelector<HTMLElement>("[data-fk-none]");
+      if (none) none.hidden = shown > 0;
+    }
+    try { sessionStorage.setItem("da-fertigkeiten-lv", level); } catch {}
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.tabIndex = tab.getAttribute("aria-selected") === "true" ? 0 : -1;
+    tab.addEventListener("click", () => show(tab.dataset.fkTab!));
+    tab.addEventListener("keydown", (e) => {
+      const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1
+        : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1
+        : e.key === "Home" ? -i
+        : e.key === "End" ? tabs.length - 1 - i
+        : 0;
+      if (!step) return;
+      e.preventDefault();
+      show(tabs[(i + step + tabs.length) % tabs.length].dataset.fkTab!, true);
+    });
+  });
+  lvs.forEach((b) => b.addEventListener("click", () => filter(b.dataset.fkLv ?? "")));
+
+  // The address names the skill in the course language (#compreensao-oral); the tab ids and the
+  // remembered choice stay the skill ids of the data (hoeren, lesen, schreiben, sprechen).
+  // The old German fragments keep working because they are the ids themselves.
+  const FRAGMENT: Record<string, string> = {
+    "compreensao-oral": "hoeren", "leitura": "lesen",
+    "escrita": "schreiben", "expressao-oral": "sprechen",
+  };
+  const hashId = () => { const h = location.hash.slice(1); return FRAGMENT[h] ?? h; };
+  const known = (id: string) => tabs.some((t) => t.dataset.fkTab === id);
+
+  // A #hoeren style link (or the remembered choice) opens that skill rather than the
+  // default one. hashchange as well as load: a link to #sprechen from elsewhere on this
+  // page never reloads it, so without this the hash would change and nothing would move.
+  function fromHash() {
+    const id = hashId();
+    if (known(id)) show(id);
+  }
+  addEventListener("hashchange", fromHash);
+
+  if (known(hashId())) {
+    fromHash();
+  } else {
+    let saved = "";
+    try { saved = sessionStorage.getItem("da-fertigkeiten-tab") ?? ""; } catch {}
+    if (known(saved)) show(saved);
+  }
+  // Level: what was picked here this visit; else the learner's own level (placement test,
+  // then sign-up, as NaechsteStunde reads it); else "Alle". Never a fixed A1 – it would make
+  // every B1 learner hunt for the filter first.
+  const hasLv = (lv: string | null) => lv !== null && (lv === "" || lvs.some((b) => b.dataset.fkLv === lv));
+  let lvStart: string | null = null;
+  try { lvStart = sessionStorage.getItem("da-fertigkeiten-lv"); } catch {}
+  if (!hasLv(lvStart)) {
+    try { lvStart = (localStorage.getItem("da-einstufung") || localStorage.getItem("da_level") || "").toUpperCase(); } catch {}
+  }
+  if (lvStart && hasLv(lvStart)) filter(lvStart);
+</script>

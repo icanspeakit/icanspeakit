@@ -17,7 +17,8 @@ const DIST = "dist";
 const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
-  /^\/(es|hi|id|tl|vi|pt-br)(\/|$)/,
+  // The UI-language entry pages (/de/, /pt/ …, urlPrefix in src/lib/languages.js): the search is English.
+  /^\/(de|es|fr|pt|it|ar|hi|id|tl|vi|pt-br)(\/|$)/,
   /^\/vocabulary\/print\//,
   /^\/teachers\/worksheets\//,
   /\/(drucken|print)$/,
@@ -32,7 +33,7 @@ const decode = (s) => s
 const text = (html) => decode(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
 const xml = readFileSync(`${DIST}/sitemap.xml`, "utf8");
-const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/spanish(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
+const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/french(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
 
 // What the search already finds from its own sources: the index minus this file's entries.
 const ix = JSON.parse(readFileSync(`${DIST}/suche.json`, "utf8"));
@@ -51,7 +52,7 @@ for (const p of todo) {
       if (!existsSync(file)) { failed.push(`${p} not in dist`); continue; }
       const html = readFileSync(file, "utf8");
       if (/<meta name="robots" content="noindex/i.test(html)) continue;
-      const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+icanspeak Spanish$/, "");
+      const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+icanspeak French$/, "");
       const desc = decode(/<meta name="description" content="([^"]*)"/i.exec(html)?.[1] ?? "");
       const main = /<main[\s\S]*?<\/main>/i.exec(html)?.[0] ?? html;
       const heads = [...main.matchAll(/<h[1-3][^>]*>([\s\S]*?)<\/h[1-3]>/gi)].map((m) => text(m[1])).filter(Boolean);
@@ -61,7 +62,7 @@ for (const p of todo) {
       failed.push(`${p} ${e.message}`);
     }
 }
-// Headings that stand on many pages (the side nav's level list, “Spanish for work” …)
+// Headings that stand on many pages (the side nav's level list, “French for work” …)
 // say nothing about one page and would make every page match „a1": left out.
 const seen = new Map();
 for (const e of out) for (const x of e.heads) seen.set(x, (seen.get(x) ?? 0) + 1);

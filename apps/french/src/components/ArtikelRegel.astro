@@ -33,9 +33,10 @@ const ENDINGS_CAPTION = "Endings that tell you the gender";
   <div class="ap-drawer-body ap-regel">
     {gxTrainer && <GrammarHelp level={gxLevel} reviewed={gxTrainer.reviewed} />}
     <p class="akk-regel-intro" data-i18n="ap.regel.intro">
-      Every Spanish noun is masculine or feminine, and the article shows which: el or la. The ending
-      of the noun is often a reliable clue. These patterns help when you meet a new word, but they
-      have exceptions, so learn each noun with its article.
+      Every French noun is masculine or feminine, and the article usually shows which: le or la.
+      Before a vowel or a mute h both become l', which hides the gender: l'école is feminine,
+      l'hôtel masculine. The ending of the noun is often a good clue. These patterns help when you
+      meet a new word, but they have exceptions, so learn each noun with its article.
     </p>
     <GrammarHelpText text={gxTrainer?.intro} />
     {/* The rule in full — the same tables, sentences and boxes a grammar topic's Regel
@@ -84,9 +85,9 @@ const ENDINGS_CAPTION = "Endings that tell you the gender";
     {rule.noteHtml && <p class="akk-regel-note" set:html={rule.noteHtml} />}
     <GrammarHelpText text={gxTopic?.note} />
     <p class="akk-regel-note" data-i18n="ap.regel.people">
-      With people and some animals the article follows the person: el médico / la médica, el
-      estudiante / la estudiante. For many words there is no pattern at all, and the article simply
-      has to be learned with the word.
+      With people the article usually follows the person: le boulanger / la boulangère, le
+      journaliste / la journaliste. For many words there is no pattern at all, and the article
+      simply has to be learned with the word.
     </p>
     <GrammarHelpText text={gxTrainer?.note} />
     <!-- Last, as the aside it is: the rule comes first when someone asks for the rule. -->
@@ -94,12 +95,12 @@ const ENDINGS_CAPTION = "Endings that tell you the gender";
       <p class="ap-regel-hint-title" data-i18n="ap.hint">Note</p>
       <p data-i18n="ap.hint.title.text">
         Learning gender through rules only takes you so far, because many rules have exceptions.
-        What works best is learning every noun together with its article (la mesa, el libro, la
-        mano), for example in the vocabulary trainer, and then meeting the words in everyday life.
-        Treat the rules as help with a new word. The reliable ones: -ción, -sión, -dad, -tad, -tud,
-        -umbre → la and -aje → el.
+        What works best is learning every noun together with its article (la table, le livre,
+        l'eau, which is feminine), for example in the vocabulary trainer, and then meeting the words
+        in everyday life. Treat the rules as help with a new word. The most reliable ones: -tion and
+        -sion → la, -ment and -isme → le. Careful with -age: le garage, but la plage and la page.
       </p>
-      <p><a href="/vocabulary" data-i18n="ap.hint.vocab">vocabulary trainer</a></p>
+      <p><a href="/vocabulaire" data-i18n="ap.hint.vocab">vocabulary trainer</a></p>
       <GrammarHelpText text={gxTrainer?.hint} />
     </aside>
   </div>

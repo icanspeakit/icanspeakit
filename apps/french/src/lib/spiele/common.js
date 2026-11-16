@@ -1,4 +1,4 @@
-// Shared machinery for the printable group games (/teachers/games/*): the seeded
+// Shared machinery for the printable group games (/enseignants/jeux/*): the seeded
 // shuffle, the settings in the URL, the word data, the Lernset picker, the on-screen
 // preview and the A4 sheet frame. Each game (bingo.js, domino.js, erklaeren.js) only
 // decides what goes on the sheets.
@@ -10,6 +10,7 @@ import { getLang, loadDict, onLangChange, translate } from "../i18n.js";
 import { langsFor, languagesFor } from "../languages.js";
 import { intent } from "../intent.js";
 import { withBase } from "../paths.js";
+import { withArticle } from "../articles.js";
 
 /* ----------------------------------------------------------------- random -- */
 
@@ -46,7 +47,7 @@ export function shuffle(list, rand) {
 
 /* ------------------------------------------------------------------ words -- */
 
-// Column order of the rows in /teachers/games/woerter-<level>.json — see
+// Column order of the rows in /enseignants/jeux/woerter-<level>.json — see
 // src/pages/lehrkraefte/spiele/woerter-[level].json.ts: five word fields, then one column per
 // card language of the registry, in its order.
 const WORD_FIELDS = ["unit", "lemma", "pos", "gender", "plural", ...langsFor("cards")];
@@ -64,7 +65,7 @@ export function loadLevel(level) {
   if (!levelCache.has(key)) {
     levelCache.set(
       key,
-      fetch(withBase(`/teachers/games/woerter-${key}.json`))
+      fetch(withBase(`/enseignants/jeux/woerter-${key}.json`))
         .then((r) => {
           if (!r.ok) throw new Error(String(r.status));
           return r.json();
@@ -76,7 +77,7 @@ export function loadLevel(level) {
             w.unitId = units[w.unit].id;
             w.unitTitle = units[w.unit].title;
             // "a table" / "some water" for a noun, the bare lemma for everything else.
-            w.display = w.pos === "noun" && w.gender ? `${w.gender} ${w.lemma}` : w.lemma;
+            w.display = w.pos === "noun" && w.gender ? withArticle(w) : w.lemma;
             return w;
           });
           return { level: data.level, units, words };
@@ -116,7 +117,7 @@ export function sheet(inner, { title, page, pages }) {
   return `<section class="sp-sheet">
     <div class="sp-sheet-body">${inner}</div>
     <footer class="sp-sheet-foot">
-      <span><b>icanspeak Spanish</b> · ${esc(title)} · ${page}/${pages}</span>
+      <span><b>icanspeak French</b> · ${esc(title)} · ${page}/${pages}</span>
       <span class="sp-sheet-url">${esc(url)}</span>
     </footer>
   </section>`;

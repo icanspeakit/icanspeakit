@@ -26,7 +26,7 @@ import { waitAttrs } from "./notReady.js";
 import { cleanRef } from "./meldungRef.js";
 import { dankeHtml, loveBurst } from "./meldungDanke.js";
 import "../styles/meldung.css";
-import { currentPath } from "./paths.js";
+import { currentPath, withBase } from "./paths.js";
 
 const APP = import.meta.env.PUBLIC_TARGET === "app";
 const QUEUE_KEY = "da_meldung_queue";
@@ -328,7 +328,7 @@ function dockCounter(n) {
   if (!a) {
     a = document.createElement("a");
     a.className = "vp-dev-reset";
-    a.href = "/intern/meldungen";
+    a.href = withBase("/intern/meldungen");
     a.dataset.meldungCount = String(n);
     dock.prepend(a);
   }

@@ -1,7 +1,7 @@
-// /teachers/cards/learn?set=<id>: a saved card set → the Wortschatz trainer's cards.
+// /enseignants/cartes/apprendre?set=<id>: a saved card set → the Wortschatz trainer's cards.
 //
-// A word from our lexicon (lexId) gets the public card from /teachers/cards/lexikon/<level>.json:
-// audio, picture, every language, example, and the same SRS key (its id) as on /vocabulary.
+// A word from our lexicon (lexId) gets the public card from /enseignants/cartes/lexikon/<level>.json:
+// audio, picture, every language, example, and the same SRS key (its id) as on /vocabulaire.
 // Any other word becomes a plain card from what the teacher saved: article, plural, and the
 // book's translation under English (the language most course books gloss in). Their SRS key
 // is vs:<set>:<word>, so they never mix with a lexicon word's progress.
@@ -11,10 +11,11 @@
 import { getSet, getSharedSet, machineText, saveSet, stripArticle, translateWords } from "./sets.js";
 import { slugify } from "../audioSlug.js";
 import { withBase } from "../paths.js";
+import { withArticle } from "../articles.js";
 // The trainer's card-language setting (CARD_LANG_KEY in src/lib/cardLangGloss.js).
 const CARD_LANG_KEY = "da-vt-lang";
 
-const BASE = "/teachers/cards/lexikon";
+const BASE = "/enseignants/cartes/lexikon";
 const cache = new Map();
 const json = (url) => {
   if (!cache.has(url)) cache.set(url, fetch(withBase(url)).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${url}: ${r.status}`)))));
@@ -35,7 +36,7 @@ export async function lexiconCard(lemma, article) {
 }
 
 /** Our translation of lexicon words into `lang`: { lexId: text }. Card languages from the level
- *  files, the others from the trainer's gloss files (/vocabulary/glosses/<code>.json). */
+ *  files, the others from the trainer's gloss files (/vocabulaire/glosses/<code>.json). */
 export async function lexiconTranslations(lexIds, lang) {
   if (!lexIds.length) return {};
   const index = await json(`${BASE}/index.json`);
@@ -51,7 +52,7 @@ export async function lexiconTranslations(lexIds, lang) {
   }
   const missing = lexIds.filter((id) => !out[id]);
   if (missing.length && lang !== "de") {
-    const gloss = await json(`/vocabulary/glosses/${lang}.json`).catch(() => ({}));
+    const gloss = await json(`/vocabulaire/glosses/${lang}.json`).catch(() => ({}));
     for (const id of missing) if (gloss[id]) out[id] = gloss[id];
   }
   return out;
@@ -166,13 +167,13 @@ function fail(text) {
 }
 
 /**
- * Fills the trainer on /teachers/cards/learn?set=<id> (the teacher, own rows) or on
- * /card-set?t=<token> (`shared`: a student, no account, via /api/wortschatz/set).
+ * Fills the trainer on /enseignants/cartes/apprendre?set=<id> (the teacher, own rows) or on
+ * /jeu-de-cartes?t=<token> (`shared`: a student, no account, via /api/wortschatz/set).
  */
 export async function loadPlayableSet({ shared = false } = {}) {
   const params = new URLSearchParams(location.search);
   const id = shared ? params.get("t") : params.get("set");
-  if (!id) return fail(shared ? "Dieser Link ist unvollständig. Bitte fragen Sie Ihre Lehrkraft nach dem Link." : `Kein Set gewählt. <a href="${withBase("/teachers/cards")}">Zu Ihren Kartensets</a>`);
+  if (!id) return fail(shared ? "Dieser Link ist unvollständig. Bitte fragen Sie Ihre Lehrkraft nach dem Link." : `Kein Set gewählt. <a href="${withBase("/enseignants/cartes")}">Zu Ihren Kartensets</a>`);
   let set;
   try {
     set = shared ? await getSharedSet(id) : await getSet(id);
@@ -183,11 +184,11 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (!set) {
     return fail(shared
       ? "Dieses Kartenset ist nicht (mehr) geteilt. Bitte fragen Sie Ihre Lehrkraft nach einem neuen Link."
-      : `Dieses Kartenset gibt es nicht, oder Sie sind nicht angemeldet. <a href="${withBase("/account")}?next=${encodeURIComponent(location.pathname + location.search)}">Anmelden</a> · <a href="${withBase("/teachers/cards")}">Meine Kartensets</a>`);
+      : `Dieses Kartenset gibt es nicht, oder Sie sind nicht angemeldet. <a href="${withBase("/compte")}?next=${encodeURIComponent(location.pathname + location.search)}">Anmelden</a> · <a href="${withBase("/enseignants/cartes")}">Meine Kartensets</a>`);
   }
   // Own words' SRS key: the set's id for the teacher, the link's token for students.
   set = { ...set, id: shared ? `t-${id}` : set.id };
-  if (!set.words?.length) return fail(shared ? "Dieses Kartenset ist noch leer." : `Das Set „${set.name.replace(/</g, "&lt;")}“ hat noch keine Wörter. <a href="${withBase("/teachers/cards/photo")}?set=${id}">Wörter hinzufügen</a>`);
+  if (!set.words?.length) return fail(shared ? "Dieses Kartenset ist noch leer." : `Das Set „${set.name.replace(/</g, "&lt;")}“ hat noch keine Wörter. <a href="${withBase("/enseignants/cartes/photo")}?set=${id}">Wörter hinzufügen</a>`);
 
   let cards;
   try {
@@ -208,14 +209,14 @@ export async function loadPlayableSet({ shared = false } = {}) {
   if (h1) { h1.textContent = set.name; h1.removeAttribute("data-i18n"); }
   const sub = document.querySelector(".vt-hero-sub");
   if (sub) sub.textContent = [set.level, `${cards.length} Wörter`, shared ? null : `${lexCount} aus unserem Wortschatz`].filter(Boolean).join(" · ");
-  document.title = `${set.name} – icanspeak Spanish`;
+  document.title = `${set.name} – icanspeak French`;
   const edit = document.querySelector("[data-vs-edit]");
-  if (edit) edit.href = `${withBase("/teachers/cards/photo")}?set=${id}`;
+  if (edit) edit.href = `${withBase("/enseignants/cartes/photo")}?set=${id}`;
   const print = document.querySelector("[data-vs-print]");
-  if (print) print.href = `${withBase("/account")}?set=${id}`;
+  if (print) print.href = `${withBase("/compte")}?set=${id}`;
   // Straight into the live quiz with this set as the words (host.js, value kartenset:<id>).
   const quiz = document.querySelector("[data-vs-quiz]");
-  if (quiz) { quiz.href = `${withBase("/teachers/quiz")}?set=kartenset:${id}`; quiz.hidden = shared; }
+  if (quiz) { quiz.href = `${withBase("/enseignants/quiz")}?set=kartenset:${id}`; quiz.hidden = shared; }
 
   window.__vtCardsReady = true;
   dispatchEvent(new Event("vt:cards"));
@@ -223,7 +224,7 @@ export async function loadPlayableSet({ shared = false } = {}) {
 }
 
 /**
- * A card set → live-quiz questions for Eigenes Quiz (/teachers/quiz/create?set=<id>),
+ * A card set → live-quiz questions for Eigenes Quiz (/enseignants/quiz/creer?set=<id>),
  * in the saved shape of src/lib/liveQuiz/custom.js:
  *   lexicon word with every meaning language → { t: "word", id, dir }   (each phone its language)
  *   own word with the book's translation      → { t: "mc", prompt: translation, options: German words of the set }
@@ -232,7 +233,8 @@ export async function loadPlayableSet({ shared = false } = {}) {
  */
 export async function quizQuestionsFor(set, meaningLangs, max = 50) {
   const cards = await cardsFor(set);
-  const shown = (c) => (c.gender ? `${c.gender} ${c.front}` : c.front);
+  // l'école without a space (content-plan §1.4).
+  const shown = (c) => (c.gender ? withArticle(c) : c.front);
   const others = (c) => cards.filter((o) => o !== c && shown(o).toLowerCase() !== shown(c).toLowerCase());
   const pick = (list, n) => [...list].sort(() => Math.random() - 0.5).slice(0, n);
   const out = [];

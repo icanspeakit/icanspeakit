@@ -1,4 +1,4 @@
-// The conjugation trainer behind /grammar/conjugation (docs/content-plan.md §4.2).
+// The conjugation trainer behind /grammatica/coniugazione (docs/content-plan.md §4.2).
 //
 // Plain ESM with no Vite imports, so scripts/check-conjugation-trainer.mjs runs the same code as
 // the page. It turns verbtabellen.json (forms, through verbtabellenCore.js) and

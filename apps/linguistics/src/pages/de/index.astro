@@ -1,24 +1,15 @@
 ---
 import { u } from '../../lib/url';
+import TileHero from '../../components/TileHero.astro';
+import { look, ccStyle, motifStyle } from '../../lib/looks';
 import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="icanspeak.it — Wortursprünge für Neugierige" altHref={u("/")}>
-  <section class="hero">
-    <div class="container hero__inner">
-      <p class="eyebrow">Für Wortliebhaber</p>
-      <h1>Jedes Wort trägt eine Geschichte in sich. Wir graben sie aus.</h1>
-      <p class="lede">
-        icanspeak.it ist eine kleine, werbearme Ecke des Internets über Etymologie und die eigenartige,
-        wunderbare Mechanik von Sprache – woher Wörter kommen, wie sie sich über Grenzen und Jahrhunderte
-        hinweg verändert haben, und warum sich zwei Sprachen manchmal in den seltsamsten Dingen einig sind.
-      </p>
-      <div class="hero__actions">
-        <a href={u("/de/words/")} class="button button--primary">Wortkarten entdecken</a>
-        <a href={u("/blog/")} class="button button--ghost">Blog lesen (Englisch)</a>
-      </div>
-    </div>
-  </section>
+  <TileHero eyebrow="Für Wortliebhaber" title="Jedes Wort trägt eine Geschichte in sich. Wir graben sie" mark="aus." lede="icanspeak.it ist eine kleine, werbearme Ecke des Internets über Etymologie und die eigenartige, wunderbare Mechanik von Sprache – woher Wörter kommen, wie sie sich über Grenzen und Jahrhunderte hinweg verändert haben, und warum sich zwei Sprachen manchmal in den seltsamsten Dingen einig sind." mascot="regi" bubble="Los geht's!">
+    <a href={u("/de/words/")} class="button button--primary">Wortkarten entdecken</a>
+    <a href={u("/blog/")} class="button button--ghost">Blog lesen (Englisch)</a>
+  </TileHero>
 
   <section class="why">
     <div class="container">
@@ -27,30 +18,33 @@ import Layout from '../../layouts/Layout.astro';
         <h2>Weil Sprache die am längsten laufende Geschichte ist, die wir kennen</h2>
       </div>
       <div class="why__grid">
-        <a class="card why-card" href={u("/blog/salary-a-tiny-history-lesson/")}>
+        <a class="isk-cc isk-rise why-card" style={ccStyle(look(0, 3), 0)} href={u("/blog/salary-a-tiny-history-lesson/")}>
+          <span class={`isk-tile ${look(0, 3).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(0, 3))}></span>
           <h3>Jedes Wort ist eine kleine Geschichtsstunde</h3>
           <p class="text-muted">
             "Gehalt" kommt vom lateinischen "salarium", dem Salzgeld römischer Soldaten. Wer das Wort
             benutzt, zitiert eine zweitausend Jahre alte Gehaltsabrechnung.
           </p>
-          <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
+          <span class="isk-cc__go">Ganzen Artikel lesen (Englisch) →</span>
         </a>
-        <a class="card why-card" href={u("/blog/how-languages-borrow-from-each-other/")}>
+        <a class="isk-cc isk-rise why-card" style={ccStyle(look(1, 3), 1)} href={u("/blog/how-languages-borrow-from-each-other/")}>
+          <span class={`isk-tile ${look(1, 3).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(1, 3))}></span>
           <h3>Sprachen leihen sich heimlich voneinander</h3>
           <p class="text-muted">
             Allein das Englische hat Wörter aus über 350 Sprachen übernommen. "Ketchup" reiste von einer
             fermentierten Fischsauce aus dem Hokkien-Chinesischen über malaiische Handelsrouten, lange
             bevor es je eine Tomate traf.
           </p>
-          <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
+          <span class="isk-cc__go">Ganzen Artikel lesen (Englisch) →</span>
         </a>
-        <a class="card why-card" href={u("/blog/how-word-meanings-drift/")}>
+        <a class="isk-cc isk-rise why-card" style={ccStyle(look(2, 3), 2)} href={u("/blog/how-word-meanings-drift/")}>
+          <span class={`isk-tile ${look(2, 3).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(2, 3))}></span>
           <h3>Bedeutungen wandern – manchmal absichtlich</h3>
           <p class="text-muted">
             "Nett" bedeutete im Lateinischen ursprünglich "töricht". Gib einem Wort drei Jahrhunderte und
             genug Klatsch, und es kann fast im Gegenteil dessen landen, wo es begann.
           </p>
-          <span class="why-card__more">Ganzen Artikel lesen (Englisch) →</span>
+          <span class="isk-cc__go">Ganzen Artikel lesen (Englisch) →</span>
         </a>
       </div>
     </div>
@@ -81,28 +75,9 @@ import Layout from '../../layouts/Layout.astro';
     gap: 1.5rem;
   }
 
-  .why__grid h3 { margin-block-end: 0.6rem; }
 
-  .why-card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
 
-  .why-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
 
-  .why-card__more {
-    margin-block-start: auto;
-    padding-block-start: 0.9rem;
-    font-weight: 600;
-    font-size: 0.88rem;
-    color: var(--color-primary);
-  }
 
   @media (max-width: 860px) { .why__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 640px) { .why__grid { grid-template-columns: 1fr; } }

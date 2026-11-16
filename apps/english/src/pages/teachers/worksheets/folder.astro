@@ -181,7 +181,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
   </main>
 
   <script>
-import { currentPath } from "../../../lib/paths.js";
+    import { currentPath, withBase } from "../../../lib/paths.js";
     import { mountWorksheet } from "../../../lib/arbeitsblatt/client.js";
     import { intent } from "../../../lib/intent.js";
     import { t, onUiText } from "../../../lib/uiText.js";
@@ -251,7 +251,7 @@ import { currentPath } from "../../../lib/paths.js";
     const pathOf = (id: string) => byId.get(id)!.dataset.path!;
     function load(id: string) {
       if (!cache.has(id)) {
-        const p = fetch(pathOf(id)).then(async (res) => {
+        const p = fetch(withBase(pathOf(id))).then(async (res) => {
           if (!res.ok) throw new Error(`${pathOf(id)} → ${res.status}`);
           const doc = new DOMParser().parseFromString(await res.text(), "text/html");
           const sheets = [...doc.querySelectorAll("#ab-root > article.ab-sheet:not(.ab-key)")];

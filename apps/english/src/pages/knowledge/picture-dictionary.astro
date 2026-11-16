@@ -273,7 +273,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
   </style>
 
   <script>
-import { currentPath } from "../../lib/paths.js";
+import { currentPath, withBase } from "../../lib/paths.js";
     import { track } from "../../lib/track.js";
     import { enhanceSwitch } from "../../lib/segSwitch.js";
     import { t, onUiText } from "../../lib/uiText.js";
@@ -316,7 +316,7 @@ import { currentPath } from "../../lib/paths.js";
       card.classList.remove("is-playing");
       void card.offsetWidth;
       card.classList.add("is-playing");
-      if (src && !muted) { player.src = src; player.play().catch(() => {}); }
+      if (src && !muted) { player.src = withBase(src); player.play().catch(() => {}); }
     }
 
     // Einzeln: copy the chosen grid card into the big one.

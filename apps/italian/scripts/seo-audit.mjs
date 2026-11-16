@@ -23,10 +23,10 @@ const BRAND = "icanspeak Italian";
 const MAX_TITLE = 60;
 
 const PRIORITY = [
-  "/", "/citizenship/b1-mock", "/citizenship/b1-mock/mock-test", "/citizenship/b1-mock/practice-set", "/civic-knowledge",
-  "/civic-knowledge/test", "/exams", "/celi", "/cils", "/plida",
-  "/cils/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
-  "/pronunciation-check",
+  "/", "/cittadinanza/prova-b1", "/cittadinanza/prova-b1/simulazione", "/cittadinanza/prova-b1/esercitazione", "/cultura-civica",
+  "/cultura-civica/test", "/esami", "/celi", "/cils", "/plida",
+  "/cils/a1", "/test-di-livello", "/grammatica", "/vocabolario", "/esercizi",
+  "/verifica-pronuncia",
 ];
 const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/cils/");
 

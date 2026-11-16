@@ -1,8 +1,11 @@
 ---
 import { currentPath, stripBase } from "../lib/paths.js";
 import "../styles/global.css";
+import ConsentBanner from "../components/ConsentBanner.astro";
 import "../styles/brand.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { footerFor } from "../lib/navFooter.js";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
 // HTML is what it was before the paywall existed.
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
@@ -48,6 +51,9 @@ interface Props {
   /** No analytics on this page at all: no consent banner, so PostHog,
       GA and the Meta Pixel never load. For pages that promise it. */
   noTracking?: boolean;
+  /** The site footer (SiteFooter.astro). Unset = by route (footerFor in src/lib/navFooter.js);
+      "none" for a page that carries its own. */
+  footer?: "full" | "slim" | "none";
 }
 
 const {
@@ -57,6 +63,7 @@ const {
   schema,
   breadcrumb,
   noTracking = false,
+  footer: footerProp,
 } = Astro.props;
 
 // Open Graph / Twitter. There were none, so every link anyone pasted into WhatsApp,
@@ -71,6 +78,8 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
+// The site footer by route (src/lib/navFooter.js), since 2026-11-16; a page may set its own.
+const footer = footerProp ?? footerFor(stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/");
 const route = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
@@ -88,11 +97,13 @@ const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
 const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
 const pageName = title.replace(/\s+[–|-]\s+(icanspeak English|icanspeak English)$/, "");
-const trail = trailFor(route, pageName, breadcrumb);
+// route carries the /english base; the structured data (home check, SECTION_PAGES keys) is base-free.
+const siteRoute = stripBase(route);
+const trail = trailFor(siteRoute, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
   ? [
-      ...(route === "/" ? [organizationLd(SITE_URL), websiteLd(SITE_URL)] : []),
+      ...(siteRoute === "/" ? [organizationLd(SITE_URL), websiteLd(SITE_URL)] : []),
       ...(trail ? [breadcrumbLd(SITE_URL, trail)] : []),
       ...pageSchema,
     ]
@@ -100,7 +111,7 @@ const graph = SITE_URL && !noindex
 const structuredData = graph.length ? { "@context": "https://schema.org", "@graph": graph } : null;
 ---
 <!doctype html>
-<html lang="en" translate="no" data-i18n-globals={JSON.stringify(i18nGlobals)} data-paywall={PAYWALL ? "on" : undefined}>
+<html lang="en" translate="no" data-base={BASE_PATH} data-i18n-globals={JSON.stringify(i18nGlobals)} data-paywall={PAYWALL ? "on" : undefined}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -328,6 +339,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
   <body>
     <LanguageOffer />
     <slot />
+    {footer !== "none" && <SiteFooter size={footer} paywall={PAYWALL} />}
     {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}
@@ -353,6 +365,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <script>import "../lib/jumpNav.js";</script>
     {/* Not-ready buttons stay tappable and say what is missing (src/lib/notReady.js). */}
     <script>import "../lib/notReady.js";</script>
+    {/* Every <audio controls> gets our player: the position dot always visible (src/lib/audioPlayer.js). */}
+    <script>import "../lib/audioPlayer.js";</script>
     {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
         Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
@@ -368,6 +382,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
           a.rel = "noopener";
         }, true);
       </script>
+    )}
+    {!noTracking && (
+      // PostHog, and the consent banner that decides cookieless or replay (src/lib/analytics.js).
+      // Pages with noTracking skip both.
+      <ConsentBanner app="english" privacyHref={withBase("/privacy")} />
     )}
     <script>
 import { currentPath } from "../lib/paths.js";

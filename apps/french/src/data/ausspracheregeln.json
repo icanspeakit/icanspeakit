@@ -1,227 +1,230 @@
 {
-  "_note": "The Spanish pronunciation rules in the right-hand column of /pronunciation (AusspracheRegeln.astro), in teaching order. `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the stressed syllable, shown in bold. Castilian Spanish with distinción is the standard; what Latin America does differently is in `es419`, and regional sounds a learner in Spain will hear (seseo, ceceo, a weak final s) are named in the rule text. Rule ids are the old slot ids (content-plan §1.3) plus ll-y and enye. Not yet reviewed by a teacher.",
+  "_note": "The French pronunciation rules in the right-hand column of /prononciation (AusspracheRegeln.astro), in teaching order. `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the strong (last) syllable of the word, shown in bold. Standard French of France is the standard (content-plan §1.1); where Québec French sounds different, the rule carries a `frCA` note. Rule ids: the old slot ids where the topic survived (r, s, h, ch, betonung, e-ende), the rest are new. Not yet reviewed by a teacher.",
   "reviewed": false,
   "rules": [
     {
-      "id": "lang-kurz",
-      "variety": "es-ES",
-      "title": "The five vowels",
-      "text": "Spanish has five vowels: a, e, i, o, u. Each one always sounds the same: short and clear, stressed or not. Don't let a vowel glide (no is not “noh-oo”) and don't make it weak: mañana has three full a's.",
+      "id": "voyelles",
+      "variety": "fr-FR",
+      "title": "Clean, short vowels",
+      "text": "French vowels are pure: the mouth stays in one position from start to end, so no glide. é is not “ay” (the English vowel in “day” glides), and o is not “oh-oo”. Unstressed vowels keep their full sound, so there is no weak “uh”. é is closed (été), è and ê are open (mère, fête): keep them apart, but don't worry if a French speaker from the north merges them.",
       "examples": [
-        { "w": "casa", "note": "a as in “father”, but short" },
-        { "w": "mesa", "note": "e as in “met”" },
-        { "w": "vino", "note": "i as in “machine”, but short" },
-        { "w": "poco", "note": "o as in “hot”, with round lips" },
-        { "w": "uno", "note": "u as in “put”" },
-        { "w": "mañana", "note": "three clear a's" }
-      ]
-    },
-    {
-      "id": "ei-ie",
-      "variety": "es-ES",
-      "title": "Two vowels together",
-      "text": "When i or u stands next to a, e or o, the two vowels normally join in one syllable (a diphthong): bien, puerta, aire. Say both, quickly. A written accent on the i or u splits them into two syllables: día is dí-a, país is pa-ís.",
-      "examples": [
-        { "w": "bien", "note": "one syllable" },
-        { "w": "puerta", "note": "puer-ta" },
-        { "w": "aire", "note": "ai-re" },
-        { "w": "día", "note": "two syllables: dí-a" },
-        { "w": "país", "note": "two syllables: pa-ís" }
+        { "w": "été", "note": "é twice, closed, no glide" },
+        { "w": "mère", "note": "è is open, as in “bed”" },
+        { "w": "pomme", "note": "o is short and round" },
+        { "w": "bébé", "note": "both é closed and clear" },
+        { "w": "café", "note": "the same é at the end" }
       ],
-      "match": "(?<![qg])u[eéi]|i[aeouáéó]|u[aoáó]|[aeo][iu]|[aeo]y$|í[aeo]|[aeo]í|ú[aeo]|[aeo]ú"
+      "match": "[éèêe]",
+      "frCA": { "note": "In Québec, a short high vowel before a consonant is lax: petite sounds a bit like “pe-tsit” with a lax i. Long vowels glide: fête." }
     },
     {
-      "id": "betonung",
-      "variety": "es-ES",
-      "title": "Word stress: llana and aguda",
-      "text": "Every word has one strong syllable, and two rules tell you which. A word that ends in a vowel, n or s is stressed on the second-to-last syllable (llana). A word that ends in any other consonant is stressed on the last syllable (aguda). Where a word breaks these rules, it has a written accent.",
+      "id": "nasal",
+      "variety": "fr-FR",
+      "title": "Nasal vowels: an, on, in",
+      "text": "When a vowel is followed by n or m at the end of a word, or before another consonant, the n or m is not said. It only tells you to let the air go through your nose. There are three nasal vowels in the standard: an/en (vent), on (bon) and in/ain/ein (vin). un (brun) sounds like in for most speakers. Don't say the n at the end: bon is not “bonn” or “bong”. Before a vowel or a double nn/mm the n is said: bonne, une année.",
       "examples": [
-        { "w": "casa", "mark": "ca", "note": "ends in a vowel" },
-        { "w": "hablan", "mark": "ha", "note": "ends in n" },
-        { "w": "zapatos", "mark": "pa", "note": "ends in s" },
-        { "w": "hablar", "mark": "blar", "note": "ends in r" },
-        { "w": "ciudad", "mark": "dad", "note": "ends in d" }
-      ]
-    },
-    {
-      "id": "auslaut",
-      "variety": "es-ES",
-      "title": "Written accents",
-      "text": "A written accent shows the strong syllable when the two rules don't. Words stressed three syllables from the end (esdrújulas) always have one: médico, música. An accent can also change the word: hablo (I speak), habló (she spoke); papa (the Pope), papá (dad).",
-      "examples": [
-        { "w": "café", "mark": "fé", "note": "ends in a vowel, stressed on the last" },
-        { "w": "árbol", "mark": "ár", "note": "ends in l, stressed on the first" },
-        { "w": "médico", "mark": "mé", "note": "esdrújula" },
-        { "w": "habló", "mark": "bló", "note": "she spoke; hablo = I speak" },
-        { "w": "papá", "mark": "pá", "note": "dad; papa = the Pope" }
+        { "w": "vent", "note": "an/en: mouth wide open, air through the nose" },
+        { "w": "bon", "note": "on: lips round, no n at the end" },
+        { "w": "vin", "note": "in: spread lips" },
+        { "w": "pain", "note": "ain is the same sound as in" },
+        { "w": "bonne", "note": "nn: not nasal, the n is said" }
       ],
-      "match": "[áéíóú]"
+      "match": "(a|e|o|i|u|ai|ei|ou)[nm]($|[^aeiouyéèêàâîïôûhnm])",
+      "frCA": { "note": "In Québec the nasal vowels are often longer and more open: vin is closer to [ɛ̃ː], and in a long syllable they glide a little." }
     },
     {
       "id": "r",
-      "variety": "es-ES",
-      "title": "r and rr",
-      "text": "A single r between vowels or at the end of a syllable is one quick tap of the tongue tip behind the top teeth: pero, caro, hablar. rr is several quick taps (a trill), and so is r at the start of a word or after n, l, s: perro, carro, rojo. pero (but) and perro (dog) are different words. Neither one is made in the throat.",
+      "variety": "fr-FR",
+      "title": "The French r",
+      "text": "The French r is made at the back of the mouth, not at the tip of the tongue: the back of your tongue comes close to the soft palate and air rubs through, a bit like a soft gargle. Practise from “ga” or from a gentle cough. It's neither the English r (tongue curled back) nor a trilled r (tongue-tip taps). Between vowels it can be quiet, at the end of a word after a vowel it is often very weak: bonjour, mer.",
       "examples": [
-        { "w": "pero", "note": "one tap: but" },
-        { "w": "perro", "note": "trill: dog" },
-        { "w": "caro", "note": "one tap: expensive" },
-        { "w": "carro", "note": "trill: cart, trolley" },
-        { "w": "rojo", "note": "trill at the start" },
-        { "w": "hablar", "note": "one tap at the end" }
+        { "w": "rue", "note": "r at the start, back of the tongue" },
+        { "w": "mari", "note": "r between vowels" },
+        { "w": "merci", "note": "r before a consonant" },
+        { "w": "bonjour", "note": "r at the end, soft" },
+        { "w": "croire", "note": "r after a consonant" }
       ],
       "match": "r"
     },
     {
-      "id": "sch-st-sp",
-      "variety": "es-ES",
-      "es419": { "note": "Latin America has seseo: z and c before e, i sound like s, so casa and caza sound the same." },
-      "title": "c and z: /θ/ (distinción)",
-      "text": "In most of Spain, z and c before e or i are /θ/, like th in “think”: the tongue tip between the teeth, only air. s stays /s/, so casa (house) and caza (hunting) are different words. c before a, o, u is /k/. You will also hear seseo (s for /θ/) in the Canaries and much of Andalusia, and ceceo (/θ/ for s too) in parts of Andalusia. Both are normal there, not mistakes.",
+      "id": "u-ou",
+      "variety": "fr-FR",
+      "title": "u and ou",
+      "text": "French has two sounds where English has one. ou is as in “you”: lips rounded, tongue back (tout, vous). u is a different sound: say “ee” (i) and, keeping your tongue where it is, round your lips as for “oo”. Lips matter: tu is not “too”, and rue is not roue. Swap them and you say another word.",
       "examples": [
-        { "w": "gracias", "note": "/ˈɡɾaθjas/" },
-        { "w": "cena", "note": "c + e = /θ/" },
-        { "w": "zapato", "note": "z = /θ/" },
-        { "w": "caza", "note": "hunting; casa = house" },
-        { "w": "cosa", "note": "c + o = /k/" }
+        { "w": "tu", "note": "u: tongue forward, lips round" },
+        { "w": "tout", "note": "ou: tongue back, lips round" },
+        { "w": "rue", "note": "street (u)" },
+        { "w": "roue", "note": "wheel (ou)" },
+        { "w": "dessus", "note": "above (u); dessous = below (ou)" }
       ],
-      "match": "z|c[eiéí]"
+      "match": "u|ou",
+      "frCA": { "note": "In Québec, tu and ti are often affricated: tu sounds like “tsu”, dire like “dzire”. It is normal there; keep the France sound for exams in France." }
     },
     {
-      "id": "s",
-      "variety": "es-ES",
-      "es419": { "note": "Much of Latin America also weakens a final s, especially the Caribbean, Argentina and Chile." },
-      "title": "s: no buzz",
-      "text": "Spanish s is the s in “sun”, also between vowels. Don't make it a buzzing z: casa, mesa, museo. It only buzzes a little before b, d, g, m, n, l (mismo, desde), and that happens by itself. In southern Spain and the Canaries a final s often becomes a breath or disappears: los amigos can sound like “loh amigoh”. You will hear this, but you don't have to copy it.",
+      "id": "eu",
+      "variety": "fr-FR",
+      "title": "eu and œu",
+      "text": "eu is a third rounded vowel. Say é (as in été) and round your lips: that is the eu of deux, peu, feu (closed). Before a pronounced consonant, it is more open, like the vowel in “fur” without the r: peur, sœur, fleur. It is never ou: deux is not doux, peu is not pou.",
       "examples": [
-        { "w": "casa", "note": "/s/, no buzz" },
-        { "w": "mesa", "note": "/s/, no buzz" },
-        { "w": "museo", "note": "/s/, no buzz" },
-        { "w": "sopa", "note": "/s/, no buzz" }
+        { "w": "deux", "note": "closed eu, at the end of a syllable" },
+        { "w": "peu", "note": "closed eu" },
+        { "w": "peur", "note": "open eu before r" },
+        { "w": "sœur", "note": "œu is the same sound" },
+        { "w": "heureux", "note": "both: open (heu) and closed (reux)" }
       ],
-      "match": "[aeiouáéíóú]s[aeiouáéíóú]|^s[aeiouáéíóú]"
-    },
-    {
-      "id": "ig",
-      "variety": "es-ES",
-      "es419": { "note": "In the Caribbean, Central America and Colombia this sound is softer, close to the h in “house”." },
-      "title": "j, and g before e or i: /x/",
-      "text": "j, and g before e or i, are /x/: a rasp at the back of the mouth, like ch in Scottish “loch”. In Spain it is strong and clearly audible. It is not the j in “jam”. g before a, o, u is the g in “go”: gato, amigo.",
-      "examples": [
-        { "w": "jamón", "note": "/x/" },
-        { "w": "gente", "note": "g + e = /x/" },
-        { "w": "trabajo", "note": "/x/" },
-        { "w": "página", "note": "g + i = /x/" },
-        { "w": "gato", "note": "g + a = g in “go”" }
-      ],
-      "match": "j|g[eiéí]"
-    },
-    {
-      "id": "ll-y",
-      "variety": "es-ES",
-      "es419": { "note": "In Argentina and Uruguay ll and y often sound like sh or the s in “measure”." },
-      "title": "ll and y (yeísmo)",
-      "text": "In most of Spain ll and y are one sound (yeísmo): like y in “yes”, a little stronger. Some older speakers in rural areas still keep ll apart. It is never an l: calle, not “cale”. On its own or at the end of a word, y is a vowel, like i: y (and), hoy, muy.",
-      "examples": [
-        { "w": "calle", "note": "like “ca-ye”" },
-        { "w": "llave", "note": "like “ya-ve”" },
-        { "w": "yo", "note": "same sound" },
-        { "w": "mayo", "note": "same sound" },
-        { "w": "hoy", "note": "y at the end = i" }
-      ],
-      "match": "ll|y[aeiouáéíóú]|y$"
-    },
-    {
-      "id": "enye",
-      "variety": "es-ES",
-      "title": "ñ",
-      "text": "ñ is one sound, like ny in “canyon” or gn in French and Italian. Press the middle of your tongue against the roof of your mouth. It is a letter of its own, and it changes the word: pena (sorrow), peña (rock; a group of friends).",
-      "examples": [
-        { "w": "año", "note": "year" },
-        { "w": "mañana", "note": "morning, tomorrow" },
-        { "w": "España", "note": "Spain" },
-        { "w": "peña", "note": "pena is another word" }
-      ],
-      "match": "ñ"
-    },
-    {
-      "id": "buchstaben",
-      "variety": "es-ES",
-      "title": "b and v: one sound",
-      "text": "b and v sound exactly the same. At the start of a phrase and after m or n, close both lips: vino, bien, un vaso. Between vowels your lips almost touch, and the sound is soft: abuela, nuevo. Your top teeth never touch your lip.",
-      "examples": [
-        { "w": "vino", "note": "both lips" },
-        { "w": "bien", "note": "both lips" },
-        { "w": "hombre", "note": "after m: both lips" },
-        { "w": "abuela", "note": "soft, between vowels" },
-        { "w": "nuevo", "note": "soft, between vowels" }
-      ],
-      "match": "[bv]"
+      "match": "eu|œu"
     },
     {
       "id": "e-ende",
-      "variety": "es-ES",
-      "title": "Hard and soft d",
-      "text": "At the start of a phrase and after n or l, d is hard, with the tongue against the top teeth: dos, donde. Everywhere else it is soft /ð/, like th in “this”: nada, cansado. At the end of a word it is very weak: Madrid, usted. In relaxed speech in Spain, -ado often sounds like “-ao”: cansao.",
+      "variety": "fr-FR",
+      "title": "The e muet (mute e)",
+      "text": "An e at the end of a word is not said: table sounds like “tabl”, but the consonant before it is. In the middle of a word and in short words (je, le, ne, de, que) the e is weak: it is dropped when the syllable before it is open, and said (like eu, short) when two consonants would come together. demain is often “d'main”, but je ne sais pas keeps its rhythm. In careful or sung speech, and in the south of France, an e muet is often said.",
       "examples": [
-        { "w": "dos", "note": "hard" },
-        { "w": "donde", "note": "both hard" },
-        { "w": "nada", "note": "soft /ð/" },
-        { "w": "cansado", "note": "soft /ð/" },
-        { "w": "Madrid", "note": "very weak at the end" }
+        { "w": "table", "note": "“tabl”: e muet at the end" },
+        { "w": "demain", "note": "de- is weak" },
+        { "w": "petit", "note": "pe- is weak" },
+        { "w": "justement", "note": "e before -ment is not said: “just'ment”" },
+        { "w": "le", "note": "weak, short" }
       ],
-      "match": "[aeiouáéíóú]d[aeiouáéíóú]|d$"
+      "match": "e$|es$|[^aeiou]ent$|^[bcdjlmnpqrstv]e[^aeiouyéèêr]"
     },
     {
-      "id": "h",
-      "variety": "es-ES",
-      "title": "h is silent",
-      "text": "You never say the letter h. Start straight on the next vowel: hola sounds just like ola (wave). h only has a sound together with c, as ch.",
+      "id": "e-accent",
+      "variety": "fr-FR",
+      "title": "é, è, ê, ë and the e before two consonants",
+      "text": "An accent shows the sound: é is closed (the mouth nearly closed, as in “say”, without the glide), è, ê and ë are open (as in “bed”). e before two consonants (elle, verre) is also open. The accent never moves the stress, and it can change the word: a / à, ou / où, sur / sûr.",
       "examples": [
-        { "w": "hola", "note": "like “ola”" },
-        { "w": "hora", "note": "like “ora”" },
-        { "w": "ahora", "note": "“a-o-ra”" },
-        { "w": "hospital", "note": "“os-pi-tal”" }
+        { "w": "été", "note": "é, closed" },
+        { "w": "père", "note": "è, open" },
+        { "w": "forêt", "note": "ê, open" },
+        { "w": "elle", "note": "e before ll, open" },
+        { "w": "où", "note": "where; ou = or" }
       ],
-      "match": "(^|[^c])h"
+      "match": "[éèêëàù]|e(ll|rr|tt|ss|ct|rt|st)"
+    },
+    {
+      "id": "liaison",
+      "variety": "fr-FR",
+      "title": "Liaison",
+      "text": "Liaison means a silent final consonant is said before a vowel sound. It is required between a determiner and its noun (les amis: lé-z-ami, un ami: u-n-ami), a pronoun and its verb (ils ont: il-z-ont), after one-syllable words like en, dans, très, and in set phrases (de plus en plus, petit à petit). It is forbidden after et (et ils), before an h aspiré (les héros), after a singular noun (un enfant intelligent) and after a name. In between there is optional liaison: only in formal speech. s and x are said as z, d as t: grand arbre, un grand_homme.",
+      "examples": [
+        { "w": "les amis", "note": "required: lé-z-ami" },
+        { "w": "ils ont", "note": "required: il-z-on" },
+        { "w": "très utile", "note": "required: trè-z-utile" },
+        { "w": "et un", "note": "forbidden after et: no t" },
+        { "w": "les héros", "note": "forbidden: h aspiré, no z" }
+      ]
+    },
+    {
+      "id": "enchainement",
+      "variety": "fr-FR",
+      "title": "Enchaînement: no breaks between words",
+      "text": "French joins words into groups, and a spoken consonant at the end of a word is moved over to the vowel that follows: il a sounds like “i-la”, une amie like “u-na-mi”. Don't put a small stop (a glottal stop) before a vowel as you may in German or English. The group, not the word, is the unit: je m'appelle is one flowing word.",
+      "examples": [
+        { "w": "il a", "note": "“i-la”" },
+        { "w": "elle est", "note": "“è-lè”" },
+        { "w": "une amie", "note": "“u-na-mi”" },
+        { "w": "avec elle", "note": "“a-vè-kèl”" },
+        { "w": "c'est une idée", "note": "“sè-tu-ni-dé”" }
+      ]
+    },
+    {
+      "id": "silent",
+      "variety": "fr-FR",
+      "title": "Silent letters",
+      "text": "Many letters at the end of a French word are not said: petit, grand, trop, temps, nez, beaucoup, and -er at the end of a verb (parler). The -ent of a verb in the plural is silent too: ils parlent sounds like il parle. The last letters c, r, f and l are often said (sac, mer, neuf, bol): think of the word CaReFuL. The feminine form brings the consonant back: petit / petite, grand / grande.",
+      "examples": [
+        { "w": "petit", "note": "the t is silent" },
+        { "w": "grand", "note": "d silent; grande: d said" },
+        { "w": "trop", "note": "p silent" },
+        { "w": "parler", "note": "-er: just é" },
+        { "w": "parlent", "note": "-ent is silent: same as parle" }
+      ],
+      "match": "(t|s|d|x|p|z|g)$|[^aeiouyéèêàâîïôû]ent$|er$|ez$"
+    },
+    {
+      "id": "betonung",
+      "variety": "fr-FR",
+      "title": "Stress comes at the end of the group",
+      "text": "In French the words in a group have almost the same strength. Only the last syllable of the group is a little longer and higher. So, say “chocolat” as cho-co-LAT, and “un chocolat chaud” as un cho-co-lat CHAUD: stress moves to the end of the group. Don't stress the first syllable, as in English or German, and don't stress word by word, as in Spanish or Italian. Keep the rhythm even, like a row of beats.",
+      "examples": [
+        { "w": "chocolat", "mark": "lat", "note": "last syllable" },
+        { "w": "ordinateur", "mark": "teur", "note": "last syllable" },
+        { "w": "important", "mark": "tant", "note": "not IM-portant" },
+        { "w": "université", "mark": "té", "note": "not u-ni-VER-si-té" },
+        { "w": "restaurant", "mark": "rant", "note": "last syllable" }
+      ]
+    },
+    {
+      "id": "s",
+      "variety": "fr-FR",
+      "title": "s, z, ss, c and ç",
+      "text": "s between two vowels is said z: maison, cuisine. ss is always s: poisson (fish) is not poison (poison). At the start of a word, s is s. c is /s/ before e and i (ceci, cinéma) and /k/ before a, o, u (café, cour). ç (cédille) is always /s/ before a, o, u: français, garçon. g is soft (like s in “measure”) before e and i: manger, girafe, and hard before a, o, u: gare.",
+      "examples": [
+        { "w": "maison", "note": "s between vowels is z" },
+        { "w": "poisson", "note": "ss is s" },
+        { "w": "poison", "note": "s is z: poison" },
+        { "w": "français", "note": "ç is s" },
+        { "w": "cinéma", "note": "c before i is s" }
+      ],
+      "match": "s|c|ç"
     },
     {
       "id": "ch",
-      "variety": "es-ES",
-      "title": "ch",
-      "text": "ch is one sound, as in “church”: ocho, noche, leche. It is not sh, and it is not k.",
+      "variety": "fr-FR",
+      "title": "ch, j, g",
+      "text": "ch is sh as in “shop”: chat, chaud. j is the soft sound in “measure”, voiced and never like the j in “jam”: jour, jaune. g before e and i is the same sound: manger, rouge. Spanish and Portuguese speakers: j is neither a rasp (Spanish) nor “dj”.",
       "examples": [
-        { "w": "chico" },
-        { "w": "ocho" },
-        { "w": "noche" },
-        { "w": "leche" }
+        { "w": "chat", "note": "ch like sh" },
+        { "w": "jaune", "note": "j like s in “measure”" },
+        { "w": "manger", "note": "g before e is the same sound" },
+        { "w": "chambre", "note": "ch, then a nasal vowel" },
+        { "w": "joli", "note": "j, then a clear o" }
       ],
-      "match": "ch"
+      "match": "ch|j|g[eiy]"
     },
     {
-      "id": "umlaute",
-      "variety": "es-ES",
-      "title": "qu, gu and gü",
-      "text": "In que and qui the u is silent and the sound is /k/: queso, quiero. In gue and gui the u is silent too and the g is the one in “go”: guerra, guitarra. Only with two dots (ü) do you say the u: vergüenza, pingüino.",
+      "id": "gn",
+      "variety": "fr-FR",
+      "title": "gn and ill",
+      "text": "gn is one sound, like ny in “canyon”: montagne, signe, Espagne. ill after a vowel is the sound y (in “yes”): travailler, fille, famille. At the start of a word and in a few words it is i + l: ville, mille, tranquille. Learn these three words and you know the main exceptions.",
       "examples": [
-        { "w": "queso", "note": "“ke-so”" },
-        { "w": "quiero", "note": "“kie-ro”" },
-        { "w": "guerra", "note": "“ge-rra”, g as in “go”" },
-        { "w": "guitarra", "note": "silent u" },
-        { "w": "pingüino", "note": "you say the u" }
+        { "w": "montagne", "note": "gn = ny" },
+        { "w": "signe", "note": "gn = ny" },
+        { "w": "fille", "note": "ill = y" },
+        { "w": "travailler", "note": "ill = y" },
+        { "w": "ville", "note": "exception: l is said" }
       ],
-      "match": "qu|gu[eiéí]|gü"
+      "match": "gn|ill"
     },
     {
-      "id": "knacklaut",
-      "variety": "es-ES",
-      "title": "Linking words",
-      "text": "Spanish flows from word to word with no stop. A last vowel and a first vowel join in one syllable (sinalefa): mi amigo. A last consonant moves on to the next vowel: los otros sounds like “lo-so-tros”.",
+      "id": "h",
+      "variety": "fr-FR",
+      "title": "h: muet and aspiré",
+      "text": "The letter h is never said. But there are two kinds. h muet acts as if it weren't there: l'homme, l'hôtel, les hommes (with liaison: lé-z-omme). h aspiré behaves like a consonant, but without a sound: le héros, les haricots (no liaison, no elision). A dictionary marks it. You must learn the common words: haricot, hasard, hibou, honte, hôpital is muet.",
       "examples": [
-        { "w": "mi amigo", "note": "mia-mi-go" },
-        { "w": "los otros", "note": "lo-so-tros" },
-        { "w": "en España", "note": "e-nes-pa-ña" }
-      ]
+        { "w": "homme", "note": "h muet: l'homme" },
+        { "w": "hôtel", "note": "h muet: l'hôtel" },
+        { "w": "héros", "note": "h aspiré: le héros" },
+        { "w": "haricot", "note": "h aspiré: les haricots (no z)" },
+        { "w": "heure", "note": "h muet: l'heure" }
+      ],
+      "match": "h"
+    },
+    {
+      "id": "qu-oi",
+      "variety": "fr-FR",
+      "title": "qu, oi, ai, au, eau",
+      "text": "qu is /k/: the u is silent (qui, que, quatre). oi is “wa”: moi, voiture, trois. ai is è: j'ai, mais, maison. au and eau are o: chaud, beau, eau. ou is as in “you”, and in is nasal: always read the pair of letters as one sound.",
+      "examples": [
+        { "w": "qui", "note": "“ki”" },
+        { "w": "voiture", "note": "oi = “wa”" },
+        { "w": "mais", "note": "ai = è" },
+        { "w": "beau", "note": "eau = o" },
+        { "w": "chaud", "note": "au = o, d silent" }
+      ],
+      "match": "qu|oi|ai|au|eau"
     }
   ]
 }

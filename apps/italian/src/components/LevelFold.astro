@@ -58,7 +58,7 @@ const ENTRY = [
 
 // A phone panel that scrolls is a panel nobody reads to the end of, and B1 has
 // eleven topics. So the level's own entry topic leads, four more follow, and the
-// rest live one tap further on at /grammar.
+// rest live one tap further on at /grammatica.
 const PANEL_TOPICS = 5;
 
 const LEVELS = ENTRY.map(({ level, slug }) => {
@@ -76,7 +76,7 @@ const LEVELS = ENTRY.map(({ level, slug }) => {
     count: all.length,
     slug: level.toLowerCase(),
     topics: [...all.filter((t) => t.href === href), ...all.filter((t) => t.href !== href)],
-    words: words > 0 ? { href: `/vocabulary/${level.toLowerCase()}`, count: words } : null,
+    words: words > 0 ? { href: `/vocabolario/${level.toLowerCase()}`, count: words } : null,
   };
 });
 
@@ -85,14 +85,14 @@ const LEVELS = ENTRY.map(({ level, slug }) => {
 // notice, go back, guess again. Someone who cannot place themselves on the CEFR scale also
 // cannot tell from one exercise whether a topic is beneath them, so the guess mostly stood.
 // Eight questions answer it instead.
-const unsureHref = "/placement-test";
+const unsureHref = "/test-di-livello";
 
 const EXAM_CHIPS = [
   { label: "CILS", href: "/cils" },
   { label: "CELI", href: "/celi" },
   { label: "PLIDA", href: "/plida" },
-  { label: "B1 for citizenship", href: "/citizenship/b1-mock" },
-  { label: "Civic knowledge", href: "/civic-knowledge" },
+  { label: "B1 for citizenship", href: "/cittadinanza/prova-b1" },
+  { label: "Civic knowledge", href: "/cultura-civica" },
 ];
 ---
 <section class="lf" data-lf>
@@ -113,7 +113,6 @@ const EXAM_CHIPS = [
           <span class="lf-tile-level">{l.level}</span>
           <span>
             <span class="lf-tile-name">{l.name}</span>
-            <span class="lf-tile-meta" data-i18n="fold.topics" data-i18n-vars={JSON.stringify({ n: l.count })}>{l.count} Themen</span>
           </span>
         </a>
       ))}
@@ -146,14 +145,11 @@ const EXAM_CHIPS = [
             {l.topics.slice(0, PANEL_TOPICS).map((t) => (
               <a class="lf-row" href={t.href}>
                 <span class="lf-row-t">{t.name}</span>
-                <span class="lf-row-n" data-i18n={t.countKey} data-i18n-vars={JSON.stringify({ n: t.count })}>
-                  {t.count} {t.countKey === "fold.row.exercises" ? "Übungen" : "Fragen"}
-                </span>
               </a>
             ))}
           </div>
           {l.topics.length > PANEL_TOPICS && (
-            <a class="lf-panel-all" href={`/grammar#niveau-${l.slug}`} data-i18n="fold.allTopics" data-i18n-vars={JSON.stringify({ n: l.topics.length })}>
+            <a class="lf-panel-all" href={`/grammatica#livello-${l.slug}`} data-i18n="fold.allTopics" data-i18n-vars={JSON.stringify({ n: l.topics.length })}>
               Alle {l.topics.length} Themen →
             </a>
           )}
@@ -164,7 +160,6 @@ const EXAM_CHIPS = [
               <div class="lf-rows">
                 <a class="lf-row" href={l.words.href}>
                   <span class="lf-row-t" data-i18n="fold.wordList" data-i18n-vars={JSON.stringify({ level: l.level })}>Wortliste {l.level}</span>
-                  <span class="lf-row-n" data-i18n="fold.row.words" data-i18n-vars={JSON.stringify({ n: l.words.count })}>{l.words.count} Wörter</span>
                 </a>
               </div>
             </>

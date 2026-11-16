@@ -99,7 +99,7 @@ const ROW_WIDTH = 4;
     </div>
 
     {levels.map((level) => (
-      <section class="level-section" id={`niveau-${level.toLowerCase()}`}>
+      <section class="level-section" id={`level-${level.toLowerCase()}`}>
         <div class="level-heading">
           <span class="badge badge-info">{level}</span>
         </div>
@@ -270,7 +270,7 @@ const ROW_WIDTH = 4;
 
   .level-section { margin-top: 26px; }
   .level-section:first-of-type { margin-top: 0; }
-  /* The nav links straight to a level (#niveau-b1); without this the sticky site header
+  /* The nav links straight to a level (#level-b1); without this the sticky site header
      lands on top of the badge the learner was aiming at. */
   .level-section { scroll-margin-top: 84px; }
   .level-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }

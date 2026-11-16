@@ -1,8 +1,8 @@
-/* /step-by-step — the prototype's three hand-written sittings, kept as test fixtures.
+/* /passo-passo — the prototype's three hand-written sittings, kept as test fixtures.
  *
  * Einfach lernen now plays the curated path (src/data/einfach-pfad.json, resolved by
  * src/lib/einfach-content.js). These three stay because they exercise word, article, gap and
- * build tasks with known answers and need no data build: open /step-by-step?fixtures to play
+ * build tasks with known answers and need no data build: open /passo-passo?fixtures to play
  * them instead of the path. Not shown to learners otherwise.
  */
 

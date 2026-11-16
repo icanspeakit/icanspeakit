@@ -109,7 +109,7 @@ export function translateHtml(html, dict) {
 const setMeta = (html, re, value) => html.replace(re, (tag) => tag.replace(/content="[^"]*"/, `content="${escAttr(value)}"`));
 
 /** The German URL of a page and its copy in one language: home with a trailing slash, the rest without. */
-// Under the base path (src/lib/paths.js): https://icanspeak.it/italian/de/…. `site` stays in
+// Under the base path (src/lib/paths.js): https://icanspeak.it/italiano/de/…. `site` stays in
 // the signature for scripts/build-entry-pages.mjs; the base decides.
 const deUrl = (_site, page) => absoluteUrl(page.src);
 const langUrl = (_site, page, l) => absoluteUrl(`/${l.urlPrefix}/${page.slug}`);

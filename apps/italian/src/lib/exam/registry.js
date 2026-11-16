@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the B1 mock for citizenship and the A2 mock for the long-term permit in the /citizenship/b1-mock slot)
+ *                  (src/lib/dtzTrainer.js — the B1 mock for citizenship and the A2 mock for the long-term permit in the /cittadinanza/prova-b1 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -63,7 +63,7 @@ export const examRegistry = [
     title: "PLIDA B1 reading and writing",
     subtitle: "Reading · Writing",
     level: "B1",
-    href: "/plida/practice-set",
+    href: "/plida/esercitazione",
     overview: "/plida",
     store: { kind: "exam", key: "testdaf" },
     // Deliberately no pass percentage: the PLIDA marks each skill by its own rules (to verify on plida.it),
@@ -82,8 +82,8 @@ export const examRegistry = [
     title: "Civic knowledge test",
     subtitle: "Practice test",
     level: "Knowledge test",
-    href: "/civic-knowledge/test",
-    overview: "/civic-knowledge",
+    href: "/cultura-civica/test",
+    overview: "/cultura-civica",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Our own practice target: ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions. Not an official pass mark.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
@@ -99,8 +99,8 @@ export const examRegistry = [
     title: "B1 mock for citizenship",
     subtitle: dtz1.label,
     level: "A2",
-    href: "/citizenship/b1-mock/practice-set",
-    overview: "/citizenship/b1-mock",
+    href: "/cittadinanza/prova-b1/esercitazione",
+    overview: "/cittadinanza/prova-b1",
     store: { kind: "dtz", key: dtz1.id },
     // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not an exam score.
     passNote: "Our own guide, not an exam score: listening and reading count together, and 33 of 45 points means you are well prepared.",

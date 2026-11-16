@@ -26,6 +26,7 @@ const CHECKS = [
   "check-lindenau.mjs",
   "check-redewendungen.mjs",
   "validate-lexicon.mjs",
+  "check-i18n-keys.mjs",
 ];
 
 for (const file of CHECKS) {

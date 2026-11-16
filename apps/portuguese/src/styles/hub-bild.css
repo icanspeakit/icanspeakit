@@ -16,6 +16,8 @@
      laptop screen and pushed the H1 and the first cards below the fold. */
   max-height: 190px;
   object-fit: cover;
+  /* Faces sit in the upper third: a centred crop of a 16:4 strip cut the heads off. */
+  object-position: 50% 30%;
 }
 
 /* Inside ExamShell's hero column: a little taller, since the column is narrow. */
@@ -56,3 +58,23 @@
 /* Photos are shot for daylight; on the dark theme they glare next to the dark surfaces.
    Layout always sets data-theme (from the toggle or the OS), so one selector covers both. */
 :root[data-theme="dark"] .hub-bild img { filter: brightness(.85); }
+
+/* ---- Daneben (2026-11-15, after the /bild-layout test): the whole photo beside the title. ----
+   HubBild renders .hub-bild--daneben with the uncut photo; the parent (the hub's section) becomes
+   a grid: on a laptop the hero text left, the photo right; everything after both spans the full
+   width as before. On a phone the whole photo sits above the title. */
+.hub-bild.hub-bild--daneben img { aspect-ratio: auto; max-height: none; height: auto; }
+/* A page whose banner is not followed by a .practice-hero keeps the strip. */
+.hub-bild.hub-bild--daneben:not(:has(+ .practice-hero)) img { aspect-ratio: 16 / 4; max-height: 190px; object-fit: cover; object-position: 50% 30%; }
+:has(> .hub-bild--daneben + .practice-hero) { display: grid; column-gap: 40px; }
+:has(> .hub-bild--daneben + .practice-hero) > * { grid-column: 1 / -1; min-width: 0; }
+:has(> .hub-bild--daneben + .practice-hero) > .hub-bild--daneben { grid-row: 1; margin-bottom: 20px; }
+:has(> .hub-bild--daneben + .practice-hero) > .practice-hero { grid-row: 2; }
+@media (min-width: 900px) {
+  :has(> .hub-bild--daneben + .practice-hero) { grid-template-columns: minmax(0, 1fr) minmax(0, 46%); align-items: center; }
+  :has(> .hub-bild--daneben + .practice-hero) > .hub-bild--daneben { grid-column: 2; grid-row: 1; margin: 0 0 40px; }
+  :has(> .hub-bild--daneben + .practice-hero) > .practice-hero { grid-column: 1; grid-row: 1; text-align: left; }
+  :has(> .hub-bild--daneben + .practice-hero) > .practice-hero .eyebrow { text-align: left; }
+  :has(> .hub-bild--daneben + .practice-hero) > .practice-hero p { margin-left: 0; }
+  :has(> .hub-bild--daneben + .practice-hero) > .practice-hero .section-mascot--center { justify-content: flex-start; margin-left: 0; }
+}
