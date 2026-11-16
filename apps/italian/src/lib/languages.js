@@ -57,10 +57,10 @@ export const LANGUAGE_REGISTRY = [
   {
     code: "de", native: "Deutsch", de: "Deutsch", en: "German", word: "Sprache",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "de", urlPrefix: "de",
-    // Named only where German text exists (docs/content-plan.md §10.4). Help texts and the
+    // Named only where German text exists. Help texts and the
     // profession decks fall back to English; the legal pages are German already.
     // `fetch` keeps `de` out of the surfaces that inline glosses (live quiz, printable games):
-    // there, `de` on a question or option still means the Spanish being learnt.
+    // there, `de` on a question or option still means the Italian being learnt.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
