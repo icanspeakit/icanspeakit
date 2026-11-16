@@ -215,7 +215,6 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
           <span class="lp-drawer-ic"><Icon name="book" size={18} /></span>
           <span class="lp-drawer-txt">
             <b data-i18n={kulturwissen.titleKey}>{kulturwissen.title}</b>
-            <i data-i18n={kulturwissen.countKey} data-i18n-vars={vars(kulturwissen.countVars)}>{kulturwissen.count}</i>
           </span>
           <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
         </button>
@@ -347,7 +346,6 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
                 <span class="lp-drawer-ic"><Icon name={item.icon} size={18} /></span>
                 <span class="lp-drawer-txt">
                   <b><bdi>{item.title}</bdi></b>
-                  <i data-i18n={item.countKey} data-i18n-vars={vars(item.countVars)}>{item.count}</i>
                 </span>
                 <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
               </a>
@@ -358,7 +356,6 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
           <span class="lp-drawer-ic"><Icon name={landeskunde.quiz.icon} size={18} /></span>
           <span class="lp-drawer-txt">
             <b data-i18n={landeskunde.quiz.titleKey}>{landeskunde.quiz.title}</b>
-            <i data-i18n={landeskunde.quiz.countKey} data-i18n-vars={vars(landeskunde.quiz.countVars)}>{landeskunde.quiz.count}</i>
           </span>
           <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
         </a>
@@ -384,7 +381,6 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
               <span class="lp-drawer-ic"><Icon name={feature.icon} size={18} /></span>
               <span class="lp-drawer-txt">
                 <b data-i18n={feature.titleKey}>{feature.title}</b>
-                <i data-i18n={feature.countKey} data-i18n-vars={vars(feature.countVars)}>{feature.count}</i>
               </span>
               <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
             </a>
@@ -399,9 +395,7 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
                 <span class="lp-drawer-ic"><Icon name={skill.icon} size={18} /></span>
                 <span class="lp-drawer-txt">
                   <b data-i18n={skill.nameKey}>{skill.name}</b>
-                  {skill.soon
-                    ? <i data-i18n="nav.skill.soonTag">bald</i>
-                    : <i data-i18n="nav.skill.count" data-i18n-vars={vars({ n: skill.total })}>{skill.total} Übungen</i>}
+                  {skill.soon && <i data-i18n="nav.skill.soonTag">bald</i>}
                 </span>
                 <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
               </button>
@@ -442,7 +436,6 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
                     <span class="lp-drawer-ic"><Icon name={item.icon} size={18} /></span>
                     <span class="lp-drawer-txt">
                       {item.titleKey ? <b data-i18n={item.titleKey} data-i18n-vars={vars(item.titleVars)}>{item.title}</b> : <b><bdi>{item.title}</bdi></b>}
-                      <i data-i18n={item.countKey} data-i18n-vars={vars(item.countVars)}>{item.count}</i>
                     </span>
                     <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
                   </a>
@@ -474,9 +467,7 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
                   <a class="lp-drawer-row lp-drawer-row--compact" href={it.href}>
                     <span class="lp-drawer-txt">
                       {it.titleKey ? <b data-i18n={it.titleKey} data-i18n-vars={vars(it.titleVars)}>{it.title}</b> : <b><bdi>{it.title}</bdi></b>}
-                      {it.meta
-                        ? <i><span data-i18n={it.meta.typeKey}>{it.meta.typeText}</span> · <span data-i18n={it.meta.countKey} data-i18n-vars={vars(it.meta.countVars)}>{it.meta.countText}</span></i>
-                        : it.count && <i data-i18n={it.countKey} data-i18n-vars={vars(it.countVars)}>{it.count}</i>}
+                      {it.meta && <i data-i18n={it.meta.typeKey}>{it.meta.typeText}</i>}
                     </span>
                     <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
                   </a>
@@ -528,7 +519,7 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
                   <a class="lp-drawer-row lp-drawer-row--compact" href={it.href}>
                     <span class="lp-drawer-txt">
                       {it.titleKey ? <b data-i18n={it.titleKey} data-i18n-vars={vars(it.titleVars)}>{it.title}</b> : <b><bdi>{it.title}</bdi></b>}
-                      {it.meta ? <i><span data-i18n={it.meta.typeKey}>{it.meta.typeText}</span> · <span data-i18n={it.meta.countKey} data-i18n-vars={vars(it.meta.countVars)}>{it.meta.countText}</span></i> : <i data-i18n={it.countKey} data-i18n-vars={vars(it.countVars)}>{it.count}</i>}
+                      {it.meta && <i data-i18n={it.meta.typeKey}>{it.meta.typeText}</i>}
                     </span>
                     <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
                   </a>
@@ -600,7 +591,6 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
               <span class="lp-drawer-ic"><Icon name={v.icon} size={18} /></span>
               <span class="lp-drawer-txt">
                 <b data-i18n={v.titleKey} data-i18n-vars={vars(v.titleVars)}>{v.title}</b>
-                <i data-i18n={v.countKey} data-i18n-vars={vars(v.countVars)}>{v.count}</i>
               </span>
               <svg class="lp-drawer-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
             </a>

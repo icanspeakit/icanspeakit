@@ -206,7 +206,6 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
                   <div class="lp-tool-tile"><Icon name={t.icon} /></div>
                   <h4 data-i18n={t.titleKey}>{t.title}</h4>
                   <p data-i18n={t.descKey}>{t.desc}</p>
-                  <span class="badge badge-brand" data-i18n={t.countKey} data-i18n-vars={JSON.stringify(t.countVars)}>{t.count}</span>
                 </a>
               ))}
             </div>
@@ -218,7 +217,6 @@ const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
                 <a href={e.href} class="lp-tool-card">
                   <div class="lp-tool-tile"><Icon name={e.icon} /></div>
                   <h4 data-i18n={e.titleKey}>{e.title}</h4>
-                  <span class="badge badge-neutral" data-i18n={e.countKey} data-i18n-vars={e.countVars ? JSON.stringify(e.countVars) : undefined}>{e.count}</span>
                 </a>
               ))}
             </div>

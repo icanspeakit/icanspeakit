@@ -58,7 +58,6 @@ const panels = [...groups.map((g) => ({ id: g.id, name: g.name, nameKey: g.nameK
           <a class="pp-row" href={t.href}>
             <span class="pp-ic"><Icon name={t.icon} /></span>
             <span class="pp-row-t" data-i18n={t.titleKey}>{t.title}</span>
-            <span class="pp-count" data-i18n={t.countKey} data-i18n-vars={t.countVars ? JSON.stringify(t.countVars) : undefined}>{t.count}</span>
           </a>
         ))}
       </div>

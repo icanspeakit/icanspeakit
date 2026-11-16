@@ -23,8 +23,8 @@ const RECHT: L[] = [
   { h: SLUGS.privacy, t: "Privacy", k: "home.footer.link.privacy" },
   { h: SLUGS.terms, t: "Terms of use", k: "home.footer.link.terms" },
   ...(paywall ? [
-    { h: "/account", t: "Cancel a contract", k: "home.footer.link.cancel" },
-    { h: "/account", t: "Withdraw from a contract", k: "home.footer.link.withdraw" },
+    { h: SLUGS.account, t: "Cancel a contract", k: "home.footer.link.cancel" },
+    { h: SLUGS.account, t: "Withdraw from a contract", k: "home.footer.link.withdraw" },
   ] : []),
 ];
 /** `data-i18n-vars` wants a string or nothing. */

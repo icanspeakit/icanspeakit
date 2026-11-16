@@ -189,24 +189,13 @@ const perLevel = (skill, level) => skill.rows.filter((r) => r.level === level).l
                   {(i === 0 || skill.rows[i - 1].level !== item.level) && (
                     <li class="fk-lvhead" data-lvhead aria-hidden="true">
                       <span class="fk-lvhead-lv">{item.level}</span>
-                      <span data-i18n="nav.skill.count" data-i18n-vars={JSON.stringify({ n: perLevel(skill, item.level) })}>{perLevel(skill, item.level)} Übungen</span>
                     </li>
                   )}
                   <li data-level={item.level}>
                     <a href={item.href}>
                       <span class="fk-row-txt">
                         <b>{item.title}</b>
-                        {item.count && (
-                          <i>
-                            {item.meta
-                              ? <>
-                                  <span data-i18n={item.meta.typeKey}>{item.meta.typeText}</span>
-                                  {" · "}
-                                  <span data-i18n={item.meta.countKey} data-i18n-vars={JSON.stringify(item.meta.countVars)}>{item.meta.countText}</span>
-                                </>
-                              : item.count}
-                          </i>
-                        )}
+                        {item.meta && <i data-i18n={item.meta.typeKey}>{item.meta.typeText}</i>}
                       </span>
                       <span class="fk-row-go" aria-hidden="true">›</span>
                     </a>

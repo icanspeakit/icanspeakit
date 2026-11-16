@@ -13,7 +13,8 @@ export const SLUGS = {
   progress: "/progresso",
   imprint: "/aviso-legal",
   privacy: "/privacidade",
-  terms: "/termos"
+  terms: "/termos",
+  account: "/conta"
 };
 
 /** Footer size by route (base-less, no trailing slash). none: screens a class or a learner works
