@@ -3,7 +3,7 @@
 // is shown in es, a slim bar at the top says so and asks for help by email. Closing it hides it
 // for this browser. applyLang() in i18n.js calls showReviewBanner() on every language change.
 const CODE = "es";
-const EMAIL = "info@icanspeak.it";
+const EMAIL = "hello@icanspeak.it";
 const KEY = "isk_review_banner_closed";
 const ID = "isk-review-banner";
 
