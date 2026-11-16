@@ -11,8 +11,8 @@
 // Plain ESM with a JSON import, like lexicon.js: the pages, the client bundles and the Node
 // scripts (scripts/check-*.mjs, scripts/lang-coverage.mjs) all load it.
 // Coverage per language and surface (% of the base keys), written by `pnpm lang:coverage`
-// once a second language exists. englishacademy ships English only, so it starts empty.
-const coverage = { langs: {} };
+// (scripts/lang-coverage.mjs); rerun it after a dictionary in public/i18n changes.
+import coverage from "../../docs/lang-coverage.json" with { type: "json" };
 
 /** The surfaces a language can be offered on, and what each one is:
  *  ui            public/i18n/<code>.json — the interface and the header menu
