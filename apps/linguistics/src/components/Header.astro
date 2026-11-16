@@ -1,5 +1,8 @@
 ---
 import { u } from '../lib/url';
+import LogoDrop from './LogoDrop.astro';
+// The site root is the hub (another app); in dev it runs on its own port (apps/hub, 4320).
+const siteHome = import.meta.env.DEV ? 'http://localhost:4320/' : '/';
 interface Props {
   altHref?: string;
 }
@@ -23,19 +26,11 @@ const otherHref = altHref ?? (locale === 'de' ? u('/') : u('/de/'));
 
 <header class="site-header">
   <div class="site-header__inner container">
-    <a href={locale === 'de' ? u('/de/') : u('/')} class="home-link" aria-label="Home">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M3 11.5 12 4l9 7.5" />
-        <path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9" />
-      </svg>
-    </a>
-
-    <a href={locale === 'de' ? u('/de/') : u('/')} class="brand">
-      <span class="brand__word">
-        icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
-      </span>
-      <span class="brand__tagline">{t.tagline}</span>
-    </a>
+    <span class="isk-lockup">
+      <a href={siteHome} class="isk-lockup__home" aria-label="icanspeak.it, all languages"><LogoDrop src={u("/logos/icanspeak-wordmark.svg")} alt="" width={164} height={34} /></a>
+      <a href={locale === 'de' ? u('/de/') : u('/')} class="isk-pill" aria-label={locale === 'de' ? 'icanspeak Linguistik, Start' : 'icanspeak linguistics, home'}>{locale === 'de' ? 'linguistik' : 'linguistics'}</a>
+    </span>
+    <span class="brand__tagline">{t.tagline}</span>
 
     <a href={otherHref} class="lang-switch" hreflang={otherLocale} lang={otherLocale}>
       {otherLocale.toUpperCase()}
@@ -48,78 +43,36 @@ const otherHref = altHref ?? (locale === 'de' ? u('/') : u('/de/'));
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(251, 247, 239, 0.88);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--isk-white);
+    border-bottom: 2px solid var(--isk-navy);
   }
 
   .site-header__inner {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 1.5rem;
-    padding-block: 1.1rem;
-  }
-
-  .home-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 999px;
-    border: 1px solid var(--color-border);
-    color: var(--color-primary-dark);
-    grid-column: 1;
-    justify-self: start;
-  }
-
-  .home-link svg {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-
-  .home-link:hover {
-    border-color: var(--color-primary);
-    background: var(--color-primary-soft);
-  }
-
-  .brand {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 0.15rem;
-    grid-column: 2;
+    gap: 1.25rem;
+    padding-block: 0.9rem;
+  }
+
+  .isk-lockup { display: inline-flex; align-items: center; gap: 12px; }
+  .isk-lockup a { display: inline-flex; }
+  .isk-lockup :global(.isk-drop__base) { display: block; height: 34px; width: auto; }
+  .isk-pill {
+    align-items: center;
+    background: var(--isk-yellow);
+    color: var(--isk-navy);
+    font-family: var(--isk-font-display);
+    font-weight: 900;
+    font-size: 16px;
     line-height: 1;
-    text-align: center;
+    padding: 0.3em 0.75em;
+    border-radius: var(--isk-radius-pill);
+    white-space: nowrap;
   }
-
-  .brand__word {
-    font-family: 'Literata', var(--font-display);
-    font-weight: 500;
-    font-size: 1.55rem;
-    letter-spacing: -0.015em;
-    color: var(--color-ink);
-  }
-
-  .brand__it {
-    position: relative;
-    display: inline-block;
-    margin-left: 0.12em;
-  }
-
-  .brand__dot {
-    position: absolute;
-    left: 0.07em;
-    top: -0.07em;
-    width: 0.18em;
-    height: 0.18em;
-    border-radius: 50%;
-    background: var(--color-accent);
-  }
+  a.isk-pill:hover { filter: brightness(0.95); }
 
   .brand__tagline {
-    font-size: 0.72rem;
+    font-size: 0.85rem;
     color: var(--color-muted);
   }
 
@@ -127,30 +80,26 @@ const otherHref = altHref ?? (locale === 'de' ? u('/') : u('/de/'));
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-inline-start: auto;
     border-radius: 999px;
-    border: 1px solid var(--color-border);
+    border: 2px solid var(--isk-navy);
     font-size: 0.78rem;
     font-weight: 700;
-    color: var(--color-primary-dark);
-    grid-column: 3;
-    justify-self: end;
+    color: var(--isk-navy);
   }
 
-  .lang-switch:hover {
-    border-color: var(--color-primary);
-    background: var(--color-primary-soft);
+  .lang-switch:hover { background: var(--isk-yellow-soft); }
+
+  @media (max-width: 720px) {
+    .brand__tagline { display: none; }
   }
 
-  /* Bump the two circular icon buttons to a 44px touch target on
-     touch-sized viewports — 2.2rem (35px) is fine for a mouse pointer
-     but under the minimum comfortable tap size. */
+  /* 44px touch target on touch-sized viewports. */
   @media (max-width: 640px) {
-    .home-link,
-    .lang-switch {
-      width: 2.75rem;
-      height: 2.75rem;
-    }
+    .isk-lockup :global(.isk-drop__base) { height: 28px; }
+    .isk-pill { font-size: 14px; }
+    .lang-switch { width: 2.75rem; height: 2.75rem; }
   }
 </style>

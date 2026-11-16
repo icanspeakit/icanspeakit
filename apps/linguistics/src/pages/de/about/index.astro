@@ -1,20 +1,11 @@
 ---
 import { u } from '../../../lib/url';
+import TileHero from '../../../components/TileHero.astro';
 import Layout from '../../../layouts/Layout.astro';
 ---
 
 <Layout title="Über uns — icanspeak.it" description="Warum es icanspeak.it gibt: eine kleine, unabhängige Seite über Etymologie, für alle, die gerne von ihrer eigenen Sprache überrascht werden." altHref={u("/about/")}>
-  <section class="about-hero">
-    <div class="container container--narrow">
-      <p class="eyebrow">Über diese Seite</p>
-      <h1>Wir finden, Wörter verdienen einen zweiten Blick</h1>
-      <p class="lede">
-        Die meisten von uns benutzen jede Woche zehntausende Wörter, ohne je zu fragen, woher sie kommen.
-        icanspeak.it ist ein kleines Projekt für genau die Momente, in denen man doch fragt – und für die
-        Kaninchenbaue, die danach folgen.
-      </p>
-    </div>
-  </section>
+  <TileHero eyebrow="Über diese Seite" title="Wir finden, Wörter verdienen einen" mark="zweiten Blick" lede="Die meisten von uns benutzen jede Woche zehntausende Wörter, ohne je zu fragen, woher sie kommen. icanspeak.it ist ein kleines Projekt für genau die Momente, in denen man doch fragt – und für die Kaninchenbaue, die danach folgen." mascot="bruno" bubble="Hallo!" />
 
   <section class="about-body">
     <div class="container container--narrow prose">

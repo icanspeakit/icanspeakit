@@ -1,0 +1,197 @@
+---
+// The word-card wall (/words/ and /de/words/): hero with a tile cluster, the tile ribbon and flip
+// cards in the four brand colours. Front = term, origin, teaser; back (navy) = the story.
+// Without JS the backs simply sit under the fronts; with JS the cards flip (crossfade under
+// prefers-reduced-motion). Tiles are decoration (styles/tiles.css) and aria-hidden.
+import '../styles/tiles.css';
+import TileHero from './TileHero.astro';
+
+interface Word { term: string; lang: string; teaser: string; body: string; link?: string }
+interface Props {
+  words: Word[];
+  eyebrow: string;
+  /** Title before and inside the yellow marker, e.g. ["Flip a card, learn a word's", "secret"]. */
+  title: [string, string];
+  lede: string;
+  bubble: string;
+  labels: { reveal: string; back: string; more: string; revealAll: string; hideAll: string; progress: string };
+}
+const { words, eyebrow, title, lede, bubble, labels } = Astro.props;
+
+// Front colour, motif and motif colours per card, cycling through the brand palette.
+const looks = [
+  { bg: 'var(--isk-sky)', cls: 'isk-tile--half', a: 'var(--isk-navy)', b: 'var(--isk-yellow)' },
+  { bg: 'var(--isk-yellow)', cls: 'isk-tile--quarter', a: 'var(--isk-coral)', b: '#fff' },
+  { bg: 'var(--isk-coral)', cls: 'isk-tile--dots', a: 'var(--isk-navy)', b: '#fff' },
+  { bg: 'var(--isk-green)', cls: 'isk-tile--dome', a: 'var(--isk-navy)', b: '#fff' },
+  { bg: 'var(--isk-yellow)', cls: 'isk-tile--dside', a: 'var(--isk-navy)', b: '#fff' },
+  { bg: 'var(--isk-sky)', cls: 'isk-tile--stripes', a: '#fff', b: 'transparent' },
+  { bg: 'var(--isk-green)', cls: 'isk-tile--bowl', a: 'var(--isk-yellow)', b: 'transparent' },
+  { bg: 'var(--isk-coral)', cls: 'isk-tile--half', a: 'var(--isk-yellow)', b: '#fff' },
+];
+
+---
+
+<TileHero eyebrow={eyebrow} title={title[0]} mark={title[1]} lede={lede} mascot="hamsti" bubble={bubble} />
+
+<section class="wc-wall">
+  <div class="container">
+    <div class="wc-bar">
+      <p class="wc-progress" aria-live="polite" data-template={labels.progress} data-total={words.length}>
+        {labels.progress.replace('{n}', '0').replace('{total}', String(words.length))}
+      </p>
+      <button type="button" class="wc-all" data-reveal={labels.revealAll} data-hide={labels.hideAll} hidden>{labels.revealAll}</button>
+    </div>
+
+    <ul class="wc-grid">
+      {words.map((w, i) => {
+        const l = looks[i % looks.length];
+        return (
+          <li class="wc" style={`--i:${i};--front:${l.bg}`}>
+            <div class="wc__inner">
+              <div class="wc__face wc__front">
+                <div class={`isk-tile ${l.cls} wc__motif`} aria-hidden="true" style={`--t:120px;--bg:transparent;--a:${l.a};--b:${l.b}`}></div>
+                <span class="wc__lang">{w.lang}</span>
+                <h2 class="wc__term">{w.term}</h2>
+                <p class="wc__teaser">{w.teaser}</p>
+                <button type="button" class="wc__flip" aria-expanded="false">
+                  <span>{labels.reveal}</span>
+                  <span class="wc__flip-icon" aria-hidden="true">↻</span>
+                </button>
+              </div>
+              <div class="wc__face wc__back">
+                <span class="wc__back-term" aria-hidden="true">{w.term}</span>
+                <p>{w.body}</p>
+                <div class="wc__back-actions">
+                  {w.link && <a href={w.link} class="wc__more">{labels.more}</a>}
+                  <button type="button" class="wc__unflip">↺ {labels.back}</button>
+                </div>
+              </div>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<script>
+  // Flip on click; count what has been discovered; "reveal all" toggles every card.
+  const grid = document.querySelector<HTMLElement>('.wc-grid');
+  if (grid) {
+    grid.dataset.ready = '';
+    const cards = [...grid.querySelectorAll<HTMLElement>('.wc')];
+    const progress = document.querySelector<HTMLElement>('.wc-progress')!;
+    const all = document.querySelector<HTMLButtonElement>('.wc-all')!;
+    const seen = new Set<HTMLElement>();
+    all.hidden = false;
+
+    const sync = (card: HTMLElement) => {
+      const open = card.classList.contains('is-flipped');
+      card.querySelector('.wc__flip')!.setAttribute('aria-expanded', String(open));
+      card.querySelector<HTMLElement>('.wc__front')!.inert = open;
+      card.querySelector<HTMLElement>('.wc__back')!.inert = !open;
+    };
+    const render = () => {
+      const t = progress.dataset.template!;
+      progress.textContent = t.replace('{n}', String(seen.size)).replace('{total}', progress.dataset.total!);
+      progress.classList.toggle('is-done', seen.size === cards.length);
+      const anyClosed = cards.some((c) => !c.classList.contains('is-flipped'));
+      all.textContent = anyClosed ? all.dataset.reveal! : all.dataset.hide!;
+    };
+    const set = (card: HTMLElement, open: boolean, focus = false) => {
+      card.classList.toggle('is-flipped', open);
+      if (open) seen.add(card);
+      sync(card);
+      if (focus) card.querySelector<HTMLElement>(open ? '.wc__unflip' : '.wc__flip')!.focus({ preventScroll: true });
+    };
+
+    cards.forEach(sync);
+    grid.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('.wc__flip, .wc__unflip');
+      if (!btn) return;
+      const card = btn.closest<HTMLElement>('.wc')!;
+      set(card, btn.classList.contains('wc__flip'), true);
+      render();
+    });
+    all.addEventListener('click', () => {
+      const open = cards.some((c) => !c.classList.contains('is-flipped'));
+      cards.forEach((c, i) => setTimeout(() => { set(c, open); render(); }, i * 70));
+    });
+  }
+</script>
+
+<style>
+  /* Toolbar */
+  .wc-wall { padding-block-start: clamp(2rem, 4vw, 3rem); }
+  .wc-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-block-end: 1.5rem; flex-wrap: wrap; }
+  .wc-progress { font-weight: 700; color: var(--isk-navy); background: var(--isk-white); border: 2px solid var(--isk-navy);
+    border-radius: var(--isk-radius-pill); padding: 0.35rem 0.95rem; transition: background 0.3s ease; }
+  .wc-progress.is-done { background: var(--isk-green); animation: wc-pulse 0.6s ease; }
+  .wc-all { font-weight: 700; color: var(--isk-white); background: var(--isk-navy); border: 0; cursor: pointer;
+    border-radius: var(--isk-radius-pill); padding: 0.6rem 1.2rem; transition: background 0.15s ease, transform 0.15s ease; }
+  .wc-all:hover { background: var(--isk-navy-deep); transform: translateY(-1px); }
+
+  /* Cards */
+  .wc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; }
+  .wc { perspective: 1200px; animation: wc-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(0.2s + var(--i) * 70ms); }
+  .wc__inner { display: grid; height: 100%; transition: transform 0.7s cubic-bezier(0.34, 1.3, 0.64, 1); transform-style: preserve-3d; }
+  .wc__face { grid-area: 1 / 1; display: flex; flex-direction: column; gap: 0.6rem; min-height: 300px;
+    padding: 1.4rem; border: 3px solid var(--isk-navy); border-radius: var(--isk-radius-card);
+    backface-visibility: hidden; -webkit-backface-visibility: hidden; position: relative; overflow: hidden; container-type: inline-size; }
+
+  .wc__front { background: var(--front); color: var(--isk-navy); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .wc__motif { position: absolute; top: -18px; right: -18px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .wc__lang { align-self: flex-start; position: relative; font-size: 0.78rem; font-weight: 700; background: var(--isk-white);
+    border: 2px solid var(--isk-navy); border-radius: var(--isk-radius-pill); padding: 0.2rem 0.7rem; }
+  .wc__term { font-size: min(2.4rem, 13cqi); line-height: 1; margin-block-start: 3.5rem; overflow-wrap: anywhere; }
+  .wc__teaser { font-weight: 500; color: var(--isk-navy); max-width: none; }
+  .wc__flip { align-self: flex-start; display: inline-flex; align-items: center; gap: 0.45rem; margin-block-start: auto;
+    font-weight: 700; color: var(--isk-white); background: var(--isk-navy); border: 0; border-radius: var(--isk-radius-pill);
+    padding: 0.5rem 1rem; cursor: pointer; }
+  /* The whole front is the click target. */
+  .wc__flip::after { content: ""; position: absolute; inset: 0; }
+  .wc__flip-icon { display: inline-block; transition: transform 0.4s ease; }
+
+  .wc__back { background: var(--isk-navy); color: #E4E9FA; transform: rotateY(180deg); }
+  .wc__back-term { font: 900 1.1rem/1 var(--isk-font-display); color: var(--isk-yellow); }
+  .wc__back p { max-width: none; line-height: 1.55; }
+  .wc__back-actions { margin-block-start: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+  .wc__more { font-weight: 700; color: var(--isk-navy); background: var(--isk-yellow); border-radius: var(--isk-radius-pill); padding: 0.45rem 0.95rem; }
+  .wc__more:hover { filter: brightness(1.05); }
+  .wc__unflip { font-weight: 600; color: var(--isk-white); background: transparent; border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--isk-radius-pill); padding: 0.35rem 0.85rem; cursor: pointer; }
+  .wc__unflip:hover { border-color: var(--isk-white); }
+
+  .wc__flip:focus-visible, .wc__unflip:focus-visible, .wc__more:focus-visible, .wc-all:focus-visible { outline: 3px solid var(--isk-coral); outline-offset: 3px; }
+
+  @media (hover: hover) {
+    .wc:not(.is-flipped) .wc__front:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 6px 8px 0 var(--isk-navy); }
+    .wc__front:hover .wc__motif { transform: rotate(-90deg) scale(1.08); }
+    .wc__front:hover .wc__flip-icon { transform: rotate(180deg); }
+  }
+
+  .wc.is-flipped .wc__inner { transform: rotateY(180deg); }
+
+  /* Without JS: no flip, the story sits under the card. */
+  .wc-grid:not([data-ready]) .wc__inner { display: flex; flex-direction: column; gap: 0.5rem; }
+  .wc-grid:not([data-ready]) .wc__back { transform: none; min-height: 0; }
+  .wc-grid:not([data-ready]) .wc__flip, .wc-grid:not([data-ready]) .wc__unflip { display: none; }
+
+  @keyframes wc-rise { from { opacity: 0; transform: translateY(24px) scale(0.97); } }
+  @keyframes wc-pop { from { opacity: 0; transform: scale(0.6); } }
+  @keyframes wc-drop { from { opacity: 0; transform: translateY(-100%); } }
+  @keyframes wc-spin { to { transform: rotate(360deg); } }
+  @keyframes wc-bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
+  @keyframes wc-pulse { 50% { transform: scale(1.08); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wc { animation: none; }
+    .wc__inner { transition: none; transform: none !important; }
+    .wc__back { transform: none; opacity: 0; transition: opacity 0.25s ease; }
+    .wc__front { transition: opacity 0.25s ease; }
+    .wc.is-flipped .wc__back { opacity: 1; }
+    .wc.is-flipped .wc__front { opacity: 0; }
+    .wc-grid:not([data-ready]) .wc__back { opacity: 1; }
+  }
+</style>

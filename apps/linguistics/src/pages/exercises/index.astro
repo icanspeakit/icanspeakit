@@ -1,20 +1,15 @@
 ---
 import { u } from '../../lib/url';
+import TileHero from '../../components/TileHero.astro';
 import Layout from '../../layouts/Layout.astro';
 import ExerciseGrid from '../../components/ExerciseGrid.astro';
 import { topics } from '../../data/exercises/topics';
 ---
 
 <Layout title="Exercises — icanspeak.it" description="Audio-driven exercises for the mechanics behind sounding clear in English." altHref={u("/de/exercises/")}>
+  <TileHero eyebrow="Practice" title="" mark="Exercises" lede="Hear the model, try it yourself, and listen back side by side — self-checking practice built around the mechanics of pronunciation, not a pass/fail score." mascot="quaki" bubble="Listen!" />
+
   <section class="container">
-    <div class="section-head">
-      <span class="eyebrow">Practice</span>
-      <h1>Exercises</h1>
-      <p class="lede">
-        Hear the model, try it yourself, and listen back side by side — self-checking practice built around the
-        mechanics of pronunciation, not a pass/fail score.
-      </p>
-    </div>
 
     <ExerciseGrid topics={topics} />
   </section>

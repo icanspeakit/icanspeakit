@@ -1,0 +1,61 @@
+/* Linguistics UI in the tile-world style (brand/kit/BRAND.md §5), shared by every page.
+   Colour cards (.isk-cc), the rise-in animation (.isk-rise), the yellow marker (.isk-mark)
+   and the page-head rise. Colours per card come from src/lib/looks.ts. */
+
+/* Colour card: a link or box on a brand colour, navy outline, a tile motif in the corner. */
+.isk-cc {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.55rem;
+  padding: 1.35rem; min-height: 220px;
+  background: var(--front, var(--isk-white)); color: var(--isk-navy);
+  border: 3px solid var(--isk-navy); border-radius: var(--isk-radius-card);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.isk-cc > * { position: relative; }
+.isk-cc .isk-cc__motif { position: absolute; top: -16px; right: -16px; z-index: -1;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.isk-cc h2, .isk-cc h3 { color: var(--isk-navy); font-size: clamp(1.3rem, 1.15rem + 0.5vw, 1.6rem); line-height: 1.08; margin: 0; }
+.isk-cc p, .isk-cc .text-muted { color: var(--isk-navy); font-weight: 500; font-size: 0.95rem; max-width: none; }
+.isk-cc .tag, .isk-cc__pill { font-size: 0.75rem; font-weight: 700; color: var(--isk-navy); background: var(--isk-white);
+  border: 2px solid var(--isk-navy); border-radius: var(--isk-radius-pill); padding: 0.18rem 0.65rem; }
+.isk-cc__meta { margin-block-start: auto; font-size: 0.8rem; font-weight: 600; color: var(--isk-navy); opacity: 0.8; }
+.isk-cc__go { margin-block-start: auto; display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700;
+  color: var(--isk-white); background: var(--isk-navy); border-radius: var(--isk-radius-pill); padding: 0.45rem 0.95rem; font-size: 0.9rem; }
+/* Navy card: white text, yellow accents. */
+.isk-cc--dark { color: var(--isk-white); }
+.isk-cc--dark h2, .isk-cc--dark h3, .isk-cc--dark p, .isk-cc--dark .text-muted, .isk-cc--dark .isk-cc__meta { color: var(--isk-white); }
+.isk-cc--dark .tag, .isk-cc--dark .isk-cc__pill { background: var(--isk-yellow); }
+.isk-cc--dark .isk-cc__go { background: var(--isk-yellow); color: var(--isk-navy); }
+a.isk-cc:focus-visible { outline: 3px solid var(--isk-coral); outline-offset: 3px; }
+@media (hover: hover) {
+  a.isk-cc:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 6px 8px 0 var(--isk-navy); }
+  a.isk-cc:nth-child(even):hover { transform: translateY(-4px) rotate(0.6deg); }
+  a.isk-cc:hover .isk-cc__motif { transform: rotate(-90deg) scale(1.08); }
+}
+
+/* Yellow marker behind a word in a headline. */
+.isk-mark { background: linear-gradient(transparent 58%, var(--isk-yellow) 58%, var(--isk-yellow) 92%, transparent 92%); }
+
+/* Rise in one after another (set --i on each item). */
+@media (prefers-reduced-motion: no-preference) {
+  .isk-rise { animation: isk-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(0.15s + var(--i, 0) * 70ms); }
+  /* Plain page heads (exercise and study pages) rise in too. */
+  .section-head > * { animation: isk-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .section-head > :nth-child(2) { animation-delay: 0.06s; }
+  .section-head > :nth-child(3) { animation-delay: 0.12s; }
+  .section-head > :nth-child(n+4) { animation-delay: 0.18s; }
+}
+@keyframes isk-rise { from { opacity: 0; transform: translateY(24px) scale(0.97); } }
+@keyframes isk-pop { from { opacity: 0; transform: scale(0.6); } }
+@keyframes isk-drop { from { opacity: 0; transform: translateY(-100%); } }
+@keyframes isk-spin { to { transform: rotate(360deg); } }
+@keyframes isk-bob { 50% { transform: translateY(-6px) rotate(-3deg); } }
+
+/* Grids of colour cards. */
+.isk-cc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+
+/* A card without a pill: keep the title clear of the corner motif. */
+.isk-cc .isk-cc__motif + h2, .isk-cc .isk-cc__motif + h3 { margin-block-start: 4.4rem; }
+/* Content straight after a tile hero needs no second big gap. */
+.tile-hero + section { padding-block-start: 0.5rem; }

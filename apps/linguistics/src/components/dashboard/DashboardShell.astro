@@ -232,7 +232,7 @@ const t = copy[locale];
     </a>
 
     <a href={homeHref} class="dash-topbar__brand">
-      <span class="dash-topbar__brand-word">icanspeak<span class="dash-topbar__brand-accent">.it</span></span>
+      <img class="dash-topbar__logo" src={u("/logos/icanspeak-wordmark-dark.svg")} alt="icanspeak!" width="116" height="24" />
     </a>
 
     <div class="dash-topbar__actions">
@@ -1140,22 +1140,18 @@ const t = copy[locale];
   }
 
   .dash-topbar__icon:hover {
-    border-color: #e8c879;
-    color: #e8c879;
+    border-color: var(--isk-yellow);
+    color: var(--isk-yellow);
   }
 
   .dash-topbar__brand {
     text-decoration: none;
   }
 
-  .dash-topbar__brand-word {
-    font-family: 'Literata', var(--font-display);
-    font-size: 1.05rem;
-    color: #fff;
-  }
-
-  .dash-topbar__brand-accent {
-    color: #e8c879;
+  .dash-topbar__logo {
+    display: block;
+    height: 24px;
+    width: auto;
   }
 
   .dash-topbar__actions {
@@ -1181,8 +1177,8 @@ const t = copy[locale];
   }
 
   .dash-topbar__lang:hover {
-    border-color: #e8c879;
-    color: #e8c879;
+    border-color: var(--isk-yellow);
+    color: var(--isk-yellow);
   }
 
   @media (max-width: 640px) {
@@ -1346,7 +1342,7 @@ const t = copy[locale];
   }
 
   .dash-rail {
-    --rail-gold: #e8c879;
+    --rail-gold: var(--isk-yellow);
     background: var(--color-primary-dark);
     padding: 1.6rem 0 1.7rem;
     display: flex;
@@ -1713,14 +1709,14 @@ const t = copy[locale];
 
   :global(.dash-week-day[data-done='true']) {
     color: #1a2940;
-    background: var(--rail-gold, #e8c879);
+    background: var(--rail-gold, var(--isk-yellow));
     font-weight: 600;
   }
 
   .dash-rail__streak {
     font-family: ui-monospace, monospace;
     font-size: 0.72rem;
-    color: var(--rail-gold, #e8c879);
+    color: var(--rail-gold, var(--isk-yellow));
   }
 
   .dash-detail {
@@ -1876,7 +1872,7 @@ const t = copy[locale];
     font: inherit;
     font-weight: 600;
     font-size: 0.85rem;
-    background: #e8c879;
+    background: var(--isk-yellow);
     color: #1c2c46;
     text-decoration: none;
     cursor: pointer;

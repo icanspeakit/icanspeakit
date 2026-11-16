@@ -1,5 +1,6 @@
 ---
 import { u } from '../../lib/url';
+import TileHero from '../../components/TileHero.astro';
 import Layout from '../../layouts/Layout.astro';
 import ExerciseGrid from '../../components/ExerciseGrid.astro';
 import { studyFormats } from '../../data/study/formats';
@@ -10,16 +11,9 @@ import { studyFormats } from '../../data/study/formats';
   description="Five real, working formats for reading, vocabulary, dialogue, listening, and writing practice."
   altHref={u("/de/study/")}
 >
+  <TileHero eyebrow="Study" title="" mark="Study" lede="Exercises next door drills the mechanics of speaking — this is everything around it: reading, vocabulary, dialogue, listening comprehension, and writing. Story Stream's saved words and Dialogue Lab's goal phrases both feed straight into Daily Deck, so the five formats build on each other rather than sitting side by side." mascot="regi" bubble="Read on!" />
+
   <section class="container">
-    <div class="section-head">
-      <span class="eyebrow">Study</span>
-      <h1>Study</h1>
-      <p class="lede">
-        Exercises next door drills the mechanics of speaking — this is everything around it: reading, vocabulary,
-        dialogue, listening comprehension, and writing. Story Stream's saved words and Dialogue Lab's goal phrases
-        both feed straight into Daily Deck, so the five formats build on each other rather than sitting side by side.
-      </p>
-    </div>
 
     <ExerciseGrid topics={studyFormats} />
   </section>

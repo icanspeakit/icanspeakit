@@ -1,68 +1,41 @@
 ---
+// Exercise and study formats as colour cards (styles/brand-ui.css): brand colour, corner motif,
+// category pill and the format's call to action. Used on the home, /exercises/ and /study/ pages.
 import type { Topic } from '../data/exercises/topics';
-import { hrefFor } from '../data/exercises/topics';
+import { hrefFor, statusCta } from '../data/exercises/topics';
+import { look, ccStyle, motifStyle } from '../lib/looks';
+import '../styles/tiles.css';
 
 interface Props {
   topics: Topic[];
+  /** Start the colour cycle further along, so neighbouring grids don't repeat. */
+  offset?: number;
 }
 
-const { topics } = Astro.props;
+const { topics, offset = 0 } = Astro.props;
 const locale = (Astro.currentLocale ?? 'en') as 'en' | 'de';
 ---
 
-<div class="exercise-grid">
-  {topics.map((topic) => (
-    <a
-      href={hrefFor(topic.href, locale)}
-      class:list={['exercise-card', { 'exercise-card--featured': topic.featured }]}
-      data-status={topic.status}
-    >
-      <span class="exercise-card__category">{topic.category[locale]}</span>
-      <h3>{topic.title[locale]}</h3>
-      <p class="text-muted">{topic.description[locale]}</p>
-    </a>
-  ))}
+<div class="isk-cc-grid exercise-grid">
+  {topics.map((topic, i) => {
+    const l = topic.featured ? { ...look(i, offset), bg: 'var(--isk-navy)', a: 'var(--isk-yellow)' } : look(i, offset);
+    return (
+      <a
+        href={hrefFor(topic.href, locale)}
+        class:list={['isk-cc', 'isk-rise', 'exercise-card', { 'isk-cc--dark': topic.featured, 'exercise-card--featured': topic.featured }]}
+        style={ccStyle(l, i)}
+        data-status={topic.status}
+      >
+        <span class={`isk-tile ${l.motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(l)}></span>
+        <span class="isk-cc__pill">{topic.category[locale]}</span>
+        <h3>{topic.title[locale]}</h3>
+        <p>{topic.description[locale]}</p>
+        <span class="isk-cc__go">{statusCta(topic.status, locale)} <span aria-hidden="true">→</span></span>
+      </a>
+    );
+  })}
 </div>
 
 <style>
-  .exercise-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .exercise-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    padding: clamp(1.15rem, 2vw, 1.5rem);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .exercise-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary);
-  }
-
-  .exercise-card__category {
-    font-size: 0.8rem;
-    color: var(--color-muted);
-  }
-
-  .exercise-card h3 {
-    font-size: 1.2rem;
-    margin: 0;
-  }
-
-  .exercise-card > p {
-    font-size: 0.92rem;
-    max-width: none;
-  }
+  .exercise-card h3 { margin-block-start: 2.2rem; }
 </style>

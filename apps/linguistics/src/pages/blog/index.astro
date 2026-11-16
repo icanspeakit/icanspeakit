@@ -1,5 +1,7 @@
 ---
 import { u } from '../../lib/url';
+import TileHero from '../../components/TileHero.astro';
+import { look, ccStyle, motifStyle } from '../../lib/looks';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
@@ -11,23 +13,18 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
 ---
 
 <Layout title="Blog — icanspeak.it" description="Deep dives into word origins, false friends, and the strange journeys of everyday language.">
-  <section class="blog-hero">
-    <div class="container">
-      <p class="eyebrow">The blog</p>
-      <h1>Stories words don't tell you out loud</h1>
-      <p class="lede">Short, well-sourced deep dives into where words actually came from.</p>
-    </div>
-  </section>
+  <TileHero eyebrow="The blog" title="Stories words don't tell you" mark="out loud" lede="Short, well-sourced deep dives into where words actually came from." mascot="bruno" bubble="True story!" />
 
   <section class="blog-list">
     <div class="container">
       <div class="blog-list__grid">
-        {posts.map((post) => (
-          <a class="post-card" href={u(`/blog/${post.id}/`)}>
+        {posts.map((post, i) => (
+          <a class="isk-cc isk-rise post-card" style={ccStyle(look(i), i)} href={u(`/blog/${post.id}/`)}>
+            <span class={`isk-tile ${look(i).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(i))}></span>
             {post.data.word && <span class="tag">{post.data.word}</span>}
             <h2>{post.data.title}</h2>
-            <p class="text-muted">{post.data.description}</p>
-            <span class="post-card__date">{dateFmt.format(post.data.pubDate)}</span>
+            <p>{post.data.description}</p>
+            <span class="isk-cc__meta">{dateFmt.format(post.data.pubDate)}</span>
           </a>
         ))}
       </div>
@@ -36,9 +33,6 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
 </Layout>
 
 <style>
-  .blog-hero { padding-block-end: 1rem; }
-  .blog-hero h1 { margin-block: 0.75rem 0.5rem; }
-
   .blog-list__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -49,20 +43,5 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
     .blog-list__grid { grid-template-columns: 1fr; }
   }
 
-  .post-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6rem;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: clamp(1.25rem, 2vw, 1.75rem);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  .post-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .post-card h2 { font-size: 1.3rem; }
-  .post-card__date { font-size: 0.8rem; color: var(--color-muted); margin-block-start: 0.25rem; }
+  .post-card .tag + h2 { margin-block-start: 1.6rem; }
 </style>
