@@ -65,7 +65,12 @@ export default defineConfig({
   // src/lib/ — the zero-JS default on content pages is deliberate.
   integrations: [react(), baseLanguage(), entryPages(), sitemap(), llmsTxt(), legacyRedirectsIntegration()],
 
-  redirects: { ...legacyRedirects(), ...grammarTopicRedirects() },
+  redirects: {
+    ...legacyRedirects(),
+    ...grammarTopicRedirects(),
+    // /inizia was a draft of a tidied-up homepage (EXPERIMENTE.md, Archiv); the course home replaced it.
+    '/inizia': r301('/'),
+  },
   server: {
     // Listen on every interface, not just 127.0.0.1, so the dev server is reachable
     // from a phone on the same Wi-Fi — and from a tunnel — without passing --host

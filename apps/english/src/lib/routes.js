@@ -111,7 +111,6 @@ export const ROUTE_RENAMES = [
   // Start, progress, course
   ["/einstufungstest", "/placement-test"],
   ["/einfach", "/step-by-step"],
-  ["/start-neu", "/start"],
   ["/fortschritt", "/progress"],
   ["/meine-fehler", "/my-mistakes"],
   ["/kursinhalte", "/syllabus"],

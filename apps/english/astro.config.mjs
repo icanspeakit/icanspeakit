@@ -160,6 +160,9 @@ export default defineConfig({
     // /v2 tested practising inside the dashboard (the focus layout). Retired with the
     // inline exercises — see FORTSCHRITT-KARTE-PROMPT.md.
     '/v2': '/progress',
+    // /start was a draft of a tidied-up homepage (EXPERIMENTE.md, Archiv); the course home replaced it.
+    '/start': r301('/'),
+    '/start-neu': r301('/'),
     // The easy-mode prototype became „Einfach lernen" (EINFACH-LERNEN-TIERED-PROMPT.md,
     // Tier 0). A real 301 keeps the #/… screen: browsers carry the fragment across it.
     '/leicht': { status: 301, destination: '/step-by-step' },
