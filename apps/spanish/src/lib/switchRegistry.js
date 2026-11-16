@@ -12,6 +12,9 @@ import { enhanceSwitch } from "./segSwitch.js";
 const SWITCHES = [
   // Übungen
   { sel: "#hub-mode-tabs", content: "#view-grid-mode, #view-dashboard-mode" },
+  // Skills hub: the four skills, and the level filter under them
+  { sel: ".fk-tabs", content: ".fk-panel" },
+  { sel: ".fk-lvs", content: ".fk-panel" },
   { sel: ".uv-lvl-tabs", content: ".uv-wk-grid[data-wk-view]" },
   { sel: "#dash-tabs", content: ".dash-view" },
   // Fortschritt, Konto
