@@ -1,0 +1,126 @@
+---
+// The footer of every page (Layout.astro), since 2026-11-16, after deutschacademy's SiteFooter
+// (its "Spalten" variant, 2026-11-14): the links the desktop nav gave up live here
+// (src/lib/navFooter.js).
+//   full  brand + five columns (accordions on phones) + legal line
+//   slim  one line: the course lockup and the legal links
+// Layout decides which by route (footerFor); a page can override with Layout's `footer` prop.
+// Cancel/withdraw sit in both sizes once the paywall is on, so they are reachable from every
+// page that shows a footer.
+import { mascotSvg } from "../lib/mascots.js";
+import { FOOTER_GROUPS, SLUGS } from "../lib/navFooter.js";
+
+interface Props {
+  size?: "full" | "slim";
+  paywall?: boolean;
+}
+const { size = "full", paywall = false } = Astro.props;
+
+type L = { h: string; t: string; k?: string };
+const RECHT: L[] = [
+  { h: SLUGS.imprint, t: "Imprint", k: "home.footer.link.imprint" },
+  { h: SLUGS.privacy, t: "Privacy", k: "home.footer.link.privacy" },
+  { h: SLUGS.terms, t: "Terms of use", k: "home.footer.link.terms" },
+  ...(paywall ? [
+    { h: "/account", t: "Cancel a contract", k: "home.footer.link.cancel" },
+    { h: "/account", t: "Withdraw from a contract", k: "home.footer.link.withdraw" },
+  ] : []),
+];
+/** `data-i18n-vars` wants a string or nothing. */
+const vars = (v?: object) => (v ? JSON.stringify(v) : undefined);
+const bruno = mascotSvg({ name: "bruno", expr: "happy", view: "three", size: 56, label: "" });
+---
+<footer class:list={["sf", `sf--${size}`]} data-site-footer>
+  {size === "full" && (
+    <div class="sf-in sf-top">
+      <div class="sf-brand">
+        <a class="sf-logo isk-lockup" href="/" aria-label="icanspeak English, home">
+          <img class="sf-wm sf-wm--light" src="/logos/icanspeak-wordmark.svg" alt="" width="1094" height="227" />
+          <img class="sf-wm sf-wm--dark" src="/logos/icanspeak-wordmark-dark.svg" alt="" width="1094" height="227" />
+          <span class="isk-pill" lang="en">english</span>
+        </a>
+        <div class="sf-who">
+          <span class="sf-bruno" set:html={bruno} />
+          <p data-i18n="home3.footer.blurb">English from A1 to C1, free and without an account.</p>
+        </div>
+      </div>
+      <div class="sf-cols">
+        {FOOTER_GROUPS.map((g) => (
+          <details class="sf-col" open>
+            <summary data-i18n={g.k}>{g.title}</summary>
+            <ul>
+              {g.links.map((l) => <li><a href={l.h} data-i18n={l.k} data-i18n-vars={vars(l.v)}>{l.t}</a></li>)}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </div>
+  )}
+  <div class="sf-in sf-bottom">
+    {size === "slim"
+      ? <a class="sf-logo sf-logo--s" href="/" aria-label="icanspeak English, home"><img class="sf-wm sf-wm--light" src="/logos/icanspeak-wordmark.svg" alt="" width="1094" height="227" /><img class="sf-wm sf-wm--dark" src="/logos/icanspeak-wordmark-dark.svg" alt="" width="1094" height="227" /></a>
+      : <span data-i18n="home3.footer.copyright">© 2018–2026 icanspeak English</span>}
+    <nav aria-label="Legal" data-i18n-attr="aria-label:home.footer.col.legal">
+      {RECHT.map((l) => <a href={l.h} data-i18n={l.k}>{l.t}</a>)}
+      <a href="https://icanspeak.it/" data-i18n="home4.footer.part">part of icanspeak.it</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  // Phones: the columns are accordions, closed; wider screens: all open, not clickable.
+  const mq = matchMedia("(min-width: 760px)");
+  const cols = document.querySelectorAll<HTMLDetailsElement>("[data-site-footer] .sf-col");
+  const sync = () => cols.forEach((d) => { d.open = mq.matches; });
+  sync();
+  mq.addEventListener("change", sync);
+  cols.forEach((d) => d.querySelector("summary")?.addEventListener("click", (e) => { if (mq.matches) e.preventDefault(); }));
+</script>
+
+<style>
+  .sf { margin-top: 48px; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: var(--text-sm); padding-bottom: env(safe-area-inset-bottom); }
+  .sf-in { max-width: 1160px; margin: 0 auto; padding-left: 16px; padding-right: 16px; }
+  .sf a { color: var(--muted); text-decoration: none; }
+  .sf a:hover, .sf a:focus-visible { color: var(--ink); text-decoration: underline; }
+  .sf .sf-logo, .sf .sf-logo:hover { display: inline-flex; align-items: center; text-decoration: none; }
+  .sf-logo img, .sf-logo :global(img) { height: 28px; width: auto; display: block; }
+  .sf-logo .isk-pill { font-size: 12px; }
+  .sf-logo--s img { height: 20px; }
+  .sf-logo--s { opacity: .85; }
+  .sf-wm--dark { display: none !important; }
+  :global(:root[data-theme="dark"]) .sf-wm--light { display: none !important; }
+  :global(:root[data-theme="dark"]) .sf-wm--dark { display: block !important; }
+
+  .sf-top { display: grid; grid-template-columns: 16rem 1fr; gap: 32px; padding-top: 40px; padding-bottom: 28px; }
+  .sf-who { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; }
+  .sf-bruno { flex: 0 0 auto; line-height: 0; }
+  .sf-who p { margin: 4px 0 0; line-height: 1.5; }
+  .sf-cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px; }
+  .sf-col summary { list-style: none; font-weight: 700; color: var(--ink); cursor: default; margin-bottom: 8px; }
+  .sf-col summary::-webkit-details-marker { display: none; }
+  .sf-col ul { list-style: none; margin: 0; padding: 0; }
+  .sf-col li a { display: block; padding: 5px 0; overflow-wrap: anywhere; hyphens: auto; }
+
+  .sf-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 24px; padding-top: 14px; padding-bottom: 18px; border-top: 1px solid var(--border); font-size: var(--text-xs); }
+  .sf-bottom nav { display: flex; flex-wrap: wrap; gap: 0 16px; }
+  .sf-bottom nav a { padding: 6px 0; }
+  .sf--slim { margin-top: 32px; }
+  .sf--slim .sf-bottom { border-top: 0; padding-top: 10px; padding-bottom: 10px; }
+
+  @media (max-width: 1000px) { .sf-top { grid-template-columns: 1fr; } .sf-who { max-width: 34rem; } }
+  @media (max-width: 759px) {
+    .sf-top { gap: 16px; padding-top: 28px; padding-bottom: 12px; }
+    .sf-cols { grid-template-columns: 1fr; gap: 0; }
+    .sf-col { border-top: 1px solid var(--border); }
+    .sf-col:last-child { border-bottom: 1px solid var(--border); }
+    .sf-col summary { display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 14px 0; cursor: pointer; }
+    .sf-col summary::after { content: "+"; font-size: 1.25rem; font-weight: 400; color: var(--muted); }
+    .sf-col[open] summary::after { content: "–"; }
+    .sf-col ul { padding-bottom: 10px; }
+    .sf-col li a { padding: 9px 0; }
+    .sf--full .sf-bottom { flex-direction: column; align-items: flex-start; }
+    .sf-bottom nav { gap: 0 14px; }
+    .sf-bottom nav a { padding: 8px 0; }
+  }
+  @media print { .sf { display: none; } }
+</style>

@@ -38,6 +38,7 @@ import { navSections, navUeben, navUebenMenu, navWissenMenu, navLehrkraefte, nav
 import { mascotSvg } from "../lib/mascots.js";
 import "../styles/site-nav.css";
 import "../styles/nav-flach.css";
+import { NAV_FOOTER_ONLY, NAV_HIDDEN_MENUS } from "../lib/navFooter.js";
 
 interface Props {
   /** Marks the current section so its menu button reads as active. */
@@ -57,16 +58,19 @@ interface Props {
 }
 const { active, wissenVariant = "lean" } = Astro.props;
 const OLD_LIKE = ["lean", "old", "oldplus", "oldbooks", "oldchips"];
-const wissenCols = OLD_LIKE.includes(wissenVariant)
+// Since 2026-11-16 the panels keep the core and the rest lives in the site footer
+// (src/lib/navFooter.js, after deutschacademy's da6d8f2): those rows are left out here.
+const trimCol = (col) => ({ ...col, items: col.items.filter((i) => !NAV_FOOTER_ONLY.has(i.titleKey)) });
+const wissenCols = (OLD_LIKE.includes(wissenVariant)
   ? navWissenMenu.columns.filter((c) => c.id !== "nachschlagen")
-  : navWissenMenu.columns;
+  : navWissenMenu.columns).map(trimCol);
 
 // The deutschacademy nav standard (its commits 080d3d7 "dicht" and da6d8f2, 2026-11-13/14),
 // ported 2026-11-15: rows of one kind become one row with links under it, so the columns
 // stay short. Quick trainers as one row, the word lists as "A1 A2 B1 B2", the pronunciation
 // rows under Pronunciation, Kulturwissen's level topics as one level row. Nothing is dropped.
 // The look is in nav-flach.css.
-const uebenCols = navUebenMenu.columns.map((col) => {
+const uebenCols = navUebenMenu.columns.map(trimCol).map((col) => {
   const it = col.items;
   if (col.id === "grammatik") {
     const tr = it.filter((i) => i.titleKey !== "nav.wissen.nachschlagen");
@@ -82,7 +86,7 @@ const uebenCols = navUebenMenu.columns.map((col) => {
     const sub = it.filter((i) => i.nested);
     const primary = col.primary ?? (col.href ? { href: col.href, titleKey: "nav.all.fertigkeiten", title: "Alle Fertigkeiten", hintKey: "nav.subject.fertigkeiten.blurb", hint: "Hören, Lesen, Schreiben, Sprechen" } : undefined);
     if (!sub.length) return { ...col, primary };
-    return { ...col, primary, items: [...it.filter((i) => !i.nested), { ...sub[0], nested: false, chips: sub.slice(1) }] };
+    return { ...col, primary, items: [...it.filter((i) => !i.nested), { ...sub[0], nested: false, chips: sub.length > 1 ? sub.slice(1) : undefined }] };
   }
   return col;
 });
@@ -398,7 +402,9 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
     </div>
   </div>
 
-  <!-- ── Entdecken ────────────────────────────────────────────────────────── -->
+  <!-- ── Entdecken ──────────────────────────────────────────────────────────
+       Off the desktop bar since 2026-11-16: its cards are in the site footer (navFooter.js). -->
+  {!NAV_HIDDEN_MENUS.has("entdecken") && (
   <div class="lp-menu" data-menu="entdecken">
     <a
       class:list={["lp-menu-btn", active === "entdecken" && "is-active"]}
@@ -427,6 +433,7 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
       </ul>
     </div>
   </div>
+  )}
 </div>
 
 <!-- No JS: the panels cannot open, so every section gets a plain link and the menus get
@@ -438,7 +445,7 @@ const pruefungen = navSections.find((s) => s.id === "pruefungen");
     <a href={pruefungen.href} data-i18n={pruefungen.nameKey}>{pruefungen.name}</a>
     {navWissenMenu.columns.map((c) => <a href={c.href} data-i18n={c.nameKey}>{c.name}</a>)}
     <a href={LEHRKRAEFTE_HREF} data-i18n="nav.subject.lehrkraefte">Für Lehrkräfte</a>
-    <a href={navEntdecken.href} data-i18n={navEntdecken.nameKey}>{navEntdecken.name}</a>
+    {!NAV_HIDDEN_MENUS.has("entdecken") && <a href={navEntdecken.href} data-i18n={navEntdecken.nameKey}>{navEntdecken.name}</a>}
   </div>
 </noscript>
 

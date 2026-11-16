@@ -1,0 +1,97 @@
+/* Our audio player (src/lib/audioPlayer.js): play button, a bar whose dot is always
+   visible, time. Brand colour from the theme tokens, so dark mode follows. */
+.ap {
+  --ap-p: 0%;
+  --ap-c: var(--brand-blue);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 52px;
+  padding: 6px 14px 6px 6px;
+  margin: 0 0 10px;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-card, #fff);
+  color: var(--ink);
+}
+.ap-play {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ap-c);
+  color: #fff;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+}
+.ap-play:hover { filter: brightness(1.08); }
+.ap-play:active { transform: scale(.94); }
+.ap-play:focus-visible { outline: 3px solid color-mix(in srgb, var(--ap-c) 40%, transparent); outline-offset: 2px; }
+.ap-play svg { width: 20px; height: 20px; fill: currentColor; grid-area: 1 / 1; }
+.ap-play svg:first-child { transform: translateX(1px); }
+.ap-play svg:last-child { display: none; }
+.ap.is-playing .ap-play svg:first-child { display: none; }
+.ap.is-playing .ap-play svg:last-child { display: block; }
+
+/* The bar: track filled up to --ap-p, the dot always shown. */
+.ap-bar {
+  flex: 1 1 auto;
+  min-width: 60px;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ap-bar:focus { outline: none; }
+.ap-bar::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--ap-c) var(--ap-p), var(--border-strong, #c6cbd6) var(--ap-p));
+}
+.ap-bar::-moz-range-track { height: 6px; border-radius: 999px; background: var(--border-strong, #c6cbd6); }
+.ap-bar::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--ap-c); }
+.ap-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border: 3px solid var(--surface-card, #fff);
+  border-radius: 50%;
+  background: var(--ap-c);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+  transition: transform .12s ease;
+}
+.ap-bar::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--surface-card, #fff);
+  border-radius: 50%;
+  background: var(--ap-c);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+.ap-bar:hover::-webkit-slider-thumb, .ap-bar:active::-webkit-slider-thumb { transform: scale(1.15); }
+.ap-bar:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px color-mix(in srgb, var(--ap-c) 35%, transparent); }
+.ap-bar:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px color-mix(in srgb, var(--ap-c) 35%, transparent); }
+
+.ap-time {
+  flex: 0 0 auto;
+  font-size: .875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.ap.is-error { opacity: .55; }
+
+@media (max-width: 420px) {
+  .ap { gap: 8px; padding-right: 10px; }
+  .ap-time { font-size: .8rem; }
+}
+@media print { .ap { display: none; } }
