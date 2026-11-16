@@ -10,6 +10,12 @@ bring it back.
 
 ## Archiv
 
+- `/start`: a draft of a tidied-up homepage with a slim menu (its own mock menu, no shared
+  components, noindex, linked from nowhere). **Decision:** the course home replaced it
+  (Edgar, 2026-11-16); `/start` and `/start-neu` 301 to the course home (astro.config.mjs). Added in the scaffold from deutschacademy `e3dffc9` (as `/start-neu`, renamed in `36a432d`), removed in `3c43343`.
+  Bring back: `git checkout 3c43343~1 -- apps/english/src/pages/start.astro` (plus the redirect
+  in astro.config.mjs), or `git revert 3c43343` for all five courses.
+
 - `/nav1`–`/nav6`, `/newfont`, `/testnavbarlanguages`, `/test`: deutschacademy experiments,
   not carried into englishacademy. They live in the deutschacademy repo.
 - `/games/stadtfahrt` (Stadtfahrt, a driving prototype on the German Führerschein question bank,
