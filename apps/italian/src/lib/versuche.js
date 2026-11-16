@@ -82,7 +82,7 @@ export function pageRef(path = currentPath()) {
       const t = new URLSearchParams(location.search).get("t");
       return t ? `vs:${t}` : null;
     }
-    case "spanish-for-work": return b && c ? `w:berufe-${itemKey("/italian-for-work", b)}-${workGroupKey(c)}` : null;
+    case "italian-for-work": return b && c ? `w:berufe-${itemKey("/italian-for-work", b)}-${workGroupKey(c)}` : null;
     case "listening": return b ? `h:${itemKey("/listening", b)}` : null;
     case "reading": return b ? `l:${itemKey("/reading", b)}` : null;
     case "reading-writing": return "l:ls";
