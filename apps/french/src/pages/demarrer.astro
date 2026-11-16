@@ -1,5 +1,4 @@
 ---
-import Wordmark from "../components/Wordmark.astro";
 // /demarrer — draft: tidied-up homepage + slim menu (EXPERIMENTE.md).
 // Only a mock: its own menu, no shared components, noindex. English text only.
 import Layout from "../layouts/Layout.astro";
@@ -71,7 +70,7 @@ const paths = [
     <!-- MENÜ: 3 Bereiche + Lehrkräfte, Suche, ein Haupt-Knopf -->
     <header class="sn-nav">
       <div class="sn-nav-in">
-        <a href="/demarrer" class="sn-logo"><Wordmark /></a>
+        <span class="sn-logo isk-lockup"><a href="https://icanspeak.it/" class="isk-lockup__home" aria-label="icanspeak.it, all languages"><img src="/logos/icanspeak-wordmark.svg" alt="" /></a><a href="/" class="isk-pill" lang="fr" aria-label="icanspeak French, home">français</a></span>
 
         <nav class="sn-menu" aria-label="Main menu">
           {menu.map((m) => (
