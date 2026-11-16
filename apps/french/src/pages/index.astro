@@ -59,7 +59,7 @@ const COURSES = [
   { label: "italiano" },
 ];
 ---
-<Layout umbrella={false}>
+<Layout>
   <div class="home4">
     <SiteNav />
 
@@ -100,6 +100,34 @@ const COURSES = [
     </div>
     <HeroEgg />
 
+    <!-- Exercise cards: the catalogue, right under the hero -->
+    <section class="h4-exband">
+    <div class="h4-wrap h4-exercises">
+      <div class="h4-row">
+        <h2 class="h4-h2" data-i18n="home4.exercises.title">All exercises</h2>
+        <a href="/exercices" class="h4-link" data-i18n="home4.exercises.all">Browse everything</a>
+      </div>
+      <div class="h4-grid">
+        {landingTools.map((t, i) => (
+          <a href={t.href} class="h4-ex">
+            <span class="isk-tile isk-tile--dots h4-ex__glyph" aria-hidden="true" style="--t:56px;--bg:var(--isk-navy);--a:var(--isk-yellow);--b:#fff"><span class="isk-tile__fill">{CARD_GLYPHS[i % CARD_GLYPHS.length]}</span></span>
+            <span class="h4-ex__title" data-i18n={t.titleKey}>{t.title}</span>
+            <span class="h4-ex__desc" data-i18n={t.descKey}>{t.desc}</span>
+            <span class="h4-badge" data-i18n={t.countKey} data-i18n-vars={t.countVars ? JSON.stringify(t.countVars) : undefined}>{t.count}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    </section>
+
+    <div class="isk-ribbon h4-ribbon" aria-hidden="true">
+      {RIBBON_TILES.map((t) => (
+        <div class={`isk-tile ${t.cls}`} style={`--t:var(--isk-tile);--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
+          {t.glyph && <span class="isk-tile__fill">{t.glyph}</span>}
+        </div>
+      ))}
+    </div>
+
     <!-- Navy band -->
     <section class="h4-band">
       <div class="h4-wrap">
@@ -128,24 +156,6 @@ const COURSES = [
         </div>
       ))}
     </div>
-
-    <!-- Exercise cards: the catalogue -->
-    <section class="h4-wrap h4-exercises">
-      <div class="h4-row">
-        <h2 class="h4-h2" data-i18n="home4.exercises.title">All exercises</h2>
-        <a href="/exercices" class="h4-link" data-i18n="home4.exercises.all">Browse everything</a>
-      </div>
-      <div class="h4-grid">
-        {landingTools.map((t, i) => (
-          <a href={t.href} class="h4-ex">
-            <span class="isk-tile isk-tile--dots h4-ex__glyph" aria-hidden="true" style="--t:56px;--bg:var(--isk-navy);--a:var(--isk-yellow);--b:#fff"><span class="isk-tile__fill">{CARD_GLYPHS[i % CARD_GLYPHS.length]}</span></span>
-            <span class="h4-ex__title" data-i18n={t.titleKey}>{t.title}</span>
-            <span class="h4-ex__desc" data-i18n={t.descKey}>{t.desc}</span>
-            <span class="h4-badge" data-i18n={t.countKey} data-i18n-vars={t.countVars ? JSON.stringify(t.countVars) : undefined}>{t.count}</span>
-          </a>
-        ))}
-      </div>
-    </section>
 
     <!-- Glass band: the five courses -->
     <section class="h4-glass">
