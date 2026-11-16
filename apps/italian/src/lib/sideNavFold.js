@@ -18,6 +18,10 @@
  * layout surface itself (the space around and between the cards) counts, because trainer
  * cards here flip and answer on a plain click and must not fold the list on the way.
  *
+ * Topic pages (TopicRail) pass `foldOnAnyClick`: there nothing in the page flips on a plain
+ * click, so any click outside the list that is not on a control folds it — the same rule
+ * as the Regel column on the right (as on deutschacademy since 2026-11-15).
+ *
  * The state is restored before first paint by the inline snippet in SideNavFold.astro;
  * this module takes over from there.
  */
@@ -28,13 +32,16 @@ const WIDE = "(min-width: 1001px)";
 /** When the fold tab wiggles after the page opens — all inside the first 30 seconds. */
 const WIGGLE_AT = [1500, 9000, 20000];
 /** The page's layout surfaces: a click right on one of these is a click into empty space. */
+/** Controls: a click on one of these is the learner working, never a dismissal. */
+const CONTROL = "button, a, input, select, textarea, label, [role='button'], [draggable='true'], [contenteditable], [tabindex], dialog";
 const WHITESPACE = "main, .vp-page, .vp-workspace, .vp-col--ex, .vp-ex-grid, .vt-shell, .vt-main, .ap-main, .pr-main, .tr-layout, .ls-layout";
 
 /**
  * @param {HTMLElement} root  the `.nvb` card
- * @param {{ page?: HTMLElement|null }} [opts]  the element whose [data-fold] sizes the grid track
+ * @param {{ page?: HTMLElement|null, foldOnAnyClick?: boolean }} [opts]  page: the element whose
+ *   [data-fold] sizes the grid track; foldOnAnyClick: see the header
  */
-export function mountSideNavFold(root, { page = null } = {}) {
+export function mountSideNavFold(root, { page = null, foldOnAnyClick = false } = {}) {
   if (!root) return null;
   const wide = matchMedia(WIDE);
   const btns = () => [...root.querySelectorAll("[data-nvb-collapse]")];
@@ -100,7 +107,8 @@ export function mountSideNavFold(root, { page = null } = {}) {
   document.addEventListener("click", (e) => {
     if (folded || !wide.matches || e.button !== 0) return;
     const el = e.target;
-    if (!(el instanceof Element) || root.contains(el) || !el.matches(WHITESPACE)) return;
+    if (!(el instanceof Element) || root.contains(el)) return;
+    if (foldOnAnyClick ? el.closest(CONTROL) : !el.matches(WHITESPACE)) return;
     // Selecting text is reading, not dismissing.
     if (String(getSelection?.() ?? "").trim()) return;
     stopWiggle();

@@ -280,7 +280,7 @@ const openSection = grammarByKey(current)?.level?.toLowerCase() ?? "weg";
     onUiText(() => paint());
 
     // The fold: one behaviour and one remembered state for every side nav.
-    const fold = mountSideNavFold(nvb);
+    const fold = mountSideNavFold(nvb, { foldOnAnyClick: true });
 
     for (const b of $$<HTMLElement>("[data-rail-sec]")) {
       b.addEventListener("click", () => {
