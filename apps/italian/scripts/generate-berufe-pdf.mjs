@@ -1,4 +1,4 @@
-// Builds the downloadable word lists for Spanish for work: one PDF per sector deck, grouped like
+// Builds the downloadable word lists for Italian for work: one PDF per sector deck, grouped like
 // the deck, with article and plural folded into the word, the English meaning and the example.
 //
 //   pnpm generate:berufe-pdf
@@ -97,7 +97,7 @@ async function build(deck, lang = null) {
   pdf.doc.addPage();
   // The tips in Regi's box, the one place a learner should not skip.
   if (deck.tipps?.length) {
-    pdf.h2("Tips for Spanish at work", { icon: art.icon.note, keep: 60 });
+    pdf.h2("Tips for Italian at work", { icon: art.icon.note, keep: 60 });
     for (const t of deck.tipps) pdf.tip(t, { art: art.mascot.idea });
   }
   for (const g of groups) {
