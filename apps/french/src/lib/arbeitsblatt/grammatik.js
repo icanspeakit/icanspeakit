@@ -35,8 +35,19 @@ function splitGap(prompt) {
     space before ? ! ; : and none before . , */
 export const joinWords = (words) => words.join(" ").replace(/\s+([.,])/g, "$1").replace(/\s+([?!;:])/g, " $1");
 
+/** What the trainer's hint says for a matching task is about tapping; on paper the learner writes
+    a letter. The French hints do not start with "Tap/Click" (checked against src/data/grammatik),
+    so for a matching task the instruction is put in front of the hint; a hint that does start that
+    way has its first sentence replaced, and anything after it (a tip) stays. */
+const PAPER_MATCH = "Write the letter of the matching item in the box.";
+export function paperHint(hint, type) {
+  const h = String(hint ?? "");
+  if (/^(tap|click|drag)\b/i.test(h)) return [PAPER_MATCH, ...h.split(/(?<=[.!?])\s+/).slice(1)].join(" ");
+  return type === "match" ? [PAPER_MATCH, h].filter(Boolean).join(" ") : h;
+}
+
 function section(ex, i, topicId) {
-  const base = { type: ex.type, title: ex.title ?? "", hint: ex.hint ?? "", n: i + 1 };
+  const base = { type: ex.type, title: ex.title ?? "", hint: paperHint(ex.hint, ex.type), n: i + 1 };
   const box = (list) => (ex.choices?.length ? shuffle(ex.choices, `${topicId}:${i}:box`) : list ? shuffle([...new Set(list)], `${topicId}:${i}:box`) : null);
 
   switch (ex.type) {
@@ -52,7 +63,7 @@ function section(ex, i, topicId) {
     case "table":
       return {
         ...base,
-        columns: ex.columns ?? ["", "Lösung"],
+        columns: ex.columns ?? ["", "Answer"],
         items: (ex.rows ?? []).map((r) => ({ term: r.term, answers: answersOf(r.answer) })),
         box: box(null),
       };
@@ -62,7 +73,7 @@ function section(ex, i, topicId) {
       return {
         ...base,
         left: pairs.map((p) => p.q),
-        right: order.map((pi, k) => ({ letter: LETTERS[k], text: pairs[pi].a })),
+        right: order.map((pi, k) => ({ letter: LETTERS[k], text: pairs[pi].a, pi })),
         answers: pairs.map((_, k) => LETTERS[order.indexOf(k)]),
       };
     }

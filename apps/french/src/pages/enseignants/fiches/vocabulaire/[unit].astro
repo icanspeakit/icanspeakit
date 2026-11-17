@@ -1,5 +1,4 @@
 ---
-import { fitTitle } from "../../../../lib/seo/title.js";
 // A vocabulary worksheet for one Lernset: print it for a group session, or let learners
 // fill it in on screen. Data and parts: src/lib/arbeitsblatt/wortschatz.js. Behaviour
 // (modes, checking, meaning language): src/lib/arbeitsblatt/client.js.
@@ -13,6 +12,7 @@ import "../../../../styles/arbeitsblatt.css";
 import "../../../../styles/teacher-switch.css";
 import { wortschatzSheet, worksheetUnits, worksheetLevels, levelWords, SHEET_LANGS, LANG_NAMES } from "../../../../lib/arbeitsblatt/wortschatz.js";
 import { isRtl } from "../../../../lib/languages.js";
+import { absoluteUrl } from "../../../../lib/paths.js";
 // One meaning language at a time (arbeitsblatt.css hides .ab-m): the rule per sheet
 // language, written from the registry so a new language needs no CSS edit.
 // "de" is „In German": the German translation instead of the English definition (sheet.hasDe).
@@ -41,10 +41,35 @@ const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
 const artQuestion = "le or la?";
 const artInstr = "Write le or la. Before a vowel or a mute h (… école), write un or une.";
 let gap = 0;
+
+// SEO, as on the grammar sheets: how teachers search ("fiche vocabulaire la nourriture a1 pdf").
+// Counts are the sheet's own (wortschatz.js).
+const shortTitle = title.replace(/\s*[:—(].*$/, "");
+const HEAD = "Fiche vocabulaire : ";
+const TAIL_SHORT = ` (${level}) – PDF gratuit`;
+const TAIL = ` (${level}) – PDF gratuit avec corrigé`;
+const pageTitle = [HEAD + title + TAIL, HEAD + shortTitle + TAIL, HEAD + shortTitle + TAIL_SHORT, `${HEAD}${shortTitle} (${level})`].find((t) => t.length <= 72)
+  ?? `${HEAD}${shortTitle} (${level})`;
+const nMatch = sheet.match.left.length;
+const parts = [nMatch && "relier les mots et leur sens", sheet.nouns.length && "le, la ou l’", sheet.sentences.length && "compléter les phrases"].filter(Boolean);
+const description = `${title} (${level}) : une fiche de vocabulaire gratuite à imprimer en ${parts.length} parties (${parts.join(", ")}) avec corrigé${isLevel ? `, avec des mots tirés de toute la liste ${level}` : `, à partir des ${sheet.count} mots de la série`}. À imprimer ou à enregistrer en PDF.`;
+const schema = {
+  "@type": "LearningResource",
+  name: `Fiche de vocabulaire : ${title} (${level})`,
+  description,
+  inLanguage: ["fr", "en"],
+  ...(Astro.site ? { url: absoluteUrl(path) } : {}),
+  learningResourceType: "worksheet",
+  ...(level ? { educationalLevel: level } : {}),
+  teaches: `French vocabulary: ${title}`,
+  isAccessibleForFree: true,
+  audience: { "@type": "EducationalAudience", educationalRole: "teacher" },
+};
 ---
 <Layout
-  title={fitTitle(`Vocabulary worksheet: ${title} (${level})`, `Worksheet: ${title} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")}`)}
-  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add le, la or l', complete the sentences. To print or fill in online, with answers.`}
+  title={pageTitle}
+  description={description}
+  schema={schema}
 >
   <SiteNav active="lehrkraefte" />
 
