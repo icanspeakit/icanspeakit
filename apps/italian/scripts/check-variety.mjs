@@ -25,8 +25,17 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 // the file). Add the module id in the same commit that converts the module (its queue item).
 // Empty since `variety-schema` (2026-11-12): every module still holds Spanish-course content, so
 // the Spanish course's strict list was dropped; the items re-add their modules one by one.
-// Re-added: einstufung (placement-test).
-const STRICT = new Set(["einstufung", "grammatik", "grammatik-quiz", "praepositionen", "verbtabellen", "hoeren", "redemittel", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen", "patente", "artikel-sprint", "quaki-fragen", "hochstapler-redemittel"]);
+// Re-added item by item; `residual-audit` (2026-11-17) made the rest strict: every module is
+// Italian now, so every module is listed.
+const STRICT = new Set([
+  "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2",
+  "berufe", "patente", "business-italian", "wortschatz", "redemittel",
+  "grammatik", "grammatik-quiz", "grammatik-start", "praepositionen", "einstufung", "verbtabellen",
+  "conjugation-trainer", "hoeren", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln",
+  "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen",
+  "artikel-sprint", "quaki-fragen", "hochstapler-redemittel",
+  "arbeitsblatt", "partneruebungen", "unterricht-wortschatz",
+]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
