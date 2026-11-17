@@ -4,7 +4,7 @@
 //   pnpm generate:grammatik-start-pdf          all editions
 //   node scripts/generate-grammatik-start-pdf.mjs en de   some
 //
-// → public/downloads/grammatik-start.pdf (English) and grammatik-start-<code>.pdf.
+// → public/downloads/grammatica-base.pdf (English) and grammatica-base-<code>.pdf.
 //
 // The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
@@ -74,7 +74,7 @@ async function build(lang) {
   const T = (id, field, english) => tr?.blocks?.[id]?.[field] ?? english;
   const chTitle = (c) => tr?.chapters?.[c.id]?.title ?? c.titleDe;
   const chBubble = (c) => tr?.chapters?.[c.id]?.bubble ?? c.bubble;
-  const file = lang === BASE ? "grammatik-start.pdf" : `grammatik-start-${lang}.pdf`;
+  const file = lang === BASE ? "grammatica-base.pdf" : `grammatica-base-${lang}.pdf`;
   const art = await loadArt();
   const pics = {
     regi: await single("regi", "thinking"),
