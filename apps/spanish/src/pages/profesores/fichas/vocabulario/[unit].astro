@@ -1,5 +1,4 @@
 ---
-import { fitTitle } from "../../../../lib/seo/title.js";
 // A vocabulary worksheet for one Lernset: print it for a group session, or let learners
 // fill it in on screen. Data and parts: src/lib/arbeitsblatt/wortschatz.js. Behaviour
 // (modes, checking, meaning language): src/lib/arbeitsblatt/client.js.
@@ -13,6 +12,7 @@ import "../../../../styles/arbeitsblatt.css";
 import "../../../../styles/teacher-switch.css";
 import { wortschatzSheet, worksheetUnits, worksheetLevels, levelWords, SHEET_LANGS, LANG_NAMES } from "../../../../lib/arbeitsblatt/wortschatz.js";
 import { isRtl } from "../../../../lib/languages.js";
+import { absoluteUrl } from "../../../../lib/paths.js";
 // One meaning language at a time (arbeitsblatt.css hides .ab-m): the rule per sheet
 // language, written from the registry so a new language needs no CSS edit.
 // "de" is „In German": the German translation instead of the English definition (sheet.hasDe).
@@ -40,10 +40,33 @@ const langName = (l: string) => (l === "de" ? "In German" : LANG_NAMES[l]);
 const artQuestion = "el or la?";
 const artInstr = "Write el or la.";
 let gap = 0;
+
+// SEO, as on the grammar sheets: how teachers search ("Spanish food vocabulary worksheet a1 pdf").
+// Counts are the sheet's own (wortschatz.js).
+const shortTitle = title.replace(/s*[:—(].*$/, "");
+const TAIL = ` vocabulary worksheet (${level}) – free PDF with answers`;
+const pageTitle = [`Spanish ${title}${TAIL}`, `Spanish ${shortTitle}${TAIL}`, `Spanish ${shortTitle} vocabulary worksheet (${level})`].find((t) => t.length <= 72)
+  ?? `Spanish ${shortTitle} vocabulary worksheet (${level})`;
+const nMatch = sheet.match.left.length;
+const parts = [nMatch && "match words and meanings", sheet.nouns.length && "el or la", sheet.sentences.length && "complete the sentences"].filter(Boolean);
+const description = `${title} (${level}): a free printable Spanish vocabulary worksheet in ${parts.length} parts (${parts.join(", ")}) with an answer key${isLevel ? `, words drawn from the whole ${level} list` : `, from the ${sheet.count} words of the set`}. Print or save as PDF.`;
+const schema = {
+  "@type": "LearningResource",
+  name: `Spanish ${title} vocabulary worksheet (${level})`,
+  description,
+  ...(Astro.site ? { url: absoluteUrl(path) } : {}),
+  learningResourceType: "worksheet",
+  ...(level ? { educationalLevel: level } : {}),
+  teaches: `Spanish vocabulary: ${title}`,
+  inLanguage: ["en", "es"],
+  isAccessibleForFree: true,
+  audience: { "@type": "EducationalAudience", educationalRole: "teacher" },
+};
 ---
 <Layout
-  title={fitTitle(`Vocabulary worksheet: ${title} (${level})`, `Worksheet: ${title} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")} (${level})`, `Worksheet: ${title.replace(/\s*[:—].*$/, "")}`)}
-  description={`Worksheet for the word set “${title}” (${level}): match words and meanings, add el or la, complete the sentences. To print or fill in online, with answers.`}
+  title={pageTitle}
+  description={description}
+  schema={schema}
 >
   <SiteNav active="lehrkraefte" />
 
@@ -134,7 +157,7 @@ let gap = 0;
         </section>
       )}
 
-      <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{path} · free to copy for your lessons</footer>
+      <footer class="ab-foot">icanspeak Spanish · icanspeak.it/espanol{path} · free to copy for your lessons</footer>
     </article>
 
     <article class="ab-sheet ab-key" lang="es" aria-label="Answers">
@@ -174,7 +197,7 @@ let gap = 0;
           </ol>
         </section>
       )}
-      <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{path}</footer>
+      <footer class="ab-foot">icanspeak Spanish · icanspeak.it/espanol{path}</footer>
     </article>
   </main>
 
