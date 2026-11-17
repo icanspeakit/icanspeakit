@@ -32,8 +32,11 @@
 
 // The project token is public by design (it ships in every page's JavaScript anyway).
 const KEY = import.meta.env.PUBLIC_POSTHOG_KEY || "phc_AMyBixjKF9itAAjG6FJ8rhzLwoWj9S7KgzPK4rCW8DpY";
-const HOST = import.meta.env.PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com";
 const DEV_ON = import.meta.env.PUBLIC_POSTHOG_DEV === "on";
+// Through our own domain: icanspeak.it/rel/... is the icanspeak-rel Worker (apps/rel), which
+// forwards to PostHog EU, so blockers that drop *.posthog.com don't swallow events (since
+// 2026-11-17). A dev server has no /rel, so it talks to PostHog directly.
+const HOST = import.meta.env.PUBLIC_POSTHOG_HOST || (DEV_ON ? "https://eu.i.posthog.com" : "/rel");
 const CONSENT_KEY = "da_consent";
 // Bump when the banner's text, buttons or timing change, so acceptance can be compared.
 export const BANNER_VERSION = "ics-v1-2026-11";

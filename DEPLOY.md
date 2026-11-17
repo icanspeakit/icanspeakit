@@ -7,6 +7,7 @@ path route on the `icanspeak.it` zone. Cloudflare picks the most specific matchi
 |---|---|---|---|
 | `icanspeak.it/english*` | `icanspeak-english` | `apps/english` | static assets only |
 | `icanspeak.it/linguistics*` | `icanspeak-linguistics` | `apps/linguistics` | static + 2 API routes (TTS) |
+| `icanspeak.it/rel/*` | `icanspeak-rel` | `apps/rel` | Worker code only: forwards analytics to PostHog EU (since 2026-11-17; deploy with `pnpm --filter @icanspeak/rel run deploy`) |
 | `icanspeak.it/*` (everything else) | `icanspeak-hub` | `apps/hub` | static assets only |
 | `icanspeak.it/espanol*` | `icanspeak-spanish` | `apps/spanish` | static assets only (was `/spanish*` until 2026-11-14; the hub 301s it) |
 | `icanspeak.it/francais*` | `icanspeak-french` | `apps/french` | static assets only (was `/french*` until 2026-11-14; the hub 301s it) |
