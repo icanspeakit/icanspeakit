@@ -8,6 +8,16 @@ importers:
 
   .: {}
 
+  apps/admin:
+    dependencies:
+      astro:
+        specifier: ^7.4.2
+        version: 7.4.4(@types/node@26.6.6)(esbuild@0.28.2)(yaml@2.9.1)
+    devDependencies:
+      wrangler:
+        specifier: ^4.157.0
+        version: 4.157.0(@types/node@26.6.6)
+
   apps/english:
     dependencies:
       '@astrojs/react':

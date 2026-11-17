@@ -12,6 +12,7 @@ path route on the `icanspeak.it` zone. Cloudflare picks the most specific matchi
 | `icanspeak.it/espanol*` | `icanspeak-spanish` | `apps/spanish` | static assets only (was `/spanish*` until 2026-11-14; the hub 301s it) |
 | `icanspeak.it/francais*` | `icanspeak-french` | `apps/french` | static assets only (was `/french*` until 2026-11-14; the hub 301s it) |
 | `icanspeak.it/italiano*` | `icanspeak-italian` | `apps/italian` | static assets only (the hub 301s `/italian*`) |
+| `icanspeak.it/intern*` | `icanspeak-admin` | `apps/admin` | ops board, static. **Not in the root `deploy` script**: set up Cloudflare Access for it first (apps/admin/README.md), then `pnpm --filter @icanspeak/admin run deploy` |
 | later: `/portugues*` (the language's own name; base path already set, the hub 301s `/portuguese*`) | `icanspeak-portuguese` | `apps/portuguese` | static assets only |
 
 Why one Worker per app: each deploys on its own (a course rebuild never touches the others),
