@@ -1,5 +1,5 @@
 {
-  "_comment": "Learn step by step (/step-by-step): the curated beginner path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Spanish version (beginner-path run, 2026-11-04): A1, A2 and B1 are playable, units in the order of grammatik-lehrplan.json, except that ser/estar comes before plurals here because the plural unit also needs adjective agreement. Old ids are kept where a unit fits them; new units have English ids. Mostly luecke and satz tasks; hoeren and aussprache tasks wait for their audio; a1-vorstellen and a1-amt each have a redemittel task. Hints and whys are English; the Spanish comes from the source item. No task points at an item with es419.skip, so a LatAm mode loses no task; four items have an es419.form the resolver must apply then (personalpronomen/0/5, aduso/0/1, konjunktiv2-hoeflich/1/2, redemittel begruessen#1). Postcards are written here (source: neu) until Edgar has checked them.",
+  "_comment": "Learn step by step (/step-by-step): the curated beginner path. Tasks reference reviewed items by ref, they never copy text — see src/lib/einfach-content.js for the ref formats and docs/easy-mode-tier1-v1.md for how to add a unit. Check with: pnpm check:einfach. Portuguese version (beginner-path run, 2026-11-14): European Portuguese, A1, A2 and B1, 35 units in the order of the Portuguese grammar slots. Every task points at a pt-PT grammar item (gram:) or an akkusativ.json item; no task uses the lexicon (wort/artikel via lex:) or redemittel, because those sources are still Spanish until vocab-a1…b1 and speaking: add those tasks back then, one per unit where a word card fits. No task points at an item with ptBR.skip. Hints and whys are English. Postcards are places in Portugal, written here (source: neu) until Edgar has checked them.",
   "levels": [
     {
       "level": "A1",
@@ -10,16 +10,15 @@
           "title": "Introduce yourself",
           "minutes": 2,
           "grammar": "personalpronomen",
-          "claims": ["You say hello and say your name.", "You use yo, tú, usted and vosotros."],
-          "postcard": { "city": "Madrid", "fact": "The Kilómetro Cero is in Madrid, at Puerta del Sol. Spain's main roads count their distance from here.", "source": "neu" },
+          "claims": ["You say hello and say your name.", "You use eu, tu, o senhor and vocês."],
+          "postcard": { "city": "Lisboa", "fact": "Lisbon is the capital of Portugal and its biggest city. It lies on the river Tejo, close to the Atlantic.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:personalpronomen/6/0@1e195b" },
             { "type": "luecke", "ref": "gram:personalpronomen/6/2@790e6c" },
             { "type": "satz", "ref": "gram:personalpronomen/7/0@22a83a" },
             { "type": "luecke", "ref": "gram:personalpronomen/1/0@20aac5" },
             { "type": "luecke", "ref": "gram:personalpronomen/2/1@e823d4" },
-            { "type": "luecke", "ref": "gram:personalpronomen/0/5@1e075a" },
-            { "type": "redemittel", "ref": "redemittel:begruessen#1@b836d4", "distractors": ["redemittel:gratulieren#4@b2f499","redemittel:zweifeln#7@15c22a"], "situation": "You meet a new neighbour for the first time. You have just said your names.", "hint": "You are pleased to meet this person." }
+            { "type": "luecke", "ref": "gram:personalpronomen/0/5@1e075a" }
           ]
         },
         {
@@ -28,16 +27,15 @@
           "title": "Show someone your home",
           "minutes": 2,
           "grammar": "artikel",
-          "claims": ["You talk about the things in your home.", "You choose el, la, un or una."],
-          "postcard": { "city": "Barcelona", "fact": "Work on the Sagrada Família began in 1882. Many people have worked on it since then.", "source": "neu" },
+          "claims": ["You talk about the things in your home.", "You choose o, a, um or uma."],
+          "postcard": { "city": "Aveiro", "fact": "In Costa Nova, near Aveiro, the houses are painted in bright stripes. They were once fishermen's huts.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a1-04/piso" },
             { "type": "luecke", "ref": "gram:nomen/0/3@160c5f", "hint": "Look at the last letter: -o is often o, -a is often a." },
             { "type": "luecke", "ref": "gram:nomen/0/6@155249", "hint": "Look at the last letter: -o is often o, -a is often a." },
-            { "type": "luecke", "ref": "gram:artikel/0/1@64c835", "hint": "One thing or more? Then look at the ending." },
-            { "type": "luecke", "ref": "gram:artikel/1/1@e6a97f", "hint": "One thing or more? Then look at the ending." },
-            { "type": "luecke", "ref": "gram:artikel/2/1@ebed58", "hint": "One thing or more? Then look at the ending." },
-            { "type": "luecke", "ref": "gram:artikel/2/3@1758de", "hint": "One thing or more? Then look at the ending." }
+            { "type": "luecke", "ref": "gram:artikel/0/1@64c835", "hint": "Chaves is more than one thing. Look at the -s." },
+            { "type": "luecke", "ref": "gram:artikel/1/1@e6a97f", "hint": "Cadeira ends in -a. Is it one or more?" },
+            { "type": "luecke", "ref": "gram:artikel/2/1@ebed58", "hint": "A new thing, not yet known: not o or a." },
+            { "type": "luecke", "ref": "gram:artikel/2/3@1758de", "hint": "You both know which toilet: the one in this place." }
           ]
         },
         {
@@ -47,7 +45,7 @@
           "minutes": 2,
           "grammar": "verb-position-2",
           "claims": ["You say who you are with ser.", "You say where you are with estar."],
-          "postcard": { "city": "Toledo", "fact": "People call Toledo the city of three cultures. Christians, Muslims and Jews lived here for centuries.", "source": "neu" },
+          "postcard": { "city": "Braga", "fact": "Braga is one of the oldest cities in Portugal. The Romans called it Bracara Augusta.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:verb-position-2/2/0@1e2151" },
             { "type": "luecke", "ref": "gram:verb-position-2/2/4@7da809" },
@@ -64,10 +62,9 @@
           "title": "Describe your flat",
           "minutes": 2,
           "grammar": "adjektive-nach-sein",
-          "claims": ["You say what things are like.", "You match words: los pisos caros."],
-          "postcard": { "city": "Cuenca", "fact": "In Cuenca, old houses hang over the edge of a deep gorge. People call them the casas colgadas.", "source": "neu" },
+          "claims": ["You say what things are like.", "You match words: os apartamentos caros."],
+          "postcard": { "city": "Guarda", "fact": "Guarda is the highest city in Portugal, at about 1,000 metres. It can be cold even in spring.", "source": "neu" },
           "tasks": [
-            { "type": "artikel", "ref": "lex:a1-04/ventana" },
             { "type": "luecke", "ref": "gram:plural/0/1@7aa182" },
             { "type": "luecke", "ref": "gram:plural/2/1@d264af" },
             { "type": "luecke", "ref": "gram:adjektive-nach-sein/0/0@4abb6f" },
@@ -83,7 +80,7 @@
           "minutes": 2,
           "grammar": "zahlen",
           "claims": ["You understand numbers and prices.", "You say how much something costs."],
-          "postcard": { "city": "Valencia", "fact": "Valencia is the home of paella. The rice grows close to the city, around La Albufera lake.", "source": "neu" },
+          "postcard": { "city": "Loulé", "fact": "Loulé has a famous market hall in the Algarve. Locals buy fruit, fish and cheese there.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:zahlen/1/0@621e36" },
             { "type": "luecke", "ref": "gram:zahlen/1/3@fde197" },
@@ -100,8 +97,8 @@
           "title": "Get to know someone",
           "minutes": 2,
           "grammar": "w-fragen",
-          "claims": ["You ask and answer yes/no questions.", "You ask: ¿Dónde? ¿Cuándo? ¿Quién? ¿Cuántos?"],
-          "postcard": { "city": "Salamanca", "fact": "The University of Salamanca began in 1218. It is the oldest university in Spain.", "source": "neu" },
+          "claims": ["You ask and answer yes/no questions.", "You ask: Onde? Quando? Quem? Quantos?"],
+          "postcard": { "city": "Viseu", "fact": "Viseu is a city in the centre of Portugal, in the Dão wine region.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:ja-nein-fragen/0/0@2abe13" },
             { "type": "luecke", "ref": "gram:ja-nein-fragen/0/3@91021d" },
@@ -119,9 +116,8 @@
           "minutes": 2,
           "grammar": "praesens",
           "claims": ["You say what you do every day.", "You use -ar, -er and -ir verbs."],
-          "postcard": { "city": "Sevilla", "fact": "The streets of Seville are full of orange trees. The oranges look sweet, but they are very bitter.", "source": "neu" },
+          "postcard": { "city": "Setúbal", "fact": "Setúbal lies on the river Sado. Dolphins live in the river mouth, and the Arrábida hills are right behind the city.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a1-11/desayuno" },
             { "type": "luecke", "ref": "gram:praesens/0/0@5d73d3" },
             { "type": "luecke", "ref": "gram:praesens/0/4@457f1d" },
             { "type": "luecke", "ref": "gram:praesens/1/0@e52b01" },
@@ -136,10 +132,9 @@
           "title": "At the health centre",
           "minutes": 2,
           "grammar": "konjugation",
-          "claims": ["You say: tengo, voy and estoy.", "You say your age with tener."],
-          "postcard": { "city": "Zaragoza", "fact": "The river Ebro runs through Zaragoza. The big Basilica del Pilar stands on its bank.", "source": "neu" },
+          "claims": ["You say: tenho, vou and estou.", "You say your age with ter."],
+          "postcard": { "city": "Caldas da Rainha", "fact": "The name means “the Queen's hot springs”. People have come here for the thermal water since the 15th century.", "source": "neu" },
           "tasks": [
-            { "type": "artikel", "ref": "lex:a1-09/mano", "why": "We say: la mano. It ends in -o, but it is feminine." },
             { "type": "luecke", "ref": "gram:konjugation/3/3@016db1" },
             { "type": "luecke", "ref": "gram:konjugation/3/0@dcae27" },
             { "type": "luecke", "ref": "gram:konjugation/1/0@551e65" },
@@ -154,10 +149,9 @@
           "title": "In a café",
           "minutes": 2,
           "grammar": "praeteritum-sein-haben",
-          "claims": ["You order: quiero, pido.", "You ask: ¿Puedo pagar con tarjeta?"],
-          "postcard": { "city": "Oviedo", "fact": "In Asturias, people pour cider from high above the glass. They call this escanciar.", "source": "neu" },
+          "claims": ["You order: peço, queria.", "You say you did not hear: não ouço bem."],
+          "postcard": { "city": "Belém", "fact": "Belém is a district of Lisbon. A bakery there has sold pastéis de nata since 1837.", "source": "neu" },
           "tasks": [
-            { "type": "artikel", "ref": "lex:a1-06/agua" },
             { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/0@11dabe" },
             { "type": "luecke", "ref": "gram:praeteritum-sein-haben/0/1@1b4e81" },
             { "type": "luecke", "ref": "gram:praeteritum-sein-haben/2/4@01dcf4" },
@@ -172,10 +166,9 @@
           "title": "Find your way",
           "minutes": 2,
           "grammar": "berufe-mit-in",
-          "claims": ["You ask: ¿Dónde está…? ¿Hay…?", "You choose hay, está or están."],
-          "postcard": { "city": "Santiago de Compostela", "fact": "The Camino de Santiago ends here. People walk for days or weeks to reach the cathedral.", "source": "neu" },
+          "claims": ["You ask: Onde fica…? Há…?", "You choose há, está or estão."],
+          "postcard": { "city": "Ponte de Lima", "fact": "Ponte de Lima is one of the oldest towns in Portugal. It has a long bridge over the river Lima with Roman origins.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a1-16/semáforo" },
             { "type": "luecke", "ref": "gram:berufe-mit-in/2/0@4f6a99" },
             { "type": "luecke", "ref": "gram:berufe-mit-in/2/1@93dad3" },
             { "type": "luecke", "ref": "gram:berufe-mit-in/0/0@61d686" },
@@ -190,10 +183,9 @@
           "title": "Talk about your family",
           "minutes": 2,
           "grammar": "possessivartikel",
-          "claims": ["You talk about your family.", "You say mi, tu, su and nuestro."],
-          "postcard": { "city": "Granada", "fact": "The name of Granada's Alhambra comes from Arabic. It means “the red one”.", "source": "neu" },
+          "claims": ["You talk about your family.", "You say o meu, a minha, o nosso."],
+          "postcard": { "city": "Barcelos", "fact": "The rooster of Barcelos is a symbol of Portugal. Families buy the painted figure as a souvenir.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a1-02/padres" },
             { "type": "luecke", "ref": "gram:possessivartikel/1/0@307cf7" },
             { "type": "luecke", "ref": "gram:possessivartikel/1/3@ce341b" },
             { "type": "luecke", "ref": "gram:possessivartikel/1/2@1eb9d1" },
@@ -208,8 +200,8 @@
           "title": "Say what you like",
           "minutes": 2,
           "grammar": "gern",
-          "claims": ["You say what you like.", "You point at things: este, esta, estos."],
-          "postcard": { "city": "Bilbao", "fact": "The Guggenheim Museum in Bilbao opened in 1997. Its curved walls shine with titanium.", "source": "neu" },
+          "claims": ["You say what you like.", "You point at things: este, esta, estes."],
+          "postcard": { "city": "Nazaré", "fact": "Nazaré is a fishing town. In winter its giant waves attract surfers from all over the world.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:gern/0/0@253d0a" },
             { "type": "luecke", "ref": "gram:gern/0/1@def9b8" },
@@ -226,10 +218,9 @@
           "title": "Make an appointment",
           "minutes": 2,
           "grammar": "temporale-praepositionen",
-          "claims": ["You say the time: son las diez.", "You say when: el lunes, a las diez."],
-          "postcard": { "city": "Segovia", "fact": "The Roman aqueduct of Segovia is about 2,000 years old. Its stones stand without any mortar.", "source": "neu" },
+          "claims": ["You say the time: são dez horas.", "You say when: na terça, às dez."],
+          "postcard": { "city": "Fátima", "fact": "Fátima is a place of pilgrimage. Many thousands of people come on 13 May and 13 October.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a1-10/cita previa" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/0/3@f43953" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/1/0@ca2d3f" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/1/1@bdf819" },
@@ -241,17 +232,16 @@
         {
           "id": "a1-amt",
           "icon": "🏛️",
-          "title": "Book the padrón",
+          "title": "Book a Junta appointment",
           "minutes": 2,
           "grammar": "temporale-praepositionen",
-          "claims": ["You ask for an appointment for the padrón.", "You say where you live."],
-          "postcard": { "city": "Melilla", "fact": "Melilla is a Spanish city in North Africa. It lies on the coast, next to Morocco.", "source": "neu" },
+          "claims": ["You ask for an appointment at the Junta.", "You say where you live."],
+          "postcard": { "city": "Funchal", "fact": "Funchal is the capital of Madeira. Madeira is an island in the Atlantic that belongs to Portugal.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/0@3ac6c7" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/1@054f64" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/3@dff6ff" },
             { "type": "luecke", "ref": "gram:temporale-praepositionen/7/4@a99795" },
-            { "type": "redemittel", "ref": "redemittel:nachfragen#1@519eae", "distractors": ["redemittel:gratulieren#5@de9ba3","redemittel:widersprechen#7@082330"], "situation": "At the town hall, the clerk tells you the date of your padrón appointment, but you did not catch it.", "hint": "You want to hear it again, politely." },
             { "type": "satz", "ref": "gram:temporale-praepositionen/8/0@bb1890" },
             { "type": "satz", "ref": "gram:temporale-praepositionen/8/2@4256b2" }
           ]
@@ -262,10 +252,9 @@
           "title": "Say why",
           "minutes": 2,
           "grammar": "aduso",
-          "claims": ["You join ideas with y, o and pero.", "You give a reason with porque."],
-          "postcard": { "city": "San Sebastián", "fact": "San Sebastián has two names. In Basque, the city is called Donostia.", "source": "neu" },
+          "claims": ["You join ideas with e, ou and mas.", "You give a reason with porque."],
+          "postcard": { "city": "Ponta Delgada", "fact": "Ponta Delgada is the largest city of the Azores. It lies on the island of São Miguel.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a1-25/porque" },
             { "type": "luecke", "ref": "gram:aduso/0/0@2e2192" },
             { "type": "luecke", "ref": "gram:aduso/0/1@7e4b92" },
             { "type": "luecke", "ref": "gram:aduso/0/2@b8c78f" },
@@ -286,9 +275,8 @@
           "minutes": 2,
           "grammar": "reflexive-verben",
           "claims": ["You talk about your daily routine.", "You say: levanto-me, deitas-te, lava-se."],
-          "postcard": { "city": "Tenerife", "fact": "Mount Teide on Tenerife is the highest mountain in Spain, at 3,715 metres.", "source": "neu" },
+          "postcard": { "city": "Lagos", "fact": "Near Lagos in the Algarve, the cliffs of Ponta da Piedade rise out of the sea. You can visit them by small boat.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a2-08/ducha" },
             { "type": "luecke", "ref": "gram:reflexive-verben/0/0@1d1f34", "options": ["me","te","se"], "hint": "Look at the word eu.", "why": "Levantar-se with eu: levanto-me." },
             { "type": "luecke", "ref": "gram:reflexive-verben/0/1@d9b883", "options": ["me","te","se"], "hint": "Deitas: who is it? The -as ending tells you.", "why": "The ending -as belongs to tu: tu deitas-te. After a question word the pronoun goes before the verb: te deitas." },
             { "type": "luecke", "ref": "gram:reflexive-verben/0/3@0f9df9", "options": ["nos","te","se"], "hint": "A minha irmã e eu: who is that together?", "why": "A minha irmã e eu = nós: lavamo-nos." },
@@ -304,12 +292,10 @@
           "minutes": 2,
           "grammar": "trennbare-verben",
           "claims": ["You say what you are going to do.", "You use ir + infinitive: vou ligar."],
-          "postcard": { "city": "Las Palmas de Gran Canaria", "fact": "The Canary Islands are one hour behind mainland Spain. The radio says: “una hora menos en Canarias”.", "source": "neu" },
+          "postcard": { "city": "Tavira", "fact": "Tavira lies on the river Gilão in the eastern Algarve. A boat takes you to its beach on an island.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a2-21/boda" },
             { "type": "luecke", "ref": "gram:trennbare-verben/0/0@157297", "options": ["vou","vai","vão"], "hint": "Look at the word eu.", "why": "Ir with eu: vou. Vou ligar." },
             { "type": "luecke", "ref": "gram:trennbare-verben/0/1@ce369f", "options": ["vou","vais","vai"], "hint": "Look at the word tu.", "why": "Ir with tu: vais. O que é que vais fazer?" },
-            { "type": "luecke", "ref": "gram:trennbare-verben/1/0@626a1c", "options": ["vou ir","vou a ir","vou vou"], "hint": "You need two parts: ir and an infinitive. No a.", "why": "Ir + infinitive: vou ir." },
             { "type": "luecke", "ref": "gram:trennbare-verben/1/3@5b0f6a", "options": ["vou mudar","vou mudo","vou a mudar"], "hint": "After vou, the verb does not change.", "why": "After vou comes the infinitive: vou mudar." },
             { "type": "luecke", "ref": "gram:trennbare-verben/2/2@48b029", "options": ["vai sair","vai sai","vão sair"], "hint": "Sai is one person. Keep that person.", "why": "Sai → vai sair. The second verb is the infinitive." },
             { "type": "satz", "ref": "gram:trennbare-verben/5/0@fd88d9", "why": "Do not add a: vou ligar." }
@@ -322,7 +308,7 @@
           "minutes": 2,
           "grammar": "komposita",
           "claims": ["You say what you are doing now.", "You choose: every day or right now."],
-          "postcard": { "city": "Palma", "fact": "Palma is the capital of Mallorca. Many people on the island speak Catalan as well as Spanish.", "source": "neu" },
+          "postcard": { "city": "Peniche", "fact": "Peniche is a fishing port. Boats leave from here for the Berlengas islands.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:komposita/1/0@95bd1d", "options": ["estou","está","sou"], "hint": "Look at the word eu. It is happening now.", "why": "Happening now: estar a + infinitive. Estou a cozinhar." },
             { "type": "luecke", "ref": "gram:komposita/1/2@562087", "options": ["é","estás","está"], "hint": "Omar = ele. It is happening now.", "why": "Estar with ele: está a falar." },
@@ -340,7 +326,7 @@
           "minutes": 2,
           "grammar": "perfekt",
           "claims": ["You say what is done and not done yet.", "You use já and ainda não."],
-          "postcard": { "city": "Málaga", "fact": "The painter Pablo Picasso was born in Málaga in 1881.", "source": "neu" },
+          "postcard": { "city": "Ericeira", "fact": "Ericeira is a World Surfing Reserve, the first one in Europe.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:perfekt/0/0@6817a2", "options": ["falei","falou","falaste"], "hint": "Look at the word eu. Ontem is finished.", "why": "Falar, eu, past: falei." },
             { "type": "luecke", "ref": "gram:perfekt/0/2@391aed", "options": ["chego","chegou","chegaste"], "hint": "A Ana is one person, not you. Ontem is finished.", "why": "Falar and chegar with ele or ela, past: -ou. Chegou." },
@@ -358,9 +344,8 @@
           "minutes": 2,
           "grammar": "zusammengesetzte-verben",
           "claims": ["You say what you did at the weekend.", "You use ontem and the pretérito perfeito: fui, tive, fiz."],
-          "postcard": { "city": "Buñol", "fact": "Every August, people in Buñol throw tomatoes at each other. The festival is called La Tomatina.", "source": "neu" },
+          "postcard": { "city": "Peso da Régua", "fact": "Peso da Régua is in the Douro valley, where port wine grapes grow on steep terraces.", "source": "neu" },
           "tasks": [
-            { "type": "artikel", "ref": "lex:a2-22/partido" },
             { "type": "luecke", "ref": "gram:zusammengesetzte-verben/2/0@aca756", "options": ["vai","foi"], "hint": "Ontem means yesterday.", "why": "Ontem is the past: foi. Vai is the present." },
             { "type": "luecke", "ref": "gram:zusammengesetzte-verben/2/1@996fc5", "options": ["faço","fiz"], "hint": "Todos os dias, and the person is eu.", "why": "Every day, eu: faço. Fiz is the past." },
             { "type": "luecke", "ref": "gram:zusammengesetzte-verben/2/4@62419f", "options": ["vem","veio"], "hint": "Ontem à noite means last night.", "why": "Last night is the past, and ele: veio." },
@@ -376,7 +361,7 @@
           "minutes": 2,
           "grammar": "n-deklination",
           "claims": ["You say how life used to be.", "You use antes: vivia, era, ia."],
-          "postcard": { "city": "Mérida", "fact": "Mérida has a Roman theatre about 2,000 years old. There are still plays here every summer.", "source": "neu" },
+          "postcard": { "city": "Mértola", "fact": "Mértola on the river Guadiana has Roman and Islamic history. The old town is a museum in itself.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:n-deklination/1/0@ad6045", "options": ["vivia","vivo","vivi"], "hint": "Antes: how things were, for a long time.", "why": "How things used to be: imperfeito. Antes vivia." },
             { "type": "luecke", "ref": "gram:n-deklination/1/2@d321de", "options": ["era","é","foi"], "hint": "What was she like, as a person?", "why": "What someone was like: ser in the imperfeito. A minha avó era simpática." },
@@ -394,9 +379,8 @@
           "minutes": 2,
           "grammar": "akkusativ",
           "claims": ["You replace a person or thing: vejo-o.", "You use me, o, a, os, as."],
-          "postcard": { "city": "Córdoba", "fact": "The great mosque of Córdoba has a cathedral inside it. People call the building the Mezquita.", "source": "neu" },
+          "postcard": { "city": "Elvas", "fact": "Elvas is a fortified town near the Spanish border. Its walls and forts are a UNESCO World Heritage Site.", "source": "neu" },
           "tasks": [
-            { "type": "artikel", "ref": "lex:a2-05/cuenta" },
             { "type": "luecke", "ref": "akk:akk-l1", "hint": "Tomás is one man." },
             { "type": "luecke", "ref": "akk:akk-l2", "hint": "Amina is one woman." },
             { "type": "luecke", "ref": "akk:akk-l4", "hint": "Os meus pais: more than one person." },
@@ -412,7 +396,7 @@
           "minutes": 2,
           "grammar": "dativ",
           "claims": ["You say who gets something: dou-lhe.", "You use me, te, lhe, nos, lhes."],
-          "postcard": { "city": "Pamplona", "fact": "The San Fermín festival in Pamplona starts on 6 July every year.", "source": "neu" },
+          "postcard": { "city": "Alcobaça", "fact": "The monastery of Alcobaça is a UNESCO World Heritage Site. It holds the tombs of King Pedro and Inês de Castro.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:dativ/0/0@98b5f3", "options": ["me","te","lhe"], "hint": "Who gets the prescription? A mim.", "why": "A mim goes with me: dá-me uma receita." },
             { "type": "luecke", "ref": "gram:dativ/0/2@1611d5", "options": ["a","lhe","lhes"], "hint": "Ana gets the email. One person.", "why": "The person who gets something: lhe, for a woman too." },
@@ -430,9 +414,8 @@
           "minutes": 2,
           "grammar": "modalverben",
           "claims": ["You say tenho de, é preciso and posso.", "You choose saber or poder."],
-          "postcard": { "city": "Logroño", "fact": "Logroño is the capital of La Rioja, a region famous for its wine.", "source": "neu" },
+          "postcard": { "city": "Batalha", "fact": "The monastery of Batalha is a UNESCO World Heritage Site. It took more than a hundred years to build.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a2-02/norma" },
             { "type": "luecke", "ref": "gram:modalverben/0/0@732307", "options": ["tenho de","é preciso"], "hint": "It is about me, this Saturday.", "why": "One person must: ter de. Tenho de trabalhar." },
             { "type": "luecke", "ref": "gram:modalverben/0/1@577a11", "options": ["tens de","é preciso"], "hint": "This is a rule for everyone.", "why": "Anyone must: é preciso + infinitive." },
             { "type": "luecke", "ref": "gram:modalverben/0/4@c334b2", "options": ["temos de","é preciso"], "hint": "O meu marido e eu: two people you can name.", "why": "These two people must: temos de." },
@@ -448,9 +431,8 @@
           "minutes": 2,
           "grammar": "konjunktiv2-hoeflich",
           "claims": ["You ask politely: Pode…? Podia…?", "You say queria and gostava de."],
-          "postcard": { "city": "Jerez de la Frontera", "fact": "The English word sherry comes from the name of this city, Jerez.", "source": "neu" },
+          "postcard": { "city": "Mafra", "fact": "The palace and convent of Mafra were built in the 18th century. It is one of the biggest buildings in Portugal.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a2-05/caña" },
             { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/0/0@1c07f5", "options": ["Podes","Pode"], "hint": "You don't know the doctor well.", "why": "Someone you don't know well: você or o senhor / a senhora, with pode. Pode repetir?" },
             { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/1/0@14710f", "options": ["Queria","Quer","Gosto"], "hint": "A polite way to say what you want.", "why": "In a bank or shop, queria is a polite “I'd like”." },
             { "type": "luecke", "ref": "gram:konjunktiv2-hoeflich/1/1@c76e2a", "options": ["Gostar","Gostava","Gostando"], "hint": "You would like to see the flat.", "why": "Gostava de + infinitive = I would like to." },
@@ -466,7 +448,7 @@
           "minutes": 2,
           "grammar": "negation",
           "claims": ["You say: nada, ninguém, nunca.", "You use também não and nenhum."],
-          "postcard": { "city": "Burgos", "fact": "The Spanish hero El Cid is buried in the cathedral of Burgos.", "source": "neu" },
+          "postcard": { "city": "Chaves", "fact": "Chaves in the north has hot springs and a Roman bridge over the river Tâmega.", "source": "neu" },
           "tasks": [
             { "type": "luecke", "ref": "gram:negation/0/0@c384cf", "options": ["nada","ninguém","nunca"], "hint": "It is about things in the fridge.", "why": "No things: nada." },
             { "type": "luecke", "ref": "gram:negation/0/1@ec0bfe", "options": ["nunca","nada","ninguém"], "hint": "It is about people in the office.", "why": "No people: ninguém." },
@@ -484,9 +466,8 @@
           "minutes": 2,
           "grammar": "lokale-praepositionen",
           "claims": ["You say where things are.", "You use em cima de, debaixo de, ao lado de."],
-          "postcard": { "city": "Almería", "fact": "Many Western films were made in the Tabernas desert, near Almería.", "source": "neu" },
+          "postcard": { "city": "Portalegre", "fact": "Portalegre in the Alentejo is known for its hand-woven tapestries.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:a2-03/cajón" },
             { "type": "luecke", "ref": "gram:lokale-praepositionen/0/0@628eff", "options": ["debaixo de","em cima de","atrás de"], "hint": "It is the opposite of “on top of”.", "why": "Under: debaixo de. On top of: em cima de." },
             { "type": "luecke", "ref": "gram:lokale-praepositionen/0/2@ef459b", "options": ["em frente de","longe de","ao lado de"], "hint": "The word lado means side.", "why": "Next to: ao lado de." },
             { "type": "luecke", "ref": "gram:lokale-praepositionen/1/0@117b0d", "options": ["do","da","dos"], "hint": "We say o banco.", "why": "De + o = do." },
@@ -527,7 +508,6 @@
           "claims": ["You say what happened before something else.", "You use tinha + participle: tinha saído."],
           "postcard": { "city": "Guimarães", "fact": "The historic centre of Guimarães is a UNESCO World Heritage Site.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:b1-30/década" },
             { "type": "luecke", "ref": "gram:passiv-b1/1/0@7b25d1", "options": ["tinha começado","começou"], "hint": "Look at the word já. What came first?", "why": "It began before you arrived: tinha começado." },
             { "type": "luecke", "ref": "gram:passiv-b1/1/1@5e686c", "options": ["deixava","tinha deixado"], "hint": "When did you leave the keys? Before or after?", "why": "First you left the keys, then you could not get in: tinha deixado." },
             { "type": "luecke", "ref": "gram:passiv-b1/1/3@e59830", "options": ["passava","tinha passado"], "hint": "First the exam, then the happy Omar.", "why": "The exam came first: tinha passado." },
@@ -545,7 +525,6 @@
           "claims": ["You say what will happen: choverá, teremos.", "You make promises: pagarei, ligarei."],
           "postcard": { "city": "Évora", "fact": "A Roman temple still stands in the middle of the old town of Évora.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:b1-30/calendario" },
             { "type": "luecke", "ref": "gram:futur/1/0@60e580", "options": ["choverá","chovia","choveu"], "hint": "Amanhã is tomorrow: a forecast.", "why": "Tomorrow: futuro simples. Infinitive + -á: choverá." },
             { "type": "luecke", "ref": "gram:futur/1/1@a9c92f", "options": ["paguei","pagarei","pagará"], "hint": "A promise from eu, about tomorrow.", "why": "Eu in the futuro: -ei after the infinitive. Pagarei." },
             { "type": "luecke", "ref": "gram:futur/1/2@eafbab", "options": ["virá","vinha","veio"], "hint": "Next month. Vir has a short stem in the future.", "why": "Vir → virá: a short, irregular form." },
@@ -560,10 +539,9 @@
           "title": "Sort out your flat",
           "minutes": 3,
           "grammar": "funktionen-von-werden",
-          "claims": ["You ask politely: gostaria de, poderia…?", "You give advice: eu, no teu lugar, devias."],
+          "claims": ["You ask politely: gostaria de, poderia…?", "You give advice: eu, no teu lugar, iria."],
           "postcard": { "city": "Óbidos", "fact": "Óbidos is a small town inside medieval walls, and you can walk along the top of them.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:b1-03/cerradura" },
             { "type": "luecke", "ref": "gram:funktionen-von-werden/1/0@2122e7", "options": ["Gostaria","Gostei"], "hint": "It is a polite wish now, not the past.", "why": "A polite wish about now: Gostaria de marcar uma consulta." },
             { "type": "luecke", "ref": "gram:funktionen-von-werden/1/2@5b2f34", "options": ["gostaríamos","gostamos"], "hint": "You are asking politely, with nós.", "why": "Gostaríamos de = we would like to; gostamos de = we like." },
             { "type": "luecke", "ref": "gram:funktionen-von-werden/1/3@1864f6", "options": ["Poderias","Poderia","Poderiam"], "hint": "You ask a friend, using tu.", "why": "The tu form ends in -s: Poderias." },
@@ -617,7 +595,6 @@
           "claims": ["You describe people and things more exactly.", "You use que, onde and o que."],
           "postcard": { "city": "Porto", "fact": "Porto lies on the Douro river, and port wine is named after the city.", "source": "neu" },
           "tasks": [
-            { "type": "wort", "ref": "lex:b1-25/vecindario" },
             { "type": "luecke", "ref": "gram:relativpronomen/0/0@ff41c5", "options": ["que","onde","o que"], "hint": "It is about a person: a rapariga.", "why": "A person, subject of trabalha: que." },
             { "type": "luecke", "ref": "gram:relativpronomen/0/1@9045b6", "options": ["que","onde","o que"], "hint": "Something happened in this place.", "why": "I was born in the village: onde." },
             { "type": "luecke", "ref": "gram:relativpronomen/0/2@1a6944", "options": ["que","onde","o que"], "hint": "There is no noun before the gap.", "why": "No noun: o que = what, the thing that." },
@@ -635,7 +612,6 @@
           "claims": ["You ask: Pode dizer-me…? Sabes quando…?", "You report what people say and ask."],
           "postcard": { "city": "Faro", "fact": "Faro is the capital of the Algarve, and its lagoon, the Ria Formosa, is a nature park.", "source": "neu" },
           "tasks": [
-            { "type": "artikel", "ref": "lex:b1-10/tema" },
             { "type": "luecke", "ref": "gram:indirekte-fragen/0/1@651592", "options": ["que","se","sim"], "hint": "The direct question is yes/no: Tenho o cartão?", "why": "A yes/no question: se." },
             { "type": "luecke", "ref": "gram:indirekte-fragen/0/2@ebfb7e", "options": ["onde","se","que"], "hint": "You mean: where?", "why": "The question word for a place: onde." },
             { "type": "luecke", "ref": "gram:indirekte-fragen/0/4@8e2cc8", "options": ["o que","se","que"], "hint": "You mean: what?", "why": "A question word for things: o que." },
