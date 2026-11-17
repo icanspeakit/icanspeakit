@@ -108,7 +108,7 @@ const artInstr = "Write the article.";
         {words.map((e: any) => (
           <tr>
             <td class="pr-word">
-              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? ""} </b>}
+              {e.pos === "noun" && (e.gender || e.pluralOnly) && <b class={`pr-art pr-art--${e.pluralOnly ? "pl" : e.gender}`}>{e.pluralOnly && e.gender ? pluralArticle(e) : e.gender ?? ""} </b>}
               <b>{e.lemma}</b>
               {e.genderAlt && <span class="pr-muted"> (also: {e.genderAlt})</span>}
               {e.pos === "noun" && e.plural && !e.pluralOnly && <span class="pr-pl">pl. {e.plural}</span>}
