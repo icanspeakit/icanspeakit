@@ -914,265 +914,86 @@ handled by the `ui-*` items where they are rendered.
 
 ## 13. Open points
 
-- **Base path (sync-monorepo, 2026-11-16):** the base is `/italiano`, not `/italian` (monorepo decision, Italian slugs per `docs/slug-map.md`). Later items build every URL with `withBase` as before; printed addresses read `icanspeak.it/italiano`. **Closed by `pdf-base-slugs` (2026-11-17):** every PDF script prints `SITE` from `scripts/lib/pdf-brand.mjs` (derived from `src/lib/paths.js`) plus a path from `src/lib/routes.js` or a slug-map section (`/vocabolario/<deck>`, `topicPath`, `workPath`); `grammatica-base.pdf` is regenerated; download hrefs go through `withBase`. Still open: the grammar-book (`generate-grammatik-pdf.mjs`) and word-list (`generate-wortschatz-pdf.mjs`) generators write German-course books (German labels, "die" plurals, German blurbs) and must be rewritten for Italian before their files are generated; the work booklets (`generate-berufe-pdf.mjs`, English) are not generated until the sector decks are reviewed; the partner-sheet PDFs wait for checked sheets (`quelle.geprueft`).
+Trimmed by `final-verify` (2026-11-17): points that later items closed were removed; their
+decisions live in the code, `docs/slug-map.md` and the item reports. Every exam and law fact still
+"to verify" is listed in one place in `reports/final-verify.md`.
 
-- **games (done):** article lanes: singular il | lo (l' before a vowel) | la, plural i | gli | le. Report: `reports/games.md`.
-- **`games-arcade-routes` (done, 2026-11-17).** Nut night (`nussnacht`, `ARTS` = il, lo, la, l', i, gli, le) was converted by
-  `games-arcade`; its pools are filled. The games live at Italian slugs since `sync-monorepo` (`/giochi/sprint-degli-articoli`,
-  `salti-di-quaki`, `pioggia-di-frasi`, `impostore`, `notte-delle-noci`, `safari-d-ascolto`, `buone-maniere`, `questura`,
-  `casalbruno`); this replaces the interim English names `/games/article-sprint` etc. in §6/§8. Every old English address
-  301s there via `legacy-redirects.json`, including the interim `/games/article-sprint`, `/games/questura`, `/games/casalbruno`.
-  `build-satzregen.mjs` and `nussnacht/bosse.js` write/hold no `es419` (bosse: `VARIETY = "it-IT"`).
-- **Edgar: review** the exam map (§2): CILS in the goethe slots, CELI in the telc slots, PLIDA in
-  the testdaf slot, a new CERT.IT slot, the B1 citizenship mock in the DTZ slot and the A2 permit
-  mock in paid set 2, "Strutture di comunicazione" in the Sprachbausteine slot, CILS C2 without a set.
-- **Edgar: review** the sector swaps in Italian for work (§5.12): `elektro-technik` → agriculture,
-  `kita` → cleaning and domestic work (kept from the Spanish course).
-- **Town name** *Casalbruno* (§5.9) is a working name; `games-dialogue` checks that no real comune
-  has it and may change it (and this plan).
-- **Exam and law facts** are all "to verify" until Edgar or a run checks the official pages: the
-  accepted certifications and levels for citizenship (B1) and the long-term permit (A2), the
-  Prefettura test, exemptions, 2025 citizenship changes, the Accordo di integrazione and its civic
-  session, CELI numbering, exam formats and prices (§2). See the report for the full list.
-- **Frequency ranks**: `it_50k` licence and download (§1.4).
-- **Audio**: every `audio` field points to files that don't exist until an it-IT TTS voice is wired
-  (`BACKEND.speech`); validators that need the files stay off until then.
-- **Regional notes**: data carries `regional` from the start; showing it is a later item, not in
-  this queue (`variety.js` has no alternate mode).
-- **Variety, how it is enforced** (`variety-schema`, 2026-11-12): the Spanish data still says
-  `variety: "es-ES"` and carries `es419`. `variety.js` exports `LEGACY_VARIETIES` and tolerates both
-  on items that still say es-ES; `es419` on an it-IT item is an error, and so are es-ES and `es419`
-  anywhere in a module listed in `STRICT` (`check-variety.mjs`). `STRICT` was emptied (every module
-  still holds Spanish content); **each content item adds its module id back** in the commit that
-  converts it (module ids as in `MODULES`; `patente` and `business-italian` are listed already).
-  `validate-lexicon.mjs` and `berufeCore.js` pick the rule set per word: Italian rules for
-  `variety: "it-IT"` (gender `il, lo, la, l', il/la, lo/la`; `genus` m/f required with `l'`;
-  `pluralGender: "f"`; `aux` `avere/essere`; `fem` on adjectives and mobile-gender nouns; `forms`
-  io presente · participio · io imperfetto), Spanish rules otherwise; so **an item writes
-  `variety: "it-IT"` on every Italian word** or the Spanish rules reject its articles.
-  `isCourseStandard(v)` (it-IT, or es-ES while still Spanish) is what the file-level checks
-  (`check-verbtabellen`, `check-conjugation-trainer`, `check-arbeitsblatt`, `check-sprachfallen`)
-  require; `cleanup` drops es-ES from it and `LEGACY_VARIETIES`. `scripts/lexicon-import.mjs` still
-  writes Spanish (es-ES, `lat=` → `es419`, Spanish grammar syntax, `es-ipa.mjs`): `vocab-a1`
-  converts it (e.g. `reg=note~area~form~gender` → `regional`). `build-satzregen.mjs` and
-  `nussnacht/bosse.js` no longer write/hold `es419` (checked by `games-arcade-routes`).
-- **Arabic UI**: later, not in this queue (RTL ready).
-- **Business Italian rename** (§4.3): the phrase text key `es` → `it` and the file/folder renames
-  happen in one commit by `business-italian`; until then the module still reads `business-spanish`.
-- **Hub share cards** (`public/og/*.jpg`, `src/data/hub-bilder.json`): switched off in
-  `Layout.astro` (`HUB_CARDS = false`); every page shares `og-default.png`. The `ui-*` item that
-  rewrites the hub titles reruns `pnpm hubs:build --force` and sets `HUB_CARDS = true`.
-- **Contact e-mail** `hello@englishacademy.com` (`src/lib/legal.js`, two strings in `en.json`): a
-  legal fact, left unchanged; Edgar: set the real icanspeak address. In which language are the
-  legal texts binding (`legal.note.binding`, `widerruf.binding`)?
-- **robots.txt and deploy**: crawlers only read `https://icanspeak.it/robots.txt` (umbrella site);
-  `public/robots.txt` here is the template for the `/italiano` lines; `public/_headers` rule paths
-  carry the base. `/italiano` without a slash is the second Worker route (wrangler.jsonc); the old `/italian` 301s there from the hub (README.md).
-- **Base path, how it is enforced**: `src/lib/paths.js` is the helper. Browser code builds URLs
-  with `withBase()`/`currentPath()`; server-rendered HTML keeps root-absolute links in templates
-  and data and is rebased centrally by `rebaseHtml()` (`src/middleware.js` in dev and while
-  prerendering, again in `src/integrations/base-language.mjs` on `dist/`), checked by `pnpm
-  check:base`. New data keeps writing site paths (`/grammatica`), never `/italiano/…`.
-- **Brand theme**: token names kept (`--brand-blue` is the navy); `--accent` a deeper amber for AA;
-  details in `docs/brand/BRAND.md` and `src/styles/global.css`. Dead font CSS (`font.css`,
-  `newfont.css`) can go in `cleanup`.
-- **Inherited mechanics** from the Spanish runs that still apply: `accentOnly()` and the key row
-  in `answerMatch.js`; `accepts` ignores case (an exercise about capitals must ask "capital or
-  small?"); `check-variety.mjs` has strict lists per converted module; `grammatik.<slot>.intro` in
-  `en.json` must follow each subtitle or the old text overwrites it at render time; `pnpm
-  check:i18n-luecken` baseline and `validate-i18n.mjs` (needs `public/i18n/de.json`) are fixed by
-  the `ui-lang-*` items; the **Spanish-course text links inside topics** use today's slugs and move
-  with `routes`.
-- **UI labels for the exam slots** (`ui-components`, 2026-11-12), used in ExamRail, LevelFold,
-  TopicRail, GrammarRelated, LearnShell, the home mocks and the `exams` rows of `catalog.js`:
-  start-deutsch-1 = "Italian A1 practice test", goethe = "CILS" (A1–C2), telc = "CELI" (A2–C1),
-  testdaf = "PLIDA" (A1–C2; its set is B1), dtz = "B1 mock for citizenship", lid = "Civic
-  knowledge test". The exam items may refine them; hrefs stay on the old slugs until `routes`.
-  `ui-components` also changed the visible labels in `src/lib/catalog.js` (the nav renders them
-  on every page); `routes` still owns its hrefs.
-- **Left in components for later items** (they depend on data that is still Spanish): the
-  article trainer's logic in `ArtikelTrainer.astro` (`options: ["el","la"]`, the `EXPLAIN` rules
-  `afem`/`greek` and their `ap.ex.*` keys in `en.json`), `pluralArticle` with `["el","la"]` in
-  `WortschatzDruck.astro`, the article regex in `wortgeschichte/WortEntry.astro` and
-  `AusspracheRegeln.astro` `bare()`: `vocab-a1` / `games` with `src/lib/articles.js`.
-  `LidGrafik.astro` (Spain's powers, comunidades, history timeline, `lang="es"`): `civic-knowledge`.
-  `PruefungSatz.astro` treats a telc-slot set as one "band" of a multilevel test (SIELE); CELI sets
-  are whole exams per level: `exams-cils-celi`. The "Spanish letters" fallbacks in
-  `src/lib/aktivMode.js` and `conjugationTyped.js` (en.json already says "Italian letters"):
-  `grammar-a1`. The word-decoder label in `catalog.js` (`sprachen.dec.title`): `accents-languages`.
-- **Left in the a–l pages for later items** (`ui-pages-a-l`, 2026-11-12): the page texts are
-  Italian and target-language markup says `lang="it"`. Still Spanish, because their data or owner
-  is another item: `/ccse` body, `/ccse/test` hero/facts/sources and `/ccse/facts` (the `lid.*`
-  keys other than `lid.lead`/`lid.who.*`, Cervantes links, comunidades): `civic-knowledge`;
-  `/dgt-vocabulary*`: `patente-vocab`; `/business-spanish*`: `business-italian`;
-  `/grammar/conjugation`: `conjugation-trainer`; the decoder and map texts on
-  `/knowledge/languages` and `/knowledge/accents` (`sprachen.*`, `dialekte.*`):
-  `accents-languages`; `kultur.*.cardIntro`, `kultur.linkLabel.*`, `kultur.filme.*` and the
-  `WORLD_IDS` on `/culture`: `culture`; the official links on `/knowledge` (`wissen.link.*`, from
-  `downloads.json`): `teachers`; `fallen.json` content on `/exams/traps`: `exams-cils-celi`. The
-  traps page maps the slot ids to labels in one place (`EXAM_LABEL`: dele → CILS, siele → CELI,
-  ccse → Civic knowledge); the filter ids stay. The nav drawer shows data titles (culture topics,
-  grammar names) that their content items convert.
-- **Left in the m–z pages for later items** (`ui-pages-m-z`, 2026-11-12): page texts are Italian,
-  target-language markup says `lang="it"`, hrefs stay on the old slugs. Decisions and leftovers:
-  - `/siele` is now the **PLIDA** page and `/siele/levels` the **CELI** page (texts and `testdaf.*`,
-    `telc.*`, `tdf.*` keys). The SIELE-only sections (score bands per test, the S1–S5 options) are
-    gone from the page; `testdaf-formate.json` `bands`/`modalities` and their `testdaf.bands.*`/
-    `testdaf.mod.*` keys are unused now (`exams-plida-certit` drops them or reuses the shape; `cleanup`
-    removes leftover keys). The format blocks still render `testdaf-formate.json`/`telc-formate.json`
-    (Spanish until `exams-plida-certit` / `exams-cils-celi`). `/siele/practice-set` says PLIDA; its set
-    is still the SIELE S2-style set.
-  - `/nationality` was **cut down**: the Spanish law sections (residence periods, DELE/CCSE
-    exemption table, steps, word list, BOE sources) are gone; the page keeps an Italian head, a
-    four-point "short version" (B1 for citizenship, A2 for the long-term permit, online application),
-    the practice links and sources (Interior Ministry, the four certifying bodies). The unused
-    `nat.res.*`, `nat.t.*`, `nat.list.*`, `nat.disp.*`, `nat.s*`, `nat.w.*`, `nat.words.*` keys are
-    still Spanish: `citizenship-path` writes `/citizenship` and deletes or reuses them.
-  - `/nationality/dele-a2*` say **B1 mock for citizenship** (`dtz.*`, `dtzSet.*`, `dtzMock.*`); the
-    mock data is still the Spanish A2 set (`citizenship-path`).
-  - `/speaking/[id]`: `EXAM_KEYS` is keyed by the Spanish-course exam lines in `sprechen.json`; the
-    en.json values already say CILS/CELI. `speaking` must update the map keys when it rewrites the
-    data lines, or the lines fall back to the data text.
-  - `/prepositions`: the "por or para" conjugation-set link was removed; the overview table and rule
-    notes are Italian; the packs are `praepositionen-trainer.json` (`grammar-structure`).
-  - `/object-pronouns`: rule and table are Italian (mi, ti, lo, la, La, ci, vi, li, le); the
-    exercises are `akkusativ.json` (`grammar-a2`).
-  - Still Spanish because another item owns the data: `schreiben.check.*`/blurbs (`reading-writing`),
-    `sprechen.check.*` (`speaking`), `ac.find.*` (`pronunciation`), `format.t.*` (`exams-cils-celi`),
-    `ws.set.*` (`vocab-*`), `kultur.*` (`culture`). In `src/lib` (not page-owned): `CONTENT_LANG = "es"`
-    in `exam/pruefungEngine.js` and several `lang = "es"` in libs (`aktivMode`, `artikelDiktat`,
-    `ausspracheCheck*`, `buergeramt/*` …): the owning content items or `cleanup`.
-- Gaps (§3): elision/truncation topic, *si* impersonale as its own topic, *ne* drills, *stare/essere*
-  in the south.
-- `placement-test` (2026-11-12): `einstufung.json` is Italian and strict in `check-variety.mjs`.
-  Deviations from §5.1: A1 tests *lo* before s + consonant (the *il/la* choice is too easy to
-  guess); A2 adds the irregular participle (*scritto*) and tests the comparative as *più … del*
-  (prepositions with the article are tested by *sul*); B1 adds combined pronouns (*te la*); B2
-  tests the subjunctive after *benché* instead of in a relative clause, because the indicative after
-  *nessuno che* / *cerco un … che* is common in speech and a native could accept it; C1 adds
-  *qualora* + subjunctive. Still open: the comment above `placementStart()` in
-  `src/lib/einfach-app.js` names the Spanish A1 features (*ser, estar, hay, gustar*) and the
-  unit ids it starts at are Spanish-path ids (`beginner-path`).
-- `grammar-a1` (2026-11-12): the 19 A1 slots are Italian (`variety: "it-IT"`, no `es419`; regional
-  notes on `artikel` (*la Giulia* in the north and Tuscany) and `verb-position-2` (*sto stanco, sto a
-  casa* in the south and Rome)); `grammatik.<slot>.intro` follows the subtitles in `en.json`, with
-  de/fr/pt/it translated. `grammatik` cannot be strict in `check-variety.mjs` until `grammar-c1`
-  (the module is the whole folder); the last grammar item adds it. `scripts/repoint-einfach-grammar.mjs`
-  is back (from the French run) and repointed 94 path refs; the later grammar items run it with
-  their slot ids, `beginner-path` deletes it. `einfach-content.js` accepts the Italian article
-  placeholders (`il / la`, `il / lo / la / l'`, `un / uno / una / un'`); the `un / uno / una / un'`
-  table in `artikel` has four choices, so path tasks on it need their own `options`. Stories in
-  `artikel`, `plural` and `adjektive-nach-sein` now have a `choices` list. Exercises avoid items
-  where essere and stare are both right, and job sentences with or without *un/una*.
-- `grammar-a2` (2026-11-13): the 20 A2 slot files plus `akkusativ.json` are Italian (`variety: "it-IT"`;
-  regional notes on `perfekt`, `zusammengesetzte-verben`, `dativ`, `lokale-praepositionen`,
-  `modalverben` where marked). Decision: `penso che` needs the congiuntivo in standard Italian, so
-  `nebensaetze-weil-dass` teaches `dice che`, `so che`, `penso di sì/no` and `penso che sia …` only
-  as a chunk; the rest is `grammar-b1` (this replaces "indicative at this level" in the A2 table).
-  `positionsadverbien` teaches *di solito* (no Italian *soler*). `dativ` leaves combined pronouns
-  (*glielo*) to B1. 71 `einfach-pfad.json` refs repointed. `grammatik` is still not strict in
-  `check-variety.mjs` (see `grammar-a1`).
-- `grammar-b1` (2026-11-13): the 27 B1 slot files are Italian (`variety: "it-IT"`; one regional note, on
-  `zustandspassiv`: passato remoto in the south; `positionsverben` has a Tuscany note on *mi garba*).
-  `genitiv` became verbal periphrases (plan table). `verben-praepositionen` keeps its id `praepositionen`
-  and its intro under `grammatik.praepositionen.intro`; its subtitle is `vp.hero.subtitle`. The Spanish
-  `status` and `es419` keys are dropped. Teaching choices: futuro after *quando/appena* taught as careful
-  Italian, present accepted in speech; `anche se` + indicative; `ci vogliono` with plurals. 51 `einfach-pfad.json`
-  refs repointed. Still open: `check-variety.mjs` `grammatik` strict only after `grammar-c1`.
-- `grammar-structure` (2026-11-13): syllabus order (`grammatik-lehrplan.json`, `GRAMMATIK_ORDER`), related
-  topics, `nachschlagen/*` (forms `io presente · participio · io imperfetto`; the auxiliary is in the note),
-  `wortarten.json` (`fehler` links emptied until `idioms-mistakes` writes the Italian pairs: re-link them
-  there), `praepositionen-trainer.json` (14 packs, ids kept; names in `en.json` `praep.pack.*`),
-  `grammatik.json` quizzes, `kursinhalte.json` (CILS/CELI exam lines; `examHref` points at the old
-  slots /dele, /siele/levels, /siele until `routes`) and `program.json` titles. Object pronouns come after
-  the passato prossimo in the A2 order (they are used with it). `grammatik-quiz` and `praepositionen` are
-  strict in `check-variety.mjs`. Open: `verbtabellen.json` is still Spanish (`conjugation-data`), so
-  `check-verbtabellen` compares 0 rows with the reference list until then; the `verbTopic` worksheet in
-  `arbeitsblatt/nachschlagen.js` still has Spanish text for the same reason.
-- `conjugation-data` (2026-11-14): `verbtabellen.json` is Italian (63 verbs, 7 groups: new `isc` and `spelling`
-  replace `stem-change`; `rem` = passato remoto is its own row key and replaces the Spanish `imperf` in the page,
-  `en.json` and the trainer; `praet` = imperfetto). Compound tenses are generated from `aux` and show
-  agreement (`sono andato/a`, `siamo andati/e`); a verb with both auxiliaries shows `avere` and puts the
-  `essere` form in `alt`. Negative imperative: `non` + infinitive for tu, `non` + the affirmative otherwise.
-  `verbtabellen` is strict in `check-variety.mjs`; `check-verbtabellen` compares 56 rows with the reference list.
-  Trainer: only the lib (`conjugationTrainer.js`, persons, clitics, `non`, `-o/a` variants) and the `drills`
-  block of `conjugation-trainer.json` (tenses, six groups, 18 presets) were converted so the gate stays green.
-  `conjugation-trainer` (done): 11 new Italian `sets` (140 items), `topicLinks` point at them, the "with voi"
-  switch is hidden and always on (`conj.withVosotros` key kept as inert), rule tables for perf, fut, cond,
-  subj, rem, imp, the Spanish `es419` note removed, all `conj.*` keys in en/de/fr/pt/it renamed to the
-  Italian ids. Open: the German-named topic slots in `topicLinks` (`verb-position-2` …) were chosen by
-  fit with the syllabus slot, re-check them if `grammar-structure` moves topics; the tense `mood` keys
-  (`indicativo`, `subjuntivo`, `compuestos`) are internal and still Spanish-spelled; German/French/
-  Portuguese texts of the new keys are machine-quality drafts for the UI-language items to review.
-- **`vocab-a1` (2026-11-14).** Lexicon A1 is Italian: 26 units, 517 words (about 20 per unit, not 25:
-  quality over quantity), source in `scripts/data/a1-it/*.txt`, built by `scripts/build-a1-it.mjs`
-  (re-runnable; it also writes the de/es/fr/pt sidecar entries). `src/lib/articles.js` is the one
-  place for the il/lo/l' rule; `validate-lexicon.mjs` checks the article against the lemma.
-  `ITALIAN_LEVELS` added; `SPANISH_LEVELS` stays for A2–C2 until `vocab-c1-c2`. `it` filtered out of
-  `TRANSLATION_LANGS`. `i18n/es.json` is new (A1 only, ready for `ui-lang-es`; not imported yet).
-  **Gate pauses (both listed in `scripts/check-content.mjs`):** `check-berufe.mjs` (profession, DGT and
-  business decks still ref removed Spanish A1 ids and redefine words that are now Italian ids:
-  film, capo, via) and `validate-wortgeschichte.mjs` (30 Spanish stories name removed lemmas). The
-  berufe/patente/business items and `word-stories` put them back. Open: `i18n/it.json` is unused and
-  can be deleted by `cleanup`; `wort-bilder.json` re-keyed 113 pictures by English gloss, spot-check;
-  `generoDrill.js` and the games still assume los/las (their own items); no audio files yet.
-- **`vocab-b2` (2026-11-14).** Lexicon B2 is Italian: 36 units, 370 words, source in `scripts/data/b2-it/*.txt`,
-  built by `scripts/build-lexicon-it.mjs b2` (de/es/fr/pt sidecar entries included). Smaller than the Spanish
-  B2 (60 units, 1500) on purpose: about 225 of the first draft were dropped because the same lemma already
-  sits in A1–B1, so a lemma lives in one level only. Units 1–30 follow the Spanish topic slugs; units 31–36
-  are abstract B2 vocabulary (cause/effect, opinion/doubt, change, statistics, coping, careers). Plural-only
-  nouns carry the singular-style article field (`la`/`il`/`l'` + `pluralOnly`) because the validator has no plural articles.
-  Open: no `rank`, no audio, no pictures for B2 (abstract words); `program.json` B2 modules still list `units: []`.
-- **`pronunciation` (2026-11-14).** `ausspracheregeln.json` (17 rules), `aussprache-check.json` (28 sentences),
-  `zungenbrecher.json` (15), `satzmelodie.json` and `aussprache-muttersprache.json` (18 drills; English, German,
-  French, Portuguese, Spanish speakers) are Italian; the `area: "aussprache"` mistakes of those five languages in
-  `fehler-nach-sprache.json` are rewritten (language slot `italienisch` became `spanisch`, its other-area
-  mistakes were dropped for `idioms-mistakes`; the aussprache mistakes of `arabisch`, `russisch`, `ukrainisch`,
-  `chinesisch` were removed with their drills). Shell touched: `satzmelodie.js`/`satzmelodieData.js`/
-  `melodieLabyrinth.js` (no ¿ ¡, Italian question words), `ausspracheCheck.js` (`LANG = "it-IT"`), `drillAudio.js`
-  (Italian accents in file names), `pronunciation/patterns.ts`, `FehlerSprache.astro` (`lang="it"`),
-  `check-satzmelodie.mjs`, `check-aussprache.mjs`; `ac.find.*` re-keyed in en/de/fr/pt. Open: de/fr/pt `ac.find.*` and
-  `i18n/it.json` (English placeholder, deleted by `cleanup`) are first drafts for their language items; the
-  `fehler-nach-sprache.json` strengths of the five languages are now about Italian, its `variety` is still `es-ES`;
-  no audio (all `audio: false`).
-- **`idioms-mistakes` (2026-11-14).** `wortfallen.json` 28 groups (en 16, de 3, es 5, fr 2, pt 2), `redewendungen.json`
-  69 entries (same nine theme ids, almost all origins `unklar`), `umgangssprache.json` 51 entries (same five group ids, swearing 1–3
-  with polite alternatives), `typische-fehler.json` 43 pairs (same five group ids, part-of-speech cards re-linked in `wortarten.json`),
-  `synonyme.json` 32 groups, `fehler-nach-sprache.json` all non-pronunciation mistakes plus a Spanish-speaker interference set;
-  Romanian, Arabic, Russian, Ukrainian and Chinese kept with 4 grammar mistakes each (Albanian not added). `variety` is it-IT
-  everywhere; the six modules are now STRICT in `check-variety.mjs`. Shell touched: `check-sprachfallen.mjs` (the ¿/¡ check is a
-  no-op), `check-redewendungen.mjs` (Italian stop words); wortfallen keys re-keyed in en/de/fr/pt/it. Open: `regional` notes
-  (babbo, cocomero …) are only in the `info` text; idiom sources are Treccani entry URLs built from the key word, not opened one by one;
-  `audio` stays false; German/French/Portuguese texts of the new keys are first drafts for their language items.
-- **`exams-cils-celi` (2026-11-14).** A1 practice test (slot `start-deutsch-1`), CILS A2/B1/B2 (`goethe-{a2,b1,b2}-1`), CELI A2/B1
-  (`telc-{a2,b1}-1`, labels "CELI 1 (A2)", "CELI 2 (B1)" from `examLabel`), `sprachbausteine` satz 1 (B2) and 2 (C1) as
-  "Strutture di comunicazione", `fallen.json` (17 traps, ids kept, chips dele = CILS / siele = CELI / ccse = civic), CILS A1–C2 and CELI
-  A2–C1 format entries (`goethe-formate.json`, `telc-formate.json`, research entries rebuilt for the five sets only). **Removed** (no
-  time to write them well, plan rule): CILS C1 (paid `goethe-c1-1`), CELI B2 (`telc-b2-1`), CELI C1 (paid `telc-c1-1`); restore
-  commands in `reports/exams-cils-celi.md`. Hub texts now say CILS practice A1–B2, CELI A2–B1 (`ExamRail`, `exams/index`, `start`,
-  `catalog`, `GrammarRelated`, `premium-features.json` links, en.json). Shell touched: `CONTENT_LANG = "it"` in `pruefungEngine.js`,
-  `band = false` in `PruefungSatz.astro`, `examLabel` in `names.js`. Open: the paid "C1 practice sets" premium feature
-  (`premium-features.json` id with i18n `premium.feature.c1`) now links to the free hubs and has no content; `routes` / `cleanup`
-  decide what it becomes. All CILS/CELI facts are "to verify". No audio (voices set to it-IT Neural, `generate-pruefungen-audio.mjs`
-  not run). New `format.t.*` keys exist in de/fr/it/pt as English placeholders for the language items.
-- **`exams-plida-certit` (2026-11-14).** PLIDA: own B1 reading and writing set in the `testdaf` slot (`tdaf` ids kept; 8 matching + 7 + 7
-  multiple choice, writing = two everyday situations A/B, ~120 words), `testdaf-formate.json` = PLIDA A1–C2 format entries (descriptive, no
-  timings, no pass rule; `bands`/`modalities` dropped with their `testdaf.bands.*`/`testdaf.mod.*` keys). CERT.IT: new slot `certit`
-  (`saetze/certit-a2-1.json`, A2: 2 reading + 2 listening parts, writing, speaking), `certit-formate.json` A1–C2, research entry `certit-a2`,
-  pages `/certit` and `/certit/a2` (new routes, not renamed by `routes`), `EXAM_NAMES.certit`. `/exams/dele-or-siele` was moved to
-  **`/exams/which-exam`** (all links, llms.txt, search index updated). Open: PLIDA/CERT.IT traps are not in `fallen.json`; the PLIDA page is
-  still at `/siele` until `routes`; `tdf.row.*`/`tdf.type.essay` in de/fr/it/pt still carry the old texts (language items).
-- **`civic-knowledge` (2026-11-14).** `leben-in-deutschland.json` rewritten: 9 topics' worth of facts in 8 topic ids (`constitution`, `institutions`, `territory`, `history`, `health`, `school`, `work`, `taxes`, `daily-life`), 22 glossary terms, 42 own questions in 5 areas (`tarea` 1-5; area 2 is Vero/Falso), `bundeslaender` = 10 regions with 3 questions each (shape kept; `/ccse` pages still call them "land"). No official civic test with a fixed format could be confirmed, so `totalQuestions` 25, `minutes` 30, `passScore` 18 are **our own practice settings** and the pages say so; `tareas[].realCount` now means "questions of that area in a 25-question sitting". Accordo di integrazione text is in `meta.accordoNote` (all "to verify"). `LidGrafik.astro` has new drawings per topic id. de/es/fr/pt `lid.*` strings still carry the old Spanish-course wording until their UI-language items; `/ccse` hrefs stay until `routes`.
-- **`questura-sim` (2026-11-15).** The five days: 1–2 Anagrafe (residenza; rule `sinpermiso` = EU citizens need no permit, others show the permesso or the Poste receipt; new paper kind `permesso`), 3 Questura first issue (Poste kit, box *Primo rilascio*), 4 renewal (*Rinnovo*, photos), 5 questions (citizenship and family reunification = `derivar_*`; new rule `sportello`: codice fiscale at the Agenzia delle Entrate, tessera sanitaria and medico di base at the ASL). 30 cases. Route is now `/games/questura` (`src/pages/games/questura.astro`); `scripts/check-extranjeria.mjs` keeps its name (package.json untouched). Stamps COMPLETO / DA CORREGGERE. Open: source URLs are site roots, not deep links; `games-dialogue` may rename Casalbruno.
-- **`patente-vocab` (2026-11-15).** Deck is now `src/data/patente/vocabolario.json` (slug `patente`, ids `bv-patente-…`, constant `PATENTE` in `berufeCore.js`), route `/patente-vocabulary` (`workPath("patente", g)`; i18n keys keep the prefix `dgt.*`). 10 groups (ids kept: car, controls, road, users, signs, manoeuvres, instructions, exam, documents, breakdown), 199 entries: 53 refs into the lexicon (own example/en/deHint), the rest own words with `variety: it-IT` and 10 `regional` notes; `patente` is strict in `check-variety.mjs`. `kraftfahrer`/`elektro-technik` refs repointed to `bv-patente-rimorchio`/`-serbatoio` (their Spanish examples stay until `berufe`). Open: official-source URLs and every rule on the page are "to verify"; `kultur-insider.json`, `kultur.json`, `downloads.json` still talk about the DGT (items `culture`/`downloads`).
+### For Edgar to decide or review
+- **Exam map (§2):** CILS in the goethe slots, CELI in the telc slots, PLIDA in the testdaf slot, the
+  CERT.IT slot (A2 set), the B1 citizenship mock in the DTZ slot, the A2 permit mock in paid set 2,
+  "Strutture di comunicazione" in the Sprachbausteine slot. No CILS C1, CELI B2/C1 sets (removed by
+  `exams-cils-celi`, restore commands in its report); no CILS C2 set by design. The paid feature `c1`
+  ("C1 practice sets", `premium-features.json`) links to `/cils` and `/celi` but has no content: drop or
+  refill it.
+- **Sector swaps** in Italian for work (§5.12): `elektro-technik` → agriculture, `kita` → cleaning and
+  domestic work.
+- **Exam and law facts:** all "to verify" until checked on the official pages (list in
+  `reports/final-verify.md`).
+- **Contact e-mail** `hello@englishacademy.com` (`src/lib/legal.js`, two strings in `en.json`, shown on
+  `/condizioni` and the other legal pages): a legal fact, left unchanged; set the real icanspeak
+  address. In which language are the legal texts binding (`legal.note.binding`, `widerruf.binding`)?
+- **`/chi-siamo`** keeps Edgar's bio (German teacher, integration courses, DTZ); check it fits the
+  Italian course.
+- **Native read:** every deck and module with `reviewed: false` (sector decks, patente, Business
+  Italian, partner sheets), the exam sets, the mocks, the Questura sim and the manners scenes. The
+  de/fr/pt/es dictionaries hold machine-quality drafts for keys added late (`format.t.*`, `lid.*`,
+  `dialekte.*`, `sprachen.*`, `kultur.*`, `ac.find.*`).
 
-- **`culture` (2026-11-15).** All 29 `kultur.json` topics, 13 insider topics, quotes (41), films, calendar sentences and "did you know" facts are Italian. Extra topics got roles: `comida` food, `fiestas` festivals, `lenguas-cooficiales` languages and dialects of Italy, `mundo-hispano` Italian in the world, `tradiciones-america` Italian in Switzerland/San Marino, `historia-compartida` Italian emigration. Culture slugs live in `routes.js`. Open: other-language `kultur.*` keys hold English placeholders until the UI-language items; `uebersetzungen/kultur.json` empty; `einfach-pfad.json` refs to culture facts unchecked; all facts "to verify" (see reports/culture.md).
-- **`accents-languages` (2026-11-15).** `/knowledge/accents`: 12 areas (north-west, north-east, Emilia-Romagna, Tuscany, Marche and Umbria, Lazio, Abruzzo and Molise, Campania, Apulia, Basilicata and Calabria, Sicily, Sardinia) in 4 groups, 4 city accents, 11 language dots (`lang: true`: Sardinian, Friulian, Ladin, Neapolitan, Sicilian, German, French, Slovene, Arbëreshë, Catalan of Alghero, Venetian), one word map (anguria / cocomero / melone d'acqua), two lines (`benrath` = s in casa, `speyer` = passato remoto in speech; key names kept, both lines rough), world cards (Switzerland, Istria, Argentina, Brazil, USA/Canada/Australia). `/knowledge/languages`: new **Europe** view (first), world and Americas kept; `sprachen-welt.json` has Italian status keys, `seedsEurope` for small islands, compare id `spanisch` (was `italienisch`), decoder English → Italian (9 cards). Both generators rewritten (`scripts/generate-dialekte-karte.mjs`, `generate-sprachen-karte.mjs`; Italy's regional areas are hand-drawn). Shared change: `langMark.js` got `spanisch: "Es"`. Open: all other-language `dialekte.*` and `sprachen.*` keys hold English until the UI-language items; speaker totals (67 m + 14 m) and every regional example "to verify"; Sardinia in the watermelon map and the Sardinian passato remoto are guesses; no browser check of the new map layout was done (labels may overlap).
+### Content still to write
+- Grammar gaps (§3): elision/truncation, *si* impersonale as its own topic, *ne* drills,
+  *stare/essere* in the south.
+- PLIDA and CERT.IT traps in `fallen.json`; a queue-at-the-Comune scene in the manners game.
+- The grammar-book (`generate-grammatik-pdf.mjs`) and word-list (`generate-wortschatz-pdf.mjs`)
+  generators still write German-course books and must be rewritten before their PDFs are generated;
+  the work booklets (`generate-berufe-pdf.mjs`) wait for reviewed sector decks; the partner-sheet PDFs
+  wait for checked sheets (`quelle.geprueft`).
+- `uebersetzungen/kultur.json` is empty; the de/fr/pt help glosses in `uebersetzungen/lindenau.json`
+  are empty.
+- The `es` UI says "en español" where the English UI says "in English" (`intro.fkEasy*`,
+  `lid.cta.text`, `wissen.cat.wortschatz.blurb`, `wissen.file.wortschatz-a1.desc`,
+  `zitate.card.easyLabel`): true only once Spanish cards and facts exist.
 
-- **`games-dialogue` (2026-11-15).** Town stays **Casalbruno** (a hamlet of Atina in Lazio shares the name, but it is a *frazione*, not a comune; to verify; questura-sim already uses it). Route `/games/casalbruno`; no redirect from `/games/villabruno` (never public here). Manners: 21 scenes in 5 areas, Italian, `VARIETY = "it-IT"`; the bar scene teaches cassa/scontrino/banco; **open:** no queue-at-the-Comune scene (the numerino is a line in the bakery scene), a native review of colloquial lines, `lindenau.json` help glosses for de/fr/pt/it still empty, station machine not in the RPG dialogue.
+### Infrastructure and later items
+- **Audio:** no it-IT recordings (`public/audio` empty; parity warns). Every `audio` field points to
+  files that don't exist until a TTS voice is wired (`BACKEND.speech`); the voice names in the exam
+  scripts (it-IT Neural) are to be checked against the TTS service.
+- **Frequency ranks:** `it_50k` licence and download (§1.4); B2 and up have no `rank`.
+- **Regional notes:** data carries `regional`; showing it is a later item (`variety.js` has no
+  alternate mode). Dead Spanish code kept so imports don't break: `LEGACY_VARIETIES`,
+  `SPANISH_LEVELS` (empty), the Spanish branches in `validate-lexicon.mjs`, `berufeCore.js` and
+  `lexicon.js` (`spokenForm` after the `isIt` branch); safe to remove.
+- **Arabic UI:** later (RTL ready).
+- **Hub share cards** (`public/og/*.jpg`, `src/data/hub-bilder.json`): off (`HUB_CARDS = false` in
+  `Layout.astro`); turn on after `pnpm hubs:build --force` with the Italian hub titles.
+- **Launch** (DEPLOY.md "Before a course goes live"): the Italian pill on the other course homes,
+  `--filter @icanspeak/italian` in the root `deploy` script, `public/audio/`. Redeploy the hub only
+  after the Italian Worker is up (the hub card is already `live: true`). Routes: `icanspeak.it/italiano`
+  and `/italiano/*` (wrangler.jsonc); the old `/italian` 301s from the hub. `public/robots.txt` is the
+  template for the `/italiano` lines of the umbrella `robots.txt`.
+- **Build warnings:** `entry-pages: home hero not found, intro skipped` (4×, since the brand-kit home);
+  `llms.txt` is 10.8 KB (over the 10 KB hint: trim `SECTIONS` in `src/integrations/llms-txt.mjs`).
+- **Shell, for all courses:** `check-parity.mjs` wants `initAnalytics("<course>")` in Layout.astro
+  although `ConsentBanner.astro` starts PostHog (Italian calls both, guarded; Spanish fails the
+  check). The shared `ConsentBanner.astro` ships an inline-script comment naming deutschacademy into
+  every page's source (same file in all apps: change it in all of them or none).
+- **Housekeeping:** `pnpm check:i18n-luecken --update` can lower the NavDrawer baseline 6 → 5;
+  `src/styles/newfont.css` is unused; `scripts/sentry-startup.mjs` names the `englishacademy` Sentry
+  org (internal); `berufeCore.js` has a "Spanish for work" comment; the tense `mood` keys of the
+  conjugation trainer (`indicativo`, `subjuntivo`, `compuestos`) are internal Spanish spellings;
+  `einfach-pfad.json` unit ids stay German/English on purpose (stored progress).
 
-- **Open (italian-for-work, 2026-11-15):** the route is still `/spanish-for-work` (src/pages/spanish-for-work/, routes.js, BerufeLink, deckSwap, LernsetPicker); renaming needs a full build and the target-language URL pass. `check-berufe.mjs --sectors` validates the ten sector decks only; the gate stays paused until patente-vocab and the Business Italian item convert their decks. A lemma exists once across all decks; later decks ref the first definition.
-- **Open (business-italian, 2026-11-15):** unit slugs stay English (emails, phone-calls, cv-and-cover-letter, job-interviews, meetings, negotiating) and the route is /business-italian; the target-language URL pass may rename them. All six units are `reviewed: false` drafts. The `es` phrase key is now `it`. Search index (`suche-seiten.json`) summaries still describe word counts of the old decks and should be regenerated by a full build.
-- **Open (parity, 2026-11-17):** `check-parity.mjs` wants the literal `initAnalytics("italian")` in Layout.astro, but since the consent banner (monorepo 4b066b55) `ConsentBanner.astro` starts PostHog. Layout now also calls `initAnalytics("italian")` when the banner is on the page (`[data-consent]`; noTracking pages have none); `initAnalytics` runs only once per page, so nothing is sent twice. Spanish fails the same check; the shell fix should go to apps/spanish too, or the check should accept the banner. Audio slugs that are Windows device names (con, aux, nul, prn, com1…) get `-<pos>` (A1 `con` → `con-prep`, as in Spanish); `build-a1-it.mjs` and `build-lexicon-it.mjs` do that by themselves now.
-- **Open (deploy-readme, 2026-11-17):** the queue item still says route `icanspeak.it/italian/*`; the real route is `icanspeak.it/italiano` + `/italiano/*` (wrangler.jsonc, since sync-monorepo), and README.md documents that. The hub card is `live: true` now (`apps/hub/src/data/courses.ts`), as the item asked, although DEPLOY.md says to flip it only after the Italian Worker is up: **redeploy the hub only after the Italian deploy**, or the hub links to /italiano/ before it exists. Still to do at launch (DEPLOY.md "Before a course goes live"): the Italian pill on the other course homes, `--filter @icanspeak/italian` in the root `deploy` script, `public/audio/`. Last build: 4,586 files in cf-dist/ (limit 20,000). Build warnings left for later: `entry-pages: home hero not found, intro skipped` (5×, since the brand-kit home) and the list `de, fr, es, pt, es` (es twice); `llms.txt` is 10.8 KB (over the 10 KB hint).
-- **`residual-audit` (2026-11-17).** All 35 modules of `check-variety.mjs` are STRICT; `isCourseStandard` accepts it-IT only (es-ES and `es419` are errors everywhere). `LEGACY_VARIETIES`, `SPANISH_LEVELS` (now empty) and the Spanish rule branches in `validate-lexicon.mjs` / `berufeCore.js` are dead code kept so imports don't break: `cleanup`-style removal is safe now. `scripts/lexicon-import.mjs` writes Italian (unit by unit; `reg=note~area~form~gender` → `regional`, `ipa=` required); `es-ipa.mjs` is gone. Business Italian rename: done (no `business-spanish` left). Browser voices and `lang` attributes are it-IT/it; the duplicate `es` entry in `languages.js` (the "es twice" build warning) is removed. en.json keys that mirror data (`grammatik.<slot>.intro`, `ws.set.*`, `hoeren.<id>.blurb`) had drifted back to Spanish-course text for 47 keys and are re-synced; **rule for later items: when a data subtitle, unit title or blurb changes, change its en.json key in the same commit.** The starter PDF is `grammatica-base.pdf`. Open: the PDF still prints the old address until it is regenerated; the `es` UI says "en español" where the English UI says "in English" (`intro.fkEasy*`, `lid.cta.text`, `wissen.cat.wortschatz.blurb`, `wissen.file.wortschatz-a1.desc`, `zitate.card.easyLabel`), which is only true once Spanish cards and facts exist; `scripts/sentry-startup.mjs` still names the `englishacademy` Sentry org (no integration, internal); `pnpm check:i18n-luecken --update` can lower the NavDrawer baseline 6 → 5.
+### Rules that stay
+- **Base path:** `src/lib/paths.js` is the helper (`BASE_PATH = '/italiano'`). Browser code uses
+  `withBase()`/`currentPath()`; server HTML keeps root-absolute links in templates and data and is
+  rebased by `rebaseHtml()` (`src/middleware.js`, `src/integrations/base-language.mjs`), checked by
+  `pnpm check:base`. Data writes site paths (`/grammatica`), never `/italiano/…`.
+- **Mirrors:** when a data subtitle, unit title or blurb changes, change its en.json key
+  (`grammatik.<slot>.intro`, `ws.set.*`, `hoeren.<id>.blurb`) in the same commit, or the old text
+  overwrites it at render time.
+- **Variety:** every module is STRICT in `check-variety.mjs`; `isCourseStandard` accepts it-IT only.
+- **Articles:** `src/lib/articles.js` is the one place for il/lo/la/l' and the plural articles; a
+  component that needs an article asks it (or `lexicon.js`), never a hard-coded list.
+- **Brand theme:** token names kept (`--brand-blue` is the navy); `--accent` a deeper amber for AA
+  (`docs/brand/BRAND.md`, `src/styles/global.css`).
+- **Inherited mechanics:** `accentOnly()` and the key row in `answerMatch.js`; `accepts` ignores
+  case (an exercise about capitals must ask "capital or small?").
