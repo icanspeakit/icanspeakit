@@ -66,7 +66,7 @@ async function build(deck, lang = null) {
     console.log(`berufe-${deck.beruf}-${lang}.pdf  skipped: ${rows.filter((r) => r.tr?.[lang]).length}/${rows.length} translated`);
     return;
   }
-  const fileName = `berufe-${deck.beruf}${lang ? `-${lang}` : ""}.pdf`;
+  const fileName = `espanol-para-el-trabajo-${workPath(deck.beruf).split("/").pop()}${lang ? `-${lang}` : ""}.pdf`;
   const outPath = path.join(outDir, fileName);
   const pdf = createDoc({
     outPath,
@@ -86,7 +86,7 @@ async function build(deck, lang = null) {
       deck.introEasy ?? deck.intro,
       `${rows.length} words in ${groups.length} ${groups.length === 1 ? "group" : "groups"} · ${deck.level}`,
       `${rows.filter((r) => r.example).length} example sentences`,
-      `As flashcards: icanspeak.it/spanish${workPath(deck.beruf)}`,
+      `As flashcards: icanspeak.it/espanol${workPath(deck.beruf)}`,
     ],
     footer:
       "Written by icanspeak Spanish. You may download this PDF, print it and share it in class or at work. No account, no cost." +
@@ -117,7 +117,7 @@ async function build(deck, lang = null) {
       { widths: [w * 0.27, w * 0.11, w * 0.2, w * 0.42], inkCols: [2], ...(ed.rtl && { rtl: [2] }) }
     );
   }
-  pdf.tip(`All the words as flashcards: icanspeak.it/spanish${workPath(deck.beruf)}`, {
+  pdf.tip(`All the words as flashcards: icanspeak.it/espanol${workPath(deck.beruf)}`, {
     art: art.mascot.wordsCheer,
     title: "Keep practising",
   });
