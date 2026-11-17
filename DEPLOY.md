@@ -11,7 +11,8 @@ path route on the `icanspeak.it` zone. Cloudflare picks the most specific matchi
 | `icanspeak.it/*` (everything else) | `icanspeak-hub` | `apps/hub` | static assets only |
 | `icanspeak.it/espanol*` | `icanspeak-spanish` | `apps/spanish` | static assets only (was `/spanish*` until 2026-11-14; the hub 301s it) |
 | `icanspeak.it/francais*` | `icanspeak-french` | `apps/french` | static assets only (was `/french*` until 2026-11-14; the hub 301s it) |
-| later: `/portugues*`, `/italiano*` (the language's own name; base paths already set, the hub 301s `/portuguese*`, `/italian*`) | `icanspeak-<lang>` | `apps/<lang>` | static assets only |
+| `icanspeak.it/italiano*` | `icanspeak-italian` | `apps/italian` | static assets only (the hub 301s `/italian*`) |
+| later: `/portugues*` (the language's own name; base path already set, the hub 301s `/portuguese*`) | `icanspeak-portuguese` | `apps/portuguese` | static assets only |
 
 Why one Worker per app: each deploys on its own (a course rebuild never touches the others),
 and the static-asset limit applies per Worker: 20,000 files on the free plan, 100,000 on
@@ -46,10 +47,11 @@ pnpm --filter @icanspeak/linguistics run deploy
 pnpm --filter englishacademy run deploy
 pnpm --filter @icanspeak/spanish run deploy
 pnpm --filter @icanspeak/french run deploy
+pnpm --filter @icanspeak/italian run deploy
 ```
 
-or `pnpm run deploy` for all live apps (it names them; Portuguese and Italian are left out until they launch, so a
-half-converted copy never takes over their routes) (`pnpm deploy` without `run` is pnpm's own built-in command and fails with ERR_PNPM_INVALID_DEPLOY_TARGET). Each app's `deploy` script builds, then runs
+or `pnpm run deploy` for all live apps (it names them; Portuguese is left out until it launches, so a
+half-converted copy never takes over its routes) (`pnpm deploy` without `run` is pnpm's own built-in command and fails with ERR_PNPM_INVALID_DEPLOY_TARGET). Each app's `deploy` script builds, then runs
 `wrangler deploy` with that app's `wrangler.jsonc` (routes included).
 
 Order for the first go-live: linguistics and english first, the hub last. The hub's
