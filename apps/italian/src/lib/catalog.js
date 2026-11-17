@@ -139,7 +139,7 @@ export const tools = [
     titleKey: "tool.berufe.title", title: "Italian for work", shortKey: "group.short.berufe", short: "Work",
     descKey: "tool.berufe.desc", desc: "Job vocabulary for Italy: care work, bars and restaurants, cleaning, farm work, construction and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
-    keywords: "work job jobs trabajo empleo workplace vocabulary spanish for work care carer cuidador cuidadora residencia hostelería hospitality bar restaurant kitchen camarero cocina cleaning limpieza empleada de hogar domestic farm campo agriculture invernadero temporero recogida construction obra albañil shop supermarket supermercado cajero warehouse almacén logistics carretilla delivery reparto repartidor driver camión hotel camarera de pisos recepción office oficina administrativo" },
+    keywords: "work job jobs lavoro impiego workplace vocabulary italian for work care carer badante assistenza RSA casa di riposo hospitality ristorazione bar restaurant ristorante kitchen cameriere cucina cleaning pulizie colf lavoro domestico domestic farm campi agriculture agricoltura serra bracciante raccolta construction cantiere edilizia muratore shop supermarket supermercato cassiere warehouse magazzino logistics muletto delivery consegne corriere rider driver camion autista hotel cameriera ai piani reception ufficio office impiegato amministrativo" },
   { id: "hoeren", group: "fertigkeiten", href: "/ascolto", icon: "volume",
     titleKey: "tool.hoeren.title", title: "Hörverstehen", shortKey: "group.short.hoeren", short: "Hören",
     descKey: "tool.hoeren.desc", desc: "Durchsagen, Telefonate und Gespräche — mit Transkript und Tempo-Regler.",
@@ -1125,12 +1125,12 @@ export const navBildwoerterbuch = { href: "/conoscenze/dizionario-illustrato", t
 export const navZitate = { href: "/conoscenze/citazioni", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
   hintKey: "nav.wissen.zitateHint", hint: "Ein Satz, drei Wörter, ein Leben" };
 
-// /conoscenze/accenti: the accent map of Spain. In the Sprachen column, under the sections of
-// "Spanish around the world", whose map it zooms into.
+// /conoscenze/accenti: the accent map of Italy. In the Sprachen column, under the sections of
+// "Italian around the world", whose map it zooms into.
 export const navDialekte = { href: "/conoscenze/accenti", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
   hintKey: "nav.wissen.dialekteHint", hint: "From Milan to Palermo" };
 
-// /conoscenze/gergo: tío, mola, joder — how Spanish is spoken in Spain, with the standard
+// /conoscenze/gergo: figo, boh, casino — how Italian is spoken day to day, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
 export const navUmgangssprache = { href: "/conoscenze/gergo", titleKey: "nav.wissen.umgangssprache", title: "Informal Italian & slang",
