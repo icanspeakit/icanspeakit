@@ -1278,3 +1278,21 @@ handled by the `ui-*` items where they are rendered.
 - Done by `conjugation-data`: the table holds Portuguese and the comparison with the irregular-verbs list runs (40 verbs agree).
 - Open: `lang="es"` remains in `wortschatz-app.js` (flashcards); the vocabulary items change it.
 - `conjugation-data` decisions: new tense keys `subjFut`, `infPers`, `plusSimp` (mais-que-perfeito simples), `subjFutPerf` in `ROW_TENSES`; the pronoun is added the pt-PT way (enclisis in the main clause, mesoclisis in future/conditional, proclisis in the subjunctive and after não); `haver de` is taught in the haver card and the modal rule, not as a row. Open for `conjugation-trainer`: sentence sets (now empty), rule tables, vós switch default off, `conjugationTyped.js` key row, translations of the new keys in de/es/fr/it (English placeholders now).
+
+### Open points from `vocab-a1`
+
+- Done: `a1.json` is Portuguese (26 units, 542 words, unit ids and topics kept). Source of truth is
+  `scripts/a1-pt-data/*.txt` + `node scripts/build-a1-pt.mjs` (writes `a1.json` and the de/es/fr/it sidecars;
+  re-run after editing the text files). `i18n/es.json` is new (Portuguese → Spanish); `pt.json` is `{}`.
+- Open: `es` is **not** registered in `languages.js` (that is `ui-lang-es`); the `pt` registry entry lost its
+  `cards` surface. `lang="es"` in `wortschatz-app.js` and the flashcard `lang` attributes are still open.
+- Decision: `slugify` keeps `ñ → ny` (Spanish levels A2–C2 still have ids built with it; changing it would silently
+  re-key their sidecars and berufe refs). `cleanup` drops it. A Portuguese slug taken by a Spanish id of another
+  level gets `-pt` (`aula-pt`, `consulta-pt`, …); `pôr` has the explicit id `por-verb` because `por` is the preposition.
+- Open: the berufe decks, DGT vocabulary and Business Spanish lost **60 + 5 + 12 refs** and 4 own words (estante, carro,
+  saco, vestir) that pointed at Spanish A1 ids; their items refill them. The Spanish word stories whose lemma was an A1 word
+  (19 files: agua, alquiler, azucar, blanco, casa, coche, escuela, futbol, hablar, hermano, iglesia, izquierda, ordenador,
+  patata, perro, queso, ropa, trabajo, ventana) were deleted; `word-stories` writes the Portuguese batch (restore with
+  `git show 5b1c278c:apps/portuguese/src/content/wortgeschichte/<name>.json`).
+- Open: `haeufigste-woerter.json`, `attach-ranks.mjs` and `artikel-haeufigkeit` still read German/Spanish lists; `rank` is `null` (no download possible).
+  Audio files do not exist (no pt-PT voice wired). `bildkarten.json`, `wort-bilder.json` still key Spanish ids (picture lookup returns nothing for A1 words; see report).
