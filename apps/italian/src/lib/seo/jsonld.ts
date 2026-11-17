@@ -20,9 +20,10 @@ export function organizationLd(site: string) {
     name: "icanspeak Italian",
     alternateName: ["icanspeak", "icanspeak.it/italiano"],
     url: `${site}/`,
-    // Square, ≥ 112 px: what Google needs for the logo next to the result. The course mark
-    // from the icanspeak.it kit (docs/brand/BRAND.md); the wide wordmark does not qualify.
-    logo: { "@type": "ImageObject", url: `${site}/logos/icanspeak-italian-mark-1024.png`, width: 1024, height: 1024 },
+    // Square, ≥ 112 px: what Google needs for the logo next to the result. The
+    // app icon from the icanspeak kit (the split i, docs/brand/BRAND.md §2); the wide wordmark
+    // does not qualify.
+    logo: { "@type": "ImageObject", url: `${site}/icon-512.png`, width: 512, height: 512 },
     // Part of the icanspeak.it family (the domain root is the umbrella site).
     parentOrganization: { "@type": "Organization", name: "icanspeak.it", url: "https://icanspeak.it/" },
     description:

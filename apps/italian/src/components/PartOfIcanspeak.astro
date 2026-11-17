@@ -1,8 +1,9 @@
 ---
-// "part of icanspeak.it": the umbrella brand's wordmark linking to the domain root, which is
-// the icanspeak.it site itself (a separate repo), not this course. Its own wordmark from the
-// kit (public/logos, docs/brand/BRAND.md); `onDark` for the footer band, which is dark in both
-// themes. Styles in global.css (.part-of).
+// "part of icanspeak.it": the umbrella wordmark ("i canspeak!", docs/brand/BRAND.md §1) linking
+// to the domain root, which is the icanspeak.it site itself (a separate repo), not this course.
+// The dark SVG has white letters; `onDark` for a band that is dark in both themes, otherwise
+// the theme picks one. 24 px high = 120 px wide, the kit's minimum for the split wordmark.
+// Styles in global.css (.part-of).
 interface Props {
   onDark?: boolean;
 }
@@ -16,11 +17,11 @@ const { onDark = false } = Astro.props;
 >
   <span class="part-of-text" data-i18n="footer.partOf">part of</span>
   {onDark ? (
-    <img class="part-of-mark" src="/logos/icanspeakit-wordmark-dark.svg" alt="" width="636" height="161" />
+    <img class="part-of-mark" src="/logos/icanspeak-wordmark-dark.svg" alt="" width="1094" height="227" />
   ) : (
     <span class="wordmark">
-      <img class="part-of-mark wordmark-img--light" src="/logos/icanspeakit-wordmark.svg" alt="" width="636" height="161" />
-      <img class="part-of-mark wordmark-img--dark" src="/logos/icanspeakit-wordmark-dark.svg" alt="" width="636" height="161" />
+      <img class="part-of-mark wordmark-img--light" src="/logos/icanspeak-wordmark.svg" alt="" width="1094" height="227" />
+      <img class="part-of-mark wordmark-img--dark" src="/logos/icanspeak-wordmark-dark.svg" alt="" width="1094" height="227" />
     </span>
   )}
 </a>
