@@ -18,7 +18,7 @@ export function glossLang() {
 export function loadGloss(lang) {
   if (lang === "en") return Promise.resolve({});
   if (!tables.has(lang)) {
-    tables.set(lang, fetch(withBase(`/giochi/sprint-dei-generi/gloss-${lang}.json`))
+    tables.set(lang, fetch(withBase(`/giochi/sprint-degli-articoli/gloss-${lang}.json`))
       .then((r) => (r.ok ? r.json() : {}))
       .catch(() => ({})));
   }

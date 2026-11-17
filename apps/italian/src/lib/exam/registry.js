@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the B1 mock for citizenship and the A2 mock for the long-term permit in the /cittadinanza/prova-b1 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -38,14 +38,14 @@ const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "DELE A1 practice test",
+    title: "Italian A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
-    href: "/dele/a1",
-    overview: "/dele",
+    href: "/cils/a1",
+    overview: "/cils",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // In the style of the DELE A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
-    passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELE A1 has its own scoring rules.",
+    // In the style of the A1 exams of CILS, CELI, PLIDA and CERT.IT (content-plan §2), shorter than a real exam: 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. The real A1 exams have their own scoring rules (to verify).",
     passPct: 60,
     modules: [
       { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
@@ -60,15 +60,15 @@ export const examRegistry = [
   },
   {
     id: "testdaf",
-    title: "SIELE reading and writing",
+    title: "PLIDA B1 reading and writing",
     subtitle: "Reading · Writing",
-    level: "B1–C1",
-    href: "/siele/practice-set",
-    overview: "/siele",
+    level: "B1",
+    href: "/plida/esercitazione",
+    overview: "/plida",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: the SIELE gives a score per test and every
-    // institution sets its own requirement, so a line here would be invented.
-    passNote: "No pass mark: each SIELE test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.",
+    // Deliberately no pass percentage: the PLIDA marks each skill by its own rules (to verify on plida.it),
+    // so a line here would be invented.
+    passNote: "No pass mark: how the PLIDA marks each skill and what counts as a pass is to verify on plida.it. The rating here is our own guide.",
     passPct: null,
     modules: [
       { key: "lesen1", label: "Reading · Task 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
@@ -79,32 +79,31 @@ export const examRegistry = [
   },
   {
     id: "leben-in-deutschland",
-    title: "CCSE",
+    title: "Civic knowledge test",
     subtitle: "Practice test",
     level: "Knowledge test",
-    href: "/ccse/test",
-    overview: "/ccse",
+    href: "/cultura-civica/test",
+    overview: "/cultura-civica",
     store: { kind: "exam", key: "leben-in-deutschland" },
-    passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
+    passNote: `Our own practice target: ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions. Not an official pass mark.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "Questions on Spain", ids: lidFederalIds },
-      // The ids depend on the comunidad stored in "da-lid-land"; only the browser knows which one,
-      // so the client resolves this. An extra: the real test has no part on one comunidad, so it
-      // does not count towards the score.
-      { key: "land", label: "My comunidad (extra)", idsFrom: "lid-land", scored: false },
+      { key: "bund", label: "Questions on Italy", ids: lidFederalIds },
+      // The ids depend on the region stored in "da-lid-land"; only the browser knows which one,
+      // so the client resolves this. An extra: it does not count towards the score.
+      { key: "land", label: "My region (extra)", idsFrom: "lid-land", scored: false },
     ],
   },
   {
     id: "dtz",
-    title: "DELE A2 mock for nationality",
+    title: "B1 mock for citizenship",
     subtitle: dtz1.label,
     level: "A2",
-    href: "/nationality/dele-a2/practice-set",
-    overview: "/nationality/dele-a2",
+    href: "/cittadinanza/prova-b1/esercitazione",
+    overview: "/cittadinanza/prova-b1",
     store: { kind: "dtz", key: dtz1.id },
-    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
-    passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not an exam score.
+    passNote: "Our own guide, not an exam score: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({

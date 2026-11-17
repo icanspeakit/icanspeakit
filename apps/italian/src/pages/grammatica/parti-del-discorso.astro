@@ -3,7 +3,7 @@
 // and Regi's line under it links here (#<id>) — so a learner who does not know what an
 // adjective is gets one screen that says it, with examples.
 //
-// Content: src/data/wortarten.json (English explanations, Spanish examples, plus the `what` line in the help languages,
+// Content: src/data/wortarten.json (English explanations, Italian examples, plus the `what` line in the help languages,
 // shown under it by GrammarHelpText like every grammar explanation). The class names and
 // the colours match the chips on the cards (vokabeltrainer.css .vt-info-pos--*).
 import Layout from "../../layouts/Layout.astro";
@@ -41,7 +41,7 @@ const classes = wortarten.classes.map((c: any) => ({
 }));
 ---
 <Layout
-  title="Parts of speech – Grammar – icanspeak Spanish"
+  title="Parts of speech – Grammar – icanspeak Italian"
   description="Noun, verb, adjective and the other parts of speech: what they are and how to recognise them, with examples from A1 vocabulary."
 >
   <SiteNav active="grammatik" />
@@ -78,14 +78,14 @@ const classes = wortarten.classes.map((c: any) => ({
           <p class="wa-what">{c.what}</p>
           <GrammarHelpText text={field(c.tr)} />
           {c.ask && <p class="wa-ask"><span data-i18n="wa.ask">Question:</span> <b lang="en">{c.ask}</b></p>}
-          <ul class="wa-ex" lang="es">{c.examples.map((w) => <li>{w}</li>)}</ul>
+          <ul class="wa-ex" lang="it">{c.examples.map((w) => <li>{w}</li>)}</ul>
           <p class="wa-tip">{c.tip}</p>
           {/* Common mistake: the look-alike of this class (man ≠ der Mann), one line into its
               card on /grammatica/errori-comuni. */}
           {c.fehler && (
             <a class="wa-fehler" href={`/grammatica/errori-comuni#${c.fehler.id}`} lang="en">
               <span class="wa-fehler-k">Common mistake</span>
-              <span class="wa-fehler-p"><span lang="es">{c.fehler.a.w}</span> <span aria-label="don't confuse with">≠</span> <span lang="es">{c.fehler.b.w}</span></span>
+              <span class="wa-fehler-p"><span lang="it">{c.fehler.a.w}</span> <span aria-label="don't confuse with">≠</span> <span lang="it">{c.fehler.b.w}</span></span>
             </a>
           )}
           {c.learn && <a class="wa-learn" href={c.learn.href} lang="en">{c.learn.label}</a>}

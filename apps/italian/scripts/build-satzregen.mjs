@@ -58,7 +58,7 @@ export function parseLine(raw, mode, level, lineNo) {
     else if (k === "alt") (flags.a ??= []).push(rest.map(Number));
     else if (k === "rule") flags.rule = rest.join(" ");
     else if (k === "free") flags.free = rest;
-    else if (k === "es419") flags.es419 = { note: rest.join(" ") };
+    else if (k === "reg") flags.regional = { note: rest.join(" ") };
     else err(lineNo, `unbekanntes Flag {${f}}`);
     return "";
   });
@@ -85,7 +85,7 @@ export function parseLine(raw, mode, level, lineNo) {
   if (flags.free) flags.a = [...(flags.a ?? []), ...freeOrders(parts.length, flags.free)];
   if (flags.a) s.a = flags.a;
   if (flags.rule) s.rule = flags.rule;
-  if (flags.es419) s.es419 = flags.es419;
+  if (flags.regional) s.regional = flags.regional;
   return s;
 }
 
@@ -95,13 +95,13 @@ function validate(s, lineNo) {
   if (s.v < 0) err(lineNo, "kein konjugiertes Verb (*)");
   if (s.mode === "janein" && s.v !== 0) err(lineNo, "Ja/Nein-Frage: Verb nicht auf Platz 1");
   if (s.mode === "v2" && s.v !== 1) err(lineNo, "verb not in slot 2");
-  // A2 mode: the object pronoun stands right before the verb (me lo ha dado).
-  if (s.mode === "klammer" && !/^(me|te|lo|la|le|nos|os|los|las|les|se|se lo|se la)$/.test(s.c[s.v - 1] ?? ""))
+  // A2 mode: the object pronoun stands right before the verb (te lo mando, mi ha dato).
+  if (s.mode === "klammer" && !/^(mi|ti|ci|vi|lo|la|li|le|gli|ne|si|me lo|me la|me li|me le|me ne|te lo|te la|te li|te le|te ne|ce lo|ce la|ce ne|ve lo|ve la|ve ne|glielo|gliela|glieli|gliele|gliene|se ne)$/.test(s.c[s.v - 1] ?? ""))
     err(lineNo, "object pronoun not right before the verb");
-  // B1 mode: indirect questions (¿Puedes decirme / dónde / está / la estación?): an accented
-  // question word or si, and the verb behind it.
-  if (s.mode === "nebensatz" && !s.c.some((c) => /^(dónde|adónde|cuándo|cómo|qué|quién|cuánto|por qué|a qué hora|de qué( \S+)?|si)$/.test(c)))
-    err(lineNo, "indirect question without question word / si chunk");
+  // B1 mode: indirect questions (Puoi dirmi / dove / si trova / la stazione?): a question word or se,
+  // and the verb behind it.
+  if (s.mode === "nebensatz" && !s.c.some((c) => /^(dove|quando|come|cosa|che cosa|chi|quanto|quanti|quante|quale|quali|perché|a che ora|di cosa|di che cosa|da che binario|da dove|di dove|a chi|se)$/.test(c)))
+    err(lineNo, "indirect question without question word / se chunk");
   if (s.mode === "nebensatz" && s.v < 2) err(lineNo, "indirect question: verb before the question word");
   for (const a of s.a || []) {
     const sorted = [...a].sort((x, y) => x - y);
@@ -151,7 +151,7 @@ lines.forEach((raw, i) => {
 });
 
 // Compact keys, empty fields dropped: the list is inlined into the page.
-const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, es419 }) => {
+const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, regional }) => {
   const o = { id, mode, level, c, v, s, e, en };
   if (vp.length) o.vp = vp;
   if (f.length) o.f = f;
@@ -159,7 +159,7 @@ const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src,
   if (nv) o.nv = true;
   if (au) o.au = au;
   if (rule) o.rule = rule;
-  if (es419) o.es419 = es419;
+  if (regional) o.regional = regional;
   o.src = src;
   if (lv) o.lv = lv;
   return o;

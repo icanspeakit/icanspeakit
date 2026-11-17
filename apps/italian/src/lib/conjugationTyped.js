@@ -11,7 +11,7 @@ import { itemFingerprint } from "./meldungRef.js";
 import { setWaiting } from "./notReady.js";
 import { t, onUiText } from "./uiText.js";
 
-const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+const ACCENT_KEYS = ["à", "è", "é", "ì", "ò", "ù"];
 const WRONG_BEFORE_REVEAL = 2;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -95,13 +95,13 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
           <p class="akk-focus-sentence">${sentence}</p>
           ${settled ? "" : `
           <form class="cj-typed-form" data-form autocomplete="off" novalidate>
-            <input class="ak-write-input ${p.wrong ? "is-wrong" : ""}" data-input type="text" lang="es" spellcheck="false" autocapitalize="off" autocorrect="off"
+            <input class="ak-write-input ${p.wrong ? "is-wrong" : ""}" data-input type="text" lang="it" spellcheck="false" autocapitalize="off" autocorrect="off"
               value="${esc(p.typed)}"
               placeholder="${esc(t("conj.placeholder", "Type the form …"))}"
               aria-label="${esc(t("conj.placeholder", "Type the form …"))}">
             <button class="akk-btn akk-btn-primary" type="submit" data-check>${esc(t("ak.write.check", "Check"))}</button>
           </form>
-          <div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>
+          <div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Italian letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>
           `}
           <p class="ak-write-verdict" aria-live="polite">${!settled && p.wrong ? esc(verdictText(p)) : ""}</p>
           <div class="akk-feedback">
@@ -115,7 +115,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
               <div class="akk-why">
                 <span class="akk-tag">${esc(t("pw.why", "WHY?"))}</span>
                 <p class="akk-why-text">${esc(q.explain)}${also ? ` ${esc(t("conj.also", "Also right: {form}.", { form: also }))}` : ""}</p>
-                <span class="akk-why-chip" lang="es">${esc(q.change)}</span>
+                <span class="akk-why-chip" lang="it">${esc(q.change)}</span>
               </div>` : ""}
           </div>
           ${meldung ? meldenLinkHtml(`data-mf-qid="${esc(q.id)}"`) : ""}

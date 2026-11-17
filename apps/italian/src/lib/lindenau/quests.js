@@ -1,11 +1,12 @@
-// "The Legend of Villabruno" (/giochi/villabruno; internal id: lindenau): who
-// stands where and what they say. One quest per person, A1, everyday errands in Villabruno, an
-// invented Spanish town. The Spanish is the content (npc / de); `en` is its English meaning, the
-// 💡 Help line. (The key `de` is historical: it holds the Spanish line the learner reads and builds.)
+// "The Legend of Casalbruno" (/giochi/casalbruno; internal id: lindenau): who stands where and what
+// they say. One quest per person, A1, everyday errands in Casalbruno, an invented Italian town.
+// The Italian is the content (npc / de); `en` is its English meaning, the 💡 Help line. (The key
+// `de` is historical: it holds the Italian line the learner reads and builds.)
 //
 // The player's gender is unknown, so nothing the player says, and nothing said to the player, is
-// gendered: no nuevo/a, bienvenido/a. Shop people use tú, as many do in Spain; the ticket office
-// and the health centre use usted, and the player follows them.
+// gendered: no benvenuto/a, stanco/a, sono arrivato/a. The baker, the station, the ASL, the
+// supermarket and the bar use Lei, as people do with strangers, and the player follows them;
+// the neighbour and Bruno use tu.
 //
 // A dialogue is a list of turns. Each turn is one line from the person, optionally followed
 // by a task for the learner:
@@ -16,8 +17,8 @@
 //           scored by the pronunciation check's service, "Type instead" plays it as build.
 //           At most one per quest.
 // The line after a task is the person's reaction to it, so the talk reads as one talk.
-// `outro` closes the quest; `item` is what the learner walks away with (el / la + noun); `words`
-// are extra nouns for the monsters in the action levels, with their article, so the levels
+// `outro` closes the quest; `item` is what the learner walks away with (il / lo / la / l' + noun);
+// `words` are extra nouns for the monsters in the action levels, with their article, so the levels
 // practise the gender too (game.js cannot pick lowercase nouns out of the sentences).
 // No straight double quotes in any text (scripts/check-lindenau.mjs): use “ ”.
 //
@@ -25,149 +26,149 @@
 // fountain, buildings (solid; a person stands at the door side), trees – its own Bruno lines
 // and three quests. The second area opens once the first is done (game.js).
 
-/** All lines are Castilian. For a later es-419 mode: billete → boleto, vía → andén, “el primero” (floor), Quédate con el cambio. */
-export const VARIETY = "es-ES";
+/** All lines are standard Italian (italiano standard). */
+export const VARIETY = "it-IT";
 
-// --- Villabruno – Morning -------------------------------------------------------------------
+// --- Casalbruno – Morning -------------------------------------------------------------------
 const BRUNO_MORGEN = {
-  id: "bruno", mascot: "bruno", name: "Bruno", role: "Plaza Mayor", x: 560, y: 500, clip: "bruno",
+  id: "bruno", mascot: "bruno", name: "Bruno", role: "Piazza", x: 560, y: 500, clip: "bruno",
   intro: [
-    { npc: "¡Hola! Soy Bruno. ¡Te doy la bienvenida a Villabruno!", en: "Hi! I'm Bruno. Welcome to Villabruno!" },
-    { npc: "Acabas de llegar. Hoy tienes tres tareas.", en: "You've just arrived. You have three jobs today." },
-    { npc: "Compra pan en la panadería, un billete en la estación y pide cita en el centro de salud.", en: "Buy bread at the bakery and a ticket at the station, and make an appointment at the health centre." },
-    { npc: "Busca a las personas con un signo de exclamación y habla con ellas. ¡Mucha suerte!", en: "Look for the people with an exclamation mark and talk to them. Good luck!" },
+    { npc: "Ciao! Sono Bruno. Ti accolgo a Casalbruno, la mia città!", en: "Hi! I'm Bruno. Welcome to Casalbruno!" },
+    { npc: "Sei qui da poco. Oggi hai tre cose da fare.", en: "You've only just arrived. You have three jobs today." },
+    { npc: "Compra il pane alla panetteria, un biglietto alla stazione e prendi un appuntamento all'ASL.", en: "Buy bread at the bakery and a ticket at the station, and make an appointment at the ASL (the local health office)." },
+    { npc: "Cerca le persone con il punto esclamativo e parla con loro. Buona fortuna!", en: "Look for the people with an exclamation mark and talk to them. Good luck!" },
   ],
-  waiting: (n) => [{ npc: n === 1 ? "Te queda una tarea. ¡Tú puedes!" : `Te quedan ${n} tareas. ¡Tú puedes!`, en: n === 1 ? "You have one job left. You can do it!" : `You have ${n} jobs left. You can do it!` }],
+  waiting: (n) => [{ npc: n === 1 ? "Ti resta una cosa da fare. Ce la fai!" : `Ti restano ${n} cose da fare. Ce la fai!`, en: n === 1 ? "You have one job left. You can do it!" : `You have ${n} jobs left. You can do it!` }],
   done: [
-    { npc: "Pan, billete y cita: ¡todo hecho! ¡Muy bien!", en: "Bread, ticket and appointment: all done! Very good!" },
+    { npc: "Pane, biglietto e appuntamento: tutto fatto! Molto bene!", en: "Bread, ticket and appointment: all done! Very good!" },
   ],
 };
 
 /** Bruno's review before a run, in every area: the sentences missed last time (game.js). */
 export const BRUNO_REVIEW = {
-  offer: { npc: "¡Qué alegría verte otra vez! ¿Repasamos un poco? Unas frases de la última vez.", en: "How nice to see you again! Shall we review a little? A few sentences from last time." },
-  done: { npc: "¡Muy bien, ahora mucho mejor! Vamos a la ciudad.", en: "Very good, much better now! Let's go into town." },
+  offer: { npc: "Che bello rivederti! Ripassiamo un po'? Qualche frase dell'ultima volta.", en: "How nice to see you again! Shall we review a little? A few sentences from last time." },
+  done: { npc: "Molto bene, adesso va molto meglio! Andiamo in città.", en: "Very good, much better now! Let's go into town." },
 };
 
 const QUESTS_MORGEN = [
   {
-    id: "baeckerei", mascot: "hamsti", name: "Hamsti", role: "Panadería",
-    x: 300, y: 405, item: { label: "el pan", icon: "1F950" },
-    words: ["la barra", "el café", "el euro"],
+    id: "baeckerei", mascot: "hamsti", name: "Marco", role: "Panetteria",
+    x: 300, y: 405, item: { label: "il pane", icon: "1F950" },
+    words: ["il panino", "la focaccia", "l'euro"],
     turns: [
       {
-        npc: "¡Buenos días! ¿Qué te pongo?", en: "Good morning! What can I get you?",
+        npc: "Buongiorno! Mi dica.", en: "Good morning! How can I help you? (literally: tell me)",
         task: { type: "choose", options: [
-          { de: "Quería dos barras de pan, por favor.", ok: true },
-          { de: "Tengo dos barras de pan, por favor.", why: "“Tengo” means “I have”. To order politely, say “Quería …, por favor” (I'd like …, please)." },
-          { de: "¿Dónde están las barras de pan?", why: "The bread is right in front of you. Say what you want to buy: “Quería …”." },
+          { de: "Vorrei due panini, per favore.", ok: true },
+          { de: "Ho due panini, per favore.", why: "“Ho” means “I have”. To order politely, say “Vorrei …, per favore” (I would like …, please)." },
+          { de: "Voglio due panini.", why: "“Voglio” (I want) sounds too direct in a shop. Say “Vorrei …, per favore”." },
         ] },
       },
       {
-        npc: "Muy bien. ¿Algo más?", en: "Very good. Anything else?",
-        task: { type: "say", words: ["Un", "café", "con", "leche,", "por", "favor."], extra: ["Una"],
-          why: "“Café” is masculine, so it's “un café”, not “una café”." },
+        npc: "Va bene. Altro?", en: "All right. Anything else?",
+        task: { type: "say", words: ["Anche", "un", "pezzo", "di", "focaccia,", "per", "favore."], extra: ["una"],
+          why: "“Pezzo” (piece) is masculine, so it's “un pezzo”, even though “focaccia” is feminine." },
       },
       {
-        npc: "Son tres euros con cuarenta.", en: "That's three euros forty.",
+        npc: "Sono tre euro e quaranta.", en: "That's three euros forty.",
         task: { type: "choose", options: [
-          { de: "Aquí tienes: tres con cuarenta.", ok: true },
-          { de: "Aquí tienes: trece con cuarenta.", why: "Listen again: “tres” is 3, “trece” is 13. It's €3.40." },
-          { de: "Gracias, igualmente.", why: "“Igualmente” (you too) answers a good wish. Here the baker is waiting for your money." },
+          { de: "Ecco, tre euro e quaranta.", ok: true },
+          { de: "Ecco, tredici euro e quaranta.", why: "Listen again: “tre” is 3, “tredici” is 13. It's €3.40." },
+          { de: "Grazie, altrettanto.", why: "“Altrettanto” (the same to you) answers a good wish. Here the baker is waiting for your money." },
         ] },
       },
       {
-        npc: "¡Gracias! ¡Que tengas un buen día!", en: "Thanks! Have a nice day!",
+        npc: "Grazie! Buona giornata!", en: "Thanks! Have a nice day!",
         task: { type: "choose", options: [
-          { de: "¡Gracias, igualmente!", ok: true },
-          { de: "¡Buenas noches!", why: "It's morning. “Buenas noches” is for the evening and the night." },
-          { de: "¡Lo siento!", why: "“Lo siento” (I'm sorry) is for when something goes wrong. To answer a good wish, say “¡Gracias, igualmente!”." },
+          { de: "Grazie, altrettanto!", ok: true },
+          { de: "Buonanotte!", why: "It's morning. “Buonanotte” is for the night, when people go to bed." },
+          { de: "Mi dispiace!", why: "“Mi dispiace” (I'm sorry) is for when something goes wrong. To answer a good wish, say “Grazie, altrettanto!”." },
         ] },
       },
     ],
-    outro: { npc: "¡Hasta luego!", en: "See you later!" },
+    outro: { npc: "Arrivederci!", en: "Goodbye!" },
   },
   {
-    id: "bahnhof", mascot: "quaki", name: "Quaki", role: "Estación", x: 1000, y: 405,
-    item: { label: "el billete", icon: "1F9FE" },
-    words: ["el tren", "la vía", "la estación"],
+    id: "bahnhof", mascot: "quaki", name: "Chiara", role: "Stazione", x: 1000, y: 405,
+    item: { label: "il biglietto", icon: "1F9FE" },
+    words: ["il treno", "il binario", "la stazione"],
     turns: [
       {
-        npc: "Buenos días. ¿A dónde va?", en: "Good morning. Where are you going?",
-        task: { type: "say", words: ["Quería", "un", "billete", "a", "Madrid,", "por", "favor."], extra: ["en"],
-          why: "For the place you travel to, use “a”: un billete a Madrid." },
+        npc: "Buongiorno. Dove va?", en: "Good morning. Where are you going?",
+        task: { type: "say", words: ["Vorrei", "un", "biglietto", "per", "Bologna,", "per", "favore."], extra: ["a"],
+          why: "A ticket to a place is “per”: un biglietto per Bologna." },
       },
       {
-        npc: "¿Solo ida, o ida y vuelta?", en: "One way, or return?",
+        npc: "Solo andata o andata e ritorno?", en: "One way, or return?",
         task: { type: "choose", options: [
-          { de: "Ida y vuelta, por favor.", ok: true },
-          { de: "Me gustan los trenes.", why: "The question is which ticket you want: “solo ida” (one way) or “ida y vuelta” (return)." },
-          { de: "En tren, por favor.", why: "You're already at the station. The question is: “solo ida” or “ida y vuelta”?" },
+          { de: "Andata e ritorno, per favore.", ok: true },
+          { de: "Mi piacciono i treni.", why: "The question is which ticket you want: “solo andata” (one way) or “andata e ritorno” (return)." },
+          { de: "In treno, per favore.", why: "You're already at the station. The question is: “solo andata” or “andata e ritorno”?" },
         ] },
       },
       {
-        npc: "¿Y cuándo quiere viajar?", en: "And when would you like to travel?",
+        npc: "E quando vuole partire?", en: "And when would you like to leave?",
         task: { type: "choose", options: [
-          { de: "Mañana a las diez.", ok: true },
-          { de: "En la estación.", why: "“¿Cuándo?” asks about time. “En la estación” answers “¿Dónde?”." },
-          { de: "Dos horas.", why: "“¿Cuándo?” asks when. “Dos horas” answers “¿Cuánto tiempo?” (how long)." },
+          { de: "Domani alle dieci.", ok: true },
+          { de: "In stazione.", why: "“Quando?” asks about time. “In stazione” answers “Dove?” (where)." },
+          { de: "Due ore.", why: "“Quando?” asks when. “Due ore” answers “Quanto tempo?” (how long)." },
         ] },
       },
       {
-        npc: "Son treinta y nueve euros. Su tren sale a las diez y cinco de la vía tres.", en: "That's thirty-nine euros. Your train leaves at five past ten from platform three.",
+        npc: "Sono trentanove euro. Il treno parte alle dieci e cinque dal binario tre.", en: "That's thirty-nine euros. The train leaves at five past ten from platform three.",
         task: { type: "choose", options: [
-          { de: "Vale: vía tres, a las diez y cinco. ¡Gracias!", ok: true },
-          { de: "Vale: vía diez, a las tres y cinco. ¡Gracias!", why: "Listen again: “la vía tres”, “a las diez y cinco”." },
-          { de: "Vale: vía cinco, a las tres y diez. ¡Gracias!", why: "Listen again: “la vía tres”, “a las diez y cinco”." },
+          { de: "Va bene: binario tre, alle dieci e cinque. Grazie!", ok: true },
+          { de: "Va bene: binario dieci, alle tre e cinque. Grazie!", why: "Listen again: “binario tre”, “alle dieci e cinque”." },
+          { de: "Va bene: binario cinque, alle tre e dieci. Grazie!", why: "Listen again: “binario tre”, “alle dieci e cinque”." },
         ] },
       },
     ],
-    outro: { npc: "¡Buen viaje!", en: "Have a good trip!" },
+    outro: { npc: "Buon viaggio!", en: "Have a good trip!" },
   },
   {
-    id: "arzt", mascot: "aerztin", moji: "1F469-200D-2695", name: "Inés", role: "Centro de salud", x: 300, y: 555,
-    item: { label: "la cita", icon: "1F4C5" },
-    words: ["el médico", "la cabeza", "el jueves"],
+    id: "arzt", mascot: "aerztin", moji: "1F469-200D-2695", name: "Elena", role: "ASL", x: 300, y: 555,
+    item: { label: "l'appuntamento", icon: "1F4C5" },
+    words: ["il medico", "la testa", "l'orario"],
     turns: [
       {
-        npc: "Buenos días. ¿En qué puedo ayudarle?", en: "Good morning. How can I help you?",
-        task: { type: "say", words: ["Quería", "pedir", "cita", "con", "el", "médico,", "por", "favor."], extra: ["a"],
-          why: "The fixed phrase is “pedir cita”, without any small word, and then “con el médico” (with the doctor)." },
+        npc: "Buongiorno. Come posso aiutarla?", en: "Good morning. How can I help you?",
+        task: { type: "say", words: ["Vorrei", "un", "appuntamento", "con", "il", "medico,", "per", "favore."], extra: ["lo"],
+          why: "“Medico” takes “il”: il medico. “Lo” is only for nouns starting with z, s + consonant, gn, ps, x or y (lo zaino, lo studente)." },
       },
       {
-        npc: "¿Tiene la tarjeta sanitaria?", en: "Do you have your health card?",
+        npc: "Ha la tessera sanitaria?", en: "Do you have your health card?",
         task: { type: "choose", options: [
-          { de: "Sí, aquí la tengo.", ok: true },
-          { de: "Sí, soy médico.", why: "She's asking about your “tarjeta sanitaria”, the card you show at the health centre. You're not the doctor!" },
-          { de: "No, gracias.", why: "“No, gracias” answers an offer. If you don't have the card with you, say “No, no la tengo”." },
+          { de: "Sì, ecco la tessera.", ok: true },
+          { de: "Sì, sono medico.", why: "She's asking about your “tessera sanitaria”, the card you show at the ASL. You're not the doctor!" },
+          { de: "No, grazie.", why: "“No, grazie” answers an offer. If you don't have the card with you, say “No, non ce l'ho”." },
         ] },
       },
       {
-        npc: "¿Qué le pasa?", en: "What's wrong?",
+        npc: "Che problema ha?", en: "What's the problem?",
         task: { type: "choose", options: [
-          { de: "Me duele la cabeza.", ok: true },
-          { de: "Tengo la cabeza.", why: "That only says “I have the head”. To say what hurts, use “Me duele…”." },
-          { de: "Estoy bien, gracias.", why: "If you're fine, you don't need an appointment. Say what hurts: “Me duele…”." },
+          { de: "Ho mal di testa.", ok: true },
+          { de: "Ho la testa.", why: "That only says “I have the head”. To say what hurts, use “Ho mal di …” (or “Mi fa male …”)." },
+          { de: "Sto bene, grazie.", why: "If you're fine, you don't need an appointment. Say what hurts: “Ho mal di …”." },
         ] },
       },
       {
-        npc: "¿Su fecha de nacimiento, por favor?", en: "Your date of birth, please?",
+        npc: "La sua data di nascita, per favore?", en: "Your date of birth, please?",
         task: { type: "choose", options: [
-          { de: "El 4 de mayo de 1990.", ok: true },
-          { de: "Tengo 36 años.", why: "She's asking for your date of birth (day, month, year), not your age." },
-          { de: "Hoy es jueves.", why: "Your date of birth is the day, month and year you were born, not a day of the week." },
+          { de: "Il 4 maggio 1990.", ok: true },
+          { de: "Ho 36 anni.", why: "She's asking for your date of birth (day, month, year), not your age." },
+          { de: "Oggi è giovedì.", why: "Your date of birth is the day, month and year you were born, not a day of the week." },
         ] },
       },
       {
-        npc: "Gracias. ¿Puede venir el jueves a las diez?", en: "Thank you. Can you come on Thursday at ten?",
+        npc: "Grazie. Può venire giovedì alle dieci?", en: "Thank you. Can you come on Thursday at ten?",
         task: { type: "choose", options: [
-          { de: "Sí, me va bien. ¡Hasta el jueves!", ok: true },
-          { de: "Sí, estoy bien. ¡Hasta el jueves!", why: "“Estoy bien” says you feel OK. When a time suits you, say “Me va bien”." },
-          { de: "Sí, me va bien. ¡Hasta ayer!", why: "“Ayer” is yesterday. The appointment is on Thursday: “¡Hasta el jueves!”." },
+          { de: "Sì, va bene. A giovedì!", ok: true },
+          { de: "Sì, sto bene. A giovedì!", why: "“Sto bene” says you feel OK. When a time suits you, say “Va bene”." },
+          { de: "Sì, va bene. A ieri!", why: "“Ieri” is yesterday. The appointment is on Thursday: “A giovedì!”." },
         ] },
       },
     ],
-    outro: { npc: "Muy bien. ¡Que se mejore, y hasta el jueves!", en: "Very good. Get well soon, and see you on Thursday!" },
+    outro: { npc: "Molto bene. Buona guarigione, e a giovedì!", en: "Very good. Get well soon, and see you on Thursday!" },
   },
 ];
 
@@ -177,9 +178,9 @@ const MAP_MORGEN = {
   square: { x: 640, y: 480, r: 160, fountain: 48 },
   rails: { x: 760, y: 40, w: 520, h: 70 },
   buildings: [
-    { id: "baeckerei", x: 150, y: 150, w: 300, h: 215, roof: "#c2553d", wall: "#f3e2c7", sign: "Panadería", icon: "1F950", door: "s" },
-    { id: "bahnhof", x: 820, y: 130, w: 360, h: 235, roof: "#5f7d8c", wall: "#e7e2d8", sign: "Estación", icon: "1F689", door: "s" },
-    { id: "arzt", x: 150, y: 595, w: 300, h: 215, roof: "#7d6a5a", wall: "#eef2f4", sign: "Centro de salud", icon: "1F3E5", door: "n" },
+    { id: "baeckerei", x: 150, y: 150, w: 300, h: 215, roof: "#c2553d", wall: "#f3e2c7", sign: "Panetteria", icon: "1F950", door: "s" },
+    { id: "bahnhof", x: 820, y: 130, w: 360, h: 235, roof: "#5f7d8c", wall: "#e7e2d8", sign: "Stazione", icon: "1F689", door: "s" },
+    { id: "arzt", x: 150, y: 595, w: 300, h: 215, roof: "#7d6a5a", wall: "#eef2f4", sign: "ASL", icon: "1F3E5", door: "n" },
     { id: "haus1", x: 830, y: 610, w: 150, h: 170, roof: "#b07a3b", wall: "#f1e6d6", door: "n" },
     { id: "haus2", x: 1025, y: 610, w: 150, h: 170, roof: "#8a5a7a", wall: "#f1e6d6", door: "n" },
   ],
@@ -189,131 +190,131 @@ const MAP_MORGEN = {
   ],
 };
 
-// --- Villabruno – Afternoon -----------------------------------------------------------------
+// --- Casalbruno – Afternoon -----------------------------------------------------------------
 const BRUNO_NACHMITTAG = {
-  id: "bruno", mascot: "bruno", name: "Bruno", role: "Fuente", x: 860, y: 450, clip: "bruno-nachmittag",
+  id: "bruno", mascot: "bruno", name: "Bruno", role: "Fontana", x: 860, y: 450, clip: "bruno-nachmittag",
   intro: [
-    { npc: "¡Hola! Ya es por la tarde en Villabruno. Esta es la parte nueva de la ciudad.", en: "Hi! It's the afternoon in Villabruno now. This is the new part of town." },
-    { npc: "Tienes tres tareas otra vez: hacer la compra, saludar a tu vecina y merendar en la cafetería.", en: "You have three jobs again: do the shopping, say hello to your neighbour and have an afternoon snack at the café." },
-    { npc: "Las personas con el signo de exclamación ya te esperan. ¡Hasta luego!", en: "The people with the exclamation mark are already waiting for you. See you later!" },
+    { npc: "Ciao! A Casalbruno è già pomeriggio. Questa è la parte nuova della città.", en: "Hi! It's already afternoon in Casalbruno. This is the new part of town." },
+    { npc: "Hai di nuovo tre cose da fare: la spesa, salutare la vicina e prendere un caffè al bar.", en: "You have three jobs again: do the shopping, say hello to your neighbour and have a coffee at the bar." },
+    { npc: "Le persone con il punto esclamativo ti aspettano già. A dopo!", en: "The people with the exclamation mark are already waiting for you. See you later!" },
   ],
   waiting: BRUNO_MORGEN.waiting,
   done: [
-    { npc: "Compra, vecina y cafetería: ¡todo hecho! ¡Tu español ya es muy bueno!", en: "Shopping, neighbour and café: all done! Your Spanish is really good already!" },
+    { npc: "Spesa, vicina e bar: tutto fatto! Il tuo italiano è già molto buono!", en: "Shopping, neighbour and bar: all done! Your Italian is really good already!" },
   ],
 };
 
 const QUESTS_NACHMITTAG = [
   {
-    id: "supermarkt", mascot: "quaki", name: "Quaki", role: "Supermercado", x: 310, y: 410,
-    item: { label: "la compra", icon: "1F6D2" },
-    words: ["el tomate", "el agua", "la tarjeta"],
+    id: "supermarkt", mascot: "quaki", name: "Davide", role: "Supermercato", x: 310, y: 410,
+    item: { label: "la spesa", icon: "1F6D2" },
+    words: ["il pomodoro", "l'acqua", "la carta"],
     turns: [
       {
-        npc: "¡Hola! ¿Te ayudo?", en: "Hi! Can I help you?",
+        npc: "Salve! Posso aiutarla?", en: "Hello! Can I help you?",
         task: { type: "choose", options: [
-          { de: "Sí, gracias. ¿Dónde están los tomates?", ok: true },
-          { de: "Sí, gracias. ¿Eres un tomate?", why: "“¿Eres…?” asks who or what a person is. To find something in a shop, ask “¿Dónde están…?”." },
-          { de: "Sí, gracias. ¿Dónde está la estación?", why: "You're in a supermarket and you want to buy something. Ask where it is: “¿Dónde están los tomates?”." },
+          { de: "Sì, grazie. Dove sono i pomodori?", ok: true },
+          { de: "Sì, grazie. Lei è un pomodoro?", why: "“Lei è …?” asks who or what a person is. To find something in a shop, ask “Dove sono …?” (or “Dov'è …?” for one thing)." },
+          { de: "Sì, grazie. Dov'è la stazione?", why: "You're in a supermarket and you want to buy something. Ask where it is: “Dove sono i pomodori?”." },
         ] },
       },
       {
-        npc: "Ahí, al lado de las zanahorias. ¿Cuántos quieres?", en: "Over there, next to the carrots. How many would you like?",
-        task: { type: "say", words: ["Un", "kilo", "de", "tomates,", "por", "favor."], extra: ["Una", "en"],
-          why: "After a quantity, use “de”: un kilo de tomates. And “kilo” is masculine: “un kilo”." },
+        npc: "Là, vicino alle carote. Quanti pomodori vuole?", en: "Over there, next to the carrots. How many tomatoes would you like?",
+        task: { type: "say", words: ["Un", "chilo", "di", "pomodori,", "per", "favore."], extra: ["Una", "in"],
+          why: "After a quantity, use “di”: un chilo di pomodori. And “chilo” is masculine: “un chilo”." },
       },
       {
-        npc: "¿Algo más?", en: "Anything else?",
+        npc: "Altro?", en: "Anything else?",
         task: { type: "choose", options: [
-          { de: "Sí, dos botellas de agua, por favor.", ok: true },
-          { de: "Sí, dos botella de agua, por favor.", why: "Una botella, dos botellas: after “dos” the noun takes the plural." },
-          { de: "Sí, no quiero.", why: "“Sí” means you want something else, so say what: “Sí, dos botellas de agua”." },
+          { de: "Sì, due bottiglie d'acqua, per favore.", ok: true },
+          { de: "Sì, due bottiglia d'acqua, per favore.", why: "Una bottiglia, due bottiglie: after “due” the noun is plural (-a becomes -e)." },
+          { de: "Sì, non voglio.", why: "“Sì” means you want something else, so say what: “Sì, due bottiglie d'acqua”." },
         ] },
       },
       {
-        npc: "Son cuatro euros con ochenta.", en: "That's four euros eighty.",
+        npc: "Sono quattro euro e ottanta.", en: "That's four euros eighty.",
         task: { type: "choose", options: [
-          { de: "¿Puedo pagar con tarjeta?", ok: true },
-          { de: "¿Puedo pagar con tarta?", why: "“Tarjeta” is a card. “Tarta” is a cake!" },
-          { de: "¿Puedo pagar en tarjeta?", why: "In Spanish you pay “con tarjeta”. The small word is “con”." },
+          { de: "Posso pagare con la carta?", ok: true },
+          { de: "Posso pagare con la torta?", why: "“Carta” is a card. “Torta” is a cake!" },
+          { de: "Posso pagare a carta?", why: "In Italian you pay “con la carta”. The small word is “con”." },
         ] },
       },
     ],
-    outro: { npc: "Sí, claro. ¡Gracias, y hasta luego!", en: "Yes, of course. Thanks, and see you later!" },
+    outro: { npc: "Certo. Grazie e arrivederci!", en: "Of course. Thanks, and goodbye!" },
   },
   {
-    id: "nachbarin", mascot: "nachbarin", moji: "1F475", name: "Carmen", role: "Vecina", x: 290, y: 620,
-    item: { label: "la vecina", icon: "1F44B" },
-    words: ["el piso", "la vecina", "el café"],
+    id: "nachbarin", mascot: "nachbarin", moji: "1F475", name: "Signora Rossi", role: "Vicina", x: 290, y: 620,
+    item: { label: "la vicina", icon: "1F44B" },
+    words: ["l'appartamento", "la vicina", "il caffè"],
     turns: [
       {
-        npc: "¡Hola! ¿Acabas de llegar?", en: "Hello! Have you just arrived?",
+        npc: "Ciao! Mi chiamo Maria Rossi. Abiti qui da poco?", en: "Hello! My name is Maria Rossi. Have you lived here for a short time?",
         task: { type: "choose", options: [
-          { de: "Sí, vivo aquí desde ayer.", ok: true },
-          { de: "Sí, soy ayer.", why: "“Soy” says who you are, and you can't be yesterday. To say since when you live here, use “Vivo aquí desde…”." },
-          { de: "Sí, voy a la estación.", why: "Carmen wants to know if you're new in the building. Tell her since when you live here." },
+          { de: "Piacere! Sì, abito qui da ieri.", ok: true },
+          { de: "Piacere! Sì, sono ieri.", why: "“Sono” says who you are, and you can't be yesterday. To say since when you live here, use “Abito qui da …”." },
+          { de: "Piacere! Sì, vado alla stazione.", why: "Signora Rossi wants to know if you're new in the building. Tell her since when you live here." },
         ] },
       },
       {
-        npc: "¡Qué bien! Yo soy Carmen. ¿De dónde eres?", en: "How nice! I'm Carmen. Where are you from?",
-        task: { type: "say", words: ["Soy", "de", "Brasil."], extra: ["en", "a"],
-          why: "For the country you come from, use “de”: Soy de Brasil." },
+        npc: "Che bello! Di dove sei?", en: "How nice! Where are you from?",
+        task: { type: "say", words: ["Sono", "di", "Lisbona."], extra: ["a", "in"],
+          why: "For the town you come from, use “di”: Sono di Lisbona. (Not “a” or “in”.)" },
       },
       {
-        npc: "¡Qué bonito! ¿Y qué haces en Villabruno?", en: "How lovely! And what do you do in Villabruno?",
+        npc: "Che bella città! Ti piace Casalbruno?", en: "What a beautiful city! Do you like Casalbruno?",
         task: { type: "choose", options: [
-          { de: "Aprendo español aquí.", ok: true },
-          { de: "Hago Villabruno.", why: "Carmen is asking about your work or your course, for example: “Aprendo español aquí”." },
-          { de: "Soy de Villabruno.", why: "You've just said you're from Brazil, and you're new here. She's asking what you do here." },
+          { de: "Sì, mi piace molto.", ok: true },
+          { de: "Sì, mi piacciono molto.", why: "Casalbruno is one town, so it's the singular “mi piace”. “Mi piacciono” is for several things (mi piacciono i gatti)." },
+          { de: "Sì, ho piace molto.", why: "“Mi piace” is a fixed phrase. It doesn't use “avere” (no “ho piace”)." },
         ] },
       },
       {
-        npc: "¡Muy bien! Yo vivo en el primero. ¡Ven a tomar un café cuando quieras!", en: "Very good! I live on the first floor. Come for a coffee whenever you like!",
+        npc: "Molto bene! Io abito al primo piano. Vieni a prendere un caffè quando vuoi!", en: "Very good! I live on the first floor. Come for a coffee whenever you like!",
         task: { type: "choose", options: [
-          { de: "¡Gracias, muy amable!", ok: true },
-          { de: "¡Gracias, muy vieja!", why: "“Vieja” means “old”, which is not a nice thing to say here! For a kind offer, say “Muy amable” (very kind)." },
-          { de: "De nada.", why: "“De nada” is what you say when someone thanks you. Here you're the one saying thanks: “¡Gracias, muy amable!”." },
+          { de: "Grazie, sei molto gentile!", ok: true },
+          { de: "Grazie, hai molto gentile!", why: "To describe a person, use “essere”: sei gentile. “Avere” (to have) doesn't work here." },
+          { de: "Prego!", why: "“Prego” is what you say when someone thanks you. Here you're the one saying thanks." },
         ] },
       },
     ],
-    outro: { npc: "¡De nada! Ya somos vecinos.", en: "You're welcome! Now we're neighbours." },
+    outro: { npc: "Prego! Ormai siamo vicini.", en: "You're welcome! Now we're neighbours." },
   },
   {
-    id: "cafe", mascot: "hamsti", name: "Hamsti", role: "Cafetería", x: 1140, y: 410,
-    item: { label: "la tarta", icon: "1F370" },
-    words: ["el té", "el trozo", "la cuenta"],
+    id: "cafe", mascot: "hamsti", name: "Giulia", role: "Bar", x: 1140, y: 410,
+    item: { label: "la torta", icon: "1F370" },
+    words: ["il caffè", "la fetta", "lo scontrino", "la cassa"],
     turns: [
       {
-        npc: "¡Hola! ¿Qué quieres beber?", en: "Hi! What would you like to drink?",
+        npc: "Salve! Cosa vuole bere?", en: "Hello! What would you like to drink?",
         task: { type: "choose", options: [
-          { de: "Un té, por favor.", ok: true },
-          { de: "Junto a la ventana, por favor.", why: "Hamsti is asking what you want to drink, not where you want to sit." },
-          { de: "Un trozo de tarta, por favor.", why: "“Beber” is to drink. Cake is food: you eat it." },
+          { de: "Un caffè, per favore.", ok: true },
+          { de: "Vicino alla finestra, per favore.", why: "Giulia is asking what you want to drink, not where you want to sit." },
+          { de: "Una fetta di torta, per favore.", why: "“Bere” is to drink. Cake is food: you eat it." },
         ] },
       },
       {
-        npc: "Muy bien. ¿Quieres comer algo?", en: "Very good. Would you like something to eat?",
-        task: { type: "say", words: ["Sí,", "un", "trozo", "de", "tarta,", "por", "favor."], extra: ["una", "en"],
-          why: "“Trozo” (piece) is masculine: “un trozo”, even though “tarta” is feminine." },
+        npc: "Va bene. Vuole anche mangiare qualcosa?", en: "All right. Would you like something to eat too?",
+        task: { type: "say", words: ["Sì,", "una", "fetta", "di", "torta,", "per", "favore."], extra: ["un", "in"],
+          why: "“Fetta” (slice) is feminine: “una fetta”, not “un fetta”." },
       },
       {
-        npc: "¿Qué tal la tarta?", en: "How's the cake?",
+        npc: "Sono cinque euro e cinquanta. Paghi alla cassa e porti lo scontrino al banco.", en: "That's five euros fifty. Pay at the till and bring the receipt to the counter.",
         task: { type: "choose", options: [
-          { de: "Muy rica, gracias. ¿Me traes la cuenta?", ok: true },
-          { de: "No, muy rica.", why: "“No” doesn't fit here: the question is “how is it?”. Just say “Muy rica” (delicious)." },
-          { de: "Muy rica, gracias. ¿Me traes el cuento?", why: "“El cuento” is a story. The bill is “la cuenta”." },
+          { de: "Va bene. Ecco sei euro, grazie.", ok: true },
+          { de: "Va bene. Ecco cinque euro, grazie.", why: "Five euros isn't enough. It costs five euros fifty." },
+          { de: "Va bene. Ecco sessanta euro, grazie.", why: "Listen again: “sei” is 6, “sessanta” is 60." },
         ] },
       },
       {
-        npc: "Son cinco euros con cincuenta.", en: "That's five euros fifty.",
+        npc: "Ecco il suo caffè e la torta. Buon appetito!", en: "Here are your coffee and cake. Enjoy your meal!",
         task: { type: "choose", options: [
-          { de: "Aquí tienes seis euros. Quédate con el cambio.", ok: true },
-          { de: "Aquí tienes cinco euros. Quédate con el cambio.", why: "Five euros isn't enough. It costs five euros fifty." },
-          { de: "Aquí tienes seis euros. ¡Que te mejores!", why: "“Que te mejores” is for people who are ill. To leave a little extra, say “Quédate con el cambio”." },
+          { de: "Grazie, altrettanto!", ok: true },
+          { de: "Buonanotte!", why: "“Buonanotte” is for going to bed. For “Buon appetito”, answer “Grazie, altrettanto!”." },
+          { de: "Prego!", why: "“Prego” answers “grazie”. Here Giulia has wished you something nice." },
         ] },
       },
     ],
-    outro: { npc: "¡Muchas gracias! ¡Que vaya bien!", en: "Thank you very much! Take care!" },
+    outro: { npc: "Grazie a Lei! Buon pomeriggio!", en: "Thank you! Have a good afternoon!" },
   },
 ];
 
@@ -323,9 +324,9 @@ const MAP_NACHMITTAG = {
   square: { x: 935, y: 515, r: 130, fountain: 40 },
   rails: null,
   buildings: [
-    { id: "supermarkt", x: 120, y: 140, w: 380, h: 230, roof: "#4f7a5a", wall: "#eef3ea", sign: "Supermercado", icon: "1F6D2", door: "s" },
-    { id: "cafe", x: 1030, y: 160, w: 220, h: 210, roof: "#a0522d", wall: "#f6ead8", sign: "Cafetería", icon: "2615", door: "s" },
-    { id: "wohnhaus", x: 140, y: 660, w: 300, h: 220, roof: "#6a6f8a", wall: "#f1e6d6", sign: "Pisos", icon: "1F3E0", door: "n" },
+    { id: "supermarkt", x: 120, y: 140, w: 380, h: 230, roof: "#4f7a5a", wall: "#eef3ea", sign: "Supermercato", icon: "1F6D2", door: "s" },
+    { id: "cafe", x: 1030, y: 160, w: 220, h: 210, roof: "#a0522d", wall: "#f6ead8", sign: "Bar", icon: "2615", door: "s" },
+    { id: "wohnhaus", x: 140, y: 660, w: 300, h: 220, roof: "#6a6f8a", wall: "#f1e6d6", sign: "Condominio", icon: "1F3E0", door: "n" },
     { id: "haus3", x: 520, y: 680, w: 150, h: 170, roof: "#b07a3b", wall: "#f1e6d6", door: "n" },
     { id: "haus4", x: 1040, y: 670, w: 170, h: 180, roof: "#8a5a7a", wall: "#f1e6d6", door: "n" },
   ],
@@ -337,14 +338,14 @@ const MAP_NACHMITTAG = {
 
 /** The parts of town, in the order they open. */
 export const AREAS = [
-  { id: "morgen", title: "Villabruno, por la mañana", bruno: BRUNO_MORGEN, quests: QUESTS_MORGEN, ...MAP_MORGEN },
-  { id: "nachmittag", title: "Villabruno, por la tarde", bruno: BRUNO_NACHMITTAG, quests: QUESTS_NACHMITTAG, ...MAP_NACHMITTAG },
+  { id: "morgen", title: "Casalbruno, di mattina", bruno: BRUNO_MORGEN, quests: QUESTS_MORGEN, ...MAP_MORGEN },
+  { id: "nachmittag", title: "Casalbruno, di pomeriggio", bruno: BRUNO_NACHMITTAG, quests: QUESTS_NACHMITTAG, ...MAP_NACHMITTAG },
 ];
 export const areaById = (id) => AREAS.find((a) => a.id === id) ?? AREAS[0];
 
 /** What the shop people say when the learner comes too early or comes back. */
-export const NOT_YET = { npc: "¡Hola! Primero habla con Bruno, en la plaza.", en: "Hi! First, go and talk to Bruno in the square." };
-export const AGAIN = { npc: "¡Qué alegría verte otra vez!", en: "How nice to see you again!" };
+export const NOT_YET = { npc: "Salve! Prima parla con Bruno, in piazza.", en: "Hi! First, go and talk to Bruno in the square." };
+export const AGAIN = { npc: "Che bello rivederti!", en: "How nice to see you again!" };
 
 /** Graded tasks in an area, for the result line. */
 export const taskCount = (area) => area.quests.reduce((n, q) => n + q.turns.filter((t) => t.task).length, 0);
@@ -357,17 +358,17 @@ export const taskCount = (area) => area.quests.reduce((n, q) => n + q.turns.filt
 //   <bruno>-intro-<i>-npc.mp3, <bruno>-done-<i>-npc.mp3, where <bruno> is the area's
 //   `bruno.clip` ("bruno" in the first area, "bruno-nachmittag" in the second)
 //   bruno-waiting-<n>-npc.mp3, bruno-review-offer-npc.mp3, bruno-review-done-npc.mp3
-// There are no Spanish clips yet (the folder does not exist): until they are generated,
-// spielKit's voice falls back to the browser's Spanish voice for every line.
-// One voice per mascot (Spain); the learner's replies in one more voice (`du`).
+// There are no Italian clips yet (the folder does not exist): until they are generated,
+// spielKit's voice falls back to the browser's it-IT voice for every line.
+// One voice per mascot (Italy); the learner's replies in one more voice (`du`).
 export const VOICES = {
-  bruno: "es-ES-AlvaroNeural",
-  hamsti: "es-ES-ElviraNeural",
-  quaki: "es-ES-DarioNeural",
-  // Regi is the player now (Super-Blubb); the health centre and the neighbour have their own voices.
-  aerztin: "es-ES-IreneNeural",
-  nachbarin: "es-ES-EstrellaNeural",
-  du: "es-ES-XimenaNeural",
+  bruno: "it-IT-DiegoNeural",
+  hamsti: "it-IT-ElsaNeural",
+  quaki: "it-IT-BenignoNeural",
+  // Regi is the player now (Super-Blubb); the ASL and the neighbour have their own voices.
+  aerztin: "it-IT-IsabellaNeural",
+  nachbarin: "it-IT-FabiolaNeural",
+  du: "it-IT-PalmiraNeural",
 };
 export const clipPath = (clip) => `/audio/lindenau/${clip}.mp3`;
 

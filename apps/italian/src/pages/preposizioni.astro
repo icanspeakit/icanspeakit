@@ -42,11 +42,10 @@ const total = packs.reduce((n, p) => n + p.questions.length, 0);
 
 // The full grammar topics these packs are a warm-up for, shown under the level they belong to.
 const MORE: Record<string, { href: string; label: string; key: string }[]> = {
-  A2: [{ href: "/a-or-en", label: "a or en: going and being – in depth", key: "praep.more.wechsel" }],
-  B1: [
-    { href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" },
-    { href: "/grammatica/coniugazione?set=por-para-b1", label: "por or para in real situations", key: "conj.set.por-para-b1" },
-  ],
+  A2: [{ href: "/articulated-prepositions", label: "Prepositions with articles (al, nel, sul …) – in depth", key: "praep.more.wechsel" }],
+  // The Spanish course also linked its "por or para" conjugation set here; Italian has no
+  // such pair, so the link went (ui-pages-m-z).
+  B1: [{ href: "/verbs-prepositions", label: "Verbs + prepositions – in depth", key: "praep.more.verben" }],
   B2: [{ href: "/adjectives-prepositions", label: "Adjectives + prepositions – in depth", key: "praep.more.nvv" }],
 };
 
@@ -61,16 +60,16 @@ const overview = {
   caption: "Which preposition when?",
   head: ["Job", "Prepositions", "Example"],
   rows: [
-    ["Time", "a (clock times), en (months, years), por (part of the day)", "a las seis, en mayo, por la mañana"],
-    ["Place", "en (in, on, at), de (origin, owner)", "en el coche, en la mesa, de Marruecos"],
-    ["Movement", "a, hacia, hasta, por, desde", "voy a Madrid, paso por el parque"],
-    ["After verbs, adjectives, nouns", "fixed: learn them together", "pensar en, harto de, ganas de"],
+    ["Time", "a (clock times, months), in (seasons, years), da (since, for)", "alle sei, a maggio, in estate, da due anni"],
+    ["Place", "in (countries, regions, shops), a (cities), su (on), di (owner), da (at someone's place)", "in Italia, a Milano, sul tavolo, la bici di Luca, dal medico"],
+    ["Movement", "a, in, da (to a person), per (through), verso, fino a", "vado a Roma, vado in banca, vado dal medico, passo per il parco"],
+    ["After verbs, adjectives, nouns", "fixed: learn them together", "pensare a, stanco di, voglia di"],
   ],
 };
 ---
 <Layout
-  title="Prepositions – icanspeak Spanish"
-  description="Practise Spanish prepositions from A1 to B2: a, en, de, por and para, time, place and movement, and verbs with prepositions — with a rule for every topic."
+  title="Prepositions – icanspeak Italian"
+  description="Practise Italian prepositions from A1 to B2: di, a, da, in, con, su, per, tra/fra, the prepositions with articles (al, nel, sul), time, place and movement, and verbs with prepositions — with a rule for every topic."
 >
   <SiteNav active="grammatik" />
   <TopicBar topic="praepositionen" kind="Grammar" title="Prepositions" level="A1–B2" tasks={total} showKind={false} scoped heading />
@@ -144,7 +143,7 @@ const overview = {
                         <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={level}>
                           <span class="pr-pack-body">
                             <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                            <span class="pr-pack-preps" lang="es">{p.preps}</span>
+                            <span class="pr-pack-preps" lang="it">{p.preps}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                         </button>
@@ -163,13 +162,13 @@ const overview = {
                   <div class="nvb-panelhead">
                     <h3 data-i18n="praep.wechsel.name">Place and movement</h3>
                   </div>
-                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> in, on, at, next to, behind … <b>Where does it go?</b> to, into, through, across … “in the room” is not “into the room”.</p>
+                  <p class="ls-lead" data-i18n-html="praep.wechsel.lead"><b>Where is it?</b> in, a, su, sopra, sotto, accanto a, dietro … <b>Where does it go?</b> in, a, da, verso, fino a … Cities take <em>a</em>, countries and regions take <em>in</em>, and for both “where” and “to where”: <em>Vivo a Roma. Vado a Roma. Abito in Italia. Vado in Sicilia.</em></p>
                   <section class="ap-packs">
                     {wechsel.map((p) => (
                       <button type="button" class="nvb-item akp-pack pr-pack" data-pack={p.id} data-level={p.level}>
                         <span class="pr-pack-body">
                           <span class="akp-pack-name" data-i18n={`praep.pack.${p.id}`}>{p.name}</span>
-                          <span class="pr-pack-preps" lang="es">{p.preps}</span>
+                          <span class="pr-pack-preps" lang="it">{p.preps}</span>
                         </span>
                         <span class="akp-pack-state" data-pack-state>0/{p.questions.length}</span>
                       </button>
@@ -177,7 +176,7 @@ const overview = {
                   </section>
                   <section class="ap-packs pr-more">
                     <h4 class="ap-phase-head"><span data-i18n="praep.more">Ausführlich üben</span></h4>
-                    <a class="nvb-item pr-more-link" href="/a-or-en" data-i18n="praep.more.wechselShort">a or en: going and being – rule and exercises</a>
+                    <a class="nvb-item pr-more-link" href="/articulated-prepositions" data-i18n="praep.more.wechselShort">Prepositions with articles (al, nel, sul …) – rule and exercises</a>
                   </section>
                 </div>
               </div>
@@ -242,7 +241,7 @@ const overview = {
         ))}
         <section class="pr-rule pr-rule--overview">
           <RefTable table={overview} />
-          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>wait for</b>, <b>good at</b>, <b>reason for</b>.</p>
+          <p class="akk-regel-note" data-i18n-html="praep.rule.note">After verbs, adjectives and nouns the preposition is fixed — learn it together with the word: <b>pensare a</b>, <b>stanco di</b>, <b>voglia di</b>.</p>
         </section>
       </div>
     </aside>

@@ -41,28 +41,28 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
 const info = mutterspracheInfo();
 ---
 <Layout
-  title="Common mistakes by first language – icanspeak Spanish"
-  description="Typical mistakes in Spanish depending on your first language, why they happen and how to correct them."
+  title="Common mistakes by first language – icanspeak Italian"
+  description="Typical mistakes in Italian depending on your first language, why they happen and how to correct them."
 >
   <div class="uv">
     <SiteNav active="landeskunde" />
     <main class="uv-main fe2" id="fe-page">
-      <a href="/cultura" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
+      <a href="/cultura" class="vp-back-link" data-i18n="kultur.back">All topics</a>
 
-      <SectionMascot name="hamsti" say="Welche Sprache sprichst du?" align="center" class="hub-mascot uv-hub-mascot" />
+      <SectionMascot name="hamsti" say="Which language do you speak?" align="center" class="hub-mascot uv-hub-mascot" />
       <header class="fe-hero">
-        <p class="uv-eyebrow" data-i18n="kultur.fehler.eyebrow">Landeskunde · Sprache</p>
-        <h1 data-i18n="kultur.fehler.title">Typische Fehler nach Muttersprache</h1>
+        <p class="uv-eyebrow" data-i18n="kultur.fehler.eyebrow">Culture · Language</p>
+        <h1 data-i18n="kultur.fehler.title">Typical mistakes by first language</h1>
         <p data-i18n="kultur.fehler.lead" data-i18n-vars={vars({ n: languages.length, m: total })}>
-          {`Jede Sprache bringt ihre eigenen Gewohnheiten mit ins Deutsche. ${languages.length} Sprachen, ${total} typische Fehler — und was deine Muttersprache dir leichter macht.`}
+          {`Every language brings its own habits into Italian. ${languages.length} languages, ${total} typical mistakes – and what your first language makes easier for you.`}
         </p>
       </header>
 
-      <p class="uv-eyebrow" data-i18n="kultur.fehler.chooseLang">Muttersprache wählen</p>
-      <div class="fe-picks" role="group" aria-label="Muttersprache wählen" data-i18n-attr="aria-label:kultur.fehler.chooseLang">
+      <p class="uv-eyebrow" data-i18n="kultur.fehler.chooseLang">Choose your first language</p>
+      <div class="fe-picks" role="group" aria-label="Choose your first language" data-i18n-attr="aria-label:kultur.fehler.chooseLang">
         <button class="fe-pick is-on" type="button" data-lang="alle" aria-pressed="true">
           <span class="fe-mark fe-mark--all" aria-hidden="true">{languages.length}</span>
-          <span class="fe-pick-txt"><b data-i18n="kultur.fehler.all">Alle</b><i>{total} Fehler</i></span>
+          <span class="fe-pick-txt"><b data-i18n="kultur.fehler.all">All</b><i>{total} mistakes</i></span>
         </button>
         {languages.map((l) => (
           <button class="fe-pick" type="button" data-lang={l.id} aria-pressed="false">
@@ -77,15 +77,15 @@ const info = mutterspracheInfo();
       </div>
 
       <section class="fe-card">
-        <h2 data-i18n="kultur.fehler.quizTitle">Quiz: Erkennst du die Fehler?</h2>
-        <p data-i18n="skills.quizIntro" data-i18n-vars={vars({ n: quiz.length })}>{quiz.length} Fragen. Antworte per Klick — die Erklärung steht danach dabei.</p>
+        <h2 data-i18n="kultur.fehler.quizTitle">Quiz: can you spot the mistakes?</h2>
+        <p data-i18n="skills.quizIntro" data-i18n-vars={vars({ n: quiz.length })}>{quiz.length} questions. Answer with a click – the explanation follows.</p>
         <div class="quiz-card" id="fe-quiz"></div>
       </section>
 
       <section class="fe-note">
         <span aria-hidden="true">💡</span>
         <div>
-          <h2 data-i18n="kultur.fehler.noteTitle">Wichtig</h2>
+          <h2 data-i18n="kultur.fehler.noteTitle">Important</h2>
           <p>{note}</p>
         </div>
       </section>

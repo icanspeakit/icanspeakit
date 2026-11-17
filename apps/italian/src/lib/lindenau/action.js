@@ -1,4 +1,4 @@
-// Lindenau's action parts (/giochi/villabruno): the story of Super-Blubb, a side-scrolling level
+// Lindenau's action parts (/giochi/casalbruno): the story of Super-Blubb, a side-scrolling level
 // as the way into town, and after every errand another one – run, jump over the mud pits and
 // blow soap bubbles at the dirt monsters. A bubble hurts nobody: it lifts the monster up and washes it clean, and it pops
 // into sparkles, a flower and a word from the errand just played. The third level of an area
@@ -84,44 +84,44 @@ const STORY = {
   morgen: {
     villain: "schmuddel",
     prologue: {
-      title: "Super-Blubb y el conde Mugre",
+      title: "Super-Blubb e il conte Sporcone",
       lines: [
-        { de: "Villabruno es una ciudad pequeña y muy limpia.", en: "Villabruno is a small, very clean town." },
-        { de: "Pero el conde Mugre odia las ciudades limpias. ¡Y manda a sus monstruos de barro!", en: "But Count Grime hates clean towns. And he sends his mud monsters!" },
-        { de: "Por suerte, estás aquí. Acabas de llegar y tienes un secreto: ¡eres Super-Blubb!", en: "Luckily, you're here. You've just arrived and you have a secret: you are Super-Blubb!" },
-        { de: "Tu varita mágica hace pompas de jabón. No hacen daño. Solo limpian.", en: "Your magic wand makes soap bubbles. They don't hurt. They only clean." },
+        { de: "Casalbruno è una città piccola e molto pulita.", en: "Casalbruno is a small, very clean town." },
+        { de: "Ma il conte Sporcone odia le città pulite. E manda i suoi mostri di fango!", en: "But Count Grime hates clean towns. And he sends his mud monsters!" },
+        { de: "Per fortuna, tu sei qui. Sei qui da poco e hai un segreto: sei Super-Blubb!", en: "Luckily, you're here. You've just arrived and you have a secret: you are Super-Blubb!" },
+        { de: "La tua bacchetta magica fa bolle di sapone. Non fanno male. Puliscono e basta.", en: "Your magic wand makes soap bubbles. They don't hurt. They only clean." },
       ],
     },
     levels: [
-      { title: "Llegada a Villabruno", de: "Llegas a Villabruno en tren. ¡Pero la calle está llena de barro! Corre a la plaza y limpia a los monstruos.", en: "You arrive in Villabruno by train. But the street is full of mud! Run to the square and clean the monsters." },
-      { title: "¡Alerta de barro en la calle!", de: "Los monstruos de barro corren por la calle. ¡Salta los charcos y límpialos!", en: "The mud monsters are running down the street. Jump over the puddles and clean them!" },
-      { title: "¡Alerta de barro en el parque!", de: "Ahora también vuelan nubes de polvo. ¡Salta y lánzales pompas!", en: "Now dust clouds are flying around too. Jump and throw bubbles at them!" },
-      { title: "¡El conde Mugre!", de: "¡Ahí está el conde Mugre! Tira barro. ¡Enséñale lo bonito que es estar limpio!", en: "There's Count Grime! He throws mud. Show him how nice it is to be clean!" },
+      { title: "Arrivo a Casalbruno", de: "Arrivi a Casalbruno in treno. Ma la strada è piena di fango! Corri in piazza e pulisci i mostri.", en: "You arrive in Casalbruno by train. But the street is full of mud! Run to the square and clean the monsters." },
+      { title: "Allarme fango in strada!", de: "I mostri di fango corrono per la strada. Salta le pozzanghere e puliscili!", en: "The mud monsters are running down the street. Jump over the puddles and clean them!" },
+      { title: "Allarme fango nel parco!", de: "Ora volano anche nuvole di polvere. Salta e lancia loro delle bolle!", en: "Now dust clouds are flying around too. Jump and throw bubbles at them!" },
+      { title: "Il conte Sporcone!", de: "Ecco il conte Sporcone! Lancia fango. Fagli vedere che bello è essere puliti!", en: "There's Count Grime! He throws mud. Show him how nice it is to be clean!" },
     ],
     end: [
-      { de: "«¡Oh… estoy limpio! ¡Qué gusto!»", en: "“Oh… I'm clean! That feels good!”" },
-      { de: "El conde Mugre se ríe. Desde hoy, ayuda a limpiar.", en: "Count Grime laughs. From today on, he helps with the cleaning." },
+      { de: "«Oh… sono pulito! Che bello!»", en: "“Oh… I'm clean! That feels good!”" },
+      { de: "Il conte Sporcone ride. Da oggi aiuta a pulire.", en: "Count Grime laughs. From today on, he helps with the cleaning." },
     ],
   },
   nachmittag: {
     villain: "staubig",
     prologue: {
-      title: "Llega el barón Polvo",
+      title: "Arriva il barone Polvere",
       lines: [
-        { de: "Por la tarde, el sol brilla sobre Villabruno.", en: "In the afternoon, the sun shines over Villabruno." },
-        { de: "Pero ¿qué es eso? ¡Una gran nube gris! Es el barón Polvo, el hermano del conde Mugre.", en: "But what's that? A big grey cloud! It's Baron Dust, Count Grime's brother." },
-        { de: "Sopla polvo por todas las calles. ¡Super-Blubb, la ciudad te necesita otra vez!", en: "He blows dust down every street. Super-Blubb, the town needs you again!" },
+        { de: "Nel pomeriggio il sole splende su Casalbruno.", en: "In the afternoon, the sun shines over Casalbruno." },
+        { de: "Ma cos'è quello? Una grande nuvola grigia! È il barone Polvere, il fratello del conte Sporcone.", en: "But what's that? A big grey cloud! It's Baron Dust, Count Grime's brother." },
+        { de: "Soffia polvere in tutte le strade. Super-Blubb, la città ha di nuovo bisogno di te!", en: "He blows dust down every street. Super-Blubb, the town needs you again!" },
       ],
     },
     levels: [
-      { title: "Polvo sobre Villabruno", de: "El barón Polvo sopla polvo sobre la ciudad. ¡Corre a la fuente y quita el polvo con tus pompas!", en: "Baron Dust is blowing dust over the town. Run to the fountain and get rid of the dust with your bubbles!" },
-      { title: "¡Alerta de polvo en el metro!", de: "El polvo ha llegado al metro. Hay nubes de polvo y monstruos de barro por todas partes. ¡Límpialos con tus pompas de jabón!", en: "The dust has reached the metro. There are dust clouds and mud monsters everywhere. Clean them with your soap bubbles!" },
-      { title: "¡Alerta de polvo en los tejados!", de: "El polvo vuela muy alto. ¡Salta a las cajas y lanza pompas hacia arriba!", en: "The dust is flying very high. Jump onto the boxes and throw bubbles upwards!" },
-      { title: "¡El barón Polvo!", de: "El barón Polvo vuela sobre la plaza y tira bolas de polvo. ¡Salta y dale con tus pompas de jabón!", en: "Baron Dust is flying over the square, throwing balls of dust. Jump and hit him with your soap bubbles!" },
+      { title: "Polvere su Casalbruno", de: "Il barone Polvere soffia polvere sulla città. Corri alla fontana e togli la polvere con le tue bolle!", en: "Baron Dust is blowing dust over the town. Run to the fountain and get rid of the dust with your bubbles!" },
+      { title: "Allarme polvere in metropolitana!", de: "La polvere è arrivata nella metropolitana. Ci sono nuvole di polvere e mostri di fango dappertutto. Puliscili con le tue bolle di sapone!", en: "The dust has reached the metro. There are dust clouds and mud monsters everywhere. Clean them with your soap bubbles!" },
+      { title: "Allarme polvere sui tetti!", de: "La polvere vola molto in alto. Salta sulle casse e lancia le bolle verso l'alto!", en: "The dust is flying very high. Jump onto the boxes and throw bubbles upwards!" },
+      { title: "Il barone Polvere!", de: "Il barone Polvere vola sopra la piazza e lancia palle di polvere. Salta e colpiscilo con le tue bolle di sapone!", en: "Baron Dust is flying over the square, throwing balls of dust. Jump and hit him with your soap bubbles!" },
     ],
     end: [
-      { de: "«¡Achís!» El barón Polvo estornuda, y ahora está blanco y limpio.", en: "“Atchoo!” Baron Dust sneezes, and now he's white and clean." },
-      { de: "«¡Gracias, Super-Blubb! Voy a traer tarta para todos.»", en: "“Thank you, Super-Blubb! I'll bring cake for everyone.”" },
+      { de: "«Etciù!» Il barone Polvere starnutisce, e ora è bianco e pulito.", en: "“Atchoo!” Baron Dust sneezes, and now he's white and clean." },
+      { de: "«Grazie, Super-Blubb! Porto la torta per tutti.»", en: "“Thank you, Super-Blubb! I'll bring cake for everyone.”" },
     ],
   },
 };
@@ -927,7 +927,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
       hero.dirt = 0;
       sparkle(hero.x, hero.y - 20, 24, 40);
       play("win");
-      if (!boss) addText(hero.x, hero.y - 60, stage === 0 ? t("ld.actArrived", "Welcome to Villabruno!") : t("ld.actGoal", "Made it!"), "#fff", true);
+      if (!boss) addText(hero.x, hero.y - 60, stage === 0 ? t("ld.actArrived", "Welcome to Casalbruno!") : t("ld.actGoal", "Made it!"), "#fff", true);
     }
 
     function result() {
@@ -1149,7 +1149,7 @@ export function playLevel(stageEl, { area, stage, words, direct = false, say }) 
           ctx.fillStyle = "#1d4ed8"; ctx.strokeStyle = "#fff"; ctx.lineWidth = 2;
           ctx.beginPath(); ctx.roundRect(x - 44, GY - 150, 88, 22, 3); ctx.fill(); ctx.stroke();
           ctx.fillStyle = "#fff"; ctx.font = "700 11px Fredoka, system-ui, sans-serif";
-          ctx.fillText("Villabruno", x, GY - 138);
+          ctx.fillText("Casalbruno", x, GY - 138);
           ctx.fillStyle = "#16a34a"; ctx.beginPath(); ctx.roundRect(x - 62, GY - 150, 14, 14, 2); ctx.fill();
           ctx.fillStyle = "#fff"; ctx.font = "800 10px system-ui, sans-serif"; ctx.fillText("M", x - 55, GY - 142.5);
         }
@@ -1381,16 +1381,16 @@ function overlay(stageEl, cardOnly = false) {
 function showCard(card, o) {
   return new Promise((resolve) => {
     card.innerHTML = `<p class="sf-q-tag">${esc(o.tag)}</p>
-      ${o.title ? `<h3 class="ld-act-title" lang="es">${esc(o.title)}</h3>` : ""}
+      ${o.title ? `<h3 class="ld-act-title" lang="it">${esc(o.title)}</h3>` : ""}
       ${o.scene ? `<canvas class="ld-act-scene" width="560" height="200" aria-hidden="true"></canvas>` : ""}
-      ${o.lines.map((l, i) => `<div class="ld-act-row"><p class="ld-line ld-act-line" lang="es">${esc(l.de)}</p>
+      ${o.lines.map((l, i) => `<div class="ld-act-row"><p class="ld-line ld-act-line" lang="it">${esc(l.de)}</p>
         <div class="ld-tools">
           <button type="button" class="ld-tool" data-say="${i}" aria-label="${esc(t("ld.listen", "Listen"))}" title="${esc(t("ld.listen", "Listen"))}">🔊</button>
           ${l.en ? `<button type="button" class="ld-tool" data-gloss-btn="${i}" aria-expanded="false" aria-label="${esc(t("ld.help", "Help"))}" title="${esc(t("ld.help", "Help"))}">💡</button>` : ""}
         </div></div>
         ${l.en ? glossP(l.de, l.en, `data-gloss="${i}"`) : ""}`).join("")}
       ${o.words?.length ? `<p class="ld-act-words-h">${esc(o.wordsH ?? t("ld.actWords", "You cleaned these words:"))}</p>
-        <div class="ld-act-words">${o.words.map((w) => `<button type="button" class="ld-act-word" lang="es" data-word="${esc(w)}">🫧 ${esc(w)}</button>`).join("")}</div>` : ""}
+        <div class="ld-act-words">${o.words.map((w) => `<button type="button" class="ld-act-word" lang="it" data-word="${esc(w)}">🫧 ${esc(w)}</button>`).join("")}</div>` : ""}
       ${o.note ? `<p class="ld-act-note">${esc(o.note)}</p>` : ""}
       ${o.keysHint ? `<p class="ld-act-keys">${esc(t("ld.actKeys", "← → run · ↓ duck · space bar jump · X soap bubbles"))}</p><p class="ld-act-touch">${esc(t("ld.actTouch", "◀ ▶ run · ⤓ duck · ⤒ jump · 🫧 soap bubbles"))}</p><p class="ld-act-tip">${esc(t("ld.actTip", "Tip: jump on a monster – or hit the blue crate from below. When a “!” appears, duck!"))}</p><p class="ld-act-tip">${esc(t("ld.actTipItems", "Hit the ?-crate from below: coins, the soap (big and strong), the water pistol, the star …"))}</p><p class="ld-act-touch">${esc(t("ld.actTouchJump", "Tap the right half of the picture – then you jump."))}</p>` : ""}
       <div class="ld-btns">

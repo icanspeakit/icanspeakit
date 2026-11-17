@@ -1,6 +1,6 @@
 ---
 import { fitTitle } from "../../../lib/seo/title.js";
-// One "Deutschland von innen" topic. Same blocks as /cultura/[id] (facts, prosCons, table,
+// One "Italy from the inside" topic. Same blocks as /cultura/[id] (facts, prosCons, table,
 // phrases, quiz), a vocab list for the words the text leans on, plus the one thing this section cannot do without: a source list with a
 // Stand for every number on the page.
 import Layout from "../../../layouts/Layout.astro";
@@ -48,14 +48,14 @@ const NUM = /(?:about |around |over |almost |nearly )?\d+(?:[.,]\d+)*(?:\s|\u00a
 const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m}</b>`);
 ---
 <Layout
-  title={fitTitle(`${topic.title} – Spain from the inside`, topic.title)}
+  title={fitTitle(`${topic.title} – Italy from the inside`, topic.title)}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main">
     <div class="ku-topbar">
-      <a href="/cultura/dietro-le-quinte" class="vp-back-link" data-i18n="kultur.insider.back">Deutschland von innen</a>
-      <ShareButton title={`${topic.title} – Spain from the inside`} label />
+      <a href="/cultura/dietro-le-quinte" class="vp-back-link" data-i18n="kultur.insider.back">Italy from the inside</a>
+      <ShareButton title={`${topic.title} – Italy from the inside`} label />
     </div>
 
     <article class="ku-topic">
@@ -72,14 +72,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
 
       {original && (
         <a class="in-version" href={itemPath("/cultura/dietro-le-quinte", original.id)}>
-          <span class="in-version-tag" data-i18n="insider.easyTag">Simple English</span>
+          <span class="in-version-tag" data-i18n="insider.easyTag">Simple Italian</span>
           <span><span data-i18n="insider.moreDetail">More detail:</span> <b>{original.title}</b> <span class="ku-badge">{original.level}</span></span>
         </a>
       )}
       {easy && (
         <a class="in-version" href={itemPath("/cultura/dietro-le-quinte", easy.id)}>
           <span class="in-version-tag" data-i18n="insider.tooHard">Too hard?</span>
-          <span><span data-i18n="insider.sameEasy">The same topic in simple English:</span> <b>{easy.title}</b> <span class="ku-badge">{easy.level}</span></span>
+          <span><span data-i18n="insider.sameEasy">The same topic in simple Italian:</span> <b>{easy.title}</b> <span class="ku-badge">{easy.level}</span></span>
         </a>
       )}
 
@@ -112,7 +112,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
 
       {topic.prosCons && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.insider.h2.prosCons">Zwei Sichtweisen</h2>
+          <h2 data-i18n="kultur.insider.h2.prosCons">Two points of view</h2>
           <div class="ku-proscons in-proscons">
             <div>
               <h3>{topic.prosCons.prosLabel}</h3>
@@ -139,7 +139,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
                 <span>{g.title}</span>
               </p>
               <p class="in-quick-col">{gi ? "He says" : "She says"}</p>
-              <p class="in-quick-col">{gi ? "Er meint" : "Sie meint"}</p>
+              <p class="in-quick-col">{gi ? "He means" : "She means"}</p>
               {g.items.flatMap((it, i) => [
                 topic.decoder.groups[0].items[i].theme && <p class="in-quick-theme">{topic.decoder.groups[0].items[i].theme}</p>,
                 <p class="in-quick-say">“{it.say}”</p>,
@@ -230,7 +230,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
 
       {topic.phrases && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.h2.phrases">So sagt man das</h2>
+          <h2 data-i18n="kultur.h2.phrases">How to say it</h2>
           <ul class="ku-phrases">{topic.phrases.map((p: string) => <li>{p}</li>)}</ul>
         </section>
       )}
@@ -240,18 +240,18 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           forms and the example stay German. */}
       {topic.vocab && (
         <section class="ku-block">
-          <h2 data-i18n="kultur.insider.h2.vocab">Wörter zum Thema</h2>
+          <h2 data-i18n="kultur.insider.h2.vocab">Words for this topic</h2>
           <ul class="in-vocab">
             {topic.vocab.map((v: { word: string; grammar: string | null; meaning: Record<string, string>; example: string }) => (
               <li>
-                <p class="in-vocab-word" lang="es"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
+                <p class="in-vocab-word" lang="it"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
                 <p class="in-vocab-meaning uit">
                   <span class="uit-de" lang="en">{v.meaning.de}</span>
                   {LANGS.filter((l) => v.meaning[l]).map((l) => (
                     <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v.meaning[l]}</span>
                   ))}
                 </p>
-                <p class="in-vocab-ex" lang="es">{v.example}</p>
+                <p class="in-vocab-ex" lang="it">{v.example}</p>
               </li>
             ))}
           </ul>
@@ -284,8 +284,8 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
     {/* A topic that is only a dictionary (frau-mann-woerterbuch) has no quiz. */}
     {topic.quiz && (
       <section class="ku-block ku-quizblock">
-        <h2 data-i18n="kultur.h2.quiz">Quiz zu diesem Thema</h2>
-        <p class="ku-quiz-intro" data-i18n="skills.quizIntro" data-i18n-vars={vars({ n: topic.quiz.length })}>{topic.quiz.length} Fragen. Antworte per Klick — die Erklärung steht danach dabei.</p>
+        <h2 data-i18n="kultur.h2.quiz">Quiz on this topic</h2>
+        <p class="ku-quiz-intro" data-i18n="skills.quizIntro" data-i18n-vars={vars({ n: topic.quiz.length })}>{topic.quiz.length} questions. Click to answer — the explanation appears right after.</p>
         <div class="quiz-card" id="in-quiz"></div>
       </section>
     )}

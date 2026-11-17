@@ -21,16 +21,18 @@ const workspaceMods = import.meta.glob("../../data/grammatik/*.json", { eager: t
 const workspaces = Object.values(workspaceMods).map((m) => m.default ?? m).filter(isReviewed);
 
 const MAX_OPTIONS = 4;
-// Grammar words: a closed set of Spanish words the learner chooses among by grammar alone.
-// Checked word by word, lower case ("en la", "por qué", "-ando").
+// Grammar words: a closed set of Italian words the learner chooses among by grammar alone.
+// Checked word by word, lower case ("nella", "perché", "-ando"). Elided forms (l', dell', c'è)
+// count as one word.
 const GRAMMAR_WORD = new RegExp(`^(?:${[
-  "-?(?:o|a|os|as|e|es|s|n|ar|er|ir|ado|ada|ido|ida|ando|iendo|mente|ísimo|ísima)",
-  "el|la|los|las|lo|un|una|unos|unas|al|del|este|esta|estos|estas|esto|ese|esa|esos|esas|eso|aquel|aquella|aquellos|aquellas|aquello|cada|todo|toda|todos|todas|otro|otra|otros|otras|mucho|mucha|muchos|muchas|poco|poca|pocos|pocas|muy|bastante|bastantes|demasiado|demasiada|demasiados|demasiadas|más|menos|tan|tanto|tanta|tantos|tantas|algún|alguno|alguna|algunos|algunas|ningún|ninguno|ninguna|varios|varias|ambos|ambas",
-  "yo|tú|él|ella|usted|nosotros|nosotras|vosotros|vosotras|ellos|ellas|ustedes|me|te|se|nos|os|le|les|mí|ti|sí|conmigo|contigo|consigo|mi|mis|tu|tus|su|sus|nuestro|nuestra|nuestros|nuestras|vuestro|vuestra|vuestros|vuestras|mío|mía|míos|mías|tuyo|tuya|tuyos|tuyas|suyo|suya|suyos|suyas|alguien|nadie|algo|nada",
-  "qué|quién|quiénes|cuál|cuáles|dónde|adónde|cuándo|cómo|cuánto|cuánta|cuántos|cuántas|que|quien|quienes|cual|cuales|cuyo|cuya|cuyos|cuyas|donde|cuando|como|cuanto",
-  "a|ante|bajo|con|contra|de|desde|durante|en|entre|hacia|hasta|mediante|para|por|según|sin|sobre|tras|encima|debajo|delante|detrás|enfrente|cerca|lejos|dentro|fuera|lado|aquí|ahí|allí|allá",
-  "y|e|o|u|pero|sino|porque|aunque|si|ni|pues|así|luego|mientras|además|también|tampoco|embargo|ya|todavía|aún|siempre|nunca|jamás|no|bien|mal|mejor|peor|mayor|menor",
-  "soy|eres|es|somos|sois|son|era|eras|éramos|erais|eran|fui|fuiste|fue|fuimos|fuisteis|fueron|sea|seas|seamos|seáis|sean|estoy|estás|está|estamos|estáis|están|estaba|estabas|estábamos|estabais|estaban|estuve|estuviste|estuvo|estuvimos|estuvisteis|estuvieron|esté|estés|estén|he|has|ha|hemos|habéis|han|había|habías|habíamos|habíais|habían|hay|hubo|voy|vas|va|vamos|vais|van|iba|ibas|íbamos|ibais|iban",
+  "-?(?:o|a|i|e|are|ere|ire|ato|ata|ati|ate|ito|ita|iti|ite|uto|uta|uti|ute|ando|endo|mente|issimo|issima|issimi|issime)",
+  "il|lo|la|l'|i|gli|le|un|uno|una|un'|del|dello|della|dell'|dei|degli|delle|al|allo|alla|all'|ai|agli|alle|dal|dallo|dalla|dall'|dai|dagli|dalle|nel|nello|nella|nell'|nei|negli|nelle|sul|sullo|sulla|sull'|sui|sugli|sulle|col|coi",
+  "questo|questa|questi|queste|quello|quella|quelli|quelle|quel|quei|quegli|quell'|ogni|tutto|tutta|tutti|tutte|altro|altra|altri|altre|molto|molta|molti|molte|poco|poca|pochi|poche|tanto|tanta|tanti|tante|troppo|troppa|troppi|troppe|più|meno|così|alcuni|alcune|qualche|nessun|nessuno|nessuna|ciascuno|ciascuna|entrambi|entrambe|parecchi|parecchie",
+  "io|tu|lui|lei|noi|voi|loro|mi|ti|si|ci|vi|li|ne|me|te|se|ce|ve|sé|glielo|gliela|glieli|gliele|gliene|mio|mia|miei|mie|tuo|tua|tuoi|tue|suo|sua|suoi|sue|nostro|nostra|nostri|nostre|vostro|vostra|vostri|vostre|qualcuno|qualcosa|niente|nulla",
+  "che|chi|cosa|quale|quali|dove|quando|come|quanto|quanta|quanti|quante|perché|cui",
+  "di|a|da|in|con|su|per|tra|fra|senza|verso|durante|dopo|prima|sopra|sotto|davanti|dietro|accanto|vicino|lontano|dentro|fuori|contro|presso|qui|qua|lì|là",
+  "e|ed|o|oppure|ma|però|anche|né|quindi|allora|mentre|inoltre|neanche|nemmeno|già|ancora|sempre|mai|non|bene|male|meglio|peggio|migliore|peggiore|maggiore|minore|invece|cioè|poi",
+  "sono|sei|è|siamo|siete|ero|eri|era|eravamo|eravate|erano|fui|fosti|fu|fummo|foste|furono|sia|siano|fossi|fosse|fossimo|fossero|sarò|sarà|sarei|sarebbe|stato|stata|stati|state|ho|hai|ha|abbiamo|avete|hanno|avevo|avevi|aveva|avevamo|avevate|avevano|abbia|abbiano|avessi|avesse|avrò|avrà|avrei|avrebbe|avuto|sto|stai|sta|stiamo|stanno|stavo|stava|vado|vai|va|andiamo|andate|vanno|c'è",
 ].join("|")})$`);
 const grammarOnly = (o) => String(o).toLowerCase().split(/\s+/).every((w) => GRAMMAR_WORD.test(w));
 export const MIN_OPTIONS = 3;

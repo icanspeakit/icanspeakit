@@ -139,9 +139,9 @@ export function tandemSpec(topic) {
     intro: {
       grammatik: { ...positions(topic, items), regel: plain(topic.subtitle) || name },
       redemittel: [
-        { p1: "Número 1: … ¿Qué es correcto?", p2: "Creo que es: …" },
-        { p1: "Yo creo que es: … ¿Y tú?", p2: "Mi respuesta es: …" },
-        { p1: "Perdona, ¿puedes repetir, por favor?", p2: "Número 2: …" },
+        { p1: "Numero 1: … Qual è giusto?", p2: "Penso che sia: …" },
+        { p1: "Io penso che sia: … E tu?", p2: "La mia risposta è: …" },
+        { p1: "Scusa, puoi ripetere, per favore?", p2: "Numero 2: …" },
       ],
       soGehts: [
         "Cut the cards down the middle. Partner A takes the left half, Partner B the right half.",
@@ -171,9 +171,9 @@ export function tandemSpec(topic) {
       "Finally, swap cards and do it all again – faster.",
     ];
     spec.intro.redemittel = extra.tandemRedemittel ?? [
-      { p1: "Número 1: ¿…?", p2: "Un momento … Creo que: …" },
-      { p1: "¿Está bien?", p2: "Creo que sí. / No, mejor: …" },
-      { p1: "Perdona, ¿puedes repetir, por favor?", p2: "Número 2: ¿…?" },
+      { p1: "Numero 1: …?", p2: "Un momento … Penso che sia: …" },
+      { p1: "Va bene così?", p2: "Credo di sì. / No, meglio: …" },
+      { p1: "Scusa, puoi ripetere, per favore?", p2: "Numero 2: …?" },
     ];
   }
   if (extra?.regel) spec.woWohin = extra.regel;

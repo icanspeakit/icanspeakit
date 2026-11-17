@@ -18,7 +18,7 @@ The course-level addresses are Italian (see the end for what is not). Old Englis
 | /explore/films | /esplora/film |
 | /game | /gioco |
 | /games | /giochi |
-| /games/gender-sprint | /giochi/sprint-dei-generi |
+| /games/gender-sprint | /giochi/sprint-degli-articoli |
 | /games/impostor | /giochi/impostore |
 | /games/listening-safari | /giochi/safari-d-ascolto |
 | /games/manners | /giochi/buone-maniere |
@@ -103,4 +103,27 @@ The course-level addresses are Italian (see the end for what is not). Old Englis
 
 Fragments: `/competenze#ascolto|lettura|scrittura|parlato` (old #hoeren, #lesen, #schreiben, #sprechen still work), `#livello-a1`, `#gruppo-<id>`, `#classifica`, `#ufficiale`.
 
-Not renamed (Spanish-specific content, this app is still a copy of the Spanish course): /dele, /siele, /ccse, /nationality, /business-spanish, /spanish-for-work, /dgt-vocabulary, /exams/dele-or-siele, /games/extranjeria, /games/villabruno, all item and topic slugs (routes.js).
+## The Italian course's own pages (sync-monorepo, 2026-11-16)
+
+The Italian content (content-it branch) replaced the Spanish course's pages before the URLs moved;
+the merge put its pages on Italian slugs in the same pattern. These English addresses were never
+public, so they have no redirect.
+
+| content-it (English) | Italian |
+|---|---|
+| /business-italian (+ /<unit>/words, /words/print) | /italiano-commerciale (+ /<unit>/parole, /parole/stampa) |
+| /italian-for-work (+ /<sector>/<group>/print) | /italiano-per-il-lavoro (+ /<sector>/<group>/stampa) |
+| /patente-vocabulary (+ /<group>/print) | /vocabolario-patente (+ /<group>/stampa) |
+| /civic-knowledge, /civic-knowledge/facts, /civic-knowledge/test | /cultura-civica, /cultura-civica/fatti, /cultura-civica/test |
+| /citizenship | /cittadinanza |
+| /citizenship/b1-mock (+ /mock-test, /practice-set) | /cittadinanza/prova-b1 (+ /simulazione, /esercitazione) |
+| /plida/practice-set | /plida/esercitazione |
+| /cils/language-use | /cils/uso-della-lingua |
+| /exams/which-exam | /esami/quale-esame |
+| /games/article-sprint (Spanish /games/gender-sprint) | /giochi/sprint-degli-articoli |
+| /games/questura (Spanish /games/extranjeria) | /giochi/questura |
+| /games/casalbruno (Spanish /games/villabruno) | /giochi/casalbruno |
+
+Unchanged: /cils, /celi, /plida, /certit (exam names) and every item, topic, unit and sector slug
+inside a section (routes.js). The Spanish-only pages (/dele, /siele, /ccse, /nationality,
+/business-spanish, /spanish-for-work, /dgt-vocabulary, /esami/dele-or-siele) are gone.

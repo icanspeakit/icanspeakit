@@ -6,23 +6,24 @@
 // mountPracticeWorkspace takes: { id, prompt, options, answer, explain, change }.
 // Typed answers add `accepted` (every right form) and are judged by judge() below.
 import { accepts, accentOnly } from "./answerMatch.js";
-import { showsVosotros, skippedFor } from "./variety.js";
+import { skippedFor } from "./variety.js";
 import { buildAll, buildVerb, DASH, PERSONS, parseInf, patternForms, VOSOTROS } from "./verbtabellenCore.js";
 
 export const LEVELS = ["A1", "A2", "B1", "B2"];
 const LEVEL_RANK = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 4 };
-// An imperative addresses someone: its third-person rows are usted and ustedes only.
-const IMP_PERSONS = ["", "tú", "usted", "nosotros/as", "vosotros/as", "ustedes"];
-const CLITICS = ["me", "te", "se", "nos", "os", "se"];
-const SIMPLE = new Set(["praes", "praet", "imperf", "fut", "cond", "subj", "subjImpf", "imp"]);
+// An imperative addresses someone: its rows are tu, Lei, noi, voi and loro (never io).
+const IMP_PERSONS = ["", "tu", "Lei", "noi", "voi", "loro"];
+const CLITICS = ["mi", "ti", "si", "ci", "vi", "si"];
+const CLITICS_NE = ["me ne", "te ne", "se ne", "ce ne", "ve ne", "se ne"];
+const SIMPLE = new Set(["praes", "praet", "rem", "fut", "cond", "subj", "subjImpf", "imp"]);
 // The forms a learner mixes a tense up with, closest first: same person, other tense.
 const SIBLINGS = {
   praes: ["subj", "praet"],
-  praet: ["imperf", "praes"],
+  praet: ["rem", "praes"],
   perf: ["praet", "plusc"],
-  imperf: ["praet", "cond"],
+  rem: ["perf", "praet"],
   fut: ["cond", "praes"],
-  cond: ["fut", "imperf"],
+  cond: ["fut", "praet"],
   subj: ["praes", "subjImpf"],
   subjImpf: ["praet", "subj"],
   imp: ["praes", "subj"],
@@ -34,8 +35,9 @@ const SIBLINGS = {
   subjPlusc: ["plusc", "subjPerf"],
 };
 const OPTION_COUNT = 4;
+const clitics = (v) => (parseInf(v.inf).ne ? CLITICS_NE : CLITICS);
 
-const unaccent = (s) => s.normalize("NFD").replace(/[́̈]/g, "").normalize("NFC");
+const unaccent = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").normalize("NFC");
 const shuffled = (list, rng) => {
   const a = list.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -46,8 +48,10 @@ const shuffled = (list, rng) => {
 };
 const fallback = (_key, text, vars) => text.replace(/\{(\w+)\}/g, (m, k) => (vars && k in vars ? String(vars[k]) : m));
 
-// `no hables` is asked as `no ___`: the form is what is being practised.
-const stripNo = (f) => f.replace(/^no /, "");
+// `non parlare` is asked as `non ___`: the form is what is being practised.
+const stripNo = (f) => f.replace(/^non /, "");
+// `sono andato/a` is typed as andato or andata; `siamo andati/e` as andati or andate.
+const variants = (f) => (/(o\/a|i\/e)\b/.test(f) ? [f, f.replace(/(o|i)\/(a|e)\b/, "$1"), f.replace(/(o|i)\/(a|e)\b/, "$2")] : [f]);
 
 /**
  * @param {{ verbs: object[] }} verbData     src/data/verbtabellen.json
@@ -76,7 +80,7 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
   function poolFor({ tenses: wanted = tenses.map((t) => t.key), groups: inGroups, verbs: only, vosotros = true } = {}) {
     const pool = [];
     const list = only ? only.map((inf) => byInf.get(inf)).filter(Boolean) : verbs;
-    const withVos = vosotros && showsVosotros();
+    const withVos = vosotros;
     for (const v of list) {
       if (!groupOfInf.has(v.inf)) continue;
       if (inGroups && !only && !inGroups.includes(groupOfInf.get(v.inf))) continue;
@@ -98,19 +102,19 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
     return p ? poolFor({ tenses: p.tenses, groups: p.groups, verbs: p.verbs, vosotros }) : [];
   };
 
-  // What the plain pattern would give: the wrong forms learners actually write (tenió, buscé, hacido).
+  // What the plain pattern would give: the wrong forms learners actually write (cerci, mangii, ho andato).
   const guessCache = new Map();
   function regularVerb(v) {
-    if (!guessCache.has(v.inf)) guessCache.set(v.inf, buildVerb({ inf: v.inf }));
+    if (!guessCache.has(v.inf)) guessCache.set(v.inf, buildVerb({ inf: v.inf, isc: v.isc }));
     return guessCache.get(v.inf);
   }
   function guesses(v, tense, person) {
-    // ir, ser, dar, ver, oír: too little stem left for a pattern to look like anything (o, so).
+    // essere, dare, dire, fare, stare: too little stem left for a pattern to look like anything.
     if (parseInf(v.inf).stem.length < 2) return [];
     const out = [regularVerb(v).rows[person][tense].f];
     if (SIMPLE.has(tense) && !(tense === "imp" && v.pronominal)) {
-      const bare = patternForms(parseInf(v.inf).plain, false)[tense][person];
-      if (bare !== DASH) out.unshift(v.pronominal && tense !== "imp" ? `${CLITICS[person]} ${bare}` : bare);
+      const bare = patternForms(parseInf(v.inf).plain, false, v.isc)[tense][person];
+      if (bare !== DASH) out.unshift(v.pronominal && tense !== "imp" ? `${clitics(v)[person]} ${bare}` : bare);
     }
     return out.filter((f) => f !== DASH);
   }
@@ -120,10 +124,10 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
     const clean = (f) => (tense === "impNeg" ? stripNo(f) : f);
     const right = new Set([form, row[tense].alt && clean(row[tense].alt)].filter(Boolean));
     const usable = (f) => f && f !== DASH && !right.has(f);
-    // hablo/habló: the same letters, one accent apart, is the trap worth setting.
+    // parlo/parlò: the same letters, one accent apart, is the trap worth setting.
     const twin = [];
-    if (tense === "praes" && person === 0 && unaccent(v.rows[2].praet.f) === unaccent(form)) twin.push(v.rows[2].praet.f);
-    if (tense === "praet" && person === 2 && unaccent(v.rows[0].praes.f) === unaccent(form)) twin.push(v.rows[0].praes.f);
+    if (tense === "praes" && person === 0 && unaccent(v.rows[2].rem.f) === unaccent(form)) twin.push(v.rows[2].rem.f);
+    if (tense === "rem" && person === 2 && unaccent(v.rows[0].praes.f) === unaccent(form)) twin.push(v.rows[0].praes.f);
     const guess = guesses(v, tense, person).filter((f) => f !== form);
     const sibling = SIBLINGS[tense].map((k) => row[k].f);
     const otherPersons = shuffled(v.rows.filter((r) => r.person !== person).map((r) => r[tense].f), rng);
@@ -168,15 +172,15 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
     const t = tenseOf.get(tense);
     const imperative = tense === "imp" || tense === "impNeg";
     const who = imperative ? IMP_PERSONS[person] : PERSONS[person];
-    const lead = tense === "impNeg" ? `${who} no` : who;
+    const lead = tense === "impNeg" ? `${who} non` : who;
     const altForm = row.alt && (tense === "impNeg" ? stripNo(row.alt) : row.alt);
     return {
       id: stub.id,
-      prompt: `<span class="cj-cue"><b lang="es">${v.inf}</b><span class="cj-cue-en">${v.en ?? ""}</span><span class="cj-cue-tense" lang="es">${t.name}</span></span><span class="cj-line" lang="es">${lead} ___</span>`,
+      prompt: `<span class="cj-cue"><b lang="it">${v.inf}</b><span class="cj-cue-en">${v.en ?? ""}</span><span class="cj-cue-tense" lang="it">${t.name}</span></span><span class="cj-line" lang="it">${lead} ___</span>`,
       options: optionsFor(v, tense, person, form),
       answer: form,
-      accepted: altForm ? [form, altForm] : [form],
-      clitic: v.pronominal && tense !== "imp" ? CLITICS[person] : null,
+      accepted: [...new Set([form, ...variants(form), ...(altForm ? [altForm, ...variants(altForm)] : [])])],
+      clitic: v.pronominal && tense !== "imp" ? clitics(v)[person] : null,
       negative: tense === "impNeg",
       explain: explainFor(v, tense, person, form),
       change: `${lead} ${form}`,
@@ -192,7 +196,7 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
       const list = Array.isArray(it.answer) ? it.answer : [it.answer];
       return {
         id: it.id,
-        prompt: `<span class="cj-line cj-line--sentence" lang="es">${it.prompt}</span>`,
+        prompt: `<span class="cj-line cj-line--sentence" lang="it">${it.prompt}</span>`,
         options: it.options ? shuffled(it.options, rng) : null,
         answer: list[0],
         accepted: list,
@@ -220,7 +224,7 @@ export function createTrainer(verbData, trainer, { rng = Math.random, tr = fallb
  */
 export function judge(q, value) {
   let typed = String(value ?? "").trim().replace(/\s+/g, " ");
-  if (q.negative) typed = typed.replace(/^no /i, "");
+  if (q.negative) typed = typed.replace(/^non /i, "");
   if (accepts(q.accepted, typed)) return { ok: true };
   if (accentOnly(q.accepted, typed)) return { ok: false, why: "accent" };
   if (q.clitic && accepts(q.accepted, `${q.clitic} ${typed}`)) return { ok: false, why: "pronoun" };

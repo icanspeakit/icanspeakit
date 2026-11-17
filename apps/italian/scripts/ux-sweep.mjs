@@ -5,14 +5,14 @@
 //   node scripts/ux-sweep.mjs                      # one page per route template, Android Chromium
 //   node scripts/ux-sweep.mjs --device iphone      # real WebKit (iOS quirks: input zoom, …); --device both
 //   node scripts/ux-sweep.mjs --taps               # also tap buttons and see what lands under the finger
-//   node scripts/ux-sweep.mjs --paths /grammatica/aduso,/game --shots
+//   node scripts/ux-sweep.mjs --paths /grammatica/aduso,/gioco --shots
 //   node scripts/ux-sweep.mjs --all --limit 200    # every page, not one per template
 //   node scripts/ux-sweep.mjs --first-visit        # with the language offer and the intro tours
 //
 // By default the sweep is a returning visitor: the language offer and the one-time tours
 // ("da-…-seen") count as done, or they would cover every page. Dev-only controls (the demo
 // dock) are left out.
-//   BASE=https://icanspeak.it/spanish node scripts/ux-sweep.mjs
+//   BASE=https://icanspeak.it/italiano node scripts/ux-sweep.mjs
 //
 // Pages: the sitemap at BASE (SITEMAP=<url|file> to take it from elsewhere); `astro dev` has
 // none, so then the site is crawled from "/" by its links. Default BASE is the dev server.
@@ -62,7 +62,7 @@ const NO_FAIL = flag("--no-fail");
 const FIRST_VISIT = flag("--first-visit");
 const CRAWL_MAX = 600;
 
-const UA_MARK = "icanspeak-spanish-UxSweep/1.0";
+const UA_MARK = "icanspeak-italian-UxSweep/1.0";
 const BLOCK = [
   /^https?:\/\/[^/]*posthog\.com\//,
   /^https?:\/\/[^/]+\/rel(\/|$)/,

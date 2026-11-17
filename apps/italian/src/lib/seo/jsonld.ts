@@ -6,7 +6,7 @@
 // (a page's LearningResource names the organisation as its provider). BreadcrumbList goes on
 // every nested page. SEO-BRAND-TIERED-PROMPT.md, Tier 1.
 
-/** Official profiles that belong to icanspeak Spanish. Only accounts we control; the English
+/** Official profiles that belong to icanspeak Italian. Only accounts we control; the English
     course's Instagram is not this site's. Empty → no sameAs at all. */
 export const SAME_AS: string[] = [];
 
@@ -17,16 +17,17 @@ export function organizationLd(site: string) {
   return {
     "@type": "Organization",
     "@id": orgId(site),
-    name: "icanspeak Spanish",
-    alternateName: ["icanspeak", "icanspeak.it/spanish"],
+    name: "icanspeak Italian",
+    alternateName: ["icanspeak", "icanspeak.it/italiano"],
     url: `${site}/`,
-    // Square, ≥ 112 px: what Google needs for the logo next to the result. The course mark
-    // from the icanspeak.it kit (docs/brand/BRAND.md); the wide wordmark does not qualify.
-    logo: { "@type": "ImageObject", url: `${site}/logos/icanspeak-spanish-mark-1024.png`, width: 1024, height: 1024 },
+    // Square, ≥ 112 px: what Google needs for the logo next to the result. The
+    // app icon from the icanspeak kit (the split i, docs/brand/BRAND.md §2); the wide wordmark
+    // does not qualify.
+    logo: { "@type": "ImageObject", url: `${site}/icon-512.png`, width: 512, height: 512 },
     // Part of the icanspeak.it family (the domain root is the umbrella site).
     parentOrganization: { "@type": "Organization", name: "icanspeak.it", url: "https://icanspeak.it/" },
     description:
-      "icanspeak Spanish is a free website for learning the Spanish of Spain, from A1 to C1, and preparing for the DELE, the SIELE and the CCSE.",
+      "icanspeak Italian is a free website for learning Italian, from A1 to C1, for adults living in Italy or applying for citizenship, with practice for the CILS, CELI, PLIDA and CERT.IT exams.",
     // No email here: the contact address is still the old placeholder in src/lib/legal.js.
     ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
   };
@@ -38,7 +39,7 @@ export function websiteLd(site: string) {
   return {
     "@type": "WebSite",
     "@id": websiteId(site),
-    name: "icanspeak Spanish",
+    name: "icanspeak Italian",
     alternateName: "icanspeak",
     url: `${site}/`,
     inLanguage: "en",
@@ -66,23 +67,23 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
 // themselves (short). A step that is not a page (/parlato/serie) is left
-// out of the trail rather than pointing at a 404; a dynamic one (/spanish-for-work/care-work) is named by
+// out of the trail rather than pointing at a 404; a dynamic one (/italiano-per-il-lavoro/care-work) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
   "/grammatica": "Grammar",
   "/vocabolario": "Vocabulary & phrases",
   "/esami": "Exams",
-  "/dele": "DELE",
-  "/siele/levels": "SIELE by level",
-  "/nationality/dele-a2": "DELE A2 for nationality",
-  "/siele": "SIELE",
-  "/spanish-for-work": "Spanish for work",
-  "/ccse": "CCSE",
-  "/nationality": "Spanish nationality",
+  "/cils": "CILS",
+  "/celi": "CELI by level",
+  "/cittadinanza/prova-b1": "Citizenship B1 mock",
+  "/plida": "PLIDA",
+  "/italiano-per-il-lavoro": "Italian for work",
+  "/cultura-civica": "Civic knowledge",
+  "/cittadinanza": "Italian citizenship",
   "/conoscenze": "Knowledge base",
   "/conoscenze/storie-di-parole": "Word stories",
   "/cultura": "Culture",
-  "/cultura/dietro-le-quinte": "Spain from the inside",
+  "/cultura/dietro-le-quinte": "Italy from the inside",
   "/insegnanti": "For teachers",
   "/insegnanti/schede": "Worksheets",
   "/insegnanti/giochi": "Printable games",

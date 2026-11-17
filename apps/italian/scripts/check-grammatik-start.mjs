@@ -1,4 +1,4 @@
-// Checks the translations of „Spanish Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
+// Checks the translations of „Italian Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
 // against the English-language original (en.json): every explaining block is there, nothing is
 // empty, and nothing is still English.
 //
@@ -12,10 +12,10 @@
 //
 // What gets translated (the book rule): the explaining blocks — intro, why, h, rule, merke,
 // mistake — plus chapter titles, mascot bubbles, the UI strings, table headings that
-// describe (not the Spanish forms: ser, hablar, yo, si + present …), the columns a table
+// describe (not the Italian forms: essere, parlare, io, se + present …), the columns a table
 // lists in `explain`, and the titles of example lists and tables. Examples, word lists,
-// table contents, exercises and solutions stay Spanish: Spanish is the subject.
-// Words in *stars* are Spanish examples inside an explanation and stay Spanish.
+// table contents, exercises and solutions stay Italian: Italian is the subject.
+// Words in *stars* are Italian examples inside an explanation and stay Italian.
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,11 +29,12 @@ const base = JSON.parse(readFileSync(path.join(dir, `${BASE}.json`), "utf8"));
 // (docs/content-plan.md §1.4): fewer editions beat wrong ones.
 export const LANGS = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.slice(0, -5)).filter((c) => c !== BASE).sort();
 
-// Table headings that are Spanish forms the book teaches: kept.
+// Table headings that are Italian forms the book teaches: kept.
 export const KEEP_HEAD = new Set([
-  "ser", "estar", "hablar", "comer", "vivir", "tener", "ir", "hacer", "venir",
-  "yo", "tú", "él / ella", "ellos / ellas", "nosotros", "levantarse", "ducharse", "ir a", "haber",
-  "estar + gerund", "perfecto", "indefinido", "imperfecto", "hay", "está / están", "si + present", "ver",
+  "essere", "stare", "avere", "andare", "fare", "venire", "dare", "uscire", "dire", "bere", "sapere",
+  "parlare", "scrivere", "dormire", "alzarsi", "vestirsi", "potere", "volere", "dovere",
+  "io", "tu", "lui / lei / Lei", "noi", "voi", "loro", "che io", "che tu", "che lui / lei / Lei", "che noi", "che voi", "che loro",
+  "il", "lo", "la", "i", "gli", "le", "mi", "ti", "ci", "vi", "li",
 ]);
 
 /** The slots a translation has to fill, from the English: id → { field: English }. */
@@ -74,7 +75,7 @@ function check(code) {
     const hits = strip(got).match(ENGLISH) ?? [];
     if (hits.length >= 3) errs.push(`${where}: still English? (${hits.slice(0, 4).join(", ")})`);
     else if (eng && got.trim() === eng.trim() && eng.split(" ").length > 2) errs.push(`${where}: unchanged English`);
-    // English examples in stars must survive the translation.
+    // Italian examples in stars must survive the translation.
     const stars = (eng?.match(/\*[^*]+\*/g) ?? []).length;
     if (stars && (got.match(/\*[^*]+\*/g) ?? []).length < Math.min(stars, 1)) errs.push(`${where}: *example words* missing`);
   };
@@ -87,7 +88,7 @@ function check(code) {
   }
   for (const [id, v] of Object.entries(want.chapters)) {
     text(`${id}.title`, tr.chapters?.[id]?.title, v.title);
-    // A bubble may stay as it is: the mascots speak Spanish in the book, in every edition.
+    // A bubble may stay as it is: the mascots speak Italian in the book, in every edition.
     text(`${id}.bubble`, tr.chapters?.[id]?.bubble);
   }
   for (const [id, slot] of Object.entries(want.blocks)) {

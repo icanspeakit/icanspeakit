@@ -1,300 +1,445 @@
 {
-  "_note": "Exam traps (/esami/trappole) for the DELE, the SIELE and the CCSE. `exams` holds dele, siele, ccse (the chips on the page). The small task on each card is written for the card; `source` and `practice` point to a part of our practice sets where the same kind of task comes up. No claims about how many people fail at something, and no claims about exam rules we could not check. The ids are anchors for reels (/esami/trappole#<id>) and stay as they are; some ids still name the German trap that once used the slot. **…** = highlighted. `wrong`, `right` and `task` are Spanish (lang=es on the page); everything else is English. Rewritten for Spanish by exams-dele, 2026-11-06.",
+  "_note": "Exam traps (/esami/trappole) for the CILS, the CELI and the civic knowledge test. `exams` holds dele (= CILS), siele (= CELI), ccse (= civic knowledge); these are the chips on the page. The small task on each card is written for the card; `source` and `practice` point to a part of our practice sets where the same kind of task comes up. No claims about how many people fail at something, and no claims about exam rules we could not check. The ids are anchors for reels (/esami/trappole#<id>) and stay as they are; some ids still name an older trap that once used the slot. **…** = highlighted. `wrong`, `right` and `task` are Italian (lang=it on the page); everything else is English. Rewritten for Italian by exams-cils-celi, 2026-11-14. PLIDA and CERT.IT traps can be added by exams-plida-certit.",
   "fallen": [
     {
       "id": "wort-aus-dem-text",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B1",
       "skill": "hoeren",
       "wo": "Listening · short messages and announcements",
       "title": "You hear the word, but it is not the answer",
-      "why": "An announcement often gives two numbers or two places, and a wrong option uses exactly the one that no longer applies. Listen for “no”, “ahora” and “en lugar de”.",
-      "wrong": "«El tren sale ahora de la vía 6, no de la **vía 3**.» → He oído «3», así que marco la vía 3.",
-      "right": "«El tren **sale ahora de la vía 6**, no de la vía 3.» → La respuesta es la vía 6.",
+      "why": "An announcement often gives two numbers or two places, and a wrong option uses exactly the one that no longer applies. Listen for “non”, “ora” and “invece di”.",
+      "wrong": "«Il treno parte ora dal binario 6, non dal **binario 3**.» → Ho sentito «3», quindi segno il binario 3.",
+      "right": "«Il treno **parte ora dal binario 6**, non dal binario 3.» → La risposta è il binario 6.",
       "task": {
-        "context": "Radio: «El viernes la biblioteca cierra a las cuatro, en lugar de a las seis. El sábado abre como siempre, de nueve a cinco.»",
-        "prompt": "¿A qué hora cierra la biblioteca el viernes?",
-        "options": ["A las cuatro.", "A las seis.", "A las cinco."],
-        "answer": "A las cuatro.",
-        "fb": "You also hear “seis” and “cinco”, but on Friday it closes at four, “en lugar de a las seis”."
+        "context": "Radio: «Venerdì la biblioteca chiude alle quattro, invece che alle sei. Sabato apre come sempre, dalle nove alle cinque.»",
+        "prompt": "A che ora chiude la biblioteca venerdì?",
+        "options": [
+          "Alle quattro.",
+          "Alle sei.",
+          "Alle cinque."
+        ],
+        "answer": "Alle quattro.",
+        "fb": "You also hear “sei” and “cinque”, but on Friday it closes at four, “invece che alle sei”."
       },
-      "source": "DELE B1 practice test, Listening, Part 1",
-      "practice": { "href": "/dele/b1#listening-1", "label": "DELE B1 · Listening, Part 1" }
+      "source": "CILS B1 practice test, Listening, Part 1",
+      "practice": {
+        "href": "/cils/b1#listening-1",
+        "label": "CILS B1 · Listening, Part 1"
+      }
     },
     {
       "id": "kleine-woerter",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "A2",
       "skill": "lesen",
       "wo": "Reading · questions on a text",
       "title": "One small word changes the answer",
-      "why": "An option can sound almost like the text and still be wrong. Watch small words such as solo, todos, nunca, siempre and ningún. One of them is enough.",
-      "wrong": "Texto: «Los socios pueden usar el gimnasio de 9:00 a 16:00.» → «Los socios pueden usar el gimnasio **siempre**.» Me parece bien.",
-      "right": "Es falso: pueden usarlo **solo de 9:00 a 16:00**. «Siempre» dice más que el texto.",
+      "why": "An option can sound almost like the text and still be wrong. Watch small words such as solo, tutti, mai, sempre and nessuno. One of them is enough.",
+      "wrong": "Testo: «I soci possono usare la palestra dalle 9:00 alle 16:00.» → «I soci possono usare la palestra **sempre**.» Mi sembra giusto.",
+      "right": "È falso: possono usarla **solo dalle 9:00 alle 16:00**. «Sempre» dice più del testo.",
       "task": {
-        "context": "Normas de la comunidad: «Las bicicletas pueden dejarse en el portal solo si no impiden el paso a la escalera.»",
-        "prompt": "«Nunca se pueden dejar bicicletas en el portal.» ¿Es verdadero o falso?",
-        "options": ["Verdadero", "Falso"],
+        "context": "Regole del condominio: «Le biciclette si possono lasciare nell'androne solo se non bloccano il passaggio verso le scale.»",
+        "prompt": "«Non si possono mai lasciare le biciclette nell'androne.» È vero o falso?",
+        "options": [
+          "Vero",
+          "Falso"
+        ],
         "answer": "Falso",
-        "fb": "“Nunca” is too strong: you can leave a bike there if it does not block the way to the stairs."
+        "fb": "“Mai” is too strong: you can leave a bike there if it does not block the way to the stairs."
       },
-      "source": "DELE A2 practice test, Reading, Part 2",
-      "practice": { "href": "/dele/a2#reading-2", "label": "DELE A2 · Reading, Part 2" }
+      "source": "CILS A2 practice test, Reading, Part 1",
+      "practice": {
+        "href": "/cils/a2#reading-1",
+        "label": "CILS A2 · Reading, Part 1"
+      }
     },
     {
       "id": "keine-passende-anzeige",
-      "exams": ["dele"],
+      "exams": [
+        "dele"
+      ],
       "level": "B1",
       "skill": "lesen",
       "wo": "Reading · matching people and texts",
       "title": "A text that fits half of the need does not fit",
-      "why": "In matching tasks there are often more texts than people. If a text gives only part of what the person needs, it is a distractor. Check every detail: day, price, place.",
-      "wrong": "Busco un dentista que abra los sábados. → Este anuncio es de un dentista, así que lo elijo.",
-      "right": "Hay que leer el horario: si el anuncio dice **de lunes a viernes**, no es la respuesta.",
+      "why": "In a matching task every detail of the person's situation counts. A text can match the topic and still fail on a condition such as the day, the price or who it is for.",
+      "wrong": "«Giulia lavora di giorno e vuole un corso serale.» → Il testo B ha corsi di italiano, quindi è giusto.",
+      "right": "Il testo B ha corsi **solo di mattina**: non va bene. Serve il testo con le lezioni **la sera**.",
       "task": {
-        "context": "Anuncio: «Piscina municipal: clases para adultos, de lunes a viernes por la tarde.»",
-        "prompt": "Quieres clases de natación el domingo por la mañana. ¿Te sirve este anuncio?",
-        "options": ["Sí, me sirve.", "No, no me sirve."],
-        "answer": "No, no me sirve.",
-        "fb": "The pool has classes for adults, but only on weekday afternoons, not on Sunday mornings."
+        "context": "Annuncio: «Corsi di cucina per adulti, il martedì e il giovedì dalle 10:00 alle 12:00.»",
+        "prompt": "Marco lavora in ufficio tutto il giorno e cerca un corso di cucina. Fa per lui questo annuncio?",
+        "options": [
+          "Sì, fa per lui.",
+          "No, non fa per lui."
+        ],
+        "answer": "No, non fa per lui.",
+        "fb": "The topic fits, but the lessons are in the morning and Marco works all day."
       },
-      "source": "DELE B1 practice test, Reading, Part 1",
-      "practice": { "href": "/dele/b1#reading-1", "label": "DELE B1 · Reading, Part 1" }
+      "source": "CILS B1 practice test, Reading, Part 2",
+      "practice": {
+        "href": "/cils/b1#reading-2",
+        "label": "CILS B1 · Reading, Part 2"
+      }
     },
     {
       "id": "andere-woerter",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B1",
       "skill": "lesen",
       "wo": "Reading · which text says this?",
       "title": "The right text says it in other words",
-      "why": "The question and the text rarely use the same words. Look for the same idea, not the same word: “gratis” can appear as “no hay que pagar nada”.",
-      "wrong": "«¿Qué texto ofrece ayuda con el **coste** del transporte?» → Busco la palabra «coste» y elijo el texto que la tiene.",
-      "right": "El texto C dice que la empresa **paga la mitad del abono**: eso es ayuda con el coste.",
+      "why": "The question and the text rarely use the same words. Look for the same idea, not the same word: “gratis” can appear as “non si paga niente”.",
+      "wrong": "«Quale testo offre un aiuto con il **costo** del trasporto?» → Cerco la parola «costo» e scelgo il testo che la contiene.",
+      "right": "Il testo C dice che l'azienda **paga metà dell'abbonamento**: questo è un aiuto con il costo.",
       "task": {
-        "context": "Texto: «Los socios no pagan nada por la primera clase.»",
-        "prompt": "¿Dice este texto que la primera clase es gratis?",
-        "options": ["Sí", "No"],
-        "answer": "Sí",
-        "fb": "“No pagan nada” means the same as “gratis”."
+        "context": "Testo: «I soci non pagano niente per la prima lezione.»",
+        "prompt": "Questo testo dice che la prima lezione è gratis?",
+        "options": [
+          "Sì",
+          "No"
+        ],
+        "answer": "Sì",
+        "fb": "“Non pagano niente” means the same as “gratis”."
       },
-      "source": "DELE B1 practice test, Reading, Part 3",
-      "practice": { "href": "/dele/b1#reading-3", "label": "DELE B1 · Reading, Part 3" }
+      "source": "CILS B1 practice test, Reading, Part 2",
+      "practice": {
+        "href": "/cils/b1#reading-2",
+        "label": "CILS B1 · Reading, Part 2"
+      }
     },
     {
       "id": "ueberschrift-thema",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B2",
       "skill": "lesen",
       "wo": "Reading · main idea",
       "title": "The main idea covers the whole paragraph, not one sentence",
-      "why": "A wrong option often picks up one detail of the paragraph. Ask what the whole paragraph is about, then check that the option covers it.",
-      "wrong": "El párrafo menciona una furgoneta, así que el tema es **el transporte**.",
-      "right": "El párrafo cuenta **cómo empezó el proyecto**; la furgoneta es solo un detalle.",
+      "why": "A wrong option is often true, but about a detail. The main idea is the one that all sentences of the paragraph support.",
+      "wrong": "Nel testo si parla di un garage → scelgo «Il garage di Ivan».",
+      "right": "Il garage è solo l'inizio: il paragrafo racconta **come una piccola idea è cresciuta**. È questo il tema.",
       "task": {
-        "context": "Párrafo: «Al principio, Iker arreglaba bicicletas solo en su garaje. Luego empezaron a ayudarle unos amigos y, un año después, venían veinte personas todos los sábados.»",
-        "prompt": "¿Qué título resume mejor el párrafo?",
-        "options": ["Cómo creció una idea pequeña", "El garaje de Iker", "El deporte de los sábados"],
-        "answer": "Cómo creció una idea pequeña",
-        "fb": "The garage and the Saturdays are details. The paragraph tells how the project grew."
+        "context": "«Ivan ha cominciato a riparare biciclette nel garage di casa. Dopo un anno ha aperto un piccolo laboratorio e oggi dà lavoro a tre giovani del quartiere.»",
+        "prompt": "Qual è il titolo migliore?",
+        "options": [
+          "Come è cresciuta una piccola idea",
+          "Il garage di Ivan",
+          "Lo sport del sabato"
+        ],
+        "answer": "Come è cresciuta una piccola idea",
+        "fb": "The text moves from the garage to the workshop and the jobs: the idea grows."
       },
-      "source": "DELE B2 practice test, Reading, Part 1",
-      "practice": { "href": "/dele/b2#reading-1", "label": "DELE B2 · Reading, Part 1" }
+      "source": "CILS B2 practice test, Reading, Part 1",
+      "practice": {
+        "href": "/cils/b2#reading-1",
+        "label": "CILS B2 · Reading, Part 1"
+      }
     },
     {
       "id": "konnektor-sinn",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B1",
       "skill": "sprachbausteine",
       "wo": "Reading · gaps in a letter",
-      "title": "porque, para, aunque: check the meaning first",
-      "why": "All three link two parts of a sentence. Only the meaning decides: a reason (porque), a purpose (para, para que) or a contrast (aunque).",
-      "wrong": "He cerrado el agua **porque** no empeore la avería.",
-      "right": "He cerrado el agua **para que** no empeore la avería.",
+      "title": "perché, affinché, sebbene: check the meaning first",
+      "why": "A connector has to fit the logic of the two sentences: reason, aim or contrast. The mood of the verb after it often gives the answer: affinché and sebbene take the subjunctive.",
+      "wrong": "«Ti mando il documento ___ tu possa leggerlo.» → Metto «sebbene», perché so che si usa con «possa».",
+      "right": "Qui serve uno **scopo**, non un contrasto: «Ti mando il documento **affinché** tu possa leggerlo prima della riunione.»",
       "task": {
-        "gap": "Salí temprano ___ coger el primer autobús.",
-        "options": ["para", "aunque", "porque"],
-        "answer": "para",
-        "fb": "Catching the bus is the purpose of leaving early, and an infinitive follows: para + coger."
+        "gap": "Ti mando il documento ___ tu possa leggerlo prima della riunione.",
+        "options": [
+          "affinché",
+          "sebbene",
+          "siccome"
+        ],
+        "answer": "affinché",
+        "fb": "“Affinché” expresses a purpose and takes the subjunctive (possa). “Sebbene” would express a contrast; “siccome” a reason with the indicative."
       },
-      "source": "DELE B1 practice test, Reading, Part 5",
-      "practice": { "href": "/dele/b1#reading-5", "label": "DELE B1 · Reading, Part 5" }
+      "source": "CILS B1 practice test, Reading, Part 3",
+      "practice": {
+        "href": "/cils/b1#reading-3",
+        "label": "CILS B1 · Reading, Part 3"
+      }
     },
     {
       "id": "verb-nach-der-luecke",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "A2",
       "skill": "schreiben",
       "wo": "Writing · any written task",
       "title": "An accent can change the word",
-      "why": "In Spanish a written accent is part of the spelling, and it can change the meaning: esta/está, el/él, tu/tú, hablo/habló. Keep a few minutes at the end to check accents, and ¿ and ¡.",
-      "wrong": "**Donde esta** la oficina? Mi hermano **hablo** con el ayer.",
-      "right": "**¿Dónde está** la oficina? Mi hermano **habló** con **él** ayer.",
+      "why": "In Italian the accent is part of the spelling and can separate two words: è (is) and e (and), perché and perche, città. Check the accents when you read your text again.",
+      "wrong": "«Marco e a casa e Lucia e al lavoro.» → Ho scritto tutte le «e» uguali, tanto si capisce.",
+      "right": "«Marco **è** a casa **e** Lucia **è** al lavoro.» → «è» (verb essere) ha l'accento, «e» (and) no.",
       "task": {
-        "gap": "Perdone, ¿dónde ___ el centro de salud?",
-        "options": ["está", "esta", "ésta"],
-        "answer": "está",
-        "fb": "The verb estar needs the accent: está. “Esta” without an accent means “this”."
+        "gap": "Marco ___ a casa.",
+        "options": [
+          "è",
+          "e",
+          "é"
+        ],
+        "answer": "è",
+        "fb": "The verb “essere” is written è, with the grave accent. “é” is used in words like perché."
       },
-      "source": "DELE A2 practice test, Writing, Part 1",
-      "practice": { "href": "/dele/a2#writing-1", "label": "DELE A2 · Writing, Part 1" }
+      "source": "CILS A2 practice test, Writing, Part 1",
+      "practice": {
+        "href": "/cils/a2#writing-1",
+        "label": "CILS A2 · Writing, Part 1"
+      }
     },
     {
       "id": "wenn-als",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B1",
       "skill": "sprachbausteine",
       "wo": "Reading · gaps in a letter",
-      "title": "ayer, la semana pasada, hace dos años: indefinido, not perfecto",
-      "why": "In Spain a finished time (ayer, la semana pasada, hace dos años) normally takes the indefinido. A time that is still open (hoy, esta semana) normally takes the perfecto.",
-      "wrong": "La avería **ha empezado** la semana pasada.",
-      "right": "La avería **empezó** la semana pasada.",
+      "title": "ieri, sabato scorso, due anni fa: passato prossimo, not imperfetto",
+      "why": "A time word for one finished moment (ieri, sabato scorso, due anni fa) asks for the passato prossimo. The imperfetto describes habits and background.",
+      "wrong": "«Sabato scorso ___ di casa.» → Metto «cambiavamo», perché è nel passato.",
+      "right": "Un fatto concluso, in un momento preciso: «Sabato scorso **abbiamo cambiato** casa.»",
       "task": {
-        "gap": "Nos ___ a Valencia hace dos años.",
-        "options": ["mudamos", "hemos mudado", "mudaremos"],
-        "answer": "mudamos",
-        "fb": "“Hace dos años” is a finished time and the move is one completed event: indefinido, nos mudamos."
+        "gap": "Sabato scorso ___ casa con l'aiuto di alcuni amici.",
+        "options": [
+          "abbiamo cambiato",
+          "cambiavamo",
+          "cambieremo"
+        ],
+        "answer": "abbiamo cambiato",
+        "fb": "“Sabato scorso” names one finished moment: passato prossimo."
       },
-      "source": "DELE B1 practice test, Reading, Part 5",
-      "practice": { "href": "/dele/b1#reading-5", "label": "DELE B1 · Reading, Part 5" }
+      "source": "CILS B1 practice test, Reading, Part 3",
+      "practice": {
+        "href": "/cils/b1#reading-3",
+        "label": "CILS B1 · Reading, Part 3"
+      }
     },
     {
       "id": "verb-praeposition",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B2",
       "skill": "sprachbausteine",
       "wo": "Reading · gaps in a text",
-      "title": "soñar con, depender de: the word chooses the preposition",
-      "why": "Many verbs and adjectives always take the same preposition. Learn them as a pair: interesado en, soñar con, depender de, consistir en, pensar en.",
-      "wrong": "El precio depende **en** la temporada.",
-      "right": "El precio depende **de** la temporada.",
+      "title": "dipendere da, credere in: the word chooses the preposition",
+      "why": "Many verbs, adjectives and nouns bring their own preposition. Do not choose it from the meaning of the sentence: learn the pair (dipendere da, pensare a, contare su, interessarsi di).",
+      "wrong": "«Il risultato dipende ___ molti fattori.» → Penso a «di», perché «molti fattori» è un complemento di specificazione.",
+      "right": "«Dipendere» vuole sempre **da**: «Il risultato dipende **da** molti fattori.»",
       "task": {
-        "gap": "El trabajo consiste ___ atender a los clientes.",
-        "options": ["en", "a", "de"],
-        "answer": "en",
-        "fb": "Consistir en: always with en."
+        "gap": "Il risultato dipende ___ molti fattori.",
+        "options": [
+          "da",
+          "di",
+          "per"
+        ],
+        "answer": "da",
+        "fb": "“Dipendere” takes “da”."
       },
-      "source": "DELE B2 practice test, Reading, Part 4",
-      "practice": { "href": "/dele/b2#reading-4", "label": "DELE B2 · Reading, Part 4" }
+      "source": "CILS B2 practice test, Reading, Part 4",
+      "practice": {
+        "href": "/cils/b2#reading-4",
+        "label": "CILS B2 · Reading, Part 4"
+      }
     },
     {
       "id": "alle-punkte",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "A2",
       "skill": "schreiben",
       "wo": "Writing · tasks with points to cover",
       "title": "Four points in the task, four points in your text",
-      "why": "A good text that forgets one point of the task has not done the task. Tick the points off before you finish.",
-      "wrong": "Digo que sí y digo cuándo puedo ir, y termino. Faltan la llave y mi pregunta.",
-      "right": "**Di que sí · di cuándo · di dónde dejas la llave · haz una pregunta**: una o dos frases para cada punto.",
+      "why": "Every point in the task counts. A good text that forgets one of them loses marks. Tick the points off before you write the last line.",
+      "wrong": "Il compito ha quattro punti. Scrivo due frasi belle sul primo punto e poi finisco.",
+      "right": "Scrivo **almeno una frase per ogni punto**, nell'ordine del compito.",
       "task": {
-        "context": "Tarea: «Di que sí. Di cuándo puedes ir. Di dónde vas a dejar la llave. Pregunta qué más tienes que saber.» Tu texto: «Claro que puedo dar de comer a tu gato. Puedo ir todos los días a las 7:30.»",
-        "prompt": "¿Qué falta?",
-        "options": ["La llave y una pregunta.", "Nada, está completo.", "Solo un saludo."],
-        "answer": "La llave y una pregunta.",
-        "fb": "Two of the four points are missing: where the key will be, and a question."
+        "context": "Compito: scrivi al padrone di casa. (1) Di' chi sei. (2) Di' qual è il problema. (3) Chiedi quando può mandare qualcuno. (4) Di' quando sei a casa.",
+        "prompt": "Hai scritto: «Sono Ana, abito al terzo piano. Il riscaldamento non funziona.» Che cosa manca?",
+        "options": [
+          "Quando può venire e quando sei a casa.",
+          "Niente, è completo.",
+          "Solo un saluto."
+        ],
+        "answer": "Quando può venire e quando sei a casa.",
+        "fb": "Points 3 and 4 are missing."
       },
-      "source": "DELE A2 practice test, Writing, Part 1",
-      "practice": { "href": "/dele/a2#writing-1", "label": "DELE A2 · Writing, Part 1" }
+      "source": "CILS A2 practice test, Writing, Part 2",
+      "practice": {
+        "href": "/cils/a2#writing-2",
+        "label": "CILS A2 · Writing, Part 2"
+      }
     },
     {
       "id": "formeller-brief",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B1",
       "skill": "schreiben",
       "wo": "Writing · letters and emails",
-      "title": "tú or usted: choose one and keep it",
-      "why": "To a friend you write tú and “Hola, Marta:”. To a landlord, a firm or an office you write usted, a formal greeting and a formal ending. Don't mix them in one text: the verb, the pronouns and the possessives all have to agree.",
-      "wrong": "Hola, señora Rojas: **¿puedes** enviar a un fontanero? **Tu** piso tiene una avería. ¡Un beso!",
-      "right": "**Estimada señora Rojas:** ¿**Podría** enviar a un fontanero? **Su** piso tiene una avería. **Atentamente,** Amina Haddad",
+      "title": "tu or Lei: choose one and keep it",
+      "why": "A formal letter uses Lei (and “Gentile …”, “Distinti saluti”) from the first to the last line. Mixing tu and Lei, or ending a formal letter with «Un abbraccio», is a mistake of register.",
+      "wrong": "«Gentile signor Lombardi, Le scrivo perché… Fammi sapere presto. Un abbraccio.»",
+      "right": "«Gentile signor Lombardi, Le scrivo perché… **Mi faccia sapere** presto. **Distinti saluti**.»",
       "task": {
-        "context": "Escribes al director de un hotel por un problema con tu reserva.",
-        "prompt": "¿Qué despedida es la adecuada?",
-        "options": ["Atentamente,", "Un abrazo,", "¡Hasta luego!"],
-        "answer": "Atentamente,",
-        "fb": "A formal letter ends with “Atentamente”. The other two are for friends."
+        "context": "Scrivi una lettera formale al proprietario di casa.",
+        "prompt": "Quale chiusura è adatta?",
+        "options": [
+          "Distinti saluti,",
+          "Un abbraccio,",
+          "Ciao ciao!"
+        ],
+        "answer": "Distinti saluti,",
+        "fb": "“Distinti saluti” (or “Cordiali saluti”) closes a formal letter."
       },
-      "source": "DELE B1 practice test, Writing, Part 1",
-      "practice": { "href": "/dele/b1#writing-1", "label": "DELE B1 · Writing, Part 1" }
+      "source": "CILS B1 practice test, Writing, Part 1",
+      "practice": {
+        "href": "/cils/b1#writing-1",
+        "label": "CILS B1 · Writing, Part 1"
+      }
     },
     {
       "id": "gemeinsam-planen",
-      "exams": ["dele"],
+      "exams": [
+        "dele"
+      ],
       "level": "B1",
       "skill": "sprechen",
       "wo": "Speaking · conversation with the examiner",
       "title": "A conversation is more than short answers",
-      "why": "One-word answers show very little of your Spanish. Answer, add a reason or an example, and ask a short question back where it fits.",
-      "wrong": "Examinador: «¿Le gusta viajar en tren?» — «Sí.» (y silencio)",
-      "right": "«Sí, mucho, **porque** puedo leer durante el viaje. **¿Y usted? ¿Prefiere** el tren o el coche?»",
+      "why": "The examiner wants to hear you react: ask a question, comment, add something. One-word answers leave the conversation empty. With the examiner use Lei, unless told otherwise.",
+      "wrong": "Esaminatore: «Quest'estate sono stata in Puglia.» → Io: «Ok.»",
+      "right": "Esaminatore: «Quest'estate sono stata in Puglia.» → Io: «**Davvero? Che cosa Le è piaciuto di più?**»",
       "task": {
-        "context": "Examinador: «El verano pasado estuve en Asturias.»",
-        "prompt": "¿Qué respuesta mantiene mejor la conversación?",
-        "options": ["¿Ah, sí? ¿Qué es lo que más le gustó?", "Vale.", "No conozco Asturias."],
-        "answer": "¿Ah, sí? ¿Qué es lo que más le gustó?",
-        "fb": "A follow-up question shows interest and keeps the conversation going."
+        "context": "L'esaminatore dice: «Quest'estate sono stata in Puglia.»",
+        "prompt": "Quale risposta fa continuare la conversazione?",
+        "options": [
+          "Davvero? Che cosa Le è piaciuto di più?",
+          "Ok.",
+          "Non conosco la Puglia."
+        ],
+        "answer": "Davvero? Che cosa Le è piaciuto di più?",
+        "fb": "A question shows interest and keeps the conversation going."
       },
-      "source": "DELE B1 practice test, Speaking, Part 2",
-      "practice": { "href": "/dele/b1#speaking-2", "label": "DELE B1 · Speaking, Part 2" }
+      "source": "CILS B1 practice test, Speaking, Part 2",
+      "practice": {
+        "href": "/cils/b1#speaking-2",
+        "label": "CILS B1 · Speaking, Part 2"
+      }
     },
     {
       "id": "palabras-justas",
-      "exams": ["dele", "siele"],
+      "exams": [
+        "dele",
+        "siele"
+      ],
       "level": "B1",
       "skill": "schreiben",
       "wo": "Writing · word targets",
       "title": "Stay near the word target",
-      "why": "A task usually gives a target such as 100–120 words. A much shorter text often leaves out points of the task, and a much longer one costs you time and adds mistakes. Practise until you know how much 120 words looks like in your handwriting, or on the screen. How strictly the real exam counts: check its current guide.",
-      "wrong": "La tarea pide 100–120 palabras. Escribo **40** porque ya he contestado a la pregunta.",
-      "right": "Contesto a **todos los puntos**, añado una razón o un ejemplo a cada uno y llego a unas **110** palabras.",
+      "why": "A text far below the target usually misses points; far above it, it wastes time and makes more mistakes. Aim for the number and count roughly before you hand in.",
+      "wrong": "Il compito chiede 110 parole. Ne scrivo 60: «Meglio breve, così faccio meno errori.»",
+      "right": "Per arrivare alle 110 parole **aggiungo ragioni ed esempi** a ogni punto.",
       "task": {
-        "context": "La tarea pide unas 110 palabras. Tu texto tiene 45.",
-        "prompt": "¿Qué haces?",
-        "options": ["Añado razones y ejemplos a cada punto.", "Copio el enunciado para sumar palabras.", "Lo dejo así: más corto es mejor."],
-        "answer": "Añado razones y ejemplos a cada punto.",
-        "fb": "Reasons and examples add real content. Copying the task gives you no new Spanish to show."
+        "context": "Il tuo testo ha 60 parole e il compito ne chiede circa 110.",
+        "prompt": "Che cosa fai?",
+        "options": [
+          "Aggiungo ragioni ed esempi a ogni punto.",
+          "Copio il testo del compito per aggiungere parole.",
+          "Lo lascio così: più breve è meglio."
+        ],
+        "answer": "Aggiungo ragioni ed esempi a ogni punto.",
+        "fb": "Copying the task adds words but no content; a short text usually misses points."
       },
-      "source": "DELE B1 practice test, Writing, Part 1",
-      "practice": { "href": "/dele/b1#writing-1", "label": "DELE B1 · Writing, Part 1" }
+      "source": "CILS B1 practice test, Writing, Part 1",
+      "practice": {
+        "href": "/cils/b1#writing-1",
+        "label": "CILS B1 · Writing, Part 1"
+      }
     },
     {
       "id": "reparte-el-tiempo",
-      "exams": ["dele", "ccse"],
+      "exams": [
+        "dele",
+        "ccse"
+      ],
       "level": "A2",
       "skill": "lesen",
       "wo": "Any timed paper",
       "title": "Don't get stuck on one hard question",
-      "why": "Every question usually counts the same, so a hard one is not worth more than an easy one. Mark it, move on and come back at the end. Start the timer on our practice tests to get a feel for the pace.",
-      "wrong": "Paso **diez minutos** con la pregunta 3 y no me da tiempo a leer el último texto.",
-      "right": "Marco la pregunta 3, **sigo con las demás** y vuelvo a ella al final.",
+      "why": "Every question usually carries the same weight. If one question takes too long, mark it, move on and come back at the end if there is time.",
+      "wrong": "Resto sulla domanda 3 per dieci minuti finché non trovo la risposta. Poi non ho più tempo per gli ultimi testi.",
+      "right": "Lascio la domanda 3, **vado avanti** e torno alla fine, se mi resta tempo.",
       "task": {
-        "context": "Te quedan cinco minutos y dos textos sin leer. Estás atascado en una pregunta.",
-        "prompt": "¿Qué es lo mejor?",
-        "options": ["Dejo esa pregunta y sigo con los textos.", "Me quedo en esa pregunta hasta resolverla.", "Vuelvo a leer desde el principio."],
-        "answer": "Dejo esa pregunta y sigo con los textos.",
-        "fb": "Other questions may be easier points. Come back to the hard one if there is time."
+        "context": "Hai 40 minuti per la prova di lettura. Dopo 15 minuti sei ancora alla domanda 3, che è molto difficile.",
+        "prompt": "Che cosa fai?",
+        "options": [
+          "Lascio la domanda e vado avanti con i testi.",
+          "Resto su quella domanda fino a risolverla.",
+          "Rileggo tutto dall'inizio."
+        ],
+        "answer": "Lascio la domanda e vado avanti con i testi.",
+        "fb": "Time is shared by all questions: skip, continue, return."
       },
-      "source": "DELE A2 practice test, Reading (with the timer)",
-      "practice": { "href": "/dele/a2#reading-1", "label": "DELE A2 · Reading, with the timer" }
+      "source": "CILS A2 practice test, Reading (with the timer)",
+      "practice": {
+        "href": "/cils/a2#reading-1",
+        "label": "CILS A2 · Reading, with the timer"
+      }
     },
     {
       "id": "cortes-generales",
-      "exams": ["ccse"],
+      "exams": [
+        "ccse"
+      ],
       "level": "A2",
       "skill": "lesen",
-      "wo": "CCSE · knowledge questions",
+      "wo": "Civic knowledge · knowledge questions",
       "title": "Similar names, different institutions",
-      "why": "Knowledge questions like to put similar names side by side. Learn who is who: the Cortes Generales are the Congreso de los Diputados and the Senado together. The Gobierno is a separate institution.",
-      "wrong": "Las Cortes Generales son **el Gobierno y el Congreso**.",
-      "right": "Las Cortes Generales son **el Congreso de los Diputados y el Senado**.",
+      "why": "Institutions have names that sound alike. Learn each one with its job: the Parliament makes the laws, the Government carries them out, the Constitutional Court checks that laws respect the Constitution. This is a general orientation, not an official question.",
+      "wrong": "«Il Parlamento italiano è formato da Camera e Governo.» → Sono tutti organi dello Stato, vanno bene.",
+      "right": "Il Parlamento ha **due camere**: la **Camera dei deputati** e il **Senato della Repubblica**. Il Governo è un altro organo.",
       "task": {
-        "prompt": "¿Qué dos cámaras forman las Cortes Generales?",
-        "options": ["El Congreso y el Senado", "El Congreso y el Gobierno", "El Senado y el Tribunal Supremo"],
-        "answer": "El Congreso y el Senado",
-        "fb": "Article 66 of the Spanish Constitution: the Cortes Generales are made up of the Congreso de los Diputados and the Senado."
+        "context": "Il Parlamento italiano ha due camere.",
+        "prompt": "Quali sono?",
+        "options": [
+          "La Camera dei deputati e il Senato",
+          "La Camera dei deputati e il Governo",
+          "Il Senato e la Corte costituzionale"
+        ],
+        "answer": "La Camera dei deputati e il Senato",
+        "fb": "The Italian Parliament has two chambers: the Camera dei deputati and the Senato della Repubblica."
       },
-      "source": "CCSE practice test",
-      "practice": { "href": "/ccse/test", "label": "CCSE · Practice test" }
+      "source": "Civic knowledge practice test",
+      "practice": {
+        "href": "/cultura-civica/test",
+        "label": "Civic knowledge · Practice test"
+      }
     },
     {
       "id": "sin-vuelta-atras",
@@ -302,27 +447,27 @@
         "siele"
       ],
       "level": "B1",
-      "skill": "lesen",
-      "wo": "Reading and listening · moving through the test",
-      "title": "In the SIELE, a finished task stays finished",
-      "why": "On paper you can skip a hard question and come back. In the SIELE, according to its exam guide, you can't return to a task you have finished, and a recording closes after its second play. So answer everything before you move on, and guess if you have to: as far as the guide's formula shows, a wrong answer loses nothing.",
-      "wrong": "Dejo la tarea 3 sin terminar y **pienso volver** al final del examen.",
-      "right": "Contesto **todo lo que puedo** en la tarea 3, marco una respuesta en las dudas y paso a la siguiente.",
+      "skill": "hoeren",
+      "wo": "Listening · two hearings",
+      "title": "Use the two hearings differently",
+      "why": "Most listening tasks play the recording twice. Use the first hearing for the general idea and the second to check the details (day, time, number) and to mark your answer.",
+      "wrong": "Al primo ascolto cerco subito di segnare tutte le risposte, e al secondo non so più che cosa controllare.",
+      "right": "Al primo ascolto **capisco l'idea** (che cosa è cambiato); al secondo **controllo giorno e ora**.",
       "task": {
-        "context": "Estás en la tarea 3 de lectura. Te faltan dos preguntas muy difíciles y quieres pasar a la tarea 4.",
-        "prompt": "¿Qué es lo mejor?",
+        "context": "Messaggio: «Buongiorno, sono Anna. L'appuntamento di lunedì è spostato a mercoledì, alle quindici.»",
+        "prompt": "Quando è l'appuntamento adesso?",
         "options": [
-          "Elijo una respuesta en las dos preguntas y sigo.",
-          "Paso a la tarea 4 y vuelvo después a esas preguntas.",
-          "Espero sin avanzar hasta estar completamente seguro."
+          "Lunedì alle 15",
+          "Mercoledì alle 15",
+          "Mercoledì alle 5"
         ],
-        "answer": "Elijo una respuesta en las dos preguntas y sigo.",
-        "fb": "You can't come back to a finished task, and an empty answer can't earn a point."
+        "answer": "Mercoledì alle 15",
+        "fb": "First hearing: it moved. Second hearing: Wednesday, 15:00."
       },
-      "source": "SIELE reading tasks, band sets",
+      "source": "CELI A2 practice test, Listening, Part 1",
       "practice": {
-        "href": "/siele/levels/b1#reading-1",
-        "label": "SIELE B1 · Reading task 3"
+        "href": "/celi/a2#listening-1",
+        "label": "CELI A2 · Listening, Part 1"
       }
     },
     {
@@ -332,26 +477,26 @@
       ],
       "level": "B1",
       "skill": "sprechen",
-      "wo": "Speaking · recorded answers",
+      "wo": "Speaking · answers to personal questions",
       "title": "Nobody will help you keep talking",
-      "why": "SIELE speaking is recorded on a computer: no examiner nods or asks a follow-up question. If you stop after one sentence, the recording just runs on in silence. Practise out loud with a timer, and say a little more than the question seems to ask: a reason, an example or what you would do next.",
-      "wrong": "—¿Dónde vives? —**En Murcia.** (Y me callo.)",
-      "right": "—¿Dónde vives? —**En Murcia, en un piso cerca del centro**, con dos amigos. Me gusta porque puedo ir andando al trabajo.",
+      "why": "In a monologue or in a short answer, the examiner waits. Say more than yes or no: a fact, a reason, an example. Short sentences linked with perché and ma are enough.",
+      "wrong": "«Che cosa fai nel fine settimana?» → «Riposo.» (e poi silenzio)",
+      "right": "«Di solito il sabato **riposo** e la domenica **esco con gli amici**, **perché** durante la settimana lavoro molto.»",
       "task": {
-        "context": "En la prueba oral, el ordenador pregunta: «¿Qué haces los fines de semana?».",
-        "prompt": "¿Qué respuesta aprovecha mejor el tiempo?",
+        "context": "L'esaminatore chiede: «Che cosa fai di solito nel fine settimana?»",
+        "prompt": "Quale risposta è migliore?",
         "options": [
-          "Normalmente descanso el sábado y el domingo salgo con mis amigos, porque durante la semana trabajo mucho.",
-          "Descanso y salgo con amigos.",
-          "No sé, depende de cada semana."
+          "Di solito il sabato riposo e la domenica esco con gli amici, perché durante la settimana lavoro molto.",
+          "Riposo ed esco con gli amici.",
+          "Non so, dipende."
         ],
-        "answer": "Normalmente descanso el sábado y el domingo salgo con mis amigos, porque durante la semana trabajo mucho.",
-        "fb": "It answers and adds a reason, so the raters have more of your Spanish to assess."
+        "answer": "Di solito il sabato riposo e la domenica esco con gli amici, perché durante la settimana lavoro molto.",
+        "fb": "It gives facts and a reason, in connected sentences."
       },
-      "source": "SIELE speaking tasks, band sets",
+      "source": "CELI A2 practice test, Speaking, Part 1",
       "practice": {
-        "href": "/siele/levels/a2#speaking-1",
-        "label": "SIELE A2 · Speaking task 1"
+        "href": "/celi/a2#speaking-1",
+        "label": "CELI A2 · Speaking, Part 1"
       }
     }
   ]

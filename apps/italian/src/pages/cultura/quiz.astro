@@ -20,11 +20,11 @@ const total = topics.reduce((n, t) => n + t.quiz.length, 0);
 // place. It was 22 chips wrapping into nine ragged rows above the quiz — every topic at
 // the same weight, nothing to scan by. Groups and their order are the nav's (catalog.js).
 const GROUPS = [
-  { id: "wohnen", name: "Wohnen & Alltag", icon: "folder" },
-  { id: "aemter", name: "Ämter & Versicherung", icon: "document" },
-  { id: "umgang", name: "Umgang & Gewohnheiten", icon: "mic" },
-  { id: "bildung", name: "Schule & Ausbildung", icon: "graduation-cap" },
-  { id: "land", name: "Land & Kalender", icon: "landmark" },
+  { id: "wohnen", name: "Housing & everyday life", icon: "folder" },
+  { id: "aemter", name: "Authorities & insurance", icon: "document" },
+  { id: "umgang", name: "Manners & habits", icon: "mic" },
+  { id: "bildung", name: "School & training", icon: "graduation-cap" },
+  { id: "land", name: "Country & calendar", icon: "landmark" },
 ];
 const byGroup = GROUPS.map((g) => {
   const list = topics.filter((t) => t.group === g.id);
@@ -40,32 +40,32 @@ const pool = topics.flatMap((t) =>
     qi: t.quiz.indexOf(q),
     // "Mehr zu" is a placeholder token, swapped for the UI language's words in the script
     // below — the explanation is painted by quiz.js long after the page's i18n pass ran.
-    explain: `${q.explain ?? ""} <a class="ku-quiz-src" href="${itemPath("/cultura", t.id)}">{{MORE}} „${t.title}“</a>`,
+    explain: `${q.explain ?? ""} <a class="ku-quiz-src" href="${itemPath("/cultura", t.id)}">{{MORE}} “${t.title}”</a>`,
   }))
 );
 ---
 <Layout
-  title="Culture quiz: Spain – icanspeak Spanish"
-  description="A quiz about everyday life and rules in Spain: the padrón, the centro de salud, recycling, public holidays, renting, schools and more."
+  title="Culture quiz: Italy – icanspeak Italian"
+  description="A quiz about everyday life and rules in Italy: the Comune, the ASL and your medico di base, the bar, recycling, public holidays, renting, schools and more."
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main">
-    <a href="/cultura" class="vp-back-link" data-i18n="kultur.back">Alle Themen</a>
+    <a href="/cultura" class="vp-back-link" data-i18n="kultur.back">All topics</a>
 
     <div class="practice-hero">
-      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Landeskunde</p>
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
       <h1>Quiz</h1>
-      <p data-i18n="kultur.quiz.lead" data-i18n-vars={JSON.stringify({ n: total, t: topics.length })}>{total} Fragen aus {topics.length} Themen. Wähle ein Thema oder nimm alle gemischt.</p>
+      <p data-i18n="kultur.quiz.lead" data-i18n-vars={JSON.stringify({ n: total, t: topics.length })}>{total} questions from {topics.length} topics. Pick a topic or take them all mixed.</p>
     </div>
 
     <div class="ku-pick" data-ku-chips>
-      <button class="ku-all is-on" type="button" data-topic="alle"><span data-i18n="kultur.quiz.allChip">Alle Themen</span> <span class="ku-all-n">{total}</span></button>
+      <button class="ku-all is-on" type="button" data-topic="alle"><span data-i18n="kultur.quiz.allChip">All topics</span> <span class="ku-all-n">{total}</span></button>
       <div class="ku-tiles">
         {byGroup.map((g) => (
           <details class="ku-tile" data-group={g.id}>
             <summary>
               <span class="ku-tile-ic"><Icon name={g.icon} size={20} /></span>
-              <span class="ku-tile-t"><span data-i18n={`nav.kultur.${g.id}`}>{g.name}</span><small data-i18n="kultur.quiz.groupMeta" data-i18n-vars={JSON.stringify({ t: g.list.length, n: g.n })}>{g.list.length} Themen · {g.n} Fragen</small></span>
+              <span class="ku-tile-t"><span data-i18n={`nav.kultur.${g.id}`}>{g.name}</span><small data-i18n="kultur.quiz.groupMeta" data-i18n-vars={JSON.stringify({ t: g.list.length, n: g.n })}>{g.list.length} topics · {g.n} questions</small></span>
               <span class="ku-tile-chev" aria-hidden="true">›</span>
             </summary>
             <ul class="ku-tile-list">
@@ -95,7 +95,7 @@ const pool = topics.flatMap((t) =>
     const rawExplain = pool.map((q) => q.explain);
     // Rewritten in place, so a quiz already mounted picks the words up at its next question.
     const setMore = (word) => pool.forEach((q, i) => { q.explain = rebaseHtml(rawExplain[i].replace("{{MORE}}", word)); });
-    setMore("Mehr zu");
+    setMore("More on");
     const useDict = (d) => { if (d && d["kultur.quiz.more"]) setMore(d["kultur.quiz.more"]); };
     loadDict(getLang()).then(useDict).catch(() => {});
     onLangChange((_c, d) => useDict(d));

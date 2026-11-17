@@ -20,7 +20,7 @@
 // - Records on this device (records.js) and a weekly / all-time board (board.js).
 //
 // Words: nouns from the lexicon with a picture (wort-bilder.json → OpenMoji), passed in by the
-// page (woerter.js). The browser's Spanish voice says them (see say()). Plan and decisions:
+// page (woerter.js). The browser's Italian voice says them (see say()). Plan and decisions:
 // HOER-SAFARI-TIERED-PROMPT.md, docs/hoer-safari-tier*-v1.md.
 
 import { makeSfx } from "./sound.js";
@@ -82,7 +82,7 @@ const ITEM_KINDS = ["zeit", "herz", "streu", "zeitlupe"];
 const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-const label = (w) => `${w.g} ${w.w}`;
+const label = (w) => `${w.g}${w.g.endsWith("'") ? "" : " "}${w.w}`; // l'amico, not "l' amico"
 
 // The Tagesrunde: one round a day, the same words and birds for everyone. A small seeded
 // generator (mulberry32) drives only what makes the sequence — the word bag and the birds'
@@ -308,11 +308,11 @@ export function mountHoerSafari(root, allWords) {
     }
     return im;
   }
-  // The voice: no Spanish clips are recorded yet, so the browser's voice says the word with its
-  // article ("la cuchara"), as in Bruno Kart: one from Spain first, else any Spanish one. Recorded
+  // The voice: no Italian clips are recorded yet, so the browser's voice says the word with its
+  // article ("la chiave"), as in Bruno Kart: one from Italy (it-IT) first, else any Italian one (it-CH too). Recorded
   // clips (/audio/wortschatz/<audio>.mp3, w.a) would go here, and they would have to say the
-  // article too. An English voice reading Spanish would teach the wrong sounds, so a browser
-  // with no Spanish voice stays silent and shows the word at once (nextTarget): the round can
+  // article too. An English voice reading Italian would teach the wrong sounds, so a browser
+  // with no Italian voice stays silent and shows the word at once (nextTarget): the round can
   // still be played by reading, and the start card says why. An empty voice list proves nothing,
   // since it may still be loading, and some Android browsers never list their voices but speak
   // anyway: there it tries, and a voice that fails counts as none.
@@ -322,7 +322,7 @@ export function mountHoerSafari(root, allWords) {
   const canSpeak = () => !!synth && !voiceFailed && (!!esVoice || !(synth.getVoices?.().length));
   const pickVoice = () => {
     const vs = synth?.getVoices?.() ?? [];
-    esVoice = vs.find((v) => /^es[-_]ES/i.test(v.lang)) ?? vs.find((v) => /^es([-_]|$)/i.test(v.lang)) ?? null;
+    esVoice = vs.find((v) => /^it[-_]IT/i.test(v.lang)) ?? vs.find((v) => /^it([-_]|$)/i.test(v.lang)) ?? null;
     ui.noVoice.hidden = canSpeak();
   };
   if (synth) synth.addEventListener?.("voiceschanged", pickVoice);
@@ -354,12 +354,12 @@ export function mountHoerSafari(root, allWords) {
       if (!canSpeak()) return finish();
       try {
         const u = new SpeechSynthesisUtterance(spoken(w));
-        u.lang = "es-ES";
+        u.lang = "it-IT";
         u.rate = 0.9;
         if (esVoice) u.voice = esVoice;
         u.onend = finish;
         u.onerror = (e) => {
-          // hush() cancels on purpose; anything else means this browser cannot say Spanish
+          // hush() cancels on purpose; anything else means this browser cannot say Italian
           if (e?.error !== "canceled" && e?.error !== "interrupted") {
             voiceFailed = true;
             ui.noVoice.hidden = false;
@@ -1011,9 +1011,9 @@ export function mountHoerSafari(root, allWords) {
     if (Math.random() < 0.5) {
       return {
         word: w,
-        prompt: t("hs.q.article", "el or la?"),
+        prompt: t("hs.q.article", "il, lo, la or l'?"),
         big: `___ ${w.w}`,
-        options: ["el", "la"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
+        options: ["il", "lo", "la", "l'"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
         wrong: false,
       };
     }

@@ -6,11 +6,11 @@
 // One file per profession, src/data/berufe/<slug>.json, so one session per profession can fill
 // its deck without touching anyone else's file. A word is either defined in the file
 // ({ id, lemma, pos, … }) or a pointer to a word that already exists elsewhere ({ ref }):
-// the lexicon (lexicon id), the DGT deck or another sector (both bv-…).
+// the lexicon (lexicon id), the patente deck or another sector (both bv-…).
 // Ids are learners' progress keys, so they are derived once and never renamed.
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
-import { varietyProblems } from "./variety.js";
+import { VARIETIES, varietyProblems } from "./variety.js";
 
 /** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
@@ -29,11 +29,11 @@ export const BERUFE = [
 ];
 export const SLUGS = BERUFE.map((b) => b.slug);
 
-/** The DGT driving deck (src/data/dgt/vocabulario.json, content-plan §4.4): same format and word
- *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
-export const DGT = { slug: "dgt", emoji: "🚗" };
+/** The patente (driving) deck (src/data/patente/vocabolario.json, content-plan §4.4): same format
+ *  and word ids (bv-patente-…), so sector decks can point at its words, but its own page, not a sector. */
+export const PATENTE = { slug: "patente", emoji: "🚗" };
 
-/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
+/** Business Italian (src/data/business-italian/<unit>.json, content-plan §4.3): each unit's words are
  *  a group of this one deck, ids bv-business-…, under its own pages. */
 export const BUSINESS = { slug: "business", emoji: "💼" };
 
@@ -42,8 +42,15 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it: el/la, el/la for common-gender person nouns (content-plan §1.4). */
-export const GENDERS = ["el", "la", "el/la"];
+/** The article as the learner says it (content-plan §1.4): il / lo / la / l', il/la and lo/la for
+ *  common-gender person nouns. Words with an Italian `variety` (it-IT) follow these rules. */
+export const GENDERS = ["il", "lo", "la", "l'", "il/la", "lo/la"];
+/** genus "m"/"f": required with l' (the article hides the gender). */
+export const GENUS = ["m", "f"];
+/** The auxiliary of the passato prossimo (verbs, optional). */
+export const AUX = ["avere", "essere", "avere/essere"];
+/** The Spanish course's rules, for words that still say es-ES until their deck is converted. */
+export const LEGACY_GENDERS = ["el", "la", "el/la"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -60,7 +67,7 @@ export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.
 
 /**
  * Every rule of the data format, in one place. `files` is [{ file, deck, slug? }]; `slug` is set
- * for a deck that is not a sector and so has no file named after it (DGT). `known` holds the ids
+ * for a deck that is not a sector and so has no file named after it (patente). `known` holds the ids
  * that exist outside the berufe files: { lexicon: Map<id, lemma> }.
  * Returns { errors, warnings }, never throws.
  */
@@ -113,13 +120,26 @@ export function validate(files, known) {
         if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
-        if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
-        if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
-        // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
+        if (VARIETIES.includes(w.variety)) {
+          // Italian word (content-plan §1.4).
+          if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(" / ")}`);
+          if (w.gender === "l'" && !GENUS.includes(w.genus)) at(`${where}: gender "l'" needs genus "m" or "f"`);
+          if (w.genus != null && !(GENUS.includes(w.genus) && w.pos === "noun")) at(`${where}: genus "m"/"f" only on nouns`);
+          if (w.pluralGender != null && !(w.pluralGender === "f" && w.pos === "noun")) at(`${where}: pluralGender "f" only on nouns (l'uovo → le uova)`);
+          if (w.aux != null && !(w.pos === "verb" && AUX.includes(w.aux))) at(`${where}: aux must be ${AUX.join(" / ")} on a verb`);
+          if (w.fem != null && !(["adj", "noun"].includes(w.pos) && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine singular of an adjective or mobile-gender noun`);
+          if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [io presente, participio passato, io imperfetto]`);
+        } else {
+          // Still the Spanish course's word (es-ES) until the deck's item converts it.
+          if (w.pos === "noun" && !LEGACY_GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${LEGACY_GENDERS.join("/")}`);
+          if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
+          if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
+          if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
+        }
+        // variety / regional (§1.5): es419 is an error on an Italian word. A ref inherits both
+        // from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);

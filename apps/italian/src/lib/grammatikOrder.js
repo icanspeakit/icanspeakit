@@ -1,36 +1,38 @@
 // The order a class meets the grammar topics in, not the order of the files on disk: gender
-// and articles before ser and estar, the present before the past tenses, the imperfect
-// subjunctive before unreal conditions.
+// and articles before essere and stare, the present before the past tenses, the congiuntivo
+// imperfetto before the periodo ipotetico.
 // The Grammatik books print their chapters in this order (scripts/generate-grammatik-pdf.mjs),
 // and /conoscenze names a book's first chapter from it, so the two agree on "Chapter 1".
 // It is src/data/grammatik-lehrplan.json flattened (ids, not slugs: verben-praepositionen is
 // `id: "praepositionen"`); keep the two in step when the syllabus changes.
 export const GRAMMATIK_ORDER = [
   // A1
-  "personalpronomen", "nomen", "artikel", "plural", "verb-position-2", "adjektive-nach-sein",
-  "zahlen", "ja-nein-fragen", "w-fragen", "praesens", "konjugation", "praeteritum-sein-haben",
-  "berufe-mit-in", "possessivartikel", "welcher-dieser", "gern", "temporale-praepositionen", "aduso",
+  "personalpronomen", "nomen", "artikel", "plural", "adjektive-nach-sein", "zahlen",
+  "praeteritum-sein-haben", "verb-position-2", "berufe-mit-in", "praesens", "konjugation",
+  "ja-nein-fragen", "w-fragen", "aduso", "possessivartikel", "welcher-dieser", "gern",
+  "temporale-praepositionen",
   // A2
-  "reflexive-verben", "positionsadverbien", "trennbare-verben", "komposita", "perfekt",
-  "zusammengesetzte-verben", "n-deklination", "akkusativ", "dativ", "modalverben",
-  "konjunktiv2-hoeflich", "komparativ-superlativ", "satzstellung", "indefinitpronomen", "negation",
-  "artikel-oder-nicht", "adjektivdeklination-a2", "lokale-praepositionen", "wechselpraepositionen",
-  "ordinalzahlen", "nebensaetze-weil-dass",
+  "positionsadverbien", "negation", "lokale-praepositionen", "wechselpraepositionen",
+  "artikel-oder-nicht", "ordinalzahlen", "modalverben", "konjunktiv2-hoeflich", "trennbare-verben",
+  "komposita", "satzstellung", "indefinitpronomen", "komparativ-superlativ",
+  "adjektivdeklination-a2", "nebensaetze-weil-dass", "perfekt", "zusammengesetzte-verben",
+  "reflexive-verben", "n-deklination", "akkusativ", "dativ",
   // B1
-  "zustandspassiv", "praeteritum-plusquamperfekt", "passiv-b1", "temporale-praepositionen-b1",
-  "lassen", "futur", "funktionen-von-werden", "konditionalsaetze", "imperativ", "infinitiv-mit-zu",
-  "verben-als-nomen", "infinitiv-ohne-zu", "finalsaetze", "temporale-nebensaetze", "relativpronomen",
-  "indirekte-fragen", "konnektoren-grund-gegengrund", "als-oder-wenn", "praepositionen", "da-wo-woerter",
-  "positionsverben", "nutzen-benutzen", "partizip-als-adjektiv", "genitiv", "adjektivdeklination",
+  "zustandspassiv", "praeteritum-plusquamperfekt", "futur", "funktionen-von-werden",
+  "konditionalsaetze", "imperativ", "passiv-b1", "als-oder-wenn", "da-wo-woerter",
+  "infinitiv-mit-zu", "verben-als-nomen", "infinitiv-ohne-zu", "finalsaetze",
+  "temporale-nebensaetze", "temporale-praepositionen-b1", "relativpronomen", "indirekte-fragen",
+  "konnektoren-grund-gegengrund", "lassen", "genitiv", "partizip-als-adjektiv",
+  "adjektivdeklination", "praepositionen", "positionsverben", "nutzen-benutzen",
   "adjektive-als-nomen",
   // B2
-  "konjunktiv2", "modalsaetze", "zweiteilige-konnektoren", "konsekutivsaetze", "relativsaetze-was-wo",
-  "zumal-wohingegen", "passiv", "irgend", "negationswoerter", "fokuspartikeln",
-  "adjektive-mit-praepositionen", "nomen-verb-verbindungen", "modalpartikeln",
+  "konjunktiv2", "modalsaetze", "zweiteilige-konnektoren", "konsekutivsaetze", "passiv",
+  "relativsaetze-was-wo", "zumal-wohingegen", "negationswoerter", "irgend", "fokuspartikeln",
+  "modalpartikeln", "adjektive-mit-praepositionen", "nomen-verb-verbindungen",
   // C1
-  "konjunktiv-1", "irreale-vergleiche", "passiversatz", "subjektive-modalverben", "futur-2",
-  "es-korrelat", "partizipialattribute", "nominale-praepositionen", "nominalisierung",
-  "textkohaerenz", "verbpraefixe",
+  "konjunktiv-1", "irreale-vergleiche", "passiversatz", "subjektive-modalverben", "es-korrelat",
+  "futur-2", "partizipialattribute", "nominale-praepositionen", "nominalisierung", "textkohaerenz",
+  "verbpraefixe",
 ];
 
 /** A topic's place in that order; unlisted topics go last. */

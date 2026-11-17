@@ -15,7 +15,7 @@
  * A scored part may carry `texts[]` (reading) or `clips[]` (Hören, speaker turns). An item
  * with `text`/`clip` is shown under that text or clip; the rest follow the material.
  *
- * The exam CONTENT stays Spanish (it is the exam being sat, lang="es"); the chrome goes through tx().
+ * The exam CONTENT stays Italian (it is the exam being sat, lang="it"); the chrome goes through tx().
  */
 import { mountExamApp } from "../examApp.js";
 import { choiceCard, practiceToggle, sectionHeader, el, escapeHtml } from "./renderHelpers.js";
@@ -31,7 +31,7 @@ import { withBase } from "../paths.js";
 import { examPath } from "../routes.js";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
-const CONTENT_LANG = "es";
+const CONTENT_LANG = "it";
 const TF_LABELS = { richtig: "Richtig", falsch: "Falsch", ja: "Ja", nein: "Nein", "nicht im text": "Steht nicht im Text" };
 // The letter on each answer button; "nicht im Text" is the exams' own "x".
 const TF_KEYS = { richtig: "r", falsch: "f", ja: "j", nein: "n", "nicht im text": "x" };

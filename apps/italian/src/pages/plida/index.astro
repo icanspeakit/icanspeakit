@@ -1,0 +1,87 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import ExamFormat from "../../components/ExamFormat.astro";
+import formate from "../../data/pruefungen/testdaf-formate.json";
+
+// PLIDA: who it is for, how it works, and practice (content-plan §2: the testdaf slot; the
+// page moves to /plida with `routes`). The format blocks (A1–C2) come from testdaf-formate.json. The Spanish course's SIELE-only sections (score bands
+// per test, the S1–S5 options) were dropped by `ui-pages-m-z`: PLIDA has one exam per level.
+// Exam facts here are worded as orientation; the details are "to verify" in the run reports.
+---
+<Layout
+  title="PLIDA: levels, format and practice – icanspeak Italian"
+  description="The PLIDA certificate of the Società Dante Alighieri, from A1 to C2: who it is for, the four skills it tests, and free practice in exam style. Not official exam material."
+>
+  <ExamShell
+    bild="testdaf"
+    header="PLIDA"
+    title="PLIDA"
+    lead="The Italian certificate of the Società Dante Alighieri, with one exam per level from A1 to C2. It tests listening, reading, writing and speaking."
+    leadKey="testdaf.lead"
+    badges={["A1–C2"]}
+    practiceHeading="Practise for the PLIDA"
+    practiceHeadingKey="testdaf.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.who.title">Who is the PLIDA for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">One certificate per level</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">Levels A1–C2</span>
+        </div>
+        <p data-i18n="testdaf.who.text">
+          The PLIDA (Progetto Lingua Italiana Dante Alighieri) is issued by the Società Dante Alighieri
+          and taken at its exam centres in Italy and abroad. People use it for study, for work and, at
+          the level required, as the language proof for citizenship or the long-term residence permit.
+          Check what your office or university asks for before you book.
+        </p>
+        <p><a class="plan-link" href="/esami/quale-esame" data-i18n="testdaf.whichExam">CILS, CELI, PLIDA or CERT.IT? Compare them by purpose →</a></p>
+      </section>
+
+      {formate.formate.map((f) => <ExamFormat format={f} />)}
+
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.day.title">On the day</h2>
+        <ul class="task-points">
+          <li data-i18n="testdaf.day.1">Each skill has its own part: listening, reading, writing and speaking (ascoltare, leggere, scrivere, parlare).</li>
+          <li data-i18n="testdaf.day.2">You register for one level. Choose the level you need, not the highest you might reach.</li>
+          <li data-i18n="testdaf.day.3">Speaking is a conversation at the exam centre. Be ready to talk about yourself, describe a situation and give your opinion.</li>
+          <li data-i18n="testdaf.day.4">In the written parts, accents and double consonants count: perché, città, anno, sono.</li>
+          <li data-i18n="testdaf.day.5">Dates, prices and how long results take are set by the exam centres. Ask yours.</li>
+        </ul>
+        <p class="format-note" data-i18n="testdaf.format.note">
+          We aren't connected with the Società Dante Alighieri, and all our practice material is our own.
+          How each skill is marked and what counts as a pass can change: check the current rules on
+          plida.it or with your exam centre.
+        </p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="testdaf.set.title">Practise reading and writing</h2>
+      <p data-i18n-html="testdaf.set.text">
+        Our own B1 set: reading tasks and a writing task in exam style, with structure, useful phrases and a checklist
+        for your text. All texts and tasks are written by us, not official exam material.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/plida/esercitazione" data-i18n="exam.startSet">Start the practice set</a>
+    </div>
+
+    <div class="mock-cta">
+      <h2 data-i18n="testdaf.bands.cta.title">Practise every skill</h2>
+      <p data-i18n="testdaf.bands.cta.text">
+        Our CELI sets (A2 and B1) and CILS sets (A2 to B2) train all four skills: reading, listening, writing and speaking. They are good practice for the PLIDA at the same level too.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/celi" data-i18n="testdaf.bands.cta.link">To the CELI sets</a>
+    </div>
+
+    <ExamPractice
+      heading="Train the basics"
+      headingKey="exam.practice.heading"
+      intro="Besides the practice sets above, these three tools help at every level and for every exam. They train articles, grammar and vocabulary in general, not anything PLIDA-specific."
+      introKey="testdaf.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

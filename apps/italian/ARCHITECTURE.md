@@ -1,11 +1,11 @@
-# icanspeak Spanish: architecture
+# icanspeak Italian: architecture
 
-icanspeak Spanish is built on the icanspeak-english codebase, itself a copy of **deutschacademy**
+icanspeak Italian is built on the icanspeak-english codebase, itself a copy of **deutschacademy**
 (Astro, static pages). The whole content, practice and game architecture came across, and **every
 external integration was removed**. English is the base interface language, and more languages
 are added through the language registry.
 
-> **Deploy:** the site is served at `https://icanspeak.it/spanish/`, as a Cloudflare Worker with
+> **Deploy:** the site is served at `https://icanspeak.it/italiano/`, as a Cloudflare Worker with
 > static assets only. The repo moves into the icanspeakit monorepo as `apps/spanish`. See
 > `README.md`.
 
@@ -88,7 +88,7 @@ module's body. Nothing else needs to change.
   (`phrase.de`, `option.de`, `word.de`). Never look a value up with a UI code on such an object
   without checking; that's why `de` carries `cards.fetch` and stays out of the live quiz and games.
 - A language with `urlPrefix` gets entry pages (`src/data/entry-pages.json` lists pages and
-  per-language meta), e.g. `/spanish/de/`, with hreflang on both sides.
+  per-language meta), e.g. `/italiano/de/`, with hreflang on both sides.
 - Components carry server text plus a `data-i18n` key. **At build time**
   `src/integrations/base-language.mjs` fills every key from `en.json`, so the static HTML is
   English even without JS. In the browser, `src/lib/i18n.js` does the same for dynamic markup.

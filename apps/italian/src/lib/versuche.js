@@ -82,7 +82,7 @@ export function pageRef(path = currentPath()) {
       const t = new URLSearchParams(location.search).get("t");
       return t ? `vs:${t}` : null;
     }
-    case "spanish-for-work": return b && c ? `w:berufe-${itemKey("/spanish-for-work", b)}-${workGroupKey(c)}` : null;
+    case "italiano-per-il-lavoro": return b && c ? `w:berufe-${itemKey("/italiano-per-il-lavoro", b)}-${workGroupKey(c)}` : null;
     case "ascolto": return b ? `h:${itemKey("/ascolto", b)}` : null;
     case "lettura": return b ? `l:${itemKey("/lettura", b)}` : null;
     case "lettura-e-scrittura": return "l:ls";
@@ -93,9 +93,10 @@ export function pageRef(path = currentPath()) {
     case "parlato": return b ? `sp:${itemKey("/parlato", b)}` : null;
     case "parlato-b1-b2": return "sp:b1b2";
     case "pronuncia": return "a:aussprache";
-    case "nationality":
-      if (b !== "dele-a2" || !c) return null;
-      return `x:dtz/${c === "practice-set" ? "uebungssatz-1" : c}`;
+    case "cittadinanza":
+      // The B1 mock (/cittadinanza/prova-b1/…); the refs keep their data ids.
+      if (b !== "prova-b1" || !c) return null;
+      return `x:dtz/${c === "esercitazione" ? "uebungssatz-1" : c === "simulazione" ? "mock-test" : c}`;
     case "grammatica": return b === "quiz" ? "g:quiz" : b === "percorso" ? "g:lauf" : null;
     case "preposizioni": return "g:praepositionen";
   }

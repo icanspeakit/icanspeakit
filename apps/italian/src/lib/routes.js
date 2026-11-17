@@ -6,9 +6,9 @@
 // collide with a topic added later.
 //
 // Ids, data file names and localStorage keys stayed German (content-plan §1.3, §6), because code
-// and saved progress key on them. Only the URL is the course's: English, except proper names
-// (/dele, /siele, /ccse) and the Spanish grammar terms learners search for (/por-para, /gustar).
-// The site at /spanish is new, so there are no redirects from any earlier address (§7, §8).
+// and saved progress key on them. Only the URL is the course's: section paths are Italian since
+// the 2026-11-15 target-language URL pass (docs/slug-map.md); item, topic and unit slugs inside
+// a section are still English. The English section paths 301 via src/data/legacy-redirects.json.
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
 export const NOT_RESUMABLE = new Set(["/", "/esercizi", "/esami", "/progressi", "/grammatica", "/conoscenze", "/insegnanti", "/gioco",
@@ -22,47 +22,47 @@ export const TOPIC_SLUGS = {
   // A1
   nomen: "noun-gender", artikel: "articles", personalpronomen: "subject-pronouns",
   praesens: "present-regular", konjugation: "present-irregular",
-  "praeteritum-sein-haben": "stem-changing-verbs", "verb-position-2": "ser-estar-basics",
-  "berufe-mit-in": "hay-estar", "w-fragen": "question-words", "ja-nein-fragen": "yes-no-questions",
+  "praeteritum-sein-haben": "essere-avere", "verb-position-2": "essere-stare-basics",
+  "berufe-mit-in": "ce-ci-sono", "w-fragen": "question-words", "ja-nein-fragen": "yes-no-questions",
   plural: "plurals", "adjektive-nach-sein": "adjective-agreement", possessivartikel: "possessives",
-  "welcher-dieser": "demonstratives", gern: "gustar", "temporale-praepositionen": "time-and-days",
-  aduso: "y-o-pero-porque", zahlen: "numbers", wortarten: "parts-of-speech",
+  "welcher-dieser": "demonstratives", gern: "piacere", "temporale-praepositionen": "time-and-days",
+  aduso: "e-ma-o-perche", zahlen: "numbers", wortarten: "parts-of-speech",
   // A2
-  perfekt: "present-perfect", "zusammengesetzte-verben": "preterite", "n-deklination": "imperfect",
-  "trennbare-verben": "ir-a-infinitive", komposita: "estar-gerund",
+  perfekt: "passato-prossimo-avere", "zusammengesetzte-verben": "passato-prossimo-essere", "n-deklination": "imperfect",
+  "trennbare-verben": "near-future", komposita: "stare-gerund",
   "reflexive-verben": "reflexive-verbs", akkusativ: "object-pronouns",
-  dativ: "indirect-object-pronouns", modalverben: "tener-que-poder",
+  dativ: "indirect-object-pronouns", modalverben: "modal-verbs",
   "komparativ-superlativ": "comparatives", "lokale-praepositionen": "prepositions-of-place",
-  wechselpraepositionen: "a-or-en", indefinitpronomen: "indefinites", satzstellung: "muy-mucho",
-  negation: "negation", "nebensaetze-weil-dass": "porque-como",
-  "konjunktiv2-hoeflich": "polite-requests", positionsadverbien: "frequency-soler",
+  wechselpraepositionen: "articulated-prepositions", indefinitpronomen: "indefinites", satzstellung: "quantity-partitive",
+  negation: "negation", "nebensaetze-weil-dass": "perche-siccome",
+  "konjunktiv2-hoeflich": "polite-requests", positionsadverbien: "frequency-adverbs",
   "adjektivdeklination-a2": "adverbs-mente", "artikel-oder-nicht": "article-or-not",
   ordinalzahlen: "ordinals-dates",
   // B1
-  zustandspassiv: "perfecto-vs-indefinido", "praeteritum-plusquamperfekt": "preterite-vs-imperfect",
-  "passiv-b1": "pluperfect", futur: "future-simple", "funktionen-von-werden": "conditional",
-  imperativ: "imperative", "infinitiv-mit-zu": "present-subjunctive",
-  "verben-als-nomen": "subjunctive-wishes", "infinitiv-ohne-zu": "infinitive-or-subjunctive",
-  finalsaetze: "para-que", "temporale-nebensaetze": "cuando-subjunctive",
-  konditionalsaetze: "si-real", "als-oder-wenn": "por-para",
-  "temporale-praepositionen-b1": "desde-hace", relativpronomen: "relative-clauses",
-  "indirekte-fragen": "indirect-questions", lassen: "verbal-periphrases",
-  "konnektoren-grund-gegengrund": "linkers", genitiv: "possessive-pronouns",
-  adjektivdeklination: "adjective-position", "partizip-als-adjektiv": "estar-participle",
-  "verben-praepositionen": "verbs-prepositions", "da-wo-woerter": "prepositional-pronouns",
-  "nutzen-benutzen": "ser-estar-advanced", positionsverben: "verbs-like-gustar",
-  "wortbildung-nomen": "word-formation", "adjektive-als-nomen": "lo-adjective",
+  zustandspassiv: "passato-vs-imperfetto", "praeteritum-plusquamperfekt": "trapassato-prossimo",
+  "passiv-b1": "ci-ne", futur: "future-simple", "funktionen-von-werden": "condizionale",
+  imperativ: "imperative", "infinitiv-mit-zu": "congiuntivo-presente",
+  "verben-als-nomen": "congiuntivo-wishes", "infinitiv-ohne-zu": "infinitive-or-congiuntivo",
+  finalsaetze: "per-affinche", "temporale-nebensaetze": "time-clauses",
+  konditionalsaetze: "se-real", "als-oder-wenn": "combined-pronouns",
+  "temporale-praepositionen-b1": "da-per-fa", relativpronomen: "relative-clauses",
+  "indirekte-fragen": "indirect-questions", lassen: "fare-causative",
+  "konnektoren-grund-gegengrund": "linkers", genitiv: "verbal-periphrases",
+  adjektivdeklination: "adjective-position", "partizip-als-adjektiv": "participles",
+  "verben-praepositionen": "verbs-prepositions", "da-wo-woerter": "stressed-pronouns",
+  "nutzen-benutzen": "sapere-conoscere", positionsverben: "verbs-like-piacere",
+  "wortbildung-nomen": "word-formation", "adjektive-als-nomen": "adjective-as-noun",
   // B2
-  konjunktiv2: "imperfect-subjunctive", modalsaetze: "si-unreal", passiv: "passive-and-se",
+  konjunktiv2: "congiuntivo-imperfetto", modalsaetze: "periodo-ipotetico", passiv: "passive-and-si",
   "relativsaetze-was-wo": "relative-clauses-advanced", "zumal-wohingegen": "reported-speech",
-  "zweiteilige-konnektoren": "subjunctive-opinion", konsekutivsaetze: "aunque-subjunctive",
-  negationswoerter: "probability", irgend: "accidental-se", fokuspartikeln: "verbs-of-change",
+  "zweiteilige-konnektoren": "congiuntivo-opinion", konsekutivsaetze: "concession-consequence",
+  negationswoerter: "probability", irgend: "gerundio-constructions", fokuspartikeln: "verbs-of-change",
   modalpartikeln: "discourse-markers", "adjektive-mit-praepositionen": "adjectives-prepositions",
   "nomen-verb-verbindungen": "collocations",
   // C1
-  "konjunktiv-1": "sequence-of-tenses", "es-korrelat": "cleft-sentences",
-  passiversatz: "conditions-without-si", "futur-2": "non-finite-clauses",
-  "irreale-vergleiche": "como-si", "subjektive-modalverben": "modal-periphrases",
+  "konjunktiv-1": "sequence-of-tenses", "es-korrelat": "cleft-and-emphasis",
+  passiversatz: "conditions-without-se", "futur-2": "non-finite-clauses",
+  "irreale-vergleiche": "come-se-unreal", "subjektive-modalverben": "passato-remoto",
   "nominale-praepositionen": "formal-connectors", nominalisierung: "nominalisation",
   partizipialattribute: "formal-relatives", textkohaerenz: "cohesion", verbpraefixe: "prefixes",
 };
@@ -143,22 +143,22 @@ export const ITEM_SLUGS = {
     "a1-zuhause": "a1-at-home", "a2-unterwegs": "a2-out-and-about", "b1-arbeit": "b1-work", "b2-gesellschaft": "b2-society",
   },
   "/cultura": {
-    "duzen-siezen": "tu-or-usted", pfand: "greetings", sonntagsruhe: "daily-rhythm", trinkgeld: "bars-and-paying",
-    bundeslaender: "autonomous-communities", feiertage: "public-holidays", comida: "food-and-meals", fiestas: "festivals",
-    muelltrennung: "recycling", termine: "cita-previa",
-    anmeldung: "empadronamiento", krankenversicherung: "public-health", mieten: "renting", schulsystem: "school-system",
-    "arbeit-finden": "finding-a-job", "lenguas-cooficiales": "languages-of-spain", "mundo-hispano": "hispanic-world",
-    ausbildung: "fp-and-university", kuendigung: "leaving-a-job",
-    "oeffentlich-rechtlicher-rundfunk": "public-media", vereine: "associations-and-volunteering",
-    "tradiciones-america": "latin-america-traditions",
-    foederalismus: "state-of-autonomies", sozialversicherung: "seguridad-social", wahlen: "elections",
-    "historia-compartida": "spain-and-latin-america",
-    erinnerungskultur: "the-transition", grundgesetz: "constitution", mitbestimmung: "unions-and-convenios",
+    "duzen-siezen": "tu-or-lei", pfand: "greetings", sonntagsruhe: "daily-rhythm", trinkgeld: "the-bar-and-paying",
+    bundeslaender: "regions-of-italy", feiertage: "public-holidays", comida: "food-and-meals", fiestas: "festivals",
+    muelltrennung: "recycling", termine: "appointments",
+    anmeldung: "residenza", krankenversicherung: "public-health", mieten: "renting", schulsystem: "school-system",
+    "arbeit-finden": "finding-a-job", "lenguas-cooficiales": "languages-and-dialects-of-italy", "mundo-hispano": "italian-in-the-world",
+    ausbildung: "training-and-university", kuendigung: "leaving-a-job",
+    "oeffentlich-rechtlicher-rundfunk": "rai-and-public-media", vereine: "associations-and-volunteering",
+    "tradiciones-america": "italian-in-switzerland-and-san-marino",
+    foederalismus: "state-and-regions", sozialversicherung: "inps-and-codice-fiscale", wahlen: "elections",
+    "historia-compartida": "italian-emigration",
+    erinnerungskultur: "the-republic", grundgesetz: "constitution", mitbestimmung: "unions-and-ccnl",
   },
   "/cultura/dietro-le-quinte": {
     "hallo-sagen": "saying-hello", "naehe-abstand": "queues-and-personal-space", "hoefliche-notluegen": "please-and-thank-you",
-    puenktlichkeit: "time-and-timing", "zusammen-oder-getrennt": "paying-the-bill", "leute-kennenlernen": "small-talk-and-sobremesa",
-    "freunde-finden": "making-friends", "arbeit-finden": "how-hiring-works", "deutschland-und-das-auto": "cars-and-driving",
+    puenktlichkeit: "time-and-timing", "zusammen-oder-getrennt": "paying-the-bill", "leute-kennenlernen": "small-talk-and-the-aperitivo",
+    "freunde-finden": "making-friends", "arbeit-finden": "how-hiring-works", "deutschland-und-das-auto": "cars-and-getting-around",
     gleichberechtigung: "women-and-men-at-work", "erstes-date": "dating", direktheit: "directness",
     vertrauen: "humour-and-banter",
   },
@@ -170,7 +170,7 @@ export const ITEM_SLUGS = {
   },
   // English for work: the sectors; their word groups are WORK_GROUP_SLUGS (one table for
   // all sectors, because the group ids repeat: taetigkeiten, ablaeufe, kunden-team …).
-  "/spanish-for-work": {
+  "/italiano-per-il-lavoro": {
     "bau-handwerk": "construction", buero: "office", einzelhandel: "shops", "elektro-technik": "agriculture",
     gastronomie: "hospitality", hotel: "hotels", kita: "cleaning-domestic-work", kraftfahrer: "driving",
     "lager-logistik": "warehouse", pflege: "care-work",
@@ -197,7 +197,7 @@ export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
 export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
 /** The page of an item. */
 export const itemPath = (section, id) => `${section}/${itemSlug(section, id)}`;
-/** Business Spanish units: the id is the Spanish name of the file, the URL says it in English. */
+/** Business Italian units: the id is the Spanish name of the file, the URL says it in English. */
 export const BUSINESS_SLUGS = {
   correos: "emails",
   llamadas: "phone-calls",
@@ -206,22 +206,22 @@ export const BUSINESS_SLUGS = {
   reuniones: "meetings",
   negociacion: "negotiating",
 };
-export const businessPath = (unit) => `/business-spanish/${BUSINESS_SLUGS[unit] ?? unit}`;
+export const businessPath = (unit) => `/italiano-commerciale/${BUSINESS_SLUGS[unit] ?? unit}`;
 /** A work sector, or one word group of it. */
-export const workPath = (sector, group) => sector === "dgt" ? `/dgt-vocabulary${group ? `/${group}` : ""}` :
-  sector === "business" ? (group ? `${businessPath(group)}/words` : "/business-spanish") :
-  `/spanish-for-work/${itemSlug("/spanish-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
+export const workPath = (sector, group) => sector === "patente" ? `/vocabolario-patente${group ? `/${group}` : ""}` :
+  sector === "business" ? (group ? `${businessPath(group)}/parole` : "/italiano-commerciale") :
+  `/italiano-per-il-lavoro/${itemSlug("/italiano-per-il-lavoro", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */
 export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
-  goethe: "/dele", telc: "/siele/levels", dtz: "/nationality/dele-a2", testdaf: "/siele",
-  "leben-in-deutschland": "/ccse", "start-deutsch-1": "/dele/a1",
+  goethe: "/cils", telc: "/celi", dtz: "/cittadinanza/prova-b1", testdaf: "/plida",
+  "leben-in-deutschland": "/cultura-civica", "start-deutsch-1": "/cils/a1",
 };
 /** The overview page of an exam family (registry id → path). */
 export const examPath = (exam) => EXAM_PATHS[exam] ?? `/${exam}`;
-/** The exam family (registry id) a path belongs to, or null. Longest path first (/nationality/dele-a2 is dtz). */
+/** The exam family (registry id) a path belongs to, or null. Longest path first (/cittadinanza/prova-b1 is dtz). */
 export function examOfPath(path) {
   const hit = Object.entries(EXAM_PATHS).sort((a, b) => b[1].length - a[1].length)
     .find(([, p]) => path === p || path.startsWith(p + "/"));

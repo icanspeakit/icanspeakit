@@ -1,5 +1,5 @@
-// check:lindenau — the dialogues of The Legend of Villabruno (src/lib/lindenau/quests.js) hold
-// together: every turn has a Spanish line and its English help, every `choose` has exactly
+// check:lindenau — the dialogues of The Legend of Casalbruno (src/lib/lindenau/quests.js) hold
+// together: every turn has an Italian line and its English help, every `choose` has exactly
 // one right reply and a why for each wrong one, every `build`/`say` is a sentence the tiles can
 // actually make (alts too), distractor tiles are not part of the sentence, and every icon
 // exists in public/img/openmoji/. Runs in prebuild; exit 1 on any error.
@@ -17,13 +17,16 @@ const icon = (where, hex) => {
 };
 const sorted = (a) => [...a].sort().join("\u0000");
 const STRAIGHT = /"/;
-// Spanish opens what it closes; the English `en` line is not checked.
+// Italian has no ¿ ¡ and no Spanish letters: leftovers from the Spanish course are errors.
+// (The English `en` line is not checked.)
 const marks = (where, s) => {
-  if (/\?/.test(s) && !s.includes("¿")) err(where, `„${s}“: ¿ fehlt`);
-  if (/!/.test(s) && !s.includes("¡")) err(where, `„${s}“: ¡ fehlt`);
+  if (/[¿¡ñ]/.test(s)) err(where, `„${s}“: spanisches Zeichen (¿ ¡ ñ)`);
+  if (/\b(gracias|hola|buenos|por favor|usted|quer[ií]a|vale)\b/i.test(s)) err(where, `„${s}“: spanisches Wort`);
 };
+// Every article form that may open a noun label: il / lo / la / l'.
+const ARTICLE = /^(il |lo |la |l')/;
 // The player's gender is unknown: nothing to or from the player is gendered.
-const GENDERED = /(?<!la )\bbienvenid[oa]s?\b|\bencantad[oa]\b|\b(estoy|soy|eres|estás)\s+(muy\s+)?(nuev|cansad|reventad|list|segur|maj|sincer|despiert|llen|tranquil)[oa]\b|\bqué\s+maj[oa]\b/i;
+const GENDERED = /\bbenvenut[oa]\b|\b(sono|sei|è|ero|sia)\s+(molto\s+|troppo\s+)?(nuov|stanc|content|sicur|pront|felic|arrivat|sol|occupat|stufo|cotto|preoccupat|emozionat)[oa]\b/i;
 
 function line(where, l) {
   if (!l?.npc?.trim()) err(where, "Zeile ohne `npc`");
@@ -57,9 +60,9 @@ for (const area of areas) {
     const Q = `${A} ${q.id}`;
     if (ids.has(q.id)) err(Q, "id doppelt");
     ids.add(q.id);
-    if (/Bramble|£|British/.test(JSON.stringify(q))) err(Q, "Rest aus dem Englischkurs");
-    if (!/^(el|la) /.test(q.item?.label ?? "")) err(Q, "`item.label` ohne el / la");
-    for (const w of q.words ?? []) if (!/^(el|la) /.test(w)) err(Q, `Wort „${w}“ ohne el / la`);
+    if (/Bramble|£|British|Villabruno/.test(JSON.stringify(q))) err(Q, "Rest aus dem Englisch-/Spanischkurs");
+    if (!ARTICLE.test(q.item?.label ?? "")) err(Q, "`item.label` ohne il / lo / la / l'");
+    for (const w of q.words ?? []) if (!ARTICLE.test(w)) err(Q, `Wort „${w}“ ohne il / lo / la / l'`);
     for (const k of ["mascot", "name", "role"]) if (!q[k]) err(Q, `\`${k}\` fehlt`);
     if (!q.item?.label) err(Q, "`item.label` fehlt");
     icon(Q, q.item?.icon);
@@ -87,9 +90,8 @@ for (const area of areas) {
         const sentence = words.join(" ");
         if (words.length < 2) err(T, "Satz mit weniger als 2 Kacheln");
         if (!/[.?!]$/.test(sentence)) err(T, `„${sentence}“ endet nicht mit . ? !`);
-        if (/\?$/.test(sentence) && !sentence.includes("¿")) err(T, `„${sentence}“: ¿ fehlt`);
-        if (/!$/.test(sentence) && !sentence.includes("¡")) err(T, `„${sentence}“: ¡ fehlt`);
-        if (!/^[¿¡]?[A-ZÁÉÍÓÚÑ]/.test(sentence)) err(T, `„${sentence}“ beginnt nicht groß`);
+        marks(T, sentence);
+        if (!/^[A-ZÀÈÉÌÒÙ]/.test(sentence)) err(T, `„${sentence}“ beginnt nicht groß`);
         if (!why?.trim()) err(T, "build ohne `why`");
         for (const x of extra) if (words.includes(x)) err(T, `Ablenker „${x}“ steht auch im Satz`);
         for (const a of alts) {

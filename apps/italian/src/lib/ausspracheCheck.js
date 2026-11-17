@@ -12,7 +12,7 @@ import { wouldLock } from "./intent.js";
 import { setWaiting } from "./notReady.js";
 import { withBase } from "./paths.js";
 
-const LANG = "es-ES";
+const LANG = "it-IT";
 const BEST_KEY = "ac.best";
 const POS_KEY = "ac.pos";
 
@@ -135,8 +135,8 @@ function browserSpeak(text, rate = 0.9) {
     u.lang = LANG;
     u.rate = rate;
     const voices = synth.getVoices();
-    const es = voices.find((v) => v.lang?.replace("_", "-") === "es-ES") ?? voices.find((v) => v.lang?.startsWith("es"));
-    if (es) u.voice = es;
+    const it = voices.find((v) => v.lang?.replace("_", "-") === "it-IT") ?? voices.find((v) => v.lang?.startsWith("it"));
+    if (it) u.voice = it;
     u.onend = resolve;
     u.onerror = reject;
     synth.speak(u);
@@ -144,7 +144,7 @@ function browserSpeak(text, rate = 0.9) {
 }
 
 // The provider's voice when it can speak without asking for credentials (so listening
-// never forces a sign-in), the browser's own Spanish voice otherwise.
+// never forces a sign-in), the browser's own Italian voice otherwise.
 async function speak(text, { slow = false } = {}) {
   stopAudio();
   if (provider.canSpeak()) {

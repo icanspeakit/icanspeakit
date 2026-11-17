@@ -1,264 +1,247 @@
-// The Spanish conjugation generator behind the verb tables (docs/content-plan.md §4.1).
+// The Italian conjugation generator behind the verb tables (docs/content-plan.md §4.1).
 //
-// Plain ESM with no Vite imports, so scripts/check-verbtabellen.mjs and later the conjugation
-// trainer run the same code as the page. Data lives in src/data/verbtabellen.json; the page
-// reads it through src/lib/verbtabellen.js.
+// Plain ESM with no Vite imports, so scripts/check-verbtabellen.mjs and the conjugation trainer
+// run the same code as the page. Data lives in src/data/verbtabellen.json; the page reads it
+// through src/lib/verbtabellen.js.
 //
 // A verb stores only the tenses it cannot derive. Everything else follows from:
-//   imperf, fut, praet, ger, p2   the regular endings, with spelling rules (busqué, leyó, leído)
-//   cond                          the stem of a stored `fut` (tendré → tendría)
-//   subj                          the yo form of a stored `praes` (tengo → tenga)
-//   subjImpf                      the ellos form of the indefinido (tuvieron → tuviera)
-//   imp                           tú from the present, usted/nosotros/ustedes from subj, vosotros from the infinitive
-//   impNeg                        no + subj (no hables, no habléis)
-//   compound tenses               haber + p2
-// A pronominal verb (levantarse) adds its pronoun to the forms of the plain verb, and takes the
-// stored tenses of that verb when it is in the file (irse → ir, ponerse → poner).
+//   praes, praet, rem, fut, ger, p2   the regular endings of -are / -ere / -ire (and -ire with
+//                                     -isc-), with the spelling rules (cerchi, mangi, comincerò)
+//   cond                              the stem of a stored `fut` (andrò → andrei)
+//   subj                              the io form of a stored `praes` (vengo → venga); noi/voi
+//                                     from the noi form of the presente (veniamo, veniate)
+//   subjImpf                          the imperfetto (parlavo → parlassi, facevo → facessi)
+//   imp                               tu from the presente (parla / vendi), Lei and loro from the
+//                                     congiuntivo, noi and voi from the presente
+//   impNeg                            tu: non + infinitive; the others: non + the affirmative
+//   compound tenses                   avere or essere (field `aux`) + participio passato; with
+//                                     essere the participle agrees: sono andato/a, siamo andati/e
+// A reflexive or pronominal verb (alzarsi, andarsene) adds its pronoun to the forms of the plain
+// verb (mi alzo, me ne vado), always takes essere, and inherits the stored tenses of its plain
+// verb when that verb is in the file (andarsene → andare).
 //
 // Each form carries `x`: it differs from what the bare pattern would give, spelling changes
-// included (busqué, leíste), so the table highlights what a learner has to notice.
+// included (cerchi, mangi), so the table highlights what a learner has to notice.
+// The passato remoto is stored under `rem`.
 
-export const PERSONS = ["yo", "tú", "él/ella/usted", "nosotros/as", "vosotros/as", "ellos/ellas/ustedes"];
+export const PERSONS = ["io", "tu", "lui/lei/Lei", "noi", "voi", "loro/Loro"];
+/** The index of "voi". Italian has no variety that drops it; the trainer keeps the name. */
 export const VOSOTROS = 4;
 export const DASH = "–";
 
 /** Tenses a verb may store as a comma list of six forms. */
-export const STORED_TENSES = ["praes", "praet", "imperf", "fut", "cond", "subj", "subjImpf", "imp"];
+export const STORED_TENSES = ["praes", "praet", "rem", "fut", "cond", "subj", "subjImpf", "imp"];
 /** Every tense in a table row, in the order the page lists them. */
 export const ROW_TENSES = [
-  "praes", "praet", "perf", "imperf", "fut", "cond", "subj", "subjImpf", "imp", "impNeg",
+  "praes", "praet", "perf", "rem", "fut", "cond", "subj", "subjImpf", "imp", "impNeg",
   "plusc", "futPerf", "condPerf", "subjPerf", "subjPlusc",
 ];
+const COMPOUND = ["perf", "plusc", "futPerf", "condPerf", "subjPerf", "subjPlusc"];
 
-const CLITICS = ["me", "te", "se", "nos", "os", "se"];
+const CLITICS = ["mi", "ti", "si", "ci", "vi", "si"];
+const CLITICS_NE = ["me ne", "te ne", "se ne", "ce ne", "ve ne", "se ne"];
+// The auxiliaries in the tenses that have a compound form: avere / essere.
 const AUX = {
-  perf: ["he", "has", "ha", "hemos", "habéis", "han"],
-  plusc: ["había", "habías", "había", "habíamos", "habíais", "habían"],
-  futPerf: ["habré", "habrás", "habrá", "habremos", "habréis", "habrán"],
-  condPerf: ["habría", "habrías", "habría", "habríamos", "habríais", "habrían"],
-  subjPerf: ["haya", "hayas", "haya", "hayamos", "hayáis", "hayan"],
-  subjPlusc: ["hubiera", "hubieras", "hubiera", "hubiéramos", "hubierais", "hubieran"],
+  avere: {
+    perf: ["ho", "hai", "ha", "abbiamo", "avete", "hanno"],
+    plusc: ["avevo", "avevi", "aveva", "avevamo", "avevate", "avevano"],
+    futPerf: ["avrò", "avrai", "avrà", "avremo", "avrete", "avranno"],
+    condPerf: ["avrei", "avresti", "avrebbe", "avremmo", "avreste", "avrebbero"],
+    subjPerf: ["abbia", "abbia", "abbia", "abbiamo", "abbiate", "abbiano"],
+    subjPlusc: ["avessi", "avessi", "avesse", "avessimo", "aveste", "avessero"],
+  },
+  essere: {
+    perf: ["sono", "sei", "è", "siamo", "siete", "sono"],
+    plusc: ["ero", "eri", "era", "eravamo", "eravate", "erano"],
+    futPerf: ["sarò", "sarai", "sarà", "saremo", "sarete", "saranno"],
+    condPerf: ["sarei", "saresti", "sarebbe", "saremmo", "sareste", "sarebbero"],
+    subjPerf: ["sia", "sia", "sia", "siamo", "siate", "siano"],
+    subjPlusc: ["fossi", "fossi", "fosse", "fossimo", "foste", "fossero"],
+  },
 };
-const FUT = ["é", "ás", "á", "emos", "éis", "án"];
-const COND = ["ía", "ías", "ía", "íamos", "íais", "ían"];
+const COND = ["ei", "esti", "ebbe", "emmo", "este", "ebbero"];
+const FUT = ["ò", "ai", "à", "emo", "ete", "anno"]; // after the -er- / -ir- stem: parler + ò
+const IMPF = ["vo", "vi", "va", "vamo", "vate", "vano"];
 const ENDINGS = {
-  ar: {
-    praes: ["o", "as", "a", "amos", "áis", "an"],
-    praet: ["é", "aste", "ó", "amos", "asteis", "aron"],
-    imperf: ["aba", "abas", "aba", "ábamos", "abais", "aban"],
-    subj: ["e", "es", "e", "emos", "éis", "en"],
-    ger: "ando", p2: "ado",
+  are: {
+    praes: ["o", "i", "a", "iamo", "ate", "ano"],
+    rem: ["ai", "asti", "ò", "ammo", "aste", "arono"],
+    subj: ["i", "i", "i", "iamo", "iate", "ino"],
+    impf: "a", ger: "ando", p2: "ato", fut: "e",
   },
-  er: {
-    praes: ["o", "es", "e", "emos", "éis", "en"],
-    praet: ["í", "iste", "ió", "imos", "isteis", "ieron"],
-    imperf: COND,
-    subj: ["a", "as", "a", "amos", "áis", "an"],
-    ger: "iendo", p2: "ido",
+  ere: {
+    praes: ["o", "i", "e", "iamo", "ete", "ono"],
+    rem: ["ei", "esti", "é", "emmo", "este", "erono"],
+    subj: ["a", "a", "a", "iamo", "iate", "ano"],
+    impf: "e", ger: "endo", p2: "uto", fut: "e",
   },
-  ir: {
-    praes: ["o", "es", "e", "imos", "ís", "en"],
-    praet: ["í", "iste", "ió", "imos", "isteis", "ieron"],
-    imperf: COND,
-    subj: ["a", "as", "a", "amos", "áis", "an"],
-    ger: "iendo", p2: "ido",
+  ire: {
+    praes: ["o", "i", "e", "iamo", "ite", "ono"],
+    rem: ["ii", "isti", "ì", "immo", "iste", "irono"],
+    subj: ["a", "a", "a", "iamo", "iate", "ano"],
+    impf: "i", ger: "endo", p2: "ito", fut: "i",
   },
 };
+// -isc- verbs: the stem takes -isc- in io, tu, lui and loro (finisco, finisci, finisce, finiscono).
+const ISC_PERSONS = new Set([0, 1, 2, 5]);
 
 const isDash = (f) => f === DASH;
 const dashes = () => Array(6).fill(DASH);
 const split = (s) => s.split(",").map((f) => f.trim());
-const unaccent = (s) => s.replace(/[áéíóú]/g, (c) => "aeiou"["áéíóú".indexOf(c)]);
 
-/** Infinitive → its parts. levantarse: plain levantar, type ar, stem levant. oír: type ir, stem o. */
+/** Infinitive → its parts. alzarsi: plain alzare, type are, stem alz. andarsene: plain andare, ne. */
 export function parseInf(inf) {
-  const pronominal = /(ar|er|ir|ír)se$/.test(inf);
-  const plain = pronominal ? inf.slice(0, -2) : inf;
-  const type = plain.endsWith("ar") ? "ar" : plain.endsWith("er") ? "er" : "ir";
-  return { inf, pronominal, plain, type, stem: plain.slice(0, -2) };
+  const ne = /sene$/.test(inf);
+  const pronominal = ne || /si$/.test(inf);
+  const plain = ne ? `${inf.slice(0, -4)}e` : pronominal ? `${inf.slice(0, -2)}e` : inf;
+  const type = plain.endsWith("are") ? "are" : plain.endsWith("ire") ? "ire" : "ere";
+  // porre, condurre, trarre: the stem keeps its r (the generator is only a fallback for these).
+  const stem = /[aei]re$/.test(plain) ? plain.slice(0, -3) : plain.slice(0, -2);
+  return { inf, pronominal, ne, plain, type, stem };
 }
 
-// Spelling keeps the sound of the stem's last consonant: busc-é → busqué, cog-o → cojo.
-function respell(stem, ending, type) {
-  const v = unaccent(ending)[0];
-  if (type === "ar" && v === "e") {
-    if (stem.endsWith("c")) return `${stem.slice(0, -1)}qu`;
-    if (stem.endsWith("g")) return `${stem}u`;
-    if (stem.endsWith("gu")) return `${stem.slice(0, -1)}ü`;
-    if (stem.endsWith("z")) return `${stem.slice(0, -1)}c`;
+// Spelling keeps the sound of the stem's last consonant: cerc-i → cerchi, mangi-iamo → mangiamo.
+function join(stem, ending, type) {
+  if (type !== "are") return stem + ending;
+  const first = ending[0];
+  if (/[ie]/.test(first)) {
+    if (/[cg]$/.test(stem)) return `${stem}h${ending}`; // cercare, pagare
+    if (/[cg]i$/.test(stem) || /[^aeiou]i$/.test(stem)) {
+      return stem.slice(0, -1) + ending; // mangiare, cominciare, studiare
+    }
   }
-  if (type !== "ar" && (v === "a" || v === "o")) {
-    if (stem.endsWith("gu")) return stem.slice(0, -1);
-    if (stem.endsWith("g")) return `${stem.slice(0, -1)}j`;
-    if (/[^aeiou]c$/.test(stem)) return `${stem.slice(0, -1)}z`;
-  }
-  return stem;
-}
-
-// A vowel before the ending: leí, leíste, leyó, leyeron, leyendo, leído. -uir keeps the plain i
-// (construiste, construido) and only takes the y.
-function vowelEnding(stem, ending) {
-  const uir = /[^gq]u$/.test(stem);
-  if (!uir && !/[aeo]$/.test(stem)) return ending;
-  if (ending === "ió") return "yó";
-  if (ending === "ieron") return "yeron";
-  if (ending === "iendo") return "yendo";
-  if (uir) return ending;
-  if (ending === "iste") return "íste";
-  if (ending === "imos") return "ímos";
-  if (ending === "isteis") return "ísteis";
-  if (ending === "ido") return "ído";
-  return ending;
+  return stem + ending;
 }
 
 /**
- * The forms of the plain verb from its ending alone, for every stored tense plus `ger` and `p2`.
+ * The forms of the plain verb from its ending alone: every stored tense plus `ger` and `p2`.
  * `spelled: false` gives the bare pattern, which is what `x` compares against and what a learner
- * wrongly guesses (tenió, hacido); `spelled: true` applies the spelling rules and is what a verb
- * without a stored tense uses.
+ * wrongly guesses (cerco → cerci, mangii); `spelled: true` applies the spelling rules.
+ * `isc`: an -ire verb with -isc-.
  */
-export function patternForms(plainInf, spelled = true) {
+export function patternForms(plainInf, spelled = true, isc = false) {
   const { stem, type } = parseInf(plainInf);
   const E = ENDINGS[type];
-  const join = (ending, tense) => {
-    if (!spelled) return stem + ending;
-    const st = respell(stem, ending, type);
-    const usesVowelRule = type !== "ar" && (tense === "praet" || tense === "ger" || tense === "p2");
-    return st + (usesVowelRule ? vowelEnding(stem, ending) : ending);
-  };
-  const toFut = plainInf.replace(/ír$/, "ir");
-  const praes = E.praes.map((e) => join(e, "praes"));
-  const praet = E.praet.map((e) => join(e, "praet"));
-  const subj = E.subj.map((e) => join(e, "subj"));
-  const tu = `${stem}${type === "ar" ? "a" : "e"}`;
+  const j = (ending) => (spelled ? join(stem, ending, type) : stem + ending);
+  // -isc-: io, tu, lui and loro take stem + isc (finisco); noi and voi do not (finiamo, finite).
+  const build = (endings) => endings.map((e, i) => (isc && ISC_PERSONS.has(i) ? `${stem}isc${e}` : j(e)));
+  const praes = build(E.praes);
+  const subj = build(E.subj);
+  const praet = IMPF.map((e) => stem + E.impf + e);
+  const futStem = j(`${E.fut}r`);
   return {
     praes,
     praet,
-    imperf: E.imperf.map((e) => stem + e),
-    fut: FUT.map((e) => toFut + e),
-    cond: COND.map((e) => toFut + e),
+    rem: E.rem.map(j),
+    fut: FUT.map((e) => futStem + e),
+    cond: COND.map((e) => futStem + e),
     subj,
-    subjImpf: subjImpfFrom(praet[5]),
-    imp: [DASH, tu, subj[2], subj[3], `${plainInf.slice(0, -1)}d`, subj[5]],
-    ger: join(E.ger, "ger"),
-    p2: join(E.p2, "p2"),
+    subjImpf: subjImpfFrom(praet),
+    imp: [DASH, type === "are" ? praes[2] : praes[1], subj[2], praes[3], praes[4], subj[5]],
+    ger: stem + E.ger,
+    p2: stem + E.p2,
   };
 }
 
-// tuvieron → tuviera … tuviéramos … tuvieran: the nosotros form accents the vowel before -ramos.
-function subjImpfFrom(ellos) {
-  if (isDash(ellos)) return dashes();
-  const st = ellos.slice(0, -3);
-  const i = st.length - 1;
-  const stressed = st.slice(0, i) + "áéíóú"["aeiou".indexOf(st[i])] + st.slice(i + 1);
-  return [`${st}ra`, `${st}ras`, `${st}ra`, `${stressed}ramos`, `${st}rais`, `${st}ran`];
+// parlavo → parlassi, facevo → facessi: the imperfetto without -vo, plus -ssi …
+function subjImpfFrom(praet) {
+  if (isDash(praet[0])) return dashes();
+  const st = praet[0].slice(0, -2);
+  return [`${st}ssi`, `${st}ssi`, `${st}sse`, `${st}ssimo`, `${st}ste`, `${st}ssero`];
 }
 
-// The -se alternative of an imperfect subjunctive form: hablara → hablase, habláramos → hablásemos.
-export const seForm = (f) => f.replace(/ra(s|mos|is|n)?$/, (_, end = "") => `se${end}`);
-
-// --- pronouns attached to the end of a form, and the accent that follows --------------------
-
-// The vowel groups of a word, one per syllable: strong + strong split, a weak vowel joins unless
-// it carries the accent. The silent u of que/qui/gue/gui is not a vowel.
-function nuclei(word) {
-  const out = [];
-  let cur = null;
-  for (let i = 0; i < word.length; i++) {
-    const c = word[i];
-    const silentU = c === "u" && /[qg]/.test(word[i - 1] ?? "") && /[eéií]/.test(word[i + 1] ?? "");
-    if (!/[aeiouáéíóú]/.test(c) || silentU) { cur = null; continue; }
-    const strong = /[aeoáéó]/.test(c);
-    const accWeak = /[íú]/.test(c);
-    const prev = cur && word[cur[cur.length - 1]];
-    const breaks = cur && ((strong && /[aeoáéó]/.test(prev)) || accWeak || /[íú]/.test(prev));
-    if (!cur || breaks) { cur = [i]; out.push(cur); } else cur.push(i);
-  }
-  return out;
-}
-
-/** form + pronoun, accented where the stress now needs it: levanta + te → levántate, pon + te → ponte. */
-export function enclitic(form, clitic, drop = 0) {
-  const groups = nuclei(form);
-  const written = groups.findIndex((g) => g.some((i) => /[áéíóú]/.test(form[i])));
-  const defaultIdx = /[aeiouns]$/.test(form) ? Math.max(groups.length - 2, 0) : groups.length - 1;
-  const stressed = written >= 0 ? written : defaultIdx;
-  const bare = unaccent(form);
-  const stem = drop ? bare.slice(0, -drop) : bare;
-  if (groups.length - 1 - stressed < 1) return stem + clitic;
-  const g = groups[stressed];
-  const pos = g.find((i) => /[aeo]/.test(bare[i])) ?? g[g.length - 1];
-  return stem.slice(0, pos) + "áéíóú"["aeiou".indexOf(bare[pos])] + stem.slice(pos + 1) + clitic;
-}
-
-function encliticImp(imp) {
-  return imp.map((f, i) => {
-    if (isDash(f)) return f;
-    if (i === 1) return enclitic(f, "te");
-    if (i === 2 || i === 5) return enclitic(f, "se");
-    if (i === 3) return enclitic(f, "nos", 1);
-    return f.endsWith("id") ? `${f.slice(0, -2)}íos` : `${f.slice(0, -1)}os`; // vestíos, levantaos
-  });
-}
+// The participle with its agreement: andato/a (singular), andati/e (plural). Forms in -o only.
+const agree = (p2, person) => {
+  if (!p2.endsWith("o")) return p2;
+  return person === 3 || person === 4 || person === 5 ? `${p2.slice(0, -1)}i/e` : `${p2}/a`;
+};
 
 // --- one verb, all tenses --------------------------------------------------------------------
 
 // The finished tenses from plain-verb forms: pronouns added, compound and negative forms built.
-function assemble(p, base, ownImp) {
-  const pr = (i) => (p.pronominal ? `${CLITICS[i]} ` : "");
+function assemble(p, base, aux, ownImp) {
+  const clitics = p.ne ? CLITICS_NE : CLITICS;
+  const pr = (i) => (p.pronominal ? `${clitics[i]} ` : "");
   const wrap = (list) => list.map((f, i) => (isDash(f) ? f : pr(i) + f));
-  const compound = (aux, gone) => aux.map((a, i) => (gone ? DASH : `${pr(i)}${a} ${base.p2}`));
+  // avere / essere: the first is the form shown, the second the alternative (`alt`).
+  const auxes = aux === "avere/essere" ? ["avere", "essere"] : [aux];
+  const compound = (k, which = auxes[0]) =>
+    AUX[which][k].map((a, i) => `${pr(i)}${a} ${which === "essere" ? agree(base.p2, i) : base.p2}`);
+  const compoundAlt = (k) => (auxes.length > 1 ? compound(k, "essere") : null);
   const imp = ownImp ?? (p.pronominal ? encliticImp(base.imp) : base.imp);
-  return {
+  // Negative tu: non + infinitive (non parlare, non alzarti); the others: non + the affirmative.
+  const tuNeg = p.pronominal ? `${p.plain.slice(0, -1)}${p.ne ? "tene" : "ti"}` : p.plain;
+  const impNeg = imp.map((f, i) => (i === 0 || isDash(f) ? DASH : i === 1 ? `non ${tuNeg}` : `non ${f}`));
+  const out = {
     praes: wrap(base.praes),
     praet: wrap(base.praet),
-    perf: compound(AUX.perf),
-    imperf: wrap(base.imperf),
+    rem: wrap(base.rem),
     fut: wrap(base.fut),
     cond: wrap(base.cond),
     subj: wrap(base.subj),
     subjImpf: wrap(base.subjImpf),
     imp,
-    impNeg: base.subj.map((f, i) => (i === 0 || isDash(f) || isDash(imp[i]) ? DASH : `no ${pr(i)}${f}`)),
-    plusc: compound(AUX.plusc),
-    futPerf: compound(AUX.futPerf, base.fut.every(isDash)),
-    condPerf: compound(AUX.condPerf, base.cond.every(isDash)),
-    subjPerf: compound(AUX.subjPerf),
-    subjPlusc: compound(AUX.subjPlusc),
-    ger: p.pronominal ? enclitic(base.ger, "se") : base.ger,
+    impNeg,
+    ger: p.pronominal ? `${base.ger}${p.ne ? "sene" : "si"}` : base.ger,
     p2: base.p2,
+    alt: {},
   };
+  for (const k of COMPOUND) {
+    out[k] = compound(k);
+    const alt = compoundAlt(k);
+    if (alt) out.alt[k] = alt;
+  }
+  return out;
+}
+
+// alzati, si alzi, alziamoci, alzatevi, si alzino. A verb with ne (andarsene) stores its own.
+function encliticImp(imp) {
+  return imp.map((f, i) => {
+    if (isDash(f)) return f;
+    if (i === 1) return `${f}ti`;
+    if (i === 2 || i === 5) return `si ${f}`;
+    return `${f}${i === 3 ? "ci" : "vi"}`;
+  });
 }
 
 // The plain verb's forms: stored tenses first, then what follows from them.
-function plainForms(p, stored) {
-  const reg = patternForms(p.plain);
+function plainForms(p, stored, isc) {
+  const reg = patternForms(p.plain, true, isc);
   const get = (k) => (stored[k] ? split(stored[k]) : null);
-  const praes = get("praes");
+  const praes = get("praes") ?? reg.praes;
   const praet = get("praet") ?? reg.praet;
   const fut = get("fut");
-  // tengo → tenga. Only a yo form in -o can carry the subjunctive; stem-changing verbs store theirs.
-  const fromYo = praes?.[0].endsWith("o")
-    ? ENDINGS[p.type].subj.map((e) => praes[0].slice(0, -1) + e)
-    : null;
-  const subj = get("subj") ?? fromYo ?? reg.subj;
-  const cond = get("cond") ?? (fut ? (fut.every(isDash) ? dashes() : COND.map((e) => fut[0].slice(0, -1) + e)) : reg.cond);
-  const tu = praes ? praes[1].replace(/s$/, "") : reg.imp[1];
+  // vengo → venga … veniamo → veniate. Only an io form in -o can carry the congiuntivo.
+  let fromIo = null;
+  if (get("praes") && praes[0].endsWith("o")) {
+    const st = praes[0].slice(0, -1);
+    // The -are verbs that store their presente (andare, fare, dare, stare) store their congiuntivo too.
+    const e = ENDINGS.ere.subj;
+    fromIo = [st + e[0], st + e[1], st + e[2], praes[3], `${praes[3].slice(0, -2)}te`, st + e[5]];
+  }
+  const subj = get("subj") ?? fromIo ?? reg.subj;
+  const cond = get("cond") ?? (fut ? fut.map((_, i) => `${fut[0].slice(0, -1)}${COND[i]}`) : reg.cond);
+  const tu = get("praes") ? (p.type === "are" ? praes[2] : praes[1]) : reg.imp[1];
   return {
-    praes: praes ?? reg.praes,
+    praes,
     praet,
-    imperf: get("imperf") ?? reg.imperf,
+    rem: get("rem") ?? reg.rem,
     fut: fut ?? reg.fut,
     cond,
     subj,
-    subjImpf: get("subjImpf") ?? subjImpfFrom(praet[5]),
-    imp: get("imp") ?? [DASH, tu, subj[2], subj[3], reg.imp[4], subj[5]],
+    subjImpf: get("subjImpf") ?? subjImpfFrom(praet),
+    imp: get("imp") ?? [DASH, tu, subj[2], praes[3], praes[4], subj[5]],
     ger: stored.ger ?? reg.ger,
     p2: stored.p2 ?? reg.p2,
   };
 }
 
+const unaccent = (s) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").normalize("NFC");
 const safeId = (inf) => unaccent(inf.toLowerCase()).replace(/\s+/g, "-");
+
+/** The auxiliary of a table entry: stored, else essere for pronominal verbs, else avere. */
+export const auxOf = (v) => v.aux ?? (parseInf(v.inf).pronominal ? "essere" : "avere");
+const iscOf = (v) => v.isc ?? v.group === "isc";
 
 /** One entry of verbtabellen.json → its rows. `byInf`: the file's verbs, for pronominal verbs. */
 export function buildVerb(v, byInf = new Map()) {
@@ -266,37 +249,40 @@ export function buildVerb(v, byInf = new Map()) {
   const parent = p.pronominal ? byInf.get(p.plain) : null;
   const stored = {};
   for (const k of [...STORED_TENSES, "ger", "p2"]) {
-    if (parent?.[k] !== undefined) stored[k] = parent[k];
+    if (parent?.[k] !== undefined && k !== "imp") stored[k] = parent[k];
     if (v[k] !== undefined) stored[k] = v[k];
   }
+  const isc = iscOf(v) || (parent ? iscOf(parent) : false);
+  const aux = auxOf(v);
   const ownImp = p.pronominal && v.imp ? split(v.imp) : null;
-  const forms = assemble(p, plainForms(p, stored), ownImp);
-  const pattern = assemble(p, patternForms(p.plain, false));
+  const forms = assemble(p, plainForms(p, stored, isc), aux, ownImp);
+  const pattern = assemble(p, patternForms(p.plain, false, isc), aux === "avere/essere" ? "avere" : aux);
   const rows = PERSONS.map((pron, i) => {
     const row = { pron, person: i };
     for (const k of ROW_TENSES) {
       const f = forms[k][i];
       row[k] = { f, x: !isDash(f) && f !== pattern[k][i] };
+      if (forms.alt[k]) row[k].alt = forms.alt[k][i];
     }
-    if (!isDash(row.subjImpf.f)) row.subjImpf.alt = seForm(row.subjImpf.f);
-    row.subjPlusc.alt = row.subjPlusc.f.replace(AUX.subjPlusc[i], seForm(AUX.subjPlusc[i]));
     return row;
   });
-  const every = rows.flatMap((r) => ROW_TENSES.filter((k) => !/^(plusc|futPerf|condPerf|subjPerf|subjPlusc)$/.test(k)).flatMap((k) => [r[k].f, r[k].alt]));
+  const every = rows.flatMap((r) => ROW_TENSES.filter((k) => !COMPOUND.slice(1).includes(k)).flatMap((k) => [r[k].f, r[k].alt]));
   const list = [...every, forms.ger, forms.p2].filter((f) => f && !isDash(f));
   return {
     ...v,
     id: safeId(v.inf),
     plain: p.plain,
     pronominal: p.pronominal,
+    aux,
+    isc,
     ger: forms.ger,
     p2: forms.p2,
     gerX: forms.ger !== pattern.ger,
     p2X: forms.p2 !== pattern.p2,
-    // Tense without a full set of forms (haber has no imperative, soler no future).
+    // A verb without a full set of forms (potere, volere and dovere have no imperative).
     defective: rows.some((r) => ROW_TENSES.some((k) => r.person > 0 && isDash(r[k].f))),
     rows,
-    // What the search lens looks a verb up by (the simple tenses, perfecto, gerund, participle).
+    // What the search lens looks a verb up by (the simple tenses, passato prossimo, gerund, participle).
     forms: [...new Set(list)],
   };
 }
@@ -306,8 +292,12 @@ export function buildAll(list) {
   return list.map((v) => buildVerb(v, byInf));
 }
 
-// The bare pattern, as a learner would guess it: the wrong options in quizzes (tenió, hacido).
-const wrapPattern = (inf, forms) => (parseInf(inf).pronominal ? forms.map((f, i) => `${CLITICS[i]} ${f}`) : forms);
+// The bare pattern, as a learner would guess it: the wrong options in quizzes (cerco → cerci).
+const wrapPattern = (inf, forms) => {
+  const p = parseInf(inf);
+  const c = p.ne ? CLITICS_NE : CLITICS;
+  return p.pronominal ? forms.map((f, i) => `${c[i]} ${f}`) : forms;
+};
 export const regularPraes = (inf) => wrapPattern(inf, patternForms(parseInf(inf).plain, false).praes);
 export const regularPraet = (inf) => wrapPattern(inf, patternForms(parseInf(inf).plain, false).praet);
 export const regularP2 = (inf) => patternForms(parseInf(inf).plain, false).p2;

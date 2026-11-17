@@ -49,7 +49,7 @@ export const COURSES: Course[] = [
     name: 'Italiano',
     english: 'Italian',
     meta: 'CILS and CELI · life in Italy',
-    live: false,
+    live: true, // flipped by the Italian queue (deploy-readme); redeploy the hub only after the Italian Worker is up
   },
 ];
 

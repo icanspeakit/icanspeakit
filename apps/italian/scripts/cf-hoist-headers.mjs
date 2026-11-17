@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Runs after ../../scripts/nest-dist.mjs (see `cf:prepare` in package.json).
-// nest-dist copies dist/ to cf-dist/italianoo/, so dist/_headers lands at cf-dist/italianoo/_headers.
+// nest-dist copies dist/ to cf-dist/italiano/, so dist/_headers lands at cf-dist/italiano/_headers.
 // Cloudflare Workers static assets only read _headers (and _redirects) at the ROOT of the
 // assets directory, so a nested copy would be served as a plain file and its rules ignored.
 // This moves them to cf-dist/. Their rule paths already start with /italiano/ (public URLs),
@@ -12,7 +12,7 @@ import { join } from 'node:path';
 const out = 'cf-dist';
 const nested = join(out, 'italiano');
 if (!existsSync(nested)) {
-  console.error('cf-hoist-headers: cf-dist/italianoo does not exist; run nest-dist first');
+  console.error('cf-hoist-headers: cf-dist/italiano does not exist; run nest-dist first');
   process.exit(1);
 }
 for (const name of ['_headers', '_redirects']) {

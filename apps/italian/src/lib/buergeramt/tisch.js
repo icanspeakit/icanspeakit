@@ -1,7 +1,7 @@
 // Bruno at the desk: the counter and the desk, all DOM (decision 1: crisp text, tappable
 // words, screen readers). The window at the top shows the number display, the customer and the
 // queue; the desk below holds Regi's memo (with the calendar), the papers, the notes and
-// the two stamps. Spanish on the papers and in the customers' mouths, with the English in a
+// the two stamps. Italian on the papers and in the customers' mouths, with the English in a
 // `.ba-en` line that the EN button shows or hides.
 //
 // - Desktop: papers are cards you drag around and lay over each other; the memo stays pinned.
@@ -11,7 +11,7 @@
 //   A real contradiction gets red frames and a line and goes on the notes; agreeing fields
 //   say "That matches.", unrelated ones "You can’t compare those." — never a penalty.
 // - Notes: each noted mistake has one question round (three questions, one fits).
-// - Stamps: tap or drag onto the form. DEVUELTO needs a noted mistake as the reason.
+// - Stamps: tap or drag onto the form. DA CORREGGERE needs a noted mistake as the reason.
 //
 // The game flow (who comes next, points, warnings) lives in spiel.js; this module reports
 // what the player did through the callbacks passed to makeTisch().
@@ -24,8 +24,8 @@ import { setWaiting } from "../notReady.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const bold = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-// A Spanish line with its English meaning underneath.
-const zwei = (line, fmt = esc) => `<span lang="es">${fmt(line.de)}</span>${line.en ? `<small class="ba-en" lang="en">${esc(line.en).replace(/\*\*/g, "")}</small>` : ""}`;
+// An Italian line with its English meaning underneath.
+const zwei = (line, fmt = esc) => `<span lang="it">${fmt(line.de)}</span>${line.en ? `<small class="ba-en" lang="en">${esc(line.en).replace(/\*\*/g, "")}</small>` : ""}`;
 export const WAPPEN = `<svg viewBox="0 0 40 40" width="26" height="26" aria-hidden="true" class="ba-wappen"><path d="M6 4 H34 V20 Q34 32 20 37 Q6 32 6 20 Z" fill="#0d9488" stroke="#1a2230" stroke-width="2.5"/><path d="M20 10 Q29 15 26 25 Q23 30 20 31 Q17 30 14 25 Q11 15 20 10 Z" fill="#a7f3d0" stroke="#1a2230" stroke-width="2"/><path d="M20 13 V32" stroke="#1a2230" stroke-width="2"/></svg>`;
 
 export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst, onWort, onHilfe }) {
@@ -81,9 +81,9 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
       .map(([k, label]) => feldHtml(`${d.id}.${k}`, label, wertHtml(d, k, d.felder[k])))
       .join("");
     const mitBild = d.art === "ausweis" || d.art === "pass" || d.art === "foto";
-    const foto = mitBild && !d.fax ? `<div class="ba-foto${d.felder.fondo === "azul" ? " ba-foto--azul" : d.felder.fondo ? " ba-foto--blanco" : ""}">${kundeSvg(fall.person.look, "neutral", { size: 64, foto: true, hund: fall.hund })}</div>` : "";
+    const foto = mitBild && !d.fax ? `<div class="ba-foto${d.felder.fondo === "blu" ? " ba-foto--azul" : d.felder.fondo ? " ba-foto--blanco" : ""}">${kundeSvg(fall.person.look, "neutral", { size: 64, foto: true, hund: fall.hund })}</div>` : "";
     const titel = art.titel;
-    const kopf = `<button type="button" class="ba-f ba-kopf" data-f="${d.id}.kopf">${d.fax ? `<span class="ba-fax-kopf">FAX · 07:52 · Página 1/1</span>` : ""}${WAPPEN}<span class="ba-kopf-t"><small>${esc(art.kopf)}</small><b data-wort="${esc(titel)}">${esc(titel)}</b></span></button>`;
+    const kopf = `<button type="button" class="ba-f ba-kopf" data-f="${d.id}.kopf">${d.fax ? `<span class="ba-fax-kopf">FAX · 07:52 · Pagina 1/1</span>` : ""}${WAPPEN}<span class="ba-kopf-t"><small>${esc(art.kopf)}</small><b data-wort="${esc(titel)}">${esc(titel)}</b></span></button>`;
     return `<article class="ba-doc ba-doc--${d.art}${d.fax ? " ba-doc--fax" : ""}" data-doc="${d.id}" tabindex="-1" aria-label="${esc(art.titel)}">
       ${kopf}<div class="ba-doc-body">${foto}<div class="ba-fields">${fields}</div></div><div class="ba-stamp-slot" data-stamp-slot></div></article>`;
   }
@@ -98,7 +98,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     const heute = `${wochentag(fall.heute)}, ${deDatum(fall.heute)}`;
     return `<article class="ba-doc ba-doc--memo" data-doc="memo" tabindex="-1" aria-label="${esc(ui.memoTitel)}">
       <div class="ba-memo-kopf"><span class="ba-pin" aria-hidden="true"></span><b>${esc(ui.memoTitel)}</b><small>${esc(ui.memoVon)}</small></div>
-      ${feldHtml("kalender.heute", "Hoy", esc(heute), " ba-kalender")}
+      ${feldHtml("kalender.heute", "Oggi", esc(heute), " ba-kalender")}
       <div class="ba-regeln">${lines}</div>
     </article>`;
   }
@@ -328,7 +328,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (isStack() && form) { front = form.dataset.doc; layout(); }
     const slot = form?.querySelector("[data-stamp-slot]");
     if (slot) {
-      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="es">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
+      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="it">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
     }
     ton.stempel();
     root.classList.add("is-thunk");
@@ -461,7 +461,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (t.closest("[data-hilfe]")) { onHilfe?.(); return; }
   });
 
-  // keyboard: P = check, C / D = stamps (COMPLETO, DEVUELTO), Shift held = Check while held, Esc = drop selection
+  // keyboard: P = check, C / D = stamps (COMPLETO, DA CORREGGERE), Shift held = Check while held, Esc = drop selection
   function onKey(e) {
     if (root.closest("[hidden]") || root.querySelector(".ba-amt")?.hidden) return;
     if (e.key === "Shift") { if (!shiftHeld) { shiftHeld = true; paintPruefen(); } return; }

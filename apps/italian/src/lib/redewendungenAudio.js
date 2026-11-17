@@ -10,7 +10,7 @@ function speak(text) {
   if (!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "es-ES";
+  u.lang = "it-IT";
   u.rate = 0.9;
   speechSynthesis.speak(u);
 }

@@ -10,20 +10,20 @@
 //
 // Two levels, not seven equal pills: the way up ("← Alle Prüfungen") is a quiet link above,
 // and the exams are one underlined tab row — the current one in ink with a brand underline,
-// the rest muted. The CCSE stands apart behind a divider: it is the nationality
-// knowledge test, not a language exam with a level. Names follow docs/content-plan.md §2;
+// the rest muted. Civic knowledge stands apart behind a divider: it is the knowledge part of
+// the Accordo di integrazione, not a language exam with a level. Names follow docs/content-plan.md §2;
 // the hrefs are the old slots until the `routes` item renames them.
 import "../styles/exam-rail.css";
 import { stripBase } from "../lib/paths.js";
 
 const exams = [
-  { name: "DELE A1", href: "/dele/a1", level: "A1" },
-  { name: "DELE", href: "/dele", level: "A1–C2" },
-  { name: "DELE A2 for nationality", href: "/nationality/dele-a2", level: "A2" },
-  { name: "SIELE", href: "/siele", level: "A1–C1" },
-  { name: "SIELE by level", href: "/siele/levels", level: "A2–C1" },
+  { name: "Italian A1", href: "/cils/a1", level: "A1" },
+  { name: "CILS", href: "/cils", level: "A1–C2" },
+  { name: "CELI", href: "/celi", level: "A2–B1" },
+  { name: "PLIDA", href: "/plida", level: "A1–C2" },
+  { name: "Citizenship B1 mock", href: "/cittadinanza/prova-b1", level: "B1" },
 ];
-const lid = { name: "CCSE", href: "/ccse" };
+const lid = { name: "Civic knowledge", href: "/cultura-civica" };
 const here = stripBase(Astro.url.pathname).replace(/\/+$/, "");
 ---
 <nav class="ex-rail" aria-label="Exams" data-i18n-attr="aria-label:nav.exams">

@@ -5,45 +5,57 @@
   "level": "A2",
   "title": "Practice set 1",
   "formatRef": "goethe-a2",
-  "origin": "icanspeak Spanish: all texts, tasks and listening scripts are our own (2026-11-06).",
-  "sourcing": "The structure (papers, parts, task types and timings) is modelled on public information about the DELE A2 of the Instituto Cervantes; numbers of items may differ from the real exam. All texts, questions and listening scripts here were written by icanspeak Spanish; nothing is copied from a DELE paper or model exam. DELE is a diploma of the Instituto Cervantes, which has no connection with this site. There are no recordings yet, so you read the listening scripts.",
+  "origin": "icanspeak Italian: all texts, tasks and listening scripts are our own (2026-11-14).",
+  "sourcing": "The structure (papers, task types and rough timings) is modelled on the general shape of the CILS exams of the Università per Stranieri di Siena, as we understand it from public information; numbers of items, lengths of texts and timings here are our own and may differ from the real exam (to verify on the official CILS pages). All texts, questions and listening scripts were written by icanspeak Italian; nothing is copied or closely paraphrased from a CILS paper or sample paper. CILS is a certification of the Università per Stranieri di Siena, which has no connection with this site. There are no recordings yet, so you read the listening scripts.",
   "scoring": {
     "passPct": 60,
-    "note": "The real DELE gives Apto or No apto (pass or fail). As far as we could check, the papers are marked in two groups and you need a minimum in each group; check the current exam guide. The 60 % line is our own guide for this practice set, not an official pass mark."
+    "note": "This 60 % line is our own convention for the automatically marked tasks (Reading and Listening), not an official pass mark. How CILS scores and passes its papers is to verify on the official pages. Writing and Speaking are marked by you with the checklists."
   },
   "speakers": {
-    "ann": { "name": "Locutor", "voice": "es-ES-AlvaroNeural" },
-    "w1": { "name": "Mujer", "voice": "es-ES-ElviraNeural" },
-    "w2": { "name": "Mujer", "voice": "es-ES-EstrellaNeural" },
-    "w3": { "name": "Mujer", "voice": "es-ES-AbrilNeural" },
-    "m1": { "name": "Hombre", "voice": "es-ES-AlvaroNeural" },
-    "m2": { "name": "Hombre", "voice": "es-ES-ArnauNeural" }
+    "w1": {
+      "name": "Woman",
+      "voice": "it-IT-ElsaNeural"
+    },
+    "w2": {
+      "name": "Woman",
+      "voice": "it-IT-IsabellaNeural"
+    },
+    "w3": {
+      "name": "Woman",
+      "voice": "it-IT-FabiolaNeural"
+    },
+    "m1": {
+      "name": "Man",
+      "voice": "it-IT-DiegoNeural"
+    },
+    "m2": {
+      "name": "Man",
+      "voice": "it-IT-BenignoNeural"
+    }
   },
   "modules": [
     {
       "key": "reading",
       "name": "Reading",
-      "minutes": 60,
+      "minutes": 40,
       "parts": [
         {
           "key": "r1",
           "teil": 1,
           "type": "mc",
           "points": 1,
-          "title": "A personal email",
-          "instruction": "Read the email from Aitana and questions 1-5. For each question, choose the correct answer: A, B or C.",
+          "title": "A notice from the building administrator",
+          "instruction": "Leggi l'avviso. Per le domande 1-5 scegli la risposta giusta (A, B o C).",
           "texts": [
             {
               "id": "r1-t1",
-              "kind": "email",
-              "label": "Email",
-              "title": "Correo de Aitana a Nerea",
+              "kind": "brief",
+              "label": "Avviso",
+              "title": "Avviso ai condomini di via Garibaldi 14",
               "paras": [
-                "Hola, Nerea:",
-                "¿Qué tal? Hace dos semanas que nos hemos mudado a un piso nuevo en Zaragoza. Es más pequeño que el anterior, pero tiene una terraza grande y mucha luz. Lo mejor es que Jordi ahora va andando a su trabajo; antes tardaba una hora en autobús. Lo peor es el ruido: debajo hay un bar y por las noches se oye la música hasta tarde. Hemos hablado con el casero y nos ha dicho que va a cambiar las ventanas en diciembre.",
-                "El sábado 14 de noviembre hacemos una pequeña fiesta para enseñar el piso. Empezamos a las 18:00. No hace falta traer comida, pero, si quieres, puedes traer un postre. Si vienes en coche, aparca en la calle de atrás, porque delante no se puede. ¿Puedes venir? Contéstame antes del jueves.",
-                "Un abrazo,",
-                "Aitana"
+                "Gentili condomini, vi informiamo che martedì 18 e mercoledì 19 novembre l'impresa Edilcasa farà dei lavori sul tetto. Per questo motivo il cortile sarà chiuso e non sarà possibile parcheggiare le biciclette e i motorini.",
+                "Mercoledì mattina, dalle 8:00 alle 12:00, l'acqua calda non funzionerà. Se avete bisogno di fare la doccia, potete usare l'acqua fredda oppure chiedere ai vicini del primo piano: la famiglia Rossi è disponibile.",
+                "Vi chiediamo di non lasciare nulla sui balconi del quinto piano. Per qualsiasi problema scrivete all'amministratore, dottor Bruni, all'indirizzo bruni@example.com oppure telefonate allo 011 000 0000 (dal lunedì al venerdì, 9:00–13:00). Grazie per la collaborazione."
               ]
             }
           ],
@@ -51,368 +63,142 @@
             {
               "id": "r1-1",
               "text": "r1-t1",
-              "question": "¿Para qué escribe Aitana a Nerea?",
+              "question": "Che cosa succederà il 18 e il 19 novembre?",
               "options": [
-                "Para invitarla a una fiesta.",
-                "Para pedirle ayuda con una mudanza.",
-                "Para venderle un piso."
+                "Ci saranno lavori sul tetto.",
+                "Ci sarà una riunione di condominio.",
+                "Cambieranno le porte del palazzo."
               ],
               "correct": 0,
-              "why": "Aitana says «hacemos una pequeña fiesta» and asks «¿Puedes venir?», so she is inviting Nerea."
+              "why": "The notice announces work on the roof ('farà dei lavori sul tetto')."
             },
             {
               "id": "r1-2",
               "text": "r1-t1",
-              "question": "¿Qué es lo mejor del piso nuevo, según Aitana?",
+              "question": "Dove NON si possono lasciare le biciclette?",
               "options": [
-                "Es más grande que el anterior.",
-                "Jordi va al trabajo andando.",
-                "Hay un bar con música debajo."
+                "Sul balcone.",
+                "Nel cortile.",
+                "Davanti al portone."
               ],
               "correct": 1,
-              "why": "She writes «Lo mejor es que Jordi ahora va andando a su trabajo»; the new flat is smaller, and the bar is the worst thing."
+              "why": "The courtyard will be closed ('il cortile sarà chiuso')."
             },
             {
               "id": "r1-3",
               "text": "r1-t1",
-              "question": "¿Qué problema tienen en el piso?",
+              "question": "Quando non ci sarà l'acqua calda?",
               "options": [
-                "El casero no contesta.",
-                "Entra poca luz.",
-                "Se oye música por la noche."
+                "Martedì tutto il giorno.",
+                "Mercoledì mattina.",
+                "Mercoledì pomeriggio."
               ],
-              "correct": 2,
-              "why": "She says «por las noches se oye la música hasta tarde»; the flat has «mucha luz» and the landlord has spoken to them."
+              "correct": 1,
+              "why": "'Mercoledì mattina, dalle 8:00 alle 12:00'."
             },
             {
               "id": "r1-4",
               "text": "r1-t1",
-              "question": "¿Qué tiene que llevar Nerea a la fiesta?",
+              "question": "Che cosa propone l'avviso a chi vuole fare la doccia calda?",
               "options": [
-                "Comida para todos.",
-                "Un postre, si quiere.",
-                "Bebidas para todos."
+                "Andare in palestra.",
+                "Aspettare il pomeriggio.",
+                "Chiedere alla famiglia Rossi."
               ],
-              "correct": 1,
-              "why": "The text says «No hace falta traer comida, pero, si quieres, puedes traer un postre»."
+              "correct": 2,
+              "why": "The Rossi family on the first floor is 'disponibile' (willing to help)."
             },
             {
               "id": "r1-5",
               "text": "r1-t1",
-              "question": "Si Nerea va en coche, ¿dónde debe aparcar?",
+              "question": "Chi può telefonare all'amministratore?",
               "options": [
-                "En la calle de atrás.",
-                "Delante de la puerta.",
-                "En el garaje del bar."
+                "Solo chi abita al quinto piano.",
+                "Chiunque abbia un problema, nei giorni e negli orari indicati.",
+                "Solo i proprietari delle case."
               ],
-              "correct": 0,
-              "why": "Aitana says «aparca en la calle de atrás, porque delante no se puede»."
+              "correct": 1,
+              "why": "'Per qualsiasi problema' … 'dal lunedì al venerdì, 9:00–13:00'."
             }
           ]
         },
         {
           "key": "r2",
           "teil": 2,
-          "type": "mc",
-          "points": 1,
-          "title": "Notices, adverts and messages",
-          "instruction": "Read the eight short texts and questions 6-13. For each question, choose the correct answer: A, B or C.",
-          "texts": [
-            {
-              "id": "r2-t1",
-              "kind": "notice",
-              "label": "Text 1",
-              "title": "Centro de salud Los Almendros",
-              "paras": [
-                "Aviso: el lunes 9 de noviembre no hay consulta de la doctora Ruiz. Los pacientes con cita ese día deben llamar al 976 555 012 para pedir otra cita. Las urgencias se atienden con normalidad."
-              ]
-            },
-            {
-              "id": "r2-t2",
-              "kind": "message",
-              "label": "Text 2",
-              "title": "Mensaje de Javier a Lucía",
-              "paras": [
-                "Lucía, hoy no puedo recoger a Pablo en el colegio porque tengo una reunión. ¿Puedes ir tú? Salen a las 16:30. Luego nos vemos en casa. Gracias. Javier"
-              ]
-            },
-            {
-              "id": "r2-t3",
-              "kind": "notice",
-              "label": "Text 3",
-              "title": "Se vende bicicleta",
-              "paras": [
-                "Bicicleta de ciudad, casi nueva. Con luces y cesta. 120 €. Llamar al 611 000 234 por las tardes."
-              ]
-            },
-            {
-              "id": "r2-t4",
-              "kind": "notice",
-              "label": "Text 4",
-              "title": "Supermercado Aurora",
-              "paras": [
-                "Desde el 1 de noviembre abrimos de lunes a sábado, de 9:00 a 21:00. Los domingos, cerrado."
-              ]
-            },
-            {
-              "id": "r2-t5",
-              "kind": "message",
-              "label": "Text 5",
-              "title": "Nota del Colegio Río Claro",
-              "paras": [
-                "Estimadas familias: el viernes vamos de excursión al museo de ciencias. Los niños tienen que llevar un bocadillo y una botella de agua. No es necesario llevar dinero. La salida es a las 9:00."
-              ]
-            },
-            {
-              "id": "r2-t6",
-              "kind": "message",
-              "label": "Text 6",
-              "title": "Mensaje del casero",
-              "paras": [
-                "Hola, soy Iker, el casero. El miércoles por la mañana va a ir un fontanero a vuestro piso para arreglar el grifo del baño. Va a estar entre las 10:00 y las 12:00. Si no estáis, dejad la llave a la vecina. Gracias."
-              ]
-            },
-            {
-              "id": "r2-t7",
-              "kind": "notice",
-              "label": "Text 7",
-              "title": "Autobús línea 24",
-              "paras": [
-                "Por obras, del lunes 16 al viernes 20 el autobús no pasa por la calle Mayor. La parada provisional está en la calle Goya, a cinco minutos andando."
-              ]
-            },
-            {
-              "id": "r2-t8",
-              "kind": "notice",
-              "label": "Text 8",
-              "title": "Academia Horizonte",
-              "paras": [
-                "Clases de español para adultos. Grupos de mañana y de tarde. Primera clase gratis. Matrícula hasta el 30 de noviembre."
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "r2-1",
-              "text": "r2-t1",
-              "question": "¿Qué deben hacer los pacientes con cita el lunes 9?",
-              "options": [
-                "Ir al centro de todas formas.",
-                "Llamar para cambiar la cita.",
-                "Esperar una carta."
-              ],
-              "correct": 1,
-              "why": "The notice says «deben llamar al 976 555 012 para pedir otra cita»."
-            },
-            {
-              "id": "r2-2",
-              "text": "r2-t2",
-              "question": "¿Qué le pide Javier a Lucía?",
-              "options": [
-                "Que recoja a Pablo en el colegio.",
-                "Que prepare la cena.",
-                "Que llegue más tarde a casa."
-              ],
-              "correct": 0,
-              "why": "Javier cannot «recoger a Pablo en el colegio» and asks «¿Puedes ir tú?»."
-            },
-            {
-              "id": "r2-3",
-              "text": "r2-t3",
-              "question": "¿Cuándo se puede llamar por la bicicleta?",
-              "options": [
-                "Por la mañana.",
-                "Solo los fines de semana.",
-                "Por la tarde."
-              ],
-              "correct": 2,
-              "why": "The advert says «Llamar al 611 000 234 por las tardes»."
-            },
-            {
-              "id": "r2-4",
-              "text": "r2-t4",
-              "question": "¿Cuándo está cerrado el supermercado?",
-              "options": [
-                "Los sábados.",
-                "Los domingos.",
-                "Los lunes."
-              ],
-              "correct": 1,
-              "why": "It is open «de lunes a sábado» and «Los domingos, cerrado»."
-            },
-            {
-              "id": "r2-5",
-              "text": "r2-t5",
-              "question": "¿Qué tienen que llevar los niños a la excursión?",
-              "options": [
-                "Comida y agua.",
-                "Dinero para las entradas.",
-                "Ropa de deporte."
-              ],
-              "correct": 0,
-              "why": "The note asks for «un bocadillo y una botella de agua» and says «No es necesario llevar dinero»."
-            },
-            {
-              "id": "r2-6",
-              "text": "r2-t6",
-              "question": "¿Para qué escribe el casero?",
-              "options": [
-                "Para pedir el dinero del alquiler.",
-                "Para decir que va a vender el piso.",
-                "Para avisar de que va a ir un fontanero."
-              ],
-              "correct": 2,
-              "why": "He writes «va a ir un fontanero a vuestro piso para arreglar el grifo»."
-            },
-            {
-              "id": "r2-7",
-              "text": "r2-t7",
-              "question": "¿Dónde pueden coger el autobús los viajeros esa semana?",
-              "options": [
-                "En la calle Mayor.",
-                "En la calle Goya.",
-                "En la plaza."
-              ],
-              "correct": 1,
-              "why": "The notice says the bus does not use calle Mayor and the temporary stop is «en la calle Goya»."
-            },
-            {
-              "id": "r2-8",
-              "text": "r2-t8",
-              "question": "¿Qué es gratis en la academia?",
-              "options": [
-                "El libro.",
-                "La matrícula.",
-                "La primera clase."
-              ],
-              "correct": 2,
-              "why": "The advert says «Primera clase gratis»; the enrolment has a deadline but no free price is mentioned."
-            }
-          ]
-        },
-        {
-          "key": "r3",
-          "teil": 3,
           "type": "match",
-          "allowReuse": true,
           "points": 1,
-          "title": "Three people, one topic",
-          "instruction": "Read the three texts about sport and questions 14-19. Who says this? For each question, choose the correct letter: A, B or C. You can choose any letter more than once.",
+          "title": "Local services: eight adverts, six people",
+          "instruction": "Leggi le sei situazioni (6-11) e gli otto annunci (A-H). Trova l'annuncio giusto per ogni persona. Ogni lettera si può usare una sola volta. Due annunci non servono.",
           "pool": {
             "a": {
-              "title": "A - Oksana",
-              "body": "Trabajo en una tienda y salgo a las ocho. Por eso voy al gimnasio los sábados por la mañana. Hago clases de baile con unas amigas y nos divertimos mucho. Antes corría, pero me dolía la rodilla. En enero quiero apuntarme a natación."
+              "title": "A · Ambulatorio Salute",
+              "body": "Visite del medico di base su appuntamento. Aperto dal lunedì al venerdì dalle 8:00 alle 13:00. Prenotazioni online o per telefono."
             },
             "b": {
-              "title": "B - Youssef",
-              "body": "Juego al fútbol todos los martes con compañeros del trabajo. Es barato: pagamos cinco euros cada uno por el campo. No me gusta el gimnasio porque me aburro solo. Los domingos paseo en bici con mi hijo por el río."
+              "title": "B · Scuola di italiano Parole",
+              "body": "Corsi di italiano per stranieri il sabato mattina, dalle 9:30 alle 12:30. Ideale per chi lavora durante la settimana. Primo incontro gratuito."
             },
             "c": {
-              "title": "C - Valentina",
-              "body": "Yo no hago deporte en grupo. Prefiero caminar media hora cada mañana antes de ir a la oficina. Es gratis y puedo escuchar música. El año pasado fui a un gimnasio, pero era muy caro y lo dejé. Ahora busco unas zapatillas cómodas."
+              "title": "C · Bicicletteria Ruota Libera",
+              "body": "Riparazioni veloci di biciclette, anche il giorno stesso. Vendita di biciclette usate a prezzi bassi. Chiuso la domenica."
+            },
+            "d": {
+              "title": "D · Pizzeria Da Salvo",
+              "body": "Pizza al taglio e pizze da asporto. Consegna a domicilio gratis per ordini sopra i 15 euro. Aperto tutti i giorni dalle 18:00 alle 23:00."
+            },
+            "e": {
+              "title": "E · Biblioteca comunale",
+              "body": "Prestito gratuito di libri e film. Sala studio aperta fino alle 22:00. Per iscriversi basta un documento d'identità."
+            },
+            "f": {
+              "title": "F · Lavanderia Bolla Blu",
+              "body": "Lavatrici e asciugatrici self-service, aperto ogni giorno dalle 7:00 alle 22:00. Si pagano 4 euro a lavaggio."
+            },
+            "g": {
+              "title": "G · Sportello lavoro del Comune",
+              "body": "Aiuto per scrivere il curriculum e per cercare un impiego. Martedì e giovedì dalle 9:00 alle 12:00. Non serve prenotare."
+            },
+            "h": {
+              "title": "H · Agenzia Casa Facile",
+              "body": "Appartamenti in affitto in centro. Contratti da 4+4 anni o transitori. Contattateci per un appuntamento."
             }
           },
           "items": [
-            { "id": "r3-1", "prompt": "¿Quién practica deporte con compañeros de trabajo?", "correct": "b", "why": "Youssef says «Juego al fútbol todos los martes con compañeros del trabajo»." },
-            { "id": "r3-2", "prompt": "¿Quién cambió de actividad por un dolor?", "correct": "a", "why": "Oksana says «Antes corría, pero me dolía la rodilla», and now she dances." },
-            { "id": "r3-3", "prompt": "¿Quién dejó el gimnasio por el precio?", "correct": "c", "why": "Valentina says the gym «era muy caro y lo dejé»." },
-            { "id": "r3-4", "prompt": "¿Quién quiere empezar una actividad nueva en enero?", "correct": "a", "why": "Oksana says «En enero quiero apuntarme a natación»." },
-            { "id": "r3-5", "prompt": "¿Quién hace deporte con un familiar?", "correct": "b", "why": "Youssef rides his bike on Sundays «con mi hijo»." },
-            { "id": "r3-6", "prompt": "¿Quién camina antes de ir a trabajar?", "correct": "c", "why": "Valentina walks «media hora cada mañana antes de ir a la oficina»." }
-          ]
-        },
-        {
-          "key": "r4",
-          "teil": 4,
-          "type": "mc",
-          "points": 1,
-          "title": "A person's story",
-          "instruction": "Read the article about Ionuț and questions 20-25. For each question, choose the correct answer: A, B or C.",
-          "texts": [
             {
-              "id": "r4-t1",
-              "kind": "article",
-              "label": "Magazine",
-              "title": "Un nuevo comienzo en Bilbao",
-              "paras": [
-                "Ionuț Pop llegó a Bilbao hace cuatro años. En Rumanía trabajaba en una fábrica de muebles, pero cobraba poco y casi no veía a su familia, porque salía de casa muy temprano. Su hermano ya vivía en Bilbao y le dijo: «Aquí hay trabajo para ti».",
-                "Al principio fue difícil. Ionuț no hablaba español y vivía con otras cuatro personas en un piso pequeño. Por las tardes iba a clase en una escuela para adultos y, cuando volvía a casa, hablaba con los vecinos para practicar. «Me daba vergüenza, pero me ayudó mucho», cuenta.",
-                "Hoy trabaja en una carpintería y tiene un contrato fijo. Hace un año alquiló un piso con su mujer, Ana María, y tienen una hija de dos años. Los sábados, Ionuț enseña carpintería a jóvenes del barrio. «No quiero volver a vivir en Rumanía, pero en verano siempre vamos a ver a la familia», dice. Su próximo plan es abrir su propio taller."
-              ]
-            }
-          ],
-          "items": [
-            {
-              "id": "r4-1",
-              "text": "r4-t1",
-              "question": "¿Por qué dejó Ionuț su país?",
-              "options": [
-                "Porque cerraron la fábrica.",
-                "Porque ganaba poco y veía poco a su familia.",
-                "Porque quería estudiar en España."
-              ],
-              "correct": 1,
-              "why": "The text says «cobraba poco y casi no veía a su familia»."
+              "id": "r2-6",
+              "prompt": "Anna è senza lavoro e non sa come scrivere un curriculum.",
+              "correct": "g",
+              "why": "Text G offers help with the CV and job search, no booking needed."
             },
             {
-              "id": "r4-2",
-              "text": "r4-t1",
-              "question": "¿Quién le habló de las oportunidades en Bilbao?",
-              "options": [
-                "Su hermano.",
-                "Un compañero de la fábrica.",
-                "Su mujer."
-              ],
-              "correct": 0,
-              "why": "«Su hermano ya vivía en Bilbao y le dijo: Aquí hay trabajo para ti»."
+              "id": "r2-7",
+              "prompt": "Mehdi lavora tutti i giorni dal lunedì al venerdì, ma vuole imparare meglio l'italiano.",
+              "correct": "b",
+              "why": "Text B is a Saturday-morning course, 'ideale per chi lavora'."
             },
             {
-              "id": "r4-3",
-              "text": "r4-t1",
-              "question": "¿Cómo aprendió español?",
-              "options": [
-                "Con un curso por Internet.",
-                "Viendo la televisión.",
-                "En clase y hablando con los vecinos."
-              ],
-              "correct": 2,
-              "why": "He went «a clase en una escuela para adultos» and «hablaba con los vecinos para practicar»."
+              "id": "r2-8",
+              "prompt": "Giulia ha la febbre da due giorni e vuole vedere il suo medico.",
+              "correct": "a",
+              "why": "Text A: appointments with the family doctor on weekdays."
             },
             {
-              "id": "r4-4",
-              "text": "r4-t1",
-              "question": "¿Cómo es su trabajo ahora?",
-              "options": [
-                "Tiene un contrato temporal.",
-                "Tiene un contrato fijo.",
-                "Trabaja por su cuenta."
-              ],
-              "correct": 1,
-              "why": "The text says he works in a carpintería and «tiene un contrato fijo»."
+              "id": "r2-9",
+              "prompt": "Marco ha una lavatrice rotta e deve lavare i vestiti stasera alle 21:00.",
+              "correct": "f",
+              "why": "The launderette is self-service and open until 22:00."
             },
             {
-              "id": "r4-5",
-              "text": "r4-t1",
-              "question": "¿Qué hace los sábados?",
-              "options": [
-                "Va a clase de español.",
-                "Trabaja en una fábrica.",
-                "Da clases a jóvenes."
-              ],
-              "correct": 2,
-              "why": "«Los sábados, Ionuț enseña carpintería a jóvenes del barrio»."
+              "id": "r2-10",
+              "prompt": "Elena ha la bicicletta rotta e la vuole riparare oggi.",
+              "correct": "c",
+              "why": "Text C repairs bikes 'anche il giorno stesso'."
             },
             {
-              "id": "r4-6",
-              "text": "r4-t1",
-              "question": "¿Qué quiere hacer en el futuro?",
-              "options": [
-                "Abrir su propio taller.",
-                "Volver a vivir en Rumanía.",
-                "Cambiar de ciudad."
-              ],
-              "correct": 0,
-              "why": "His next plan is «abrir su propio taller»; he says he does not want to live in Romania again."
+              "id": "r2-11",
+              "prompt": "Karim vuole leggere dei libri senza spendere soldi.",
+              "correct": "e",
+              "why": "The library lends books for free ('prestito gratuito')."
             }
           ]
         }
@@ -421,271 +207,244 @@
     {
       "key": "listening",
       "name": "Listening",
-      "minutes": 35,
+      "minutes": 25,
       "parts": [
         {
           "key": "l1",
           "teil": 1,
           "type": "mc",
           "points": 1,
-          "title": "Six short messages",
-          "instruction": "Questions 1-6. You will hear six short messages and announcements. You will hear each one twice. For each question, choose the correct answer: A, B or C. (There are no recordings yet: read the script.)",
+          "title": "Five short messages",
+          "instruction": "Ascolterai cinque messaggi brevi. Per le domande 1-5 scegli la risposta giusta (A, B o C). Ascolterai ogni messaggio due volte.",
           "clips": [
             {
               "id": "l1-c1",
-              "title": "Message 1",
+              "title": "Messaggio 1 · Il medico",
               "plays": 2,
               "script": [
-                { "s": "w1", "t": "Buenos días, señor Ruiz. Le llamo de la clínica dental Sonrisa. El martes a las 10:00 el dentista no puede atenderle. ¿Puede venir el jueves a las 11:30? Llámenos al 976 555 044 para confirmar. Gracias." }
+                {
+                  "s": "w1",
+                  "t": "Buongiorno, sono la segretaria dell'ambulatorio del dottor Mancini. Il suo appuntamento di domani alle nove è spostato alle dieci e mezza, perché il dottore ha una visita urgente. Se l'orario non va bene, ci chiami entro stasera."
+                }
               ]
             },
             {
               "id": "l1-c2",
-              "title": "Message 2",
+              "title": "Messaggio 2 · Il padrone di casa",
               "plays": 2,
               "script": [
-                { "s": "ann", "t": "Atención, viajeros del tren con destino Zaragoza. Por una avería, el tren de las 15:20 sale con veinte minutos de retraso. Además, no sale de la vía 2, sino de la vía 4. Pedimos disculpas por las molestias." }
+                {
+                  "s": "m1",
+                  "t": "Ciao, sono Franco, il proprietario dell'appartamento. Sabato mattina passo per controllare la caldaia. Arrivo verso le dieci e ci metto circa mezz'ora. Se non ci sei, lascio la chiave alla portinaia."
+                }
               ]
             },
             {
               "id": "l1-c3",
-              "title": "Message 3",
+              "title": "Messaggio 3 · Un'amica",
               "plays": 2,
               "script": [
-                { "s": "m1", "t": "Hola, buenas tardes. Soy Pablo, de la tienda de móviles Conecta. Su teléfono ya está arreglado. Puede pasar a recogerlo hasta el sábado, de 10:00 a 14:00. El arreglo cuesta 45 euros. Hasta pronto." }
+                {
+                  "s": "w2",
+                  "t": "Ciao Sara, sono Lucia. Ti scrivo perché venerdì sera non posso venire a cena da te, mi dispiace. Devo lavorare fino a tardi. Possiamo fare sabato? Fammi sapere. Un bacio!"
+                }
               ]
             },
             {
               "id": "l1-c4",
-              "title": "Message 4",
+              "title": "Messaggio 4 · La scuola",
               "plays": 2,
               "script": [
-                { "s": "w2", "t": "Hola, Iker, ¿has visto la nota de la comunidad?" },
-                { "s": "m2", "t": "No, ¿qué dice?" },
-                { "s": "w2", "t": "Que el lunes por la mañana cortan el agua por unas obras en el edificio." },
-                { "s": "m2", "t": "Vaya. Entonces tengo que ducharme antes de salir." }
+                {
+                  "s": "w3",
+                  "t": "Buongiorno, sono la maestra di Matteo. Domani la classe va al museo, quindi i bambini devono portare il pranzo al sacco e una bottiglietta d'acqua. Non serve lo zaino grande. Grazie e a domani."
+                }
               ]
             },
             {
               "id": "l1-c5",
-              "title": "Message 5",
+              "title": "Messaggio 5 · Il corriere",
               "plays": 2,
               "script": [
-                { "s": "m2", "t": "Hola, Lucía, soy Jordi. Mañana no puedo ir contigo al gimnasio, porque tengo que trabajar hasta tarde. ¿Quedamos otro día? Yo puedo el jueves o el viernes por la tarde. Dime algo, ¿vale?" }
-              ]
-            },
-            {
-              "id": "l1-c6",
-              "title": "Message 6",
-              "plays": 2,
-              "script": [
-                { "s": "w3", "t": "Buenos días, familias. Les recordamos que el lunes empieza el horario de invierno: las clases comienzan a las 9:00 y terminan a las 14:00. Además, la reunión con los profesores es el martes a las 17:00, en la biblioteca." }
+                {
+                  "s": "m2",
+                  "t": "Buongiorno, sono il corriere. Ho un pacco per lei, ma non ho trovato nessuno a casa. Lo trova al negozio di fiori all'angolo, in via Dante 3, fino alle sei di oggi. Porti un documento."
+                }
               ]
             }
           ],
           "items": [
-            { "id": "l1-1", "clip": "l1-c1", "question": "¿Cuándo es la nueva cita con el dentista?", "options": ["El martes a las 11:30.", "El jueves a las 10:00.", "El jueves a las 11:30."], "correct": 2, "why": "The clinic offers «el jueves a las 11:30»; Tuesday at 10:00 is the old time." },
-            { "id": "l1-2", "clip": "l1-c2", "question": "¿De qué vía sale el tren?", "options": ["De la vía 2.", "De la vía 4.", "De la vía 20."], "correct": 1, "why": "The announcer says «no sale de la vía 2, sino de la vía 4»; twenty is the number of minutes of delay." },
-            { "id": "l1-3", "clip": "l1-c3", "question": "¿Cuánto cuesta el arreglo del móvil?", "options": ["45 euros.", "54 euros.", "14 euros."], "correct": 0, "why": "The shop says «El arreglo cuesta 45 euros»; 14:00 is the closing time." },
-            { "id": "l1-4", "clip": "l1-c4", "question": "¿Qué pasa el lunes por la mañana?", "options": ["No hay luz.", "No hay ascensor.", "No hay agua."], "correct": 2, "why": "The woman says «cortan el agua»." },
-            { "id": "l1-5", "clip": "l1-c5", "question": "¿Qué propone Jordi?", "options": ["Ir al gimnasio mañana.", "Quedar otro día.", "Ir al gimnasio sin Lucía."], "correct": 1, "why": "He cannot go tomorrow and asks «¿Quedamos otro día?»." },
-            { "id": "l1-6", "clip": "l1-c6", "question": "¿Qué hay el martes en el colegio?", "options": ["Una reunión con los profesores.", "Una fiesta.", "Un examen."], "correct": 0, "why": "The message says «la reunión con los profesores es el martes a las 17:00»." }
+            {
+              "id": "l1-1",
+              "clip": "l1-c1",
+              "question": "Che cosa cambia nell'appuntamento?",
+              "options": [
+                "Il giorno.",
+                "L'orario.",
+                "Il medico."
+              ],
+              "correct": 1,
+              "why": "The appointment moves from nine to half past ten."
+            },
+            {
+              "id": "l1-2",
+              "clip": "l1-c2",
+              "question": "Che cosa farà Franco sabato?",
+              "options": [
+                "Pulirà la casa.",
+                "Controllerà la caldaia.",
+                "Cambierà la serratura."
+              ],
+              "correct": 1,
+              "why": "'Passo per controllare la caldaia'."
+            },
+            {
+              "id": "l1-3",
+              "clip": "l1-c3",
+              "question": "Perché Lucia non può venire venerdì?",
+              "options": [
+                "Deve lavorare.",
+                "È malata.",
+                "Va a trovare i genitori."
+              ],
+              "correct": 0,
+              "why": "'Devo lavorare fino a tardi'."
+            },
+            {
+              "id": "l1-4",
+              "clip": "l1-c4",
+              "question": "Che cosa devono portare i bambini domani?",
+              "options": [
+                "Uno zaino grande.",
+                "Il pranzo e dell'acqua.",
+                "Dei soldi per il biglietto."
+              ],
+              "correct": 1,
+              "why": "Packed lunch and a bottle of water; no big backpack."
+            },
+            {
+              "id": "l1-5",
+              "clip": "l1-c5",
+              "question": "Dove può ritirare il pacco la persona?",
+              "options": [
+                "Dal corriere, domani.",
+                "In un negozio di fiori.",
+                "In portineria."
+              ],
+              "correct": 1,
+              "why": "The parcel is at the flower shop at the corner."
+            }
           ]
         },
         {
           "key": "l2",
           "teil": 2,
-          "type": "mc",
+          "type": "match",
           "points": 1,
-          "title": "A local radio programme",
-          "instruction": "Questions 7-12. You will hear six short items from a local radio programme. You will hear each one twice. For each question, choose the correct answer: A, B or C.",
+          "title": "Five people talk about where they live",
+          "instruction": "Cinque persone parlano della loro casa. Abbina ogni persona (6-10) a una frase (A-G). Ogni lettera si può usare una sola volta. Due frasi non servono. Ascolterai ogni persona due volte.",
+          "pool": {
+            "a": "Abita vicino al lavoro.",
+            "b": "Vorrebbe una casa più grande.",
+            "c": "Vive con degli amici.",
+            "d": "Non ama il rumore della sua strada.",
+            "e": "Ha un giardino.",
+            "f": "Paga un affitto molto alto.",
+            "g": "Ha appena cambiato casa."
+          },
           "clips": [
             {
               "id": "l2-c1",
-              "title": "Item 1 · El tiempo",
+              "title": "Persona 1",
               "plays": 2,
               "script": [
-                { "s": "ann", "t": "Y ahora, el tiempo. Mañana habrá nubes por la mañana y por la tarde lloverá en el norte. En el sur hará sol, con 24 grados." }
+                {
+                  "s": "w1",
+                  "t": "Io e due colleghi abbiamo preso un appartamento in zona stazione. Dividiamo l'affitto e le spese e ci troviamo bene. La sera cuciniamo insieme."
+                }
               ]
             },
             {
               "id": "l2-c2",
-              "title": "Item 2 · Mercadillo",
+              "title": "Persona 2",
               "plays": 2,
               "script": [
-                { "s": "m1", "t": "Este sábado, de 10:00 a 15:00, mercadillo de ropa y juguetes de segunda mano en la plaza de los Olmos. La entrada es gratuita y habrá música en directo." }
+                {
+                  "s": "m1",
+                  "t": "La casa è bella, ma di notte le macchine non smettono mai di passare. Ho provato a mettere i doppi vetri, però il rumore si sente ancora. Dormo male."
+                }
               ]
             },
             {
               "id": "l2-c3",
-              "title": "Item 3 · Entrevista",
+              "title": "Persona 3",
               "plays": 2,
               "script": [
-                { "s": "w1", "t": "Tengo un huerto en el barrio desde hace tres años. Voy todos los días después del trabajo, a las seis. Cultivo tomates y lechugas, y se los regalo a mis vecinos." }
+                {
+                  "s": "w2",
+                  "t": "Sabato scorso abbiamo portato gli ultimi scatoloni. Siamo ancora in mezzo alle cose da sistemare, ma i bambini sono contenti perché hanno la loro camera."
+                }
               ]
             },
             {
               "id": "l2-c4",
-              "title": "Item 4 · Natación",
+              "title": "Persona 4",
               "plays": 2,
               "script": [
-                { "s": "w3", "t": "¿Quieres aprender a nadar? El polideportivo municipal organiza cursos para adultos a partir del 2 de diciembre. Son dos tardes por semana y cuestan 60 euros al mes. Puedes apuntarte en recepción o por Internet." }
+                {
+                  "s": "m2",
+                  "t": "Vado in ufficio a piedi, in dieci minuti. Prima prendevo due autobus e ci mettevo un'ora. Adesso la mattina dormo un po' di più."
+                }
               ]
             },
             {
               "id": "l2-c5",
-              "title": "Item 5 · Tráfico",
+              "title": "Persona 5",
               "plays": 2,
               "script": [
-                { "s": "ann", "t": "Información de tráfico. Hoy hay retenciones en la entrada a la ciudad por un accidente. Se recomienda usar el autobús o el tren de cercanías." }
-              ]
-            },
-            {
-              "id": "l2-c6",
-              "title": "Item 6 · Cine",
-              "plays": 2,
-              "script": [
-                { "s": "m2", "t": "Mi recomendación de hoy es una película española sobre dos hermanos que abren un bar. Es muy divertida. La podéis ver en los cines de la ciudad hasta el domingo." }
+                {
+                  "s": "w3",
+                  "t": "Siamo in quattro e abbiamo solo due stanze. Quando i ragazzi crescono diventa difficile. Cerchiamo da mesi un trilocale, ma i prezzi sono troppo alti."
+                }
               ]
             }
           ],
           "items": [
-            { "id": "l2-1", "clip": "l2-c1", "question": "¿Qué tiempo hará mañana en el sur?", "options": ["Lloverá.", "Hará sol.", "Hará mucho frío."], "correct": 1, "why": "The forecast says «En el sur hará sol»; rain is for the north." },
-            { "id": "l2-2", "clip": "l2-c2", "question": "¿Qué se puede hacer en la plaza el sábado?", "options": ["Comprar ropa y juguetes usados.", "Ver una película.", "Aprender a cocinar."], "correct": 0, "why": "It is a «mercadillo de ropa y juguetes de segunda mano»." },
-            { "id": "l2-3", "clip": "l2-c3", "question": "¿Qué hace la mujer con sus verduras?", "options": ["Las vende.", "Las lleva a un restaurante.", "Se las da a sus vecinos."], "correct": 2, "why": "She says «se los regalo a mis vecinos»." },
-            { "id": "l2-4", "clip": "l2-c4", "question": "¿Cómo se puede uno apuntar a los cursos?", "options": ["Solo por teléfono.", "En recepción o por Internet.", "Solo por correo."], "correct": 1, "why": "The announcer says «Puedes apuntarte en recepción o por Internet»." },
-            { "id": "l2-5", "clip": "l2-c5", "question": "¿Qué se recomienda hoy?", "options": ["Salir más tarde.", "Ir en bici.", "Usar el transporte público."], "correct": 2, "why": "The report recommends «el autobús o el tren de cercanías»." },
-            { "id": "l2-6", "clip": "l2-c6", "question": "¿Hasta cuándo se puede ver la película?", "options": ["Hasta el domingo.", "Una semana más.", "Todo el mes."], "correct": 0, "why": "He says «hasta el domingo»." }
-          ]
-        },
-        {
-          "key": "l3",
-          "teil": 3,
-          "type": "match",
-          "allowReuse": true,
-          "points": 1,
-          "title": "A conversation about the weekend",
-          "instruction": "Questions 13-18. You will hear Lucía and Jordi planning a day out. Who says this? For each question, choose A (Lucía), B (Jordi) or C (neither of them). You will hear the conversation twice.",
-          "pool": {
-            "a": "Lucía",
-            "b": "Jordi",
-            "c": "Ninguno de los dos"
-          },
-          "clips": [
             {
-              "id": "l3-c1",
-              "title": "Conversation · Un día en la sierra",
-              "plays": 2,
-              "names": { "w1": "Lucía", "m1": "Jordi" },
-              "script": [
-                { "s": "w1", "t": "Jordi, ¿has pensado qué hacemos el sábado?" },
-                { "s": "m1", "t": "He mirado el tiempo: va a hacer sol. Podemos ir a la sierra y andar un poco." },
-                { "s": "w1", "t": "Vale, pero yo no tengo botas. Tengo que comprar unas antes." },
-                { "s": "m1", "t": "Yo tengo unas botas muy buenas, no necesito nada. ¿Vamos en tu coche?" },
-                { "s": "w1", "t": "Mejor en el tuyo, ¿no?" },
-                { "s": "m1", "t": "Mi coche está en el taller desde el lunes. Podemos coger el tren. Yo compro los billetes por Internet." },
-                { "s": "w1", "t": "Perfecto. Yo preparo la comida. ¿Te gustan los bocadillos de tortilla?" },
-                { "s": "m1", "t": "Me encantan. ¿Invitamos a Carmen?" },
-                { "s": "w1", "t": "Mejor no, tiene que estudiar todo el fin de semana." },
-                { "s": "m1", "t": "Es verdad. Pero a lo mejor Iker puede venir. Le escribo yo esta noche." },
-                { "s": "w1", "t": "Genial. Entonces quedamos el sábado a las ocho en la estación." }
-              ]
+              "id": "l2-6",
+              "clip": "l2-c1",
+              "prompt": "Persona 1",
+              "correct": "c",
+              "why": "She shares the flat with two colleagues."
+            },
+            {
+              "id": "l2-7",
+              "clip": "l2-c2",
+              "prompt": "Persona 2",
+              "correct": "d",
+              "why": "The traffic noise at night keeps him awake."
+            },
+            {
+              "id": "l2-8",
+              "clip": "l2-c3",
+              "prompt": "Persona 3",
+              "correct": "g",
+              "why": "They moved last Saturday."
+            },
+            {
+              "id": "l2-9",
+              "clip": "l2-c4",
+              "prompt": "Persona 4",
+              "correct": "a",
+              "why": "She walks to the office in ten minutes."
+            },
+            {
+              "id": "l2-10",
+              "clip": "l2-c5",
+              "prompt": "Persona 5",
+              "correct": "b",
+              "why": "Four people in two rooms: they are looking for a bigger flat."
             }
-          ],
-          "items": [
-            { "id": "l3-1", "prompt": "Su coche no funciona.", "correct": "b", "why": "Jordi says «Mi coche está en el taller desde el lunes»." },
-            { "id": "l3-2", "prompt": "Necesita comprar botas.", "correct": "a", "why": "Lucía says «yo no tengo botas. Tengo que comprar unas antes»." },
-            { "id": "l3-3", "prompt": "Va a comprar los billetes de tren.", "correct": "b", "why": "Jordi says «Yo compro los billetes por Internet»." },
-            { "id": "l3-4", "prompt": "Va a invitar a Carmen.", "correct": "c", "why": "Jordi suggests it, but Lucía says «Mejor no, tiene que estudiar», so nobody invites her." },
-            { "id": "l3-5", "prompt": "Va a preparar la comida.", "correct": "a", "why": "Lucía says «Yo preparo la comida»." },
-            { "id": "l3-6", "prompt": "Va a escribir a Iker.", "correct": "b", "why": "Jordi says «Le escribo yo esta noche»." }
-          ]
-        },
-        {
-          "key": "l4",
-          "teil": 4,
-          "type": "match",
-          "points": 1,
-          "title": "Seven short messages",
-          "instruction": "Questions 19-25. You will hear seven short messages. Match each message with the statement that fits it: A-J. Each letter can be used only once. There are three statements you do not need. You will hear each message twice.",
-          "pool": {
-            "a": "Cambia la hora de una reunión.",
-            "b": "Pide que le devuelvan un libro.",
-            "c": "Avisa de que va a llegar tarde.",
-            "d": "Invita a una cena.",
-            "e": "Pregunta por un piso para alquilar.",
-            "f": "Ofrece un trabajo.",
-            "g": "Da las gracias por un regalo.",
-            "h": "Informa de dónde está un paquete.",
-            "i": "Pide que cuiden de su perro.",
-            "j": "Recuerda que hay que pagar una factura."
-          },
-          "clips": [
-            {
-              "id": "l4-c1",
-              "title": "Mensaje 1",
-              "plays": 2,
-              "script": [
-                { "s": "w1", "t": "Hola, Nerea, soy Carmen. Este sábado cenamos en casa con unos amigos. ¿Quieres venir? Empezamos sobre las nueve. Dime algo, ¿vale?" }
-              ]
-            },
-            {
-              "id": "l4-c2",
-              "title": "Mensaje 2",
-              "plays": 2,
-              "script": [
-                { "s": "m1", "t": "Hola, Pablo, soy Iker. Quedamos a las siete para ir al cine, pero estoy en el metro y está parado por una avería. Voy a llegar a las siete y media. Perdona." }
-              ]
-            },
-            {
-              "id": "l4-c3",
-              "title": "Mensaje 3",
-              "plays": 2,
-              "script": [
-                { "s": "w2", "t": "Buenos días. Llamo por el anuncio del piso de la calle del Olivo. ¿Sigue libre? Me gustaría verlo esta semana. Mi número es el 611 000 987." }
-              ]
-            },
-            {
-              "id": "l4-c4",
-              "title": "Mensaje 4",
-              "plays": 2,
-              "script": [
-                { "s": "m2", "t": "Buenos días, señora Ortega. Soy el repartidor. Hoy he pasado por su casa con un paquete, pero no había nadie. Lo he dejado en el estanco de la esquina." }
-              ]
-            },
-            {
-              "id": "l4-c5",
-              "title": "Mensaje 5",
-              "plays": 2,
-              "script": [
-                { "s": "w3", "t": "Hola, Youssef, soy Amina. Este fin de semana me voy a Valencia y no tengo con quién dejar a mi perro. ¿Podrías cuidarlo dos días? Te lo agradezco mucho." }
-              ]
-            },
-            {
-              "id": "l4-c6",
-              "title": "Mensaje 6",
-              "plays": 2,
-              "script": [
-                { "s": "m1", "t": "Hola a todos, soy Javier. La reunión de mañana no será a las diez, sino a las doce, porque la sala está ocupada. Lo siento." }
-              ]
-            },
-            {
-              "id": "l4-c7",
-              "title": "Mensaje 7",
-              "plays": 2,
-              "script": [
-                { "s": "w1", "t": "Hola, tía, soy Lucía. Muchas gracias por el jersey. Me ha encantado, es de mi color favorito. Ya me lo he puesto. Un beso." }
-              ]
-            }
-          ],
-          "items": [
-            { "id": "l4-1", "clip": "l4-c1", "prompt": "Mensaje 1", "correct": "d", "why": "Carmen says «cenamos en casa» and «¿Quieres venir?», so she invites Nerea to dinner." },
-            { "id": "l4-2", "clip": "l4-c2", "prompt": "Mensaje 2", "correct": "c", "why": "Iker is stuck in the metro and says «Voy a llegar a las siete y media», half an hour late." },
-            { "id": "l4-3", "clip": "l4-c3", "prompt": "Mensaje 3", "correct": "e", "why": "The woman calls about «el anuncio del piso» and asks «¿Sigue libre?»." },
-            { "id": "l4-4", "clip": "l4-c4", "prompt": "Mensaje 4", "correct": "h", "why": "The courier says «Lo he dejado en el estanco de la esquina», so he tells her where the parcel is." },
-            { "id": "l4-5", "clip": "l4-c5", "prompt": "Mensaje 5", "correct": "i", "why": "Amina asks «¿Podrías cuidarlo dos días?» about her dog." },
-            { "id": "l4-6", "clip": "l4-c6", "prompt": "Mensaje 6", "correct": "a", "why": "Javier says the meeting is «no a las diez, sino a las doce», so the time changes." },
-            { "id": "l4-7", "clip": "l4-c7", "prompt": "Mensaje 7", "correct": "g", "why": "Lucía says «Muchas gracias por el jersey»." }
           ]
         }
       ]
@@ -693,34 +452,34 @@
     {
       "key": "writing",
       "name": "Writing",
-      "minutes": 50,
+      "minutes": 30,
       "parts": [
         {
           "key": "w1",
           "teil": 1,
           "type": "schreiben",
-          "title": "Reply to an email",
-          "instruction": "Task 1. Read the email and write your reply. Write about 65 words in Spanish. Answer all the questions.",
+          "points": 10,
+          "title": "A short message",
+          "instruction": "Scrivi un breve messaggio (circa 50 parole). Rispondi a tutti i punti.",
           "tasks": [
             {
-              "id": "w1-1",
-              "title": "Task 1 · Reply to a friend",
-              "minutes": 20,
-              "words": 65,
-              "situation": "Your friend Nerea sends you this email:\n\nHola:\nEl sábado hacemos una cena en casa para celebrar mi cumpleaños. ¿Puedes venir? ¿Qué te gustaría comer? ¿Quieres traer algo?\nUn abrazo,\nNerea",
-              "prompt": "Write a reply to Nerea.",
+              "id": "w1-t1",
+              "title": "Task 1 · A message to a colleague",
+              "minutes": 10,
+              "words": 50,
+              "situation": "Domani non puoi andare al lavoro perché devi accompagnare tuo figlio dal medico. Scrivi un messaggio alla tua collega Paola.",
+              "prompt": "Scrivi il messaggio a Paola.",
               "points": [
-                "Thank her and say if you can come.",
-                "Say what you like to eat.",
-                "Say what you can bring.",
-                "Ask one question about the dinner."
+                "Spiega perché domani non vieni.",
+                "Chiedi a Paola di prendere un documento sulla tua scrivania.",
+                "Di' quando torni al lavoro."
               ],
-              "model": "Hola, Nerea:\nMuchas gracias por la invitación. Claro que voy a ir a tu cumpleaños, pero voy a llegar un poco tarde, porque el sábado trabajo hasta las ocho. No como carne, pero me gustan mucho el pescado y la ensalada. Puedo llevar una tarta de chocolate y, si quieres, también unas bebidas. ¿A qué hora empieza la cena?\nUn abrazo,\nJordi",
+              "model": "Ciao Paola,\ndomani non vengo al lavoro perché devo portare mio figlio dal medico. Puoi prendere tu la cartella blu che è sulla mia scrivania e darla al capo? Grazie mille! Torno giovedì mattina.\nA presto,\nLeila",
               "checklist": [
-                "Content: you thank Nerea, say if you can come, say what you like to eat, offer to bring something and ask a question.",
-                "Organisation: a greeting («Hola, Nerea:»), short clear sentences and a closing («Un abrazo»).",
-                "Language: simple present and ir a + infinitive; polite phrases such as «si quieres» or «puedo llevar».",
-                "Length: about 65 words. Check accents and the signs ¿ ? at the start and end of questions."
+                "All three points are covered (why, the document, when you return).",
+                "Register: informal (tu) with a colleague you know, a greeting and a goodbye.",
+                "Present tense and the near future (domani … vengo / torno), «devo» + infinitive.",
+                "Length: about 50 words."
               ]
             }
           ]
@@ -729,27 +488,29 @@
           "key": "w2",
           "teil": 2,
           "type": "schreiben",
-          "title": "Write about something that happened",
-          "instruction": "Task 2. Write a short text in Spanish. Write about 75 words.",
+          "points": 15,
+          "title": "An email",
+          "instruction": "Scrivi un'email di circa 80 parole. Rispondi a tutti i punti.",
           "tasks": [
             {
-              "id": "w2-1",
-              "title": "Task 2 · A day you remember",
-              "minutes": 25,
-              "words": 75,
-              "situation": "In your Spanish class, the teacher asks everyone to write about a day out that they enjoyed last month.",
-              "prompt": "Write about a day you enjoyed.",
+              "id": "w2-t1",
+              "title": "Task 2 · Email to the landlord",
+              "minutes": 20,
+              "words": 80,
+              "situation": "Abiti in un appartamento in affitto. Da una settimana il riscaldamento non funziona. Scrivi un'email al proprietario, il signor Ferri.",
+              "prompt": "Scrivi l'email al signor Ferri.",
               "points": [
-                "Say where you went and who with.",
-                "Say what you did.",
-                "Say why you liked the day."
+                "Presentati e di' qual è il problema.",
+                "Spiega da quanto tempo il problema c'è.",
+                "Chiedi quando può mandare qualcuno a riparare.",
+                "Proponi un giorno in cui sei a casa."
               ],
-              "model": "El mes pasado fui a Toledo con mi amiga Valentina. Salimos de Madrid en tren a las nueve de la mañana y llegamos en media hora. Primero visitamos la catedral y después comimos en un restaurante pequeño. Por la tarde dimos un paseo por las calles del centro y compramos unos recuerdos para nuestras familias. Me gustó mucho el día porque hizo buen tiempo y la ciudad es muy bonita. Volvimos a casa muy cansadas, pero contentas.",
+              "model": "Gentile signor Ferri,\nsono Ana Lopez, abito nell'appartamento al terzo piano di via Roma 5. Le scrivo perché da una settimana il riscaldamento non funziona e in casa fa molto freddo. Può mandare qualcuno a controllare la caldaia il prima possibile? Io sono a casa tutti i pomeriggi dopo le due, ma sabato sono libera tutto il giorno.\nLa ringrazio e Le auguro buona giornata.\nAna Lopez",
               "checklist": [
-                "Content: you say where you went and with whom, what you did and why you liked the day.",
-                "Organisation: words like «primero», «después», «por la tarde», «porque» link your sentences.",
-                "Language: pretérito indefinido for finished actions (fui, comimos, volvimos) and the right endings.",
-                "Length: about 75 words."
+                "All four points are covered.",
+                "Register: formal (Lei, «Gentile signor Ferri», «La ringrazio»).",
+                "«da una settimana» + present for something that is still true.",
+                "Correct accents (è, può, più, sabato) and about 80 words."
               ]
             }
           ]
@@ -759,46 +520,42 @@
     {
       "key": "speaking",
       "name": "Speaking",
-      "minutes": 15,
+      "minutes": 10,
       "parts": [
         {
           "key": "sp1",
           "teil": 1,
           "type": "sprechen",
-          "title": "A short talk",
-          "instruction": "Prepare for 8 minutes, then talk about the topic for about 3 minutes. The examiner may ask one or two questions afterwards.",
+          "title": "Introduce yourself",
+          "instruction": "L'esaminatore ti fa alcune domande su di te. Rispondi con frasi complete. Questa parte dura circa due minuti.",
           "tasks": [
             {
-              "id": "sp1-1",
-              "title": "Part 1 · Your daily routine",
-              "mode": "solo",
-              "prepMinutes": 8,
-              "minutes": 3,
-              "situation": "You talk to the examiner about a normal day in your life.",
-              "prompt": "Talk about your daily routine. Use these points.",
+              "id": "sp1-t1",
+              "title": "Part 1 · About you",
+              "mode": "paar",
+              "minutes": 2,
+              "situation": "L'esaminatore ti chiede di parlare di te, della tua famiglia e del tuo lavoro.",
+              "prompt": "Rispondi alle domande.",
               "card": {
-                "title": "Mi rutina diaria",
+                "title": "Domande dell'esaminatore",
                 "lines": [
-                  "¿A qué hora te levantas y qué desayunas?",
-                  "¿Cómo vas al trabajo o a clase?",
-                  "¿Qué haces por la tarde?",
-                  "¿Qué te gusta hacer los fines de semana?"
+                  "Come ti chiami? Di dov'è la tua famiglia?",
+                  "Dove abiti adesso? Da quanto tempo?",
+                  "Che lavoro fai o che cosa studi?",
+                  "Che cosa fai nel tempo libero?"
                 ]
               },
               "redemittel": [
-                "Me levanto a las... y desayuno...",
-                "Voy al trabajo en autobús / en metro / andando.",
-                "Por la tarde hago la compra / estudio / salgo con amigos.",
-                "Los fines de semana me gusta...",
-                "Después... y luego...",
-                "Me gusta mi rutina porque..."
+                "Mi chiamo…",
+                "Abito a… da… anni.",
+                "Lavoro come…",
+                "Nel tempo libero mi piace…"
               ],
-              "model": "Voy a hablar de un día normal de mi semana. Me levanto a las siete y media, me ducho y desayuno café con tostadas. Después voy al trabajo en autobús; tardo unos veinte minutos. Trabajo en una tienda de ropa y salgo a las cinco. Por la tarde hago la compra, preparo la cena y hablo con mi familia por el móvil. Los fines de semana me gusta salir con mis amigos o ir a la playa. Me gusta mi rutina porque es tranquila.",
+              "model": "Mi chiamo Ana e sono spagnola, di Valencia. Ora abito a Bologna da due anni, con mio marito e mia figlia. Lavoro come infermiera in un ospedale. Nel tempo libero mi piace camminare e cucinare con mia figlia.",
               "checklist": [
-                "Task: you speak about all four points and keep talking for about 3 minutes.",
-                "Organisation: you use linking words («después», «luego», «por la tarde») and finish with a short closing sentence.",
-                "Language: present tense of regular and reflexive verbs (me levanto, voy, hago); times of the day.",
-                "Pronunciation: clear and easy to follow; do not stop to translate."
+                "You answered every question with a full sentence.",
+                "Present tense with «da» for how long.",
+                "You spoke for about two minutes without long pauses."
               ]
             }
           ]
@@ -807,41 +564,36 @@
           "key": "sp2",
           "teil": 2,
           "type": "sprechen",
-          "title": "Describe a photo",
-          "instruction": "Prepare for 7 minutes, then describe the photo for about 3 minutes. (We have no photo, so the photo is described in words on the card.)",
+          "title": "A role play",
+          "instruction": "Hai una situazione di tutti i giorni. L'esaminatore fa la parte dell'altra persona. Questa parte dura circa tre minuti.",
           "tasks": [
             {
-              "id": "sp2-1",
-              "title": "Part 2 · A photo of a market",
-              "mode": "solo",
-              "prepMinutes": 7,
+              "id": "sp2-t1",
+              "title": "Part 2 · At the pharmacy",
+              "mode": "paar",
               "minutes": 3,
-              "situation": "Imagine you see a photo and you describe it to the examiner.",
-              "prompt": "Describe the photo: who is there, where they are and what they are doing. Then say if you like going to a market.",
+              "situation": "Sei in farmacia. Hai mal di gola da tre giorni.",
+              "prompt": "Parla con il farmacista (l'esaminatore).",
               "card": {
-                "title": "Foto: En el mercado",
+                "title": "In farmacia",
                 "lines": [
-                  "Es un mercado de barrio, al aire libre, en un día de sol.",
-                  "Una mujer joven compra naranjas y tomates en un puesto.",
-                  "Detrás del puesto, un vendedor mayor sonríe y pone la fruta en una bolsa.",
-                  "Hay cajas de fruta y verdura y un cartel con los precios.",
-                  "Al lado hay un niño con una barra de pan y un perro."
+                  "Saluta e spiega il problema.",
+                  "Rispondi alle domande del farmacista (da quanto tempo, se hai la febbre).",
+                  "Chiedi come prendere la medicina.",
+                  "Chiedi il prezzo e ringrazia."
                 ]
               },
               "redemittel": [
-                "En la foto veo...",
-                "Hay... / Está... / Están...",
-                "A la izquierda / a la derecha / detrás / al lado de...",
-                "Creo que son... / Parece que...",
-                "Me gusta ir al mercado porque...",
-                "Yo prefiero ir al supermercado porque..."
+                "Buongiorno, ho mal di gola da…",
+                "Ho / Non ho la febbre.",
+                "Come devo prenderla?",
+                "Quanto costa?"
               ],
-              "model": "En la foto veo un mercado al aire libre. Hace buen tiempo. En el centro hay una mujer joven que compra naranjas y tomates. Detrás del puesto hay un vendedor mayor; sonríe y pone la fruta en una bolsa. Hay muchas cajas de fruta y verdura y un cartel con los precios. A la derecha hay un niño con una barra de pan y un perro. Parece que es un día normal en el barrio. A mí me gusta ir al mercado porque la fruta está más fresca y la gente es simpática.",
+              "model": "Farmacista: Buongiorno, dica.\nIo: Buongiorno. Ho mal di gola da tre giorni e un po' di tosse.\nFarmacista: Ha la febbre?\nIo: No, la febbre non ce l'ho.\nFarmacista: Allora le consiglio queste pastiglie.\nIo: Come devo prenderle?\nFarmacista: Una ogni quattro ore, dopo i pasti.\nIo: Va bene. Quanto costa?\nFarmacista: Sei euro e cinquanta.\nIo: Ecco. Grazie e arrivederci.",
               "checklist": [
-                "Task: you describe the people, the place and what they do, and you give your own opinion at the end.",
-                "Organisation: you start with the whole scene and then give details («en el centro», «a la derecha»).",
-                "Language: «hay», «está/están» and the present tense; words for places and food.",
-                "Pronunciation: clear and not too fast; stress the right syllable."
+                "You explained the problem and answered the questions.",
+                "You asked how to take the medicine and the price.",
+                "You used Lei with the pharmacist."
               ]
             }
           ]
@@ -850,87 +602,36 @@
           "key": "sp3",
           "teil": 3,
           "type": "sprechen",
-          "title": "Role play",
-          "instruction": "You talk to the examiner or a partner in a situation from the photo. Take turns: one of you is the customer, the other the seller. You have about 4 minutes.",
+          "title": "Describe a picture",
+          "instruction": "Guarda la fotografia (descritta qui a parole) e parla per circa due minuti.",
           "tasks": [
             {
-              "id": "sp3-1",
-              "title": "Part 3 · Buying fruit at the market",
-              "mode": "paar",
-              "minutes": 4,
-              "situation": "You are at the market stall from the photo. You want fruit and vegetables for a family lunch on Sunday. Your partner is the seller.",
-              "prompt": "Customer: buy what you need. Seller: help the customer. Then change roles.",
-              "points": [
-                "Customer: greet and say what you want (for example 2 kilos of tomatoes and some oranges).",
-                "Customer: ask for the price and if the oranges are sweet.",
-                "Seller: suggest something else and say the total.",
-                "Customer: pay and say goodbye."
-              ],
+              "id": "sp3-t1",
+              "title": "Part 3 · A market",
+              "mode": "solo",
+              "minutes": 2,
+              "situation": "Hai una fotografia di un mercato all'aperto.",
+              "prompt": "Descrivi la foto e di' se vai al mercato.",
               "card": {
-                "title": "Tarjeta para el cliente",
+                "title": "Foto: un mercato",
                 "lines": [
-                  "Saludas y pides dos kilos de tomates y un kilo de naranjas.",
-                  "Preguntas cuánto cuesta todo.",
-                  "Preguntas si las naranjas son dulces.",
-                  "Pagas y te despides."
+                  "Nella foto: un mercato in una piazza, di mattina. In primo piano un banco di frutta e verdura con pomodori e arance. Un venditore pesa delle mele per una signora.",
+                  "Dietro ci sono altri banchi con ombrelloni colorati e molte persone con le borse della spesa.",
+                  "Che cosa vedi? Che cosa fanno le persone?",
+                  "Tu fai la spesa al mercato o al supermercato? Perché?"
                 ]
               },
               "redemittel": [
-                "Buenos días, quería... / Póngame... / Me da...",
-                "¿Cuánto cuesta el kilo de...? / ¿Cuánto es todo?",
-                "¿Son dulces / frescas?",
-                "¿Algo más? / Nada más, gracias.",
-                "Aquí tiene. / Gracias, que tenga un buen día.",
-                "Son... euros."
+                "Nella foto vedo…",
+                "In primo piano / Sullo sfondo c'è…",
+                "Secondo me…",
+                "Io di solito vado…"
               ],
-              "model": "Cliente: Buenos días. Quería dos kilos de tomates y un kilo de naranjas, por favor.\nVendedor: Muy bien. ¿Quiere algo más? Hoy tengo unas fresas muy buenas.\nCliente: No, gracias, nada más. ¿Las naranjas son dulces?\nVendedor: Sí, son de Valencia y están muy ricas.\nCliente: Estupendo. ¿Cuánto es todo?\nVendedor: Son 6,40 € en total.\nCliente: Aquí tiene. Muchas gracias.\nVendedor: A usted. ¡Que tenga un buen día!\nCliente: Igualmente, adiós.",
+              "model": "Nella foto vedo un mercato in una piazza. In primo piano c'è un banco di frutta e verdura. Un venditore dà delle mele a una signora. Dietro ci sono altri banchi e molta gente. Sembra una bella giornata. Io faccio la spesa al mercato il sabato, perché la frutta è più fresca e i prezzi sono buoni.",
               "checklist": [
-                "Task: you buy everything on the card, ask the two questions and pay.",
-                "Interaction: you listen and react to what the other person says; you answer the question «¿Algo más?».",
-                "Language: polite phrases («quería», «por favor», «gracias») and numbers with kilos and euros.",
-                "Pronunciation: clear numbers and prices; friendly tone."
-              ]
-            }
-          ]
-        },
-        {
-          "key": "sp4",
-          "teil": 4,
-          "type": "sprechen",
-          "title": "Conversation about your life",
-          "instruction": "You and your partner talk about your lives. Ask each other questions. You have about 4 minutes.",
-          "tasks": [
-            {
-              "id": "sp4-1",
-              "title": "Part 4 · Where you live and what you like",
-              "mode": "paar",
-              "minutes": 4,
-              "situation": "The examiner asks you and your partner to get to know each other. Ask each other questions and answer them.",
-              "prompt": "Talk about where you live, your free time and your plans.",
-              "card": {
-                "title": "Preguntas",
-                "lines": [
-                  "¿Dónde vives? ¿Vives en un piso o en una casa?",
-                  "¿Qué hay cerca de tu casa?",
-                  "¿Qué haces en tu tiempo libre?",
-                  "¿Qué hiciste el fin de semana pasado?",
-                  "¿Qué vas a hacer el próximo verano?"
-                ]
-              },
-              "redemittel": [
-                "Vivo en un piso en el barrio de...",
-                "Cerca de mi casa hay un parque / una farmacia / un supermercado.",
-                "En mi tiempo libre me gusta...",
-                "El fin de semana pasado fui a... y...",
-                "El próximo verano voy a...",
-                "¿Y tú? ¿Qué piensas?"
-              ],
-              "model": "A: ¿Dónde vives?\nB: Vivo en un piso pequeño en Sevilla, con mi pareja. ¿Y tú?\nA: Yo vivo en una casa en las afueras de Valencia. Cerca hay un parque y un supermercado.\nB: ¡Qué bien! ¿Qué haces en tu tiempo libre?\nA: Me gusta correr y ver series. El fin de semana pasado fui a la playa con mis amigos. ¿Y tú?\nB: Yo cociné con mi madre y vimos una película. ¿Qué vas a hacer el próximo verano?\nA: Voy a viajar a Galicia con mi familia. Quiero ver el mar y comer pescado.",
-              "checklist": [
-                "Task: you answer every question with more than one word and you ask your partner at least two questions.",
-                "Interaction: you listen, react («¡Qué bien!», «¿De verdad?») and keep the conversation going.",
-                "Language: present for habits, pretérito indefinido for last weekend, ir a + infinitive for plans.",
-                "Pronunciation: clear and easy to understand; use question intonation."
+                "You described what you see and what the people are doing.",
+                "You answered the personal question and gave a reason.",
+                "«c'è / ci sono» and the present progressive or present tense for actions."
               ]
             }
           ]

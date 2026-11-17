@@ -13,10 +13,13 @@
     "  prompt  a situation plus points to cover (messages, emails, letters, opinion texts)",
     "  errors  a text with mistakes to find",
     "",
-    "Language: `situation` and `points` are English at A1–A2 and Spanish at B1–B2, like the",
-    "reading questions. Form labels, `phrases`, `source` and `model` are Spanish at every level",
-    "(a form in Spain is in Spanish). `title`, `blurb` and `check` are English. A `situation` gives",
-    "its length as “(30–40 words)” or “(80–100 palabras)”: src/lib/schreibKorrektur.js reads it.",
+    "Language: `situation` and `points` are English at A1–A2 and Italian at B1–B2, like the",
+    "reading questions. Form labels, `phrases`, `source` and `model` are Italian at every level",
+    "(a form in Italy is in Italian). `title`, `blurb` and `check` are English. A `situation` gives",
+    "its length as “(30–40 words)” or “(80–100 parole)”: src/lib/schreibKorrektur.js reads it.",
+    "Formal emails use Lei (or voi for an office) and end with Cordiali saluti / Distinti saluti;",
+    "dates are 11/11/2026, times 17:30. Phone numbers are placeholders (3xx 000 0000), emails",
+    "use example.com. The Comune form (a2-padron-form) is invented for practice.",
     "",
     "The three B1 entries with `from` are the B1 simulation from src/data/lesen.json, pulled in at",
     "build time so there is exactly one copy of that text on the site. Form `answer` values keep",
@@ -37,26 +40,26 @@
       "type": "formular",
       "kind": "form",
       "title": "Joining the sports centre",
-      "blurb": "Ten fields, one short text – and two surnames, as on many forms in Spain.",
+      "blurb": "Ten fields, one short text – and a form that wants the CAP and the Comune in separate boxes.",
       "minutes": 6,
-      "source": "¡Hola! Me llamo Valentina Ríos Mejía. Mi fecha de nacimiento es el 4 de marzo de 1996. Vivo en la calle del Olmo, número 12, en Valdelora. El código postal es 46999. Mi móvil es el 600 000 012 y mi correo es valentina.rios@example.com. Quiero ir a natación dos veces por semana, por la tarde. Soy principiante.",
+      "source": "Ciao! Mi chiamo Valentina Rossi. Sono nata il 4 marzo 1996. Abito in via dell'Olmo, numero 12, a Casalbruno. Il CAP è 20999. Il mio cellulare è il 3xx 000 0012 e la mia email è valentina.rossi@example.com. Voglio fare nuoto due volte a settimana, il pomeriggio. Sono principiante.",
       "fields": [
-        { "label": "Nombre", "answer": "Valentina" },
-        { "label": "Primer apellido", "answer": "Ríos" },
-        { "label": "Segundo apellido", "answer": "Mejía" },
-        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "04/03/1996" },
-        { "label": "Domicilio (calle y número)", "answer": "calle del Olmo, 12" },
-        { "label": "Código postal", "answer": "46999" },
-        { "label": "Municipio", "answer": "Valdelora" },
-        { "label": "Teléfono móvil", "answer": "600 000 012" },
-        { "label": "Correo electrónico", "answer": "valentina.rios@example.com" },
-        { "label": "Actividad", "answer": "natación" }
+        { "label": "Nome", "answer": "Valentina" },
+        { "label": "Cognome", "answer": "Rossi" },
+        { "label": "Data di nascita (GG/MM/AAAA)", "answer": "04/03/1996" },
+        { "label": "Indirizzo (via e numero)", "answer": "via dell'Olmo, 12" },
+        { "label": "CAP", "answer": "20999" },
+        { "label": "Comune", "answer": "Casalbruno" },
+        { "label": "Cellulare", "answer": "3xx 000 0012" },
+        { "label": "Email", "answer": "valentina.rossi@example.com" },
+        { "label": "Attività", "answer": "nuoto" },
+        { "label": "Livello (principiante / intermedio / avanzato)", "answer": "principiante" }
       ],
       "check": [
-        "“Nombre” is your first name; “apellidos” are your surnames. Many Spanish forms ask for two (“primer” and “segundo apellido”). If you only have one, leave the second empty.",
+        "“Nome” is your first name and “cognome” your surname. Some forms ask for “Cognome e nome” in that order, so read the label before you copy.",
         "The date is day/month/year: 04/03/1996. 03/04/1996 would be 3 April.",
-        "“Código postal” and “municipio” go in separate fields, even if they are together in the text.",
-        "Accents count: “natación”, “Ríos”, “Mejía”."
+        "“CAP” (the postcode) and “Comune” (the town) go in separate fields, even if they are together in the text.",
+        "The address is street, comma, number: “via dell'Olmo, 12”. Keep the apostrophe and the accent marks of the text."
       ]
     },
     {
@@ -67,7 +70,7 @@
       "title": "You can't come",
       "blurb": "Saying no in three sentences: the reason, sorry, a new idea.",
       "minutes": 8,
-      "situation": "Your friend Lucía has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short WhatsApp message in Spanish (30–40 words).",
+      "situation": "Your friend Giulia has invited you to her birthday party on Saturday. You can't go, because you have to work. Write her a short WhatsApp message in Italian (30–40 words).",
       "points": [
         "Say that you can't come.",
         "Give the reason.",
@@ -75,17 +78,17 @@
         "Suggest another day to meet."
       ],
       "phrases": [
-        "Lo siento, no puedo ir.",
-        "El sábado tengo que trabajar.",
-        "¡Feliz cumpleaños!",
-        "¿Quedamos el domingo?"
+        "Mi dispiace, non posso venire.",
+        "Sabato devo lavorare.",
+        "Tanti auguri!",
+        "Ci vediamo domenica?"
       ],
-      "model": "¡Hola, Lucía!\n\nGracias por la invitación. Lo siento mucho, pero el sábado no puedo ir porque tengo que trabajar.\n\n¡Feliz cumpleaños! ¿Quedamos el domingo y te invito a un café?\n\nUn abrazo,\nKevin",
+      "model": "Ciao Giulia!\n\nGrazie per l'invito. Mi dispiace tanto, ma sabato non posso venire perché devo lavorare.\n\nTanti auguri! Ci vediamo domenica? Ti offro un caffè, così festeggiamo insieme!\n\nUn abbraccio,\nKevin",
       "check": [
         "All four points are there: in an exam, a missing point costs more than a small grammar mistake.",
-        "There is a greeting and a sign-off (¡Hola, Lucía! / Un abrazo).",
-        "Questions and exclamations open and close: ¿…? and ¡…!",
-        "The sentences are short. At A1, “Tengo que trabajar.” is better than a long sentence with a mistake."
+        "There is a greeting and a sign-off (Ciao Giulia! / Un abbraccio).",
+        "Accents are part of the spelling: “perché”, “caffè”, “è”. Without them the word is wrong, even if you can read it.",
+        "The sentences are short. At A1, “Devo lavorare.” is better than a long sentence with a mistake."
       ]
     },
     {
@@ -94,27 +97,27 @@
       "type": "email",
       "kind": "prompt",
       "title": "An email to your neighbour",
-      "blurb": "Asking for help politely – with “¿Podría…?” instead of “Tiene que…”.",
+      "blurb": "Asking for help politely – with “Potrebbe…?” instead of “Deve…”.",
       "minutes": 10,
-      "situation": "You are going on holiday for two weeks. Your neighbour, señora Ortega, has offered to help while you are away. Write her an email in Spanish (50–60 words). You don't know her very well, so use “usted”.",
+      "situation": "You are going on holiday for two weeks. Your neighbour, signora Conti, has offered to help while you are away. Write her an email in Italian (50–60 words). You don't know her very well, so use “Lei”.",
       "points": [
         "Say when you will be away.",
         "Ask her to water your plants.",
-        "Ask her to collect your letters.",
+        "Ask her to collect your post.",
         "Say when you will bring the key, and thank her."
       ],
       "phrases": [
-        "Estaré fuera del … al …",
-        "¿Podría …?",
-        "¿Le importaría …?",
-        "Muchas gracias por su ayuda."
+        "Sarò via dal … al …",
+        "Potrebbe …?",
+        "Le dispiacerebbe …?",
+        "Grazie mille per il suo aiuto."
       ],
-      "model": "Buenos días, señora Ortega:\n\nEstaré fuera del 3 al 17 de julio. ¿Podría regar mis plantas? Con dos veces por semana es suficiente.\n\n¿Le importaría también recoger mis cartas? Si no, el buzón se llena.\n\nEl martes por la tarde le llevo la llave. ¡Muchas gracias por su ayuda!\n\nUn saludo,\nNoor Haddad",
+      "model": "Buongiorno, signora Conti,\n\nsarò via dal 3 al 17 luglio. Potrebbe annaffiare le mie piante? Due volte a settimana è sufficiente.\n\nLe dispiacerebbe anche ritirare la posta? Altrimenti la cassetta si riempie e si vede che la casa è vuota.\n\nMartedì pomeriggio le porto la chiave. Grazie mille per il suo aiuto!\n\nCordiali saluti,\nNoor Haddad",
       "check": [
-        "The requests are questions (“¿Podría…?”, “¿Le importaría…?”), not orders (“Riegue mis plantas”, “Tiene que…”).",
-        "After “¿Le importaría…?” comes the infinitive: “¿Le importaría recoger mis cartas?”.",
-        "“Usted” all the way through: “le llevo”, “su ayuda”, “podría”. One “tú” in the middle would stand out.",
-        "Greeting and sign-off match: “Buenos días, señora Ortega:” → “Un saludo”. “Un beso” is too familiar for a neighbour you hardly know."
+        "The requests are questions (“Potrebbe…?”, “Le dispiacerebbe…?”), not orders (“Annaffi le mie piante”, “Deve…”).",
+        "After “Le dispiacerebbe…?” comes the infinitive: “Le dispiacerebbe ritirare la posta?”.",
+        "“Lei” all the way through: “le porto”, “il suo aiuto”, “potrebbe”. One “tu” in the middle would stand out.",
+        "Greeting and sign-off match: “Buongiorno, signora Conti,” → “Cordiali saluti”. “Un abbraccio” is too familiar for a neighbour you hardly know."
       ]
     },
     {
@@ -125,7 +128,7 @@
       "title": "An email to your child's school",
       "blurb": "Your child is ill: say so clearly, and ask about the homework.",
       "minutes": 8,
-      "situation": "Your son Adam (class 3.º A) is ill and can't go to school today or tomorrow. Write an email in Spanish to his class teacher, señora Lorca (35–45 words).",
+      "situation": "Your son Adam (class 3ª A) is ill and can't go to school today or tomorrow. Write an email in Italian to his class teacher, maestra Lorenzi (35–45 words).",
       "points": [
         "Say who you are and who your child is.",
         "Say why he can't go, and for how long.",
@@ -133,16 +136,16 @@
         "Thank her."
       ],
       "phrases": [
-        "Soy el padre / la madre de …",
-        "Mi hijo está enfermo. / Tiene fiebre.",
-        "Hoy no puede ir a clase.",
-        "¿Podría decirme qué deberes tiene?"
+        "Sono il papà / la mamma di …",
+        "Mio figlio ha la febbre.",
+        "Oggi non può venire a scuola.",
+        "Potrebbe dirmi quali compiti ha?"
       ],
-      "model": "Buenos días, señora Lorca:\n\nSoy Amina Yusuf, la madre de Adam, de 3.º A. Mi hijo tiene fiebre y hoy no puede ir a clase. Mañana tampoco. ¿Podría decirme qué deberes tiene?\n\nMuchas gracias.\n\nUn saludo,\nAmina Yusuf",
+      "model": "Buongiorno, maestra Lorenzi,\n\nsono Amina Yusuf, la mamma di Adam, della 3ª A. Mio figlio ha la febbre e oggi non può venire a scuola. Neanche domani. Potrebbe dirmi quali compiti ha?\n\nGrazie mille.\n\nCordiali saluti,\nAmina Yusuf",
       "check": [
-        "“Está enfermo” with “estar”, because being ill is a state: “es enfermo” is a typical mistake.",
+        "“Ha la febbre” with “avere”: “è la febbre” or “ha febbre” are typical mistakes.",
         "The teacher can tell at once which child and which class it is about.",
-        "A polite question: “¿Podría decirme…?”. Some schools use “tú” with parents; “usted” is the safe choice in a first message."
+        "A polite question: “Potrebbe dirmi…?”. Some schools use “tu” with parents; “Lei” is the safe choice in a first message."
       ]
     },
     {
@@ -150,24 +153,24 @@
       "level": "A2",
       "type": "formular",
       "kind": "form",
-      "title": "Booking at the health centre",
+      "title": "Booking at the doctor's surgery",
       "blurb": "One phone call, one form – and two details that are not said in so many words.",
       "minutes": 7,
-      "source": "— Centro de salud Las Acacias, buenos días.\n— Buenos días. Me llamo Piotr Kowalczyk. Quería pedir cita con el médico, por favor.\n— Claro. ¿Ha venido antes a este centro?\n— No, me cambié de barrio el mes pasado y todavía no conozco a ningún médico aquí.\n— ¿Su fecha de nacimiento?\n— El veinte de noviembre de mil novecientos ochenta y ocho.\n— ¿Un teléfono de contacto?\n— Mi móvil: seiscientos, cero cero cero, trescientos quince.\n— ¿Qué le pasa?\n— Me duele mucho la espalda desde hace diez días.\n— La doctora Pardo puede verle el jueves 14, a las tres y media de la tarde.\n— Perfecto, muchas gracias.",
+      "source": "— Studio medico di via Verdi, buongiorno.\n— Buongiorno. Mi chiamo Piotr Kowalczyk. Vorrei prendere un appuntamento con il medico, per favore.\n— Certo. È già stato in questo studio?\n— No, mi sono trasferito il mese scorso e qui non conosco ancora nessun medico.\n— La sua data di nascita?\n— Il venti novembre millenovecentoottantotto.\n— Un numero di telefono?\n— Il mio cellulare: tre quattro cinque, zero zero zero, zero tre uno cinque.\n— Qual è il problema?\n— Ho molto mal di schiena da dieci giorni.\n— La dottoressa Neri può riceverla giovedì 14, alle tre e mezza del pomeriggio.\n— Perfetto, grazie mille.",
       "fields": [
-        { "label": "Apellido y nombre", "answer": "Kowalczyk, Piotr" },
-        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "20/11/1988" },
-        { "label": "Teléfono de contacto", "answer": "600 000 315" },
-        { "label": "¿Primera cita en este centro? (sí/no)", "answer": "sí" },
-        { "label": "Motivo de la cita", "answer": "dolor de espalda (10 días)" },
-        { "label": "Médica", "answer": "doctora Pardo" },
-        { "label": "Fecha de la cita", "answer": "jueves 14" },
-        { "label": "Hora de la cita (HH:MM)", "answer": "15:30" }
+        { "label": "Cognome e nome", "answer": "Kowalczyk, Piotr" },
+        { "label": "Data di nascita (GG/MM/AAAA)", "answer": "20/11/1988" },
+        { "label": "Telefono", "answer": "345 000 0315" },
+        { "label": "Prima visita in questo studio? (sì/no)", "answer": "sì" },
+        { "label": "Motivo della visita", "answer": "mal di schiena (10 giorni)" },
+        { "label": "Medico", "answer": "dottoressa Neri" },
+        { "label": "Giorno dell'appuntamento", "answer": "giovedì 14" },
+        { "label": "Ora (HH:MM)", "answer": "15:30" }
       ],
       "check": [
-        "Numbers are spoken, not written: “el veinte de noviembre de mil novecientos ochenta y ocho” → 20/11/1988. Spaniards often say a mobile number in groups: “seiscientos, cero cero cero, trescientos quince”.",
-        "Careful with “¿Primera cita?”. He answers “No” to a different question (“¿Ha venido antes?”), so here the right answer is “sí”.",
-        "“Perfecto” means the appointment is confirmed, so fill in the doctor, the date and the time. “Las tres y media de la tarde” is 15:30."
+        "Numbers are spoken, not written: “il venti novembre millenovecentoottantotto” → 20/11/1988. A mobile number is often said digit by digit or in groups: “tre quattro cinque, zero zero zero…” → 345 000 0315 (a placeholder).",
+        "Careful with “Prima visita?”. He answers “No” to a different question (“È già stato in questo studio?”), so here the right answer is “sì”.",
+        "“Perfetto” means the appointment is confirmed, so fill in the doctor, the day and the time. “Alle tre e mezza del pomeriggio” is 15:30."
       ]
     },
     {
@@ -175,27 +178,27 @@
       "level": "A2",
       "type": "formular",
       "kind": "form",
-      "title": "The padrón form (practice)",
-      "blurb": "A practice version of a form you will really meet. Every town hall has its own, so check yours.",
+      "title": "The residenza form (practice)",
+      "blurb": "A practice version of a form you will really meet at the Anagrafe. Every Comune has its own, so check yours.",
       "minutes": 7,
-      "source": "Hola, soy Youssef Amrani Haddad. Nací en Tánger, en Marruecos, el 9 de enero de 1990. Mi NIE es X0000000T. Desde el 1 de septiembre vivo en la calle de las Eras, 5, 1.º B, en Valdelora. Antes vivía en Murcia. Vivo con mi mujer y con nuestro hijo pequeño: somos tres personas en casa.",
+      "source": "Salve, sono Youssef Amrani. Sono nato a Tangeri, in Marocco, il 9 gennaio 1990. Il mio codice fiscale è XXXXXX90A09Z330X. Dal 1° settembre abito in via delle Fornaci 5, interno 3, a Casalbruno. Prima abitavo a Bologna. Vivo con mia moglie e con nostro figlio piccolo: siamo in tre in casa.",
       "fields": [
-        { "label": "Primer apellido", "answer": "Amrani" },
-        { "label": "Segundo apellido", "answer": "Haddad" },
-        { "label": "Nombre", "answer": "Youssef" },
-        { "label": "Fecha de nacimiento (DD/MM/AAAA)", "answer": "09/01/1990" },
-        { "label": "Lugar de nacimiento", "answer": "Tánger" },
-        { "label": "País de nacimiento", "answer": "Marruecos" },
-        { "label": "Documento de identidad (NIE)", "answer": "X0000000T" },
-        { "label": "Domicilio", "answer": "calle de las Eras, 5, 1.º B" },
-        { "label": "Municipio anterior", "answer": "Murcia" },
-        { "label": "Personas en la vivienda (número)", "answer": "3" }
+        { "label": "Cognome", "answer": "Amrani" },
+        { "label": "Nome", "answer": "Youssef" },
+        { "label": "Data di nascita (GG/MM/AAAA)", "answer": "09/01/1990" },
+        { "label": "Luogo di nascita", "answer": "Tangeri" },
+        { "label": "Stato di nascita", "answer": "Marocco" },
+        { "label": "Codice fiscale", "answer": "XXXXXX90A09Z330X" },
+        { "label": "Indirizzo", "answer": "via delle Fornaci, 5, interno 3" },
+        { "label": "Abita a questo indirizzo dal (GG/MM)", "answer": "01/09" },
+        { "label": "Comune di provenienza", "answer": "Bologna" },
+        { "label": "Componenti della famiglia (numero)", "answer": "3" }
       ],
       "check": [
-        "A Spanish address runs street, number, floor, door: “calle de las Eras, 5, 1.º B”.",
-        "“Municipio anterior” asks where you lived before: Murcia, not Valdelora and not Tánger.",
-        "Copy your document number exactly, letter by letter. The number here is a made-up example.",
-        "This is language practice, not official guidance: the real form and the papers to bring vary, so ask at your own “ayuntamiento”."
+        "An Italian address runs street, number, then the flat: “via delle Fornaci, 5, interno 3”.",
+        "“Comune di provenienza” asks where you lived before: Bologna, not Casalbruno and not Tangeri.",
+        "Copy your codice fiscale exactly, letter by letter. The one here is a made-up placeholder.",
+        "This is language practice, not official guidance: the real form and the papers to bring vary, so ask at your own Comune (Ufficio Anagrafe)."
       ]
     },
     {
@@ -213,8 +216,8 @@
       "level": "B1",
       "type": "brief",
       "kind": "prompt",
-      "title": "B1 writing: reply to Javier",
-      "blurb": "Five points, one informal email to a friend.",
+      "title": "B1 writing: an email to the Anagrafe",
+      "blurb": "Four points, one formal email to a Comune office: move an appointment.",
       "minutes": 25,
       "from": "dtz-writingPrompt"
     },
@@ -226,26 +229,26 @@
       "title": "An email to your landlady",
       "blurb": "The boiler has broken: describe the problem, ask for a date, stay polite.",
       "minutes": 20,
-      "situation": "La caldera de tu piso se ha estropeado y hace tres días que no tienes agua caliente. Escribe un correo a tu casera, la señora Ibáñez (80–100 palabras).",
+      "situation": "La caldaia del tuo appartamento si è rotta e da tre giorni non hai acqua calda. Scrivi un'email alla tua padrona di casa, la signora Ferrari (80–100 parole).",
       "points": [
-        "Explica qué ha pasado y desde cuándo.",
-        "Di por qué es un problema serio para ti o para tu familia.",
-        "Pídele que venga un técnico y di cuándo estás en casa.",
-        "Pregúntale si llama ella al técnico o si lo llamas tú."
+        "Spiega cos'è successo e da quando.",
+        "Di' perché è un problema serio per te o per la tua famiglia.",
+        "Chiedile di mandare un tecnico e di' quando sei a casa.",
+        "Chiedile se chiama lei il tecnico o se lo chiami tu."
       ],
       "phrases": [
-        "Le escribo porque …",
-        "Desde el lunes no tenemos …",
-        "¿Podría enviar a un técnico lo antes posible?",
-        "Estamos en casa todas las tardes, a partir de las 17:00.",
-        "Quedo a la espera de su respuesta."
+        "Le scrivo perché …",
+        "Da lunedì non abbiamo …",
+        "Potrebbe mandare un tecnico al più presto?",
+        "Siamo a casa tutti i pomeriggi, dalle 17:00.",
+        "In attesa di un suo riscontro, la ringrazio."
       ],
-      "model": "Estimada señora Ibáñez:\n\nLe escribo porque la caldera del piso se estropeó el lunes y, desde entonces, no tenemos agua caliente ni calefacción. Es un problema serio, sobre todo para mis hijos, que son pequeños.\n\n¿Podría enviar a un técnico lo antes posible? Estamos en casa todas las tardes, a partir de las 17:00, y el sábado por la mañana. ¿Llama usted al técnico o prefiere que lo llame yo?\n\nQuedo a la espera de su respuesta. Muchas gracias.\n\nUn saludo,\nIonuț Popa",
+      "model": "Gentile signora Ferrari,\n\nLe scrivo perché la caldaia dell'appartamento si è rotta lunedì e da allora non abbiamo né acqua calda né riscaldamento. È un problema serio ora che le giornate sono fredde, soprattutto per i miei figli, che sono piccoli.\n\nPotrebbe mandare un tecnico al più presto? Siamo a casa tutti i pomeriggi, dalle 17:00, e il sabato mattina, se preferisce. Chiama lei il tecnico o preferisce che lo chiami io?\n\nIn attesa di un suo riscontro, la ringrazio.\n\nCordiali saluti,\nIonuț Popa",
       "check": [
         "All four points are there, and the landlady can act on them: what is broken, since when, when someone can come.",
-        "The tenses tell the story: “se estropeó el lunes” (one event) and “no tenemos” after “desde entonces” (still true now).",
-        "“Usted” throughout, and a colon after the greeting: “Estimada señora Ibáñez:”. In a formal letter, Spanish uses a colon there, not a comma.",
-        "“Prefiere que lo llame yo”: “preferir que” takes the subjunctive."
+        "The tenses tell the story: “si è rotta lunedì” (one event, passato prossimo) and “non abbiamo” after “da allora” (still true now).",
+        "“Lei” throughout, and a comma after the greeting: “Gentile signora Ferrari,”. Unlike in some other languages, Italian does not use a colon there.",
+        "“Preferisce che lo chiami io”: “preferire che” takes the congiuntivo."
       ]
     },
     {
@@ -256,25 +259,25 @@
       "title": "Asking your employer for time off",
       "blurb": "An appointment you can't move, a shift to swap: asking for something at work.",
       "minutes": 20,
-      "situation": "El jueves por la mañana tienes una cita en una oficina de la Administración y no puedes cambiarla. Escribe un correo a tu jefa, Carmen Soler, para pedirle permiso (70–90 palabras).",
+      "situation": "Giovedì mattina hai un appuntamento in un ufficio pubblico che non puoi spostare. Scrivi un'email alla tua responsabile, Chiara Moretti, per chiederle il permesso (70–90 parole).",
       "points": [
-        "Explica por qué necesitas esa mañana y a qué hora es la cita.",
-        "Propón una solución concreta para el trabajo que no vas a hacer.",
-        "Pídele que te conteste antes de una fecha.",
-        "Dale las gracias."
+        "Spiega perché ti serve quella mattina e a che ora è l'appuntamento.",
+        "Proponi una soluzione concreta per il lavoro che non farai.",
+        "Chiedile di risponderti entro una certa data.",
+        "Ringraziala."
       ],
       "phrases": [
-        "Te escribo para pedirte un favor.",
-        "El jueves a las 10:00 tengo una cita y no puedo cambiarla.",
-        "Si te parece bien, puedo …",
-        "¿Me puedes decir algo antes del martes?"
+        "Ti scrivo per chiederti un favore.",
+        "Giovedì alle 10:00 ho un appuntamento e non posso spostarlo.",
+        "Se per te va bene, posso …",
+        "Puoi dirmi qualcosa entro martedì?"
       ],
-      "model": "Hola, Carmen:\n\nTe escribo para pedirte un favor. El jueves a las 10:00 tengo una cita en una oficina de la Administración y no puedo cambiarla, porque era la única fecha disponible. Por eso, no podré trabajar esa mañana.\n\nSi te parece bien, puedo cambiar el turno con Jordi, que ya me ha dicho que no le importa, o recuperar las horas el sábado.\n\n¿Me puedes decir algo antes del martes? Muchas gracias.\n\nUn saludo,\nAmina",
+      "model": "Ciao Chiara,\n\nti scrivo per chiederti un favore. Giovedì alle 10:00 ho un appuntamento in un ufficio pubblico e non posso spostarlo, perché era l'unica data disponibile. Per questo non potrò lavorare quella mattina e mi dispiace molto.\n\nSe per te va bene, posso scambiare il turno con Matteo, che mi ha già detto che non ha problemi, oppure recuperare le ore sabato.\n\nPuoi dirmi qualcosa entro martedì? Grazie mille.\n\nUn saluto,\nAmina",
       "check": [
-        "A solution comes with the request: the boss reads “puedo cambiar el turno con Jordi” and only has to say yes.",
-        "“Tú” with your boss is normal in many Spanish workplaces. If yours uses “usted”, keep to it: “Le escribo para pedirle…”.",
-        "The tone is a request, not an announcement: “Si te parece bien” softens it.",
-        "Time off for official appointments depends on your contract and your “convenio”; this task practises the email, not your rights."
+        "A solution comes with the request: the boss reads “posso scambiare il turno con Matteo” and only has to say yes.",
+        "“Tu” with your boss is normal in many Italian workplaces. If yours uses “Lei”, keep to it: “Le scrivo per chiederLe un favore”.",
+        "The tone is a request, not an announcement: “Se per te va bene” softens it.",
+        "Time off for official appointments depends on your contract and your “contratto collettivo”; this task practises the email, not your rights."
       ]
     },
     {
@@ -295,26 +298,26 @@
       "title": "A complaint to a holiday company",
       "blurb": "Staying calm and factual while still making a clear demand – the hardest tone at B2.",
       "minutes": 30,
-      "situation": "Reservaste un viaje combinado de una semana. Al llegar, muchas cosas no coincidían con el folleto: el hotel no estaba en la playa, sino a 3 km; la piscina estaba cerrada por obras y las excursiones que habías pagado no se hicieron. Escribe una carta de reclamación a la agencia de viajes (180–200 palabras).",
+      "situation": "Hai prenotato un pacchetto vacanza di una settimana. All'arrivo molte cose non corrispondevano al catalogo: l'hotel non era sulla spiaggia, ma a 3 km; la piscina era chiusa per lavori e le escursioni che avevi pagato non sono state fatte. Scrivi una lettera di reclamo all'agenzia di viaggi (180–200 parole).",
       "points": [
-        "Indica tu número de reserva, las fechas y el destino.",
-        "Describe los problemas de forma clara y objetiva.",
-        "Explica por qué eran importantes para ti.",
-        "Di exactamente qué pides y pon un plazo."
+        "Indica il numero di prenotazione, le date e la destinazione.",
+        "Descrivi i problemi in modo chiaro e oggettivo.",
+        "Spiega perché erano importanti per te.",
+        "Di' esattamente che cosa chiedi e fissa una scadenza."
       ],
       "phrases": [
-        "Me dirijo a ustedes en relación con mi reserva (n.º …).",
-        "En su folleto se indicaba claramente que …",
-        "Sin embargo, en realidad …",
-        "Por ello, les ruego que … antes del …",
-        "De no recibir respuesta antes del …, me veré obligado/a a …"
+        "Mi rivolgo a voi in merito alla mia prenotazione (n. …).",
+        "Nel vostro catalogo era indicato chiaramente che …",
+        "In realtà, invece, …",
+        "Pertanto vi chiedo di … entro il …",
+        "In mancanza di una risposta entro il …, sarò costretto/a a …"
       ],
-      "model": "Estimados señores:\n\nMe dirijo a ustedes en relación con mi reserva (n.º 884-2210) de un viaje combinado a Tenerife del 12 al 19 de septiembre. Lamento comunicarles que surgieron varios problemas graves, que detallo a continuación.\n\nEn su folleto se describía el hotel como «en primera línea de playa». Sin embargo, en realidad se encontraba a unos tres kilómetros, y la única forma de llegar era un autobús lanzadera de pago. La piscina, que también se anunciaba, estuvo cerrada por obras durante toda nuestra estancia, sin que nos avisaran con antelación. Además, las dos excursiones incluidas en el precio se cancelaron sin que se nos ofreciera ninguna alternativa.\n\nDado que elegí este viaje precisamente por la playa y las instalaciones, las vacaciones fueron mucho menos agradables de lo que esperaba. No se trató de detalles sin importancia, sino de las características principales del viaje que pagué.\n\nPor ello, les ruego que me ofrezcan una devolución parcial adecuada antes del 15 de octubre. De no recibir respuesta antes de esa fecha, me veré obligada a presentar una reclamación ante los organismos de consumo competentes.\n\nAtentamente,\nClara Menéndez",
+      "model": "Spettabile Agenzia,\n\nmi rivolgo a voi in merito alla mia prenotazione (n. 884-2210) di un pacchetto vacanza a Creta dal 12 al 19 settembre. Mi dispiace comunicarvi che si sono verificati diversi problemi gravi, che illustro di seguito.\n\nNel vostro catalogo l'hotel era descritto come «sulla spiaggia». In realtà si trovava a circa tre chilometri dal mare, e l'unico modo per raggiungerlo era una navetta a pagamento. La piscina, anch'essa pubblicizzata, è rimasta chiusa per lavori per tutta la durata del soggiorno, senza che nessuno ci avesse avvisati in anticipo. Inoltre, le due escursioni incluse nel prezzo sono state annullate senza che ci venisse offerta alcuna alternativa.\n\nPoiché avevo scelto questo viaggio proprio per il mare e per i servizi, la vacanza è stata molto meno piacevole di quanto mi aspettassi. Non si è trattato di dettagli senza importanza, ma delle caratteristiche principali del viaggio che ho pagato.\n\nPertanto vi chiedo di offrirmi un adeguato rimborso parziale entro il 15 ottobre. In mancanza di una risposta entro tale data, sarò costretta a presentare un reclamo agli organismi competenti per la tutela dei consumatori.\n\nDistinti saluti,\nClara Menichetti",
       "check": [
-        "No angry words: “Lamento comunicarles que surgieron varios problemas graves” instead of “es una vergüenza”. At B2 the tone is part of the mark: firm, but never rude.",
-        "Each problem is set against a promise (“En su folleto se describía… Sin embargo, en realidad…”). A complaint without that comparison is only an opinion.",
+        "No angry words: “Mi dispiace comunicarvi che si sono verificati diversi problemi gravi” instead of “è una vergogna”. At B2 the tone is part of the mark: firm, but never rude.",
+        "Each problem is set against a promise (“Nel vostro catalogo… In realtà…”). A complaint without that comparison is only an opinion.",
         "There is a clear demand AND a deadline. Without a date, a letter of complaint is not complete.",
-        "B2 linking words and forms: “dado que”, “además”, “sin embargo”, “por ello”, “sin que” + subjunctive. “Estimados señores:” with a colon, then “Atentamente”."
+        "B2 linking words and forms: “poiché”, “inoltre”, “pertanto”, “senza che” + congiuntivo, “in mancanza di”. “Spettabile Agenzia,” with a comma, then “Distinti saluti”."
       ]
     },
     {
@@ -325,26 +328,26 @@
       "title": "An opinion text: a car-free town centre",
       "blurb": "Take a position, give reasons, answer the other side – and end on a clear conclusion.",
       "minutes": 30,
-      "situation": "La revista de tu barrio pide opiniones sobre esta pregunta: ¿debería ser peatonal el centro de tu ciudad? Escribe un texto de opinión (150–180 palabras).",
+      "situation": "La rivista del tuo quartiere chiede opinioni su questa domanda: il centro della tua città dovrebbe essere pedonale? Scrivi un testo di opinione (150–180 parole).",
       "points": [
-        "Presenta el tema y di claramente cuál es tu postura.",
-        "Da dos argumentos, cada uno con un ejemplo.",
-        "Responde a un argumento contrario.",
-        "Termina con una conclusión clara."
+        "Presenta il tema e di' chiaramente qual è la tua posizione.",
+        "Dai due argomenti, ciascuno con un esempio.",
+        "Rispondi a un argomento contrario.",
+        "Concludi in modo chiaro."
       ],
       "phrases": [
-        "En mi opinión, …",
-        "Por un lado, … Por otro lado, …",
-        "Es cierto que …; sin embargo, …",
-        "No se trata de …, sino de …",
-        "En definitiva, …"
+        "Secondo me, …",
+        "Da un lato, … Dall'altro, …",
+        "È vero che …; tuttavia, …",
+        "Non si tratta di …, ma di …",
+        "In conclusione, …"
       ],
-      "model": "¿Un centro sin coches?\n\nCada vez más ciudades limitan el tráfico en el centro, y creo que la nuestra debería hacer lo mismo. En mi opinión, un centro peatonal mejoraría la vida diaria de casi todos los vecinos.\n\nPor un lado, sería más seguro y más sano. Mis hijos van andando al colegio y cruzan cada día dos calles con mucho tráfico; sin coches, podrían ir solos antes. Por otro lado, ganaría el comercio de proximidad: quien pasea sin prisa entra en más tiendas que quien busca aparcamiento.\n\nEs cierto que algunas personas dependen del coche y que muchos comerciantes temen perder clientes. Sin embargo, eso no es motivo para renunciar a la idea, sino para hacerla bien: más autobuses, aparcamientos en las afueras y permisos para vecinos y repartidores.\n\nEn definitiva, no se trata de estar en contra de los coches, sino de decidir para qué queremos usar nuestras calles. Yo prefiero que sirvan para vivir en ellas.",
+      "model": "Un centro senza auto?\n\nSempre più città limitano il traffico nel centro, e credo che la nostra dovrebbe fare lo stesso. Secondo me, un centro pedonale migliorerebbe la vita quotidiana di quasi tutti gli abitanti.\n\nDa un lato, sarebbe più sicuro e più sano. I miei figli vanno a scuola a piedi e ogni giorno attraversano due strade molto trafficate; senza auto potrebbero andarci da soli prima. Dall'altro, ne trarrebbe vantaggio il commercio di prossimità: chi passeggia senza fretta entra in più negozi di chi cerca parcheggio.\n\nÈ vero che alcune persone dipendono dall'auto e che molti commercianti temono di perdere clienti. Tuttavia, questo non è un motivo per rinunciare all'idea, ma per realizzarla bene: più autobus, parcheggi in periferia e permessi per i residenti e per chi consegna la merce.\n\nIn conclusione, non si tratta di essere contro le auto, ma di decidere a che cosa vogliamo far servire le nostre strade. Io preferisco che servano per viverci.",
       "check": [
         "The position is clear in the first paragraph, and the last paragraph comes back to it.",
-        "Each argument has an example of its own. “Sería más seguro” alone is a claim; the two streets on the way to school make it real.",
-        "The other side gets a fair sentence before the answer: “Es cierto que…; sin embargo…”.",
-        "B2 forms: the conditional for what would happen (“mejoraría”, “ganaría”), “no se trata de…, sino de…”, “prefiero que” + subjunctive."
+        "Each argument has an example of its own. “Sarebbe più sicuro” alone is a claim; the two streets on the way to school make it real.",
+        "The other side gets a fair sentence before the answer: “È vero che…; tuttavia…”.",
+        "B2 forms: the conditional for what would happen (“migliorerebbe”, “trarrebbe vantaggio”), “non si tratta di…, ma di…”, “preferisco che” + congiuntivo."
       ]
     }
   ]

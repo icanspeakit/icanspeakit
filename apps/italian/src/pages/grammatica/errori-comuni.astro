@@ -1,11 +1,11 @@
 ---
-// Common mistakes: words a learner mixes up — tu ≠ tú, por ≠ para, estoy de acuerdo ≠ soy de acuerdo.
-// Not the mistakes by mother tongue (/cultura/errori) but the look-alikes of Spanish itself:
+// Common mistakes: words a learner mixes up — e ≠ è, da ≠ dà, ha ≠ a.
+// Not the mistakes by mother tongue (/cultura/errori) but the look-alikes of Italian itself:
 // the two side by side with their word class and a sentence each, the difference in one
 // line (translated into the help languages like every grammar explanation), and a gap to
 // try it at once. The word-class cards on /grammatica/parti-del-discorso point here (#<pair id>).
 //
-// Look-alikes of meaning (embarazada, carpeta) are /conoscenze/falsi-amici; this page is the ones
+// Look-alikes of meaning (e.g. parenti/genitori, camera/macchina) are /conoscenze/falsi-amici; this page is the ones
 // of spelling and grammar. Content: src/data/typische-fehler.json, read through
 // src/lib/typischeFehler.js — the worksheet, Tandembogen and live quiz ask the same gaps.
 import Layout from "../../layouts/Layout.astro";
@@ -27,13 +27,13 @@ const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\*([^*]+)\*/g, "<em>$1</em>");
 ---
 <Layout
-  title="Common mistakes: words people mix up – Grammar – icanspeak Spanish"
-  description="tú or tu, sé or se, por or para: Spanish words that are easy to mix up, side by side, with an example and a gap to try."
+  title="Common mistakes: words people mix up – Grammar – icanspeak Italian"
+  description="e or è, ha or a, da or dà: Italian words that are easy to mix up, side by side, with an example and a gap to try."
   breadcrumb={[{ name: "Grammar", path: "/grammatica" }]}
 >
   <SiteNav active="grammatik" />
   <main class="practice-main tf-page" id="tf-page">
-    <a href="/grammatica" class="vp-back-link" data-i18n="header.back">Zurück zur Übersicht</a>
+    <a href="/grammatica" class="vp-back-link" data-i18n="header.back">Back to overview</a>
 
     <header class="tf-head">
       <p class="eyebrow" data-i18n="tf.eyebrow">Grammar · Reference</p>
@@ -44,7 +44,7 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
     </header>
     <GrammarHelp level="A1" root="tf-page" reviewed={fehler.reviewed} />
 
-    {/* Bruno, Quaki, Regi and Hamsti act out the page's first pair: tu ≠ tú. */}
+    {/* Bruno, Quaki, Regi and Hamsti act out the page's first pair (see typische-fehler.json). */}
     <MascotComic comic={fehler.comic as any} chip="form" fit />
 
     <nav class="tf-jump" aria-label="Groups" data-i18n-attr="aria-label:tf.groups">
@@ -97,9 +97,9 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
                   <>
                     {k === 1 && <span class="tf-vs" aria-label="not to be confused with">≠</span>}
                     <div class:list={["tf-side", { "tf-side--wrong": m.wrong }]}>
-                      <b class="tf-w" lang="es">{m.w}</b>
+                      <b class="tf-w" lang="it">{m.w}</b>
                       <span class="tf-pos">{m.pos}</span>
-                      <span class="tf-ex" lang={m.wrong ? undefined : "es"} set:html={m.ex} />
+                      <span class="tf-ex" lang={m.wrong ? undefined : "it"} set:html={m.ex} />
                     </div>
                   </>
                 ))}
@@ -109,8 +109,8 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
 
               {/* The gap: tap a word, it says right away. Two tries, no score — a check, not a test. */}
               <div class="tf-check" data-tf-check data-answer={answerOf(p)}>
-                <p class="tf-gap" lang="es" set:html={p.check.gap.replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
-                <div class="tf-opts" lang="es">
+                <p class="tf-gap" lang="it" set:html={p.check.gap.replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                <div class="tf-opts" lang="it">
                   {optionsOf(p).map((o) => <button type="button" class="tf-opt" data-tf-opt={o}>{o}</button>)}
                 </div>
                 <p class="tf-fb" data-tf-fb aria-live="polite"></p>

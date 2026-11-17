@@ -4,7 +4,7 @@
 // The frame of /preposizioni: a dark rail of levels, a panel of topics per level, the work in the
 // middle and the rule in a drawer. Each level lists verb drills (forms generated from
 // verbtabellen.json by src/lib/conjugationTrainer.js) and sentence sets (hand-written, in
-// src/data/conjugation-trainer.json: ser/estar, por/para, indefinido/imperfecto, subjunctive,
+// src/data/conjugation-trainer.json: avere/essere, participle agreement, -isc-, passato/imperfetto, congiuntivo,
 // irregular forms). "Build your own" drills any tenses and verb groups.
 //
 // Pills run on mountPracticeWorkspace; typed answers on src/lib/conjugationTyped.js. History is
@@ -42,12 +42,12 @@ const MOODS = [
   { key: "compuestosSubj", name: "Compound subjunctive" },
 ];
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
-// Rule texts mark Spanish examples with *…*, as the verb tables do.
-const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>');
+// Rule texts mark Italian examples with *…*, as the verb tables do.
+const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="it">$1</b>');
 ---
 <Layout
-  title="Spanish verb conjugation trainer: tenses, ser and estar, por and para – icanspeak Spanish"
-  description="Practise Spanish verb forms by tense, mood and verb group: regular and irregular verbs, the subjunctive and the imperative, vosotros included. With ser/estar and por/para sets."
+  title="Italian verb conjugation trainer: tenses, avere or essere, congiuntivo – icanspeak Italian"
+  description="Practise Italian verb forms by tense, mood and verb group: regular, -isc- and irregular verbs, avere or essere, the congiuntivo and the imperative."
 >
   <SiteNav active="grammatik" />
   <TopicBar topic="conjugation" kind="Grammar" title="Conjugation trainer" level="A1–B2" tasks={total} showKind={false} scoped heading />
@@ -113,7 +113,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
                         <button type="button" class="nvb-item akp-pack cj-pack" data-item={`drill:${p.id}`}>
                           <span class="cj-pack-body">
                             <span class="akp-pack-name" data-i18n={`conj.drill.${p.id}`}>{p.name}</span>
-                            <span class="cj-pack-sample" lang="es">{p.sample}</span>
+                            <span class="cj-pack-sample" lang="it">{p.sample}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state></span>
                         </button>
@@ -144,7 +144,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
                       <h4 class="ap-phase-head"><span data-i18n={`verben.mood.${m.key}`}>{m.name}</span></h4>
                       <div class="cj-chips">
                         {tenses.filter((t) => t.mood === m.key).map((t) => (
-                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="es">{t.name}</button>
+                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="it">{t.name}</button>
                         ))}
                       </div>
                     </section>
@@ -183,7 +183,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
               <span class="akk-mode-sep">·</span>
               <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Test mode</button>
             </div>
-            <label class="cj-vos" id="cj-vos-wrap"><input type="checkbox" id="cj-vos" checked /> <span data-i18n="conj.withVosotros">with vosotros</span></label>
+            <label class="cj-vos" id="cj-vos-wrap" hidden><input type="checkbox" id="cj-vos" checked /> <span data-i18n="conj.withVosotros">with voi</span></label>
             <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Rule</button>
           </div>
           <p class="ak-now" data-now aria-live="polite"></p>
@@ -221,7 +221,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
       <div class="ap-drawer-body ap-regel">
         {tenses.map((t) => (
           <section class="cj-rule" data-rule-tense={t.key} hidden>
-            <p class="cj-rule-kicker" lang="es">{t.name}</p>
+            <p class="cj-rule-kicker" lang="it">{t.name}</p>
             <p class="cj-rule-text" lang="en" set:html={rule(t.rule.text)} />
             {t.rule.table && <RefTable table={t.rule.table} />}
           </section>
@@ -251,7 +251,6 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
     import { recordAttempt } from "../../lib/progress.js";
     import { createVerlauf } from "../../lib/artikelVerlauf.js";
     import { setWaiting } from "../../lib/notReady.js";
-    import { showsVosotros } from "../../lib/variety.js";
     import { t as uiT, onUiText } from "../../lib/uiText.js";
 
     const SESSION_SIZE = 20;
@@ -275,14 +274,13 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
     type Current = { kind: "drill" | "set" | "build"; id: string | null };
     const compact = matchMedia("(max-width: 720px)");
     let mode: string = load(MODE_KEY, compact.matches ? "fokus" : "type");
-    let vosotros: boolean = load(VOS_KEY, true) && showsVosotros();
+    let vosotros = true; // voi is an ordinary person in Italian: the switch stays hidden and every pool keeps it
     let build = load(BUILD_KEY, { tenses: ["praes"], groups: ["reg-ar", "reg-er", "reg-ir"] });
     let current: Current = { kind: "drill", id: trainer.presets[0].id };
     let questions: any[] = [];
     let practice: any = null;
     let typed: any = null;
     vosBox.checked = vosotros;
-    if (!showsVosotros()) vosWrap.hidden = true;
 
     // --- the session stats, shared by both engines --------------------------------------------
     const ringFill = document.getElementById("akk-ring-fill")!;
@@ -376,7 +374,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>'
       });
       // One way to answer leaves nothing to choose between.
       modes.hidden = allowed.length < 2;
-      vosWrap.hidden = current.kind === "set" || !showsVosotros();
+      vosWrap.hidden = true;
     }
 
     function nowText() {

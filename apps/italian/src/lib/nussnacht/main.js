@@ -11,8 +11,11 @@ import { upgradeById, upgradeText } from "./upgrades.js";
 import { newSeed } from "../artikelSprint/rng.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
+// "l'" sits against the noun: l'amico, not "l' amico".
+const withArt = (g, w) => `${TXT.arts[g]}${TXT.arts[g].endsWith("'") ? "" : " "}${w}`;
+
 export const TXT = {
-  arts: ["el", "la", "los", "las"],
+  arts: ["il", "lo", "la", "l'", "i", "gli", "le"],
   levelWords: "{n} words",
   go: "Let’s go",
   levelUp: "Level {n}!",
@@ -35,7 +38,7 @@ export const TXT = {
   skillReadyTouch: "Whirl ready!",
   skillTitle: "Cheek whirl: clears everything around Hamsti (recharges in 30 s)",
   bossCame: "Boss: {art} {w}?",
-  split: "{art} {first} | {rest}",
+  split: "{art}{first} | {rest}",
   pop: "Pop",
   timeTitle: "Time",
   killsTitle: "Words defeated",
@@ -110,13 +113,13 @@ export function mountNussnacht(root, data) {
     onPause: () => (phase === "play" ? pause() : phase === "pause" ? resume() : null),
     onArt: (a) => syncArt(a),
     choosing: () => phase === "choice",
-    artCount: () => (S?.up.plural > 0 ? 4 : 2),
+    artCount: () => (S?.up.plural > 0 ? 7 : 4),
   });
-  // los and las appear with the Plural popper: A1 and A2 never need them, and two buttons that
+  // i, gli and le appear with the Plural popper: A1 and A2 never need them, and three buttons that
   // can only miss would just be in the way.
   function syncPluralButtons() {
     const on = S?.up.plural > 0;
-    ui.arts.forEach((b, i) => { if (i > 1) b.hidden = !on; });
+    ui.arts.forEach((b, i) => { if (i > 3) b.hidden = !on; });
   }
   function syncArt(a) {
     ui.arts.forEach((b, i) => b.setAttribute("aria-pressed", String(i === a)));
@@ -233,7 +236,7 @@ export function mountNussnacht(root, data) {
         case EV.BOSS_DOWN: {
           const b = S.bosse[e.a];
           renderer.ring(e.x, e.y, "#f2a900", 90, 0.8);
-          toast(`<b>${TXT.arts[b.g]} ${b.w}</b> – ${b.regel}`, 5000);
+          toast(`<b>${withArt(b.g, b.w)}</b> – ${b.regel}`, 5000);
           break;
         }
         case EV.SKILL:
@@ -246,7 +249,7 @@ export function mountNussnacht(root, data) {
         case EV.SPLIT: {
           const w = S.words[e.a];
           // a compound cracks at its seam: the verb and the noun it is made of
-          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h), rest: w.w.slice(w.h) }), "#fff", 1.6);
+          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g] + (TXT.arts[w.g].endsWith("'") ? "" : " "), first: w.w.slice(0, w.h), rest: w.w.slice(w.h) }), "#fff", 1.6);
           break;
         }
         default:

@@ -1,96 +1,107 @@
 {
   "id": "welcher-dieser",
-  "name": "Demonstratives: este, ese, aquel; esto, eso",
+  "name": "Demonstratives: questo and quello",
   "level": "A1",
   "status": "geprueft",
-  "variety": "es-ES",
-  "subtitle": "This one, that one, that one over there: este is near you, ese is near the other person, aquel is far from you both. They match the noun: esta casa, esos libros. Esto and eso name something unknown.",
-  "briefMarks": ["este", "ese", "aquel", "esto", "eso"],
-  "source": "icanspeak Spanish original text (grammar-a1 run, 2026-11-04)",
+  "variety": "it-IT",
+  "subtitle": "This one, that one: questo is near you (qui), quello is far from you (lì). Both match the noun: questa casa, questi libri. Before a noun, quello changes like the article: quel libro, quello zaino, quell'ufficio, quei libri.",
+  "briefMarks": ["questo", "quello", "quel", "qui", "lì"],
+  "source": "icanspeak Italian original text (grammar-a1 run, 2026-11-12)",
   "concept": {
     "comic": {
       "title": "At the market",
       "panels": [
         {
           "caption": "Near me",
-          "tag": "{este} · {esta} · {estos} · {estas}",
-          "left": { "name": "hamsti", "expr": "thinking", "say": "¿Cuánto cuesta {este} melón?" },
-          "right": { "name": "bruno", "expr": "happy", "say": "Dos euros." }
+          "tag": "{questo} · {questa} · {questi} · {queste}",
+          "left": { "name": "hamsti", "expr": "thinking", "say": "Quanto costa {questo} melone?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "Due euro." }
         },
         {
-          "caption": "Near you",
-          "tag": "{ese} · {esa} · {esos} · {esas}",
-          "left": { "name": "quaki", "expr": "thinking", "say": "¿Y {esas} manzanas?" },
-          "right": { "name": "regi", "expr": "happy", "say": "Tres euros el kilo." }
+          "caption": "Far from me",
+          "tag": "{quel} · {quella} · {quei} · {quelle}",
+          "left": { "name": "quaki", "expr": "thinking", "say": "E {quelle} mele lì?" },
+          "right": { "name": "regi", "expr": "happy", "say": "Tre euro al chilo." }
         },
         {
-          "caption": "Far from us both",
-          "tag": "{aquel} · {aquella} · {aquellos} · {aquellas}",
-          "left": { "name": "bruno", "expr": "thinking", "say": "¿Ves {aquella} tienda?" },
-          "right": { "name": "hamsti", "expr": "happy", "say": "Sí, es nueva." }
+          "caption": "Far, before a vowel, z or s + consonant",
+          "tag": "{quell'} · {quello} · {quegli}",
+          "left": { "name": "bruno", "expr": "thinking", "say": "Vedi {quell'}ufficio?" },
+          "right": { "name": "hamsti", "expr": "happy", "say": "Sì, è la posta." }
         }
       ]
     },
     "flow": [
-      { "text": "este, ese, aquel…", "variant": "prep" },
+      { "text": "questo / quel, quello…", "variant": "prep" },
       { "text": "noun", "variant": "verb" },
-      { "text": "aquí · ahí · allí" }
+      { "text": "qui · lì" }
     ],
     "qa": [
       {
-        "html": "<strong>este</strong> = near me (<em>aquí</em>). <strong>ese</strong> = near you, or not far (<em>ahí</em>). <strong>aquel</strong> = far from us both (<em>allí</em>).",
+        "html": "<strong>questo</strong> = this, near me (<em>qui</em>). <strong>quello</strong> = that, not near me (<em>lì</em>). Italian has just these two.",
         "tag": "Near or far"
       },
       {
-        "html": "They match the noun: <em>este piso, esta casa, estos pisos, estas casas</em>. Careful with the masculine: <em>aquel</em> has no <em>-e</em>, and it is not <em>aquello</em>.",
-        "tag": "Four forms"
+        "html": "<strong>questo</strong> has four forms like an adjective: <em>questo libro, questa casa, questi libri, queste case</em>. Before a vowel you often hear and write <em>quest'</em>: <em>quest'anno, quest'estate</em>.",
+        "tag": "questo"
       },
       {
-        "html": "They can stand alone: <em>¿Quieres esta camisa o esa?</em> The RAE does not ask for an accent here. Write <em>este, esa</em>.",
+        "html": "Before a noun, <strong>quello</strong> changes like the article <em>il, lo, l', i, gli</em>: <em>il libro → quel libro, lo zaino → quello zaino, l'ufficio → quell'ufficio, i libri → quei libri, gli zaini → quegli zaini, la casa → quella casa, le case → quelle case</em>.",
+        "tag": "quello = like the article"
+      },
+      {
+        "html": "Alone, without a noun, they have the normal four forms: <em>questo, questa, questi, queste</em> and <em>quello, quella, quelli, quelle</em>: <em>Quale vuoi? – Quello.</em>",
         "tag": "Without a noun"
       },
       {
-        "html": "<strong>esto, eso, aquello</strong> are for something you do not name or do not know yet. They do not change and never go before a noun: <em>¿Qué es esto? No entiendo eso.</em>",
-        "tag": "esto, eso"
-      },
-      {
-        "html": "To say which one, ask with <strong>¿cuál?</strong> (plural <em>¿cuáles?</em>): <em>¿Cuál quieres? – Este.</em> <strong>esta</strong> (this) has no accent, but <strong>está</strong> (is) does: <em>Esta casa está aquí.</em>",
-        "tag": "¿cuál?"
+        "html": "For something you do not name, use <strong>questo</strong> or <strong>quello</strong> (masculine): <em>Che cos'è questo? Questo non è vero.</em> To ask which one: <strong>quale? quali?</strong>",
+        "tag": "Something unknown"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>esto libro</em> → ✓ <em>este libro</em>. ✗ <em>este casa</em> → ✓ <em>esta casa</em>. ✗ <em>aquello coche</em> → ✓ <em>aquel coche</em>. ✗ <em>esta aquí</em> for “is here” → ✓ <em>está aquí</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>quello libro</em> → ✓ <em>quel libro</em>. ✗ <em>quelli ragazzi</em> → ✓ <em>quei ragazzi</em>. ✗ <em>questo casa</em> → ✓ <em>questa casa</em>. ✗ <em>quel amico</em> → ✓ <em>quell'amico</em>. Revise <a href=\"/articles\">articles</a>: quello follows them.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "All the forms",
-          "head": ["", "masc. sing.", "fem. sing.", "masc. pl.", "fem. pl.", "no noun"],
+          "caption": "questo",
+          "head": ["", "masc. sing.", "fem. sing.", "masc. pl.", "fem. pl."],
           "rows": [
-            ["near me (aquí)", "este", "esta", "estos", "estas", "esto"],
-            ["near you (ahí)", "ese", "esa", "esos", "esas", "eso"],
-            ["far (allí)", "aquel", "aquella", "aquellos", "aquellas", "aquello"]
+            ["near me (qui)", "questo", "questa", "questi", "queste"]
+          ]
+        },
+        {
+          "caption": "quello before a noun (like the article)",
+          "head": ["Article", "quello", "Example"],
+          "rows": [
+            ["il", "quel", "quel libro"],
+            ["lo", "quello", "quello zaino, quello studente"],
+            ["l' (m and f)", "quell'", "quell'ufficio, quell'amica"],
+            ["la", "quella", "quella casa"],
+            ["i", "quei", "quei libri"],
+            ["gli", "quegli", "quegli zaini, quegli uffici"],
+            ["le", "quelle", "quelle case"]
           ]
         },
         {
           "caption": "Examples",
-          "head": ["Spanish", "Meaning"],
+          "head": ["Italian", "Meaning"],
           "rows": [
-            ["este bolso", "this bag"],
-            ["esas llaves", "those keys (near you)"],
-            ["aquella casa", "that house over there"],
-            ["¿Qué es esto?", "What is this?"],
-            ["Eso es verdad.", "That is true."]
+            ["questa borsa", "this bag"],
+            ["quelle chiavi", "those keys"],
+            ["quel palazzo lì", "that building over there"],
+            ["Che cos'è questo?", "What is this?"],
+            ["Quale vuole? – Quello.", "Which one do you want? – That one."]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Careful: esta or está",
+          "badge": "Careful: quel or quello?",
           "variant": "dat",
           "items": [
-            "esta casa = this house.",
-            "La casa está aquí. = The house is here."
+            "Before a noun: quel libro, quei libri (like il, i).",
+            "Alone: Quale libro? – Quello. Quali? – Quelli."
           ]
         }
       ]
@@ -98,32 +109,43 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Quiero este, por favor.", "note": "Near me: este." },
-      { "text": "¿Cuánto cuestan esas manzanas?", "note": "Near you, plural: esas." },
-      { "text": "Aquel edificio es el hospital.", "note": "Far: aquel." },
-      { "text": "¿Qué es esto?", "note": "Something you do not know: esto." }
+      { "text": "Vorrei questo, per favore.", "note": "Near me: questo." },
+      { "text": "Quanto costano quelle mele?", "note": "Far, feminine plural: quelle." },
+      { "text": "Quel palazzo è l'ospedale.", "note": "Before a noun: quel, like il." },
+      { "text": "Che cos'è questo?", "note": "Something you do not know: questo." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Esta casa es grande.", "choices": ["Esta casa es grande.", "Esa casa es grande.", "Estas casas son grandes."], "correct": 0 },
-        { "text": "¿Qué es eso?", "choices": ["¿Qué es esto?", "¿Qué es eso?", "¿Quién es ese?"], "correct": 1 },
-        { "text": "Aquellos niños son mis hijos.", "choices": ["Estos niños son mis hijos.", "Esos niños son mis hijos.", "Aquellos niños son mis hijos."], "correct": 2 },
-        { "text": "¿Cuál quieres, este o ese?", "choices": ["¿Cuál quieres, este o ese?", "¿Cuál quieres, esta o esa?", "¿Quieres este o aquel?"], "correct": 0 }
+        { "text": "Questa casa è grande.", "choices": ["Questa casa è grande.", "Quella casa è grande.", "Queste case sono grandi."], "correct": 0 },
+        { "text": "Che cos'è quello?", "choices": ["Che cos'è questo?", "Che cos'è quello?", "Chi è quello?"], "correct": 1 },
+        { "text": "Quei bambini sono i miei figli.", "choices": ["Questi bambini sono i miei figli.", "Quel bambino è mio figlio.", "Quei bambini sono i miei figli."], "correct": 2 },
+        { "text": "Quale vuoi, questo o quello?", "choices": ["Quale vuoi, questo o quello?", "Quale vuoi, questa o quella?", "Vuoi questo o quel?"], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
           "label": "1 · Point at it",
-          "instruction": "You hear a noun with el or la. Say it with este or esta.",
-          "example": { "prompt": "el libro", "answer": "este libro" },
+          "instruction": "You hear a noun with its article. Say it with questo, questa, questi or queste.",
+          "example": { "prompt": "il libro", "answer": "questo libro" },
           "items": [
-            { "prompt": "la silla", "answer": "esta silla" },
-            { "prompt": "los zapatos", "answer": "estos zapatos" },
-            { "prompt": "las llaves", "answer": "estas llaves" },
-            { "prompt": "el bolso", "answer": "este bolso" },
-            { "prompt": "la camisa", "answer": "esta camisa" }
+            { "prompt": "la sedia", "answer": "questa sedia" },
+            { "prompt": "le scarpe", "answer": "queste scarpe" },
+            { "prompt": "le chiavi", "answer": "queste chiavi" },
+            { "prompt": "lo zaino", "answer": "questo zaino" },
+            { "prompt": "i documenti", "answer": "questi documenti" }
+          ]
+        },
+        {
+          "label": "2 · Far away",
+          "instruction": "You hear a noun with its article. Say it with the right form of quello.",
+          "example": { "prompt": "il palazzo", "answer": "quel palazzo" },
+          "items": [
+            { "prompt": "la farmacia", "answer": "quella farmacia" },
+            { "prompt": "lo zaino", "answer": "quello zaino" },
+            { "prompt": "l'ufficio", "answer": "quell'ufficio" },
+            { "prompt": "i ragazzi", "answer": "quei ragazzi" }
           ]
         }
       ]
@@ -132,43 +154,44 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "este, esta, estos or estas?",
+      "title": "questo, questa, questi or queste?",
       "hint": "Match the noun: masculine or feminine, one or more.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "___ piso es muy caro.", "answer": "Este", "choices": ["Este", "Esta", "Esto"] },
-        { "prompt": "¿Quién es ___ mujer?", "answer": "esta", "choices": ["este", "esta", "estas"] },
-        { "prompt": "___ zapatos son nuevos.", "answer": "Estos", "choices": ["Estas", "Estos", "Este"] },
-        { "prompt": "Me gustan ___ fotos.", "answer": "estas", "choices": ["estos", "estas", "esta"] },
-        { "prompt": "___ semana trabajo mucho.", "answer": "Esta", "choices": ["Este", "Esta", "Está"] },
-        { "prompt": "___ problema es difícil.", "answer": "Este", "choices": ["Este", "Esta", "Esto"] }
+        { "prompt": "___ appartamento è molto caro.", "answer": "Questo", "choices": ["Questo", "Questa", "Questi"] },
+        { "prompt": "Chi è ___ signora?", "answer": "questa", "choices": ["questo", "questa", "queste"] },
+        { "prompt": "___ scarpe sono nuove.", "answer": "Queste", "choices": ["Queste", "Questi", "Questa"] },
+        { "prompt": "Mi servono ___ documenti.", "answer": "questi", "choices": ["questi", "queste", "questo"] },
+        { "prompt": "___ settimana lavoro molto.", "answer": "Questa", "choices": ["Questo", "Questa", "Queste"] },
+        { "prompt": "___ problema è difficile.", "answer": "Questo", "choices": ["Questo", "Questa", "Questi"] }
       ]
     },
     {
       "type": "fill",
       "title": "Near or far?",
-      "hint": "aquí: este. ahí: ese. allí: aquel.",
+      "hint": "qui: questo. lì: quello (quel, quella, quei …).",
       "placeholder": "Form",
       "items": [
-        { "prompt": "___ libro de aquí es de Ana.", "answer": "Este", "choices": ["Este", "Ese", "Aquel"] },
-        { "prompt": "¿De quién es ___ bolso que tienes ahí?", "answer": "ese", "choices": ["este", "ese", "aquel"] },
-        { "prompt": "___ casa de allí es muy vieja.", "answer": "Aquella", "choices": ["Esta", "Aquella"] },
-        { "prompt": "¿Cuánto cuestan ___ manzanas de ahí?", "answer": "esas", "choices": ["estas", "esas", "aquellas"] },
-        { "prompt": "Mira ___ edificios de allí.", "answer": "aquellos", "choices": ["estos", "aquellos"] }
+        { "prompt": "___ libro qui è di Sofia.", "answer": "Questo", "choices": ["Questo", "Quel"] },
+        { "prompt": "Di chi è ___ borsa lì?", "answer": "quella", "choices": ["questa", "quella"] },
+        { "prompt": "___ casa lì è molto vecchia.", "answer": "Quella", "choices": ["Questa", "Quella"] },
+        { "prompt": "Quanto costano ___ mele qui?", "answer": "queste", "choices": ["queste", "quelle"] },
+        { "prompt": "Guarda ___ palazzi lì.", "answer": "quei", "choices": ["questi", "quei"] }
       ]
     },
     {
       "type": "table",
-      "title": "este or esto? ese or eso?",
-      "hint": "Before a noun: este, esta, ese, esa. With no noun, for something unknown: esto, eso.",
-      "columns": ["Sentence", "Word"],
-      "placeholder": "Word",
+      "title": "Which form of quello?",
+      "hint": "Think of the article first: il → quel, lo → quello, l' → quell', i → quei, gli → quegli.",
+      "columns": ["Noun", "Form"],
+      "placeholder": "Form",
       "rows": [
-        { "term": "¿Qué es ___?", "answer": "esto", "choices": ["este", "esto"] },
-        { "term": "___ coche es de Iker.", "answer": "Ese", "choices": ["Ese", "Eso"], "es419": { "note": "In much of Latin America: carro or auto." } },
-        { "term": "___ es verdad.", "answer": "Eso", "choices": ["Ese", "Eso"] },
-        { "term": "¿Te gusta ___ pantalón?", "answer": "este", "choices": ["este", "esto"] },
-        { "term": "___ no es verdad.", "answer": "Esto", "choices": ["Este", "Esto"] }
+        { "term": "il treno", "answer": "quel", "choices": ["quel", "quello", "quell'"] },
+        { "term": "lo studente", "answer": "quello", "choices": ["quel", "quello", "quell'"] },
+        { "term": "l'ufficio", "answer": "quell'", "choices": ["quel", "quello", "quell'"] },
+        { "term": "i bambini", "answer": "quei", "choices": ["quei", "quegli", "quelli"] },
+        { "term": "gli amici", "answer": "quegli", "choices": ["quei", "quegli", "quelli"] },
+        { "term": "le borse", "answer": "quelle", "choices": ["quelle", "quella", "quei"] }
       ]
     },
     {
@@ -176,44 +199,44 @@
       "title": "Singular and plural.",
       "hint": "The demonstrative changes with the noun.",
       "pairs": [
-        { "q": "este libro", "a": "estos libros" },
-        { "q": "esa silla", "a": "esas sillas" },
-        { "q": "aquel edificio", "a": "aquellos edificios" },
-        { "q": "esta mesa", "a": "estas mesas" },
-        { "q": "ese vaso", "a": "esos vasos" },
-        { "q": "aquella casa", "a": "aquellas casas" }
+        { "q": "questo libro", "a": "questi libri" },
+        { "q": "quella sedia", "a": "quelle sedie" },
+        { "q": "quel palazzo", "a": "quei palazzi" },
+        { "q": "questa chiave", "a": "queste chiavi" },
+        { "q": "quello zaino", "a": "quegli zaini" },
+        { "q": "quell'ufficio", "a": "quegli uffici" }
       ]
     },
     {
       "type": "fill",
-      "title": "esta or está?",
-      "hint": "esta + noun means this. está is the verb estar.",
-      "placeholder": "esta / está",
+      "title": "Which one? Answer without a noun.",
+      "hint": "Alone, quello has four forms: quello, quella, quelli, quelle.",
+      "placeholder": "Form",
       "items": [
-        { "prompt": "___ casa es grande.", "answer": "Esta", "choices": ["Esta", "Está"] },
-        { "prompt": "El médico no ___ aquí.", "answer": "está", "choices": ["esta", "está"] },
-        { "prompt": "Vivo en ___ calle.", "answer": "esta", "choices": ["esta", "está"] },
-        { "prompt": "¿Dónde ___ la llave?", "answer": "está", "choices": ["esta", "está"] },
-        { "prompt": "___ tarde no trabajo.", "answer": "Esta", "choices": ["Esta", "Está"] }
+        { "prompt": "Quale borsa vuole? – ___ lì, la rossa.", "answer": "Quella", "choices": ["Quella", "Quello", "Quel"] },
+        { "prompt": "Quale autobus prendi? – ___ delle otto.", "answer": "Quello", "choices": ["Quel", "Quello", "Quella"] },
+        { "prompt": "Quali scarpe compri? – ___ nere.", "answer": "Quelle", "choices": ["Quelle", "Quelli", "Quei"] },
+        { "prompt": "Quali documenti servono? – ___ qui.", "answer": "Questi", "choices": ["Questi", "Queste", "Questo"] },
+        { "prompt": "Quale libro è tuo? – ___ qui.", "answer": "Questo", "choices": ["Questo", "Questa", "Quel"] }
       ]
     },
     {
       "type": "story",
       "title": "Fill the gaps: In the clothes shop.",
-      "hint": "Near me, near you or far? Match the noun.",
-      "choices": ["este", "esta", "esas", "ese", "aquella", "esto"],
+      "hint": "Near me or far? Match the noun.",
+      "choices": ["questa", "quelle", "quella", "questo", "quei", "quel"],
       "segments": [
-        { "text": "—Buenos días. ¿Cuánto cuesta " },
-        { "blank": 0, "answer": "esta" },
-        { "text": " camisa que tengo aquí? —Veinte euros. —¿Y " },
-        { "blank": 1, "answer": "esas" },
-        { "text": " camisetas que tiene usted ahí? —Diez euros. —¿Y " },
-        { "blank": 2, "answer": "aquella" },
-        { "text": " chaqueta de allí? —Cuarenta euros. —Bien, me llevo " },
-        { "blank": 3, "answer": "esta" },
-        { "text": " camisa. ¿Y qué es " },
-        { "blank": 4, "answer": "esto" },
-        { "text": "? —Un regalo de la tienda." }
+        { "text": "«Buongiorno. Quanto costa " },
+        { "blank": 0, "answer": "questa" },
+        { "text": " camicia qui?» «Venti euro.» «E " },
+        { "blank": 1, "answer": "quelle" },
+        { "text": " magliette lì?» «Dieci euro.» «E " },
+        { "blank": 2, "answer": "quella" },
+        { "text": " giacca in vetrina?» «Quaranta euro.» «Bene, prendo " },
+        { "blank": 3, "answer": "questa" },
+        { "text": " camicia. E che cos'è " },
+        { "blank": 4, "answer": "questo" },
+        { "text": "?» «Un regalo del negozio.»" }
       ]
     },
     {
@@ -221,9 +244,9 @@
       "title": "Build the sentences.",
       "hint": "The demonstrative comes before the noun.",
       "sentences": [
-        { "id": "de1", "hint": "This flat is expensive", "correct": ["Este", "piso", "es", "caro", "."], "shuffled": ["caro", "piso", ".", "Este", "es"] },
-        { "id": "de2", "hint": "Ask: what is that?", "correct": ["¿Qué", "es", "eso", "?"], "shuffled": ["eso", "?", "es", "¿Qué"] },
-        { "id": "de3", "hint": "These shoes are new", "correct": ["Estos", "zapatos", "son", "nuevos", "."], "shuffled": ["nuevos", ".", "zapatos", "Estos", "son"] }
+        { "id": "de1", "hint": "This flat is expensive", "correct": ["Questo", "appartamento", "è", "caro", "."], "shuffled": ["caro", "appartamento", ".", "Questo", "è"] },
+        { "id": "de2", "hint": "Ask: what is that?", "correct": ["Che", "cos'è", "quello", "?"], "shuffled": ["quello", "?", "cos'è", "Che"] },
+        { "id": "de3", "hint": "Those shoes are new", "correct": ["Quelle", "scarpe", "sono", "nuove", "."], "shuffled": ["nuove", ".", "scarpe", "Quelle", "sono"] }
       ]
     }
   ]

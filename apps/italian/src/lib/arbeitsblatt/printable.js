@@ -5,7 +5,7 @@
 //   w  a Lernset          → the teachers' worksheet (…/arbeitsblaetter/wortschatz/<id>)
 //      a whole level (a1) → the same, words from the whole level
 //      a frequency round  → the learners' print page (/vocabolario/stampa/<id>)
-//      a Berufe group     → its print page (/spanish-for-work/<beruf>/<gruppe>/drucken)
+//      a Berufe group     → its print page (/italiano-per-il-lavoro/<beruf>/<gruppe>/stampa)
 //   g  a grammar topic    → the teachers' worksheet (…/arbeitsblaetter/grammatik/<slug>)
 //   p  a partner or group sheet, checked ones only (…/arbeitsblaetter/partner/<id>)
 //
@@ -30,7 +30,7 @@ export function printableSets() {
       id: `berufe-${b.slug}-${g.id}`,
       name: `${g.title} (${BERUF_DECKS[b.slug]?.title.split(":")[0] ?? b.slug})`,
       level: "Beruf",
-      path: `${workPath(b.slug, g.id)}/print`,
+      path: `${workPath(b.slug, g.id)}/stampa`,
     }))),
     ...sheetTopics.map((t) => ({ kind: "g", id: topicSlug(t), name: t.name, level: t.level, path: sheetPath(topicSlug(t)) })),
     ...publicSheets().map((s) => ({ kind: "p", id: s.id, name: s.titel, level: s.niveau, path: `/insegnanti/schede/coppie/${s.id}` })),

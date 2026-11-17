@@ -12,7 +12,7 @@ import { t } from "../uiText.js";
 import { withBase } from "../paths.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = withBase(`/account?next=${encodeURIComponent("/giochi/sprint-dei-generi#classifica")}`);
+const LOGIN = withBase(`/account?next=${encodeURIComponent("/giochi/sprint-degli-articoli#classifica")}`);
 
 export function mountBoard(el, { modeName, diffName }) {
   const noop = { show() {}, runOver() {}, render() {} };
