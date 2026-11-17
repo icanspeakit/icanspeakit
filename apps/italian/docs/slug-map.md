@@ -18,7 +18,7 @@ The course-level addresses are Italian (see the end for what is not). Old Englis
 | /explore/films | /esplora/film |
 | /game | /gioco |
 | /games | /giochi |
-| /games/gender-sprint | /giochi/sprint-dei-generi |
+| /games/gender-sprint | /giochi/sprint-degli-articoli |
 | /games/impostor | /giochi/impostore |
 | /games/listening-safari | /giochi/safari-d-ascolto |
 | /games/manners | /giochi/buone-maniere |

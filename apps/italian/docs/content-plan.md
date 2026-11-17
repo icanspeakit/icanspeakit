@@ -916,7 +916,13 @@ handled by the `ui-*` items where they are rendered.
 
 - **Base path (sync-monorepo, 2026-11-16):** the base is `/italiano`, not `/italian` (monorepo decision, Italian slugs per `docs/slug-map.md`). Later items build every URL with `withBase` as before; printed addresses read `icanspeak.it/italiano`. The PDFs in `public/downloads/` still print the old address until they are regenerated, and some PDF scripts still print old English/German slugs after the base (`/wortschatz/…`, `workPath`).
 
-- **games (done):** the game routes keep their English names (`/games/gender-sprint`, `quaki-jumps`, `sentence-rain`, `impostor`); the rename to `/games/article-sprint` etc. with redirects is open for a routing/UI item. `games-arcade` must convert `nussnacht` (`ARTS`, `nut-night.astro`) to il/lo/la/l' and i/gli/le; until then its pool is empty. Article lanes: singular il | lo (l' before a vowel) | la, plural i | gli | le. Report: `reports/games.md`.
+- **games (done):** article lanes: singular il | lo (l' before a vowel) | la, plural i | gli | le. Report: `reports/games.md`.
+- **`games-arcade-routes` (done, 2026-11-17).** Nut night (`nussnacht`, `ARTS` = il, lo, la, l', i, gli, le) was converted by
+  `games-arcade`; its pools are filled. The games live at Italian slugs since `sync-monorepo` (`/giochi/sprint-degli-articoli`,
+  `salti-di-quaki`, `pioggia-di-frasi`, `impostore`, `notte-delle-noci`, `safari-d-ascolto`, `buone-maniere`, `questura`,
+  `casalbruno`); this replaces the interim English names `/games/article-sprint` etc. in §6/§8. Every old English address
+  301s there via `legacy-redirects.json`, including the interim `/games/article-sprint`, `/games/questura`, `/games/casalbruno`.
+  `build-satzregen.mjs` and `nussnacht/bosse.js` write/hold no `es419` (bosse: `VARIETY = "it-IT"`).
 - **Edgar: review** the exam map (§2): CILS in the goethe slots, CELI in the telc slots, PLIDA in
   the testdaf slot, a new CERT.IT slot, the B1 citizenship mock in the DTZ slot and the A2 permit
   mock in paid set 2, "Strutture di comunicazione" in the Sprachbausteine slot, CILS C2 without a set.
@@ -949,7 +955,7 @@ handled by the `ui-*` items where they are rendered.
   require; `cleanup` drops es-ES from it and `LEGACY_VARIETIES`. `scripts/lexicon-import.mjs` still
   writes Spanish (es-ES, `lat=` → `es419`, Spanish grammar syntax, `es-ipa.mjs`): `vocab-a1`
   converts it (e.g. `reg=note~area~form~gender` → `regional`). `build-satzregen.mjs` and
-  `nussnacht/bosse.js` still write/hold `es419`: `games` / `games-arcade`.
+  `nussnacht/bosse.js` no longer write/hold `es419` (checked by `games-arcade-routes`).
 - **Arabic UI**: later, not in this queue (RTL ready).
 - **Business Italian rename** (§4.3): the phrase text key `es` → `it` and the file/folder renames
   happen in one commit by `business-italian`; until then the module still reads `business-spanish`.
