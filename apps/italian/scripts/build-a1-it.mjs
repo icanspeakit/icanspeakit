@@ -80,6 +80,8 @@ for (const f of readdirSync(SRC).filter((x) => x.endsWith(".txt")).sort()) {
     w.ipa = ipa;
     w.ipaSource = "authored";
     w.audio = slugify(lemma);
+    // Windows cannot store con.mp3, aux.mp3 … (check-parity): such slugs get the part of speech.
+    if (/^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i.test(w.audio)) w.audio = `${w.audio}-${w.pos}`;
     w.variety = "it-IT";
     if (ex.regional) w.regional = ex.regional;
     let id = slugify(lemma);
