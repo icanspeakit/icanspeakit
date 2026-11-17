@@ -1296,3 +1296,9 @@ handled by the `ui-*` items where they are rendered.
   `git show 5b1c278c:apps/portuguese/src/content/wortgeschichte/<name>.json`).
 - Open: `haeufigste-woerter.json`, `attach-ranks.mjs` and `artikel-haeufigkeit` still read German/Spanish lists; `rank` is `null` (no download possible).
   Audio files do not exist (no pt-PT voice wired). `bildkarten.json`, `wort-bilder.json` still key Spanish ids (picture lookup returns nothing for A1 words; see report).
+
+### Open points from `vocab-a2`
+
+- Done: `a2.json` is Portuguese (28 units, 431 words, unit ids and topics kept; a2-13 retitled "Post office & official tasks (CTT)"). Source of truth: `scripts/a2-pt-data/*.txt` + `node scripts/build-a2-pt.mjs` (same row format as a1; `@a2-13|New title` retitles a unit). Sidecars de/es/fr/it filled; stale Spanish A2 ids removed from every sidecar.
+- Open: the berufe decks, DGT vocabulary and Business Spanish lost 163 refs/own words (`scripts/prune-a2-refs.mjs`); business-spanish JSON was re-indented (2 spaces) by it. 5 Spanish word stories removed (aceite, barrio, cerveza, chocolate, tomate; restore from git before this commit).
+- Open: ids that exist at A1 (`salario`, `aula`) are not repeated at A2; `ñ` handling in `slugify` unchanged.
