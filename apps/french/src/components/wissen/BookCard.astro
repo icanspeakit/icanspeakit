@@ -24,7 +24,7 @@ const { file: f, i = 0 } = Astro.props;
   <i data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</i>
   <span class="wi-card-foot">
     <span class="wi-meta">
-      PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} Seiten`}</span> : ""} · {f.size}
+      PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}
       {f.editions.length > 0 && <span class="wi-meta-eds"> · +{f.editions.map((e) => e.lang.toUpperCase()).join("/")}</span>}
     </span>
     <span class="wi-dl" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>

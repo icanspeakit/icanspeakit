@@ -17,26 +17,26 @@ interface Props {
 }
 const { file: f, i = 0, size = "card" } = Astro.props;
 
-const MASCOT: Record<string, "bruno" | "regi" | "hamsti" | "quaki"> = { grammatik: "regi", wortschatz: "hamsti", pruefungen: "bruno" };
+const MASCOT: Record<string, "bruno" | "regi" | "hamsti" | "quaki"> = { grammatik: "regi", listen: "regi", wortschatz: "hamsti", pruefungen: "bruno" };
 const EXPR = ["happy", "thinking", "celebrate", "happy"] as const;
-// How dark the cover is: A1 lightest, B2 darkest; a span (A1–B2) sits in the middle.
-const LV: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3 };
+// How dark the cover is: A1 lightest, C1/C2 darkest; a span (A1–C1) sits in the middle.
+const LV: Record<string, number> = { A1: 0, A2: 1, B1: 2, B2: 3, C1: 3.5, C2: 4 };
 const lv = LV[f.level] ?? 1.5;
 
 // The words on the cover: short, like a book's spine. The full title is on the card.
 function coverTitle(): [string, string] {
-  if (/grammatik-start/i.test(f.id)) return ["Grammar Start", "The 10 most important chapters"];
-  if (/komplett/.test(f.id)) return [f.category === "wortschatz" ? "Wortliste" : "Grammatik", "komplett"];
-  if (f.category === "grammatik") return ["Grammatik", ""];
-  if (f.category === "wortschatz") return ["Wortliste", ""];
-  if (f.category === "berufe") return [f.title.split(/[:—–]/)[0].trim(), "Deutsch im Beruf"];
+  if (/grammatik-start/i.test(f.id)) return ["Grammaire", "l'essentiel"];
+  if (/complet/.test(f.id)) return [f.category === "wortschatz" ? "Vocabulaire" : "Grammaire", "complète"];
+  if (f.category === "grammatik") return ["Grammaire", ""];
+  if (f.category === "wortschatz") return ["Vocabulaire", ""];
+  if (f.category === "listen") return [f.title.match(/\(([^)]+)\)/)?.[1] ?? f.title, "liste"];
   const [a, b = ""] = f.title.split(/:\s*/);
   return [a.replace(/\s*\(.*\)$/, ""), b];
 }
 const [title, sub] = coverTitle();
-const who = f.emoji ? null : MASCOT[f.category] ?? (/demarrer/.test(f.id) ? "quaki" : "regi");
+const who = f.emoji ? null : MASCOT[f.category] ?? (/start/.test(f.id) ? "quaki" : "regi");
 const art = who
-  ? mascotSvg({ name: who, expr: /komplett/.test(f.id) ? "celebrate" : EXPR[i % EXPR.length], view: i % 2 ? "three" : "front", size: 120, label: "" })
+  ? mascotSvg({ name: who, expr: /complet/.test(f.id) ? "celebrate" : EXPR[i % EXPR.length], view: i % 2 ? "three" : "front", size: 120, label: "" })
   : "";
 ---
 <span class:list={["bk", `bk--${f.category}`, `bk--${size}`]} style={`--lv:${lv}`} aria-hidden="true">
