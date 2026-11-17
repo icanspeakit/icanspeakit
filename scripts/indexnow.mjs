@@ -60,7 +60,9 @@ if (!flag('--send') || !list.length) process.exit(0);
 
 for (let i = 0; i < list.length; i += 10000) {
   const batch = list.slice(i, i + 10000);
-  const res = await fetch('https://api.indexnow.org/indexnow', {
+  // --endpoint https://www.bing.com/indexnow when api.indexnow.org resets the connection (it
+  // does from Edgar's machine); every IndexNow engine shares submissions with the others.
+  const res = await fetch(values('--endpoint')[0] ?? 'https://api.indexnow.org/indexnow', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
     body: JSON.stringify({ host: HOST, key, keyLocation: `https://${HOST}/${key}.txt`, urlList: batch }),
