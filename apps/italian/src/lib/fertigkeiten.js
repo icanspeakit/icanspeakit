@@ -84,13 +84,13 @@ const ERROR_CHECK = [
 ];
 
 const cardPoint = (pt) => {
-  const x = pt.replace(/^y /, "");
+  const x = pt.replace(/^e /, "");
   return x[0].toUpperCase() + x.slice(1);
 };
 
 // The rule of the listening and reading items: instructions are English at A1–A2 and Italian
 // from B1, where the question itself is part of the practice.
-const SPANISH_LEVELS = new Set(["B1", "B2"]);
+const ITALIAN_PROMPT_LEVELS = new Set(["B1", "B2"]);
 
 function resolveSprechen(entry) {
   switch (entry.from) {
@@ -103,8 +103,8 @@ function resolveSprechen(entry) {
       return {
         ...entry,
         image: pic.image,
-        prompt: SPANISH_LEVELS.has(entry.level)
-          ? "Describe la foto. Después, el examinador te hace preguntas sobre tu propia experiencia."
+        prompt: ITALIAN_PROMPT_LEVELS.has(entry.level)
+          ? "Descrivi la foto. Poi l'esaminatore ti fa alcune domande sulla tua esperienza personale."
           : "Describe the picture. After that, the examiner asks you about your own experience.",
         bullets: pic.beschreibung,
         followUps: pic.persoenlich,
@@ -118,11 +118,11 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
+          : `Prima parla della foto per un minuto. Poi prenditi un minuto per preparare qualche appunto e parla per massimo due minuti. ${p.kurzvortrag.topic.replace(/ Spiega:$/, "")}`,
         bullets: diskussion
-          ? ["Di con claridad lo que piensas.", "Da dos razones, cada una con un ejemplo.", "Responde a la objeción de la otra persona.", "Al final, resume tu postura."]
-          // The card's points read on from "Explica:"; as bullets of their own they
-          // start with a capital and drop the "y" before the last one.
+          ? ["Di' chiaramente che cosa pensi.", "Porta due ragioni, ognuna con un esempio.", "Rispondi all'obiezione dell'altra persona.", "Alla fine riassumi la tua posizione."]
+          // The card's points read on from "Spiega:"; as bullets of their own they
+          // start with a capital and drop the "e" before the last one.
           : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
         href: "/parlato-b1-b2",
         hrefLabel: "in the long-turn trainer",
