@@ -110,7 +110,7 @@ const ROW_WIDTH = 4;
             <a class="tool-card" href={t.href}>
               <span class="tool-card-step" aria-hidden="true">{i + 1}</span>
               <div class="tool-card-icon hub-pic"><img src={emojiSrc(GRAMMAR_ICON[t.id] || "📚")} alt="" width="40" height="40" loading="lazy" /></div>
-              <h3>{t.name}</h3>
+              <h3 data-i18n={`grammatik.${t.id}.name`}>{t.name}</h3>
               <p data-i18n={t.introKey}>{t.intro}</p>
               <span class="tool-card-foot">
                 <span class={`tool-card-count ${t.isWorkspace ? "tool-card-count--workspace" : ""}`} data-i18n={t.badgeKey} data-i18n-vars={JSON.stringify(t.badgeVars)}>{t.badge}</span>
@@ -135,7 +135,7 @@ const ROW_WIDTH = 4;
               {extra.map((t) => (
                 <a class="tool-card" href={t.href}>
                   <div class="tool-card-icon hub-pic"><img src={emojiSrc(GRAMMAR_ICON[t.id] || "📚")} alt="" width="40" height="40" loading="lazy" /></div>
-                  <h3>{t.name}</h3>
+                  <h3 data-i18n={`grammatik.${t.id}.name`}>{t.name}</h3>
                   <p data-i18n={t.introKey}>{t.intro}</p>
                   <span class="tool-card-foot">
                     <span class={`tool-card-count ${t.isWorkspace ? "tool-card-count--workspace" : ""}`} data-i18n={t.badgeKey} data-i18n-vars={JSON.stringify(t.badgeVars)}>{t.badge}</span>
