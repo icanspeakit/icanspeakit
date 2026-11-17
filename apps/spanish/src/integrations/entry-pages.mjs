@@ -131,6 +131,37 @@ function introHtml(intro, l) {
     + `<ul>${links}</ul></section>`;
 }
 
+/* The structured data of a copy, in its language. translateHtml leaves <script> bodies alone,
+ * so the JSON-LD would still be the English page's: the page node gets the copy's URL,
+ * language, title and description, and an FAQPage is rebuilt from the copy's own visible
+ * questions and answers ([data-faq-q] / [data-faq-a], already translated), so the markup never
+ * claims an answer the reader cannot see. Nodes that describe other things (the PDFs, the
+ * breadcrumb, the organisation) are left as they are. */
+const stripTags = (s) => decode(String(s).replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+function localizeLd(html, { lang, href, title, description }) {
+  return html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (all, open, body, close) => {
+    let data;
+    try { data = JSON.parse(body); } catch { return all; }
+    const nodes = Array.isArray(data['@graph']) ? data['@graph'] : [data];
+    const qs = [...html.matchAll(/<[^>]*\sdata-faq-q[\s>][^>]*>([\s\S]*?)<\/[a-z0-9]+>/gi)].map((m) => stripTags(m[1]));
+    const as = [...html.matchAll(/<[^>]*\sdata-faq-a[\s>][^>]*>([\s\S]*?)<\/[a-z0-9]+>/gi)].map((m) => stripTags(m[1]));
+    for (const n of nodes) {
+      const type = [n['@type']].flat();
+      if (type.includes('FAQPage') && qs.length && qs.length === as.length) {
+        n.mainEntity = qs.map((q, i) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: as[i] } }));
+        n.inLanguage = lang;
+      }
+      if (type.some((t) => ['CollectionPage', 'WebPage', 'FAQPage'].includes(t))) {
+        n.inLanguage = lang;
+        if (n.url) n.url = href;
+        if (title && n.name) n.name = title.replace(/\s+[–|-]\s+icanspeak Spanish$/, '');
+        if (description && n.description) n.description = description;
+      }
+    }
+    return open + JSON.stringify(data).replace(/</g, '\\u003c') + close;
+  });
+}
+
 /** Writes the language copies of the entry pages into `root` (the built site). */
 export async function buildEntryPages(root, site, logger = console) {
   const cfg = JSON.parse(await readFile(path.join(ROOT, 'src', 'data', 'entry-pages.json'), 'utf8'));
@@ -168,6 +199,7 @@ export async function buildEntryPages(root, site, logger = console) {
         html = setMeta(html, /<meta property="og:description"[^>]*>/, description);
         html = setMeta(html, /<meta name="twitter:description"[^>]*>/, description);
       }
+      html = localizeLd(html, { lang: l.hreflang, href, title, description });
       // An H1 that is data rather than a dictionary key (a deck title) gets its own line.
       if (h1) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, (tag) => tag.replace(/\slang="(?:de|es)"/, '').replace(/>[\s\S]*<\/h1>$/, `>${escText(h1)}</h1>`));
       // The home page: an intro for this audience, after the hero.
