@@ -164,7 +164,8 @@ const pc = (key: string) => tx?.prosCons ? Object.fromEntries(Object.entries(tx.
 
   <script type="application/json" id="ku-quiz-data" set:html={JSON.stringify(topic.quiz)}></script>
   <script type="module">
-import { currentPath } from "../../lib/paths.js";
+    import { currentPath } from "../../lib/paths.js";
+    import { itemKey } from "../../lib/routes.js";
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
 
