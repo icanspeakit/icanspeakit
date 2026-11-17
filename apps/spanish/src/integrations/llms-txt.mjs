@@ -24,7 +24,7 @@ const SECTIONS = [
   ['Skills', ['/habilidades', '/expresion-oral', '/comprension-auditiva', '/comprension-lectora', '/expresion-escrita']],
   ['Exams', ['/examenes', '/dele', '/dele/*', '/siele', '/siele/*', '/examenes/dele-o-siele', '/ccse', '/ccse/*', '/nacionalidad', '/nacionalidad/*']],
   ['Life and work in Spain', ['/espanol-para-el-trabajo', '/espanol-de-negocios', '/vocabulario-dgt', '/cultura', '/conocimientos', '/conocimientos/historias-de-palabras']],
-  ['For teachers', ['/profesores']],
+  ['For teachers', ['/profesores', '/profesores/fichas']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],
 ];
