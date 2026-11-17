@@ -136,8 +136,8 @@ look at the task, fix it by hand and re-sign.
    redemittel refs). If a source item changes later, its checksum stops matching and the
    build fails. Look at the item again before re-signing.
 3. `pnpm check:einfach`: fix every error. It also lists the postcards still marked `"neu"`.
-4. Play it: `/italian/step-by-step#/uebung/<unit-id>` on the dev server (or
-   `/italian/step-by-step?fixtures` for three hand-written test sittings).
+4. Play it: `/italiano/passo-passo#/uebung/<unit-id>` on the dev server (or
+   `/italiano/passo-passo?fixtures` for three hand-written test sittings).
 5. Commit the path change on its own.
 
 ## 5. Bruno's voice (UI lines)

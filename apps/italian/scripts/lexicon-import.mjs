@@ -1,29 +1,36 @@
-// Writes Spanish words from a compact source file into a lexicon level, its i18n sidecars and the
-// pictures keyed by word id (docs/content-plan.md §1.4, §5.2). For the vocab-* items: one tool, so
-// every level gets the same field order, IPA and id rules. After a level is imported, its JSON is
-// the source of truth: fix a word there, don't keep a source file around.
+// Writes Italian words from a compact source file into units of a lexicon level, its i18n
+// sidecars and the pictures keyed by word id (docs/content-plan.md §1.4, §1.5, §5.2). Use it to
+// replace or fill single units; scripts/build-lexicon-it.mjs rebuilds a whole level from
+// scripts/data/<level>-it/. After a unit is imported, the level's JSON is the source of truth:
+// fix a word there, don't keep a source file around.
 //
-//   node scripts/lexicon-import.mjs a1 <source.txt> [more.txt …]
+//   node scripts/lexicon-import.mjs a2 <source.txt> [more.txt …]
 //
-// Source: `## a1-01` starts a unit (its title and topics stay as they are); then one word a line,
+// Source: `## a2-01` starts a unit (its title and topics stay as they are); then one word a line,
 //
-//   old|lemma|pos|gram|en|example|de|fr|pt|it[|id=…][|ipa=…][|img=…][|lat=note~form~gender]
+//   old|lemma|pos|gram|en|example|de|es|fr|pt|ipa=…[|id=…][|img=…][|reg=note~area~form~gender]
 //
 //   old    the id this word replaces ("-" for none): its picture carries over to the new id, and
 //          the map is printed so that bildkarten.json and other id lists can follow
 //   pos    n v a adv prep conj pron num phrase
-//   gram   n: `la,casas`, `el/la,estudiantes`, no plural `la,`; plural-only `el*,padres`;
-//             article hides a feminine `el!f,aguas`
-//          v: `hablo,habló,hablado`, plus `!irr` and/or `+en` (dependent preposition)
-//          a: feminine form `alta`, plus `!mejor;el mejor` for irregular comparative;superlative
-//   lat    the es419 note (§1.5): note, then optionally ~form and ~gender
+//   gram   n: `la,case`, `il/la,colleghi`, no plural `la,`; plural-only `il*,pantaloni`;
+//             `l'` needs the gender: `l'!m,amici`, `l'!f,ore`; -a plural of a masculine
+//             noun: `il!pf,braccia` (pluralGender f)
+//          v: `parlo,parlato,parlavo,avere` (io presente, participio, io imperfetto, auxiliary
+//             avere | essere | avere/essere), plus `!irr` and/or `+a` (dependent preposition)
+//          a: feminine form `alta` (empty for -e adjectives), plus `!migliore;il migliore` for an
+//             irregular comparative;superlative
+//   ipa    required: broad standard Italian IPA, authored (no generator for Italian)
+//   reg    the regional note (§1.5): note, then optionally ~area ~form ~gender
 //
-// A slug taken by a word of another level gets `-es` (§1.3).
+// The article must fit the lemma (src/lib/articles.js); validate-lexicon.mjs checks it again.
+// A slug taken by a word of another level gets `-it` (§1.3), as in build-lexicon-it.mjs.
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { slugify } from "../src/lib/audioSlug.js";
-import { ipaOf } from "./es-ipa.mjs";
+import { articleFits } from "../src/lib/articles.js";
+import { REGIONAL_AREAS, REGIONAL_GENDERS, REGIONAL_NOTE_MAX } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const [level, ...sources] = process.argv.slice(2);
@@ -36,7 +43,8 @@ const LEXICON = (l) => path.join(ROOT, "src/content/lexicon", `${l}.json`);
 const SIDECAR = (l) => path.join(ROOT, "src/content/lexicon/i18n", `${l}.json`);
 const PICTURES = path.join(ROOT, "src/data/wort-bilder.json");
 const POS = { n: "noun", v: "verb", a: "adj", adv: "adv", prep: "prep", conj: "conj", pron: "pron", num: "num", phrase: "phrase" };
-const LANGS = ["de", "fr", "pt", "it"];
+const LANGS = ["de", "es", "fr", "pt"];
+const AUX = ["avere", "essere", "avere/essere"];
 
 const wordId = (w) => w.id ?? slugify(w.lemma);
 const readJson = (f) => JSON.parse(readFileSync(f, "utf8"));
@@ -49,26 +57,31 @@ for (const other of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
   for (const u of readJson(LEXICON(other)).units ?? []) for (const w of u.words ?? []) taken.add(wordId(w));
 }
 
-function gramFields(pos, gram, where) {
+function gramFields(pos, gram, lemma, where) {
   const out = {};
   if (pos === "noun") {
-    const m = /^(el\/la|el|la)(\*|!f)?,(.*)$/.exec(gram);
+    const m = /^(il\/la|lo\/la|il|lo|la|l')(\*|!m|!f|!pf)?,(.*)$/.exec(gram);
     if (!m) throw new Error(`${where}: bad noun grammar "${gram}"`);
     out.gender = m[1];
-    if (m[2] === "!f") out.genus = "f";
+    if (m[2] === "!m" || m[2] === "!f") out.genus = m[2].slice(1);
+    if (out.gender === "l'" && !out.genus) throw new Error(`${where}: l' needs !m or !f`);
     if (m[3]) out.plural = m[3];
     if (m[2] === "*") out.pluralOnly = true;
+    if (m[2] === "!pf") out.pluralGender = "f";
+    if (!articleFits(lemma, out.gender, out.genus)) throw new Error(`${where}: "${out.gender}" does not fit "${lemma}"`);
   } else if (pos === "verb") {
     const m = /^([^!+]+)(!irr)?(?:\+(.+))?$/.exec(gram);
     if (!m) throw new Error(`${where}: bad verb grammar "${gram}"`);
-    out.forms = m[1].split(",").map((f) => f.trim());
-    if (out.forms.length !== 3) throw new Error(`${where}: forms must be three: yo present, él indefinido, participle`);
+    const parts = m[1].split(",").map((f) => f.trim());
+    if (parts.length !== 4) throw new Error(`${where}: io presente, participio, io imperfetto, auxiliary`);
+    if (!AUX.includes(parts[3])) throw new Error(`${where}: auxiliary "${parts[3]}"`);
+    out.forms = parts.slice(0, 3);
+    out.aux = parts[3];
     if (m[2]) out.irregular = true;
     if (m[3]) out.prep = m[3];
   } else if (pos === "adj") {
     const [fem, irr] = gram.split("!");
-    if (!fem) throw new Error(`${where}: an adjective needs its feminine form`);
-    out.fem = fem;
+    if (fem) out.fem = fem;
     if (irr) {
       const [comparative, superlative] = irr.split(";");
       Object.assign(out, { irregular: true, comparative, superlative });
@@ -79,36 +92,44 @@ function gramFields(pos, gram, where) {
   return out;
 }
 
+function regionalOf(spec, where) {
+  const [note, area, form, gender] = spec.split("~").map((s) => s.trim());
+  if (!note || note.length > REGIONAL_NOTE_MAX) throw new Error(`${where}: regional note missing or over ${REGIONAL_NOTE_MAX} characters`);
+  if (area && !REGIONAL_AREAS.includes(area)) throw new Error(`${where}: regional area "${area}"`);
+  if (gender && !REGIONAL_GENDERS.includes(gender)) throw new Error(`${where}: regional gender "${gender}"`);
+  return { note, ...(area ? { area } : {}), ...(form ? { form } : {}), ...(gender ? { gender } : {}) };
+}
+
 function parseLine(line, unitId) {
-  const [old, lemma, posKey, gram, en, example, de, fr, pt, it, ...opts] = line.split("|").map((s) => s.trim());
+  const [old, lemma, posKey, gram, en, example, de, es, fr, pt, ...opts] = line.split("|").map((s) => s.trim());
   const where = `${unitId}/${lemma}`;
   const pos = POS[posKey];
   if (!pos) throw new Error(`${where}: unknown pos "${posKey}"`);
-  if (!en || !example || !de || !fr || !pt || !it) throw new Error(`${where}: a field is empty`);
+  if (!en || !example || !de || !es || !fr || !pt) throw new Error(`${where}: a field is empty`);
   const opt = Object.fromEntries(opts.map((o) => [o.slice(0, o.indexOf("=")), o.slice(o.indexOf("=") + 1)]));
+  if (!opt.ipa) throw new Error(`${where}: ipa= is required`);
   let id = opt.id ?? slugify(lemma);
-  if (taken.has(id)) id = `${id}-es`;
+  if (taken.has(id)) id = `${id}-it`;
+  // Windows cannot store con.mp3, aux.mp3 … (check-parity): such slugs get the part of speech.
+  const audio = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i.test(id) ? `${id}-${pos}` : id;
 
-  const fields = gramFields(pos, gram, where);
+  const fields = gramFields(pos, gram, lemma, where);
   const word = {
     ...(id === slugify(lemma) ? {} : { id }),
     lemma,
     pos,
     ...fields,
-    ...(pos === "verb" && lemma.endsWith("se") ? { reflexive: true } : {}),
+    ...(pos === "verb" && /si$/.test(lemma.split(" ")[0]) ? { reflexive: true } : {}),
     en,
     example,
     rank: null,
-    ipa: opt.ipa ?? ipaOf(lemma.replace(/…/g, "")),
+    ipa: opt.ipa,
     ipaSource: "authored",
-    audio: id,
-    variety: "es-ES",
+    audio,
+    variety: "it-IT",
   };
-  if (opt.lat) {
-    const [note, form, gender] = opt.lat.split("~");
-    word.es419 = { note, ...(form ? { form } : {}), ...(gender ? { gender } : {}) };
-  }
-  return { id, word, old, img: opt.img, gloss: { de, fr, pt, it } };
+  if (opt.reg) word.regional = regionalOf(opt.reg, where);
+  return { id, word, old, img: opt.img, gloss: { de, es, fr, pt } };
 }
 
 const units = new Map(file.units.map((u) => [u.id, u]));
@@ -147,11 +168,9 @@ for (const p of parsed) {
   seen.set(p.id, p.word.lemma);
 }
 
-file.source = {
-  rank: `Not filled yet: rank is null until \`node scripts/attach-ranks.mjs ${level}\` attaches the Spanish OpenSubtitles 2018 list (hermitdave/FrequencyWords es_50k, licence to verify). Until then these words stay out of the frequency rounds.`,
-  lemmas: `Authored for icanspeak Italian in Castilian Spanish (variety es-ES; es419 notes where Latin America differs), chosen by topic for CEFR ${level.toUpperCase()}, with what a resident of Spain needs first. Level banding is our own, NOT the Instituto Cervantes Plan Curricular (PCIC): the UI must not claim otherwise. gender = singular definite article: el / la / el/la (common-gender person nouns). IPA generated by scripts/es-ipa.mjs (broad Castilian).`,
-  generated: new Date().toISOString().slice(0, 10),
-};
+// The level's source note stays as build-lexicon-it.mjs wrote it (standard Italian, it-IT); only
+// the date moves.
+file.source = { ...(file.source ?? {}), generated: new Date().toISOString().slice(0, 10) };
 
 const compact = (obj) => JSON.stringify(obj, null, 2);
 writeFileSync(LEXICON(level), compact(file) + "\n", "utf8");
@@ -191,4 +210,4 @@ function serialisePictures(data) {
 
 const map = Object.fromEntries(parsed.filter((p) => p.old && p.old !== "-").map((p) => [p.old, p.id]));
 writeFileSync(path.join(ROOT, `_tmp_idmap_${level}.json`), JSON.stringify(map, null, 2) + "\n", "utf8");
-console.log(`${level}: ${parsed.length} words imported, ${parsed.filter((p) => p.word.es419).length} es419 notes, ${[...seen.keys()].filter((i) => i.endsWith("-es")).join(", ") || "no"} -es ids`);
+console.log(`${level}: ${parsed.length} words imported, ${parsed.filter((p) => p.word.regional).length} regional notes, ${[...seen.keys()].filter((i) => i.endsWith("-it")).join(", ") || "no"} -it ids`);

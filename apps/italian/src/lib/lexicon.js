@@ -137,7 +137,7 @@ export const ITALIAN_LEVELS = new Set(
   LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && isIt(e) && e.pos === "noun"))
 );
 
-/** The levels still holding the Spanish course's content (el / la), until `vocab-c1-c2`. */
+/** The levels still holding the Spanish course's content (el / la). Empty since `vocab-c1-c2` (residual-audit checked); kept so imports do not break. */
 export const SPANISH_LEVELS = new Set(
   LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && !isIt(e) && ["el", "la", "el/la"].includes(e.gender)))
 );

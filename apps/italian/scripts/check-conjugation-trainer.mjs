@@ -31,7 +31,7 @@ for (const set of data.sets) {
   for (const k of ["title", "lead"]) if (!set[k]) err(`${set.id}: needs ${k}`);
   if (!set.rule?.text) err(`${set.id}: needs rule.text`);
   if (!LEVELS.includes(set.level)) err(`${set.id}: level ${set.level}`);
-  if (!isCourseStandard(set.variety)) err(`${set.id}: variety must be it-IT (es-ES while still Spanish)`);
+  if (!isCourseStandard(set.variety)) err(`${set.id}: variety must be it-IT`);
   if (!["choice", "form"].includes(set.kind)) err(`${set.id}: kind ${set.kind}`);
   if (set.items.length < 8) err(`${set.id}: only ${set.items.length} items`);
   const prompts = new Set();

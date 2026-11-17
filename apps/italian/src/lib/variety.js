@@ -12,10 +12,10 @@
 // below always return the standard text, and regional notes are not shown anywhere yet (a later
 // item). The field and its validators stay so content can carry the notes from the start.
 //
-// Legacy: until every module is converted, the data still holds the Spanish course's
-// `variety: "es-ES"` and `es419` notes. They are tolerated on items that still say es-ES (the
-// Spanish content a later item replaces) and are an error on an Italian item, and anywhere in a
-// module that scripts/check-variety.mjs lists as strict (opts.strict).
+// Legacy: the Spanish course's `variety: "es-ES"` and `es419` notes. Since residual-audit
+// (2026-11-17) every module is converted and listed as strict in scripts/check-variety.mjs, so
+// both are errors everywhere (opts.strict). Outside a strict module (none today) an es-ES item
+// would still be tolerated; `es419` on an Italian item is always an error.
 //
 // Plain ESM without Vite imports: scripts/check-variety.mjs and the lexicon/berufe validators
 // share these rules with the pages.
@@ -40,9 +40,10 @@ export const REGIONAL_AREAS = ["north", "centre", "south", "islands", "ch", "gen
 /** `regional.gender`: the article of the regional noun when it differs (nouns only). */
 export const REGIONAL_GENDERS = ["il", "lo", "la", "l'"];
 
-/** True for the variety a whole file or set must carry (it-IT; es-ES while still Spanish). */
+/** True for the variety a whole file or set must carry: it-IT. Since residual-audit (2026-11-17)
+ *  every module is Italian, so es-ES is no longer accepted. */
 export function isCourseStandard(v) {
-  return v === DEFAULT_VARIETY || v === "es-ES";
+  return v === DEFAULT_VARIETY;
 }
 
 /** The item's variety: its own `variety`, else the parent's (topic, pack, file), else it-IT. */
