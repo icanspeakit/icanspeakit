@@ -954,9 +954,15 @@ decisions live in the code, `docs/slug-map.md` and the item reports. Every exam 
   `zitate.card.easyLabel`): true only once Spanish cards and facts exist.
 
 ### Infrastructure and later items
-- **Audio:** no it-IT recordings (`public/audio` empty; parity warns). Every `audio` field points to
-  files that don't exist until a TTS voice is wired (`BACKEND.speech`); the voice names in the exam
-  scripts (it-IT Neural) are to be checked against the TTS service.
+- **Audio (due 2026-11-24):** voiced with Azure it-IT-ElsaNeural: vocabulary (`wortschatz`, 2,177),
+  listening clips (`hoeren`, 16), flashcard example sentences (`saetze`), the pronunciation check
+  (`aussprache-check`) and tongue twisters (`zungenbrecher`); generators:
+  `scripts/generate-hoeren-audio.mjs`, `scripts/generate-sentence-audio.mjs`, root
+  `scripts/generate-vocab-audio.mjs`. **Still missing**, so the pages hide their play button or use the
+  browser voice: exam listening (`pruefungen`, needs `generate-exam-hoeren-audio.mjs`), mother-tongue
+  drills (`muttersprache`), phrases (`redemittel`), job words (`berufe`), flashcard explanations
+  (`erklaerung`), idioms (`redewendungen`), `aussprache` examples, `satzmelodie`, games (`knigge`,
+  `lindenau`). Each needs a generator first.
 - **Frequency ranks:** `it_50k` licence and download (§1.4); B2 and up have no `rank`.
 - **Regional notes:** data carries `regional`; showing it is a later item (`variety.js` has no
   alternate mode). Dead Spanish code kept so imports don't break: `LEGACY_VARIETIES`,
