@@ -15,7 +15,8 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
-import { createDoc, plain, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, INK, BORDER, MARGIN } from "./lib/pdf-brand.mjs";
+import { topicPath } from "../src/lib/routes.js";
+import { createDoc, SITE, plain, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, INK, BORDER, MARGIN } from "./lib/pdf-brand.mjs";
 import { isReviewed } from "../src/lib/topicStatus.js";
 import { loadArt } from "./lib/pdf-art.mjs";
 import { langsFor, languageOf } from "../src/lib/languages.js";
@@ -652,7 +653,8 @@ function renderTopic(pdf, topic, { num, withBadge, lang = null, art, key, online
     link with the book's name in utm tags (PostHog reads them as the session's source). */
 async function onlineLinks(list, book) {
   const pairs = await Promise.all(list.map(async (t) => {
-    const url = `icanspeak.it/italiano/${t.slug ?? t.id}`;
+    // The topic's page under its Italian-course slug (routes.js), not its German data key.
+    const url = `${SITE}${topicPath(t.slug ?? t.id)}`;
     const href = `https://${url}?utm_source=pdf&utm_medium=grammatik&utm_campaign=${book}`;
     // The code carries only the source: fewer modules, so it still scans at 16 mm.
     const qr = await QRCode.toBuffer(`https://${url}?utm_source=pdf`, { margin: 1, width: 300, color: { dark: "#0f766e", light: "#ffffff" } });
@@ -789,13 +791,13 @@ async function buildBook({ level, fileName, lang = null }) {
   const outPath = path.join(outDir, fileName);
   // Always the embedded font: it has the arrows the rules are written with, which the
   // built-in Helvetica printed as ">" ("der > den" read as "greater than").
-  const pdf = createDoc({ outPath, runningHead: `ICANSPEAK SPANISH · ${title.toUpperCase()}${ed ? ` · DEUTSCH–${ed.name.toUpperCase()}` : ""}`, unicode: true, script: lang ? languageOf(lang)?.script : null });
+  const pdf = createDoc({ outPath, runningHead: `ICANSPEAK ITALIAN · ${title.toUpperCase()}${ed ? ` · DEUTSCH–${ed.name.toUpperCase()}` : ""}`, unicode: true, script: lang ? languageOf(lang)?.script : null });
   const unreviewed = ed && ordered.some((t) => !help.entries[t.id]?.reviewed);
   const ui = lang ? COVER_UI[lang] : null;
   const tableCount = ordered.reduce((n, t) => n + (t.concept?.reference?.tables?.length ?? 0), 0);
 
   pdf.cover({
-    eyebrow: `ICANSPEAK SPANISH · GRAMMATIK${ed ? ` · DEUTSCH–${ed.name.toUpperCase()}` : ""}`,
+    eyebrow: `ICANSPEAK ITALIAN · GRAMMATIK${ed ? ` · DEUTSCH–${ed.name.toUpperCase()}` : ""}`,
     title,
     subtitle: level
       ? `${LEVEL_BLURB[level]} — alle Grammatikthemen dieses Niveaus: Regel, Tabellen, Übungen mit Lösungen.`

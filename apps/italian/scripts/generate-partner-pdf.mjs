@@ -559,7 +559,7 @@ function drawSheet(ctx, spec, { first }) {
 /* ------------------------------------------------------------------ run -- */
 async function build(specs, file, { bundle = null } = {}) {
   const outPath = path.join(OUT, file);
-  const ctx = createDoc({ outPath, runningHead: bundle ? `ICANSPEAK SPANISH · PARTNERÜBUNGEN ${bundle}` : `ICANSPEAK SPANISH · ${specs[0].titel}`, unicode: true });
+  const ctx = createDoc({ outPath, runningHead: bundle ? `ICANSPEAK ITALIAN · PARTNERÜBUNGEN ${bundle}` : `ICANSPEAK ITALIAN · ${specs[0].titel}`, unicode: true });
   // The running head at this file's tighter margin, not the books' 56 pt.
   ctx.doc.removeAllListeners("pageAdded");
   ctx.doc.on("pageAdded", () => {
@@ -569,7 +569,7 @@ async function build(specs, file, { bundle = null } = {}) {
   for (const s of specs) await preloadIcons(s);
   if (bundle) {
     ctx.cover({
-      eyebrow: `ICANSPEAK SPANISH · ARBEITSBLÄTTER ${bundle}`,
+      eyebrow: `ICANSPEAK ITALIAN · ARBEITSBLÄTTER ${bundle}`,
       title: `Partner- und Gruppenübungen ${bundle}`,
       subtitle: "Sprechen statt nur schreiben: Informationslücken, Rollenspiele, Spiele – mit Karten zum Ausschneiden, Tipps und Lösungen.",
       meta: specs.map((s) => `${s.titel} – ${FORMAT_NAMES[s.format]}, ${s.modus === "gruppe" ? `Gruppe (${s.personen})` : "Paar"}`),

@@ -31,7 +31,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import QRCode from "qrcode";
-import { createDoc, INK, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, BORDER, SURFACE, MARGIN } from "./lib/pdf-brand.mjs";
+import { createDoc, SITE, INK, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, BORDER, SURFACE, MARGIN } from "./lib/pdf-brand.mjs";
 import { loadArt, single } from "./lib/pdf-art.mjs";
 import { languageOf, LANGUAGE_REGISTRY } from "../src/lib/languages.js";
 import { topicPath } from "../src/lib/routes.js";
@@ -39,7 +39,6 @@ import { topicPath } from "../src/lib/routes.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data", "grammatik-start");
 const outDir = path.join(root, "public", "downloads");
-const SITE = "icanspeak.it/italiano";
 const LOGO = readFileSync(path.join(root, "public", "assets", "logo.png"));
 // Fredoka at SemiBold as a static TTF (pdfkit cannot subset the site's variable WOFF2); see scripts/fonts/README.md.
 const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf");

@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { select } from "../src/lib/lexicon.js";
 import { lernsets } from "../src/lib/lernsets.js";
-import { createDoc, MUTED, TEAL_DARK, MARGIN } from "./lib/pdf-brand.mjs";
+import { createDoc, SITE, MUTED, TEAL_DARK, MARGIN } from "./lib/pdf-brand.mjs";
 import { langsFor, languageOf } from "../src/lib/languages.js";
 import { glossTable } from "../src/lib/glossen.js";
 
@@ -130,7 +130,7 @@ async function buildLevel(level, lang = null) {
   const outPath = path.join(outDir, fileName);
   const pdf = createDoc({
     outPath,
-    runningHead: `ICANSPEAK SPANISH · WORTLISTE ${label}${ed ? ` · DEUTSCH–${ed.column.toUpperCase()}` : ""}`,
+    runningHead: `ICANSPEAK ITALIAN · WORTLISTE ${label}${ed ? ` · DEUTSCH–${ed.column.toUpperCase()}` : ""}`,
     unicode: Boolean(ed),
     script: lang ? languageOf(lang)?.script : null,
   });
@@ -138,7 +138,7 @@ async function buildLevel(level, lang = null) {
   const withExample = words.filter((w) => w.example).length;
 
   pdf.cover({
-    eyebrow: "ICANSPEAK SPANISH · WORTSCHATZ",
+    eyebrow: "ICANSPEAK ITALIAN · WORTSCHATZ",
     title: ed ? `Wortliste ${label} · Deutsch–${ed.column}` : `Wortliste ${label}${all ? " (komplett)" : ""}`,
     subtitle: all
       ? "Der komplette Wortschatz von A1 bis B2 in einem Band — nach Niveau und Lernsets geordnet."
@@ -148,7 +148,8 @@ async function buildLevel(level, lang = null) {
     meta: [
       `${words.length} Wörter in ${sets.length} Lernsets`,
       `${withExample} Beispielsätze`,
-      "Als Karteikarten mit Audio: icanspeak.it/italiano/wortschatz" + (all ? "" : "/" + level.toLowerCase()),
+      // The level deck is /vocabolario/<level> (src/pages/vocabolario/[deck].astro).
+      `Als Karteikarten mit Audio: ${SITE}/vocabolario` + (all ? "" : "/" + level.toLowerCase()),
     ],
     footer:
       "Von icanspeak Italian geschrieben — von Lehrkräften, die wirklich unterrichten. Dieses PDF darfst du frei " +
@@ -177,7 +178,7 @@ async function buildLevel(level, lang = null) {
     pdf.section(set.title, set.id.toUpperCase());
     // The set's own page on the site, as a link: the list is what gets printed and kept,
     // and the flashcards with audio are one tap (or one typed address) away.
-    const url = `icanspeak.it/italiano/wortschatz/${set.id}`;
+    const url = `${SITE}/vocabolario/${set.id}`;
     const href = `https://${url}?utm_source=pdf&utm_medium=wortschatz&utm_campaign=${fileName.replace(/\.pdf$/, "")}`;
     pdf.doc.fillColor(MUTED).font(pdf.F.regular).fontSize(9.5)
       .text(pdf.S(`${items.length} Wörter · Als Karteikarten mit Audio: `), MARGIN, pdf.doc.y, { continued: true })
