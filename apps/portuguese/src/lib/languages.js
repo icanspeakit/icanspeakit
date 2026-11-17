@@ -76,7 +76,7 @@ export const LANGUAGE_REGISTRY = [
     // Brazilian Portuguese: the code and URL say pt, <html lang> and hreflang say pt-BR. Same
     // shape as German and French. Help texts, the legal pages and the profession decks fall
     // back to English (the old pt blocks in src/data/uebersetzungen/ aren't used).
-    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
+    surfaces: { ui: draft }, // cards removed by vocab-a1: the glosses are Portuguese -> X, so Portuguese -> Portuguese is meaningless
   },
   {
     code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",

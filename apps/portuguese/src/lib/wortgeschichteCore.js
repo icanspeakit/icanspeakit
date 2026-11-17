@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, SPANISH_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, SPANISH_LEVELS, PORTUGUESE_LEVELS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -96,7 +96,7 @@ export function formsOf(entry) {
     const row = lemma === entry.lemma ? lexiconRow(entry) : rowByLemma(lemma);
     if (!row) continue;
     const parts = [];
-    const spanish = SPANISH_LEVELS.has(row.level);
+    const spanish = SPANISH_LEVELS.has(row.level) || PORTUGUESE_LEVELS.has(row.level); // Iberian level: article + plural, verb forms
     if (row.pos === "noun" && spanish) {
       // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
       parts.push(spokenForm(row));
@@ -122,10 +122,11 @@ export function formsOf(entry) {
   return lines;
 }
 
-/** The language of the headword: "es" for a lemma in a Spanish lexicon level. The prose about
+/** The language of the headword: "pt-PT" for a lemma in a Portuguese lexicon level, "es" in a Spanish one. The prose about
  *  it is PROSE_LANG. */
 export function entryLang(entry) {
   const row = lexiconRow(entry);
+  if (row && PORTUGUESE_LEVELS.has(row.level)) return "pt-PT";
   return row && SPANISH_LEVELS.has(row.level) ? "es" : "en";
 }
 
