@@ -25,11 +25,11 @@ const SECTIONS = [
   ['Skills', ['/competences', '/expression-orale', '/ecoute', '/lecture', '/ecriture']],
   ['Exams', ['/examens', '/delf-dalf', '/delf-dalf/*', '/tcf', '/tcf/*', '/tef', '/tef/*', '/examens/delf-tcf-ou-tef', '/examen-civique', '/examen-civique/*', '/residence-et-nationalite', '/residence-et-nationalite/*']],
   ['Life and work in France', ['/francais-au-travail', '/francais-des-affaires', '/vocabulaire-code-de-la-route', '/culture', '/savoirs/histoires-de-mots']],
-  ['For teachers', ['/enseignants', '/enseignants/fiches']],
+  ['For teachers', ['/enseignants']],
   // The worksheets index only: the section holds hundreds of pages, far over the 10 KB budget.
   // Free downloads (PDFs): the savoirs page plus the per-language download pages. A path that is
   // not built is skipped, so these cost nothing until the pages exist.
-  ['Free downloads', ['/savoirs', ...entryLanguages().map((l) => `/${l.urlPrefix}/downloads`)]],
+  ['Free downloads', ['/savoirs']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', entryLanguages().map((l) => `/${l.urlPrefix}`)],
 ];
