@@ -58,9 +58,8 @@ const ROUND = [
 ];
 
 // --- Aussprache: five entries, as an explicit list rather than a slice of the data
-// files. The French recordings do not exist yet (they come with a fr-FR TTS voice,
-// BACKEND.speech); until then the play button fails softly, as it does for every
-// missing file. File names follow audioSlug (§1.2).
+// files. The recordings are voiced by scripts/generate-sentence-audio.mjs mock (Azure fr-FR);
+// the play button still fails softly if a file is ever missing.
 const PRON = [
   { text: "À mon avis, …", audio: "/audio/aussprache/a-mon-avis.mp3", note: "Liaison: the n of mon runs into avis, mo-na-VI. The final s stays silent." },
   { text: "tu / tout", audio: "/audio/aussprache/tu-tout.mp3", note: "u is “ee” said with rounded lips; ou is like oo in “food”. They are different words." },
