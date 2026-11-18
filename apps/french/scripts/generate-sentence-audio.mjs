@@ -14,7 +14,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from 
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { satzSlug } from "../src/lib/audioSlug.js";
+import { satzSlug, slugify } from "../src/lib/audioSlug.js";
 
 const APP = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT = path.resolve(APP, "..", "..");
@@ -51,6 +51,9 @@ if (part === "saetze" || part === "all") {
 if (part === "mock" || part === "all")
   for (const [slug, text] of [["a-mon-avis", "À mon avis,"], ["tu-tout", "tu, tout"], ["merci", "Merci"], ["le-pain", "le pain"], ["ca-va", "Ça va ?"]])
     add(out("aussprache", `${slug}.mp3`), text);
+// The hand-picked phrases on /prononciation (src/data/wortschatz.json) -> public/audio/aussprache/<slugify(front)>.mp3
+if (part === "mock" || part === "all")
+  for (const w of readJson("src/data/wortschatz.json")) add(out("aussprache", `${slugify(w.front)}.mp3`), w.front);
 // Redemittel phrases -> public/audio/redemittel/<satzSlug(phrase)>.mp3
 if (part === "redemittel" || part === "all")
   for (const set of readJson("src/data/redemittel.json").sets)
