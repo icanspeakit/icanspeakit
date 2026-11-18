@@ -1184,7 +1184,7 @@ export const navWissenMenu = {
           .map((it) => ({ href: it.href, titleKey: it.titleKey, title: it.title,
             hintKey: it.countKey, hintVars: it.countVars, hint: it.count })),
         // One insider topic by name: everyday driving in Italy.
-        { href: "/cultura/dietro-le-quinte/cars-and-driving", titleKey: "nav.kultur.auto", title: "Cars and driving in Italy",
+        { href: "/cultura/dietro-le-quinte/cars-and-getting-around", titleKey: "nav.kultur.auto", title: "Cars and driving in Italy",
           hintKey: "nav.kultur.autoHint", hint: "Trains, speed limits, the revisione" },
       ] },
     // The levels as one-line rows (badge + blurb), the way "Wo anfangen?" lists them in
