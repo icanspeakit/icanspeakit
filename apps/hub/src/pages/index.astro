@@ -7,6 +7,9 @@ import Brand from '../layouts/Brand.astro';
 import { COURSES } from '../data/courses';
 import { HUB_LANGS, HUB_TEXT, tEn } from '../data/hubText';
 
+// The course names are written in their own language, whatever the interface language is.
+const LANG: Record<string, string> = { EN: 'en', ES: 'es', FR: 'fr', PT: 'pt-PT', IT: 'it' };
+
 const RIBBON = [
   { cls: 'isk-tile--half', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff' },
   { cls: 'isk-tile--dots', bg: 'var(--isk-sky)', a: 'var(--isk-navy)', b: '#fff' },
@@ -40,13 +43,13 @@ const lingTiles = [
 ---
 <Brand
   title="icanspeak.it — learn a language, properly"
-  description="Ad-free language courses from A1 to C1 — English first, Spanish, French, Portuguese and Italian on the way — plus word stories and speech training for the curious."
+  description={tEn('meta.desc')}
 >
   <div class="l-frame">
   <header class="l-header">
     <div class="l-wrap">
-      <a href="/" aria-label="icanspeak.it home"><LogoDrop src="/logos/icanspeak-wordmark.svg" alt="icanspeak!" width={164} height={34} /></a>
-      <nav class="l-nav" aria-label="Main">
+      <a href="/" aria-label={tEn('aria.home')} data-i18n-aria="aria.home"><LogoDrop src="/logos/icanspeak-wordmark.svg" alt="icanspeak!" width={164} height={34} /></a>
+      <nav class="l-nav" aria-label={tEn('aria.main')} data-i18n-aria="aria.main">
         <!-- Interface language: the courses' six, stored under da_lang so the courses follow (data/hubText.ts). -->
         <div class="l-lang">
           <button type="button" class="l-lang__btn" id="l-lang-btn" aria-haspopup="true" aria-expanded="false" aria-controls="l-lang-menu" aria-label={tEn('lang.label')} data-i18n-aria="lang.label">
@@ -87,9 +90,9 @@ const lingTiles = [
       </div>
       <div class="l-hero__grid">
         {HERO.map((t) => t.switch ? (
-          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label="Switch layout" aria-pressed="false" style="--t:150px"></button>
+          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label={tEn('tile.switch')} data-i18n-aria="tile.switch" aria-pressed="false" style="--t:150px"></button>
         ) : t.turn ? (
-          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label="Turn" aria-pressed="false" style="--t:150px"></button>
+          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label={tEn('tile.turn')} data-i18n-aria="tile.turn" aria-pressed="false" style="--t:150px"></button>
         ) : (
           <div class={`isk-tile ${t.cls}`} aria-hidden="true" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
             {t.mascot && <div class="isk-tile__fill"><img src={`/mascots/${t.mascot}.svg`} alt="" width="120" height="120" /></div>}
@@ -107,17 +110,17 @@ const lingTiles = [
           {COURSES.map((c) => (
             <li>
               {c.live ? (
-                <a class="l-course l-course--live" href={`/${c.slug}/`} lang={c.slug === 'english' ? 'en' : undefined}>
+                <a class="l-course l-course--live" href={`/${c.slug}/`}>
                   <span class="l-course__code">{c.code}</span>
-                  <span class="l-course__name">{c.name}</span>
+                  <span class="l-course__name" lang={LANG[c.code]}>{c.name}</span>
                   <span class="l-course__meta" data-i18n={`course.meta.${c.slug}`}>{tEn(`course.meta.${c.slug}`)}</span>
                   <span class="l-course__go" data-i18n={`course.go.${c.slug}`}>{tEn(`course.go.${c.slug}`)}</span>
                 </a>
               ) : (
-                <div class="l-course" aria-label={`${c.english} course, coming soon`}>
+                <div class="l-course">
                   <span class="l-course__tag" data-i18n="course.soon">{tEn('course.soon')}</span>
                   <span class="l-course__code">{c.code}</span>
-                  <span class="l-course__name">{c.name}</span>
+                  <span class="l-course__name" lang={LANG[c.code]}>{c.name}</span>
                   <span class="l-course__meta" data-i18n={`course.meta.${c.slug}`}>{tEn(`course.meta.${c.slug}`)}</span>
                 </div>
               )}
@@ -162,7 +165,7 @@ const lingTiles = [
   <footer class="l-footer">
     <div class="l-wrap">
       <img src="/logos/icanspeak-wordmark-dark.svg" alt="icanspeak!" width="145" height="30" />
-      <nav aria-label="Footer"><a href="/linguistics/former-site/impressum/">Impressum</a></nav>
+      <nav aria-label={tEn('aria.footer')} data-i18n-aria="aria.footer"><a href="/linguistics/former-site/impressum/">Impressum</a></nav>
     </div>
   </footer>
   </div>
@@ -190,6 +193,8 @@ const lingTiles = [
         var meta = HUB_LANGS.filter(function (l) { return l.code === code; })[0] || HUB_LANGS[0];
         document.documentElement.lang = meta.htmlLang;
         document.title = d['meta.title'] || en['meta.title'];
+        var md = document.querySelector('meta[name="description"]');
+        if (md) md.setAttribute('content', d['meta.desc'] || en['meta.desc']);
         document.querySelectorAll('[data-i18n]').forEach(function (el) {
           var k = el.getAttribute('data-i18n'); el.textContent = d[k] || en[k] || el.textContent;
         });

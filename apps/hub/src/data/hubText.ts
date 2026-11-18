@@ -19,6 +19,19 @@ export type HubLang = (typeof HUB_LANGS)[number]['code'];
 type Dict = Record<string, string>;
 
 const en: Dict = {
+  'meta.desc': 'Ad-free language courses from A1 to C1 — English first, Spanish, French, Portuguese and Italian on the way — plus word stories and speech training for the curious.',
+  'aria.home': 'icanspeak.it home',
+  'aria.main': 'Main',
+  'aria.footer': 'Footer',
+  'tile.switch': 'Switch layout',
+  'tile.turn': 'Turn the tile',
+  'nf.title': 'Page not found — icanspeak.it',
+  'nf.desc': "This page doesn't exist on icanspeak.it.",
+  'nf.h1': "This page doesn't exist.",
+  'nf.body': 'It may have moved when icanspeak.it became home to the language courses. The word stories and speech exercises now live under Linguistics.',
+  'nf.cta': 'Choose a course',
+  'nf.ling': 'Go to Linguistics',
+  'foot.tag': 'icanspeak.it · ad-free language courses and word stories',
   'meta.title': 'icanspeak.it — learn a language, properly',
   'lang.label': 'Interface language',
   'nav.ling': 'Linguistics',
@@ -51,6 +64,19 @@ const en: Dict = {
 };
 
 const de: Dict = {
+  'meta.desc': 'Werbefreie Sprachkurse von A1 bis C1 — zuerst Englisch, Spanisch, Französisch, Portugiesisch und Italienisch folgen — dazu Wortgeschichten und Sprechtraining für Neugierige.',
+  'aria.home': 'icanspeak.it, Startseite',
+  'aria.main': 'Hauptmenü',
+  'aria.footer': 'Fußbereich',
+  'tile.switch': 'Anordnung wechseln',
+  'tile.turn': 'Kachel drehen',
+  'nf.title': 'Seite nicht gefunden — icanspeak.it',
+  'nf.desc': 'Diese Seite gibt es auf icanspeak.it nicht.',
+  'nf.h1': 'Diese Seite gibt es nicht.',
+  'nf.body': 'Vielleicht ist sie umgezogen, als icanspeak.it zur Heimat der Sprachkurse wurde. Die Wortgeschichten und Sprechübungen findest du jetzt unter Linguistik.',
+  'nf.cta': 'Kurs wählen',
+  'nf.ling': 'Zur Linguistik',
+  'foot.tag': 'icanspeak.it · werbefreie Sprachkurse und Wortgeschichten',
   'meta.title': 'icanspeak.it — eine Sprache richtig lernen',
   'lang.label': 'Sprache der Oberfläche',
   'nav.ling': 'Linguistik',
@@ -83,6 +109,19 @@ const de: Dict = {
 };
 
 const es: Dict = {
+  'meta.desc': 'Cursos de idiomas sin anuncios de A1 a C1 — primero inglés, después español, francés, portugués e italiano — además de historias de palabras y entrenamiento del habla para curiosos.',
+  'aria.home': 'icanspeak.it, inicio',
+  'aria.main': 'Principal',
+  'aria.footer': 'Pie de página',
+  'tile.switch': 'Cambiar disposición',
+  'tile.turn': 'Girar la ficha',
+  'nf.title': 'Página no encontrada — icanspeak.it',
+  'nf.desc': 'Esta página no existe en icanspeak.it.',
+  'nf.h1': 'Esta página no existe.',
+  'nf.body': 'Puede que se haya movido cuando icanspeak.it pasó a ser la casa de los cursos de idiomas. Las historias de palabras y los ejercicios de habla ahora están en Lingüística.',
+  'nf.cta': 'Elige un curso',
+  'nf.ling': 'Ir a Lingüística',
+  'foot.tag': 'icanspeak.it · cursos de idiomas sin anuncios e historias de palabras',
   'meta.title': 'icanspeak.it — aprende un idioma de verdad',
   'lang.label': 'Idioma de la interfaz',
   'nav.ling': 'Lingüística',
@@ -115,6 +154,19 @@ const es: Dict = {
 };
 
 const pt: Dict = {
+  'meta.desc': 'Cursos de línguas sem anúncios do A1 ao C1 — primeiro inglês, depois espanhol, francês, português e italiano — e ainda histórias de palavras e treino da fala para curiosos.',
+  'aria.home': 'icanspeak.it, início',
+  'aria.main': 'Principal',
+  'aria.footer': 'Rodapé',
+  'tile.switch': 'Mudar disposição',
+  'tile.turn': 'Rodar o mosaico',
+  'nf.title': 'Página não encontrada — icanspeak.it',
+  'nf.desc': 'Esta página não existe no icanspeak.it.',
+  'nf.h1': 'Esta página não existe.',
+  'nf.body': 'Pode ter mudado de sítio quando o icanspeak.it passou a ser a casa dos cursos de línguas. As histórias de palavras e os exercícios de fala estão agora em Linguística.',
+  'nf.cta': 'Escolhe um curso',
+  'nf.ling': 'Ir para a Linguística',
+  'foot.tag': 'icanspeak.it · cursos de línguas sem anúncios e histórias de palavras',
   'meta.title': 'icanspeak.it — aprende uma língua a sério',
   'lang.label': 'Língua da interface',
   'nav.ling': 'Linguística',
@@ -147,6 +199,19 @@ const pt: Dict = {
 };
 
 const fr: Dict = {
+  'meta.desc': 'Des cours de langues sans pub, de A1 à C1 — d’abord l’anglais, puis l’espagnol, le français, le portugais et l’italien — ainsi que des histoires de mots et de l’entraînement à la parole pour les curieux.',
+  'aria.home': 'icanspeak.it, accueil',
+  'aria.main': 'Principal',
+  'aria.footer': 'Pied de page',
+  'tile.switch': 'Changer la disposition',
+  'tile.turn': 'Tourner la tuile',
+  'nf.title': 'Page introuvable — icanspeak.it',
+  'nf.desc': "Cette page n'existe pas sur icanspeak.it.",
+  'nf.h1': "Cette page n'existe pas.",
+  'nf.body': "Elle a peut-être déménagé quand icanspeak.it est devenu la maison des cours de langues. Les histoires de mots et les exercices de parole sont maintenant dans Linguistique.",
+  'nf.cta': 'Choisis un cours',
+  'nf.ling': 'Aller à la Linguistique',
+  'foot.tag': 'icanspeak.it · cours de langues sans pub et histoires de mots',
   'meta.title': 'icanspeak.it — apprendre une langue, pour de vrai',
   'lang.label': "Langue de l'interface",
   'nav.ling': 'Linguistique',
@@ -179,6 +244,19 @@ const fr: Dict = {
 };
 
 const it: Dict = {
+  'meta.desc': 'Corsi di lingua senza pubblicità da A1 a C1 — prima l’inglese, poi spagnolo, francese, portoghese e italiano — più storie di parole e allenamento del parlato per i curiosi.',
+  'aria.home': 'icanspeak.it, home',
+  'aria.main': 'Principale',
+  'aria.footer': 'Piè di pagina',
+  'tile.switch': 'Cambia disposizione',
+  'tile.turn': 'Gira la tessera',
+  'nf.title': 'Pagina non trovata — icanspeak.it',
+  'nf.desc': 'Questa pagina non esiste su icanspeak.it.',
+  'nf.h1': 'Questa pagina non esiste.',
+  'nf.body': 'Potrebbe essere stata spostata quando icanspeak.it è diventato la casa dei corsi di lingua. Le storie di parole e gli esercizi di pronuncia ora sono in Linguistica.',
+  'nf.cta': 'Scegli un corso',
+  'nf.ling': 'Vai alla Linguistica',
+  'foot.tag': 'icanspeak.it · corsi di lingua senza pubblicità e storie di parole',
   'meta.title': 'icanspeak.it — impara una lingua, sul serio',
   'lang.label': "Lingua dell'interfaccia",
   'nav.ling': 'Linguistica',

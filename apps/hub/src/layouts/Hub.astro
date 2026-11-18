@@ -1,6 +1,7 @@
 ---
 import ConsentBanner from "../components/ConsentBanner.astro";
 import '../styles/hub.css';
+import { tEn } from '../data/hubText';
 
 interface Props {
   title: string;
@@ -35,11 +36,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <body>
     <header class="site-header">
       <div class="wrap">
-        <a class="brand" href="/" aria-label="icanspeak.it home">
+        <a class="brand" href="/" aria-label={tEn('aria.home')} data-i18n-aria="aria.home">
           <img class="logo-light" src="/logos/icanspeak-wordmark.svg" alt="icanspeak!" width="164" height="34" />
           <img class="logo-dark" src="/logos/icanspeak-wordmark-dark.svg" alt="" width="164" height="34" />
         </a>
-        <a class="header-link" href="/linguistics/">Linguistics</a>
+        <a class="header-link" href="/linguistics/" data-i18n="nav.ling">{tEn('nav.ling')}</a>
       </div>
     </header>
     <main>
@@ -47,7 +48,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     </main>
     <footer class="site-footer">
       <div class="wrap">
-        <span>icanspeak.it · ad-free language courses and word stories</span>
+        <span data-i18n="foot.tag">{tEn('foot.tag')}</span>
         <span><a href="/linguistics/former-site/impressum/">Impressum</a></span>
       </div>
     </footer>
