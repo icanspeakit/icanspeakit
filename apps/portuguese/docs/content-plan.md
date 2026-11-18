@@ -1302,3 +1302,8 @@ handled by the `ui-*` items where they are rendered.
 - Done: `a2.json` is Portuguese (28 units, 431 words, unit ids and topics kept; a2-13 retitled "Post office & official tasks (CTT)"). Source of truth: `scripts/a2-pt-data/*.txt` + `node scripts/build-a2-pt.mjs` (same row format as a1; `@a2-13|New title` retitles a unit). Sidecars de/es/fr/it filled; stale Spanish A2 ids removed from every sidecar.
 - Open: the berufe decks, DGT vocabulary and Business Spanish lost 163 refs/own words (`scripts/prune-a2-refs.mjs`); business-spanish JSON was re-indented (2 spaces) by it. 5 Spanish word stories removed (aceite, barrio, cerveza, chocolate, tomate; restore from git before this commit).
 - Open: ids that exist at A1 (`salario`, `aula`) are not repeated at A2; `ñ` handling in `slugify` unchanged.
+
+### Open points from `vocab-b1`
+
+- Done: `b1.json` is Portuguese (46 units, 365 words, ids and topics kept). Source: `scripts/b1-pt-data/*.txt` + `node scripts/build-b1-pt.mjs`. Lemmas already in a1/a2 were dropped, so some units are small.
+- Open: 3 Spanish word stories removed (alcalde, almohada, mesa); `prune-a2-refs.mjs` re-run (it reads all levels). b2/c1/c2 are still Spanish.
