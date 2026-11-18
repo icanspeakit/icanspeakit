@@ -226,7 +226,7 @@ const t = copy[locale];
 <div class="dash-shell" class:list={{ 'dash-shell--boxed': !fullscreen }}>
 <div class="dash-topbar">
   <div class="dash-topbar__inner container">
-    <a href={homeHref} class="dash-topbar__icon" aria-label="Home">
+    <a href={homeHref} class="dash-topbar__icon" aria-label={locale === 'de' ? 'Start' : 'Home'}>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M3 11.5 12 4l9 7.5" />
         <path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9" />
@@ -234,14 +234,14 @@ const t = copy[locale];
     </a>
 
     <span class="dash-topbar__lockup">
-      <a href={siteHome} class="dash-topbar__brand" aria-label="icanspeak.it, all languages">
+      <a href={siteHome} class="dash-topbar__brand" aria-label={locale === 'de' ? 'icanspeak.it, alle Sprachen' : 'icanspeak.it, all languages'}>
         <img class="dash-topbar__logo" src={u("/logos/icanspeak-wordmark-dark.svg")} alt="" width="116" height="24" />
       </a>
       <a href={homeHref} class="dash-topbar__pill" aria-label={locale === 'de' ? 'icanspeak Linguistik, Start' : 'icanspeak linguistics, home'}>{locale === 'de' ? 'linguistik' : 'linguistics'}</a>
     </span>
 
     <div class="dash-topbar__actions">
-      <a class="dash-topbar__lang" href={langSwitchHref} hreflang={otherLocale} lang={otherLocale}>{otherLocale.toUpperCase()}</a>
+      <a class="dash-topbar__lang" href={langSwitchHref} hreflang={otherLocale} lang={otherLocale} aria-label={otherLocale === 'de' ? 'Deutsch' : 'English'} title={otherLocale === 'de' ? 'Deutsch' : 'English'}>{otherLocale.toUpperCase()}</a>
     </div>
   </div>
 </div>
@@ -418,7 +418,7 @@ const t = copy[locale];
                 )}
               </div>
 
-              <div class="dash-lens" role="tablist" aria-label="View">
+              <div class="dash-lens" role="tablist" aria-label={locale === 'de' ? 'Ansicht' : 'View'}>
                 <button type="button" class="dash-lens__btn" data-lens-btn="practice" data-active={!showProgress ? 'true' : 'false'}>{t.lensPractice}</button>
                 <button type="button" class="dash-lens__btn" data-lens-btn="progress" data-active={showProgress ? 'true' : 'false'}>{t.lensProgress}</button>
               </div>

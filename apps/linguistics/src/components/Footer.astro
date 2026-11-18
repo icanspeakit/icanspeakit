@@ -41,7 +41,7 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
 <footer class="site-footer">
   <div class="container footer-main">
     <div class="footer-col footer-col--brand">
-      <a href={siteHome} class="brand" aria-label="icanspeak.it, all languages">
+      <a href={siteHome} class="brand" aria-label={locale === 'de' ? 'icanspeak.it, alle Sprachen' : 'icanspeak.it, all languages'}>
         <img src={u("/logos/icanspeak-wordmark-dark.svg")} alt="icanspeak!" width="164" height="34" />
       </a>
       <p class="text-muted">{t.blurb}</p>
