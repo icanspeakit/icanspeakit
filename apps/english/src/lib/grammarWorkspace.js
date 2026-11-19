@@ -29,8 +29,8 @@ import { eulerIconSvg } from "./eulerArt.js";
 // say so before the learner tries.
 function irregularHtml(item) {
   if (!item.irregular) return "";
-  const note = t("vp.irregular.note", "Unregelmäßig: Diese Form musst du dir merken.");
-  return ` <span class="vp-irregular" title="${escapeHtml(note)}">${escapeHtml(t("vp.irregular", "unregelmäßig"))}</span>`;
+  const note = t("vp.irregular.note", "Irregular: you have to learn this form by heart.");
+  return ` <span class="vp-irregular" title="${escapeHtml(note)}">${escapeHtml(t("vp.irregular", "irregular"))}</span>`;
 }
 
 function escapeHtml(s) {
