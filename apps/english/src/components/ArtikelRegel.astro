@@ -33,9 +33,8 @@ const ENDINGS_CAPTION = "Endungen, die das Genus verraten";
   <div class="ap-drawer-body ap-regel">
     {gxTrainer && <GrammarHelp level={gxLevel} reviewed={gxTrainer.reviewed} />}
     <p class="akk-regel-intro">
-      Der Artikel eines deutschen Nomens ist meist nicht am Genus der Sache erkennbar – aber manche
-      Wortendungen geben einen zuverlässigen Hinweis. Die folgenden Muster helfen beim Raten, wenn
-      das Wort noch unbekannt ist.
+      The article of a German noun usually cannot be guessed from the thing itself, but some word
+      endings give a reliable clue. The patterns below help you guess when the word is still unknown.
     </p>
     <GrammarHelpText text={gxTrainer?.intro} />
     {/* The rule in full — the same tables, sentences and boxes a grammar topic's Regel
@@ -84,21 +83,20 @@ const ENDINGS_CAPTION = "Endungen, die das Genus verraten";
     {rule.noteHtml && <p class="akk-regel-note" set:html={rule.noteHtml} />}
     <GrammarHelpText text={gxTopic?.note} />
     <p class="akk-regel-note">
-      Männliche Personenbezeichnungen bleiben maskulin, auch wenn sie auf -e enden (z. B. der Kollege,
-      der Junge). Bei vielen Wörtern gibt es kein Muster – der Artikel muss einfach mitgelernt werden.
+      Words for male persons stay masculine even when they end in -e (e.g. der Kollege, der Junge).
+      Many words follow no pattern at all: the article simply has to be learned with the word.
     </p>
     <GrammarHelpText text={gxTrainer?.note} />
     <!-- Last, as the aside it is: the rule comes first when someone asks for the rule. -->
     <aside class="ap-regel-hint" id="ap-regel-hint" tabindex="-1">
       <p class="ap-regel-hint-title" data-i18n="ap.hint">Hinweis</p>
       <p>
-        Das Genus über Regeln zu lernen, ist oft sehr theoretisch, denn viele Regeln haben
-        Ausnahmen. Die meisten Lernenden lernen den Artikel in der Praxis: Sie lernen jedes
-        Nomen immer zusammen mit seinem Artikel (der Tisch, die Lampe, das Buch) – zum
-        Beispiel im{" "}<a href="/vocabulary">Wortschatz</a>{" "}– und begegnen den
-        Wörtern im Alltag. Die Regeln hier sind vor allem interessant als Hintergrundwissen.
-        Nur wenige sind wirklich zuverlässig und im Alltag nützlich, zum Beispiel
-        -ung, -heit, -keit → die und -chen, -lein → das.
+        Learning gender through rules is often very theoretical, because many rules have
+        exceptions. Most learners pick up the article in practice: they always learn each noun
+        together with its article (der Tisch, die Lampe, das Buch), for example in the{" "}<a href="/vocabulary">vocabulary</a>{" "}section,
+        and meet the words in everyday life. The rules here are mostly background knowledge.
+        Only a few are truly reliable and useful day to day, for example
+        -ung, -heit, -keit → die and -chen, -lein → das.
       </p>
       <GrammarHelpText text={gxTrainer?.hint} />
     </aside>
