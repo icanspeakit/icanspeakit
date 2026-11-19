@@ -1231,8 +1231,8 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
      The class names stay German whatever the interface language: they are the words the
      learner meets again on every grammar page. */
   const POS_DE = {
-    noun: "Nomen", verb: "Verb", adj: "Adjektiv", adv: "Adverb", num: "Zahlwort",
-    prep: "Präposition", conj: "Konjunktion", pron: "Pronomen", phrase: "Wendung",
+    noun: "Noun", verb: "Verb", adj: "Adjective", adv: "Adverb", num: "Numeral",
+    prep: "Preposition", conj: "Conjunction", pron: "Pronoun", phrase: "Phrase",
   };
   const deckHasInfo = cards.some((c) => c.pos || c.example);
   /* Regi under the class: one line on what the class is, and the way to all of them
@@ -1243,7 +1243,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   /* A separable verb is a verb with one thing more to know: in the sentence its prefix
      leaves it for the end ("Zieh bitte die Jacke an."). So the chip names the subclass and
      Regi's line says that one thing, linking to the topic instead of the class list. */
-  const SEPARABLE = { label: "trennbares Verb", say: "Der Anfang steht im Satz am Ende.", href: "/phrasal-verbs", more: "Trennbare Verben" };
+  const SEPARABLE = { label: "phrasal verb", say: "The particle can move to the end of the clause.", href: "/phrasal-verbs", more: "Phrasal verbs" };
   // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
   const posHref = (card) => (card.pos === "verb" && card.separable ? SEPARABLE.href : `/grammar/parts-of-speech#${card.pos}`);
   function waHtml(card) {
