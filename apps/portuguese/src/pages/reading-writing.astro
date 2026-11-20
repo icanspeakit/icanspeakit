@@ -21,20 +21,20 @@ const { groups, formTask, writingPrompt, errorHunt } = lesen;
       <div class="reading-block" id={`lesen-${g.id}`}>
         <h3 data-i18n={`lesenSim.title.${g.id}`}>{g.title}</h3>
         <div class="reading-level" data-i18n={`lesenSim.level.${g.id}`}>{g.level}</div>
-        <div class="reading-text" lang="es">{g.text}</div>
+        <div class="reading-text" lang="pt-PT">{g.text}</div>
         <div class="quiz-card" data-group={gi}></div>
       </div>
     ))}
 
     <div class="reading-block" id="schreiben-formular">
       <h3 data-i18n="lesenSim.title.formTask">{formTask.title}</h3>
-      <div class="reading-text" lang="es">{formTask.email}</div>
+      <div class="reading-text" lang="pt-PT">{formTask.email}</div>
       <p data-i18n="lesen.formTask.hint">Klicke auf ein Feld, um deine Antwort mit der Lösung zu vergleichen.</p>
       <div id="form-fields">
         {formTask.fields.map((f, fi) => (
           <div class="form-field" data-field={fi}>
-            <span lang="es">{f.label}</span>
-            <span class="form-field-answer" lang="es">{f.answer}</span>
+            <span lang="pt-PT">{f.label}</span>
+            <span class="form-field-answer" lang="pt-PT">{f.answer}</span>
           </div>
         ))}
       </div>
@@ -42,19 +42,19 @@ const { groups, formTask, writingPrompt, errorHunt } = lesen;
 
     <div class="reading-block" id="schreiben-brief">
       <h3 data-i18n="lesenSim.title.writingPrompt">{writingPrompt.title}</h3>
-      <p lang="es">{writingPrompt.context}</p>
-      <div class="reading-text" lang="es">{writingPrompt.email}</div>
+      <p lang="pt-PT">{writingPrompt.context}</p>
+      <div class="reading-text" lang="pt-PT">{writingPrompt.email}</div>
       <div class="prompt-section-label" data-i18n="lesen.writingPrompt.pointsLabel">Schreib etwas zu folgenden Punkten</div>
-      <ul lang="es">{writingPrompt.points.map((pt) => <li>{pt}</li>)}</ul>
-      <textarea class="writing-area" id="writing-area" lang="es" placeholder="Schreib deine Antwort hier..." data-i18n-attr="placeholder:lesen.writingPrompt.placeholder"></textarea>
+      <ul lang="pt-PT">{writingPrompt.points.map((pt) => <li>{pt}</li>)}</ul>
+      <textarea class="writing-area" id="writing-area" lang="pt-PT" placeholder="Write your answer here..." data-i18n-attr="placeholder:lesen.writingPrompt.placeholder"></textarea>
       <div class="word-count" id="word-count" lang="en">0 words</div>
       <div class="tips-box" data-i18n="lesenSim.tips">{writingPrompt.tips}</div>
     </div>
 
     <div class="reading-block" id="schreiben-fehlerjagd">
       <h3 data-i18n="lesenSim.title.errorHunt">{errorHunt.title}</h3>
-      <p lang="es">{errorHunt.context}</p>
-      <div class="reading-text" lang="es">{errorHunt.text}</div>
+      <p lang="pt-PT">{errorHunt.context}</p>
+      <div class="reading-text" lang="pt-PT">{errorHunt.text}</div>
     </div>
   </main>
 
