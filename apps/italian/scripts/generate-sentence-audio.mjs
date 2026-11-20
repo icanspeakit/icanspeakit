@@ -55,6 +55,13 @@ if (part === "wortfallen" || part === "all")
     add(out("wortfallen", `${g.id}-richtig.mp3`), wfText(g.right));
     g.quiz.forEach((q, n) => add(out("wortfallen", `${g.id}-q${n + 1}.mp3`), q.s.replace("___", q.a)));
   }
+// Pronunciation examples shown on the exercises mock (UebungenMock.astro)
+if (part === "mock" || part === "all") {
+  add(out("aussprache", "che-cosa.mp3"), "Che cosa?");
+  add(out("aussprache", "grazie.mp3"), "Grazie");
+  add(out("aussprache", "la-birra.mp3"), "La birra");
+  add(out("aussprache", "pala-palla.mp3"), "Pala, palla");
+}
 if (part === "check" || part === "all")
   for (const s of sentencesOf(readJson("src/data/aussprache-check.json"))) add(out("aussprache-check", `${s.id}.mp3`), s.text);
 if (part === "twisters" || part === "all")
