@@ -88,7 +88,7 @@ const cardPoint = (pt) => {
   return x[0].toUpperCase() + x.slice(1);
 };
 
-// The rule of the listening and reading items: instructions are English at A1–A2 and Spanish
+// The rule of the listening and reading items: instructions are English at A1–A2 and Portuguese
 // from B1, where the question itself is part of the practice.
 const SPANISH_LEVELS = new Set(["B1", "B2"]);
 
