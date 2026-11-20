@@ -1316,3 +1316,5 @@ handled by the `ui-*` items where they are rendered.
 - Open: whether Portugal adds a civics/culture requirement for nationality (2025 reform) — `meta.realTestNote` and `/nationality` must follow `nationality-path`.
 - Open: de/fr/it/pt `lid.*` keys are English placeholders until the UI-language items; `entry-pages.json` (de/fr/pt/it SEO text for `/civics`) still describes the CCSE and belongs to the UI-language/cleanup items.
 - Open: the facts and glossary have no `uebersetzungen` layer (still empty). `nationality.astro` still reads `meta.totalQuestions` etc. for its CCSE table: `nationality-path` rewrites it.
+- Done (`nationality-path`): `/nationality/ciple-a2` replaces `/nationality/dele-a2`; `/nationality` rewritten for Portugal, no longer reads the civics data; `nat.*` keys replaced.
+- Open: all `/nationality` rules and figures are from general knowledge, not checked against official texts (see reports/nationality-path.md); re-check after the 2025 nationality reform settles. de/fr/it/pt carry English placeholders for the new `nat.*`/`dtz*` values.
