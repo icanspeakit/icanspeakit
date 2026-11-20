@@ -245,8 +245,6 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  // telc (the SIELE bands) is removed by `exams-caple`; until then it carries a neutral name.
-  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "Practice by level", short: "By level", count: "A2–C1" },
   { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "CAPLE", short: "CAPLE", count: "A1–C2" },
   { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "Level check", short: "Level check", count: "A1–C1" },
   { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "CIPLE A2 for residence and nationality", short: "CIPLE A2", count: "A2" },

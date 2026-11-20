@@ -9,9 +9,9 @@
  *
  * Two storage shapes exist and both are read as-is rather than migrated:
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
- *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
+ *                  (src/lib/exam/state.js — ACESSO A1 practice test, level check, civics quiz)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the CIPLE A2 mock for nationality in the /nationality/dele-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -38,14 +38,14 @@ const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "DELE A1 practice test",
+    title: "ACESSO A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
     href: "/dele/a1",
     overview: "/dele",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // In the style of the DELE A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
-    passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELE A1 has its own scoring rules.",
+    // In the style of the ACESSO A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. The real ACESSO A1 has its own scoring rules (to verify).",
     passPct: 60,
     modules: [
       { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
@@ -60,15 +60,15 @@ export const examRegistry = [
   },
   {
     id: "testdaf",
-    title: "SIELE reading and writing",
+    title: "Level check: reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
     href: "/siele/practice-set",
     overview: "/siele",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: the SIELE gives a score per test and every
+    // Deliberately no pass percentage: this is our own check, not an exam, and every
     // institution sets its own requirement, so a line here would be invented.
-    passNote: "No pass mark: each SIELE test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.",
+    passNote: "No pass mark and no certificate: this is our own level check, and each institution decides what it asks for.",
     passPct: null,
     modules: [
       { key: "lesen1", label: "Reading · Task 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },

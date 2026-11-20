@@ -24,7 +24,7 @@ const MAX_TITLE = 60;
 
 const PRIORITY = [
   "/", "/nationality/dele-a2", "/nationality/dele-a2/mock-test", "/nationality/dele-a2/practice-set", "/ccse",
-  "/ccse/test", "/exams", "/siele/levels", "/dele", "/siele",
+  "/ccse/test", "/exams", "/dele", "/siele",
   "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
   "/pronunciation-check",
 ];

@@ -5,115 +5,54 @@ import ExamPractice from "../../components/ExamPractice.astro";
 import ExamFormat from "../../components/ExamFormat.astro";
 import formate from "../../data/pruefungen/testdaf-formate.json";
 
-// SIELE Global: format, scores, modalities and practice (content-plan §2: the testdaf slot).
-// Figures come from testdaf-formate.json, checked against the official guide on 2026-11-06.
-const { bands, modalities } = formate;
+// Level check (content-plan §2: the testdaf slot): our own reading and writing rehearsal,
+// not an official exam. The route stays /siele until the routes item moves it to
+// /caple/level-check. Figures come from testdaf-formate.json (our own set).
 ---
 <Layout
-  title="SIELE: format, scores and practice – icanspeak Portuguese"
-  description="The SIELE, the computer-based Spanish test for levels A1 to C1: its four tests, how scores match CEFR levels, S1 to S5, and free practice."
+  title="Level check: reading and writing practice – icanspeak Portuguese"
+  description="A short Portuguese level check from about B1 to C1: three reading tasks and an opinion text. Our own practice, not an official exam."
 >
   <ExamShell
     bild="testdaf"
-    header="SIELE"
-    title="SIELE"
-    lead="The computer-based Spanish test for levels A1 to C1. Each test gets a score from 0 to 250 and a CEFR level. There is no pass mark."
+    header="Level check"
+    title="Level check"
+    lead="A short Portuguese reading and writing rehearsal from about B1 to C1. It is our own practice set: no pass mark, no certificate, not an official exam."
     leadKey="testdaf.lead"
-    badges={["A1–C1"]}
-    practiceHeading="Practise for the SIELE"
+    badges={["B1–C1"]}
+    practiceHeading="Take the level check"
     practiceHeadingKey="testdaf.practiceHeading"
   >
     <Fragment slot="info">
       <section class="exam-section">
-        <h2 data-i18n="testdaf.who.title">Who is the SIELE for?</h2>
+        <h2 data-i18n="testdaf.who.title">Who is the level check for?</h2>
         <div class="exam-meta-row">
-          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Result: score and CEFR level</span>
-          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">One test, levels A1–C1</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Result: rough feedback, no level</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">One set, about B1 to C1</span>
         </div>
         <p data-i18n="testdaf.who.text">
-          The SIELE (Servicio Internacional de Evaluación de la Lengua Española) is taken on a computer at an
-          exam centre. It comes from the Instituto Cervantes, UNAM in Mexico, the Universidad de Salamanca
-          and the Universidad de Buenos Aires. People take it for study and work when the institution
-          accepts it. It doesn't count for Spanish nationality, according to the SIELE site. That route
-          needs the DELE at A2 or above, plus the CCSE.
+          The level check is for learners who want to see how they cope with longer Portuguese texts before
+          they choose a CAPLE exam such as DEPLE B1, DIPLE B2 or DAPLE C1. It is not a CAPLE paper and does
+          not tell you your CEFR level: it is a rehearsal of reading and writing, written by us.
         </p>
-        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">DELE or SIELE? Compare them by purpose →</a></p>
+        <p><a class="plan-link" href="/exams/dele-or-siele" data-i18n="testdaf.whichExam">Which exam do you need? Compare them by purpose →</a></p>
       </section>
 
       {formate.formate.map((f) => <ExamFormat format={f} />)}
 
       <section class="exam-section">
-        <h2 data-i18n="testdaf.bands.title">How scores match levels</h2>
-        <p data-i18n="testdaf.bands.text">
-          Each test has its own table, so the same score can mean different levels: 120 points is B1 in
-          reading but A2 in speaking. These are the points the exam guide lists for each level.
-        </p>
-        <div class="format-table-wrap">
-          <table class="format-table">
-            <thead><tr>
-              <th data-i18n="testdaf.bands.level">Level</th>
-              <th data-i18n="skill.lesen">Reading</th>
-              <th data-i18n="skill.hoeren">Listening</th>
-              <th data-i18n="skill.schreiben">Writing</th>
-              <th data-i18n="skill.sprechen">Speaking</th>
-            </tr></thead>
-            <tbody>
-              {bands.rows.map((r) => (
-                <tr>{r.map((c, i) => (i === 0 ? <th scope="row">{c}</th> : <td>{c}</td>))}</tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="format-note" data-i18n="testdaf.bands.note">
-          There is no pass mark: you always get a score. A score under the A1 line reaches no level, which
-          the guide calls No apto. Reading and listening are marked automatically, with no points lost for
-          wrong answers as far as the guide's formula shows, so answer everything. Writing and speaking go to
-          trained raters.
-        </p>
-      </section>
-
-      <section class="exam-section">
-        <h2 data-i18n="testdaf.mod.title">SIELE Global or S1 to S5?</h2>
-        <p data-i18n="testdaf.mod.text">
-          You can take all four tests or a combination. Only SIELE Global gives a certificate; the
-          others give a report. Both are valid for five years. Before you choose one of the shorter
-          options, ask whether your institution accepts a report.
-        </p>
-        <div class="format-table-wrap">
-          <table class="format-table">
-            <thead><tr>
-              <th data-i18n="testdaf.mod.th.name">Option</th>
-              <th data-i18n="testdaf.mod.th.tests">Tests</th>
-              <th data-i18n="format.th.points">Points</th>
-              <th data-i18n="testdaf.mod.th.result">You get</th>
-            </tr></thead>
-            <tbody>
-              {modalities.map((m) => (
-                <tr>
-                  <th scope="row" translate="no">{m.id}</th>
-                  <td data-i18n={`testdaf.mod.${m.id}.tests`}>{m.tests}</td>
-                  <td>{m.points}</td>
-                  <td data-i18n={`testdaf.mod.result.${m.result}`}>{m.result}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="exam-section">
-        <h2 data-i18n="testdaf.day.title">On the day</h2>
+        <h2 data-i18n="testdaf.day.title">How to use it</h2>
         <ul class="task-points">
-          <li data-i18n="testdaf.day.1">In reading you can't go back to a task you've finished, and when the time is up the test moves on by itself.</li>
-          <li data-i18n="testdaf.day.2">Each recording plays twice, and then the task closes.</li>
-          <li data-i18n="testdaf.day.3">Speaking is recorded on the computer. Nobody answers you, so keep talking until the time is up.</li>
-          <li data-i18n="testdaf.day.4">The exam uses Spanish from across the Spanish-speaking world, according to the SIELE site. Expect accents other than Spain's.</li>
-          <li data-i18n="testdaf.day.5">Results come within three weeks at most, according to the SIELE site. An institution can check your result with the code on the document.</li>
+          <li data-i18n="testdaf.day.1">Read each text once for the gist before you look at the questions, then go back for the details.</li>
+          <li data-i18n="testdaf.day.2">The reading tasks are marked automatically, so you can see at once which kind of question you miss.</li>
+          <li data-i18n="testdaf.day.3">The opinion text is not marked: write it, then compare it with the checklist, or ask a teacher or a Portuguese friend to read it.</li>
+          <li data-i18n="testdaf.day.4">The texts are in European Portuguese. Writing tasks in this variety expect enclisis by default and the spelling of the 1990 Agreement as used in Portugal.</li>
+          <li data-i18n="testdaf.day.5">For listening and speaking, and for the tasks of a real CAPLE paper, use the CAPLE practice sets by level.</li>
         </ul>
         <p class="format-note" data-i18n="testdaf.format.note">
-          We aren't connected with the SIELE, and all our practice material is our own. These details come
-          from the public SIELE exam guide and siele.org, checked in November 2026. The guide copy may be
-          some years old. Check the current rules and prices on siele.org or with your exam centre.
+          We aren't connected with CAPLE or any exam provider, and all our practice material is our own. For
+          the real structure, timings and scoring of the CAPLE exams, see caple.letras.ulisboa.pt: we have not
+          checked every official detail ("to verify").
         </p>
       </section>
     </Fragment>
@@ -122,25 +61,15 @@ const { bands, modalities } = formate;
       <h2 data-i18n="testdaf.set.title">Practise reading and writing</h2>
       <p data-i18n-html="testdaf.set.text">
         Three reading tasks from about B1 to C1, plus an opinion text with structure, useful phrases and a
-        checklist: built like the S2 option, but shorter. All texts and tasks are written by us, not
-        official exam material.
+        checklist. All texts and tasks are written by us, not official exam material.
       </p>
       <a class="quiz-btn quiz-btn--primary" href="/siele/practice-set" data-i18n="exam.startSet">Start the practice set</a>
-    </div>
-
-    <div class="mock-cta">
-      <h2 data-i18n="testdaf.bands.cta.title">Practise every task type</h2>
-      <p data-i18n="testdaf.bands.cta.text">
-        Our four SIELE sets by level follow the real tasks, from A1 to C1. Together they hold one whole
-        exam: reading, listening, writing and speaking.
-      </p>
-      <a class="quiz-btn quiz-btn--primary" href="/siele/levels" data-i18n="testdaf.bands.cta.link">To the SIELE sets by level</a>
     </div>
 
     <ExamPractice
       heading="Train the basics"
       headingKey="exam.practice.heading"
-      intro="Besides the practice sets above, these three tools help at every level and for every exam. They test general articles, grammar and vocabulary, not anything SIELE-specific."
+      intro="Besides the practice sets above, these three tools help at every level and for every exam. They test general articles, grammar and vocabulary, not anything exam-specific."
       introKey="testdaf.practice.intro"
       tools={["artikel", "grammatik", "wortschatz"]}
     />

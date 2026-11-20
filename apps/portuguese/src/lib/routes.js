@@ -216,7 +216,7 @@ export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
-  goethe: "/dele", telc: "/siele/levels", dtz: "/nationality/dele-a2", testdaf: "/siele",
+  goethe: "/dele", dtz: "/nationality/dele-a2", testdaf: "/siele",
   "leben-in-deutschland": "/ccse", "start-deutsch-1": "/dele/a1",
 };
 /** The overview page of an exam family (registry id → path). */
