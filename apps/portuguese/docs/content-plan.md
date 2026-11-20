@@ -1307,3 +1307,4 @@ handled by the `ui-*` items where they are rendered.
 
 - Done: `b1.json` is Portuguese (46 units, 365 words, ids and topics kept). Source: `scripts/b1-pt-data/*.txt` + `node scripts/build-b1-pt.mjs`. Lemmas already in a1/a2 were dropped, so some units are small.
 - Open: 3 Spanish word stories removed (alcalde, almohada, mesa); `prune-a2-refs.mjs` re-run (it reads all levels). b2/c1/c2 are still Spanish.
+- Open (idioms-mistakes, 2026-11-20): de/fr/it/pt `wortfallen.<id>.*` rows are English placeholders until the UI-language items translate them; idiom/proverb forms and sources are unverified (status entwurf).
