@@ -15,12 +15,13 @@ import { bewertungSpeichern, ergebnisLoeschen, ergebnisse, test, testLink, testO
 import { ORDER, SCHWELLE, einstufen, profil, stufenOf, teileOf } from "./niveau.js";
 import { withBase, BASE_PATH } from "../paths.js";
 import { currentPath } from "../paths.js";
+import { uiLocale } from "../i18n.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const REFRESH_MS = 5000;
 const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
 const stufe = (share) => Math.min(4, Math.floor(share * 5));
-const uhrzeit = (iso) => new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+const uhrzeit = (iso) => new Date(iso).toLocaleString(uiLocale(), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
 /** The topics of a test in the order its questions have them: [{ id, name, idx: [question indices] }]. */
 export function themenOf(fragen) {
