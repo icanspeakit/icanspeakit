@@ -248,12 +248,12 @@ export function buildSearchIndex() {
     k: "business spanish work office email correo formal letter phone call llamada cv currículum curriculum resume cover letter carta de presentación job interview entrevista meeting reunión negotiate negociación figures presentation estimado atentamente",
     h: "/business-spanish",
   });
-  // DELE or SIELE?: a comparison page under the exam hub.
+  // CIPLE, DEPLE or Celpe-Bras?: a comparison page under the exam hub.
   pages.push({
-    t: "DELE or SIELE?",
-    s: "Which Spanish exam fits your purpose: nationality, university or work",
-    k: "dele siele compare difference which exam comparison nationality university work price validity diferencia nacionalidad",
-    h: "/exams/dele-or-siele",
+    t: "CIPLE, DEPLE or Celpe-Bras?",
+    s: "Which Portuguese exam fits your purpose: residence, nationality, work, study, Brazil",
+    k: "ciple deple celpe-bras caple compare difference which exam comparison residence nationality university work brazil price validity",
+    h: "/exams/ciple-deple-celpe-bras",
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({
