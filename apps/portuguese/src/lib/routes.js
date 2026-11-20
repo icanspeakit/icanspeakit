@@ -7,7 +7,7 @@
 //
 // Ids, data file names and localStorage keys stayed German (content-plan §1.3, §6), because code
 // and saved progress key on them. Only the URL is the course's: English, except proper names
-// (/dele, /siele, /ccse) and the Spanish grammar terms learners search for (/por-para, /gustar).
+// (/dele, /siele, /civics) and the Spanish grammar terms learners search for (/por-para, /gustar).
 // The site at /portuguese is new, so there are no redirects from any earlier address (§7, §8).
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
@@ -217,7 +217,7 @@ export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
   goethe: "/dele", dtz: "/nationality/dele-a2", testdaf: "/siele",
-  "leben-in-deutschland": "/ccse", "start-deutsch-1": "/dele/a1",
+  "leben-in-deutschland": "/civics", "start-deutsch-1": "/dele/a1",
 };
 /** The overview page of an exam family (registry id → path). */
 export const examPath = (exam) => EXAM_PATHS[exam] ?? `/${exam}`;

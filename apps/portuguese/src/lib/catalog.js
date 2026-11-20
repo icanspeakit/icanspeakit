@@ -248,7 +248,7 @@ export const exams = [
   { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "CAPLE", short: "CAPLE", count: "A1–C2" },
   { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "Level check", short: "Level check", count: "A1–C1" },
   { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "CIPLE A2 for residence and nationality", short: "CIPLE A2", count: "A2" },
-  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "Civics: Portugal, how it works", short: "Civics",
+  { id: "lid", group: "pruefungen", href: "/civics", icon: "map-pin", titleKey: "exam.lid.name", title: "Civics: Portugal, how it works", short: "Civics",
     keywords: "civics cidadania nationality nacionalidade citizenship naturalisation constituição constitution portugal",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
@@ -630,7 +630,7 @@ const kulturInsiderItem = {
    The same facts serve both: a learner reading about Germany meets the exam, and one
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
-  id: "kultur-lid-fakten", href: "/ccse/facts", icon: "graduation-cap",
+  id: "kultur-lid-fakten", href: "/civics/facts", icon: "graduation-cap",
   title: "Facts about Portugal", titleKey: "nav.kultur.lidFakten",
   count: "Civics", countKey: "nav.kultur.lidFaktenHint",
 };

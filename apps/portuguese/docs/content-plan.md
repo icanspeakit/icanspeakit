@@ -1308,3 +1308,11 @@ handled by the `ui-*` items where they are rendered.
 - Done: `b1.json` is Portuguese (46 units, 365 words, ids and topics kept). Source: `scripts/b1-pt-data/*.txt` + `node scripts/build-b1-pt.mjs`. Lemmas already in a1/a2 were dropped, so some units are small.
 - Open: 3 Spanish word stories removed (alcalde, almohada, mesa); `prune-a2-refs.mjs` re-run (it reads all levels). b2/c1/c2 are still Spanish.
 - Open (idioms-mistakes, 2026-11-20): de/fr/it/pt `wortfallen.<id>.*` rows are English placeholders until the UI-language items translate them; idiom/proverb forms and sources are unverified (status entwurf).
+
+### Open points from `civics`
+
+- Done: `/ccse` is now `/civics` (`/civics`, `/civics/test`, `/civics/facts`); `leben-in-deutschland.json` is a Portuguese civics set (6 topics, 20 glossary terms, 50 questions in 5 areas, 20 district/region panels). Storage keys (`leben-in-deutschland`, `da-lid-land`, `bund-n`, `land-<id>-n`) kept. Our own benchmark (60%, about 40 min) replaces the "real test" figures.
+- Open: article numbers of the Constitution and all facts are from general knowledge, not compared line by line with the Diário da República (to verify).
+- Open: whether Portugal adds a civics/culture requirement for nationality (2025 reform) — `meta.realTestNote` and `/nationality` must follow `nationality-path`.
+- Open: de/fr/it/pt `lid.*` keys are English placeholders until the UI-language items; `entry-pages.json` (de/fr/pt/it SEO text for `/civics`) still describes the CCSE and belongs to the UI-language/cleanup items.
+- Open: the facts and glossary have no `uebersetzungen` layer (still empty). `nationality.astro` still reads `meta.totalQuestions` etc. for its CCSE table: `nationality-path` rewrites it.

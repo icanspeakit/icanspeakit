@@ -30,8 +30,8 @@ import { examPath } from "../routes.js";
 
 const idsOf = (part) => part.items.map((i) => i.id);
 
-/* Leben in Deutschland numbers its federal questions positionally, exactly as
-   test.astro does; the state questions depend on the Bundesland the learner picked,
+/* The civics test numbers its national questions positionally, exactly as
+   test.astro does; the extra questions depend on the district or region the learner picked,
    which only the browser knows — hence `idsFrom`, resolved client-side. */
 const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 
@@ -79,20 +79,19 @@ export const examRegistry = [
   },
   {
     id: "leben-in-deutschland",
-    title: "CCSE",
+    title: "Civics",
     subtitle: "Practice test",
-    level: "Knowledge test",
-    href: "/ccse/test",
-    overview: "/ccse",
+    level: "Knowledge practice",
+    href: "/civics/test",
+    overview: "/civics",
     store: { kind: "exam", key: "leben-in-deutschland" },
-    passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
+    passNote: `Our own benchmark: ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions. Not an official test.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "Questions on Spain", ids: lidFederalIds },
-      // The ids depend on the comunidad stored in "da-lid-land"; only the browser knows which one,
-      // so the client resolves this. An extra: the real test has no part on one comunidad, so it
-      // does not count towards the score.
-      { key: "land", label: "My comunidad (extra)", idsFrom: "lid-land", scored: false },
+      { key: "bund", label: "Questions on Portugal", ids: lidFederalIds },
+      // The ids depend on the district or region stored in "da-lid-land"; only the browser knows which one,
+      // so the client resolves this. An extra: it does not count towards the score.
+      { key: "land", label: "My district or region (extra)", idsFrom: "lid-land", scored: false },
     ],
   },
   {
@@ -136,13 +135,13 @@ export const examRegistry = [
   })),
 ];
 
-/** The question ids for one comunidad, in the trainer's own numbering. */
+/** The question ids for one district or region, in the trainer's own numbering. */
 export function lidLandIds(landId) {
   const land = lid.bundeslaender.find((l) => l.id === landId) ?? lid.bundeslaender[0];
   return land.stateQuestions.map((_, i) => "land-" + land.id + "-" + (i + 1));
 }
 
-/** The first comunidad is the trainer's fallback, so it is what the registry counts until
+/** The first district is the trainer's fallback, so it is what the registry counts until
  *  the browser says otherwise. */
 export const lidDefaultLandIds = lidLandIds(lid.bundeslaender[0].id);
 
