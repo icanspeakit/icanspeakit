@@ -11,7 +11,7 @@
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
  *                  (src/lib/exam/state.js — ACESSO A1 practice test, level check, civics quiz)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the CIPLE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the CIPLE A2 mock for nationality in the /nationality/ciple-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -96,14 +96,14 @@ export const examRegistry = [
   },
   {
     id: "dtz",
-    title: "DELE A2 mock for nationality",
+    title: "CIPLE A2 mock for residence and nationality",
     subtitle: dtz1.label,
     level: "A2",
-    href: "/nationality/dele-a2/practice-set",
-    overview: "/nationality/dele-a2",
+    href: "/nationality/ciple-a2/practice-set",
+    overview: "/nationality/ciple-a2",
     store: { kind: "dtz", key: dtz1.id },
-    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
-    passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a CAPLE result.
+    passNote: "Our own guide, not a CAPLE result: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({

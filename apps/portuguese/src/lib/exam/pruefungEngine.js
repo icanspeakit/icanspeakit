@@ -15,7 +15,7 @@
  * A scored part may carry `texts[]` (reading) or `clips[]` (Hören, speaker turns). An item
  * with `text`/`clip` is shown under that text or clip; the rest follow the material.
  *
- * The exam CONTENT stays Spanish (it is the exam being sat, lang="es"); the chrome goes through tx().
+ * The exam CONTENT stays Portuguese (it is the exam being sat, lang="pt-PT"); the chrome goes through tx().
  */
 import { mountExamApp } from "../examApp.js";
 import { choiceCard, practiceToggle, sectionHeader, el, escapeHtml } from "./renderHelpers.js";

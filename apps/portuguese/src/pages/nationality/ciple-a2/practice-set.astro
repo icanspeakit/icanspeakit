@@ -1,6 +1,6 @@
 ---
 import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
-// Full mock for DELE A2 (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
+// Full mock for CIPLE A2 (dtz slot, content-plan §2): nine parts, 45 scored items, plus the writing task.
 // Free sets are JSON files in src/data/pruefungen/dtz/ (inlined here). The paid
 // sets live in src/paid/pruefungen/dtz/: this page only knows their names, from
 // src/data/pruefungen/paid-manifest.json, and loads one from /inhalt/ when the learner
@@ -49,25 +49,25 @@ const saetze = Object.values(modules)
 const first = saetze[0];
 ---
 <Layout
-  title="DELE A2 mock test – complete practice set – icanspeak Portuguese"
-  description="Our own complete mock for DELE A2, on the path to Spanish nationality: reading, listening and writing tasks, with your score at the end."
+  title="CIPLE A2 mock test – complete practice set – icanspeak Portuguese"
+  description="Our own complete mock for CIPLE A2, on the path to Portuguese residence and nationality: reading, listening and writing tasks, with your score at the end."
 >
   <SiteNav active="pruefungen" />
 
   <main class="practice-main practice-main--wide practice-main--trainer dtz-trainer" id="dtz-root">
-    <a href="/nationality/dele-a2" class="vp-back-link" data-i18n="exam.backToDtz">Back to the DELE A2 overview</a>
+    <a href="/nationality/ciple-a2" class="vp-back-link" data-i18n="exam.backToDtz">Back to the CIPLE A2 overview</a>
 
     <div class="practice-hero">
       <p class="eyebrow" data-i18n="dtzSet.eyebrow">Simulate the exam</p>
-      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">DELE A2 mock</span> <span data-dtz-title>{first.meta.title}</span></h1>
+      <h1><span class="hero-exam" data-i18n="dtzSet.heroExam">CIPLE A2 mock</span> <span data-dtz-title>{first.meta.title}</span></h1>
       <p data-i18n="dtzSet.hero">
-        Nine parts, 45 scored tasks in our own mock for DELE A2. The result uses our own point bands
+        Nine parts, 45 scored tasks in our own mock for CIPLE A2. The result uses our own point bands
         as a guide: well prepared from 33 points, getting close from 20 points.
       </p>
     </div>
     <ExamDisclaimer />
 
-    {/* The structure of OUR mock, not of the real DELE A2. The real parts are on the DELE A2 page
+    {/* The structure of OUR mock, not of the real CIPLE A2. The real parts are on the CIPLE A2 page
         (research: formate-a2-c1.research.json, to verify). The minutes match GROUP_MINUTES in dtzTrainer.js. */}
     <ExamFacts
       title="How this mock is structured"
@@ -80,11 +80,11 @@ const first = saetze[0];
         [{ text: "Speaking", key: "skill.sprechen" }, { text: "not included (needs a partner)", key: "dtzSet.facts.sprechen" }, { text: "—", key: "dtzSet.facts.sprechenTime" }],
       ]}
       notes={[
-        { key: "dtzSet.facts.scoring", html: "<strong>Scoring:</strong> listening and reading count together for 45 points. Our guide: well prepared from 33 points, getting close from 20 points. You check the writing task yourself with the model answer and the checklist. The real DELE A2 has its own marking rule and ends in <em>apto</em> or <em>no apto</em>." },
-        { key: "dtzSet.facts.certificate", html: "This mock is practice only. To take the real DELE A2, register at an Instituto Cervantes exam centre, and check the current rules for your nationality application first. This is general orientation, not legal advice." },
+        { key: "dtzSet.facts.scoring", html: "<strong>Scoring:</strong> listening and reading count together for 45 points. Our guide: well prepared from 33 points, getting close from 20 points. You check the writing task yourself with the model answer and the checklist. The real CIPLE A2 has its own marking rule, which you should check with CAPLE (to verify)." },
+        { key: "dtzSet.facts.certificate", html: "This mock is practice only. To take the real CIPLE A2, register with an authorised exam centre (see CAPLE), and check the current rules for your residence or nationality application first. This is general orientation, not legal advice." },
       ]}
       sources={[
-        { label: "Instituto Cervantes: DELE", url: "https://www.cervantes.org/es/examenes/dele" },
+        { label: "CAPLE: CIPLE and the other Portuguese exams", url: "https://caple.letras.ulisboa.pt" },
       ]}
       checked="06.11.2026"
     />

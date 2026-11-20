@@ -216,12 +216,12 @@ export const workGroupKey = (slug) => WORK_GROUP_KEYS[slug] ?? slug;
 
 // The exam families: registry ids (localStorage keys, set.exam) stayed; their pages moved.
 export const EXAM_PATHS = {
-  goethe: "/dele", dtz: "/nationality/dele-a2", testdaf: "/siele",
+  goethe: "/dele", dtz: "/nationality/ciple-a2", testdaf: "/siele",
   "leben-in-deutschland": "/civics", "start-deutsch-1": "/dele/a1",
 };
 /** The overview page of an exam family (registry id → path). */
 export const examPath = (exam) => EXAM_PATHS[exam] ?? `/${exam}`;
-/** The exam family (registry id) a path belongs to, or null. Longest path first (/nationality/dele-a2 is dtz). */
+/** The exam family (registry id) a path belongs to, or null. Longest path first (/nationality/ciple-a2 is dtz). */
 export function examOfPath(path) {
   const hit = Object.entries(EXAM_PATHS).sort((a, b) => b[1].length - a[1].length)
     .find(([, p]) => path === p || path.startsWith(p + "/"));
