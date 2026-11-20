@@ -465,7 +465,7 @@ const chip = (c: string) => (c === "rise" || c === "echo" ? "rise" : c === "excl
   // ---- 2: quiz ----
   const qSent = document.getElementById("sm-q-sent")!, qFb = document.getElementById("sm-q-fb")!;
   const qBtns = [...document.querySelectorAll<HTMLButtonElement>("#sm-q-answers [data-a]")];
-  const MARK: Record<string, [string, string]> = { aussage: ["", "."], echo: ["¿", "?"], ausruf: ["¡", "!"] };
+  const MARK: Record<string, [string, string]> = { aussage: ["", "."], echo: ["", "?"], ausruf: ["", "!"] };
   const WHY: Record<string, () => string> = {
     aussage: () => t("satzmelodie.why.aussage", "Aussage: Die Stimme geht am Ende nach unten ↘."),
     echo: () => t("satzmelodie.why.echo", "Nachfrage: Die Stimme geht am Ende deutlich nach oben ↗. Man ist überrascht oder prüft, ob man richtig gehört hat. Keine normale Frage — die hat das Verb auf Position 1."),

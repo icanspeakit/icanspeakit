@@ -20,7 +20,7 @@ const md = read("src/data/aussprache-muttersprache.json");
 
 const problems = [];
 // Rule examples that show the contrast, so they are meant not to fit the rule's match.
-const NOT_MATCHING = new Set(["sch-st-sp/cosa", "ig/gato", "e-ende/dos", "e-ende/donde"]);
+const NOT_MATCHING = new Set(["ig/gato", "aberta-fechada/ovos", "nasal/muito"]);
 const drills = md.drills;
 const langs = new Map(fehler.languages.map((l) => [l.id, l]));
 const errors = new Map();
