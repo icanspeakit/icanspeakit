@@ -7,7 +7,7 @@
 // `twisters` it also sets "audio": true in the data file once the files exist (the pages only
 // offer the recorded voice then; until then the browser voice reads the text).
 //
-//   node apps/italian/scripts/generate-sentence-audio.mjs [saetze|check|twisters|all] [--limit N] [--force] [--concurrency 8]
+//   node apps/italian/scripts/generate-sentence-audio.mjs [saetze|check|twisters|wortfallen|all] [--limit N] [--force] [--concurrency 8]
 // Needs AZURE_SPEECH_KEY / AZURE_SPEECH_REGION in the repo-root .env.local and ffmpeg on PATH.
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
@@ -47,6 +47,14 @@ if (part === "saetze" || part === "all") {
       for (const e of u.words ?? []) add(out("saetze", `${satzSlug(e.example ?? "")}.mp3`), e.example);
 }
 const sentencesOf = (data) => data.levels.flatMap((l) => l.sentences);
+// Word traps (/conoscenze/falsi-amici): <id>-falsch, <id>-richtig and <id>-q<n> (quiz sentence with the right option filled in)
+const wfText = (t) => t.replace(/\*/g, "");
+if (part === "wortfallen" || part === "all")
+  for (const g of readJson("src/data/wortfallen.json").groups) {
+    add(out("wortfallen", `${g.id}-falsch.mp3`), wfText(g.oops));
+    add(out("wortfallen", `${g.id}-richtig.mp3`), wfText(g.right));
+    g.quiz.forEach((q, n) => add(out("wortfallen", `${g.id}-q${n + 1}.mp3`), q.s.replace("___", q.a)));
+  }
 if (part === "check" || part === "all")
   for (const s of sentencesOf(readJson("src/data/aussprache-check.json"))) add(out("aussprache-check", `${s.id}.mp3`), s.text);
 if (part === "twisters" || part === "all")
@@ -110,5 +118,17 @@ function stamp(rel, files) {
 }
 if (part === "check" || part === "all") stamp("src/data/aussprache-check.json", (s) => [out("aussprache-check", `${s.id}.mp3`)]);
 if (part === "twisters" || part === "all") stamp("src/data/zungenbrecher.json", (s) => [out("zungenbrecher", `${s.id}.mp3`), out("zungenbrecher", `${s.id}-langsam.mp3`)]);
+if (part === "wortfallen" || part === "all") {
+  const file = path.join(APP, "src/data/wortfallen.json");
+  let src = readFileSync(file, "utf8"), n = 0;
+  for (const g of JSON.parse(src).groups) {
+    const files = [`${g.id}-falsch`, `${g.id}-richtig`, ...g.quiz.map((_, i) => `${g.id}-q${i + 1}`)].map((f) => out("wortfallen", `${f}.mp3`));
+    if (!files.every(existsSync)) continue;
+    const re = new RegExp(`("id":\\s*"${g.id}"(?:(?!"id"\\s*:)[\\s\\S])*?"audio":\\s*)false`);
+    if (re.test(src)) { src = src.replace(re, "$1true"); n++; }
+  }
+  writeFileSync(file, src);
+  console.log(`src/data/wortfallen.json: ${n} groups marked audio:true`);
+}
 
 if (failed.length) { console.error(`${failed.length} failed`); process.exit(1); }
