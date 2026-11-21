@@ -6,6 +6,7 @@
 // Signed out: one line and a way to sign in; nothing is fetched.
 import { apiFetch } from "../api.js";
 import { withBase } from "../paths.js";
+import { uiLocale } from "../i18n.js";
 import "../../styles/quiz-record.css";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -15,7 +16,7 @@ const MODES = { synonym: "Synonyms", "de-meaning": "Word → meaning", "meaning-
 
 const when = (iso) => {
   const d = new Date(iso);
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) + ", " + d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleDateString(uiLocale(), { day: "numeric", month: "short", year: "numeric" }) + ", " + d.toLocaleTimeString(uiLocale(), { hour: "2-digit", minute: "2-digit" });
 };
 
 function card(r) {
