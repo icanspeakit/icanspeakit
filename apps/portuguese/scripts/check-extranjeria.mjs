@@ -1,7 +1,7 @@
-// check:extranjeria — the Extranjería sim (src/lib/buergeramt, src/data/buergeramt) is consistent:
+// check:extranjeria — the AIMA and Finanças sim (src/lib/buergeramt, src/data/buergeramt) is consistent:
 // every mistake a case claims really shows on its papers, nothing else contradicts, every rule a
 // mistake needs is on that day's memo, and the fixes leave the case with what the stamp expects.
-// Also: Spanish lines have ¿ ¡, every line has English, no English-course leftovers.
+// Also: every line has English, and no Spanish marks (¿ ¡) or English-course leftovers.
 import { readFileSync } from "node:fs";
 import { HANDFAELLE, DOK_ARTEN, WOERTER, spielFall, loese, richtig } from "../src/lib/buergeramt/faelle.js";
 import { REGELN, FEHLER, TAGE, WIRR, regelnBis } from "../src/lib/buergeramt/regeln.js";
@@ -14,11 +14,9 @@ const err = (m) => errs.push(m);
 // ---- lines ------------------------------------------------------------------------------
 function linea(l, wo) {
   if (!l?.de || !l?.en) return err(`${wo}: needs de and en`);
-  for (const [abre, cierra] of [["¿", "?"], ["¡", "!"]]) {
-    const a = l.de.split(abre).length - 1, c = l.de.split(cierra).length - 1;
-    if (a !== c) err(`${wo}: ${abre}${cierra} don't pair up: ${l.de}`);
-  }
-  if (/\b(Brambleford|UK|council|parking)\b/i.test(`${l.de} ${l.en}`)) err(`${wo}: English-course leftover: ${l.de}`);
+  if (/[¿¡]/.test(l.de)) err(`${wo}: Spanish opening mark in Portuguese: ${l.de}`);
+  if (/\b(Brambleford|UK|council|parking|usted|ustedes|ahora|gracias|buenos)\b/i.test(`${l.de} ${l.en}`)) err(`${wo}: English-course or Spanish leftover: ${l.de}`);
+  if (/\b(você|ônibus|celular|CPF)\b/i.test(l.de)) err(`${wo}: Brazilian form in pt-PT: ${l.de}`);
 }
 for (const [k, arr] of Object.entries(kunden)) if (Array.isArray(arr)) arr.forEach((l, i) => linea(l, `kunden.${k}[${i}]`));
 WIRR.forEach((l, i) => linea(l, `WIRR[${i}]`));
@@ -82,14 +80,14 @@ function widersprueche(c) {
   if (hoja) {
     if (!hoja.felder.unterschrift) add("meldeschein.unterschrift");
     if (TAGE[c.tag].regeln.includes("wgb") && !wgb) add("meldeschein.adresse");
-    const quiere = c.anliegen === "cambio" ? "Cambio de domicilio" : "Alta";
+    const quiere = c.anliegen === "cambio" ? "Alteração de morada" : c.tag === 1 ? "Primeiro pedido" : "Inscrição";
     if (hoja.felder.formular !== quiere) add("meldeschein.formular");
     if (isoDatum(hoja.felder.einzug) > c.heute) add("meldeschein.einzug");
   }
   if (sol) {
     if (!sol.felder.unterschrift) add("solicitud.unterschrift");
     if (sol.tinte && sol.tinte !== "schwarz") add("solicitud.unterschrift");
-    const quiere = c.anliegen === "nie" ? "NIE (EX-15)" : "TIE (EX-17)";
+    const quiere = { nif: "NIF", niss: "NISS", ar: "Autorização de residência", renov: "Renovação" }[c.anliegen];
     if (sol.felder.formular !== quiere) add("solicitud.formular");
     if (TAGE[c.tag].regeln.includes("tasa") && !tasa) add("solicitud.formular");
   }
@@ -97,7 +95,7 @@ function widersprueche(c) {
   if (cita && !sol) err(`case ${c.nr}: an appointment without an application`);
   for (const d of [cita, tasa]) if (d && sol && !sol.felder.formular.startsWith(d.felder.tramite) && !out.some((x) => x.includes("solicitud.formular"))) add("solicitud.formular");
   if (tasa && isoDatum(tasa.felder.pagada) > c.heute) add("tasa.pagada");
-  if (foto && foto.felder.fondo !== "blanco") add("foto.fondo");
+  if (foto && foto.felder.fondo !== "claro") add("foto.fondo");
   if (id?.fax) add(`${id.id}.kopf`);
   return out;
 }
@@ -142,7 +140,7 @@ for (const c0 of HANDFAELLE) {
   const seen = widersprueche(c);
   const felderDerFehler = new Set(c.fehler.flatMap((f) => f.paare.flat()));
   for (const w of seen) if (!w.some((fid) => felderDerFehler.has(fid))) err(`${wo}: unlisted contradiction at ${w.join(" / ")}`);
-  const ohneWiderspruchOk = new Set(["derivar_arraigo", "derivar_regularizacion", "zimmer"]);
+  const ohneWiderspruchOk = new Set(["derivar_nacionalidade", "derivar_manifestacao", "zimmer"]);
   for (const f of c.fehler) {
     if (ohneWiderspruchOk.has(f.code)) continue;
     if (!seen.some((w) => w.some((fid) => f.paare.flat().includes(fid)))) err(`${wo}: mistake ${f.code} doesn't show on the papers`);
@@ -162,7 +160,7 @@ for (const c0 of HANDFAELLE) {
 for (const tag of Object.keys(TAGE)) {
   const n = HANDFAELLE.filter((c) => c.tag === Number(tag));
   if (!n.length) err(`day ${tag}: no cases`);
-  if (!n.some((c) => !c.fehler.length)) err(`day ${tag}: no case with complete papers, so stamping DEVUELTO always wins`);
+  if (!n.some((c) => !c.fehler.length)) err(`day ${tag}: no case with complete papers, so stamping DEVOLVIDO always wins`);
 }
 const benutzt = new Set(HANDFAELLE.flatMap((c) => c.fehler.map((f) => f.code)));
 for (const code of Object.keys(FEHLER)) if (!benutzt.has(code) && !["familienname", "vorname"].includes(code)) err(`mistake ${code} isn't used in any case`);
