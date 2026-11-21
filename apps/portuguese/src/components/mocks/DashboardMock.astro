@@ -12,11 +12,11 @@ import Wordmark from "../Wordmark.astro";
 import "../../styles/mock-dashboard.css";
 
 const tabs = [
-  { id: "dashboard", url: "icanspeak.it/spanish/progress", key: "home.mock.dashboard", label: "Dashboard" },
-  { id: "grammatik", url: "icanspeak.it/spanish/grammar", key: "home.mock.grammatikShort", label: "Grammar" },
-  { id: "wortschatz", url: "icanspeak.it/spanish/vocabulary", key: "home.mock.wortschatzShort", label: "Vocabulary" },
-  { id: "sprechen", url: "icanspeak.it/spanish/speaking", key: "home.mock.sprechenShort", label: "Speaking" },
-  { id: "pruefungen", url: "icanspeak.it/spanish/exams", key: "nav.exams", label: "Exams" },
+  { id: "dashboard", url: "icanspeak.it/portugues/progresso", key: "home.mock.dashboard", label: "Dashboard" },
+  { id: "grammatik", url: "icanspeak.it/portugues/gramatica", key: "home.mock.grammatikShort", label: "Grammar" },
+  { id: "wortschatz", url: "icanspeak.it/portugues/vocabulario", key: "home.mock.wortschatzShort", label: "Vocabulary" },
+  { id: "sprechen", url: "icanspeak.it/portugues/expressao-oral", key: "home.mock.sprechenShort", label: "Speaking" },
+  { id: "pruefungen", url: "icanspeak.it/portugues/exames", key: "nav.exams", label: "Exams" },
 ];
 
 // The choice matching `answer` is the one the quiz accepts; the rest are wrong.
@@ -92,7 +92,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
           type="button"
           class:list={["lp-sidebar-link", i === 0 && "lp-sidebar-link--active"]}
           data-dm-tab={t.id}
-          data-dm-href={t.url}
+          data-dm-shown-url={t.url}
           aria-pressed={i === 0 ? "true" : "false"}
         ><span data-i18n={t.key}>{t.label}</span></button>
       ))}
@@ -287,7 +287,7 @@ const weekdays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
           t.setAttribute("aria-pressed", String(on));
         }
         for (const p of panels) p.hidden = p.dataset.dmPanel !== id;
-        if (urlSlot) urlSlot.textContent = tab.dataset.dmHref;
+        if (urlSlot) urlSlot.textContent = tab.dataset.dmShownUrl;
         // A panel switch starts at the top, not wherever the last one was left.
         if (scroller) scroller.scrollTop = 0;
       });
