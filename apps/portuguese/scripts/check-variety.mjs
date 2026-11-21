@@ -54,8 +54,8 @@ const MODULES = [
   { id: "lexicon-c1", files: one("src/content/lexicon/c1.json"), items: lexiconWords },
   { id: "lexicon-c2", files: one("src/content/lexicon/c2.json"), items: lexiconWords },
   { id: "berufe", files: jsonFiles("src/data/berufe"), items: deckWords },
-  // The driving deck: src/data/dgt until imt-vocab moves it to src/data/imt.
-  { id: "imt", files: [...jsonFiles("src/data/dgt"), ...jsonFiles("src/data/imt")], items: deckWords },
+  // The driving deck (imt-vocab).
+  { id: "imt", files: jsonFiles("src/data/imt"), items: deckWords },
   // A unit: its phrases and its own words (refs inherit); exercises inherit from the unit.
   { id: "business", files: [...jsonFiles("src/data/business-spanish"), ...jsonFiles("src/data/business-portuguese")],
     items: (d) => [...arr(d.phrases), ...arr(d.words).filter((w) => !w.ref)].map((item) => ({ item })) },

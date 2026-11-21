@@ -208,7 +208,7 @@ export const BUSINESS_SLUGS = {
 };
 export const businessPath = (unit) => `/business-spanish/${BUSINESS_SLUGS[unit] ?? unit}`;
 /** A work sector, or one word group of it. */
-export const workPath = (sector, group) => sector === "dgt" ? `/dgt-vocabulary${group ? `/${group}` : ""}` :
+export const workPath = (sector, group) => sector === "imt" ? `/imt-vocabulary${group ? `/${group}` : ""}` :
   sector === "business" ? (group ? `${businessPath(group)}/words` : "/business-spanish") :
   `/spanish-for-work/${itemSlug("/spanish-for-work", sector)}${group ? `/${WORK_GROUP_SLUGS[group] ?? group}` : ""}`;
 /** A work group's id from its URL slug. */

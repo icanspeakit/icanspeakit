@@ -6,7 +6,7 @@
 // One file per profession, src/data/berufe/<slug>.json, so one session per profession can fill
 // its deck without touching anyone else's file. A word is either defined in the file
 // ({ id, lemma, pos, … }) or a pointer to a word that already exists elsewhere ({ ref }):
-// the lexicon (lexicon id), the DGT deck or another sector (both bv-…).
+// the lexicon (lexicon id), the IMT deck or another sector (both bv-…).
 // Ids are learners' progress keys, so they are derived once and never renamed.
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
@@ -29,9 +29,9 @@ export const BERUFE = [
 ];
 export const SLUGS = BERUFE.map((b) => b.slug);
 
-/** The DGT driving deck (src/data/dgt/vocabulario.json, content-plan §4.4): same format and word
- *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
-export const DGT = { slug: "dgt", emoji: "🚗" };
+/** The IMT driving deck (src/data/imt/vocabulario.json, content-plan §4.4): same format and word
+ *  ids (bv-imt-…), so sector decks can point at its words, but its own page, not a sector. */
+export const IMT = { slug: "imt", emoji: "🚗" };
 
 /** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
  *  a group of this one deck, ids bv-business-…, under its own pages. */
@@ -61,7 +61,7 @@ export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.
 
 /**
  * Every rule of the data format, in one place. `files` is [{ file, deck, slug? }]; `slug` is set
- * for a deck that is not a sector and so has no file named after it (DGT). `known` holds the ids
+ * for a deck that is not a sector and so has no file named after it (IMT). `known` holds the ids
  * that exist outside the berufe files: { lexicon: Map<id, lemma> }.
  * Returns { errors, warnings }, never throws.
  */

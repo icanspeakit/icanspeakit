@@ -1,8 +1,8 @@
 ---
-// /dgt-vocabulary: Spain's driving words (content-plan §4.4), the profession-deck format under its
-// own page. Vocabulary only: no official DGT questions, no text from the DGT manual, no claim to
+// /imt-vocabulary: Portugal's driving words (content-plan §4.4), the profession-deck format under its
+// own page. Vocabulary only: no official IMT questions, no text from the IMT manual, no claim to
 // prepare for the exam alone. General orientation, never legal advice; what is still "to verify"
-// is in reports/dgt-vocab.md. All text lives in public/i18n/en.json and the deck's JSON.
+// is in reports/imt-vocab.md. All text lives in public/i18n/en.json and the deck's JSON.
 import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import SectionMascot from "../components/mascots/SectionMascot.astro";
@@ -18,20 +18,20 @@ import "../styles/berufe.css";
 import "../styles/pruefungen.css";
 
 const tx = (key: string) => (en as Record<string, string>)[key];
-const deck = DECKS.dgt;
-const groups = groupsOf("dgt");
+const deck = DECKS.imt;
+const groups = groupsOf("imt");
 const n = entryCount(deck);
-const samples = samplesOf("dgt", 3);
+const samples = samplesOf("imt", 3);
 const v = (o: Record<string, unknown>) => JSON.stringify(o);
 const points = ["1", "2", "3", "4", "5"];
 const sources = [
-  { key: "dgt.link.official", url: "https://www.dgt.es/nuestros-servicios/permisos-de-conducir/obtener-un-nuevo-permiso-de-conducir/" },
-  { key: "dgt.link.exchange", url: "https://www.dgt.es/" },
+  { key: "dgt.link.official", url: "https://www.imt-ip.pt/" },
+  { key: "dgt.link.exchange", url: "https://www.ansr.pt/" },
 ];
 ---
 <Layout
-  title="DGT driving vocabulary – Spanish for drivers – icanspeak Portuguese"
-  description="The Spanish words for the car, the road, signs, driving lessons, the driving exam and the paperwork in Spain, with examples. Vocabulary only, no exam questions."
+  title="IMT driving vocabulary – Portuguese for drivers – icanspeak Portuguese"
+  description="The Portuguese words for the car, the road, signs, driving lessons, the driving exam, the paperwork and exchanging a foreign licence in Portugal, with examples. Vocabulary only, no exam questions."
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide">
@@ -52,7 +52,7 @@ const sources = [
       <h2 class="ku-group-title" data-i18n="dgt.groups">{tx("dgt.groups")}</h2>
       <div class="ku-grid ku-grid--fill">
         {groups.map((g: any) => (
-          <a class="ku-card" href={workPath("dgt", g.id)}>
+          <a class="ku-card" href={workPath("imt", g.id)}>
             <span class="ku-card-txt"><b>{g.title}</b></span>
             <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: g.words.length })}>{g.words.length} words</span>
           </a>

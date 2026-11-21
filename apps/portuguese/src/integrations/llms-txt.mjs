@@ -23,7 +23,7 @@ const SECTIONS = [
   ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
   ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
   ['Exams', ['/exams', '/dele', '/dele/*', '/siele', '/siele/*', '/exams/ciple-deple-celpe-bras', '/civics', '/civics/*', '/nationality', '/nationality/*']],
-  ['Life and work in Portugal', ['/spanish-for-work', '/business-spanish', '/dgt-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
+  ['Life and work in Portugal', ['/spanish-for-work', '/business-spanish', '/imt-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
   ['For teachers', ['/teachers']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],

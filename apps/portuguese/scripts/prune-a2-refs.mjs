@@ -12,7 +12,7 @@ for (const lv of ["a1", "a2", "b1", "b2", "c1", "c2"]) {
   for (const u of d.units) for (const w of u.words) lex.add(w.id ?? slugify(w.lemma));
 }
 const files = [];
-for (const dir of ["berufe", "business-spanish", "dgt"]) {
+for (const dir of ["berufe", "business-spanish", "imt"]) {
   for (const f of fs.readdirSync(`${R}/src/data/${dir}`)) if (f.endsWith(".json") && !f.includes("manifest")) files.push(`${R}/src/data/${dir}/${f}`);
 }
 const decks = files.map((f) => {

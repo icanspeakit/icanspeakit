@@ -234,12 +234,12 @@ export function buildSearchIndex() {
     k: "spanish nationality citizenship residence nacionalidad española residencia ccse dele a2 exempt dispensa oath jura registro civil how to become spanish passport",
     h: "/nationality",
   });
-  // The DGT driving deck: words for the driving course, the road and the paperwork.
+  // The IMT driving deck: words for the driving course, the road and the paperwork.
   pages.push({
-    t: "DGT driving vocabulary",
-    s: "Spanish words for the car, the road, signs, the driving exam and the paperwork",
-    k: "dgt driving licence test theory exam spanish spain carné de conducir permiso autoescuela coche carretera señales tráfico road signs car words multa itv puntos canje vocabulary",
-    h: "/dgt-vocabulary",
+    t: "IMT driving vocabulary",
+    s: "Portuguese words for the car, the road, signs, the driving exam, the paperwork and exchanging a foreign licence",
+    k: "imt driving licence test theory exam portuguese portugal carta de condução código da estrada escola de condução carro estrada sinais trânsito road signs car words coima multa inspeção IUC pontos trocar a carta exchange foreign licence vocabulary",
+    h: "/imt-vocabulary",
   });
   // Business Spanish: phrases, model texts and exercises for office work.
   pages.push({

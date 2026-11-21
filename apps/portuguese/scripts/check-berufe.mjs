@@ -31,12 +31,12 @@ for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".
   catch (err) { files.push({ file, deck: null }); console.error(`  ERROR ${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
-// The DGT driving deck: the same format, under its own slug (content-plan §4.4).
-const DGT_DIR = "src/data/dgt";
-if (existsSync(path.join(ROOT, DGT_DIR))) {
-  for (const file of readdirSync(path.join(ROOT, DGT_DIR)).filter((f) => f.endsWith(".json")).sort()) {
-    try { files.push({ file: `dgt/${file}`, slug: "dgt", deck: read(`${DGT_DIR}/${file}`) }); }
-    catch (err) { files.push({ file: `dgt/${file}`, slug: "dgt", deck: null }); console.error(`  ERROR dgt/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
+// The IMT driving deck: the same format, under its own slug (content-plan §4.4).
+const IMT_DIR = "src/data/imt";
+if (existsSync(path.join(ROOT, IMT_DIR))) {
+  for (const file of readdirSync(path.join(ROOT, IMT_DIR)).filter((f) => f.endsWith(".json")).sort()) {
+    try { files.push({ file: `imt/${file}`, slug: "imt", deck: read(`${IMT_DIR}/${file}`) }); }
+    catch (err) { files.push({ file: `imt/${file}`, slug: "imt", deck: null }); console.error(`  ERROR imt/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
   }
 }
 
