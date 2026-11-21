@@ -1318,3 +1318,14 @@ handled by the `ui-*` items where they are rendered.
 - Open: the facts and glossary have no `uebersetzungen` layer (still empty). `nationality.astro` still reads `meta.totalQuestions` etc. for its CCSE table: `nationality-path` rewrites it.
 - Done (`nationality-path`): `/nationality/ciple-a2` replaces `/nationality/dele-a2`; `/nationality` rewritten for Portugal, no longer reads the civics data; `nat.*` keys replaced.
 - Open: all `/nationality` rules and figures are from general knowledge, not checked against official texts (see reports/nationality-path.md); re-check after the 2025 nationality reform settles. de/fr/it/pt carry English placeholders for the new `nat.*`/`dtz*` values.
+
+### Decisions and open points from `culture` (2026-11-21)
+
+- Decision: the six Spain-only topic ids are kept and reused: `comida` (food), `fiestas` (festas populares), `lenguas-cooficiales` → **Portugal's languages** (Portuguese, Mirandese, LGP, accents, AO90), `mundo-hispano` → **Portuguese in the world**, `tradiciones-america` → **traditions of Brazil and lusophone Africa**, `historia-compartida` → **Portugal and the Portuguese-speaking world: a shared history**. `WORLD_IDS` in `culture/index.astro` stays as it is.
+- Decision: **one new topic `fado`** (A2, `land`, "Food & festivals", slug `fado-and-music`): fado, cante alentejano, saudade. 30 topics, 120 quiz questions.
+- Decision: culture slugs follow the new titles (`tu-or-o-senhor`, `cafes-and-paying`, `regions`, `appointments-and-senhas`, `nif-niss-and-utente`, `languages-of-portugal`, `portuguese-speaking-world`, `training-and-university`, `lusophone-traditions`, `state-and-local-power`, `seguranca-social`, `shared-history`, `25-april-1974`, `unions-and-workers-rights`); insider `leute-kennenlernen` → `small-talk`. No redirects from the Spanish slugs (the course is not live yet). Knigge scene links updated.
+- Decision: chip colours in `kulturMarks.js` know the Portugal forms (tu/vocês one colour, você/o senhor/a senhora the other).
+- Open: Edgar's site-wide rule "URLs in the target language" would make all these slugs Portuguese (`/cultura/...`); this plan (§1.3) still says English kebab-case. Needs one decision for the whole app (`routes` item).
+- Open: de/fr/it/pt carry the English `kultur.<id>.cardIntro`, `kultur.eyebrow.*`, `kultur.linkLabel.*`, `kultur.level.*` values until the ui-lang items. `uebersetzungen/kultur.json` and `uebersetzungen/zitate.json` stay empty.
+- Open: every legal/administrative fact on the culture pages is general orientation from general knowledge, not checked against official sources (list in reports/culture.md); quotes are written from memory of the works and need a check against an edition.
+- Open: `docs/inhalte-qa/befunde.json` still holds findings for the old Spanish kultur/insider quiz items (stale fingerprints).
