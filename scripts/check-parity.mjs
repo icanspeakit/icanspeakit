@@ -116,7 +116,7 @@ for (const slug of apps) {
   // 5. Shared analytics, wired with this course's name.
   if (!same(join(ROOT, "apps/hub/src/lib/analytics.js"), join(app, "src/lib/analytics.js"))) err.push("src/lib/analytics.js differs from apps/hub/src/lib/analytics.js");
   const layout = existsSync(join(app, "src/layouts/Layout.astro")) ? text(join(app, "src/layouts/Layout.astro")) : "";
-  if (!layout.includes(`initAnalytics("${slug}")`)) err.push(`Layout.astro does not call initAnalytics("${slug}")`);
+  if (!layout.includes(`initAnalytics("${slug}")`) && !layout.includes(`<ConsentBanner app="${slug}"`)) err.push(`Layout.astro does not call initAnalytics("${slug}")`);
   const backend = existsSync(join(app, "src/lib/backend.js")) ? text(join(app, "src/lib/backend.js")) : "";
   if (!/analytics:\s*true/.test(backend)) err.push("src/lib/backend.js does not switch analytics on");
 
