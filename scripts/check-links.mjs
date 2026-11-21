@@ -128,7 +128,7 @@ for (const f of walk(dir)) {
         if (!content) continue;
         const c = content[1] ?? content[2];
         if (/http-equiv\s*=\s*["']?refresh/i.test(t)) { const u = c.match(/url\s*=\s*(.+)$/i)?.[1]; if (u) check(u.trim(), url, rel, 'meta-refresh'); }
-        else if (/(?:property|name)\s*=\s*["'](?:og:image|og:url|twitter:image)/i.test(t)) check(c, url, rel, 'meta-image');
+        else if (/(?:property|name)\s*=\s*["'](?:og:image|og:image:url|og:image:secure_url|og:url|twitter:image)["']/i.test(t)) check(c, url, rel, 'meta-image');
       }
     }
   } else if (/^sitemap.*\.xml$/i.test(rel.split('/').pop())) {
