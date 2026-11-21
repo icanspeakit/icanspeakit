@@ -1,0 +1,49 @@
+{
+  "//": "Config for scripts/check-i18n.mjs (undefined-key check only). ignoreFiles: files whose t() reads an inline dictionary of their own, not public/i18n (path relative to apps/<app>/, \"*\" = every app). ignoreKeys: literal names that are doc examples, not keys. pending: keys the code uses that are parked until de.json has them (the build gate wants every en.json key in de.json); shown as \"pending\", not counted as findings. Remove a key here once it is in the dictionaries.",
+  "ignoreFiles": {
+    "*": [
+      "src/lib/schreibKorrektur.js"
+    ]
+  },
+  "ignoreKeys": {
+    "*": [
+      "key"
+    ]
+  },
+  "pending": {
+    "english": [
+      "kn.againArea",
+      "kn.areaDone",
+      "kn.areaLocked",
+      "kn.areas",
+      "kn.best",
+      "kn.dayDone",
+      "kn.dayTitle",
+      "kn.hear",
+      "kn.help",
+      "kn.more",
+      "kn.next",
+      "kn.nextArea",
+      "kn.people",
+      "kn.pickFirst",
+      "kn.pickTopic",
+      "kn.rufAria",
+      "kn.rufNow",
+      "kn.step",
+      "kn.sympAria",
+      "kn.wheel",
+      "kn.wheelKnown",
+      "kn.wheelPick",
+      "kn.wheelPickN",
+      "kn.whereTo",
+      "kn.why",
+      "kn.worst",
+      "kn.you",
+      "kn.youSay",
+      "meldung.entfernen",
+      "meldung.notiz",
+      "meldung.notiz.titel",
+      "meldung.speichern"
+    ]
+  }
+}

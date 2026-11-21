@@ -9,6 +9,7 @@
 //                  scripts/scan-german-ui.allow.json). Not run on de.json itself.
 //   placeholder    {n} / {name} / %s / %d / HTML tags differ from en.json
 // and, per app, keys used in src (t('...'), data-i18n*="...") that exist in no dictionary.
+// Exceptions for that last check (files with an inline dictionary, parked keys): scripts/check-i18n.allow.json.
 // Counts per app and language are printed, plus the first --show (default 5) examples per kind.
 // Exit 1 when anything is found, unless --warn. Never edits any file.
 import fs from "node:fs";
@@ -28,6 +29,10 @@ const SHOW = +opt("show", 5);
 const read = (f) => JSON.parse(fs.readFileSync(f, "utf8"));
 const allowPath = path.join(ROOT, "scripts/scan-german-ui.allow.json");
 const allowCfg = fs.existsSync(allowPath) ? read(allowPath) : {};
+// scripts/check-i18n.allow.json: exceptions for the undefined-key check (see the "//" note in that file)
+const ownPath = path.join(ROOT, "scripts/check-i18n.allow.json");
+const ownCfg = fs.existsSync(ownPath) ? read(ownPath) : {};
+const cfgList = (name, app) => [...(ownCfg[name]?.["*"] ?? []), ...(ownCfg[name]?.[app] ?? [])];
 
 const tokensOf = (s) => String(s).replace(/<[^>]+>/g, " ").replace(/\{\w+\}/g, " ").match(/[A-Za-zÄÖÜäöüßÀ-ÿ]+/g) ?? [];
 const UMLAUT = /[A-Za-z]*(?:[äöÄÖßÜ]|ü(?![aeiouyáéíóú]))[A-Za-z]*/g;
@@ -111,11 +116,17 @@ for (const app of apps) {
   const used = new Map();
   const reT = /(?<![\w.$])t\(\s*(['"])([A-Za-z0-9_.\-]+)\1/g;
   const reD = /data-i18n(?:-[a-z]+)*\s*=\s*(['"])([A-Za-z0-9_.\-]+)\1/g;
+  const skipFiles = new Set(cfgList("ignoreFiles", app).map((f) => path.join(ROOT, "apps", app, f)));
+  const skipKeys = new Set(cfgList("ignoreKeys", app));
+  const pendingSet = new Set(cfgList("pending", app));
   for (const f of walk(path.join(ROOT, "apps", app, "src"))) {
+    if (skipFiles.has(f)) continue;
     const s = fs.readFileSync(f, "utf8");
-    for (const re of [reT, reD]) for (const m of s.matchAll(re)) if (!used.has(m[2])) used.set(m[2], path.relative(ROOT, f));
+    for (const re of [reT, reD]) for (const m of s.matchAll(re)) if (!used.has(m[2]) && !skipKeys.has(m[2])) used.set(m[2], path.relative(ROOT, f));
   }
-  const undefinedKeys = [...used].filter(([k]) => !defined.has(k)).map(([k, f]) => `${k}  (${f})`);
+  const notDefined = [...used].filter(([k]) => !defined.has(k));
+  const undefinedKeys = notDefined.filter(([k]) => !pendingSet.has(k)).map(([k, f]) => `${k}  (${f})`);
+  const pendingKeys = notDefined.filter(([k]) => pendingSet.has(k)).map(([k]) => k);
 
   console.log(`\n== ${app}  (en.json: ${Object.keys(en).length} keys; keys used in src: ${used.size})`);
   const pad = (s, n) => String(s).padEnd(n);
@@ -128,6 +139,7 @@ for (const app of apps) {
   }
   console.log(`  undefined keys used in src: ${undefinedKeys.length || "-"}`);
   total += undefinedKeys.length;
+  if (pendingKeys.length) console.log(`  pending (parked until de.json has them, not counted): ${pendingKeys.length}`);
   if (SHOW > 0) {
     const more = (l) => (l.length > SHOW ? ` … +${l.length - SHOW}` : "");
     for (const c of order) for (const k of kinds) {
@@ -136,7 +148,7 @@ for (const app of apps) {
     }
     if (undefinedKeys.length) console.log(`  [undefined] ` + undefinedKeys.slice(0, SHOW).join(" | ") + more(undefinedKeys));
   }
-  report[app] = { ...res, undefinedKeys };
+  report[app] = { ...res, undefinedKeys, pendingKeys };
 }
 if (opt("json") && opt("json") !== true) fs.writeFileSync(opt("json"), JSON.stringify(report, null, 1));
 console.log(`\ntotal findings: ${total}`);
