@@ -244,14 +244,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           <ul class="in-vocab">
             {topic.vocab.map((v: { word: string; grammar: string | null; meaning: Record<string, string>; example: string }) => (
               <li>
-                <p class="in-vocab-word" lang="es"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
+                <p class="in-vocab-word" lang="pt-PT"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
                 <p class="in-vocab-meaning uit">
                   <span class="uit-de" lang="en">{v.meaning.de}</span>
                   {LANGS.filter((l) => v.meaning[l]).map((l) => (
                     <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v.meaning[l]}</span>
                   ))}
                 </p>
-                <p class="in-vocab-ex" lang="es">{v.example}</p>
+                <p class="in-vocab-ex" lang="pt-PT">{v.example}</p>
               </li>
             ))}
           </ul>
