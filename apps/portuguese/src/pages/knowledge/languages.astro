@@ -1,6 +1,6 @@
 ---
-// /knowledge/languages — "Spanish around the world": where Spanish is spoken, the family it
-// belongs to, how close the learner's first language is, and the English → Spanish word
+// /knowledge/languages — "Portuguese around the world": where Portuguese is spoken, the family it
+// belongs to, how close the learner's first language is, and the English → Portuguese word
 // patterns (the word decoder).
 //
 // All prose is in public/i18n/en.json under sprachen.*, read here for the server-rendered
@@ -41,20 +41,20 @@ const fmtDe = (n: number) =>
 const STATUS: Status[] = ["amtssprache", "region", "minderheit", "gemeinschaft"];
 
 // One "place" per thing the map can select: a country, or a marker that is not a country
-// of its own (the Andorra or Puerto Rico dot selects that country).
+// of its own (the Cape Verde or Annobón dot selects that country).
 const places = [
   ...welt.countries.map((c) => ({
     id: c.id, name: c.name, status: c.status as Status, textKey: `sprachen.c.${c.id}`,
     sub: welt.markers.find((m) => m.ref === c.id && m.name !== c.name)?.name,
-    views: (["world", "americas"] as const).filter((v) => (karte as any)[v].countries[c.id]),
+    views: (["world", "atlantic"] as const).filter((v) => (karte as any)[v].countries[c.id]),
     speakers: (c as any).speakers as Speakers | undefined,
     regions: ((c as any).regions ?? []).map((g: { name: string }) => g.name) as string[],
-    // Whole country: where Spanish is the main language, not one region of it.
+    // Whole country: where Portuguese is the main language, not one region of it.
     whole: c.status === "amtssprache",
   })),
   ...welt.markers.filter((m) => !m.ref).map((m) => ({
     id: m.id, name: m.name, status: m.kind as Status, textKey: `sprachen.m.${m.id}`, sub: undefined,
-    views: m.views as ("world" | "americas")[],
+    views: m.views as ("world" | "atlantic")[],
     speakers: (m as any).speakers as Speakers | undefined,
     regions: [] as string[],
     whole: false,
@@ -65,7 +65,7 @@ const nameOf = Object.fromEntries(places.map((p) => [p.id, p.name]));
 
 const VIEWS = [
   { id: "world", label: "sprachen.map.world" },
-  { id: "americas", label: "sprachen.map.americas" },
+  { id: "atlantic", label: "sprachen.map.atlantic" },
 ] as const;
 
 // The comparison: the first languages of /culture/mistakes, in that order, with the
@@ -81,28 +81,29 @@ const youKey = (name: string) => compare.find((c) => c.tree === name)?.id;
 const vars = (v: Record<string, unknown>) => JSON.stringify(v);
 ---
 <Layout
-  title="Spanish in the world: a language map – icanspeak Portuguese"
-  description="Where Spanish is spoken, which languages it is related to and how close your first language is to Spanish — with a map, a family tree and a word comparison."
+  title="Portuguese in the world: a language map – icanspeak Portuguese"
+  description="Where Portuguese is spoken, from Portugal and Brazil to Angola, Mozambique and Timor-Leste, which languages it is related to and how close your first language is — with a map, a family tree and a word comparison."
 >
   <div class="uv">
     <SiteNav active="wissen" />
     <main class="uv-main sp" id="sp-page">
       <a href="/knowledge" class="vp-back-link" data-i18n="sprachen.back">{t("sprachen.back")}</a>
 
-      <SectionMascot name="quaki" say="Spanish travels far!" align="center" class="hub-mascot uv-hub-mascot" />
+      <SectionMascot name="quaki" say="O português vai longe!" align="center" class="hub-mascot uv-hub-mascot" />
       <header class="fe-hero">
         <p class="uv-eyebrow" data-i18n="sprachen.eyebrow">{t("sprachen.eyebrow")}</p>
         <h1 data-i18n="sprachen.title">{t("sprachen.title")}</h1>
         <p data-i18n="sprachen.lead">{t("sprachen.lead")}</p>
       </header>
 
-      {/* Instituto Cervantes, 2025, as reported in the press: about 635 m potential speakers, about
-          520 m with native command. 20 states with Spanish as an official or main language; Puerto
-          Rico is counted apart, as a US territory. */}
+      {/* Rounded on purpose (accents-languages report, "to verify"): about 260 m speakers in total
+          (first and second language, the usual figure of Camões I.P. and the CPLP), about four in
+          five of them in Brazil; nine CPLP states with Portuguese as an official language, plus
+          Macau as a co-official language. */}
       <ul class="sp-stats">
-        <li><b>≈ 520 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.native">{t("sprachen.stat.native")}</span></li>
-        <li><b>+ ≈ 115 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.second">{t("sprachen.stat.second")}</span></li>
-        <li><b>20</b><span data-i18n="sprachen.stat.official">{t("sprachen.stat.official")}</span></li>
+        <li><b>≈ 260 <span data-i18n="sprachen.stat.mio">{t("sprachen.stat.mio")}</span></b><span data-i18n="sprachen.stat.native">{t("sprachen.stat.native")}</span></li>
+        <li><b>≈ 80 %</b><span data-i18n="sprachen.stat.second">{t("sprachen.stat.second")}</span></li>
+        <li><b>9</b><span data-i18n="sprachen.stat.official">{t("sprachen.stat.official")}</span></li>
         <li><b data-i18n="sprachen.stat.euN">{t("sprachen.stat.euN")}</b><span data-i18n="sprachen.stat.eu">{t("sprachen.stat.eu")}</span></li>
       </ul>
 
@@ -139,7 +140,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
                     <path class={`sp-c sp-c--${c.status}`} d={k.countries[c.id]} data-place={c.id}
                       tabindex="0" role="button" aria-label={c.name}><title>{c.name}</title></path>
                   ))}
-                  {/* The Spanish-speaking areas of a country, shown when it is selected.
+                  {/* The Portuguese-speaking areas of a country, shown when it is selected.
                       Discs, not borders: a soft mark of where, not a claim of where not. */}
                   {Object.entries(k.regions ?? {}).map(([cid, groups]: [string, any]) => (
                     <g class="sp-rg" data-regions={cid} aria-hidden="true">
@@ -240,7 +241,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
                         <p class="sp-sub-name" data-i18n={`sprachen.tree.${s.id}`}>{t(`sprachen.tree.${s.id}`)}</p>
                         <ul class="sp-langs">
                           {treeLangs(s.langs).map((l: string) => (
-                            <li class:list={["sp-lang", l === "Spanish" && "sp-lang--de"]} data-tree-lang={youKey(l)}>{l}</li>
+                            <li class:list={["sp-lang", l === "Portuguese" && "sp-lang--de"]} data-tree-lang={youKey(l)}>{l}</li>
                           ))}
                         </ul>
                       </div>
@@ -315,7 +316,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
                 <tbody>
                   {c.words.map((w, j) => (
                     <tr class:list={[w[2] && "is-same"]}>
-                      <th scope="row" lang="es">{welt.compareWords[j]}</th>
+                      <th scope="row" lang="pt-PT">{welt.compareWords[j]}</th>
                       <td>
                         <span lang={RTL_LANG[c.id]} dir={c.rtl ? "rtl" : undefined} class="sp-word">{w[0]}</span>
                         {w[1] && <span class="sp-translit">{w[1]}</span>}
@@ -344,14 +345,14 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
       <section class="sp-sec" id="decoder">
         <h2 data-i18n="sprachen.dec.title">{t("sprachen.dec.title")}</h2>
         <p class="sp-sec-lead" data-i18n="sprachen.dec.lead">{t("sprachen.dec.lead")}</p>
-        {/* The way in. The cards below are rules with no sentence around them: "-tion → -ción" means
+        {/* The way in. The cards below are rules with no sentence around them: "-tion → -ção" means
             nothing until someone has watched one word go through it. So first one word does:
-            nation turns into nación in front of you, and three steps say how to use a card. */}
+            nation turns into nação in front of you, and three steps say how to use a card. */}
         <div class="sp-dec-intro">
           <div class="sp-dec-demo" aria-hidden="true">
             <span class="sp-dec-demo-en" lang="en">na<mark>tion</mark></span>
             <span class="sp-dec-demo-arrow">→</span>
-            <span class="sp-dec-demo-de" lang="es">na<mark>ción</mark></span>
+            <span class="sp-dec-demo-de" lang="pt-PT">na<mark>ção</mark></span>
           </div>
           <div class="sp-dec-how">
             <p class="sp-dec-how-title" data-i18n="sprachen.dec.howTitle">{t("sprachen.dec.howTitle")}</p>
@@ -365,9 +366,9 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
         <ul class="sp-dec">
           {welt.decoder.map((d) => (
             <li class="sp-dec-card">
-              <p class="sp-dec-rule"><span lang="en">{d.from}</span><span class="sp-dec-arrow" aria-hidden="true">→</span><span lang="es">{d.to}</span></p>
+              <p class="sp-dec-rule"><span lang="en">{d.from}</span><span class="sp-dec-arrow" aria-hidden="true">→</span><span lang="pt-PT">{d.to}</span></p>
               <ul>
-                {d.pairs.map(([en, es]) => <li><span lang="en">{en}</span><span aria-hidden="true">→</span><b lang="es">{es}</b></li>)}
+                {d.pairs.map(([en, pt]) => <li><span lang="en">{en}</span><span aria-hidden="true">→</span><b lang="pt-PT">{pt}</b></li>)}
               </ul>
             </li>
           ))}
@@ -376,11 +377,11 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
 
         <h3 class="sp-quiz-title" data-i18n="sprachen.dec.quiz">{t("sprachen.dec.quiz")}</h3>
         <ul class="sp-quiz">
-          {welt.decoderQuiz.map(([en, es]) => (
+          {welt.decoderQuiz.map(([en, pt]) => (
             <li>
               <details>
                 <summary><span lang="en">{en}</span> → <span class="sp-quiz-q">?</span><span class="sp-quiz-show" data-i18n="sprachen.dec.show">{t("sprachen.dec.show")}</span></summary>
-                <b lang="es">{es}</b>
+                <b lang="pt-PT">{pt}</b>
               </details>
             </li>
           ))}
@@ -436,7 +437,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
       card?.classList.remove("is-in");
       if (card) { void card.offsetWidth; card.classList.add("is-in"); }
       card?.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => countUp(el));
-      // A place that is only on the other view (Spain, Equatorial Guinea) switches to it.
+      // A place that is only on the other view (Timor-Leste, Macau) switches to it.
       const visible = svgs.find((s) => !s.hasAttribute("hidden"));
       if (current && visible && !visible.querySelector(`[data-place="${current}"]`)) {
         const other = svgs.find((s) => s.querySelector(`[data-place="${current}"]`));
@@ -518,7 +519,7 @@ const vars = (v: Record<string, unknown>) => JSON.stringify(v);
     const fromUrl = new URLSearchParams(location.search).get("lang");
     // No first language set: guess from the language the site is read in. English is the base
     // language and opens when nothing else is known.
-    const BY_UI: Record<string, string> = { en: "englisch", de: "deutsch", fr: "franzoesisch", pt: "portugiesisch", it: "italienisch", ro: "rumaenisch", ar: "arabisch", ru: "russisch", uk: "ukrainisch", zh: "chinesisch" };
+    const BY_UI: Record<string, string> = { en: "englisch", de: "deutsch", fr: "franzoesisch", es: "spanisch", it: "italienisch", ro: "rumaenisch", ar: "arabisch", ru: "russisch", uk: "ukrainisch", zh: "chinesisch" };
     const has = (id: string | null) => !!id && panels.some((p) => p.dataset.cmpPanel === id);
     const start = [fromUrl, getMuttersprache(), BY_UI[getLang()], "englisch"].find(has);
     if (start) choose(start);
