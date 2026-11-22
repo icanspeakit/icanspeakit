@@ -728,7 +728,7 @@ Facts that change (fees, figures, rules) need a source and an "as of" date in th
 | `hoerSafari` (Listening safari) | hear *o/a* + noun, hit the picture; **no pt-PT audio exists**, so the browser voice speaks (pt-PT if installed, else pt-BR with a warning line), and without speech the word is shown at once | `games-arcade` |
 | `buergeramt` (`/games/aima`, `src/data/buergeramt/kunden.json`, `src/lib/buergeramt/*`) | **AIMA and Finanças sim**: desk in the invented town of Vila Soalheira. Days: *Junta de Freguesia* desk (*atestado de residência*: ID, proof of address, two witnesses/signature; "to verify" what is needed), *Finanças* desk (NIF: passport, proof of address/tax representative if non-resident), *Segurança Social* desk (NISS), *centro de saúde* desk (*número de utente*: *atestado de residência*, passport), AIMA appointment desk (*autorização de residência*, renewal: form, passport, photo, proof of address, NIF, NISS, fee payment; form names and fees "to verify"). The player checks **paperwork completeness only**; the nationality route and golden-visa-type requests appear as customers who are referred to information ("this desk doesn't decide that") plus a "general orientation, not legal advice" box. Paper kinds keep their ids (`ausweis` = national ID/passport, `pass` = passport, `meldeschein`/`abmeldung` = application form with boxes, `wgb` = rental contract / proof of address); rule `art: "echt"` = usual Portuguese practice with a source type, `"lindenau"` (value kept) = made-up Vila Soalheira rule. | `aima-sim` |
 | `knigge` (`/games/manners`, `src/lib/knigge/scenes.js`) | manners in Portugal: greetings and *beijinhos*, meal times, *tu / o senhor / a senhora*, the café (*a bica*, *a conta*), neighbours, punctuality, *Dona*; `de` = the Portuguese line, `en` = English meaning; wheel `sie`/`du` = *o senhor/a senhora* / *tu* | `games-dialogue` |
-| Lindenau / Villabruno RPG (`/games/vila-soalheira`, `src/lib/lindenau/*`, `uebersetzungen/lindenau.json`) | **Vila Soalheira**, an invented Portuguese town (working name: `games-dialogue` checks that no real *freguesia* or *município* has it, else picks another and updates this plan): errands at the *pastelaria*, the *estação de comboios*, *centro de saúde*, *mercearia*, new neighbour, *café* | `games-dialogue` |
+| Lindenau / Villabruno RPG (`/games/vila-bruno`, `src/lib/lindenau/*`, `uebersetzungen/lindenau.json`) | **Vila Bruno**, an invented Portuguese town (settled by `games-dialogue`; the working name *Vila Soalheira* was dropped): errands at the *pastelaria*, the *estação de comboios*, *centro de saúde*, *mercearia*, new neighbour, *café* | `games-dialogue` |
 | `/game` (live-quiz join page) | content from the teacher quiz | `teachers` |
 
 ### 5.10 Teachers — `teachers`
@@ -855,7 +855,7 @@ Current (Spanish course) → Portuguese course. No redirects from Spanish-course
 | `/dgt-vocabulary` | `/imt-vocabulary` |
 | `/exams/dele-or-siele` | `/exams/ciple-deple-celpe-bras` |
 | `/games/extranjeria` | `/games/aima` |
-| `/games/villabruno` | `/games/vila-soalheira` (or the name `games-dialogue` settles on) |
+| `/games/villabruno` | `/games/vila-bruno` (town name settled by `games-dialogue`) |
 | `/games/gender-sprint`, `/grammar/reflexive-verbs-list` | kept |
 | grammar topics `/<slug>` | §3 "New slug" (`TOPIC_SLUGS`) |
 | item slugs (listening, reading, writing, speaking, culture, phrases, work groups: `ITEM_SLUGS`, `WORK_GROUP_SLUGS`) | kebab-case of the new English title where it changed (`a2-padron-notice` → `a2-junta-notice`) |
@@ -1043,8 +1043,8 @@ handled by the `ui-*` items where they are rendered.
 - **Brazil mode name:** `BRAZIL_MODE`; JSON key `ptBR`; `showsVos()` hides the *vós* row.
 - **`genus` is unused** in Portuguese; the key stays in the schema.
 - **Gender sprint, Nut night** keep their ids and files; only values change.
-- **Town name** *Vila Soalheira* is a working name: `games-dialogue` checks no real *freguesia* or
-  *município* has it.
+- **Town name**: *Vila Bruno* (settled by `games-dialogue`, replacing the working name *Vila
+  Soalheira*, which is too close to the real freguesia Soalheira, Fundão).
 - **Sector swap** kept from the Spanish course (`elektro-technik` = agriculture, `kita` = cleaning
   and domestic work); `buero` gets the tech/remote-work angle.
 - **Führerschein restore:** only by Edgar, from icanspeak-english `db88ba4~1`, as before.
@@ -1255,7 +1255,8 @@ handled by the `ui-*` items where they are rendered.
   terms.
 - Celpe-Bras: format, levels, validity, price.
 - Frequency list licence and its Brazil bias; Azure pt-PT voice names; Portuguese mobile number
-  placeholder ranges; whether a Portuguese *freguesia/município* is called Vila Soalheira.
+  placeholder ranges; that no Portuguese *freguesia/município* or locality is called Vila Bruno
+  (the town name `games-dialogue` settled on).
 
 ### 13.x `grammar-structure` (2026-11-13): decisions and open points
 
@@ -1363,3 +1364,13 @@ handled by the `ui-*` items where they are rendered.
 - Decision: **Nut night bosses**: 31 Portuguese traps (A1 17, A2 +6, B1 +8), several of them false friends for Spanish speakers (*o leite, o nariz, o sangue, o sal, o costume, a cor, a dor, a árvore, a viagem*). Nine bosses are `lex: false` (*foto, idioma, programa, planeta, sangue, sal, tema, sistema, guarda-chuva*); they have no clip. No boss needs a `ptBR` note (the genders are the same in Brazil).
 - Open: add *foto, idioma, programa, planeta, sangue, sal, tema, sistema, guarda-chuva* and the 16 compounds to the lexicon (A1–B1) in a vocab follow-up; the bosses then get the lexicon check and a clip.
 - Open: Listening safari `game.js` still carries German fallback strings in `t()` calls (`"Los geht's"` …); they never show while en.json has the keys, but `cleanup` can make them English.
+
+### Decisions and open points from `games-dialogue` (2026-11-22)
+
+- Decision: **Manners simulator**: 21 scenes set in Portugal (the *senha* and *Quem é o último?*, *Dona* + first name, *o senhor / a senhora* vs *tu*, *dois beijinhos*, the *couvert* and the *prato do dia*, the NIF (*contribuinte*) on the bill, *imperial / fino*, *stôr*, the *diretora de turma*). The player's right lines never say *obrigado / obrigada* (the player's gender is unknown); `check-knigge` checks it.
+- Decision: **town RPG town name is *Vila Bruno*** (not the working name *Vila Soalheira*): it keeps the Bruno mascot pun of *Villabruno*, and *Soalheira* is a real freguesia (Fundão). The slug stays `/games/villabruno` until `routes` moves it to `/games/vila-bruno`; the internal id `lindenau`, the quest ids and the storage keys stay.
+- Decision: **RPG register**: Bruno uses *tu*; shop staff, the ticket office, the *centro de saúde* and the older neighbour (*Dona Rosa*) use the formal third person; nothing said by or to the player is gendered (no *bem-vindo/a*, *obrigado/a*, *novo/a*; Bruno says *Boas-vindas*). `check-lindenau` now rejects Spanish leftovers and gendered self-descriptions instead of checking ¿ ¡. Platform = *a linha*; *carcaça*, *galão*, *número de utente*, *marcar uma consulta*, *Dói-me a cabeça*, *Fique com o troco*.
+- Decision: the neighbour's learner line is *Sou do Brasil.* (a common immigrant origin, and it teaches *de + o = do*; the why names *Sou de Angola / de Portugal*).
+- Open: no pt-PT clips for the RPG yet (`public/audio/lindenau/` does not exist); the browser voice speaks. `VOICES` names (`pt-PT-DuarteNeural`, `RaquelNeural`, `FernandaNeural`) to verify when the generate script is written.
+- Open: `uebersetzungen/lindenau.json` is empty: help glosses in de/es/fr/it fall back to English until the `ui-lang-*` items fill them (keys = the Portuguese lines).
+- Open: `pt.json` still has the RPG keys (renamed to *Vila Bruno*); it goes with the removal of the Portuguese UI.

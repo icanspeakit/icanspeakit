@@ -832,7 +832,7 @@ const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
  *  no "Alle …" row. */
 const spieleItems = [
   { id: "lindenau", href: "/games/villabruno", icon: "landmark",
-    titleKey: "nav.spiele.lindenau", title: "The Legend of Villabruno",
+    titleKey: "nav.spiele.lindenau", title: "The Legend of Vila Bruno",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
   { id: "hoer-safari", href: "/games/listening-safari", icon: "volume",
