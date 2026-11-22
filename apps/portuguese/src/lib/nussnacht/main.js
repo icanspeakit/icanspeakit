@@ -12,7 +12,7 @@ import { newSeed } from "../artikelSprint/rng.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
 export const TXT = {
-  arts: ["el", "la", "los", "las"],
+  arts: ["o", "a", "os", "as"],
   levelWords: "{n} words",
   go: "Let’s go",
   levelUp: "Level {n}!",
@@ -112,7 +112,7 @@ export function mountNussnacht(root, data) {
     choosing: () => phase === "choice",
     artCount: () => (S?.up.plural > 0 ? 4 : 2),
   });
-  // los and las appear with the Plural popper: A1 and A2 never need them, and two buttons that
+  // os and as appear with the Plural popper: A1 and A2 never need them, and two buttons that
   // can only miss would just be in the way.
   function syncPluralButtons() {
     const on = S?.up.plural > 0;
