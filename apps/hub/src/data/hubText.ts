@@ -1,8 +1,8 @@
-// The hub's interface languages: the same six the courses offer (apps/*/src/lib/languages.js),
+// The hub's interface languages: the same seven the courses offer (apps/*/src/lib/languages.js),
 // in the courses' menu order. The built HTML is English; the page script repaints every
 // [data-i18n] element from HUB_TEXT. The choice is stored under `da_lang`, the key every
 // course app reads (apps/*/src/lib/i18n.js), so a pick here carries over into the courses.
-// Non-English strings are machine drafts (tu/du-form, pt = European Portuguese), not yet read
+// Non-English strings are machine drafts (tu/du/ты-form, pt = European Portuguese), not yet read
 // by a native speaker, as in the courses.
 
 export const HUB_LANGS = [
@@ -12,6 +12,7 @@ export const HUB_LANGS = [
   { code: 'pt', native: 'Português', htmlLang: 'pt-PT' },
   { code: 'fr', native: 'Français', htmlLang: 'fr' },
   { code: 'it', native: 'Italiano', htmlLang: 'it' },
+  { code: 'ru', native: 'Русский', htmlLang: 'ru' },
 ] as const;
 
 export type HubLang = (typeof HUB_LANGS)[number]['code'];
@@ -288,7 +289,52 @@ const it: Dict = {
   'ling.3.title': 'Tutta la linguistica', 'ling.3.tag': 'Inizia qui', 'ling.3.desc': 'Tutto per i curiosi, in un unico posto.',
 };
 
-export const HUB_TEXT: Record<HubLang, Dict> = { en, de, es, pt, fr, it };
+const ru: Dict = {
+  'meta.desc': 'Языковые курсы без рекламы от A1 до C1: сначала английский, затем испанский, французский, португальский и итальянский. А ещё истории слов и тренировка речи для любознательных.',
+  'aria.home': 'icanspeak.it, главная',
+  'aria.main': 'Главное меню',
+  'aria.footer': 'Подвал сайта',
+  'tile.switch': 'Изменить расположение',
+  'tile.turn': 'Перевернуть плитку',
+  'nf.title': 'Страница не найдена — icanspeak.it',
+  'nf.desc': 'Такой страницы на icanspeak.it нет.',
+  'nf.h1': 'Такой страницы нет.',
+  'nf.body': 'Возможно, она переехала, когда icanspeak.it стал домом для языковых курсов. Истории слов и речевые упражнения теперь в разделе «Лингвистика».',
+  'nf.cta': 'Выбрать курс',
+  'nf.ling': 'Перейти в «Лингвистику»',
+  'foot.tag': 'icanspeak.it · языковые курсы без рекламы и истории слов',
+  'meta.title': 'icanspeak.it — учи язык по-настоящему',
+  'lang.label': 'Язык интерфейса',
+  'nav.ling': 'Лингвистика',
+  'hero.eyebrow': 'Языковые курсы',
+  'hero.h1a': 'Учи язык.',
+  'hero.h1b': 'Шаг за шагом.',
+  'hero.lead': 'Полноценные курсы от первых слов до C1: грамматика, лексика, жизненные ситуации и подготовка к экзаменам. Без рекламы и без подвохов.',
+  'cta.choose': 'Выбрать курс',
+  'cta.stories': 'Истории слов',
+  'hero.free': 'Бесплатные упражнения, без регистрации.',
+  'hero.say': 'Я рядом!',
+  'course.soon': 'Скоро',
+  'course.go.english': 'Учить английский →',
+  'course.go.espanol': 'Учить испанский →',
+  'course.go.francais': 'Учить французский →',
+  'course.go.portugues': 'Учить португальский →',
+  'course.go.italiano': 'Учить итальянский →',
+  'course.meta.english': 'От A1 до C1 · грамматика, лексика, экзамены, разговорная речь',
+  'course.meta.espanol': 'Кастильский испанский · DELE и SIELE · жизнь в Испании',
+  'course.meta.francais': 'DELF, DALF и TCF · жизнь во Франции',
+  'course.meta.portugues': 'Европейский португальский · CIPLE · жизнь в Португалии',
+  'course.meta.italiano': 'CILS и CELI · жизнь в Италии',
+  'ling.eyebrow': 'Для любознательных',
+  'ling.title': 'Лингвистика: откуда берутся слова и как устроена речь',
+  'ling.body': 'Истории о происхождении слов, карточки слов и речевые упражнения на артикуляцию, просодию, голос и темп: вся механика того, как на другом языке звучать по-своему.',
+  'ling.0.title': 'Истории слов', 'ling.0.tag': 'Журнал', 'ling.0.desc': 'Откуда пришли слова, рассказано как следует.',
+  'ling.1.title': 'Карточки слов', 'ling.1.tag': 'Понемногу', 'ling.1.desc': 'Переверни карточку и узнай секрет слова.',
+  'ling.2.title': 'Речевые упражнения', 'ling.2.tag': 'Практика', 'ling.2.desc': 'Артикуляция, просодия, голос и темп.',
+  'ling.3.title': 'Вся лингвистика', 'ling.3.tag': 'Начни здесь', 'ling.3.desc': 'Всё для любознательных в одном месте.',
+};
+
+export const HUB_TEXT: Record<HubLang, Dict> = { en, de, es, pt, fr, it, ru };
 
 /** The English text for a key: what the built HTML says. */
 export const tEn = (key: string) => en[key] ?? key;
