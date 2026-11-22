@@ -115,12 +115,12 @@ export function validate(files, known) {
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
         if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
-        if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
+        if (w.genus != null) at(`${where}: genus is not used in Portuguese (the article always shows the gender): drop it`);
         if (w.fem != null && !(["adj", "noun"].includes(w.pos) && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective or noun`);
         // variety / ptBR (legacy es419) (§1.5). A ref inherits both from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [eu present, ele perfeito, particípio]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);

@@ -17,7 +17,7 @@
 //             emit entries whose day has come; a daily deploy hook publishes the next one.
 // In `astro dev`, or with WORTGESCHICHTE_VORSCHAU=1 at build time, both gates are lifted
 // so entries can be reviewed on their real page (noindex, with a draft banner).
-import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, SPANISH_LEVELS, PORTUGUESE_LEVELS } from "./lexicon.js";
+import { all as lexicon, spokenForm, pluralArticle, TRANSLATION_LANGS, PORTUGUESE_LEVELS } from "./lexicon.js";
 import { slugify } from "./audioSlug.js";
 import synonyme from "../data/synonyme.json" with { type: "json" };
 
@@ -97,13 +97,13 @@ export function formsOf(entry) {
     const row = lemma === entry.lemma ? lexiconRow(entry) : rowByLemma(lemma);
     if (!row) continue;
     const parts = [];
-    const spanish = SPANISH_LEVELS.has(row.level) || PORTUGUESE_LEVELS.has(row.level); // Iberian level: article + plural, verb forms
-    if (row.pos === "noun" && spanish) {
-      // la casa · las casas / las gafas (content-plan §1.4: gender = el/la, plural without article)
+    const portuguese = PORTUGUESE_LEVELS.has(row.level); // article + plural, verb forms
+    if (row.pos === "noun" && portuguese) {
+      // a casa · as casas / os óculos (content-plan §1.4: gender = o/a, plural without article)
       parts.push(spokenForm(row));
       if (row.plural && !row.pluralOnly) parts.push(`${pluralArticle(row)} ${row.plural}`);
-    } else if (row.pos === "verb" && spanish && Array.isArray(row.forms) && row.forms.length === 3) {
-      // infinitive · yo present · él indefinido · participle
+    } else if (row.pos === "verb" && portuguese && Array.isArray(row.forms) && row.forms.length === 3) {
+      // infinitive · eu present · ele perfeito · participle
       parts.push(row.lemma, ...row.forms);
     } else if (row.pos === "noun") {
       const g = row.gender ?? (row.pluralOnly ? "die" : null);
@@ -123,12 +123,11 @@ export function formsOf(entry) {
   return lines;
 }
 
-/** The language of the headword: "pt-PT" for a lemma in a Portuguese lexicon level, "es" in a Spanish one. The prose about
+/** The language of the headword: "pt-PT" for a lemma in the lexicon, else "en". The prose about
  *  it is PROSE_LANG. */
 export function entryLang(entry) {
   const row = lexiconRow(entry);
-  if (row && PORTUGUESE_LEVELS.has(row.level)) return "pt-PT";
-  return row && SPANISH_LEVELS.has(row.level) ? "es" : "en";
+  return row && PORTUGUESE_LEVELS.has(row.level) ? "pt-PT" : "en";
 }
 
 /** A meaning in single quotes as the entry's language writes them: ‘…’ / ‚…‘. */
