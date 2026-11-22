@@ -1388,3 +1388,12 @@ handled by the `ui-*` items where they are rendered.
 - Open: `kursinhalte.json` B2 line "Accidental dative: esqueceu-me a carteira" (`beginner-path`) still maps to `irgend`, which is now the future-subjunctive slot; the course plan should say "Future subjunctive: quem quiser, seja qual for" or the rule in `stundenplan.js` should point elsewhere.
 - Open: `lang="es"` is gone from the teacher pages, class tests and live-quiz builder, but stays in many learner pages and components (`cleanup`).
 - Open: `pt.json` holds the new link keys too; they go with the Portuguese UI.
+
+### Decisions and open points from `word-stories` (2026-11-22)
+
+- Done: 30 Portuguese word stories (all A1 except *azeite* A2), all `status: "entwurf"`. The three Spanish stories that were left (*arroz, azul, sábado*) were rewritten in place: their lemma is the same in Portuguese. The other 27 reuse the publishOn dates of the deleted Spanish stories (*aceite → azeite, hablar → falar, coche → comboio, alquiler → renda* …). No Spanish story is left.
+- Decision: the batch is only lemmas that exist in the A1/A2 lexicon (the validator requires it), so several plan words are **not** in it: *chá, laranja, banana, marmelada, açúcar, alface, alfândega, oxalá, guerra, telefone, biombo, caravela, bazar, mandioca, samba, zebra, cachimbo*. The Age of Discovery theme is carried by *pão* (Japanese *pan*), *obrigado* (Japanese *arigatō* is a coincidence), *batata* (Taíno), *comboio* (French) and *futebol* (English). Add those lemmas to the lexicon first, then write a second batch.
+- Decision: sources are English Wiktionary entries (each story's etymology was checked on the page on 2026-11-22) plus the Priberam entry, listed for Edgar to compare; `checkedBy` says so. Infopédia and Machado's *Dicionário Etimológico* were not consulted.
+- Decision: Brazilian differences go into the story text (no pt-BR field in the word-story schema): *trem, cachorro, gol/goleiro, travesseiro, aluguel*.
+- Decision: `WortEntry.astro` shows `o/a/os/as` as the headword article (it only knew `el/la`); `LANG_NAMES` gains `arc`, `xtg`, `frk`, `ko`. Day boundaries (`berlinDate`) stay Europe/Berlin (see the open point from `ui-pages-a-l`).
+- Open: certainty is lower for *bairro, renda, roupa, esquerda* (`wahrscheinlich`) and *trabalho* (`umstritten`); the to-verify list is in reports/word-stories.md.
