@@ -82,9 +82,11 @@ What the steps do:
   1. `../../scripts/nest-dist.mjs dist /portugues` deletes `cf-dist/` and copies `dist/` to
      `cf-dist/portugues/`. Workers static assets look files up by the full request path, and the
      route keeps the `/portugues` prefix, so the files have to sit under `portugues/`.
-  2. `scripts/cf-hoist-headers.mjs` moves `_headers` (and `_redirects`, if there is one) from
+  2. `scripts/cf-hoist-headers.mjs` moves `_headers` and `_redirects` from
      `cf-dist/portugues/` up to `cf-dist/`, because Cloudflare reads them only at the root of
-     the assets folder. Their rule paths already start with `/portugues/`. It then counts the
+     the assets folder. Their rule paths already start with `/portugues/`. `_redirects` is
+     written by the build (`legacy-redirects` integration: about 390 static and 11 dynamic
+     301s from the old English-named course paths to the Portuguese ones). It then counts the
      files in `cf-dist/` and stops with an error above the free plan's 20,000 files per Worker.
   `cf-dist/` is generated and not committed.
 - **`wrangler deploy`** uploads `cf-dist/` and sets the routes from `wrangler.jsonc`.
@@ -92,10 +94,12 @@ What the steps do:
 `pnpm cf:preview` runs `cf:prepare` and then `wrangler dev`, which serves the build the way
 Cloudflare would, at http://localhost:8787/portugues/.
 
-**Size:** the last build (2026-11-22) has **FILECOUNT files** in `dist/` (FILECOUNT_CF in
-`cf-dist/` after `cf:prepare`). The free plan allows 20,000 files per Worker, Workers Paid
-100,000. Most of the files are the practice data in `inhalt/` and the four UI-language copies of
-the entry pages; watch the count when a UI language or a large data set is added.
+**Size:** the last build (2026-11-22, 1,436 routes) has **4,468 files** in `cf-dist/` after
+`cf:prepare` (the same files as `dist/`; `check:base` scans the 2,920 text files among them).
+The free plan allows 20,000 files per Worker, Workers Paid 100,000, so there is room for
+about four times the current size. `cf:prepare` prints the count on every deploy; watch it when a UI language gets full page
+copies or a large data set is added. The spoken vocabulary that DEPLOY.md asks for before go-live (about
+5,000 clips in `public/audio/`) would take it to roughly 9,500, still well under the limit.
 
 **Not deployed yet.** The root `pnpm run deploy` leaves Portuguese out until it launches (see
 DEPLOY.md, "Before a course goes live"): add it there, deploy this Worker, then redeploy the hub,

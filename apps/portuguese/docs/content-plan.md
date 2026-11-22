@@ -1504,3 +1504,11 @@ handled by the `ui-*` items where they are rendered.
 - Open (shared shell): `entry-pages: home hero not found, intro skipped` (4×). The entry-page intro looks for the pre-kit `.fr-page--home` hero, so the de/es/fr/it home intros are not injected. Spanish and Italian show the same warning, so the fix belongs in all courses (match `.h4-hero` / `.egg-stage`).
 - Open (shared shell): check-parity's `initAnalytics("portuguese")` error. Spanish fails it the same way, because the call sits in ConsentBanner.astro.
 - Open: the old home styles (`landing.css`, `front.css`, `m1.css`, `home-fold.css`) and the `home3.*`/`front.*` keys the old home used may now be partly unused. Leave them until `parity`/`cleanup` checks who still imports them.
+
+### Decisions and open points from `deploy-readme` (2026-11-22)
+
+- Done: README rewritten for this course (it still described the Spanish course and a not-yet-set-up deploy): build and checks, the base path, the assets-only Worker on `icanspeak.it/portugues` and `/portugues/*`, `pnpm --filter @icanspeak/portuguese run deploy`, what `cf:prepare` does (nest-dist + hoisting `_headers`/`_redirects`, file count), post-deploy checks, umbrella-site tasks. The route in the README is `/portugues` (see the `sync-monorepo` decision), not the queue text's `/portuguese`.
+- Decision: the hub card for `portugues` is `live: true` now, as the item asks (the Italian queue did the same). DEPLOY.md's order is deploy first, flip second: redeploy the hub only after the Portuguese Worker is up, or the picker links to `/portugues/`, which the hub itself would answer with its 404 until then.
+- Size: 4,468 files in `cf-dist/` (1,436 routes) against the free plan's 20,000 per Worker.
+- Open (outside this app): add `@icanspeak/portuguese` to the root `deploy` script and the DEPLOY.md table row at go-live; this queue may not touch the root.
+- Open: `llms.txt` is 10.8 KB, over the integration's 10 KB soft limit (build warning); trim `SECTIONS` in `src/integrations/llms-txt.mjs`.
