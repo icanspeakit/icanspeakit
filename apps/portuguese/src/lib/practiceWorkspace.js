@@ -115,15 +115,15 @@ let player = null;
 function speak(question, { force = false } = {}) {
   if (!soundOn && !force) return;
   if (!question.audioSrc) {
-    // No recording: the browser's voice, one from Spain first. No speech at all: stay silent, the
+    // No recording: the browser's voice, one from Portugal first (many devices only have pt-BR). No speech at all: stay silent, the
     // answer is on the card anyway.
     if (!question.speak || typeof speechSynthesis === "undefined") return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(question.speak);
-    u.lang = "es-ES";
+    u.lang = "pt-PT";
     u.rate = slowOn ? 0.6 : 0.9;
     const voices = speechSynthesis.getVoices();
-    const v = voices.find((x) => /^es(-|_)ES/i.test(x.lang)) ?? voices.find((x) => /^es(-|_)/i.test(x.lang));
+    const v = voices.find((x) => /^pt(-|_)PT/i.test(x.lang)) ?? voices.find((x) => /^pt(-|_)/i.test(x.lang));
     if (v) u.voice = v;
     speechSynthesis.speak(u);
     return;

@@ -1,8 +1,9 @@
-// The dictation of the articles topic (ArtikelDiktat.astro): hear "la estación", type it, get told
+// The dictation of the articles topic (ArtikelDiktat.astro): hear "a estação", type it, get told
 // exactly what was off (the article, the accent or the spelling) rather than just "wrong".
 //
-// There are no Spanish recordings yet, so the browser's Spanish voice says the words. A browser
-// without speech gets the English meaning instead: the task is then to write the Spanish word.
+// There are no pt-PT recordings yet, so the browser's Portuguese voice says the words (pt-PT first;
+// many devices only have pt-BR). A browser without speech gets the English meaning instead: the
+// task is then to write the Portuguese word.
 //
 // A round is ten nouns, drawn afresh each time. An answer is checked once; the learner then
 // sees the right form, can hear it again, and goes on. Each answer is recorded like any other
@@ -18,8 +19,8 @@ const shuffle = (a) => {
   return a;
 };
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
-/** Without accents and ü, but ñ stays a letter of its own. */
-const plain = (s) => s.toLowerCase().replace(/ñ/g, "\u0001").normalize("NFD").replace(/\p{M}/gu, "").replace(/\u0001/g, "ñ");
+/** Without accents and the cedilla (ç → c): only to tell an accent slip from a spelling mistake. */
+const plain = (s) => s.toLowerCase().normalize("NFD").replace(/\p{M}/gu, "");
 
 /**
  * What was wrong, in the order a teacher would say it. `typed` is split into article and noun on
@@ -34,10 +35,10 @@ export function check(typed, q) {
   if (artLow === q.gender && noun.toLowerCase() === q.lemma.toLowerCase()) return { ok: true, notes: [] };
   const vars = { article: q.gender, said: artLow, word: q.lemma };
   const notes = [];
-  if (!noun) notes.push(t("akd.note.both", "Write the article and the noun, for example “la casa”."));
+  if (!noun) notes.push(t("akd.note.both", "Write the article and the noun, for example “a casa”."));
   else {
-    if (["un", "una", "unos", "unas"].includes(artLow)) notes.push(t("akd.note.indefinite", "You hear the definite article: “{article}”, not “{said}”.", vars));
-    else if (!["el", "la", "los", "las"].includes(artLow)) notes.push(t("akd.note.notArticle", "“{said}” is not an article. It is “{article}”.", vars));
+    if (["um", "uma", "uns", "umas"].includes(artLow)) notes.push(t("akd.note.indefinite", "You hear the definite article: “{article}”, not “{said}”.", vars));
+    else if (!["o", "a", "os", "as"].includes(artLow)) notes.push(t("akd.note.notArticle", "“{said}” is not an article. It is “{article}”.", vars));
     else if (artLow !== q.gender) notes.push(t("akd.note.article", "The article is “{article}”, not “{said}”.", vars));
     const low = noun.toLowerCase();
     if (low !== q.lemma.toLowerCase()) {
@@ -48,17 +49,17 @@ export function check(typed, q) {
   return { ok: false, notes };
 }
 
-/** A Spanish voice, Spain first. False when the browser has no speech at all. */
+/** A Portuguese voice, Portugal first. False when the browser has no speech at all. */
 const canSpeak = () => typeof window !== "undefined" && "speechSynthesis" in window;
 function say(text, slow) {
   if (!canSpeak()) return;
   const synth = window.speechSynthesis;
   synth.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "es-ES";
+  u.lang = "pt-PT";
   u.rate = slow ? 0.6 : 0.9;
   const voices = synth.getVoices();
-  const v = voices.find((x) => /^es(-|_)ES/i.test(x.lang)) ?? voices.find((x) => /^es(-|_)/i.test(x.lang));
+  const v = voices.find((x) => /^pt(-|_)PT/i.test(x.lang)) ?? voices.find((x) => /^pt(-|_)/i.test(x.lang));
   if (v) u.voice = v;
   synth.speak(u);
 }

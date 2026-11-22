@@ -565,7 +565,7 @@ const vocabLevelView = (level) => {
       countKey: "sets.rounds", countVars: { n: parts(words), size: PART_SIZE } });
   }
   if (nouns) {
-    lists.push({ ...levelRow(`el / la · ${level}`, `/articles?niveau=${level}`,
+    lists.push({ ...levelRow(`o / a · ${level}`, `/articles?niveau=${level}`,
       `${ARTIKEL_ROUND} Nomen pro Übung`),
       countKey: "tool.artikel.round", countVars: { n: ARTIKEL_ROUND } });
   }
