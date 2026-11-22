@@ -189,7 +189,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
           aria-disabled={live ? undefined : "true"}
           aria-selected={levelActive(level) ? "true" : "false"}
           aria-controls={live ? `ls-pane-${level}` : undefined}
-          aria-label={`Stufe ${level}`}
+          aria-label={`Level ${level}`}
           data-i18n-attr={`aria-label:sets.levelAria.${level.toLowerCase()}`}
         >
           <span class="nvb-railbadge">{level}</span>

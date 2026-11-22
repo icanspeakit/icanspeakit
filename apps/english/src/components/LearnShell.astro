@@ -919,7 +919,7 @@ const defaultVariant = variants[0];
                     <span>
                       <span class="nv-modname" data-i18n={item.id === "grammatik-basis" ? undefined : item.labelKey}>{item.label}</span><br />
                       {rowMeta(item) && item.id !== "grammatik-basis"
-                        ? <span class="nv-modmeta" data-i18n={rowMeta(item)!.key} data-i18n-vars={vars(rowMeta(item)!.vars)}>{item.level} · {item.tasks} Aufgaben · ca. {item.minutes} Min.</span>
+                        ? <span class="nv-modmeta" data-i18n={rowMeta(item)!.key} data-i18n-vars={vars(rowMeta(item)!.vars)}>{item.level} · {item.tasks} tasks · approx. {item.minutes} min</span>
                         : <span class="nv-modmeta" data-i18n={item.tasks && !item.minutes && item.id !== "grammatik-basis" ? "fortschritt.row.metaTasks" : undefined} data-i18n-vars={vars({ level: item.level, n: item.tasks })}>
                             {item.level}
                             {item.tasks ? ` · ${item.tasks} Aufgaben` : ""}
@@ -1180,7 +1180,7 @@ import { currentPath } from "../lib/paths.js";
       return it?.labelKey ? t(it.labelKey, it.label) : it?.label ?? "";
     };
     const rowMetaText = (level: string, n: number, m: number) =>
-      t("fortschritt.row.meta", "{level} · {n} Aufgaben · ca. {m} Min.", { level, n, m });
+      t("fortschritt.row.meta", "{level} · {n} tasks · approx. {m} min", { level, n, m });
 
     // Move the grammar module onto whichever portion is now current. Called from
     // repaint, so finishing one hands over the next without a reload.
