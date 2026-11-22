@@ -32,12 +32,12 @@ const HOLD_EXTRA_MS = 2000;
 // wrongFlow, right answer: long enough for Bruno to pop up (a 0.5 s hop) and stay a moment.
 const CORRECT_ADVANCE_DELAY_WRONGFLOW_MS = 1050;
 
-/* The article in its colour, for the noun shown in full after a wrong answer: el and la take the
-   site's two gender colours. */
-const ARTICLE_COLOUR = { el: "der", la: "die" };
+/* The article in its colour, for the noun shown in full after a wrong answer: o and a (os, as)
+   take the site's two gender colours. */
+const ARTICLE_COLOUR = { o: "der", a: "die", os: "der", as: "die" };
 function articleHtml(q) {
   const cls = ARTICLE_COLOUR[q.answer] ?? "";
-  return `<b class="akk-art${cls ? ` akk-art--${cls}` : ""}" lang="es">${q.answer}</b>`;
+  return `<b class="akk-art${cls ? ` akk-art--${cls}` : ""}" lang="pt-PT">${q.answer}</b>`;
 }
 
 function sentenceHtml(prompt) {
@@ -495,7 +495,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             // The noun in full once the answer is out, its article in colour: „die Dividende".
             // One LTR span: the sentence is a flex row, which an Arabic UI would reverse
             // into „Dividende die".
-            ? `<span dir="ltr" lang="es">${q.prompt.replace("___", articleHtml(q))}</span>`
+            ? `<span dir="ltr" lang="pt-PT">${q.prompt.replace("___", articleHtml(q))}</span>`
             : sentenceHtml(q.prompt)}${hearHtml(q, { slow: true })}</p>
           <div class="akk-pills">
             ${q.options

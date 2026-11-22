@@ -7,12 +7,12 @@ import { reducedMotion } from "../spieleEinstellungen.js";
 
 const CAM_D = 9;
 // Masculine articles blue, feminine red (the theme keys keep their old names: der = blue,
-// die = red), the same as the Wortschatz. "el agua" shows EL in blue: the box is the article.
-const ART = { EL: "der", LOS: "der", LA: "die", LAS: "die" };
+// die = red), the same as the Wortschatz. UM (the five-lane decoy) stays neutral.
+const ART = { O: "der", OS: "der", A: "die", AS: "die" };
 // The trap box of the five-lane road (LO) and anything else without an article colour.
 const NEUTRAL_BOX = "#64748b";
 
-/** Colours from the site's tokens, so the gates use the same el/la hues as the Wortschatz. */
+/** Colours from the site's tokens, so the gates use the same o/a hues as the Wortschatz. */
 export function readTheme(el) {
   const cs = getComputedStyle(el);
   const v = (n, f) => cs.getPropertyValue(n).trim() || f;
