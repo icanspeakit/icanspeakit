@@ -75,7 +75,7 @@ export const SECTION_PAGES: Record<string, string> = {
   "/dele": "DELE",
   "/nationality/ciple-a2": "CIPLE A2 for residence and nationality",
   "/siele": "SIELE",
-  "/spanish-for-work": "Spanish for work",
+  "/spanish-for-work": "Portuguese for work",
   "/civics": "Civics",
   "/nationality": "Residence and nationality",
   "/knowledge": "Knowledge base",

@@ -1,5 +1,5 @@
 ---
-// /spanish-for-work: Spanish for work (content-plan §5.12). One card per sector;
+// /spanish-for-work: Portuguese for work (content-plan §5.12; the slug is renamed by `routes`). One card per sector;
 // the word count is derived from the deck at build time, never typed. A profession whose deck
 // is still empty shows as „kommt bald“ without a link, so no thin page is built for it.
 import Layout from "../../layouts/Layout.astro";
@@ -27,8 +27,8 @@ const cards = BERUFE.map((b) => {
 const total = cards.reduce((s, c) => s + c.n, 0);
 ---
 <Layout
-  title="Spanish for work – workplace vocabulary – icanspeak Portuguese"
-  description="Workplace Spanish for care work, hospitality, cleaning, farm work, construction, shops, warehouses, driving, hotels and offices: words with example sentences and translations, free."
+  title="Portuguese for work – workplace vocabulary – icanspeak Portuguese"
+  description="European Portuguese for work in Portugal: care work, hospitality, cleaning, farm work, construction, shops, warehouses, driving and delivery, hotels and offices. Words with example sentences and translations, free."
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide">
@@ -58,7 +58,7 @@ const total = cards.reduce((s, c) => s + c.n, 0);
                   <b>{c.deck?.title ?? c.slug}</b>
                 </span>
                 <i>{c.deck?.introEasy}</i>
-                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="es">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
+                {c.deck?.jobs?.length > 0 && <span class="bv-pcard-jobs" lang="pt-PT">{c.deck.jobs.slice(0, 3).join(" · ")}</span>}
                 {c.n > 0
                   ? <span class="bv-card-meta" data-i18n="sets.wordCount" data-i18n-vars={v({ n: c.n })}>{c.n} Wörter</span>
                   : <span class="bv-card-meta" data-i18n="berufe.card.soon">Kommt bald</span>}

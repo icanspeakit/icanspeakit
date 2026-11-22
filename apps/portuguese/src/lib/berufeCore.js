@@ -1,4 +1,4 @@
-// Spanish for work: the sector decks (docs/content-plan.md §5.12).
+// Portuguese for work: the sector decks (docs/content-plan.md §5.12).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-berufe.mjs) and the pages
 // share one set of rules. The pages load the files through src/lib/berufeWortschatz.js.
@@ -12,7 +12,7 @@ import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
 
-/** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
+/** The ten sectors, in hub order: where newcomers to Portugal most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
  *  `emoji` is the OpenMoji on the hub card. */
 export const BERUFE = [
@@ -43,7 +43,8 @@ export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
 /** The article as the learner says it: o/a, o/a for common-gender person nouns (content-plan §1.4).
- *  The Spanish el/la/el/la stay accepted until `portuguese-for-work` and `imt-vocab` have converted the decks. */
+ *  The ten sector decks and the IMT deck are Portuguese; the Spanish el/la/el/la stay accepted only
+ *  for the Business Spanish units until `business-portuguese` converts them (`cleanup` drops them). */
 export const GENDERS = ["o", "a", "o/a", "el", "la", "el/la"];
 
 /** `bv-gastronomie-schneidebrett` */

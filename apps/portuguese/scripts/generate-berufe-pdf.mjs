@@ -1,4 +1,4 @@
-// Builds the downloadable word lists for Spanish for work: one PDF per sector deck, grouped like
+// Builds the downloadable word lists for Portuguese for work: one PDF per sector deck, grouped like
 // the deck, with article and plural folded into the word, the English meaning and the example.
 //
 //   pnpm generate:berufe-pdf
@@ -70,12 +70,12 @@ async function build(deck, lang = null) {
   const outPath = path.join(outDir, fileName);
   const pdf = createDoc({
     outPath,
-    runningHead: `ICANSPEAK PORTUGUESE · SPANISH FOR WORK${ed ? ` · SPANISH–${ed.column.toUpperCase()}` : ""}`,
+    runningHead: `ICANSPEAK PORTUGUESE · PORTUGUESE FOR WORK${ed ? ` · PORTUGUESE–${ed.column.toUpperCase()}` : ""}`,
     unicode: true,
     script: lang ? languageOf(lang)?.script : null,
   });
   pdf.cover({
-    eyebrow: ed ? `SPANISH FOR WORK · SPANISH–${ed.column.toUpperCase()}` : "ICANSPEAK PORTUGUESE · SPANISH FOR WORK",
+    eyebrow: ed ? `PORTUGUESE FOR WORK · PORTUGUESE–${ed.column.toUpperCase()}` : "ICANSPEAK PORTUGUESE · PORTUGUESE FOR WORK",
     art: art.mascot.words,
     title: deck.title,
     // No subtitle: the cover band is a fixed 210pt, and a two-line profession title next to
@@ -97,7 +97,7 @@ async function build(deck, lang = null) {
   pdf.doc.addPage();
   // The tips in Regi's box, the one place a learner should not skip.
   if (deck.tipps?.length) {
-    pdf.h2("Tips for Spanish at work", { icon: art.icon.note, keep: 60 });
+    pdf.h2("Tips for Portuguese at work", { icon: art.icon.note, keep: 60 });
     for (const t of deck.tipps) pdf.tip(t, { art: art.mascot.idea });
   }
   for (const g of groups) {
