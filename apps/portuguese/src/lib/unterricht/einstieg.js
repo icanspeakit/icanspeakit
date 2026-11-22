@@ -19,10 +19,10 @@ export function bigQuestion(text) {
 }
 
 const BILD = {
-  fragen: ["¿Quién está en la foto?", "¿Dónde están las personas?", "¿Qué hacen o qué dicen?"],
-  redemittel: ["Veo …", "En la foto hay …", "Creo que dicen: «…»"],
+  fragen: ["Quem está na fotografia?", "Onde estão as pessoas?", "O que estão a fazer ou a dizer?"],
+  redemittel: ["Vejo …", "Na fotografia há …", "Acho que estão a dizer: «…»"],
 };
-const WORTIGEL = { redemittel: ["Pienso en …", "La palabra … va bien con el tema.", "En mi idioma se dice …"] };
+const WORTIGEL = { redemittel: ["Penso em …", "A palavra … tem a ver com o tema.", "Na minha língua diz-se …"] };
 
 /**
  * @param {{ phase: { text: string }, lesson: object, prev: object | null, block: object,
@@ -39,7 +39,7 @@ export function einstiegInhalt({ phase, lesson, prev, block, bild, themen, links
       kind: "wiederholung",
       titel: "Explain to each other:",
       karten: links.map((l) => { const t = topic(l); return { name: t.name, beispiel: t.ex[0] ?? null }; }),
-      redemittel: ["Usamos … cuando …", "Por ejemplo: …", "Mi frase: …"],
+      redemittel: ["Usamos … quando …", "Por exemplo: …", "A minha frase: …"],
       bild: null,
     };
   }
