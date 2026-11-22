@@ -28,7 +28,7 @@ export const CERTAINTY = ["sicher", "wahrscheinlich", "umstritten", "unklar"];
  *  marked as unrelated so it cannot be read as a cognate. */
 export const KINDS = ["verwandt", "entlehnt", "zufall", "parallele"];
 
-/** The language stories are written in: a Spanish word, explained in English (content-plan §5.13). */
+/** The language stories are written in: a Portuguese word, explained in English (content-plan §5.13). */
 export const PROSE_LANG = "en";
 
 /** Language names as the page prints them. */
@@ -43,6 +43,7 @@ export const LANG_NAMES = {
   is: "Icelandic", no: "Norwegian", ga: "Irish", cy: "Welsh", bg: "Bulgarian", sr: "Serbian",
   hr: "Croatian", sk: "Slovak", goh: "Old High German", ja: "Japanese", zh: "Chinese",
   nan: "Hokkien", nah: "Nahuatl", tnq: "Taíno", fy: "West Frisian", dum: "Middle Dutch",
+  arc: "Aramaic", xtg: "Gaulish", frk: "Frankish", ko: "Korean",
 };
 export const RTL = new Set(["ar", "fa", "he"]);
 
@@ -146,7 +147,7 @@ export function glossesOf(entry) {
   return Object.fromEntries(TRANSLATION_LANGS.filter((l) => row[l]).map((l) => [l, row[l]]));
 }
 
-const bare = (w) => String(w).replace(/^(der|die|das|a|an|some|el|la|los|las)\s+/i, "");
+const bare = (w) => String(w).replace(/^(der|die|das|a|an|some|o|os|as|el|la|los|las)\s+/i, "");
 
 /**
  * Synonyms: the entry's own list first (it may carry a note: „umgangssprachlich"), then
