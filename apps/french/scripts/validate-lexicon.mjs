@@ -1,4 +1,5 @@
-// Validates src/content/lexicon/*.json against the rules in docs/wortschatz-programm-v1.md.
+// Validates src/content/lexicon/*.json against the rules in docs/wortschatz-programm-v1.md and,
+// for the French levels, docs/content-plan.md §1.4 (articles, genus, hAspire, aux, IPA).
 // Plain JS, no schema library — package.json deliberately carries only `astro` at runtime.
 //   node scripts/validate-lexicon.mjs
 // Exits non-zero on any error, so it can gate a build or a commit hook.
@@ -7,18 +8,20 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { slugify } from "../src/lib/audioSlug.js";
 import { varietyProblems } from "../src/lib/variety.js";
+import { genderProblems } from "../src/lib/articles.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
-// el / la, and el/la for common-gender person nouns (docs/content-plan.md §1.4).
-const GENDERS = ["el", "la", "el/la"];
-// genus (§1.4): only "f", only where the article hides the gender (el agua, el aula).
-const GENUS = ["f"];
+// gender, genus, hAspire (docs/content-plan.md §1.4): le / la / l' / les / le/la, genus where the
+// article hides the gender, the h aspiré rule. The Spanish values (el / el/la) are errors since
+// `cleanup`. Rules: genderProblems() in
+// src/lib/articles.js, shared with src/lib/berufeCore.js.
 const CASES = ["akk", "dat", "gen", "akk/dat"];
-const AUX = ["haben", "sein"];
+// avoir / être / both (monter, sortir, passer) for French; haben / sein are old German values.
+const AUX = ["avoir", "être", "both", "haben", "sein"];
 
 // §4 taxonomy. A word may only carry topics listed here, so a typo can't silently create
 // a topic that no deck will ever select.
@@ -90,28 +93,37 @@ for (const level of LEVELS) {
       else seenIds.set(id, where);
 
       if (w.pos === "noun") {
-        if (!w.gender && !w.pluralOnly) err(where, "noun without gender (set pluralOnly for Eltern/Ferien)");
-        if (w.gender && !GENDERS.includes(w.gender)) err(where, `bad gender "${w.gender}"`);
+        if (!w.gender && !w.pluralOnly) err(where, "noun without gender (plural-only nouns: gender les, pluralOnly, genus)");
         if (!w.plural && !w.pluralOnly && !w.example) warnings.push(`${where}: no plural (uncountable?)`);
       }
       if (w.pos === "verb") {
         if (w.aux && !AUX.includes(w.aux)) err(where, `bad aux "${w.aux}"`);
         if (w.forms && w.forms.length !== 3) {
-          err(where, `forms must be [3rd sg, past / Präteritum, past participle / Partizip II], got ${w.forms.length}`);
+          err(where, `forms must be [je présent, il passé composé, participe passé], got ${w.forms.length}`);
         }
         if (w.separable && w.forms && !w.forms[0].includes(" ")) {
           err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);
         }
       }
-      if (w.genus != null) {
-        if (!GENUS.includes(w.genus)) err(where, `bad genus "${w.genus}" — only "f" (el agua, el aula)`);
-        else if (w.pos !== "noun" || w.gender !== "el") err(where, `genus "f" only on nouns with gender "el" (stressed a-/ha-)`);
+      // French words (content-plan §1.4): a verb shows its auxiliary, a reflexive verb carries its
+      // pronoun in the lemma, French IPA has no stress marks.
+      if (w.variety === "fr-FR") {
+        if (w.pos === "verb" && !["avoir", "être", "both"].includes(w.aux)) err(where, `a French verb needs aux avoir, être or both`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3)) err(where, "a French verb needs forms [je présent, il passé composé, participe passé]");
+        if (w.reflexive && !/^(se |s')/.test(w.lemma)) err(where, "reflexive: the lemma carries its pronoun (se lever, s'appeler)");
+        if (w.pos === "verb" && /^(se |s')/.test(w.lemma) && !w.reflexive) err(where, "a lemma with se / s' needs reflexive: true");
+        if (typeof w.ipa === "string" && /[ˈˌ]/.test(w.ipa)) err(where, `French IPA has no stress marks: ${w.ipa}`);
+        if (w.pos === "adj" && !w.fem) err(where, "a French adjective needs fem (same as the lemma when it doesn't change: jeune)");
       }
+      if (w.pos === "noun") for (const p of genderProblems(w)) err(where, p);
+      else if (w.gender != null || w.genus != null || w.hAspire != null) err(where, "gender, genus and hAspire only on nouns");
+      if (w.mascVowel != null && (w.pos !== "adj" || typeof w.mascVowel !== "string" || !w.mascVowel.trim())) err(where, "mascVowel (bel, vieil, nouvel) only on adjectives, a non-empty string");
+      if (w.rectified != null && (typeof w.rectified !== "string" || !w.rectified.trim() || w.rectified === w.lemma)) err(where, "rectified: the 1990 spelling when it differs from the lemma");
       if (w.fem != null) {
         if (w.pos !== "adj") err(where, "fem (feminine form) only on adjectives");
         else if (typeof w.fem !== "string" || !w.fem.trim()) err(where, "empty fem — omit the field instead");
       }
-      // variety / es419 (§1.5); scripts/check-variety.mjs checks coverage.
+      // variety / frCA / regional (§1.5; an es419 note is an error); check-variety.mjs checks coverage.
       for (const p of varietyProblems(w, { noun: w.pos === "noun" })) err(where, p);
       if (w.case && !CASES.includes(w.case)) err(where, `bad case "${w.case}"`);
       if (w.en == null) err(where, "missing English gloss");

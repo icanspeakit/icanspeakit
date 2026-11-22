@@ -33,7 +33,7 @@ const minutes = tasks.reduce((n, t) => n + t.minutes, 0);
     </div>
 
     {groups.map((g) => (
-      <section class="sk-group" id={`niveau-${g.level.toLowerCase()}`}>
+      <section class="sk-group" id={`level-${g.level.toLowerCase()}`}>
         <h2 class="sk-group-title">
           <span class="sk-badge">{g.level}</span>
           <span data-i18n={blurbOf[g.level]?.blurbKey}>{blurbOf[g.level]?.blurb}</span>

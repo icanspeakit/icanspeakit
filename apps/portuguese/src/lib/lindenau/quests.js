@@ -1,4 +1,4 @@
-// "The Legend of Vila Bruno" (/games/vila-bruno; internal id:
+// "The Legend of Vila Bruno" (/jogos/vila-bruno; internal id:
 // lindenau): who stands where and what they say. One quest per person, A1, everyday errands in
 // Vila Bruno, an invented Portuguese town (no real freguesia or município has the name; checked
 // by games-dialogue, 2026-11-22). The Portuguese is the content (npc / de, European Portuguese);

@@ -1,4 +1,4 @@
-// The Wissensdatenbank's catalogue, joined to what is actually on disk.
+// The /conocimientos catalogue, joined to what is actually on disk.
 //
 // src/data/downloads.json says what a file IS — title, level, category, who wrote it. The
 // generators say how BIG it is and how many pages it has, in public/downloads/manifest.json.
@@ -6,16 +6,19 @@
 // hand-maintaining in a catalogue, and it goes stale the first time a generator runs.
 //
 // A catalogue entry whose file is missing is dropped rather than rendered as a dead link —
-// the Fakten PDFs are committed, but someone cloning the repo before running the generators
-// would otherwise get a page full of 404s.
+// someone cloning the repo before running the generators (pnpm generate:pdfs) would otherwise
+// get a page full of 404s.
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import catalogue from "../data/downloads.json";
 import { grammarTopics } from "./catalog.js";
 import { lernsets } from "./lernsets.js";
 import themenTr from "../data/uebersetzungen/grammatik-themen.json";
-import { langsFor, languagesFor, languageOf } from "./languages.js";
+import { langsFor, languageOf } from "./languages.js";
 import startBook from "../data/grammatik-start/en.json";
+import { orderOf } from "./grammatikOrder.js";
+
+const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 const DIR = path.join(process.cwd(), "public", "downloads");
 
@@ -29,10 +32,10 @@ const manifest = (() => {
   }
 })();
 
-/** "1,2 MB" / "214 KB" — German decimal comma, because the whole page is German. */
+/** "1.2 MB" / "214 KB". */
 export function formatSize(bytes) {
   if (!bytes) return null;
-  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1).replace(".", ",")} MB`;
+  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
   return `${Math.round(bytes / 1024)} KB`;
 }
 
@@ -41,22 +44,18 @@ function fileInfo(file) {
   if (!existsSync(abs)) return null;
   const meta = manifest[file] ?? {};
   const bytes = meta.bytes ?? statSync(abs).size;
-  return { href: `/downloads/${file}`, pages: meta.pages ?? null, bytes, size: formatSize(bytes) };
+  return { file, href: `/downloads/${file}`, pages: meta.pages ?? null, bytes, size: formatSize(bytes) };
 }
 
-/* The translated editions of a file: a Wortliste with the learner's own language in place
-   of the English column (generate-wortschatz-pdf.mjs), a Grammatik book with every rule
-   explained in it as well (generate-grammatik-pdf.mjs). Found on disk by
-   name rather than listed in the catalogue — the generator skips a level whose
-   translations are incomplete, and a catalogue entry would promise that file anyway.
-   Labels are each language's own name: the reader looking for it reads that language. */
-const edition = (l) => ({ lang: l.code, label: l.native, ...(l.dir === "rtl" ? { rtl: true } : {}) });
-const EDITIONS = languagesFor("cards", { fetched: true }).map(edition);
-/* A book with its own list (`editions` in the catalogue: Grammatik-Start comes in eleven
-   languages, more than the flashcards have) is looked up in that list instead. */
+/* The editions of a book with the explanations in another language (Grammar Start:
+   gramatica-espanola-inicio-<code>.pdf, generate-grammatik-start-pdf.mjs). Listed in the
+   catalogue (`editions`), found on disk by name: the generator only writes a language whose
+   translation file is written. Labels are each language's own name. */
+const edition = (l) => ({ lang: l.code, hreflang: l.hreflang ?? l.code, label: l.native, ...(l.dir === "rtl" ? { rtl: true } : {}) });
 function editionsOf(entry) {
+  if (!entry.editions) return [];
   const base = entry.file.replace(/\.pdf$/, "");
-  const list = entry.editions ? entry.editions.map((c) => languageOf(c)).filter(Boolean).map(edition) : EDITIONS;
+  const list = entry.editions.map((c) => languageOf(c)).filter(Boolean).map(edition);
   return list.map((e) => {
     const info = fileInfo(`${base}-${e.lang}.pdf`);
     return info && { ...e, ...info };
@@ -69,13 +68,11 @@ function hydrate(entry) {
   return { ...entry, ...info, editions: editionsOf(entry) };
 }
 
-/* The contents lines in the learner's language. The books are German and so is every line
-   of their contents — that is what the reader will find printed — but a learner choosing
-   between "Adjektivdeklination" and "Konjugation" cannot pick the book that does not read
-   German yet. So each line can carry its translations, and the page shows the one for the
-   interface language under the German (CSS only, see .wi-toc-tr in wissen.css).
+/* The contents lines in the learner's language. A line is what the book prints (English
+   topic names), and can carry its translations; the page shows the one for the interface
+   language under it (CSS only, see .wi-toc-tr in wissen.css).
    Sources: grammar topic names (uebersetzungen/grammatik-themen.json), set names (the same
-   ws.set.* strings the Wortschatz picker uses). */
+   ws.set.* strings the vocabulary picker uses). */
 const TR_LANGS = langsFor("help");
 const uiDicts = Object.fromEntries(TR_LANGS.map((l) => {
   try {
@@ -99,7 +96,7 @@ const setTr = (id) => pick((l) => uiDicts[l][`ws.set.${id}`]);
 // typed into the catalogue, where it would drift the first time a topic is added.
 // The download page shows this before the file is fetched: a 210 KB PDF that turns
 // out to be the wrong level is a wasted download on a phone plan.
-// Grammatik-Start's chapter titles in the help languages, from the book's own translations.
+// Grammar Start's chapter titles in the help languages, from the book's own translations.
 const startTr = Object.fromEntries(TR_LANGS.map((l) => {
   try {
     const book = JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "grammatik-start", `${l}.json`), "utf8"));
@@ -109,44 +106,82 @@ const startTr = Object.fromEntries(TR_LANGS.map((l) => {
   }
 }));
 
+/** The levels a range like "A1–C1" spans; a single level gives itself. */
+function levelsOf(range) {
+  const [x, y = x] = String(range).split(/[–-]/);
+  const i = LEVELS.indexOf(x);
+  const j = LEVELS.indexOf(y);
+  return i < 0 || j < 0 ? [] : LEVELS.slice(i, j + 1);
+}
+
+// The reference lists: catalogue id → file in src/data/nachschlagen (the page /gramatica/<slug>).
+const REF_FILES = {
+  "verbos-irregulares": "starke-schwache-verben",
+  "lista-de-verbos-reflexivos": "trennbare-verben",
+  "verbos-con-preposiciones": "verben-mit-praepositionen",
+};
+const refData = Object.fromEntries(Object.entries(REF_FILES).map(([id, f]) => {
+  try {
+    return [id, JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "nachschlagen", `${f}.json`), "utf8"))];
+  } catch {
+    return [id, null];
+  }
+}));
+const conjugation = (() => {
+  try {
+    return JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "verbtabellen.json"), "utf8"));
+  } catch {
+    return null;
+  }
+})();
+
 function contentsOf(entry) {
-  if (entry.id === "grammatik-start") {
+  if (entry.id === "gramatica-inicio") {
     return {
-      label: "10 Kapitel",
+      label: `${startBook.chapters.length} chapters`,
       labelKey: "wissen.toc.chapters", labelVars: { n: startBook.chapters.length },
       items: startBook.chapters.map((c) => `${c.level} · ${c.titleDe}`),
       itemTr: startBook.chapters.map((c) => pick((l) => startTr[l]?.chapters?.[c.id]?.title)),
     };
   }
-  if (entry.category === "grammatik") {
-    const level = entry.level === "A1–B2" ? null : entry.level;
-    const topics = grammarTopics.filter((t) => !level || t.level === level);
+  if (entry.category === "gramatica") {
+    const levels = levelsOf(entry.level);
+    const many = levels.length > 1;
+    const topics = grammarTopics
+      .filter((t) => levels.includes(t.level))
+      .sort((x, y) => levels.indexOf(x.level) - levels.indexOf(y.level) || orderOf(x) - orderOf(y));
     return {
-      label: level ? "Themen in diesem Band" : "Alle 27 Themen, nach Niveau",
-      labelKey: level ? "wissen.toc.topicsInBand" : "wissen.toc.allTopics",
-      items: topics.map((t) => (level ? t.name : `${t.level} · ${t.name}`)),
+      label: many ? `All ${topics.length} topics, by level` : `${topics.length} topics in this book`,
+      labelKey: many ? "wissen.toc.allTopics" : "wissen.toc.topicsInBand", labelVars: { n: topics.length },
+      items: topics.map((t) => (many ? `${t.level} · ${t.name}` : t.name)),
       itemTr: topics.map((t) => topicTr(t.id)),
     };
   }
-  if (entry.category === "wortschatz") {
-    // The A1–B2 book holds every level's sets; name the level in front of each.
-    if (entry.level === "A1–B2") {
-      const sets = ["A1", "A2", "B1", "B2"].flatMap((l) => lernsets({ level: l, status: "built" }).map((s) => ({ ...s, l })));
-      return {
-        label: `${sets.length} Lernsets`,
-        labelKey: "wissen.toc.sets", labelVars: { n: sets.length },
-        items: sets.map((s) => `${s.l} · ${s.title} · ${s.words} Wörter`),
-        itemTr: sets.map((s) => setTr(s.id)),
-      };
-    }
+  if (entry.category === "vocabulario") {
     const sets = lernsets({ level: entry.level, status: "built" });
     return {
-      label: `${sets.length} Lernsets`,
+      label: `${sets.length} learning sets`,
       labelKey: "wissen.toc.sets", labelVars: { n: sets.length },
-      items: sets.map((s) => `${s.title} · ${s.words} Wörter`),
-      // The set's name stays German (it is what the PDF prints); the count follows the UI.
+      items: sets.map((s) => `${s.title} · ${s.words} words`),
       itemKeys: sets.map((s) => ({ key: "wissen.toc.setRow", vars: { title: s.title, n: s.words } })),
       itemTr: sets.map((s) => setTr(s.id)),
+    };
+  }
+  if (entry.id === "conjugacion" && conjugation) {
+    const n = conjugation.groups.length;
+    return {
+      label: `${n} groups`,
+      labelKey: "wissen.toc.groups", labelVars: { n },
+      items: conjugation.groups.map((g) => `${g.name} · ${conjugation.verbs.filter((v) => v.group === g.id).length}`),
+    };
+  }
+  if (entry.category === "listas") {
+    const data = refData[entry.id];
+    if (!data) return null;
+    return {
+      label: `${data.sections.length} groups`,
+      labelKey: "wissen.toc.groups", labelVars: { n: data.sections.length },
+      items: data.sections.map((s) => `${s.name} · ${s.items.filter(Array.isArray).length}`),
     };
   }
   return null;
@@ -179,12 +214,21 @@ export const categories = catalogue.categories
   .filter((c) => c.items.length || c.external.length);
 
 export const links = catalogue.links;
+export const faq = catalogue.faq ?? [];
 export const rightsNote = catalogue.rightsNote;
 export const rights = catalogue.rights;
 
-// Every file on offer.
+// Every file on offer: each language edition counts, not just the card.
+const everyFile = all.flatMap((f) => [f, ...f.editions]);
 export const totals = {
-  files: all.length,
-  pages: all.reduce((n, f) => n + (f.pages ?? 0), 0),
-  bytes: all.reduce((n, f) => n + f.bytes, 0),
+  files: everyFile.length,
+  pages: everyFile.reduce((n, f) => n + (f.pages ?? 0), 0),
+  bytes: everyFile.reduce((n, f) => n + f.bytes, 0),
 };
+
+/** The level range the files cover, from the files themselves: "A1–C2". */
+export const levelRange = (() => {
+  const ls = all.flatMap((f) => levelsOf(f.level));
+  const sorted = LEVELS.filter((l) => ls.includes(l));
+  return sorted.length ? `${sorted[0]}–${sorted.at(-1)}` : "";
+})();

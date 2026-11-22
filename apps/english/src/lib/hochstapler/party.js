@@ -196,7 +196,7 @@ export function mountParty(root) {
   function passTo(i) {
     const p = g.players[i];
     g.round.seen = i;
-    $("[data-pass-av]").src = avatarSrc(p.avatar) ?? "";
+    $("[data-pass-av]").src = withBase(avatarSrc(p.avatar) ?? "");
     $("[data-pass-to]").textContent = tx("passTo", { name: p.name });
     $("[data-pass-only]").textContent = tx("passOnly", { name: p.name });
     const go = $("[data-pass-go]");
@@ -248,7 +248,7 @@ export function mountParty(root) {
       const q = playerOf(id);
       return `<li class="${i < turn ? "is-done" : i === turn ? "is-now" : ""}" title="${esc(q.name)}">${avImg(q, "hst-av hst-av--s")}</li>`;
     }).join("");
-    $("[data-turn-av]").src = avatarSrc(p.avatar) ?? "";
+    $("[data-turn-av]").src = withBase(avatarSrc(p.avatar) ?? "");
     $("[data-turn-name]").textContent = tx("turnOf", { name: p.name });
     const last = turn === order.length - 1 && clueRound === g.rounds;
     $("[data-next-turn]").textContent = tx(last ? "toDiscuss" : "nextPlayer");
@@ -323,7 +323,7 @@ export function mountParty(root) {
   function votePass(i) {
     const p = g.players[i];
     g.round.voter = i;
-    $("[data-pass-av]").src = avatarSrc(p.avatar) ?? "";
+    $("[data-pass-av]").src = withBase(avatarSrc(p.avatar) ?? "");
     $("[data-pass-to]").textContent = tx("passTo", { name: p.name });
     $("[data-pass-only]").textContent = tx("passOnly", { name: p.name });
     const go = $("[data-pass-go]");

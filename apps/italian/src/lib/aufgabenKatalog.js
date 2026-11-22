@@ -1,7 +1,7 @@
 // What a teacher can assign as an Aufgabe (KLASSEN-TIERED-PROMPT.md, Tier 4), with the name
 // and the page a student opens for it. Build time only; served as /klassen-katalog.json,
 // so the teacher's picker and the students' "Aufgaben" card fetch it when they need it,
-// instead of every visitor of /exercises carrying it in the HTML.
+// instead of every visitor of /esercizi carrying it in the HTML.
 //
 // Only exercises that write an uebung_versuche row with a score or a "geübt" mark can be
 // assigned, because "done" is computed from those rows: grammar topics, Lernsets, and the
@@ -31,14 +31,14 @@ export function aufgabenKatalog() {
   for (const c of chapters) {
     if (c.kind !== "wortschatz") continue;
     const id = c.slug.slice(2);
-    out.push({ ref: `w:${id}`, name: c.name, group: `Wortschatz ${c.level}`, level: c.level, href: `/vocabulary/${id}` });
+    out.push({ ref: `w:${id}`, name: c.name, group: `Wortschatz ${c.level}`, level: c.level, href: `/vocabolario/${id}` });
   }
 
   for (const set of saetze) {
     // Paid sets (C1) carry only an outline here (parts is a count, no titles); their
     // parts are not listed until the catalog can read them from src/paid/.
     if (set.paid) continue;
-    const exam = set.exam === "telc" ? "SIELE" : "DELE";
+    const exam = set.exam === "telc" ? "CELI" : "CILS";
     for (const m of set.modules) {
       for (const p of m.parts) {
         if (!isScored(p)) continue;
@@ -54,9 +54,9 @@ export function aufgabenKatalog() {
     }
   }
 
-  // Stunden of the Stundenplan, walked alone on /lesson (SCHUELER-STUNDE Tier 3): a block as a
+  // Stunden of the Stundenplan, walked alone on /lezione (SCHUELER-STUNDE Tier 3): a block as a
   // self-learner gets it, 3 Stunden × 90 min. A teacher's own plan (another count or length)
-  // is assigned from /teachers/timetable with its exact key. Done = the Stunde finished
+  // is assigned from /insegnanti/orario with its exact key. Done = the Stunde finished
   // (lernseite.js logs one attempt with this ref).
   const levels = planLevels();
   for (const level of levels) {

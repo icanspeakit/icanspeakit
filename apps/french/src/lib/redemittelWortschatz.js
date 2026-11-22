@@ -1,7 +1,7 @@
 // The Redemittel sets (src/data/redemittel.json: Zustimmen, Widersprechen, Trösten …) as
 // flashcard decks for the shared trainer (VokabelTrainer.astro), one per speech act, so
 // the Redemittel pane of the Wortschatz side nav has sets to open — not only the curated
-// deck at /vocabulary. The Aussprache page uses the same file for its „Sätze & Redemittel“.
+// deck at /vocabulaire. The Aussprache page uses the same file for its „Sätze & Redemittel“.
 //
 // Audio: scripts/generate-satz-audio.mjs voices every phrase into
 // public/audio/redemittel/<satzSlug>.mp3. A card carries `audioSrc` only when the file is on
@@ -24,19 +24,19 @@ const audioOf = (de) => {
 const bildSrc = (bild) => (!bild ? null : bild.startsWith("/") ? bild : emojiSrc(bild));
 
 /** Every card language, the fetched ones too: a set is a dozen sentences, so all of them
- *  ride inline in the page instead of in /vocabulary/glosses/. */
+ *  ride inline in the page instead of in /vocabulaire/glosses/. */
 const CARD_LANGS = languagesFor("cards", { fetched: true }).map((l) => l.code);
 
 /** The languages beyond `en` in redemittel.json: src/data/redemittel-i18n/<code>.json,
- *  `{ "<Spanish phrase>": "<translation>" }`. Drafts until a native speaker has read them. */
+ *  `{ "<French phrase>": "<translation>" }`. Drafts until a native speaker has read them. */
 const SIDECARS = Object.fromEntries(CARD_LANGS.map((code) => {
   const file = path.join(process.cwd(), "src", "data", "redemittel-i18n", `${code}.json`);
   return [code, existsSync(file) ? JSON.parse(readFileSync(file, "utf8")) : {}];
 }));
 
 export function toCard(phrase) {
-  // variety and es419 describe the phrase; they are not translations.
-  const { de, bild, variety: _variety, es419: _es419, ...inline } = phrase;
+  // variety, frCA, regional describe the phrase; they are not translations.
+  const { de, bild, variety: _variety, frCA: _frCA, regional: _regional, ...inline } = phrase;
   const translations = { ...inline };
   for (const code of CARD_LANGS) if (!translations[code] && SIDECARS[code][de]) translations[code] = SIDECARS[code][de];
   const audioSrc = audioOf(de);

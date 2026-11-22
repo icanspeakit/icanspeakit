@@ -18,7 +18,7 @@ export function organizationLd(site: string) {
     "@type": "Organization",
     "@id": orgId(site),
     name: "icanspeak Portuguese",
-    alternateName: ["icanspeak", "icanspeak.it/portuguese"],
+    alternateName: ["icanspeak", "icanspeak.it/portugues"],
     url: `${site}/`,
     // Square, ≥ 112 px: what Google needs for the logo next to the result. The course mark
     // from the icanspeak.it kit (docs/brand/BRAND.md); the wide wordmark does not qualify.
@@ -65,35 +65,35 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 }
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
-// themselves (short). A step that is not a page (/speaking/set) is left
+// themselves (short). A step that is not a page (/expressao-oral/serie) is left
 // out of the trail rather than pointing at a 404; a dynamic one (/portuguese-for-work/care-work) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
-  "/grammar": "Grammar",
-  "/vocabulary": "Vocabulary & phrases",
-  "/exams": "Exams",
+  "/gramatica": "Grammar",
+  "/vocabulario": "Vocabulary & phrases",
+  "/exames": "Exams",
   "/caple": "CAPLE",
   "/nationality/ciple-a2": "CIPLE A2 for residence and nationality",
   "/caple/level-check": "Level check",
   "/portuguese-for-work": "Portuguese for work",
   "/civics": "Civics",
   "/nationality": "Residence and nationality",
-  "/knowledge": "Knowledge base",
-  "/knowledge/word-stories": "Word stories",
-  "/culture": "Culture",
-  "/culture/insider": "Portugal from the inside",
-  "/teachers": "For teachers",
-  "/teachers/worksheets": "Worksheets",
-  "/teachers/games": "Printable games",
-  "/teachers/classes": "Classes",
-  "/teachers/surveys": "Surveys",
-  "/teachers/tests": "Placement test for the class",
-  "/teachers/quiz": "Live quiz",
-  "/speaking": "Speaking",
-  "/listening": "Listening",
-  "/reading": "Reading",
-  "/writing": "Writing",
-  "/intonation": "Intonation",
+  "/conhecimentos": "Knowledge base",
+  "/conhecimentos/historias-de-palavras": "Word stories",
+  "/cultura": "Culture",
+  "/cultura/por-dentro": "Portugal from the inside",
+  "/professores": "For teachers",
+  "/professores/fichas": "Worksheets",
+  "/professores/jogos": "Printable games",
+  "/professores/turmas": "Classes",
+  "/professores/inqueritos": "Surveys",
+  "/professores/testes": "Placement test for the class",
+  "/professores/quiz": "Live quiz",
+  "/expressao-oral": "Speaking",
+  "/compreensao-oral": "Listening",
+  "/leitura": "Reading",
+  "/escrita": "Writing",
+  "/entoacao": "Intonation",
 };
 
 /** The trail for `route` (no trailing slash): Start, each known parent page, the page itself.

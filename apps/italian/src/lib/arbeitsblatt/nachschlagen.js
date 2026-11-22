@@ -1,5 +1,5 @@
-// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammar/verbs) and the
-// lists of /grammar/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
+// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammatica/verbi) and the
+// lists of /grammatica/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
 // topic, so the worksheet (…/arbeitsblaetter/grammatik/<slug>) and the Tandembogen
 // (…/arbeitsblaetter/tandem/<slug>) are built for them exactly as for a topic.
 //
@@ -48,7 +48,7 @@ function roundRobin(lists, n, skip = 0) {
 /** "Der Zug fährt um acht Uhr ab." → ["Der", "Zug", …, "ab", "."] */
 const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?¿¡]/gu) ?? [];
 
-/* ---- /grammar/verbs ---------------------------------------------------------------- */
+/* ---- /grammatica/verbi ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
   // A verb with gaps in its table (haber, soler) hardly uses the indefinido, so it is asked in
@@ -61,19 +61,19 @@ function verbTopic() {
     slug: "verbtabellen",
     name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Presente, indefinido and pretérito perfecto of the most important verbs",
-    reference: "/grammar/verbs",
+    subtitle: "Presente, imperfetto and passato prossimo of the most important verbs",
+    reference: "/grammatica/verbi",
     concept: {
-      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[0], g.hilfsverb?.regel?.[2]]
+      qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g.isc?.regel?.[0], g.hilfsverb?.regel?.[2]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
     },
     exercises: [
       {
         type: "table",
         title: "Presente: write the verb form.",
-        hint: "Careful with the yo form and with stem changes: tengo, pienso, pensamos.",
+        hint: "Careful with the io form and the spelling changes: vengo, cerco – cerchi, finisco – finiamo.",
         columns: ["Person + verb", "Presente"],
-        // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+        // The person whose form breaks the pattern (vengo, vieni), else lui/lei.
         rows: pick(0, pools).map((v) => {
           const x = v.rows.findIndex((r) => r.praes.x);
           const p = x === -1 ? 2 : x;
@@ -82,24 +82,24 @@ function verbTopic() {
       },
       {
         type: "table",
-        title: "Indefinido: write the yo form.",
-        columns: ["Verb", "yo (indefinido)"],
+        title: "Imperfetto: write the io form.",
+        columns: ["Verb", "io (imperfetto)"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Pretérito perfecto: haber + participle.",
-        columns: ["Verb", "él/ella (pretérito perfecto)"],
+        title: "Passato prossimo: avere or essere + participle.",
+        columns: ["Verb", "lui/lei (passato prossimo)"],
         rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
       },
     ],
   };
 }
 
-/* ---- /grammar/irregular-verbs ------------------------------------------------- */
+/* ---- /grammatica/verbi-irregolari ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
-  // forms: "tengo · tuvo · tenido" (yo presente · él indefinido · participio)
+  // forms: "vado · andato · andavo" (io presente · participio passato · io imperfetto)
   const pools = data.sections.map((sec) => rowsOf(sec).filter((r) => String(r.forms).split(" · ").length === 3));
   const form = (r, k) => String(r.forms).split(" · ")[k].trim();
   return {
@@ -107,26 +107,26 @@ function starkTopic(file, data) {
     exercises: [
       {
         type: "table",
-        title: "Indefinido: regular or irregular? Write the él/ella form.",
-        columns: ["Verb", "él/ella (indefinido)"],
+        title: "Past participle: regular or irregular? Write the form.",
+        columns: ["Verb", "Past participle"],
         rows: roundRobin(pools, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 1) })),
       },
       {
         type: "table",
-        title: "Participle: write the form.",
-        columns: ["Verb", "Participle"],
+        title: "Imperfect: write the io form.",
+        columns: ["Verb", "io (imperfect)"],
         rows: roundRobin(pools, ROWS, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 2) })),
       },
     ],
   };
 }
 
-/* ---- /grammar/reflexive-verbs-list (reflexive and pronominal verbs) ------------------------------------------------------- */
+/* ---- /grammatica/elenco-verbi-riflessivi (reflexive and pronominal verbs) ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
   const untrennbar = sec("untrennbar");
-  // forms: "me levanto · se levantó · levantado"; the yo form comes first.
+  // forms: "mi alzo · alzato · mi alzavo"; the io form with its pronoun comes first.
   const yo = (r) => String(r.forms).split(" · ")[0].trim();
   const built = trennbar.filter((r) => r.example && tokens(r.example).length <= 9).slice(0, 8);
   const regel = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
@@ -143,15 +143,15 @@ function trennbarTopic(file, data) {
       },
       {
         type: "table",
-        title: "Present: write the yo form with its pronoun.",
-        columns: ["Verb", "yo (present)"],
+        title: "Present: write the io form with its pronoun.",
+        columns: ["Verb", "io (present)"],
         rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: yo(r) })),
       },
     ],
   };
 }
 
-/* ---- /grammar/verbs-with-prepositions ---------------------------------------------- */
+/* ---- /grammatica/verbi-con-preposizioni ---------------------------------------------- */
 function praepTopic(file, data) {
   // The example with its preposition blanked; rows whose preposition is merged (al, del) or
   // missing in the example are left out — their gap would be ambiguous.
@@ -168,7 +168,7 @@ function praepTopic(file, data) {
         type: "fill",
         title: "Which preposition is right?",
         hint: "Learn the verb and its preposition together.",
-        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "es")),
+        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "it")),
         items: fill.map((r) => ({ prompt: r.prompt, hint: r.verb, answer: r.prep })),
       },
     ],
@@ -201,7 +201,7 @@ function listTopic(file) {
   };
 }
 
-/* ---- /grammar/common-mistakes -------------------------------------------------------
+/* ---- /grammatica/errori-comuni -------------------------------------------------------
    One exercise per group of the page: each pair's gap sentence, its two words as the
    choices. The rule box: the difference of the first pairs. */
 function fehlerTopic() {
@@ -211,7 +211,7 @@ function fehlerTopic() {
     name: "Common mistakes: words people mix up",
     level: "A1",
     subtitle: "tú or tu, sé or se, por or para",
-    reference: "/grammar/common-mistakes",
+    reference: "/grammatica/errori-comuni",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
       type: "table",

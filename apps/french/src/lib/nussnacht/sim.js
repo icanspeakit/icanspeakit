@@ -63,13 +63,14 @@ export const EV = {
   BOSS_DOWN: 8, SKILL: 9, HEAL: 10, MINUTE: 11, WIN: 12, DIE: 13, SPLIT: 14, BURST: 15, ORBIT: 16,
 };
 
-// Ending radar: last letters → article index, by radar level. A word glows only when it ends that
-// way *and* has that article (el libro and la casa glow, la flor does not at the -or level), so
-// the radar never teaches anything wrong. Level 3 adds the traps: -a with el, -o with la.
+// Ending radar: last letters → article index (0 le, 1 la), by radar level, after the rule packs
+// (artikel-packs.json). A word glows only when it ends that way *and* has that article (la nation
+// and le fromage glow, la plage does not at the -age level), so the radar never teaches anything
+// wrong. Level 3 adds the traps: la plage, la page, le musée, le côté, la peau, le silence, le camion.
 const RADAR = [
-  [[/o$/, 0], [/a$/, 1]],
-  [[/(ción|sión|dad|tad|tud|umbre)$/, 1], [/(aje|or)$/, 0]],
-  [[/a$/, 0], [/o$/, 1]],
+  [[/(tion|sion)$/, 1], [/(age|ment)$/, 0]],
+  [[/(té|ette|ure|ence|ance|ée|ie)$/, 1], [/(eau|isme|oir|ier|et)$/, 0]],
+  [[/(age|eau)$/, 1], [/(ée|té|ence|ion|ie)$/, 0]],
 ];
 
 // Rotation of the orbiting acorns per tick (2.4 rad/s), as literal numbers: cos and sin of
@@ -95,12 +96,13 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   const W = words.concat(low);
   const byArt = (from, to) => {
     const out = [[], []];
-    for (let i = from; i < to; i++) out[W[i].g].push(i);
+    // le / la only: the un / une rows (nouns that elide to l') come as L' popper creatures (plIdx)
+    for (let i = from; i < to; i++) if (W[i].g < 2) out[W[i].g].push(i);
     return out;
   };
   const lvlIdx = byArt(0, words.length);
   const lowIdx = byArt(words.length, W.length);
-  // Compounds from the level below count too: Spanish has few per level.
+  // Compounds from the level below count too: the lexicon has few per level.
   const compIdx = [];
   for (let i = 0; i < W.length; i++) if (W[i].h) compIdx.push(i);
   const plIdx = [];
@@ -108,7 +110,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   // Radar: per word, the radar level that makes it glow (0 = never).
   const radarLv = new Uint8Array(W.length);
   for (let i = 0; i < W.length; i++) {
-    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: el viaje organizado ends in -e
+    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: la pomme de terre ends in -e
     for (let l = 0; l < RADAR.length && !radarLv[i]; l++) {
       for (const [start, art] of RADAR[l]) if (start.test(lw) && W[i].g === art) { radarLv[i] = l + 1; break; }
     }
@@ -242,7 +244,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     c.alive = true; c.gen++;
     c.x = c.px = x; c.y = c.py = y;
     c.w = wi; c.kind = kind; c.boss = -1; c.scale = 1; c.angry = 0;
-    c.art = kind === 1 ? w.pa : w.g; // a plural takes los or las, from the noun's gender
+    c.art = kind === 1 ? w.pa : w.g; // an L' popper creature (l'école) takes un or une
     c.text = kind === 1 ? w.pl : w.w;
     c.r = T.CRE_R;
     c.maxHp = c.hp = T.CRE_HP * hpMul * (kind === 2 ? 1.5 : 1);

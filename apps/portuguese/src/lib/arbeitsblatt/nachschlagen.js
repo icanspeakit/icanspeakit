@@ -1,5 +1,5 @@
-// The Nachschlagewerk pages as worksheet topics: the verb tables (/grammar/verbs) and the
-// lists of /grammar/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
+// The Nachschlagewerk pages as worksheet topics: the verb tables (/gramatica/verbos) and the
+// lists of /gramatica/<ref> (src/data/nachschlagen/*.json) put into the shape of a grammar
 // topic, so the worksheet (…/arbeitsblaetter/grammatik/<slug>) and the Tandembogen
 // (…/arbeitsblaetter/tandem/<slug>) are built for them exactly as for a topic.
 //
@@ -48,7 +48,7 @@ function roundRobin(lists, n, skip = 0) {
 /** "Der Zug fährt um acht Uhr ab." → ["Der", "Zug", …, "ab", "."] */
 const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?¿¡]/gu) ?? [];
 
-/* ---- /grammar/verbs ---------------------------------------------------------------- */
+/* ---- /gramatica/verbos ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
   // A verb with gaps in its table (haver, chover) is asked in the present only.
@@ -61,7 +61,7 @@ function verbTopic() {
     name: "Verb tables: the most important verbs",
     level: "A1",
     subtitle: "Presente, pretérito perfeito and imperfeito of the most important verbs",
-    reference: "/grammar/verbs",
+    reference: "/gramatica/verbos",
     concept: {
       qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[0], g.hilfsverb?.regel?.[2]]
         .filter(Boolean).map((r) => ({ html: ruleHtml(r) })),
@@ -97,7 +97,7 @@ function verbTopic() {
   };
 }
 
-/* ---- /grammar/irregular-verbs ------------------------------------------------- */
+/* ---- /gramatica/verbos-irregulares ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
   // forms: "tenho · teve · tido" (eu presente · ele perfeito simples · particípio)
@@ -122,7 +122,7 @@ function starkTopic(file, data) {
   };
 }
 
-/* ---- /grammar/reflexive-verbs-list (reflexive and pronominal verbs) ------------------------------------------------------- */
+/* ---- /gramatica/lista-de-verbos-reflexivos (reflexive and pronominal verbs) ------------------------------------------------------- */
 function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
@@ -152,7 +152,7 @@ function trennbarTopic(file, data) {
   };
 }
 
-/* ---- /grammar/verbs-with-prepositions ---------------------------------------------- */
+/* ---- /gramatica/verbos-com-preposicoes ---------------------------------------------- */
 function praepTopic(file, data) {
   // The example with its preposition blanked; rows whose preposition is merged (al, del) or
   // missing in the example are left out — their gap would be ambiguous.
@@ -202,7 +202,7 @@ function listTopic(file) {
   };
 }
 
-/* ---- /grammar/common-mistakes -------------------------------------------------------
+/* ---- /gramatica/erros-comuns -------------------------------------------------------
    One exercise per group of the page: each pair's gap sentence, its two words as the
    choices. The rule box: the difference of the first pairs. */
 function fehlerTopic() {
@@ -212,7 +212,7 @@ function fehlerTopic() {
     name: "Common mistakes: words people mix up",
     level: "A1",
     subtitle: "é or e, há or à, ser or estar, bom or bem",
-    reference: "/grammar/common-mistakes",
+    reference: "/gramatica/erros-comuns",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
       type: "table",

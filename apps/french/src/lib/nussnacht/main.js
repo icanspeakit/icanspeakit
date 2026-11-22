@@ -12,7 +12,7 @@ import { newSeed } from "../artikelSprint/rng.js";
 import { reducedMotion } from "../spieleEinstellungen.js";
 
 export const TXT = {
-  arts: ["el", "la", "los", "las"],
+  arts: ["le", "la", "un", "une"],
   levelWords: "{n} words",
   go: "Let’s go",
   levelUp: "Level {n}!",
@@ -112,8 +112,8 @@ export function mountNussnacht(root, data) {
     choosing: () => phase === "choice",
     artCount: () => (S?.up.plural > 0 ? 4 : 2),
   });
-  // los and las appear with the Plural popper: A1 and A2 never need them, and two buttons that
-  // can only miss would just be in the way.
+  // un and une appear with the L' popper (upgrade id "plural"): before it no creature needs them,
+  // and two buttons that can only miss would just be in the way.
   function syncPluralButtons() {
     const on = S?.up.plural > 0;
     ui.arts.forEach((b, i) => { if (i > 1) b.hidden = !on; });
@@ -245,8 +245,8 @@ export function mountNussnacht(root, data) {
           break;
         case EV.SPLIT: {
           const w = S.words[e.a];
-          // a compound cracks at its seam: the verb and the noun it is made of
-          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h), rest: w.w.slice(w.h) }), "#fff", 1.6);
+          // a compound cracks at its hyphen: the verb and the noun it is made of
+          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h), rest: w.w.slice(w.h).replace(/^-/, "") }), "#fff", 1.6);
           break;
         }
         default:

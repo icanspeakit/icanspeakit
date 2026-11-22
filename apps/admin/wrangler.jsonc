@@ -1,0 +1,15 @@
+{
+  // icanspeak.it/intern: the ops board (assets only). Guard it with Cloudflare Access first.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "icanspeak-admin",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./cf-dist",
+    "not_found_handling": "404-page",
+    "html_handling": "drop-trailing-slash"
+  },
+  "routes": [
+    { "pattern": "icanspeak.it/intern", "zone_name": "icanspeak.it" },
+    { "pattern": "icanspeak.it/intern/*", "zone_name": "icanspeak.it" }
+  ]
+}

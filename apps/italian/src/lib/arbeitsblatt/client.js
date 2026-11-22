@@ -74,8 +74,10 @@ export function mountWorksheet(root) {
   root.querySelectorAll("[data-ab-mode]").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.abMode)));
   root.querySelector("[data-ab-print]")?.addEventListener("click", () => {
     // traffic-baseline: teacher_tool_use — only the teachers' sheets, not "Meine Fehler".
-    const kind = currentPath().match(/^\/teachers\/worksheets\/(grammar|vocabulary|partner)\//)?.[1];
-    if (kind) intent("teacher_tool_use", { tool: `worksheet_${kind}` });
+    const kind = currentPath().match(/^\/insegnanti\/schede\/(grammatica|vocabolario|coppie)\//)?.[1];
+    // The analytics tool name stays English (grammar / vocabulary / partner) so the series continues.
+    const KIND = { "grammatica": "grammar", "vocabolario": "vocabulary", "coppie": "partner" };
+    if (kind) intent("teacher_tool_use", { tool: `worksheet_${KIND[kind]}` });
     window.print();
   });
   root.querySelector("[data-ab-check]")?.addEventListener("click", check);

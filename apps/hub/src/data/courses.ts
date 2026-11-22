@@ -1,4 +1,5 @@
-// The language courses on icanspeak.it. Each one is its own app in apps/<slug> with
+// The language courses on icanspeak.it. `slug` is the URL path, in the language's own name
+// (/espanol/, /francais/ since 2026-11-14; the apps keep their folders, apps/spanish and apps/french). Each is its own app with
 // base /<slug>, deployed as its own Worker. Flip `live` when a course's Worker route is up.
 export interface Course {
   slug: string;
@@ -16,10 +17,10 @@ export const COURSES: Course[] = [
     name: 'English',
     english: 'English',
     meta: 'A1 to C1 · grammar, vocabulary, exams, speaking',
-    live: true, // almost ready: linked from the landing while apps/english is finished
+    live: true,
   },
   {
-    slug: 'spanish',
+    slug: 'espanol',
     code: 'ES',
     name: 'Español',
     english: 'Spanish',
@@ -27,15 +28,15 @@ export const COURSES: Course[] = [
     live: true, // the Spanish Worker is already up (older build); the card stays live
   },
   {
-    slug: 'french',
+    slug: 'francais',
     code: 'FR',
     name: 'Français',
     english: 'French',
     meta: 'DELF, DALF and TCF · life in France',
-    live: false,
+    live: true,
   },
   {
-    slug: 'portuguese',
+    slug: 'portugues',
     code: 'PT',
     name: 'Português',
     english: 'Portuguese',
@@ -43,11 +44,16 @@ export const COURSES: Course[] = [
     live: false,
   },
   {
-    slug: 'italian',
+    slug: 'italiano',
     code: 'IT',
     name: 'Italiano',
     english: 'Italian',
     meta: 'CILS and CELI · life in Italy',
-    live: false,
+    live: true, // flipped by the Italian queue (deploy-readme); redeploy the hub only after the Italian Worker is up
   },
 ];
+
+// Course slugs whose app publishes /<slug>/sitemap.xml and /<slug>/llms.txt (the linguistics
+// section is not a course and has neither yet; add it to SECTIONS_WITH_SITEMAP when it does).
+export const liveCourses = () => COURSES.filter((c) => c.live);
+export const SECTIONS_WITH_SITEMAP: string[] = [];

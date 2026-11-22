@@ -1,4 +1,4 @@
-/* /grammar/verbs — the verb tables. Laid out for a 390px phone first: the table has four
+/* /grammatica/verbi — the verb tables. Laid out for a 390px phone first: the table has four
    short columns and only scrolls sideways when a form is unusually long. */
 .vb-page { max-width: 820px; }
 .vb-head { margin: 0 0 18px; }
@@ -12,7 +12,7 @@ mark.vb-x { padding: 0 4px; }
 :root[data-theme="dark"] .vb-x { background: color-mix(in srgb, #fbbf24 22%, transparent); }
 
 .vb-chip {
-  --grp: var(--brand-blue-dark, #1a2940);
+  --grp: var(--brand-blue-dark, #0d1a4a);
   display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px;
   border: 1.5px solid color-mix(in srgb, var(--grp) 40%, transparent); border-radius: var(--radius-pill, 999px);
   background: color-mix(in srgb, var(--grp) 8%, transparent);
@@ -23,13 +23,15 @@ mark.vb-x { padding: 0 4px; }
 .vb-chip--modal { --grp: #7c3aed; }
 .vb-chip--unregelmaessig { --grp: #b45309; }
 .vb-chip--trennbar { --grp: #2563eb; }
-.vb-chip--stem-change { --grp: #0f766e; }
+.vb-chip--isc { --grp: #0d1a4a; }
+.vb-chip--spelling { --grp: #be185d; }
 :root[data-theme="dark"] .vb-chip { --grp: #8fa3c0; }
 :root[data-theme="dark"] .vb-chip--hilfsverb { --grp: #e0bd7a; }
 :root[data-theme="dark"] .vb-chip--modal { --grp: #c4b5fd; }
 :root[data-theme="dark"] .vb-chip--unregelmaessig { --grp: #fcd34d; }
 :root[data-theme="dark"] .vb-chip--trennbar { --grp: #93c5fd; }
-:root[data-theme="dark"] .vb-chip--stem-change { --grp: #5eead4; }
+:root[data-theme="dark"] .vb-chip--isc { --grp: #bfe3ff; }
+:root[data-theme="dark"] .vb-chip--spelling { --grp: #f9a8d4; }
 
 .vb-jump { display: grid; gap: 12px; margin: 0 0 28px; }
 .vb-jump-label { display: block; width: fit-content; text-decoration: none; margin: 0 0 6px; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -38,7 +40,7 @@ mark.vb-x { padding: 0 4px; }
 /* Each group is its own chapter: a rule above it, a numbered head in the group colour and a
    Regel box saying when the verbs are used, before the tables. */
 .vb-group {
-  --grp: var(--brand-blue-dark, #1a2940);
+  --grp: var(--brand-blue-dark, #0d1a4a);
   margin: 0 0 20px; padding: 28px 0 0; border-top: 2px solid var(--border);
   scroll-margin-top: 80px;
 }
@@ -46,13 +48,15 @@ mark.vb-x { padding: 0 4px; }
 .vb-group--modal { --grp: #7c3aed; }
 .vb-group--unregelmaessig { --grp: #b45309; }
 .vb-group--trennbar { --grp: #2563eb; }
-.vb-group--stem-change { --grp: #0f766e; }
+.vb-group--isc { --grp: #0d1a4a; }
+.vb-group--spelling { --grp: #be185d; }
 :root[data-theme="dark"] .vb-group { --grp: #8fa3c0; }
 :root[data-theme="dark"] .vb-group--hilfsverb { --grp: #e0bd7a; }
 :root[data-theme="dark"] .vb-group--modal { --grp: #c4b5fd; }
 :root[data-theme="dark"] .vb-group--unregelmaessig { --grp: #fcd34d; }
 :root[data-theme="dark"] .vb-group--trennbar { --grp: #93c5fd; }
-:root[data-theme="dark"] .vb-group--stem-change { --grp: #5eead4; }
+:root[data-theme="dark"] .vb-group--isc { --grp: #bfe3ff; }
+:root[data-theme="dark"] .vb-group--spelling { --grp: #f9a8d4; }
 .vb-group-head { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 14px; }
 .vb-group-num {
   flex: none; display: grid; place-items: center; width: 34px; height: 34px; margin-top: 1px;
@@ -151,10 +155,10 @@ mark.vb-x { padding: 0 4px; }
 .vb-practice-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 0; }
 .vb-practice {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
-  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #1a2940); color: #fff;
+  border-radius: var(--radius-pill, 999px); background: var(--brand-blue-dark, #0d1a4a); color: #fff;
   font-weight: 700; text-decoration: none;
 }
-.vb-practice--ghost { background: transparent; color: var(--brand-blue-dark, #1a2940); border: 1.5px solid currentColor; }
+.vb-practice--ghost { background: transparent; color: var(--brand-blue-dark, #0d1a4a); border: 1.5px solid currentColor; }
 
 @media (max-width: 480px) {
   .vb-card { padding: 14px 12px 12px; }
@@ -190,7 +194,8 @@ mark.vb-x { padding: 0 4px; }
   body[data-vb-print-only="unregelmaessig"] .vb-group--unregelmaessig,
   body[data-vb-print-only="regelmaessig"] .vb-group--regelmaessig,
   body[data-vb-print-only="trennbar"] .vb-group--trennbar,
-  body[data-vb-print-only="stem-change"] .vb-group--stem-change { display: block; }
+  body[data-vb-print-only="isc"] .vb-group--isc,
+  body[data-vb-print-only="spelling"] .vb-group--spelling { display: block; }
   .vb-all:not([open]) { display: none; }
   .vb-all summary { min-height: 0; font-size: 8pt; }
   body { background: #fff; color: #000; font-size: 9.5pt; }

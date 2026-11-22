@@ -1,3 +1,4 @@
+import { withBase } from "./paths.js";
 // Aussprache-Workbench: one focused phrase on the stage, the full set in the
 // rail. Drives server-rendered markup (see uebungen/aussprache.astro) rather
 // than writing the page with innerHTML, so the i18n pass and the rail rows
@@ -225,7 +226,7 @@ export function mountPronunciation(root, options = {}) {
     stopExample();
     if (!item.audioSrc) return speak(item.text);
     const src = new URL(item.audioSrc, location.href).href;
-    if (audio.src !== src) audio.src = src;
+    if (audio.src !== src) audio.src = withBase(src);
     audio.playbackRate = rate;
     audio.currentTime = 0;
     // Drive the UI off media events, not this promise: a backgrounded or
@@ -298,7 +299,7 @@ export function mountPronunciation(root, options = {}) {
     audio.currentTime = 0;
     setPlayIcon(false);
     const src = new URL(s.audioSrc, location.href).href;
-    if (example.src !== src) example.src = src;
+    if (example.src !== src) example.src = withBase(src);
     example.playbackRate = rate;
     example.currentTime = 0;
     example.play().catch(() => { el.status.textContent = strings.audioError || ""; });

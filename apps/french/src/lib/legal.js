@@ -9,7 +9,7 @@
 // it was left untouched deliberately rather than copied here on a guess.
 
 export const LEGAL = {
-  // Who operates icanspeak.it/spanish — the "Verantwortlicher" under Art. 4(7) DSGVO.
+  // Who operates icanspeak.it/francais — the "Verantwortlicher" under Art. 4(7) DSGVO.
   operatorName: "Edgar Kretschmann",
   operatorStreet: "Ansbacher Straße 48",
   operatorPostcode: "10777",
@@ -27,12 +27,12 @@ export const LEGAL = {
   // Teaching material is not that, so this is null unless a blog/news section appears.
   responsibleForContent: null,
 
-  // TODO(icanspeak Spanish): placeholder address on the placeholder domain (SITE_URL in
+  // TODO(icanspeak French): placeholder address on the placeholder domain (SITE_URL in
   // astro.config.mjs). Set the real one before going live.
   contactEmail: "hello@englishacademy.com",
 
   // Bumped by hand when the substance of a page changes, not on every deploy.
-  lastUpdated: "29. Oktober 2026",
+  lastUpdated: "15. November 2026",
 
   // Where signed-in learners' data physically sits. Matches the Supabase project region
   // (eu-central-1). If the project is ever moved, this line moves with it.

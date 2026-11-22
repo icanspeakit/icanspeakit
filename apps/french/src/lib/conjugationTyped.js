@@ -3,7 +3,8 @@
 // uses the same card classes and hooks, so a session looks and reports the same either way.
 //
 // Answers go through judge() in conjugationTrainer.js: one accent off is wrong, with the hint
-// "Check the accent." (content-plan §1.2).
+// "Check the accent." (content-plan §1.2); a pronominal form without its pronoun and a negative
+// command without ne … pas get their own hint.
 import { judge } from "./conjugationTrainer.js";
 import { celebrateRound, mascotHop } from "./mascotCelebrate.js";
 import { flagItems, meldenLinkHtml, onMeldenClick } from "./meldung.js";
@@ -11,7 +12,8 @@ import { itemFingerprint } from "./meldungRef.js";
 import { setWaiting } from "./notReady.js";
 import { t, onUiText } from "./uiText.js";
 
-const ACCENT_KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
+// The French key row of aktivMode.js (content-plan §1.2).
+const ACCENT_KEYS = ["é", "è", "ê", "ë", "à", "â", "ù", "û", "î", "ï", "ô", "ç", "œ"];
 const WRONG_BEFORE_REVEAL = 2;
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
@@ -54,6 +56,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
   const verdictText = (p) => {
     if (p.why === "accent") return t("vp.checkAccent", "Check the accent.");
     if (p.why === "pronoun") return t("conj.addPronoun", "Add the pronoun too.");
+    if (p.why === "negation") return t("conj.addNegation", "Put ne … pas around it.");
     return t("conj.tryAgain", "Not quite. One more try.");
   };
 
@@ -80,7 +83,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
     const sentence = settled
       ? q.prompt.replace("___", `<b class="cj-filled">${esc(q.answer)}</b>`)
       : q.prompt.replace("___", '<span class="akk-blank">___</span>');
-    const also = q.accepted?.find((f) => f !== q.answer);
+    const also = q.also;
     const seg = (i) => (i < idx ? "akk-rail-seg--done" : i === idx ? "akk-rail-seg--current" : "");
     return `
       <div class="akk-anim-in">
@@ -95,13 +98,13 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
           <p class="akk-focus-sentence">${sentence}</p>
           ${settled ? "" : `
           <form class="cj-typed-form" data-form autocomplete="off" novalidate>
-            <input class="ak-write-input ${p.wrong ? "is-wrong" : ""}" data-input type="text" lang="es" spellcheck="false" autocapitalize="off" autocorrect="off"
+            <input class="ak-write-input ${p.wrong ? "is-wrong" : ""}" data-input type="text" lang="fr" spellcheck="false" autocapitalize="off" autocorrect="off"
               value="${esc(p.typed)}"
               placeholder="${esc(t("conj.placeholder", "Type the form …"))}"
               aria-label="${esc(t("conj.placeholder", "Type the form …"))}">
             <button class="akk-btn akk-btn-primary" type="submit" data-check>${esc(t("ak.write.check", "Check"))}</button>
           </form>
-          <div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Spanish letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>
+          <div class="ak-accent-keys" role="group" aria-label="${esc(t("ak.write.keys", "Accented letters"))}">${ACCENT_KEYS.map((k) => `<button type="button" class="ak-accent-key" data-key="${k}">${k}</button>`).join("")}</div>
           `}
           <p class="ak-write-verdict" aria-live="polite">${!settled && p.wrong ? esc(verdictText(p)) : ""}</p>
           <div class="akk-feedback">
@@ -109,13 +112,13 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
               <div class="akk-feedback-row">
                 ${p.solved
                   ? `<span class="akk-feedback--correct">${esc(t("pw.right", "Correct."))}</span>`
-                  : `<span class="akk-feedback--incorrect">${esc(t("pw.correctForm", "The correct form is „{a}“.", { a: q.answer }))}</span>`}
+                  : `<span class="akk-feedback--incorrect">${esc(t("pw.correctForm", "The correct form is “{a}”.", { a: q.answer }))}</span>`}
                 <button class="akk-btn akk-btn-primary" type="button" data-next>${esc(t("quiz.next", "Next"))}</button>
               </div>
               <div class="akk-why">
                 <span class="akk-tag">${esc(t("pw.why", "WHY?"))}</span>
                 <p class="akk-why-text">${esc(q.explain)}${also ? ` ${esc(t("conj.also", "Also right: {form}.", { form: also }))}` : ""}</p>
-                <span class="akk-why-chip" lang="es">${esc(q.change)}</span>
+                <span class="akk-why-chip" lang="fr">${esc(q.change)}</span>
               </div>` : ""}
           </div>
           ${meldung ? meldenLinkHtml(`data-mf-qid="${esc(q.id)}"`) : ""}

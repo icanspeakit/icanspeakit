@@ -19,7 +19,7 @@ const mods = import.meta.glob("../../data/grammatik/*.json", { eager: true });
     of their own (nachschlagen.js). */
 export const sheetTopics = [...Object.values(mods).map((m) => m.default ?? m), ...refTopics]
   .filter((t) => (t.exercises ?? []).some((ex) => !ex.paid))
-  .sort((a, b) => a.level.localeCompare(b.level) || a.name.localeCompare(b.name, "es"));
+  .sort((a, b) => a.level.localeCompare(b.level) || a.name.localeCompare(b.name, "fr"));
 /** The ones the worksheet index offers: reviewed only (topicStatus.js). */
 export const grammarTopics = sheetTopics.filter(isReviewed);
 
@@ -31,11 +31,23 @@ function splitGap(prompt) {
   return parts.length > 1 ? [parts[0], parts.slice(1).join("___")] : [String(prompt) + " ", ""];
 }
 
-/** "Ich habe den Film gesehen ." → "Ich habe den Film gesehen." */
-export const joinWords = (words) => words.join(" ").replace(/\s+([.,!?;:])/g, "$1").replace(/([¿¡])\s+/g, "$1");
+/** "Tu viens ce soir ?" from ["Tu", "viens", "ce", "soir", "?"]: French typography, a no-break
+    space before ? ! ; : and none before . , */
+export const joinWords = (words) => words.join(" ").replace(/\s+([.,])/g, "$1").replace(/\s+([?!;:])/g, " $1");
+
+/** What the trainer's hint says for a matching task is about tapping; on paper the learner writes
+    a letter. The French hints do not start with "Tap/Click" (checked against src/data/grammatik),
+    so for a matching task the instruction is put in front of the hint; a hint that does start that
+    way has its first sentence replaced, and anything after it (a tip) stays. */
+const PAPER_MATCH = "Write the letter of the matching item in the box.";
+export function paperHint(hint, type) {
+  const h = String(hint ?? "");
+  if (/^(tap|click|drag)\b/i.test(h)) return [PAPER_MATCH, ...h.split(/(?<=[.!?])\s+/).slice(1)].join(" ");
+  return type === "match" ? [PAPER_MATCH, h].filter(Boolean).join(" ") : h;
+}
 
 function section(ex, i, topicId) {
-  const base = { type: ex.type, title: ex.title ?? "", hint: ex.hint ?? "", n: i + 1 };
+  const base = { type: ex.type, title: ex.title ?? "", hint: paperHint(ex.hint, ex.type), n: i + 1 };
   const box = (list) => (ex.choices?.length ? shuffle(ex.choices, `${topicId}:${i}:box`) : list ? shuffle([...new Set(list)], `${topicId}:${i}:box`) : null);
 
   switch (ex.type) {
@@ -51,7 +63,7 @@ function section(ex, i, topicId) {
     case "table":
       return {
         ...base,
-        columns: ex.columns ?? ["", "Lösung"],
+        columns: ex.columns ?? ["", "Answer"],
         items: (ex.rows ?? []).map((r) => ({ term: r.term, answers: answersOf(r.answer) })),
         box: box(null),
       };
@@ -61,7 +73,7 @@ function section(ex, i, topicId) {
       return {
         ...base,
         left: pairs.map((p) => p.q),
-        right: order.map((pi, k) => ({ letter: LETTERS[k], text: pairs[pi].a })),
+        right: order.map((pi, k) => ({ letter: LETTERS[k], text: pairs[pi].a, pi })),
         answers: pairs.map((_, k) => LETTERS[order.indexOf(k)]),
       };
     }

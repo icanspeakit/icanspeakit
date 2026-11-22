@@ -6,6 +6,7 @@
 // A small modal <dialog>: class, due date, „Aufgabe stellen“. Browser only; the button that
 // opens it is shown to teacher accounts only (stundenplan.astro), RLS decides the rest.
 import { stundeRef } from "./lernen.js";
+import { BASE_PATH } from "../paths.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const DAY = 86_400_000;
@@ -57,7 +58,7 @@ export async function openStundeAufgabe({ key, name }) {
   if (!klassen.length) {
     dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Set as homework</h2>
       <p>For this you need a class. Learners join with a code.</p>
-      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/teachers/classes">Create a class</a></div></div>`;
+      <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="${BASE_PATH}/teachers/classes">Create a class</a></div></div>`;
     dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     return;
   }
@@ -85,7 +86,7 @@ export async function openStundeAufgabe({ key, name }) {
       const kname = klassen.find((k) => k.id === klasseId)?.name ?? "";
       dlg.innerHTML = `<div class="sa-body"><h2 id="sa-title">Homework set</h2>
         <p>${esc(kname)} will see “${esc(name)}” under “Exercises” and in their account.</p>
-        <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="/teachers/classes/class?id=${encodeURIComponent(klasseId)}">Go to the class</a></div></div>`;
+        <div class="sa-row"><button type="button" class="lp-btn lp-btn--outline" data-sa-close>Close</button><a class="lp-btn lp-btn--primary" href="${BASE_PATH}/teachers/classes/class?id=${encodeURIComponent(klasseId)}">Go to the class</a></div></div>`;
       dlg.querySelector("[data-sa-close]").addEventListener("click", () => dlg.close());
     } catch (x) {
       go.disabled = false;

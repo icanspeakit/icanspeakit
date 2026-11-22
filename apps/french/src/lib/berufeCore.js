@@ -1,4 +1,4 @@
-// Spanish for work: the sector decks (docs/content-plan.md §5.12).
+// French for work: the sector decks (docs/content-plan.md §5.12).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-berufe.mjs) and the pages
 // share one set of rules. The pages load the files through src/lib/berufeWortschatz.js.
@@ -11,15 +11,16 @@
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
+import { FR_GENDERS, genderProblems } from "./articles.js";
 
-/** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
- *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
- *  `emoji` is the OpenMoji on the hub card. */
+/** The ten sectors, in hub order: where newcomers to France most often start work first. The slugs
+ *  are history (progress keys): kita is cleaning and childcare, elektro-technik is private security
+ *  (content-plan §5.12). `emoji` is the OpenMoji on the hub card. */
 export const BERUFE = [
   { slug: "pflege", emoji: "🩺" },
   { slug: "gastronomie", emoji: "🍽️" },
   { slug: "kita", emoji: "🧹" },
-  { slug: "elektro-technik", emoji: "🍅" },
+  { slug: "elektro-technik", emoji: "🛡️" },
   { slug: "bau-handwerk", emoji: "🔨" },
   { slug: "einzelhandel", emoji: "🛒" },
   { slug: "lager-logistik", emoji: "📦" },
@@ -33,7 +34,7 @@ export const SLUGS = BERUFE.map((b) => b.slug);
  *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
 export const DGT = { slug: "dgt", emoji: "🚗" };
 
-/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
+/** Business French (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
  *  a group of this one deck, ids bv-business-…, under its own pages. */
 export const BUSINESS = { slug: "business", emoji: "💼" };
 
@@ -42,8 +43,9 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it: el/la, el/la for common-gender person nouns (content-plan §1.4). */
-export const GENDERS = ["el", "la", "el/la"];
+/** The article as the learner says it (content-plan §1.4): le / la / l' / les / le/la. Every deck is
+ *  French only: any other value (the Spanish course's el / el/la) is an error. */
+export const GENDERS = FR_GENDERS;
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -54,6 +56,7 @@ export const refKind = (ref) => (ref.startsWith("bv-") ? "berufe" : "lexicon");
 /** Every word a deck defines itself (not the refs), with its group. */
 export const ownWords = (deck) =>
   (deck.groups ?? []).flatMap((g) => (g.words ?? []).filter((w) => !w.ref).map((w) => ({ ...w, group: g.id })));
+
 
 /** Entries in a deck, refs included: what the hub counts and the trainer shows. */
 export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.words ?? []).length, 0);
@@ -70,6 +73,7 @@ export function validate(files, known) {
   const berufeIds = new Map(); // id → file
   const lemmas = new Map(); // slugify(lemma) → "file id" — one definition across every source
 
+  // lemma slug → where it is defined.
   for (const [id, lemma] of known.lexicon) lemmas.set(slugify(lemma), `lexicon ${id}`);
 
   // Pass 1: own words, so a ref to a word defined later in another file still resolves.
@@ -113,13 +117,14 @@ export function validate(files, known) {
         if (lemmas.has(key)) at(`${where}: „${w.lemma}" is already defined (${lemmas.get(key)}) — use { "ref": "<id>" }`);
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
-        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
-        if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
+        if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join(", ")}`);
+        else if (w.pos === "noun") for (const p of genderProblems(w)) at(`${where}: ${p}`);
+        else if (w.genus != null || w.hAspire != null) at(`${where}: genus and hAspire only on nouns`);
         if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
-        // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
+        // variety / frCA / regional (§1.5; an es419 note is an error). A ref inherits them from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [je présent, il passé composé, participe passé]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);
@@ -139,6 +144,8 @@ export function validate(files, known) {
         if (!w.ref) continue;
         const kind = refKind(w.ref);
         const ok = kind === "berufe" ? berufeIds.has(w.ref) : known.lexicon.has(w.ref);
+        // A ref that doesn't resolve is an error in every deck (the warning phase of content-plan
+        // §1.6 rule 3 ended with `business-french`; `cleanup` removed it).
         if (!ok) errors.push(`${file}: ${g.id}: ref „${w.ref}" does not resolve (${kind})`);
       }
     }

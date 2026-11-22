@@ -1,5 +1,7 @@
 ---
 import { u } from '../lib/url';
+// The site root is the hub (another app); in dev it runs on its own port (apps/hub, 4320).
+const siteHome = import.meta.env.DEV ? 'http://localhost:4320/' : '/';
 const locale = Astro.currentLocale ?? 'en';
 const year = new Date().getFullYear();
 
@@ -39,8 +41,8 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
 <footer class="site-footer">
   <div class="container footer-main">
     <div class="footer-col footer-col--brand">
-      <a href={locale === 'de' ? u('/de/') : u('/')} class="brand">
-        icanspeak<span class="brand__it">ı<span class="brand__dot"></span>t</span>
+      <a href={siteHome} class="brand" aria-label={locale === 'de' ? 'icanspeak.it, alle Sprachen' : 'icanspeak.it, all languages'}>
+        <img src={u("/logos/icanspeak-wordmark-dark.svg")} alt="icanspeak!" width="164" height="34" />
       </a>
       <p class="text-muted">{t.blurb}</p>
     </div>
@@ -67,8 +69,8 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
 
 <style>
   .site-footer {
-    background: var(--color-primary-dark);
-    color: #cdd6e2;
+    background: var(--isk-navy);
+    color: #DDE3F5;
     margin-block-start: clamp(3rem, 6vw, 5rem);
   }
 
@@ -89,32 +91,12 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
 
   .footer-col--brand .brand {
     display: inline-block;
-    font-family: 'Literata', var(--font-display);
-    font-weight: 500;
-    letter-spacing: -0.015em;
-    color: #fff;
     margin-block-end: 1rem;
-    font-size: 1.4rem;
-    line-height: 1;
   }
 
-  .brand__it {
-    position: relative;
-    display: inline-block;
-    margin-left: 0.12em;
-  }
+  .footer-col--brand .brand img { display: block; height: 34px; width: auto; }
 
-  .brand__dot {
-    position: absolute;
-    left: 0.07em;
-    top: -0.07em;
-    width: 0.18em;
-    height: 0.18em;
-    border-radius: 50%;
-    background: var(--color-accent);
-  }
-
-  .footer-col--brand p { font-size: 0.9rem; max-width: 32ch; color: #aab5c6; }
+  .footer-col--brand p { font-size: 0.9rem; max-width: 32ch; color: #C3CBE6; }
 
   .footer-col h4 {
     font-family: var(--font-sans);
@@ -124,10 +106,10 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
   }
 
   .footer-col ul { display: flex; flex-direction: column; gap: 0.65rem; }
-  .footer-col a { color: #cdd6e2; }
+  .footer-col a { color: #DDE3F5; }
   .footer-col a:hover { color: #fff; }
 
-  .footer-col--former p { font-size: 0.85rem; color: #aab5c6; margin-block-end: 0.5rem; }
+  .footer-col--former p { font-size: 0.85rem; color: #C3CBE6; margin-block-end: 0.5rem; }
   .former-link { font-weight: 600; color: var(--color-accent); }
   .former-link:hover { color: #fff; }
 
@@ -136,6 +118,6 @@ const t = copy[locale as 'en' | 'de'] ?? copy.en;
   .footer-bottom__inner {
     padding-block: 1.1rem;
     font-size: 0.82rem;
-    color: #8b95a8;
+    color: #AEB8DA;
   }
 </style>

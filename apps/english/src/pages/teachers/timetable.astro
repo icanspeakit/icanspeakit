@@ -244,6 +244,7 @@ const levels = planLevels();
 <script>
   import { build } from "../../lib/stundenplan.js";
   import { phaseColor } from "../../lib/unterricht/phasen.js";
+  import { BASE_PATH } from "../../lib/paths.js";
 
   const levels = JSON.parse(document.getElementById("sp-data")!.textContent!);
   const form = document.querySelector<HTMLFormElement>("[data-sp-form]")!;
@@ -281,8 +282,8 @@ const levels = planLevels();
     if (ab.value) params.set("ab", ab.value);
     url.search = params.toString();
     history.replaceState(null, "", url);
-    blockLink.href = `/syllabus/${level.id}`;
-    goLink.href = `/teachers/lesson?${new URLSearchParams({ niveau: level.id, block: String(bi + 1), stunden: String(n), stunde: "1", min: String(minutes) })}`;
+    blockLink.href = `${BASE_PATH}/syllabus/${level.id}`;
+    goLink.href = `${BASE_PATH}/teachers/lesson?${new URLSearchParams({ niveau: level.id, block: String(bi + 1), stunden: String(n), stunde: "1", min: String(minutes) })}`;
 
     const links = (ls: any[]) => ls.length
       ? `<span class="sp-links">${ls.map((l) => l.ext
@@ -320,7 +321,7 @@ const levels = planLevels();
         return `
         <section class="sp-lesson">
           <div class="sp-lesson-head"><h3>Lesson ${s.n}</h3><span>${s.final ? "Use and revise" : `Focus: ${esc(s.focus)}`}</span>
-            <a class="sp-start" data-sp-hide-print href="/teachers/lesson?${new URLSearchParams({ niveau: level.id, block: String(bi + 1), stunden: String(n), stunde: String(s.n), min: String(minutes) })}">▶ Start the lesson</a>
+            <a class="sp-start" data-sp-hide-print href="${BASE_PATH}/teachers/lesson?${new URLSearchParams({ niveau: level.id, block: String(bi + 1), stunden: String(n), stunde: String(s.n), min: String(minutes) })}">▶ Start the lesson</a>
             <button type="button" class="sp-start sp-task" data-sp-hide-print data-sp-task="${s.n}" data-sp-task-name="${esc(`Lesson ${s.n}: ${s.final ? "Use and revise" : s.focus}`)}" hidden>Set as homework</button></div>
           ${s.goals.length ? `<p class="sp-goals">${s.goals.length > 1 ? "Learning goals" : "Learning goal"}: ${s.goals.map((g: string) => esc(g)).join(" ")}</p>` : ""}
           <div class="sp-bar" aria-hidden="true">${rows.map((r: any) => `<span style="flex:${r.minutes};background:${phaseColor(r.id).bg}" title="${esc(r.name)} · ${r.minutes} min">${r.minutes >= 10 ? esc(r.name) : ""}</span>`).join("")}</div>

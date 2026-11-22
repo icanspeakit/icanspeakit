@@ -2,7 +2,7 @@
  * src/data/pruefungen/saetze/ (shape: src/lib/exam/saetze.js, rules:
  * PRUEFUNGEN-A2-C1-TIERED-PROMPT.md). It sits on the same shell as every other trainer
  * (src/lib/examApp.js): one section per exam part, a result section at the end, answers in
- * "da-exam-v1:<setId>" so /progress reads them like any other exam.
+ * "da-exam-v1:<setId>" so /progression reads them like any other exam.
  *
  * Part types
  *   tf        richtig/falsch (or ja/nein via `labels`)       item: { id, statement, correct }
@@ -15,7 +15,7 @@
  * A scored part may carry `texts[]` (reading) or `clips[]` (Hören, speaker turns). An item
  * with `text`/`clip` is shown under that text or clip; the rest follow the material.
  *
- * The exam CONTENT stays Spanish (it is the exam being sat, lang="es"); the chrome goes through tx().
+ * The exam CONTENT is French (it is the exam being sat, lang="fr"); the chrome goes through tx().
  */
 import { mountExamApp } from "../examApp.js";
 import { choiceCard, practiceToggle, sectionHeader, el, escapeHtml } from "./renderHelpers.js";
@@ -31,7 +31,7 @@ import { withBase } from "../paths.js";
 import { examPath } from "../routes.js";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
-const CONTENT_LANG = "es";
+const CONTENT_LANG = "fr";
 const TF_LABELS = { richtig: "Richtig", falsch: "Falsch", ja: "Ja", nein: "Nein", "nicht im text": "Steht nicht im Text" };
 // The letter on each answer button; "nicht im Text" is the exams' own "x".
 const TF_KEYS = { richtig: "r", falsch: "f", ja: "j", nein: "n", "nicht im text": "x" };
@@ -601,7 +601,7 @@ function renderResult(main, set, ctx) {
   const table = el("table", "exam-breakdown");
   table.innerHTML = `<thead><tr><th>${escapeHtml(tx("ps.result.module", "Teil"))}</th><th>${escapeHtml(tx("ps.result.points", "Punkte"))}</th><th>%</th></tr></thead>`;
   const tbody = el("tbody");
-  // `passPct: null` = the exam has no pass mark (SIELE, content-plan §2): no verdict, no line.
+  // `passPct: null` = the exam has no pass mark (TCF and TEF sets, content-plan §2): no verdict, no line.
   const hasPass = set.scoring?.passPct !== null;
   const pass = set.scoring?.passPct ?? 60;
   let anyScored = false;
@@ -634,7 +634,7 @@ function renderResult(main, set, ctx) {
   if (anyScored && hasPass) box.appendChild(el("p", "format-note", escapeHtml(tx("ps.result.rule", "Richtwert: ab {p} % der Punkte gilt ein Teil als bestanden.", { p: pass }))));
   if (set.scoring?.note) box.appendChild(el("p", "format-note", escapeHtml(set.scoring.note)));
   const wrong = Object.values(ctx.state.answers ?? {}).filter((a) => a && a.correct === false).length;
-  if (wrong) box.appendChild(el("p", "format-note", `<a href="${withBase("/my-mistakes")}">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
+  if (wrong) box.appendChild(el("p", "format-note", `<a href="${withBase("/mes-erreurs")}">${escapeHtml(tx("fehler.saved", "{n} Fehler gespeichert → Meine Fehler", { n: wrong }))}</a>`));
   main.appendChild(box);
 }
 

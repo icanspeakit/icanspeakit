@@ -29,9 +29,9 @@ const GENDERED = /\bbem-vind[oa]s?\b|\bencantad[oa]\b|\b(estás|está|és|é|fic
 const SELF = /\bobrigad[oa]s?\b|\b(estou|sou|fico)\s+(muito\s+|tão\s+)?(nov|cansad|instalad|habituad|pront|content|ocupad|atrasad|sozinh|sincer|cheio|cheia|grat|agradecid|encantad)[oa]?\b|\bpara ser sincer[oa]\b/i;
 const LEFTOVER = /\b(Mr|Mrs|Ms|pub|pint|queue|lift)\b|£|British|England|Britain|\bUK\b/;
 
-const culture = new Set(Object.values(ITEM_SLUGS["/culture/insider"] ?? {}).map((s) => `/culture/insider/${s}`));
+const culture = new Set(Object.values(ITEM_SLUGS["/cultura/por-dentro"] ?? {}).map((s) => `/cultura/por-dentro/${s}`));
 const topics = Array.isArray(kultur) ? kultur : kultur.topics ?? Object.values(kultur).find(Array.isArray);
-for (const x of topics ?? []) culture.add(`/culture/${ITEM_SLUGS["/culture"]?.[x.id] ?? x.id}`);
+for (const x of topics ?? []) culture.add(`/cultura/${ITEM_SLUGS["/cultura"]?.[x.id] ?? x.id}`);
 
 const topicIds = new Set(TOPICS.map((t) => t.id));
 for (const t of TOPICS) {

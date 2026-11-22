@@ -302,7 +302,7 @@ export function mountHoerSafari(root, allWords) {
     let im = images.get(w.id);
     if (!im) {
       im = new Image();
-      im.src = w.i;
+      im.src = withBase(w.i);
       images.set(w.id, im);
     }
     return im;

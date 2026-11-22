@@ -1,6 +1,10 @@
 // The brand's look for generated PDFs, as reusable primitives.
 //
-// Every generator builds on this file, so the downloads look like one set.
+// scripts/generate-fakten-pdf.mjs grew these inline and they were good; a second and third
+// generator wanting the same cover, the same teal rule under a heading and the same striped
+// table made copying them the wrong move. That script is left alone — it works, and a
+// refactor of a shipping generator buys nothing here — but everything written after it
+// builds on this file, so the downloads look like one set rather than three.
 //
 // pdfkit's built-in Helvetica is WinAnsi-encoded, which covers ä ö ü ß € — the whole set the
 // German content needs. No font files to ship, no licence to check.
@@ -11,14 +15,20 @@ import { fileURLToPath } from "node:url";
 
 const FONT_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "fonts");
 
-// Matches src/styles/global.css.
-export const TEAL = "#0d9488";
-export const TEAL_DARK = "#0f766e";
-export const TEAL_SOFT = "#ccfbf1";
-export const INK = "#1a2230";
-export const MUTED = "#4b5768";
-export const BORDER = "#e7e9ee";
-export const SURFACE = "#f7f8fa";
+// The icanspeak brand (brand/kit/BRAND.md, 2026-11-10): navy is the ink of headings and
+// accents, the four brand colours are fills only (never text on white), soft sun yellow
+// tints the cover band and the pills. The names are historical (the course started teal);
+// every generator imports them, so the whole set changes colour here.
+export const TEAL = "#172A6E"; // accent: rules, bullets, bars (brand navy)
+export const TEAL_DARK = "#172A6E"; // headings, pill text (brand navy)
+export const TEAL_SOFT = "#FFE29A"; // cover band, pills, callouts (brand sun, soft)
+export const INK = "#1f2547"; // body text: the brand's body navy, darkened for print
+export const MUTED = "#566173";
+export const BORDER = "#e3e6ee";
+export const SURFACE = "#f6f7fb";
+// The four brand fills, for the generators that want a colour per level or group.
+export const BRAND_FILLS = { sun: "#FFC21A", sky: "#6FD6FF", coral: "#FF6F5E", green: "#4CD98B" };
+export const BRAND_SOFT = { sun: "#FFE29A", sky: "#BFE3FF", coral: "#FFC4B8", green: "#BDEFD2" };
 export const MARGIN = 56;
 
 /* pdfkit's built-in fonts are WinAnsi-encoded, and a code point outside that repertoire does
@@ -95,14 +105,14 @@ export function plain(html) {
  * it is. Exported for the German Fakten PDFs, which open their own PDFDocument.
  */
 export const PDF_COPYRIGHT =
-  "© 2018–2026 Edgar Kretschmann (icanspeak Spanish), icanspeak.it/spanish. Kostenlos für den eigenen Unterricht; Weiterverkauf, Veröffentlichung auf anderen Plattformen und KI-Training nicht gestattet.";
+  "© 2018–2026 Edgar Kretschmann (icanspeak Spanish), icanspeak.it/espanol. Free to print and share for learning and teaching; no resale, no republishing on other platforms, no AI training.";
 export function pdfInfo(title) {
   return {
     Title: String(title ?? "icanspeak Spanish").replace(/^ICANSPEAK SPANISH · /, "icanspeak Spanish · "),
     Author: "icanspeak Spanish (Edgar Kretschmann)",
     Subject: PDF_COPYRIGHT,
-    Keywords: "icanspeak Spanish, icanspeak.it/spanish, Deutsch lernen",
-    Creator: "icanspeak Spanish — icanspeak.it/spanish",
+    Keywords: "icanspeak Spanish, icanspeak.it/espanol, learn Spanish, Spanish grammar, free PDF",
+    Creator: "icanspeak Spanish — icanspeak.it/espanol",
   };
 }
 
@@ -115,9 +125,9 @@ export function pdfInfo(title) {
  * @param {string} opts.outPath   where to write
  * @param {string} opts.runningHead  small caps line at the top of every page but the cover
  */
-export function createDoc({ outPath, runningHead, unicode = false, footer = null, script = null }) {
+export function createDoc({ outPath, runningHead, unicode = false, footer = null, footerText = null, title = null, script = null }) {
   mkdirSync(path.dirname(outPath), { recursive: true });
-  const doc = new PDFDocument({ size: "A4", margin: MARGIN, bufferPages: true, info: pdfInfo(runningHead) });
+  const doc = new PDFDocument({ size: "A4", margin: MARGIN, bufferPages: true, info: pdfInfo(title ?? runningHead) });
 
   // The translated editions carry Arabic, Cyrillic and Turkish ğ ş ı — none of which the
   // built-in WinAnsi fonts can draw. They embed Noto instead (scripts/fonts/README.md);
@@ -283,11 +293,13 @@ export function createDoc({ outPath, runningHead, unicode = false, footer = null
   /* `rtl`: the meta lines and the footer are in a right-to-left language (a translated
      edition's cover is written in the reader's language), so they are wrapped and drawn
      by rtlWrap/rtlDraw with the bullet on the right. */
-  function cover({ eyebrow, title, subtitle, subtitleTranslated, subtitleRtl, meta = [], footer, rtl = false, art = null }) {
+  function cover({ eyebrow, title, subtitle, subtitleTranslated, subtitleRtl, meta = [], footer, rtl = false, art = null, logo = null }) {
     // With a mascot on the band, the band's text keeps clear of it.
     const bandW = contentWidth() - (art ? 150 : 0);
     doc.rect(0, 0, doc.page.width, 210).fill(TEAL_SOFT);
     if (art) doc.image(pic(art), doc.page.width - MARGIN - 140, 50, { width: 140 });
+    // The wordmark as the brand ships it (a PNG of brand/kit/logos): placed, never redrawn.
+    if (logo) doc.image(pic(logo), MARGIN, 24, { height: 26 });
     doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9)
       .text(S(eyebrow), MARGIN, 64, { characterSpacing: 1.2, width: bandW });
     doc.fillColor(INK).font(F.bold).fontSize(30)
@@ -713,7 +725,7 @@ export function createDoc({ outPath, runningHead, unicode = false, footer = null
       // own still says where it came from. A book can draw its own (`footer` in createDoc).
       if (footer) footer(i - range.start, range.count);
       else doc.fillColor(MUTED).font(F.regular).fontSize(8).text(
-        "icanspeak.it/spanish · © icanspeak Spanish",
+        S(footerText ?? "icanspeak.it/espanol · © icanspeak Spanish"),
         MARGIN,
         doc.page.height - 38,
         { width: doc.page.width - MARGIN * 2 - 70, align: "left", lineBreak: false }

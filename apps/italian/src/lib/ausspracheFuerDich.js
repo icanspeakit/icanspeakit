@@ -1,7 +1,7 @@
 // „Für dich": the pronunciation drills by first language, wired up in the browser —
-// src/components/AusspracheFuerDich.astro renders them, on /culture/mistakes (under each
+// src/components/AusspracheFuerDich.astro renders them, on /cultura/errori (under each
 // language) and in the Aussprache-Check (the „Für dich" section). Was ausspracheDrills.js,
-// which only served /culture/mistakes.
+// which only served /cultura/errori.
 //
 // Three things per drill:
 //   [data-say]        a word or sentence to hear — the pre-made Azure mp3, the browser's
@@ -16,7 +16,7 @@ import { findingsFor, findingsHtml, insertionsOf, esc, t } from "./aussprachePat
 import { DRILL_AUDIO_DIR, drillSlug } from "./drillAudio.js";
 import { withBase } from "./paths.js";
 
-const LANG = "es-ES";
+const LANG = "it-IT";
 const ROUNDS = 5;
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 
@@ -30,7 +30,7 @@ function browserSpeak(text) {
     u.lang = LANG;
     u.rate = 0.85;
     const voices = synth.getVoices();
-    const es = voices.find((v) => v.lang?.replace("_", "-") === "es-ES") ?? voices.find((v) => v.lang?.startsWith("es"));
+    const es = voices.find((v) => v.lang?.replace("_", "-") === "it-IT") ?? voices.find((v) => v.lang?.startsWith("it"));
     if (es) u.voice = es;
     u.onend = resolve;
     u.onerror = resolve;
@@ -172,7 +172,7 @@ function mountRecord(root, ctx) {
  * Wire up every „Für dich" block under `scope`.
  *   info     the first-language data (src/lib/mutterspracheData.ts), embedded by the page
  *   lang()   the learner's first language for findings; a block with data-af-lang uses its own
- *   why      show „Warum passiert das?" links (false on /culture/mistakes, where the reason is on screen)
+ *   why      show „Warum passiert das?" links (false on /cultura/errori, where the reason is on screen)
  *   onFindings(box)  called after findings render, for the page to intercept links
  */
 export function mountFuerDich(scope, { info, lang = () => null, why = true, onFindings } = {}) {

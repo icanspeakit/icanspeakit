@@ -1,4 +1,4 @@
-// /teachers/quiz/create — a teacher's own live quiz for one chapter.
+// /professores/quiz/criar — a teacher's own live quiz for one chapter.
 //
 // State is one draft: { id?, title, chapter, chapter2, questions[] }; custom.js saves both
 // chapters in one column as "w:a1-03+g:futur". Chapter items are ticked in and out by their `src`; own questions are added,
@@ -28,7 +28,7 @@ export async function mountBuilder(root) {
 
   /* -------------------------------------------------------------- who ---- */
   const next = encodeURIComponent(location.pathname + location.search);
-  $("[data-signin-link]").href = `${withBase("/account")}?next=${next}`;
+  $("[data-signin-link]").href = `${withBase("/conta")}?next=${next}`;
   let user = await currentUser();
   if (!user) return gate("signin");
   if (!isTeacher(user)) {
@@ -89,7 +89,7 @@ export async function mountBuilder(root) {
             <b>${esc(q.title)}</b>
             <small>${esc(t("qb.mine.count", "{n} Fragen", { n: q.questions?.length ?? 0 }))}${q.chapter ? ` · ${esc(chapterName(q.chapter))}` : ""}</small>
           </button>
-          <a class="qb-mine-play" href="${withBase("/teachers/quiz")}?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
+          <a class="qb-mine-play" href="${withBase("/professores/quiz")}?quiz=${q.id}" title="${esc(t("qb.mine.play", "Live starten"))}" aria-label="${esc(t("qb.mine.play", "Live starten"))}: ${esc(q.title)}">▶</a>
         </li>`)
       .join("");
   }
@@ -187,7 +187,7 @@ export async function mountBuilder(root) {
       list.innerHTML = `<p class="qb-empty">${esc(t("qb.loading", "Einen Moment …"))}</p>`;
       try {
         if (!bankCache.has(slug)) {
-          const res = await fetch(withBase(`/teachers/quiz-chapters/${slug}.json`));
+          const res = await fetch(withBase(`/professores/quiz-chapters/${slug}.json`));
           if (!res.ok) throw new Error(String(res.status));
           bankCache.set(slug, await res.json());
         }
@@ -447,7 +447,7 @@ export async function mountBuilder(root) {
   $("[data-save]").addEventListener("click", save);
   const play = async () => {
     const saved = await save();
-    if (saved) location.href = `${withBase("/teachers/quiz")}?quiz=${saved.id}`;
+    if (saved) location.href = `${withBase("/professores/quiz")}?quiz=${saved.id}`;
   };
   $("[data-play]").addEventListener("click", play);
   $("[data-play-top]").addEventListener("click", play);
@@ -483,7 +483,7 @@ export async function mountBuilder(root) {
     dirty = false;
   }
   // ?set=<id>: a new quiz from one of the teacher's card sets (Vokabeln vom Foto,
-  // /teachers/cards): its words as questions, ready to save and play.
+  // /professores/cartoes): its words as questions, ready to save and play.
   const fromSet = new URLSearchParams(location.search).get("set");
   if (!start && fromSet) {
     try {

@@ -1,7 +1,7 @@
 // Display names of the exams behind the generic practice sets. The slot id stays goethe
 // (routes and storage keys); the exams it holds are the CAPLE certificates, one per level
 // (docs/content-plan.md §2). The telc slot (SIELE by band) was removed by `exams-caple`.
-// Kept apart from saetze.js so the /progress registry can use the names without bundling the sets.
+// Kept apart from saetze.js so the /progresso registry can use the names without bundling the sets.
 export const EXAM_NAMES = { goethe: "CAPLE" };
 
 /** The CAPLE certificate of each CEFR level. */

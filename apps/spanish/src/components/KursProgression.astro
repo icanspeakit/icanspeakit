@@ -25,7 +25,7 @@ const H = `h${heading}` as "h2" | "h3";
 const HB = `h${heading + 1}` as "h3" | "h4";
 // No booking page and no real contact address yet: without an href the button is not shown.
 const probestunde = data.probestunde.href ? data.probestunde.href.replaceAll("{niveau}", level.label) : "";
-const url = `icanspeak.it/spanish/syllabus/${level.id}`;
+const url = `icanspeak.it/espanol/programa/${level.id}`;
 ---
 <div class="kp" lang="en" data-kp data-level={level.label}>
   <dl class="kp-meta">
@@ -75,7 +75,7 @@ const url = `icanspeak.it/spanish/syllabus/${level.id}`;
                 <p class="kp-label">Vocabulary</p>
                 <p class="kp-words">{b.wortschatz.join(" · ")}</p>
               </div>
-              <a class="kp-plan" href={`/teachers/timetable?niveau=${level.id}&block=${n + 1}`}>For teachers: lesson plan for this block</a>
+              <a class="kp-plan" href={`/profesores/horario?niveau=${level.id}&block=${n + 1}`}>For teachers: lesson plan for this block</a>
               {b.pruefung?.length && (
                 <div class="kp-part">
                   <p class="kp-label">Exam</p>
@@ -107,7 +107,7 @@ const url = `icanspeak.it/spanish/syllabus/${level.id}`;
       {below ? (
         <>
           <p>Better start with <b>{below.label}</b>. There you learn what you still need for {level.label}.</p>
-          <a class="lp-btn lp-btn--outline" href={`/syllabus/${below.id}`}>Go to {below.label}: {below.titel}</a>
+          <a class="lp-btn lp-btn--outline" href={`/programa/${below.id}`}>Go to {below.label}: {below.titel}</a>
         </>
       ) : (
         <>

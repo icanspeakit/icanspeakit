@@ -1,6 +1,6 @@
 ---
 // „Unterrichtest du Deutsch?" — the way a teacher learns that the teacher switch exists.
-// Under the header of the teacher section's pages (/teachers, its indexes, the live quiz).
+// Under the header of the teacher section's pages (/insegnanti, its indexes, the live quiz).
 // Without it the switch lives only in /konto → Einstellungen, where nobody looks for it.
 //
 // One card, three faces, picked in the browser (the pages are static):
@@ -40,11 +40,11 @@ import Mascot from "./mascots/Mascot.astro";
     <div class="tn-body">
       <h2 class="tn-title" data-i18n="tn.new.title">Das ist jetzt neu für dich</h2>
       <ul class="tn-list tn-list--links">
-        <li><a href="/teachers/quiz/create" data-i18n="tn.new.quiz">Eigenes Live-Quiz erstellen</a> <span data-i18n="tn.new.quizText">Fragen auswählen, eigene ergänzen, speichern.</span></li>
-        <li><a href="/teachers/tests" data-i18n="tn.new.test">Einstufungstest</a> <span data-i18n="tn.new.testText">Per QR-Code, du siehst das Niveau jeder Person.</span></li>
-        <li><a href="/teachers/surveys" data-i18n="tn.new.umfrage">Umfrage</a> <span data-i18n="tn.new.umfrageText">Anonym per QR-Code fragen, was die Klasse lernen will.</span></li>
-        <li><a href="/teachers/classes" data-i18n="tn.new.klassen">Klassen</a> <span data-i18n="tn.new.klassenText">Code weitergeben und sehen, wer übt.</span></li>
-        <li><a href="/teachers/worksheets/partner" data-i18n="tn.new.partner">Partnerübungen</a> <span data-i18n="tn.new.partnerText">Auf jeder Grammatik-Seite steht jetzt „Als Partnerübung“.</span></li>
+        <li><a href="/insegnanti/quiz/crea" data-i18n="tn.new.quiz">Eigenes Live-Quiz erstellen</a> <span data-i18n="tn.new.quizText">Fragen auswählen, eigene ergänzen, speichern.</span></li>
+        <li><a href="/insegnanti/test" data-i18n="tn.new.test">Einstufungstest</a> <span data-i18n="tn.new.testText">Per QR-Code, du siehst das Niveau jeder Person.</span></li>
+        <li><a href="/insegnanti/sondaggi" data-i18n="tn.new.umfrage">Umfrage</a> <span data-i18n="tn.new.umfrageText">Anonym per QR-Code fragen, was die Klasse lernen will.</span></li>
+        <li><a href="/insegnanti/classi" data-i18n="tn.new.klassen">Klassen</a> <span data-i18n="tn.new.klassenText">Code weitergeben und sehen, wer übt.</span></li>
+        <li><a href="/insegnanti/schede/coppie" data-i18n="tn.new.partner">Partnerübungen</a> <span data-i18n="tn.new.partnerText">Auf jeder Grammatik-Seite steht jetzt „Als Partnerübung“.</span></li>
       </ul>
       <p class="tn-fine" data-i18n="tn.new.off">Ausschalten kannst du das jederzeit im Konto unter Einstellungen.</p>
       <div class="tn-actions">
@@ -120,9 +120,9 @@ import Mascot from "./mascots/Mascot.astro";
   .tn {
     margin: 0 0 var(--space-6, 24px);
     padding: 16px;
-    border: 1px solid var(--brand-blue, #2b4162);
+    border: 1px solid var(--brand-blue, #172a6e);
     border-radius: 16px;
-    background: color-mix(in srgb, var(--brand-blue, #2b4162) 6%, var(--surface-card, #fff));
+    background: color-mix(in srgb, var(--brand-blue, #172a6e) 6%, var(--surface-card, #fff));
     color: var(--ink);
     text-align: left;
   }
@@ -134,7 +134,7 @@ import Mascot from "./mascots/Mascot.astro";
   .tn-lead { margin: 0 0 6px; font-weight: 600; }
   .tn-list { margin: 0 0 10px; padding-left: 1.2em; line-height: 1.5; font-size: .9375rem; }
   .tn-list--links li { margin-bottom: 4px; }
-  .tn-list--links a { font-weight: 700; color: var(--brand-blue-dark, #1a2940); }
+  .tn-list--links a { font-weight: 700; color: var(--brand-blue-dark, #0d1a4a); }
   .tn-list--links span { color: var(--muted); }
   .tn-fine { margin: 0 0 10px; font-size: .8125rem; color: var(--muted); }
   .tn-actions { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -143,8 +143,8 @@ import Mascot from "./mascots/Mascot.astro";
     border: 1px solid var(--border-strong, #ccc); border-radius: 999px; background: var(--surface-card, #fff);
     color: var(--ink); font: inherit; font-size: .875rem; font-weight: 600; text-decoration: none; cursor: pointer;
   }
-  .tn-btn--primary { border-color: var(--brand-blue, #2b4162); background: var(--brand-blue, #2b4162); color: #fff; }
-  .tn-btn:focus-visible { outline: 2px solid var(--brand-blue, #2b4162); outline-offset: 2px; }
+  .tn-btn--primary { border-color: var(--brand-blue, #172a6e); background: var(--brand-blue, #172a6e); color: #fff; }
+  .tn-btn:focus-visible { outline: 2px solid var(--brand-blue, #172a6e); outline-offset: 2px; }
   .tn-error { margin: 8px 0 0; font-size: .8125rem; color: var(--danger, #b91c1c); }
   /* On a phone the mascot sits beside the title only; the list gets the full width. */
   @media (max-width: 480px) {

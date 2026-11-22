@@ -35,10 +35,10 @@ import { currentPath } from "./paths.js";
 
 const calm = matchMedia("(prefers-reduced-motion: reduce)");
 
-// "x:telc/telc-b1-1/lesen-1" on /siele/levels/telc-b1-1, "x:start-deutsch-1/lesen2" where the page
+// "x:telc/telc-b1-1/lesen-1" on /celi/telc-b1-1, "x:start-deutsch-1/lesen2" where the page
 // is named after the exam itself (docs/klassen-tier0-v1.md §6).
 function examRef(examId, key) {
-  // The family by its registry id (telc on /siele/levels/…), so refs stay what they were.
+  // The family by its registry id (telc on /celi/…), so refs stay what they were.
   const family = examOfPath(currentPath()) ?? currentPath().split("/").filter(Boolean)[0];
   return family && family !== examId ? `x:${family}/${examId}/${key}` : `x:${examId}/${key}`;
 }
@@ -168,7 +168,7 @@ export function mountExamApp(root, { examId, sections, onAnswer, unit = "Fragen"
     // Klassen log: each section (Teil) of a set is its own exercise; the result page ends it.
     if (section.key === "ergebnis") {
       endSet();
-      // A learner's Stunde (/lesson, lernstunde.js): the exam part of the step is done.
+      // A learner's Stunde (/lezione, lernstunde.js): the exam part of the step is done.
       dispatchEvent(new CustomEvent("da:set-end", { detail: { exam: examId } }));
     }
     else setRef(examRef(examId, section.key));

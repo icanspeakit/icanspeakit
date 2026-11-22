@@ -21,6 +21,8 @@ const existsHere = (path) => {
 };
 const ok = (url) => {
   const path = url.split(/[?#]/)[0];
+  // The site root (the hub's course picker) is a valid target from every app.
+  if (path === '/') return true;
   if (norm(base) === '') return path === '/' || allowed.map(norm).some((b) => under(path, b)) || existsHere(path);
   return bases.some((b) => under(path, b));
 };

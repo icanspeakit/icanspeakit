@@ -1,5 +1,5 @@
 // What the lesson pages embed for the browser, built at build time: the teacher's
-// /teachers/lesson and the learner's /lesson make the very same Stunde from it.
+// /insegnanti/lezione and the learner's /lezione make the very same Stunde from it.
 //   levels      planLevels(): per level its blocks, grammar links, Wortliste, game, videos
 //   bilder      Einstieg photos: niveau → per block { src (without -<width>.<ext>), alt, credit } or null
 //   themen      per grammar topic href: up to three example sentences (aktiv.listen), three gap
@@ -50,9 +50,10 @@ export function unterrichtDaten() {
   const wortfelder = Object.fromEntries(Object.entries(wortfelderRoh).filter(([, f]) => f?.woerter).map(([feld, f]) => [feld, {
     aufgabe: f.aufgabe,
     woerter: f.woerter.map((t) => {
-      // "la carta": a noun written with its article. The article is split off only when the rest
-      // is an A1 word, so phrases like "una botella de agua" or "la semana pasada" stay whole.
-      const [, artikel, wort] = /^(el|la|los|las) (\S.*)$/.exec(t) ?? [, null, t];
+      // "la carta" or "l'indirizzo": a noun written with its article. The article is split off
+      // only when the rest is an A1 word, so phrases like "una bottiglia di" or "sabato prossimo"
+      // stay whole.
+      const [, artikel, wort] = /^(il|lo|la|i|gli|le) (\S.*)$/.exec(t) ?? /^(l')(\S.*)$/.exec(t) ?? [, null, t];
       const w = lexikon.get(t) ?? lexikon.get(wort);
       return w
         ? { text: w.lemma, artikel: w.gender ?? artikel, plural: w.plural ?? null, beispiel: w.example ?? null }

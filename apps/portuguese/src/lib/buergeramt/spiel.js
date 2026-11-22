@@ -1,4 +1,4 @@
-// Bruno at the desk (/games/aima): Bruno, our dachshund, works
+// Bruno at the desk (/jogos/aima): Bruno, our dachshund, works
 // window 3 in the invented town of Vilabruno: the Junta de Freguesia, the centro de saúde, Finanças
 // and Segurança Social, then two days at AIMA (residence permit, renewal, questions it doesn't
 // decide). The number display dings, a customer slides papers across the desk, and the player

@@ -15,17 +15,17 @@
 import "../styles/exam-rail.css";
 
 const exams = [
-  { name: "Start Deutsch 1", href: "/a1-test", level: "A1" },
-  { name: "DTZ", href: "/trinity/ise-1", level: "A2/B1" },
-  { name: "telc", href: "/trinity", level: "A1–C2" },
-  { name: "Goethe-Zertifikat", href: "/cambridge", level: "A1–C2" },
-  { name: "TestDaF", href: "/ielts", level: "B2–C1" },
+  { name: "A1 practice test", href: "/a1-test", level: "A1" },
+  { name: "Trinity ISE I", href: "/trinity/ise-1", level: "B1" },
+  { name: "Trinity ISE", href: "/trinity", level: "A2–B2" },
+  { name: "Cambridge English", href: "/cambridge", level: "A2–B2" },
+  { name: "IELTS Academic", href: "/ielts", level: "Band 0–9" },
 ];
-const lid = { name: "Leben in Deutschland", href: "/life-in-the-uk" };
+const lid = { name: "Life in the UK test", href: "/life-in-the-uk" };
 const here = Astro.url.pathname.replace(/\/+$/, "");
 ---
-<nav class="ex-rail" aria-label="Prüfungen" data-i18n-attr="aria-label:nav.exams">
-  <a class="ex-rail-up" href="/exams"><span data-i18n="nav.panel.allExams">Alle Prüfungen ansehen</span></a>
+<nav class="ex-rail" aria-label="Exams" data-i18n-attr="aria-label:nav.exams">
+  <a class="ex-rail-up" href="/exams"><span data-i18n="nav.panel.allExams">See all exams</span></a>
   <div class="ex-rail-tabs">
     {exams.map((e) => (
       <a class="ex-rail-item" href={e.href} aria-current={here === e.href ? "page" : undefined}>

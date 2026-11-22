@@ -2,7 +2,7 @@
 // Testmodus (compact list), sharing per-question progress within the session.
 // Question shape: { id, difficulty?, prompt, options, answer, explain, explainLeicht?, change, audioSrc? }.
 // `audioSrc` is the answer spoken (a recorded "la casa"); `speak` is the same as text, for the
-// browser's Spanish voice while there are no recordings. Both optional. It plays once the
+// browser's French voice while there are no recordings. Both optional. It plays once the
 // question is settled (solved, or revealed), and the `change` chip replays it.
 // `explainLeicht` is the Leichte-Sprache register of `explain`; optional, and absent means
 // the switch leaves that question's explanation as it is.
@@ -32,12 +32,13 @@ const HOLD_EXTRA_MS = 2000;
 // wrongFlow, right answer: long enough for Bruno to pop up (a 0.5 s hop) and stay a moment.
 const CORRECT_ADVANCE_DELAY_WRONGFLOW_MS = 1050;
 
-/* The article in its colour, for the noun shown in full after a wrong answer: el and la take the
-   site's two gender colours. */
-const ARTICLE_COLOUR = { el: "der", la: "die" };
+/* The article in its colour, for the noun shown in full after a wrong answer: le/un and la/une
+   take the site's two gender colours; l' and les say nothing about gender, so they stay plain.
+   (el was the Spanish course's; harmless, kept so old data never loses its colour.) */
+const ARTICLE_COLOUR = { le: "der", un: "der", la: "die", une: "die", el: "der" };
 function articleHtml(q) {
   const cls = ARTICLE_COLOUR[q.answer] ?? "";
-  return `<b class="akk-art${cls ? ` akk-art--${cls}` : ""}" lang="es">${q.answer}</b>`;
+  return `<b class="akk-art${cls ? ` akk-art--${cls}` : ""}" lang="fr">${q.answer}</b>`;
 }
 
 function sentenceHtml(prompt) {
@@ -115,15 +116,15 @@ let player = null;
 function speak(question, { force = false } = {}) {
   if (!soundOn && !force) return;
   if (!question.audioSrc) {
-    // No recording: the browser's voice, one from Spain first. No speech at all: stay silent, the
+    // No recording: the browser's voice, one from France first. No speech at all: stay silent, the
     // answer is on the card anyway.
     if (!question.speak || typeof speechSynthesis === "undefined") return;
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(question.speak);
-    u.lang = "es-ES";
+    u.lang = "fr-FR";
     u.rate = slowOn ? 0.6 : 0.9;
     const voices = speechSynthesis.getVoices();
-    const v = voices.find((x) => /^es(-|_)ES/i.test(x.lang)) ?? voices.find((x) => /^es(-|_)/i.test(x.lang));
+    const v = voices.find((x) => /^fr(-|_)FR/i.test(x.lang)) ?? voices.find((x) => /^fr(-|_)/i.test(x.lang));
     if (v) u.voice = v;
     speechSynthesis.speak(u);
     return;
@@ -358,7 +359,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
   const doneNoun = (q) => q.lemma ?? q.prompt.replace("___", "").trim();
   function doneRowHtml(q, wrong) {
     const plural = q.plural && !q.pluralOnly
-      ? `<span class="akk-done-plural"><b class="akk-art akk-art--plural">die</b> ${q.plural}</span>`
+      ? `<span class="akk-done-plural"><b class="akk-art akk-art--plural">les</b> ${q.plural}</span>`
       : "";
     let answer;
     if (wrong) {
@@ -367,7 +368,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
         ? `<span class="akk-done-second">${t("pw.done.secondTryShort", "2. Versuch ✓")}</span>`
         : "";
       answer = (pick && pick !== q.answer
-        ? `<s class="akk-done-pick" lang="es" title="${attr(t("pw.done.yourPick", "Deine Antwort: {a}", { a: pick }))}">${pick}</s>`
+        ? `<s class="akk-done-pick" lang="fr" title="${attr(t("pw.done.yourPick", "Deine Antwort: {a}", { a: pick }))}">${pick}</s>`
         : `<span class="akk-done-x">✗</span>`) + second;
     } else {
       answer = `<span class="akk-done-ok" title="${attr(t("pw.done", "richtig"))}">✓</span>`;
@@ -375,7 +376,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
     return `
           <tr class="akk-done-row${wrong ? " akk-done-row--wrong" : ""}">
             <td class="akk-done-art" dir="ltr">${articleHtml(q)}</td>
-            <td class="akk-done-word" dir="ltr" lang="es"><span class="akk-done-noun">${doneNoun(q)}</span>${plural}</td>
+            <td class="akk-done-word" dir="ltr" lang="fr"><span class="akk-done-noun">${doneNoun(q)}</span>${plural}</td>
             <td class="akk-done-ans">${answer}</td>
           </tr>`;
   }
@@ -426,8 +427,8 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
       ? t("pw.done.savedAccount", "Gespeichert. Deinen Fortschritt und deine Fehler findest du jederzeit wieder.")
       : t("pw.done.savedLocal", "Dein Fortschritt und deine Fehler sind nur in diesem Browser gespeichert. Melde dich an, dann gehen sie nicht verloren.");
     const link = signedIn
-      ? `<a class="akk-done-save-link" href="${withBase("/progress")}">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
-      : `<a class="akk-done-save-link" href="${withBase("/account")}?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
+      ? `<a class="akk-done-save-link" href="${withBase("/progression")}">${t("pw.done.toProgress", "Zum Fortschritt")}</a>`
+      : `<a class="akk-done-save-link" href="${withBase("/compte")}?next=${next}">${t("pw.done.signIn", "Anmelden und speichern")}</a>`;
     return `
       <div class="akk-done-save${signedIn ? "" : " akk-done-save--local"}">
         <span class="akk-done-save-who" aria-hidden="true">${mascotSvg({ name: "regi", expr: "happy", size: 52, label: "" })}</span>
@@ -495,7 +496,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             // The noun in full once the answer is out, its article in colour: „die Dividende".
             // One LTR span: the sentence is a flex row, which an Arabic UI would reverse
             // into „Dividende die".
-            ? `<span dir="ltr" lang="es">${q.prompt.replace("___", articleHtml(q))}</span>`
+            ? `<span dir="ltr" lang="fr">${q.prompt.replace("___", articleHtml(q))}</span>`
             : sentenceHtml(q.prompt)}${hearHtml(q, { slow: true })}</p>
           <div class="akk-pills">
             ${q.options
@@ -511,7 +512,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             ? `<p class="akk-focus-instruction">${attr(root.dataset.instruction)}</p>`
             : `<p class="akk-focus-instruction" data-ls="${attr(t("pw.instruction", "Wähle den passenden Artikel."))}" data-ls-leicht="${attr(t("pw.instruction.leicht", "Was passt: der, die oder das? Klicke auf ein Wort."))}">${t("pw.instruction", "Wähle den passenden Artikel.")}</p>`}
           ${q.plural && !root.dataset.instruction
-            ? `<p class="akk-focus-plural">${t("pw.plural", "Plural:")} <b lang="es">${q.plural}</b></p>`
+            ? `<p class="akk-focus-plural">${t("pw.plural", "Plural:")} <b lang="fr">${q.plural}</b></p>`
             : ""}
           <div class="akk-feedback" id="akk-focus-feedback">
             ${

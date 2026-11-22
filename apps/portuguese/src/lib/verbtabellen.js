@@ -1,4 +1,4 @@
-// The verb tables behind /grammar/verbs (the "mini grammar"), the search lens's verb hits, the
+// The verb tables behind /gramatica/verbos (the "mini grammar"), the search lens's verb hits, the
 // worksheet and the live quiz. Data: src/data/verbtabellen.json. Generator:
 // src/lib/verbtabellenCore.js, which has no Vite imports so the checker can run it too.
 import data from "../data/verbtabellen.json";
@@ -25,4 +25,4 @@ export const verbs = buildAll(data.verbs).map((v) => {
 /** The rows to show: the vós row goes in a Brazil mode (content-plan §1.5, §4.1). */
 export const visibleRows = (v) => v.rows.filter((r) => r.person !== VOSOTROS || showsVos());
 
-export const verbHref = (v) => `/grammar/verbs#${v.id}`;
+export const verbHref = (v) => `/gramatica/verbos#${v.id}`;

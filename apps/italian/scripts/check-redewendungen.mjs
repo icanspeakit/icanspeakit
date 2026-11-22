@@ -1,4 +1,4 @@
-// check:redewendungen — the entries of /knowledge/idioms (src/data/redewendungen.json)
+// check:redewendungen — the entries of /conoscenze/modi-di-dire (src/data/redewendungen.json)
 // hold together: unique ids, every required field, valid typ/thema/level/register/certainty,
 // at least one source with an https URL, `aehnlich` ids that exist, `siehe` routes that
 // exist, OpenMoji icons that exist, and every example sentence containing one of the
@@ -35,13 +35,13 @@ for (const e of data.eintraege) {
 /** A route on this site: a page file, or a published word history. */
 function routeExists(path) {
   const clean = path.split(/[?#]/)[0].replace(/\/+$/, "");
-  const wg = clean.match(/^\/knowledge\/word-stories\/([^/]+)$/);
+  const wg = clean.match(/^\/conoscenze\/storie-di-parole\/([^/]+)$/);
   if (wg) return existsSync(`${ROOT}src/content/wortgeschichte/${wg[1]}.json`);
   return [`${clean}.astro`, `${clean}/index.astro`].some((f) => existsSync(`${ROOT}src/pages${f}`));
 }
 
 // Words too common to prove an example belongs to its phrase.
-const STOP = new Set("estar tener hacer para como pero algo alguien cada aquí muy unos unas este esta esto sobre desde hasta cuando donde quien".split(" "));
+const STOP = new Set("essere avere fare stare andare dare come cosa molto quando quanto tutto tutti sempre della dello delle degli nella nello nelle negli sono mani".split(" "));
 // A word counts by its first letters, so a conjugated verb still matches when its stem holds.
 // Short names count too („Roma“), short other words don't.
 const keys = (de) =>

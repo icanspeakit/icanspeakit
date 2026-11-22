@@ -1,16 +1,16 @@
-// Satzmelodie (/intonation): the lines that get a recording, and where each file lives.
-// (Not to be confused with satzmelodie.js, the pitch analysis behind /pronunciation-check.)
+// Satzmelodie (/intonazione): the lines that get a recording, and where each file lives.
+// (Not to be confused with satzmelodie.js, the pitch analysis behind /verifica-pronuncia.)
 // One list for scripts/generate-satzmelodie-audio.mjs and the page, so both find the same
-// file. Text + kind go into the name: "Ana viene mañana." and "¿Ana viene mañana?" are
+// file. Text + kind go into the name: "Anna viene domani." and "Anna viene domani?" are
 // different recordings of the same words.
 import data from "../data/satzmelodie.json" with { type: "json" };
 import { satzSlug } from "./audioSlug.js";
 
 export const AUDIO_DIR = "/audio/satzmelodie";
 
-/** The marks of a line type. Spanish opens questions and exclamations too: ¿…? ¡…! */
-export const MARKS = { aussage: ["", "."], echo: ["¿", "?"], ausruf: ["¡", "!"] };
-/** The statement base said as a type: "Ana viene mañana" + echo → "¿Ana viene mañana?". */
+/** The marks of a line type. Italian marks only the end: …. …? …! */
+export const MARKS = { aussage: ["", "."], echo: ["", "?"], ausruf: ["", "!"] };
+/** The statement base said as a type: "Anna viene domani" + echo → "Anna viene domani?". */
 export const baseAs = (base, type) => `${MARKS[type][0]}${base}${MARKS[type][1]}`;
 
 export function familyLines(f) {

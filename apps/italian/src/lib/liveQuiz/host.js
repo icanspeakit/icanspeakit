@@ -1,4 +1,4 @@
-// The projector side of the live quiz: /teachers/quiz. See protocol.js for the
+// The projector side of the live quiz: /insegnanti/quiz. See protocol.js for the
 // messages and why the host holds all the state.
 //
 // Screens, in order: setup → lobby (PIN + QR + who is in) → question → reveal →
@@ -83,7 +83,7 @@ export function mountHost(root) {
   let phase = "setup";
   /** id → { name, avatar, lang, score, online, bot? } */
   const players = new Map();
-  // Test mode: one person runs a whole game alone. The phone preview is a real /game
+  // Test mode: one person runs a whole game alone. The phone preview is a real /gioco
   // page in an iframe (its own Realtime client, so the wire is tested too); the bots
   // live only here and answer through the same onAnswer() a phone's broadcast reaches.
   const BOT_COUNT = 3;
@@ -167,7 +167,7 @@ export function mountHost(root) {
       loadOwn();
       const q = ownQuiz();
       $("[data-own-edit]").hidden = !q;
-      if (q) $("[data-own-edit]").href = `${withBase("/teachers/quiz/create")}?id=${q.id}`;
+      if (q) $("[data-own-edit]").href = `${withBase("/insegnanti/quiz/crea")}?id=${q.id}`;
       // Only a quiz with Lernset words shows translations on this screen.
       $("[data-show-lang-field]").hidden = !(q && q.questions?.some((x) => x?.t === "word"));
       $("[data-set-hint]").hidden = true;
@@ -441,7 +441,7 @@ export function mountHost(root) {
       const vocabName = $("[data-vocab-name]")?.textContent.trim();
       const grammarName = $("[data-grammar-name]")?.textContent.trim();
       q.set("titel", (settings.grammarOnly ? grammarName : settings.grammar ? `${vocabName} + ${grammarName}` : vocabName) || "");
-      location.href = `${withBase("/game")}?${q}`;
+      location.href = `${withBase("/gioco")}?${q}`;
       return;
     }
     const btns = form.querySelectorAll("[type=submit]");
@@ -502,7 +502,7 @@ export function mountHost(root) {
 
   /**
    * Opens a room for one of the teacher's own card sets (Meine Kartensets in the Wortschatz
-   * list): its words as questions, the same ones „Live-Quiz“ on /teachers/cards builds
+   * list): its words as questions, the same ones „Live-Quiz“ on /insegnanti/carte builds
    * (play.js quizQuestionsFor). With a grammar chapter („Wortschatz + Grammatik“) the
    * chapter's questions take turns with the set's words, as with any Lernset (mix.js).
    */
@@ -606,9 +606,9 @@ export function mountHost(root) {
     }
     onPresence();
 
-    const url = `${location.origin}${withBase("/game")}?pin=${pin}`;
+    const url = `${location.origin}${withBase("/gioco")}?pin=${pin}`;
     root.querySelectorAll("[data-pin]").forEach((el) => (el.textContent = `${pin.slice(0, 3)} ${pin.slice(3)}`));
-    root.querySelectorAll("[data-join-url]").forEach((el) => (el.textContent = `${location.host}${withBase("/game")}`));
+    root.querySelectorAll("[data-join-url]").forEach((el) => (el.textContent = `${location.host}${withBase("/gioco")}`));
     $("[data-qr]").innerHTML = await QRCode.toString(url, { type: "svg", margin: 1, errorCorrectionLevel: "M" });
     renderLobby();
   }
@@ -1216,11 +1216,11 @@ export function mountHost(root) {
         pace: 0.3 + Math.random() * 0.5,
       });
     });
-    const src = `${withBase("/game")}?pin=${pin}&name=${encodeURIComponent(t("lq.test.me", "Ich (Test)"))}&test=1`;
+    const src = `${withBase("/gioco")}?pin=${pin}&name=${encodeURIComponent(t("lq.test.me", "Ich (Test)"))}&test=1`;
     // replace(), not src =: a src change is a history entry, and Back would then step
     // the phone preview instead of returning to the setup.
     dock.querySelector("iframe").contentWindow.location.replace(src);
-    $("[data-test-open]").href = `${withBase("/game")}?pin=${pin}`;
+    $("[data-test-open]").href = `${withBase("/gioco")}?pin=${pin}`;
     dock.hidden = false;
     fold(false);
     renderLobby();

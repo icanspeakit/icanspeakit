@@ -5,6 +5,30 @@ https://claude.ai/artifact/VDZ3oSnX8VGsCAxc1heBjA, private until shared).*
 Everything about how icanspeak.it and its courses look: what is decided and in use, what was
 explored, and what is still open.
 
+## 0. Decided (November 9, 2026)
+
+**Brand colours** (two strengths of the same four, plus ink). Chosen from the mascot colour sets on
+the canvas "icanspeak English – new colours & logo" (`design/english-landing/Mascot-colour-sets.dc.html`):
+
+| Colour | Strong | Soft | Mascot card |
+|---|---|---|---|
+| yellow | `#FFC21A` sun yellow | `#FFE29A` butter | Regi |
+| blue | `#6FD6FF` sky | `#BFE3FF` powder blue | Bruno |
+| red | `#FF6F5E` coral | `#FFC4B8` peach | Quaki |
+| green | `#4CD98B` green | `#BDEFD2` mint | Hamsti |
+| ink | `#172A6E` dark blue | | text, buttons |
+
+Strong and soft are fills only: no text in these colours on white (contrast). Text is ink.
+
+**Site structure:** the mosaic tiles (round 4) are the look of the landing page and the site.
+Reference: `design/english-landing/D-canspeak-tiles.dc.html`.
+
+**Logo (proposal, round 5):** "icanspeak!" in Fraunces 900. The first letter is a lowercase **i**
+(round dot, upright stem, slightly wider foot as a nod to ¡); the closing **!** is the same i turned
+upside down. Behind the letters, four layers in the brand colours (the multilayer idea from the
+glass visual, flattened). Variants A–F and marks: `design/logo/` (outlined SVG; rebuild with
+`design/logo/build-logo.py`). Still to pick: full stack (A/B) or layered i and ! only (C).
+
 ## 1. The brand
 
 - **Name:** icanspeak, always lowercase. **Domain:** icanspeak.it (kept despite Google's slight

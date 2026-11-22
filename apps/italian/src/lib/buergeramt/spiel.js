@@ -1,15 +1,16 @@
-// Bruno at the desk (/games/extranjeria): Bruno, our dachshund, works
-// window 3 in the invented town of Villabruno: two days at the padrón, then the foreigners' office
-// (NIE, TIE, questions about arraigo and the 2026 regularisation). The number display dings, a
+// Bruno at the desk (/giochi/questura): Bruno, our dachshund, works
+// sportello 3 in the invented town of Casalbruno: two days at the Anagrafe (residenza), then the
+// Questura desk (permesso di soggiorno via the Poste kit, renewal, questions about citizenship,
+// the codice fiscale and the ASL). The number display dings, a
 // customer slides papers across the desk, and the player checks them against Regi's rule memo:
-// find what contradicts (Check), ask a question in Spanish, then stamp COMPLETO or DEVUELTO.
+// find what contradicts (Check), ask a question in Italian, then stamp COMPLETO or DA CORREGGERE.
 // The player only ever checks that paperwork is complete; nothing here decides anyone's status.
 // Code ids keep the names of the German original (the Bürgeramt sim from deutschacademy).
 //
 // This is the game flow: the start card, the days, points and warnings, the end card. The
 // desk itself is tisch.js, cases come from faelle.js, rules from regeln.js. Every interface
 // string is in UI below (one object, so the release tier can move them to i18n keys); the
-// Spanish on the papers, memos and in the customers' mouths is the content being learnt and
+// Italian on the papers, memos and in the customers' mouths is the content being learnt and
 // stays in regeln.js / faelle.js / kunden.json.
 
 import { makeTisch } from "./tisch.js";
@@ -21,28 +22,28 @@ import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spie
 
 export const UI = {
   eyebrow: "Game · A2–B1 · Prototype",
-  titel: "Bruno at the desk: padrón and Extranjería",
-  lead: "Bruno works at window 3 in the invented town of Villabruno: first at the town hall (padrón), then at the foreigners’ office (NIE and TIE). Check the papers, find the mistakes, ask in Spanish and stamp: COMPLETO (complete) or DEVUELTO (sent back).",
-  orientacion: "General orientation, not legal advice. Villabruno and its office are invented, and the papers are simplified. A stamp here only says whether paperwork is complete. Rules and deadlines change, so check your town hall, the sede electrónica, your Oficina de Extranjería or your consulate. Facts as of November 2026.",
+  titel: "Bruno at the desk: Comune and Questura",
+  lead: "Bruno works at sportello 3 in the invented town of Casalbruno: first at the town hall (Anagrafe, residenza), then at the Questura desk (permesso di soggiorno, Poste kit). Check the papers, find the mistakes, ask in Italian and stamp: COMPLETO (complete) or DA CORREGGERE (to be corrected).",
+  orientacion: "General orientation, not legal advice. Casalbruno and its offices are invented, and the papers are simplified. A stamp here only says whether paperwork is complete. Rules, forms, fees and deadlines change, so check your Comune, the Questura, the Poste, the Agenzia delle Entrate, your ASL or a patronato. Facts as of November 2026; some are still to be verified.",
   comoJugar: "How to play",
   pasos: [
     "Tap 🔍 Check (or press P), then two things that don’t match: two fields, a field and the calendar, a field and a rule, or what the customer says and a rule.",
     "A match goes on your notes. Tap Ask and choose the question that fits. Sometimes that fixes the problem.",
-    "Papers in order: stamp COMPLETO. Still a problem: stamp DEVUELTO.",
+    "Papers in order: stamp COMPLETO. Still a problem: stamp DA CORREGGERE.",
     "Tap a word on a paper to see what it means. The EN button shows or hides all the English.",
   ],
-  verdad: "How it really works in Spain",
+  verdad: "How it really works in Italy",
   fuente: "Source",
   verdadHoy: "Today’s real rules",
-  inventada: "Rules marked “Villabruno rule” are made up for the game.",
+  inventada: "Rules marked “Casalbruno rule” are made up for the game.",
   los: "Start day 1",
   wartende: "Waiting",
   punkte: "Points",
   verwarnungen: "Warnings",
   ton: "Sound on/off",
   enTitel: "Show or hide the English",
-  nummer: "Turno",
-  schalter: "Ventanilla 3",
+  nummer: "Numero",
+  schalter: "Sportello 3",
   pruefen: "Check",
   pruefenTitel: "Check: tap two fields that don’t match (key P, or hold Shift)",
   notizzettel: "Notes",
@@ -53,18 +54,18 @@ export const UI = {
   abbrechen: "Cancel",
   geklaert: "sorted ✓",
   genehmigt: "COMPLETO",
-  abgelehnt: "DEVUELTO",
+  abgelehnt: "DA CORREGGERE",
   ablehnenWarum: "Find a mistake first: tap 🔍 Check, then two fields that don’t match.",
   erstPruefen: "To compare, tap 🔍 Check first (or hold Shift).",
   passt: "That matches.",
   egal: "You can’t compare those.",
   schonNotiert: "That’s already in your notes.",
   schonGeklaert: "That’s already sorted.",
-  memoTitel: "Normas de hoy",
+  memoTitel: "Regole di oggi",
   memoVon: "– Regi",
-  tabMemo: "📌 Normas",
-  echt: "Usual in Spain",
-  lindenau: "Villabruno rule",
+  tabMemo: "📌 Regole",
+  echt: "Usual in Italy",
+  lindenau: "Casalbruno rule",
   verwarnung: "Warning",
   richtigGenehmigt: "Correct! The papers were complete.",
   richtigAbgelehnt: "Correctly sent back.",
@@ -84,11 +85,11 @@ export const UI = {
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-/** The real-life facts behind some rules: Spanish, English and a source type with a link. */
+/** The real-life facts behind some rules: Italian, English and a source type with a link. */
 function verdadHtml(ids) {
   return ids.filter((id) => REGELN[id].wirklich).map((id) => {
     const r = REGELN[id];
-    return `<li><p lang="es">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
+    return `<li><p lang="it">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
       <small>${UI.fuente}: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.quelle)}</a></small></li>`;
   }).join("");
 }
@@ -222,7 +223,7 @@ export function mountBuergeramt(root) {
         tisch.nachFrage(loese(s.fall, f));
       } else {
         tisch.sage(info.nicht);
-        tisch.zeigeKunde(f.code === "zimmer" ? "froh" : f.code.startsWith("derivar") ? "neutral" : "genervt");
+        tisch.zeigeKunde(f.code === "zimmer" ? "froh" : (f.code.startsWith("derivar") || f.code.startsWith("sportello")) ? "neutral" : "genervt");
         tisch.nachFrage(null);
       }
     } else {

@@ -1,6 +1,6 @@
-/* /knowledge/word-stories — Wort des Tages. Phone first: everything is one column at 390px,
+/* /savoirs/histoires-de-mots — Wort des Tages. Phone first: everything is one column at 390px,
  * the branching tree and the timeline go side by side only from 760px. Built on the
- * page shell of /knowledge/languages (.uv-main, .uv-eyebrow, .vp-back-link). */
+ * page shell of /savoirs/langues (.uv-main, .uv-eyebrow, .vp-back-link). */
 
 .wg {
   --wg-sure: #067647;
@@ -22,7 +22,7 @@
 .wg .vp-back-link { display: inline-block; margin-bottom: 8px; }
 .wg .vp-back-link::before { content: "← "; }
 [dir="rtl"] .wg .vp-back-link::before { content: "→ "; }
-.wg [lang="es"] { unicode-bidi: isolate; }
+.wg [lang="fr"] { unicode-bidi: isolate; }
 
 /* ------------------------------------------------------------ banner -- */
 .wg-draft {
@@ -195,7 +195,7 @@
 .wg-leaf.is-root small { font-size: .72rem; }
 .wg-leaf.is-root i { font-size: .82rem; }
 
-/* Words break at syllables (lang="es" on the figure), never mid-letter-run where avoidable. */
+/* Words break at syllables (lang="fr" on the figure), never mid-letter-run where avoidable. */
 .wg-leaf, .wg-branch-name { hyphens: auto; overflow-wrap: break-word; }
 .wg-leaf i, .wg-leaf small { overflow-wrap: anywhere; }
 /* Four branches on a phone: ~75px a column, so the chips get smaller type. */

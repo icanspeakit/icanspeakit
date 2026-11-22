@@ -2,7 +2,7 @@
 // link carries the run's seed, mode, level, score and difficulty, so the friend gets the same track and
 // the same words (rng.js) and a number to beat:
 //
-//   /games/gender-sprint?duell=<seed base36>.<mode>.<level>.<score>[.<difficulty>]&von=<name>
+//   /giochi/sprint-degli-articoli?duell=<seed base36>.<mode>.<level>.<score>[.<difficulty>]&von=<name>
 //
 // No difficulty is „normal": links from before there was a choice still work.
 //

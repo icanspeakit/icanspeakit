@@ -4,7 +4,7 @@
 //   pnpm generate:grammatik-start-pdf          all editions
 //   node scripts/generate-grammatik-start-pdf.mjs en de   some
 //
-// → public/downloads/grammatik-start.pdf (English) and grammatik-start-<code>.pdf.
+// → public/downloads/gramatica-espanola-inicio.pdf (English) and gramatica-espanola-inicio-<code>.pdf.
 //
 // The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
@@ -25,7 +25,7 @@
 // page (the comic counts as three), never on top of text.
 //
 // Every page says where it is from (footer, in the reader's language and English); the last
-// page sends the reader back to icanspeak.it/spanish, with a QR code.
+// page sends the reader back to icanspeak.it/espanol, with a QR code.
 import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
@@ -39,8 +39,8 @@ import { topicPath } from "../src/lib/routes.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data", "grammatik-start");
 const outDir = path.join(root, "public", "downloads");
-const SITE = "icanspeak.it/spanish";
-const LOGO = readFileSync(path.join(root, "public", "assets", "logo.png"));
+const SITE = "icanspeak.it/espanol";
+const LOGO = readFileSync(path.join(root, "public", "logos", "icanspeak-wordmark-1200.png"));
 // Fredoka at SemiBold as a static TTF (pdfkit cannot subset the site's variable WOFF2); see scripts/fonts/README.md.
 const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf");
 const fontkit = createRequire(createRequire(import.meta.url).resolve("pdfkit"))("fontkit");
@@ -74,7 +74,7 @@ async function build(lang) {
   const T = (id, field, english) => tr?.blocks?.[id]?.[field] ?? english;
   const chTitle = (c) => tr?.chapters?.[c.id]?.title ?? c.titleDe;
   const chBubble = (c) => tr?.chapters?.[c.id]?.bubble ?? c.bubble;
-  const file = lang === BASE ? "grammatik-start.pdf" : `grammatik-start-${lang}.pdf`;
+  const file = lang === BASE ? "gramatica-espanola-inicio.pdf" : `gramatica-espanola-inicio-${lang}.pdf`;
   const art = await loadArt();
   const pics = {
     regi: await single("regi", "thinking"),
@@ -313,7 +313,7 @@ async function build(lang) {
     doc.page.margins.bottom = 0;
     doc.rect(0, 0, pw, 318).fill(TEAL_SOFT);
     // The logo, with the name and the slogan beside it.
-    doc.image(pdf.pic(LOGO), MARGIN, 36, { width: 150 });
+    doc.image(pdf.pic(LOGO), MARGIN, 42, { width: 150 });
     doc.fillColor(INK).font(F.bold).fontSize(13).text("icanspeak Spanish", MARGIN + 164, 46, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Here for you!", MARGIN + 164, 63, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN SPANISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
@@ -613,10 +613,10 @@ async function build(lang) {
     y += draw(ui.backLead, MARGIN, y, W, { size: 11, rtl: r, color: MUTED }) + 12;
 
     const links = [
-      [ui.back1, `${SITE}/grammar`],
-      [ui.back2, `${SITE}/vocabulary`],
-      [ui.back3, `${SITE}/placement-test`],
-      [ui.back4, `${SITE}/exams`],
+      [ui.back1, `${SITE}/gramatica`],
+      [ui.back2, `${SITE}/vocabulario`],
+      [ui.back3, `${SITE}/prueba-de-nivel`],
+      [ui.back4, `${SITE}/examenes`],
     ];
     const qrW = 118;
     const listW = W - qrW - 24;
@@ -630,7 +630,7 @@ async function build(lang) {
       doc.fillColor(TEAL_DARK).font(F.regular).fontSize(10).text(url, tx, y + h + 1, { width: listW - 26, align: r ? "right" : "left", link: `https://${url}` });
       y += h + 22;
     });
-    const qr = await QRCode.toBuffer(`https://${SITE}`, { margin: 1, width: 360, color: { dark: "#0f766e", light: "#ffffff" } });
+    const qr = await QRCode.toBuffer(`https://${SITE}`, { margin: 1, width: 360, color: { dark: "#172A6E", light: "#ffffff" } });
     const qx = r ? MARGIN : RIGHT - qrW;
     doc.roundedRect(qx - 6, qrY - 6, qrW + 12, qrW + 34, 10).fillAndStroke("#ffffff", BORDER);
     doc.image(pdf.pic(qr), qx, qrY, { width: qrW });
@@ -639,7 +639,7 @@ async function build(lang) {
     // Logo, slogan, the right to share.
     const fy = pdf.contentBottom() - 70;
     doc.moveTo(MARGIN, fy).lineTo(RIGHT, fy).strokeColor(TEAL).lineWidth(1.5).stroke();
-    doc.image(pdf.pic(LOGO), MARGIN, fy + 14, { width: 120 });
+    doc.image(pdf.pic(LOGO), MARGIN, fy + 20, { width: 120 });
     doc.fillColor(INK).font(F.bold).fontSize(11).text("icanspeak Spanish", MARGIN + 130, fy + 18, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(10).text("Here for you!", MARGIN + 130, fy + 33, { lineBreak: false });
     draw(ui.share, MARGIN + 250, fy + 12, W - 250, { size: 8.5, rtl: r, color: MUTED });

@@ -59,6 +59,8 @@ function pathFor(loc: Locale, slug: string, lens: 'practice' | 'progress' | 'ove
 
 const otherLocale: Locale = locale === 'de' ? 'en' : 'de';
 const homeHref = locale === 'de' ? u('/de/') : u('/');
+// As in the site header: the wordmark goes to icanspeak.it (all languages), the pill to linguistics.
+const siteHome = import.meta.env.DEV ? 'http://localhost:4320/' : '/';
 const langSwitchHref = pathFor(otherLocale, currentSlug, activeLens);
 
 const copy = {
@@ -224,23 +226,37 @@ const t = copy[locale];
 <div class="dash-shell" class:list={{ 'dash-shell--boxed': !fullscreen }}>
 <div class="dash-topbar">
   <div class="dash-topbar__inner container">
-    <a href={homeHref} class="dash-topbar__icon" aria-label="Home">
+    <a href={homeHref} class="dash-topbar__icon" aria-label={locale === 'de' ? 'Start' : 'Home'}>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M3 11.5 12 4l9 7.5" />
         <path d="M5.5 10v9a1 1 0 0 0 1 1H9a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h2.5a1 1 0 0 0 1-1v-9" />
       </svg>
     </a>
 
-    <a href={homeHref} class="dash-topbar__brand">
-      <span class="dash-topbar__brand-word">icanspeak<span class="dash-topbar__brand-accent">.it</span></span>
-    </a>
+    <span class="dash-topbar__lockup">
+      <a href={siteHome} class="dash-topbar__brand" aria-label={locale === 'de' ? 'icanspeak.it, alle Sprachen' : 'icanspeak.it, all languages'}>
+        <img class="dash-topbar__logo" src={u("/logos/icanspeak-wordmark-dark.svg")} alt="" width="116" height="24" />
+      </a>
+      <a href={homeHref} class="dash-topbar__pill" aria-label={locale === 'de' ? 'icanspeak Linguistik, Start' : 'icanspeak linguistics, home'}>{locale === 'de' ? 'linguistik' : 'linguistics'}</a>
+    </span>
 
     <div class="dash-topbar__actions">
-      <a class="dash-topbar__lang" href={langSwitchHref} hreflang={otherLocale} lang={otherLocale}>{otherLocale.toUpperCase()}</a>
+      <a class="dash-topbar__lang" href={langSwitchHref} hreflang={otherLocale} lang={otherLocale} aria-label={otherLocale === 'de' ? 'Deutsch' : 'English'} title={otherLocale === 'de' ? 'Deutsch' : 'English'}>{otherLocale.toUpperCase()}</a>
     </div>
   </div>
 </div>
 
+{fullscreen && (
+  <script is:inline>
+    (function () {
+      // Slide the rail in only when arriving from outside the dashboard; runs before first paint.
+      var shell = document.currentScript.closest('.dash-shell');
+      var from = '';
+      try { var r = new URL(document.referrer); if (r.host === location.host) from = r.pathname; } catch (e) {}
+      if (!/\/dashboard(\/|$)/.test(from)) shell.classList.add('dash-shell--enter');
+    })();
+  </script>
+)}
 <section
   class="dash-page"
   class:list={{ 'dash-page--fullscreen': fullscreen }}
@@ -320,10 +336,11 @@ const t = copy[locale];
 
           <div class="dash-rail__label dash-rail__label--list">{t.formatsLabel}</div>
           <div class="dash-rail__list">
-            {formats.map((f) => (
+            {formats.map((f, i) => (
               <button
                 type="button"
                 class="dash-rail__item"
+                style={`--rail-i:${i + 1}`}
                 data-slug={f.slug}
                 data-tier={f.tier}
                 data-active={activeLens !== 'overview' && f.slug === currentSlug ? 'true' : 'false'}
@@ -401,7 +418,7 @@ const t = copy[locale];
                 )}
               </div>
 
-              <div class="dash-lens" role="tablist" aria-label="View">
+              <div class="dash-lens" role="tablist" aria-label={locale === 'de' ? 'Ansicht' : 'View'}>
                 <button type="button" class="dash-lens__btn" data-lens-btn="practice" data-active={!showProgress ? 'true' : 'false'}>{t.lensPractice}</button>
                 <button type="button" class="dash-lens__btn" data-lens-btn="progress" data-active={showProgress ? 'true' : 'false'}>{t.lensProgress}</button>
               </div>
@@ -1086,13 +1103,32 @@ const t = copy[locale];
   const dashPanelBody = document.getElementById('dash-panel-body');
   let railMini = false;
 
-  railToggle?.addEventListener('click', () => {
-    railMini = !railMini;
+  function setRailMini(on: boolean) {
+    railMini = on;
     dashPanelBody?.classList.toggle('dash-panel__body--rail-mini', railMini);
-    railToggle.setAttribute('aria-expanded', String(!railMini));
-    const label = railMini ? railToggle.dataset.labelExpand : railToggle.dataset.labelMinimize;
-    if (label) railToggle.setAttribute('aria-label', label);
-  });
+    railToggle?.setAttribute('aria-expanded', String(!railMini));
+    const label = railMini ? railToggle?.dataset.labelExpand : railToggle?.dataset.labelMinimize;
+    if (label) railToggle?.setAttribute('aria-label', label);
+  }
+  railToggle?.addEventListener('click', () => setRailMini(!railMini));
+
+  // A click in the main pane folds the rail to its icons, as the course sites' side lists do
+  // (sideNavFold.js, foldOnAnyClick): any click outside the rail that is not on a control.
+  // Desktop only: below 860px the rail is a trigger row with its own sheet. Not in the
+  // homepage's boxed teaser.
+  const RAIL_CONTROL = "button, a, input, select, textarea, label, [role='button'], [draggable='true'], [contenteditable], [tabindex], dialog";
+  const railWide = matchMedia('(min-width: 861px)');
+  const railEl = document.getElementById('dash-rail');
+  if (!isPreview) {
+    document.addEventListener('click', (e) => {
+      if (railMini || !railWide.matches || e.button !== 0) return;
+      const el = e.target;
+      if (!(el instanceof Element) || railEl?.contains(el) || !dashPanelBody?.contains(el)) return;
+      if (el.closest(RAIL_CONTROL)) return;
+      if (String(getSelection?.() ?? '').trim()) return;
+      setRailMini(true);
+    });
+  }
 
   renderRail();
   renderTiles();
@@ -1140,22 +1176,40 @@ const t = copy[locale];
   }
 
   .dash-topbar__icon:hover {
-    border-color: #e8c879;
-    color: #e8c879;
+    border-color: var(--isk-yellow);
+    color: var(--isk-yellow);
   }
 
+  .dash-topbar__lockup { display: inline-flex; align-items: center; gap: 10px; }
+
   .dash-topbar__brand {
+    display: inline-flex;
     text-decoration: none;
   }
 
-  .dash-topbar__brand-word {
-    font-family: 'Literata', var(--font-display);
-    font-size: 1.05rem;
-    color: #fff;
+  /* The site header's yellow "linguistics" pill, on the navy bar: navy ink, a hover that lifts to white. */
+  .dash-topbar__pill {
+    display: inline-flex;
+    align-items: center;
+    background: var(--isk-yellow);
+    color: var(--isk-navy);
+    font-family: var(--isk-font-display);
+    font-weight: 900;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0.3em 0.75em;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s;
   }
+  .dash-topbar__pill:hover { background: #fff; }
+  .dash-topbar__pill:focus-visible { outline: 2px solid var(--isk-yellow); outline-offset: 3px; }
 
-  .dash-topbar__brand-accent {
-    color: #e8c879;
+  .dash-topbar__logo {
+    display: block;
+    height: 24px;
+    width: auto;
   }
 
   .dash-topbar__actions {
@@ -1181,8 +1235,8 @@ const t = copy[locale];
   }
 
   .dash-topbar__lang:hover {
-    border-color: #e8c879;
-    color: #e8c879;
+    border-color: var(--isk-yellow);
+    color: var(--isk-yellow);
   }
 
   @media (max-width: 640px) {
@@ -1345,8 +1399,20 @@ const t = copy[locale];
     }
   }
 
+  /* Arriving from outside the dashboard (e.g. an exercise card), the rail slides in from the left
+     and the page beside it fades up. Moving between dashboard pages skips it (script below). */
+  @media (min-width: 861px) {
+  .dash-shell--enter .dash-rail { animation: dash-rail-in .55s cubic-bezier(.2,.8,.2,1) backwards; }
+  .dash-shell--enter .dash-rail__item { animation: dash-rail-item-in .5s cubic-bezier(.2,.8,.2,1) backwards; animation-delay: calc(.12s + var(--rail-i, 0) * 35ms); }
+  }
+  @keyframes dash-rail-in { from { transform: translateX(-100%); } to { transform: none; } }
+  @keyframes dash-rail-item-in { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .dash-shell--enter .dash-rail, .dash-shell--enter .dash-rail__item { animation: none; }
+  }
+
   .dash-rail {
-    --rail-gold: #e8c879;
+    --rail-gold: var(--isk-yellow);
     background: var(--color-primary-dark);
     padding: 1.6rem 0 1.7rem;
     display: flex;
@@ -1713,14 +1779,14 @@ const t = copy[locale];
 
   :global(.dash-week-day[data-done='true']) {
     color: #1a2940;
-    background: var(--rail-gold, #e8c879);
+    background: var(--rail-gold, var(--isk-yellow));
     font-weight: 600;
   }
 
   .dash-rail__streak {
     font-family: ui-monospace, monospace;
     font-size: 0.72rem;
-    color: var(--rail-gold, #e8c879);
+    color: var(--rail-gold, var(--isk-yellow));
   }
 
   .dash-detail {
@@ -1876,7 +1942,7 @@ const t = copy[locale];
     font: inherit;
     font-weight: 600;
     font-size: 0.85rem;
-    background: #e8c879;
+    background: var(--isk-yellow);
     color: #1c2c46;
     text-decoration: none;
     cursor: pointer;

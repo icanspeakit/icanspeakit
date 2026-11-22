@@ -1,5 +1,5 @@
 {
-  "_note": "Übersetzungen für /legal-notice, /privacy und /terms, je Seite und Element-Schlüssel (data-lx im Markup). Verbindlich ist allein die deutsche Fassung; die Seite sagt das oben in der Sprache der Oberfläche und bietet die deutsche Fassung per Schalter an. Klartext mit **fett**, *kursiv*, [Linktext](url) und den Platzhaltern {email}, {region}, {date} — src/lib/legalTranslation.js macht daraus HTML. Namen, Anschriften, E-Mail, Firmen- und Behördennamen sowie Normzitate (DSGVO Art. …, § …) bleiben unverändert. reviewed: false = maschineller Entwurf, weder juristisch noch muttersprachlich geprüft.",
+  "_note": "Übersetzungen für /mentions-legales, /confidentialite und /conditions-generales, je Seite und Element-Schlüssel (data-lx im Markup). Verbindlich ist allein die deutsche Fassung; die Seite sagt das oben in der Sprache der Oberfläche und bietet die deutsche Fassung per Schalter an. Klartext mit **fett**, *kursiv*, [Linktext](url) und den Platzhaltern {email}, {region}, {date} — src/lib/legalTranslation.js macht daraus HTML. Namen, Anschriften, E-Mail, Firmen- und Behördennamen sowie Normzitate (DSGVO Art. …, § …) bleiben unverändert. reviewed: false = maschineller Entwurf, weder juristisch noch muttersprachlich geprüft.",
   "reviewed": false,
   "common": {
     "dt.name": {
@@ -201,7 +201,7 @@
         "tl": "Ang mga ehersisyo, listahan ng salita at impormasyon tungkol sa mga pagsusulit sa site na ito ay inihanda ayon sa aming pinakamahusay na kaalaman. Gayunman, hindi namin magagarantiya na tama, kumpleto o napapanahon ang nilalaman. Ang impormasyong ibinibigay lamang ng mga kani-kaniyang tagapagbigay ng pagsusulit ang may bisa."
       },
       "p.liability2En": {
-        "en": "Exam formats, exam names and exam materials of third parties (for example DELE, SIELE and the CCSE) are the property of their respective rights holders. The exercises on this site are our own materials, modelled on the published format, and are not official exam material."
+        "en": "Exam formats, exam names and exam materials of third parties (for example DELF, DALF, TCF, TEF and the civic exam) are the property of their respective rights holders. The exercises on this site are our own materials, modelled on the published format, and are not official exam material."
       },
       "h.links": {
         "en": "Liability for links",
@@ -290,10 +290,10 @@
         "tl": "Ang pinakamahalaga muna"
       },
       "p.e1": {
-        "en": "icanspeak Spanish works without an account; in fact there are no accounts at the moment. Your learning progress never leaves your browser: your streak, practised tasks, learned words, settings and started exams are stored only in your device's *localStorage*. We cannot see them, and they are gone as soon as you delete your browser data."
+        "en": "icanspeak French works without an account; in fact there are no accounts at the moment. Your learning progress never leaves your browser: your streak, practised tasks, learned words, settings and started exams are stored only in your device's *localStorage*. We cannot see them, and they are gone as soon as you delete your browser data."
       },
       "p.e2": {
-        "en": "We set no cookies, measure no traffic and use no analytics, advertising or error-monitoring services. Data leaves your device in only two cases: when you open the site (the host's server log data) and when you choose “Correct my text” in a writing task yourself (see “Text correction with LanguageTool”)."
+        "en": "We set no cookies and use no advertising or error-monitoring services. Data leaves your device in three cases: when you open the site (the host's server log data), for cookieless traffic measurement that stores nothing on your device (see “Traffic measurement with PostHog”), and when you choose “Correct my text” in a writing task yourself (see “Text correction with LanguageTool”)."
       },
       "h.controller": {
         "en": "Controller",
@@ -515,7 +515,7 @@
         "tl": "Mga cookie at local storage"
       },
       "p.cookiesNone": {
-        "en": "This site sets no cookies. The only thing used is:"
+        "en": "Without your consent this site sets no cookies. All it uses then is:"
       },
       "li.localStorage": {
         "en": "**localStorage** for your learning progress and your settings. This is not a transfer to us but storage space in your own browser.",
@@ -530,13 +530,34 @@
         "tl": "**localStorage** para sa progreso mo sa pag-aaral at sa mga settings mo. Hindi ito paglilipat sa amin kundi espasyo ng imbakan sa sarili mong browser."
       },
       "p.tdddg": {
-        "en": "This storage is strictly necessary so that the exercises you use can remember where you are (§ 25 Abs. 2 Nr. 2 TDDDG). It needs no consent and no cookie banner."
+        "en": "This storage is strictly necessary so that the exercises you use can remember your progress and your answer to the notice (§ 25 Abs. 2 Nr. 2 TDDDG), and needs no consent. Only if you choose \"Accept\" in the notice about recording does PostHog also store an identifier in a cookie and in your browser's localStorage (names starting with ph_), so that the page views and the recording of one session belong together."
       },
-      "h.noAnalytics": {
-        "en": "No traffic measurement"
+      "h.analytics": {
+        "en": "Traffic measurement with PostHog"
       },
-      "p.noAnalytics": {
-        "en": "We use no traffic measurement, no product analytics, no session recording, no advertising or tracking services and no error monitoring. So we do not learn which pages you visit or which tasks you do."
+      "p.analytics1": {
+        "en": "To understand which pages and exercises are used and where technical errors occur, we use **PostHog** (PostHog Inc., USA) with data processing on servers in the EU (Frankfurt). Without your consent it runs in cookieless mode: PostHog sets no cookie and stores nothing in your browser. So that several page views on the same day count as one visit, PostHog forms a hash on the server from your IP address and browser identifier with a key that changes daily. The IP address itself is not stored. Across several days we cannot recognise you this way."
+      },
+      "p.analytics2": {
+        "en": "Without your consent we build no user profiles, record no sessions and send nothing you type in exercises. Because nothing is stored on or read from your device, no consent under § 25 TDDDG is needed for this. You can object to this measurement at any time (Art. 21 GDPR) by a simple e-mail. A tracking blocker in your browser also prevents it. More in [PostHog's privacy policy](https://posthog.com/privacy)."
+      },
+      "r6.data": {
+        "en": "Usage data: page visited, referring page, browser, operating system, screen size, approximate location (country, city), clicks on page elements, loading times and technical error messages"
+      },
+      "r6.when": {
+        "en": "On every page view"
+      },
+      "r6.where": {
+        "en": "At PostHog (servers in the EU). Without your consent, without a cookie and without storing anything on your device"
+      },
+      "li.basisPh": {
+        "en": "**Art. 6 Abs. 1 lit. f DSGVO** (legitimate interest) — for cookieless traffic measurement with PostHog. Our interest: seeing which pages and exercises are used and where errors occur, so we can improve the site."
+      },
+      "li.posthog": {
+        "en": "**PostHog** (PostHog Inc., servers in the EU) — traffic measurement and, with your consent, recording of how the site is used, see \"Traffic measurement with PostHog\"."
+      },
+      "li.retPh": {
+        "en": "Usage data at PostHog is deleted after 12 months at most, recordings of how the site is used after 90 days at most."
       },
       "h.lt": {
         "en": "Text correction with LanguageTool"
@@ -768,6 +789,27 @@
         "es": "Si el tratamiento cambia, modificamos esta página y actualizamos la fecha que aparece arriba.",
         "pt": "Se o tratamento mudar, alteramos esta página e atualizamos a data no topo.",
         "tl": "Kung magbago ang pagproseso, babaguhin namin ang pahinang ito at ia-update ang petsa sa itaas."
+      },
+      "li.basisConsent": {
+        "en": "**Art. 6 Abs. 1 lit. a DSGVO and § 25 Abs. 1 TDDDG** (consent) — for recording how the site is used and storing a PostHog identifier in your browser, if you choose \"Accept\" in the notice. You can withdraw your consent at any time, see \"Traffic measurement with PostHog\"."
+      },
+      "li.consentKey": {
+        "en": "**localStorage** for your answer to the notice about recording (da_consent), so we do not ask again on every page."
+      },
+      "p.replay": {
+        "en": "With your consent (\"Accept\" in the notice at the bottom of the page) PostHog also records how you use the site (session replay): mouse movements, clicks, scrolling and how the page looks meanwhile. What you type into text fields is masked in your browser already and not transmitted. We watch the recordings to see which exercises are too hard and where the site does not work. You can withdraw your consent at any time with the button below. The recording then stops, the identifier is deleted from your browser, and the notice asks again next time."
+      },
+      "r7.data": {
+        "en": "Recording of how the site is used (session replay): mouse movements, clicks, scrolling and the visible page layout; input in text fields is masked"
+      },
+      "r7.when": {
+        "en": "Only if you choose \"Accept\" in the notice"
+      },
+      "r7.where": {
+        "en": "At PostHog (servers in the EU), plus an identifier in your browser (cookie and localStorage)"
+      },
+      "btn.consentReset": {
+        "en": "Withdraw consent to recording"
       }
     },
     "nutzungsbedingungen": {
@@ -808,7 +850,7 @@
         "tl": "Ang serbisyo"
       },
       "p.offer1En": {
-        "en": "icanspeak Spanish provides free materials for learning Spanish: grammar and vocabulary exercises, practice sets for exam preparation (for example DELE, SIELE and the CCSE) and PDFs to download. Use is free of charge and possible without an account."
+        "en": "icanspeak French provides free materials for learning French: grammar and vocabulary exercises, practice sets for exam preparation (for example DELF, DALF, TCF, TEF and the French civic exam) and PDFs to download. Use is free of charge and possible without an account."
       },
       "p.offer2": {
         "en": "We keep developing the site. Individual exercises, pages or features may change or be removed. There is no entitlement to constant availability.",
@@ -937,7 +979,7 @@
         "tl": "Ang iyong nilalaman"
       },
       "p.yoursLocal": {
-        "en": "Texts you write in writing tasks belong to you. We do not receive them. They are stored only in your browser so that you can keep working on them. If you choose “Correct my text”, your browser sends the text to LanguageTool to be checked (see the [privacy policy](/privacy))."
+        "en": "Texts you write in writing tasks belong to you. We do not receive them. They are stored only in your browser so that you can keep working on them. If you choose “Correct my text”, your browser sends the text to LanguageTool to be checked (see the [privacy policy](/confidentialite))."
       },
       "h.ours": {
         "en": "Our content",
@@ -952,16 +994,16 @@
         "tl": "Ang aming nilalaman"
       },
       "p.ours0": {
-        "en": "Texts, exercises, word lists, audio recordings, illustrations, the mascots, the design and the software of icanspeak Spanish are protected by copyright. Unless stated otherwise, all rights belong to Edgar Kretschmann (icanspeak Spanish).",
-        "ar": "النصوص والتمارين وقوائم المفردات والتسجيلات الصوتية والرسوم التوضيحية والشخصيات التعبيرية (الماسكوت) والتصميم والبرمجيات الخاصة بـ icanspeak Spanish محمية بحقوق النشر. ما لم يُذكر خلاف ذلك، تعود جميع الحقوق إلى Edgar Kretschmann (icanspeak Spanish).",
-        "tr": "icanspeak Spanish'nin metinleri, alıştırmaları, kelime listeleri, ses kayıtları, çizimleri, maskotları, tasarımı ve yazılımı telif hakkıyla korunmaktadır. Aksi belirtilmedikçe tüm haklar Edgar Kretschmann'a (icanspeak Spanish) aittir.",
-        "uk": "Тексти, вправи, списки слів, аудіозаписи, ілюстрації, маскоти, дизайн і програмне забезпечення icanspeak Spanish захищені авторським правом. Якщо не зазначено інше, усі права належать Edgar Kretschmann (icanspeak Spanish).",
-        "vi": "Văn bản, bài tập, danh sách từ, bản ghi âm, hình minh họa, các linh vật, thiết kế và phần mềm của icanspeak Spanish được bảo vệ bởi luật bản quyền. Trừ khi có ghi chú khác, mọi quyền thuộc về Edgar Kretschmann (icanspeak Spanish).",
-        "hi": "icanspeak Spanish के टेक्स्ट, अभ्यास, शब्द-सूचियाँ, ऑडियो रिकॉर्डिंग, चित्र, मैस्कॉट, डिज़ाइन और सॉफ़्टवेयर कॉपीराइट द्वारा सुरक्षित हैं। जब तक कुछ और न बताया गया हो, सभी अधिकार Edgar Kretschmann (icanspeak Spanish) के पास हैं।",
-        "id": "Teks, latihan, daftar kata, rekaman audio, ilustrasi, maskot, desain, dan perangkat lunak icanspeak Spanish dilindungi hak cipta. Kecuali dinyatakan lain, semua hak dimiliki oleh Edgar Kretschmann (icanspeak Spanish).",
-        "es": "Los textos, ejercicios, listas de palabras, grabaciones de audio, ilustraciones, las mascotas, el diseño y el software de icanspeak Spanish están protegidos por derechos de autor. Salvo que se indique otra cosa, todos los derechos pertenecen a Edgar Kretschmann (icanspeak Spanish).",
-        "pt": "Textos, exercícios, listas de palavras, gravações de áudio, ilustrações, os mascotes, o design e o software da icanspeak Spanish são protegidos por direitos autorais. Salvo indicação em contrário, todos os direitos pertencem a Edgar Kretschmann (icanspeak Spanish).",
-        "tl": "Ang mga teksto, ehersisyo, listahan ng salita, audio recording, ilustrasyon, mga mascot, disenyo at software ng icanspeak Spanish ay protektado ng copyright. Maliban kung iba ang nakasaad, lahat ng karapatan ay pag-aari ni Edgar Kretschmann (icanspeak Spanish)."
+        "en": "Texts, exercises, word lists, audio recordings, illustrations, the mascots, the design and the software of icanspeak French are protected by copyright. Unless stated otherwise, all rights belong to Edgar Kretschmann (icanspeak French).",
+        "ar": "النصوص والتمارين وقوائم المفردات والتسجيلات الصوتية والرسوم التوضيحية والشخصيات التعبيرية (الماسكوت) والتصميم والبرمجيات الخاصة بـ icanspeak French محمية بحقوق النشر. ما لم يُذكر خلاف ذلك، تعود جميع الحقوق إلى Edgar Kretschmann (icanspeak French).",
+        "tr": "icanspeak French'nin metinleri, alıştırmaları, kelime listeleri, ses kayıtları, çizimleri, maskotları, tasarımı ve yazılımı telif hakkıyla korunmaktadır. Aksi belirtilmedikçe tüm haklar Edgar Kretschmann'a (icanspeak French) aittir.",
+        "uk": "Тексти, вправи, списки слів, аудіозаписи, ілюстрації, маскоти, дизайн і програмне забезпечення icanspeak French захищені авторським правом. Якщо не зазначено інше, усі права належать Edgar Kretschmann (icanspeak French).",
+        "vi": "Văn bản, bài tập, danh sách từ, bản ghi âm, hình minh họa, các linh vật, thiết kế và phần mềm của icanspeak French được bảo vệ bởi luật bản quyền. Trừ khi có ghi chú khác, mọi quyền thuộc về Edgar Kretschmann (icanspeak French).",
+        "hi": "icanspeak French के टेक्स्ट, अभ्यास, शब्द-सूचियाँ, ऑडियो रिकॉर्डिंग, चित्र, मैस्कॉट, डिज़ाइन और सॉफ़्टवेयर कॉपीराइट द्वारा सुरक्षित हैं। जब तक कुछ और न बताया गया हो, सभी अधिकार Edgar Kretschmann (icanspeak French) के पास हैं।",
+        "id": "Teks, latihan, daftar kata, rekaman audio, ilustrasi, maskot, desain, dan perangkat lunak icanspeak French dilindungi hak cipta. Kecuali dinyatakan lain, semua hak dimiliki oleh Edgar Kretschmann (icanspeak French).",
+        "es": "Los textos, ejercicios, listas de palabras, grabaciones de audio, ilustraciones, las mascotas, el diseño y el software de icanspeak French están protegidos por derechos de autor. Salvo que se indique otra cosa, todos los derechos pertenecen a Edgar Kretschmann (icanspeak French).",
+        "pt": "Textos, exercícios, listas de palavras, gravações de áudio, ilustrações, os mascotes, o design e o software da icanspeak French são protegidos por direitos autorais. Salvo indicação em contrário, todos os direitos pertencem a Edgar Kretschmann (icanspeak French).",
+        "tl": "Ang mga teksto, ehersisyo, listahan ng salita, audio recording, ilustrasyon, mga mascot, disenyo at software ng icanspeak French ay protektado ng copyright. Maliban kung iba ang nakasaad, lahat ng karapatan ay pag-aari ni Edgar Kretschmann (icanspeak French)."
       },
       "p.ours1": {
         "en": "You may use, print and pass on in your own teaching the exercises, word lists and PDFs we create, free of charge. Reselling them is not permitted.",
@@ -976,7 +1018,7 @@
         "tl": "Malaya mong magagamit, mai-print at maipasa sa sarili mong pagtuturo ang mga ehersisyo, listahan ng salita at PDF na ginagawa namin. Hindi pinapayagan ang muling pagbebenta ng mga ito."
       },
       "p.ours2En": {
-        "en": "Exam names and exam materials of third parties (for example DELE, SIELE and the CCSE) belong to their respective rights holders. Our practice sets are modelled on the published exam format but are our own materials and **not official exam material**. We link to official model tests where the providers publish them themselves."
+        "en": "Exam names and exam materials of third parties (for example DELF, DALF, TCF, TEF and the French civic exam) belong to their respective rights holders. Our practice sets are modelled on the published exam format but are our own materials and **not official exam material**. We link to official model tests where the providers publish them themselves."
       },
       "p.ours3": {
         "en": "It is also not permitted to take over content in whole or in substantial parts and publish it on your own websites, apps, learning platforms or course offerings, including in edited form. Such use requires our prior written consent.",
@@ -1105,16 +1147,16 @@
         "tl": "Kontak"
       },
       "p.contact": {
-        "en": "Questions about these terms: {email}. The full provider details are in the [legal notice (Impressum)](/legal-notice).",
-        "ar": "للأسئلة حول هذه الشروط: {email}. بيانات مقدّم الخدمة الكاملة موجودة في [بيانات الناشر (Impressum)](/legal-notice).",
-        "tr": "Bu koşullarla ilgili sorular: {email}. Sağlayıcının tüm bilgileri [künyede (Impressum)](/legal-notice) yer alır.",
-        "uk": "Питання щодо цих умов: {email}. Повні відомості про постачальника наведено у [вихідних даних (Impressum)](/legal-notice).",
-        "vi": "Câu hỏi về các điều khoản này: {email}. Thông tin đầy đủ về nhà cung cấp có trong [thông tin pháp lý (Impressum)](/legal-notice).",
-        "hi": "इन शर्तों के बारे में सवाल: {email}। प्रदाता का पूरा विवरण [कानूनी सूचना (Impressum)](/legal-notice) में है।",
-        "id": "Pertanyaan tentang ketentuan ini: {email}. Data lengkap penyedia ada di [pemberitahuan hukum (Impressum)](/legal-notice).",
-        "es": "Preguntas sobre estas condiciones: {email}. Los datos completos del proveedor están en el [aviso legal (Impressum)](/legal-notice).",
-        "pt": "Perguntas sobre estes termos: {email}. Os dados completos do prestador estão nas [informações legais (Impressum)](/legal-notice).",
-        "tl": "Mga tanong tungkol sa mga tuntuning ito: {email}. Ang buong detalye ng tagapagbigay ng serbisyo ay nasa [legal na paunawa (Impressum)](/legal-notice)."
+        "en": "Questions about these terms: {email}. The full provider details are in the [legal notice (Impressum)](/mentions-legales).",
+        "ar": "للأسئلة حول هذه الشروط: {email}. بيانات مقدّم الخدمة الكاملة موجودة في [بيانات الناشر (Impressum)](/mentions-legales).",
+        "tr": "Bu koşullarla ilgili sorular: {email}. Sağlayıcının tüm bilgileri [künyede (Impressum)](/mentions-legales) yer alır.",
+        "uk": "Питання щодо цих умов: {email}. Повні відомості про постачальника наведено у [вихідних даних (Impressum)](/mentions-legales).",
+        "vi": "Câu hỏi về các điều khoản này: {email}. Thông tin đầy đủ về nhà cung cấp có trong [thông tin pháp lý (Impressum)](/mentions-legales).",
+        "hi": "इन शर्तों के बारे में सवाल: {email}। प्रदाता का पूरा विवरण [कानूनी सूचना (Impressum)](/mentions-legales) में है।",
+        "id": "Pertanyaan tentang ketentuan ini: {email}. Data lengkap penyedia ada di [pemberitahuan hukum (Impressum)](/mentions-legales).",
+        "es": "Preguntas sobre estas condiciones: {email}. Los datos completos del proveedor están en el [aviso legal (Impressum)](/mentions-legales).",
+        "pt": "Perguntas sobre estes termos: {email}. Os dados completos do prestador estão nas [informações legais (Impressum)](/mentions-legales).",
+        "tl": "Mga tanong tungkol sa mga tuntuning ito: {email}. Ang buong detalye ng tagapagbigay ng serbisyo ay nasa [legal na paunawa (Impressum)](/mentions-legales)."
       }
     }
   }

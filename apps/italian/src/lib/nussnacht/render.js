@@ -10,18 +10,18 @@ import { mascotImage, ready } from "../mascotImage.js";
 import { orbitPos } from "./sim.js";
 
 export const VIEW = 520; // world units across the screen's shorter side
-const ARTS = ["el", "la", "los", "las"];
+const ARTS = ["il", "lo", "la", "l'", "i", "gli", "le"];
 // The blob hues: from the word, never from its article (that would give the answer away).
 const HUES = ["#f6c177", "#9ccfd8", "#c4a7e7", "#f2a7b8", "#a6da95", "#f5bde6"];
 
-/** Article colours: the site's tokens (--info el, --danger la), lifted toward white so they read
- *  on the night garden. los and las are paler shades of the same two, so a gender keeps its colour
- *  in the plural. */
+/** Article colours: the site's tokens (--info il, --success lo, --danger la, --warning l'), lifted
+ *  toward white so they read on the night garden. i, gli and le are paler shades of il, lo and la. */
 export function articleColours(el) {
   const cs = getComputedStyle(el);
   const v = (n, f) => cs.getPropertyValue(n).trim() || f;
-  const m = v("--info", "#2563eb"), f = v("--danger", "#c1462f");
-  return [[m, 0.38], [f, 0.38], [m, 0.72], [f, 0.72]].map(([c, t]) => ({ base: c, light: mix(c, "#ffffff", t) }));
+  const m = v("--info", "#2563eb"), s = v("--success", "#2e9a62"), f = v("--danger", "#c1462f"), w = v("--warning", "#d98a0b");
+  return [[m, 0.38], [s, 0.38], [f, 0.38], [w, 0.38], [m, 0.72], [s, 0.72], [f, 0.72]]
+    .map(([c, t]) => ({ base: c, light: mix(c, "#ffffff", t) }));
 }
 function mix(a, b, t) {
   const p = (h) => {

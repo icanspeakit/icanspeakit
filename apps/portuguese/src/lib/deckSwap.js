@@ -1,5 +1,5 @@
 // Switching word sets without a page load. Every flashcard deck keeps its own URL
-// (/vocabulary/a1-04, /portuguese-for-work/hospitality/kitchen-and-equipment …)
+// (/vocabulario/a1-04, /portuguese-for-work/hospitality/kitchen-and-equipment …)
 // so Google, shared links and Back still work, but picking another set in the side list
 // no longer reloads the page: the target page is fetched, and only what belongs to the
 // deck is replaced — the hero (title, print, live quiz, group chips), the trainer column
@@ -16,7 +16,7 @@ import { CARD_LANG_EVENT, storedCardLang } from "./cardLangGloss.js";
 import { withBase, stripBase, currentPath } from "./paths.js";
 
 // The trainer routes. A link elsewhere is left alone without a fetch.
-const TRAINER = /^\/(vocabulary(\/(?!print\/|glosses\/)[^/]+(\/[^/]+)?)?|portuguese-for-work\/[^/]+\/[^/]+|imt-vocabulary\/[^/]+|business-portuguese\/[^/]+\/words)\/?$/;
+const TRAINER = /^\/(vocabulario(\/(?!imprimir\/|glosses\/)[^/]+(\/[^/]+)?)?|portuguese-for-work\/[^/]+\/[^/]+|imt-vocabulary\/[^/]+|business-portuguese\/[^/]+\/words)\/?$/;
 // Head tags that describe the page, replaced with the new page's.
 const HEAD = ['meta[name="description"]', 'link[rel="canonical"]', 'meta[property^="og:"]', 'meta[name^="twitter:"]', 'script[type="application/ld+json"]', 'link[rel="alternate"][hreflang]'];
 

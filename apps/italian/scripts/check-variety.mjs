@@ -1,58 +1,40 @@
-// Checks the `variety` field and the `es419` note (docs/content-plan.md §1.5):
+// Checks the `variety` field and the `regional` note (docs/content-plan.md §1.5):
 //
-//   node scripts/check-variety.mjs
+//   node scripts/check-variety.mjs        (pnpm check:variety; part of check:content)
 //
-// 1. Shape, everywhere: every `variety` / `es419` key in any JSON under src/data, src/content
-//    and src/paid is checked by varietyProblems() in src/lib/variety.js (allowed values,
-//    es419.note present and ≤ 160 characters, es419.gender only el/la, no unknown keys).
-//    A wrong shape is an error.
+// 1. Shape, everywhere: every `variety` / `regional` key in any JSON under src/data, src/content
+//    and src/paid is checked by varietyProblems() in src/lib/variety.js (it-IT / it-CH,
+//    regional.note present and ≤ 160 characters, regional.area and regional.gender values, no
+//    unknown keys). A wrong shape is an error. The Spanish course's `variety: "es-ES"` and
+//    `es419` notes are tolerated on Spanish items of modules that are not strict yet; `es419` on
+//    an Italian item is an error.
 // 2. Coverage, per module (the table in §1.5): items that should carry `variety` but don't.
-//    While a module is still English this is one summary line. Once the module's content item
-//    has run, that item adds the module id to STRICT below, and every missing `variety` becomes
-//    an error.
+//    While a module still holds Spanish content this is one summary line. Once the module's
+//    content item has run, that item adds the module id to STRICT below: then every missing
+//    `variety`, every es-ES and every `es419` in the module's files is an error.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { varietyProblems } from "../src/lib/variety.js";
+import { VARIETIES, varietyProblems } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 
-// Modules whose content item has run: missing `variety` is an error there. Add the module id
-// in the same commit that converts the module.
+// Modules whose content item has run (converted to Italian): there a missing `variety` is an
+// error, and so are the Spanish course's leftovers (variety es-ES, an `es419` note anywhere in
+// the file). Add the module id in the same commit that converts the module (its queue item).
+// Empty since `variety-schema` (2026-11-12): every module still holds Spanish-course content, so
+// the Spanish course's strict list was dropped; the items re-add their modules one by one.
+// Re-added item by item; `residual-audit` (2026-11-17) made the rest strict: every module is
+// Italian now, so every module is listed.
 const STRICT = new Set([
-  "einstufung",
-  "grammatik",
-  "grammatik-quiz",
-  "grammatik-start",
-  "praepositionen",
-  "verbtabellen",
-  "conjugation-trainer",
-  "lexicon-a1",
-  "lexicon-a2",
-  "lexicon-b1",
-  "lexicon-b2",
-  "lexicon-c1",
-  "lexicon-c2",
-  "wortschatz",
-  "hoeren",
-  "redemittel",
-  "aussprache-check",
-  "zungenbrecher",
-  "satzmelodie",
-  "ausspracheregeln",
-  "redewendungen",
-  "wortfallen",
-  "typische-fehler",
-  "fehler-nach-sprache",
-  "umgangssprache",
-  "synonyme",
-  "dgt",
-  "arbeitsblatt",
-  "partneruebungen",
-  "unterricht-wortschatz",
-  "berufe",
-  "business-spanish",
+  "lexicon-a1", "lexicon-a2", "lexicon-b1", "lexicon-b2", "lexicon-c1", "lexicon-c2",
+  "berufe", "patente", "business-italian", "wortschatz", "redemittel",
+  "grammatik", "grammatik-quiz", "grammatik-start", "praepositionen", "einstufung", "verbtabellen",
+  "conjugation-trainer", "hoeren", "aussprache-check", "zungenbrecher", "satzmelodie", "ausspracheregeln",
+  "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen",
+  "artikel-sprint", "quaki-fragen", "hochstapler-redemittel",
+  "arbeitsblatt", "partneruebungen", "unterricht-wortschatz",
 ]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
@@ -80,9 +62,10 @@ const MODULES = [
   { id: "lexicon-c2", files: one("src/content/lexicon/c2.json"),
     items: (d) => arr(d.units).flatMap((u) => arr(u.words).map((item) => ({ item }))) },
   { id: "berufe", files: jsonFiles("src/data/berufe"), items: deckWords },
-  { id: "dgt", files: jsonFiles("src/data/dgt"), items: deckWords },
+  // src/data/dgt became src/data/patente in `patente-vocab` (content-plan §11); converted: strict.
+  { id: "patente", files: jsonFiles("src/data/patente"), items: deckWords },
   // A unit: its phrases and its own words (refs inherit); exercises inherit from the unit.
-  { id: "business-spanish", files: jsonFiles("src/data/business-spanish"),
+  { id: "business-italian", files: jsonFiles("src/data/business-italian"),
     items: (d) => [...arr(d.phrases), ...arr(d.words).filter((w) => !w.ref)].map((item) => ({ item })) },
   { id: "wortschatz", files: one("src/data/wortschatz.json"), items: (d) => arr(d).map((item) => ({ item })) },
   { id: "redemittel", files: one("src/data/redemittel.json"),
@@ -116,6 +99,10 @@ const MODULES = [
   { id: "wortfallen", files: one("src/data/wortfallen.json"), items: (d) => arr(d.groups).map((item) => ({ item })) },
   { id: "redewendungen", files: one("src/data/redewendungen.json"),
     items: (d) => arr(d.eintraege).map((item) => ({ item })) },
+  // Game data (games item): one `variety` at the top level of each file.
+  { id: "artikel-sprint", files: one("src/data/artikel-sprint/words.json"), items: (d) => [{ item: d }] },
+  { id: "quaki-fragen", files: one("src/data/quakiSpringt/fragen.json"), items: (d) => [{ item: d }] },
+  { id: "hochstapler-redemittel", files: one("src/data/hochstapler/redemittel.json"), items: (d) => [{ item: d }] },
   // Teacher material carries `variety` at the top level of each file.
   { id: "arbeitsblatt", files: jsonFiles("src/data/arbeitsblatt"), items: (d) => [{ item: d }] },
   { id: "partneruebungen", files: jsonFiles("src/data/partneruebungen"), items: (d) => [{ item: d }] },
@@ -129,11 +116,15 @@ const read = (file) => {
 };
 
 // --- 1. shape, every JSON file --------------------------------------------------------------
-function walk(node, file, where) {
-  if (Array.isArray(node)) { node.forEach((v, i) => walk(v, file, `${where}[${i}]`)); return; }
+// Files of a strict module: es-ES and es419 are errors anywhere in them.
+const strictFiles = new Set(MODULES.filter((m) => STRICT.has(m.id)).flatMap((m) => m.files));
+function walk(node, file, where, strict) {
+  if (Array.isArray(node)) { node.forEach((v, i) => walk(v, file, `${where}[${i}]`, strict)); return; }
   if (!node || typeof node !== "object") return;
-  for (const p of varietyProblems(node)) errors.push(`${file} ${where || "(top)"}: ${p}`);
-  for (const [k, v] of Object.entries(node)) if (k !== "es419") walk(v, file, where ? `${where}.${k}` : k);
+  for (const p of varietyProblems(node, { strict })) errors.push(`${file} ${where || "(top)"}: ${p}`);
+  for (const [k, v] of Object.entries(node)) {
+    if (k !== "es419" && k !== "regional") walk(v, file, where ? `${where}.${k}` : k, strict);
+  }
 }
 function allJson(dir, out = []) {
   const abs = path.join(ROOT, dir);
@@ -152,20 +143,22 @@ for (const file of ["src/data", "src/content", "src/paid"].flatMap((d) => allJso
   if (data === undefined) continue;
   cache.set(file, data);
   scanned++;
-  walk(data, file, "");
+  walk(data, file, "", strictFiles.has(file));
 }
 
 // --- 2. coverage per module -----------------------------------------------------------------
 const lines = [];
 for (const m of MODULES) {
-  let total = 0, missing = 0, latam = 0;
+  let total = 0, missing = 0, italian = 0, regional = 0, legacy = 0;
   for (const file of m.files) {
     const data = cache.get(file) ?? read(file);
     if (data === undefined) continue;
     for (const { item } of m.items(data)) {
       if (!item || typeof item !== "object") continue;
       total++;
-      if (item.es419) latam++;
+      if (item.regional) regional++;
+      if (item.es419) legacy++;
+      if (VARIETIES.includes(item.variety)) italian++;
       if ("variety" in item) continue;
       missing++;
       if (STRICT.has(m.id)) {
@@ -176,7 +169,7 @@ for (const m of MODULES) {
   }
   if (!m.files.length) continue;
   const state = STRICT.has(m.id) ? "strict" : "not strict yet";
-  lines.push(`  ${m.id}: ${total - missing}/${total} with variety, ${latam} es419 notes (${state})`);
+  lines.push(`  ${m.id}: ${total - missing}/${total} with variety (${italian} Italian), ${regional} regional notes, ${legacy} legacy es419 (${state})`);
 }
 
 for (const e of errors) console.error(`  ERROR ${e}`);

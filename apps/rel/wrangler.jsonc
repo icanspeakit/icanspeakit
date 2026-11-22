@@ -1,0 +1,11 @@
+{
+  // icanspeak.it/rel/* — PostHog through our own domain (src/index.js says why).
+  // More specific than the hub's icanspeak.it/*, so it wins for /rel/... only.
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "icanspeak-rel",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-01",
+  "routes": [
+    { "pattern": "icanspeak.it/rel/*", "zone_name": "icanspeak.it" }
+  ]
+}

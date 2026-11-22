@@ -8,52 +8,51 @@ input, button, textarea, select { font: inherit; color: inherit; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; padding: 0; }
 
+/* Brand tokens (brand/kit/BRAND.md, src/styles/tokens.css) mapped onto the names the
+   components already use. Brand colours are fills; text on light stays navy/ink. */
 :root {
-  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--isk-font-display);
+  --font-sans: var(--isk-font-body);
 
-  --color-ink: #24201b;
-  --color-text: #3c352c;
-  --color-muted: #7a6f60;
-  --color-bg: #fbf7ef;
-  --color-bg-soft: #f2ead9;
-  --color-border: #e3d6bd;
+  --color-ink: var(--isk-navy);
+  --color-text: var(--isk-text);
+  --color-muted: var(--isk-muted);
+  --color-bg: var(--isk-cream);
+  --color-bg-soft: var(--isk-yellow-soft);
+  --color-border: #D9DCE6;
 
-  --color-primary: #2b4162;
-  --color-primary-dark: #1a2940;
-  --color-primary-soft: #e5eaf1;
+  --color-primary: var(--isk-navy);
+  --color-primary-dark: var(--isk-navy-deep);
+  --color-primary-soft: var(--isk-sky-soft);
 
-  --color-accent: #b3812e;
-  --color-accent-dark: #8a621f;
-  --color-accent-soft: #f0e2bf;
+  --color-accent: var(--isk-yellow);
+  --color-accent-dark: var(--isk-navy);
+  --color-accent-soft: var(--isk-yellow-soft);
 
   --container-width: 1140px;
-  --radius: 14px;
-  --shadow-sm: 0 1px 2px rgba(36, 32, 27, 0.08);
-  --shadow-md: 0 10px 28px rgba(36, 32, 27, 0.1);
+  --radius: var(--isk-radius-card);
+  --shadow-sm: 0 1px 2px rgba(23, 42, 110, 0.08);
+  --shadow-md: 0 10px 28px rgba(23, 42, 110, 0.12);
 }
 
 body {
   font-family: var(--font-sans);
   color: var(--color-text);
   background: var(--color-bg);
-  background-image:
-    radial-gradient(circle at 12% 8%, rgba(179, 129, 46, 0.07), transparent 40%),
-    radial-gradient(circle at 88% 0%, rgba(43, 65, 98, 0.06), transparent 45%);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--color-ink);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3.5rem); font-weight: 500; }
-h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.4rem); font-weight: 500; }
-h3 { font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); font-weight: 600; }
-h4 { font-size: 1.1rem; font-weight: 600; }
+h1 { font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3.5rem); line-height: 1.04; }
+h2 { font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.4rem); }
+h3 { font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem); }
+h4 { font-size: 1.1rem; font-weight: 700; letter-spacing: 0; }
 
 p { max-width: 65ch; }
 
@@ -71,9 +70,9 @@ p { max-width: 65ch; }
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 0.78rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-accent-dark);
+  color: var(--color-ink);
 }
 
 .text-muted { color: var(--color-muted); }
@@ -110,21 +109,19 @@ p { max-width: 65ch; }
 }
 
 .button--ghost {
-  border-color: var(--color-border);
+  border: 2px solid var(--color-ink);
   color: var(--color-ink);
   background: transparent;
 }
 
 .button--ghost:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  background: var(--isk-white);
 }
 
 .card {
   background: #fff;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-ink);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
   padding: clamp(1.25rem, 2vw, 1.75rem);
 }
 
@@ -133,8 +130,8 @@ p { max-width: 65ch; }
   align-items: center;
   padding: 0.25rem 0.65rem;
   border-radius: 999px;
-  background: var(--color-primary-soft);
-  color: var(--color-primary-dark);
+  background: var(--isk-yellow);
+  color: var(--color-ink);
   font-size: 0.78rem;
   font-weight: 600;
 }

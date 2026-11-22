@@ -1,0 +1,49 @@
+---
+// /cultura/filmes-e-series: films and series in Portuguese, Portugal first, then Brazil and the other lusophone countries (data: culture item).
+// Titles and our own short descriptions only (src/data/kultur-filme.json), no streaming links:
+// where a film can be watched changes all the time. /explorar/filmes is something else: short
+// films about this site.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import SectionMascot from "../../components/mascots/SectionMascot.astro";
+import data from "../../data/kultur-filme.json";
+import "../../styles/practice.css";
+import "../../styles/kultur.css";
+import "../../styles/kultur-hub.css";
+---
+<Layout
+  title="Films and series in Portuguese – icanspeak Portuguese"
+  description="Films and series to learn Portuguese with, from Portugal, Brazil and the other Portuguese-speaking countries, each with a short description and a level."
+>
+  <SiteNav active="landeskunde" />
+  <main class="practice-main practice-main--wide">
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="kultur.hero.eyebrow">Culture &amp; society</p>
+      <h1 data-i18n="kultur.filme.title">Films and series in Portuguese</h1>
+      <SectionMascot name="quaki" say="Watch with Portuguese subtitles." sayKey="kultur.filme.say" align="center" class="ku-hero-mascot" />
+    </div>
+
+    {data.groups.map((g) => (
+      <section class="ku-group is-in" id={g.id}>
+        <h2 class="ku-group-title"><span data-i18n={g.titleKey}>{g.title}</span></h2>
+        <div class="ku-grid">
+          {g.items.map((f) => (
+            <article class="ku-card">
+              <span class="ku-card-txt">
+                <b lang="pt">{f.title}</b>
+                <i><span>{f.year} · {f.by}</span> · <span data-i18n={`kultur.filme.kind.${f.kind}`}>{f.kind === "series" ? "Series" : "Film"}</span></i>
+                <i>{f.text}</i>
+              </span>
+              <span class="ku-card-meta"><span class="ku-badge">{f.level}</span></span>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section class="ku-sourcing">
+      <h2 data-i18n="kultur.filme.howH">How to watch</h2>
+      <p data-i18n="kultur.filme.how">Use Portuguese subtitles rather than English ones, and watch a scene twice. The level is our estimate of the Portuguese you need with subtitles on. Brazilian Portuguese sounds quite different from the Portuguese of Portugal: fuller vowels, você everywhere and estar + gerund (estou falando). Some films have adult themes.</p>
+    </section>
+  </main>
+</Layout>

@@ -4,7 +4,7 @@
 //
 // Three parts, each with its own answer key:
 //   A  Word and meaning — up to 10 words against their meanings, shuffled by a seed.
-//   B  el or la? — up to 10 nouns with the article left out.
+//   B  le or la? — up to 10 nouns with the article left out (un or une for l' nouns).
 //   C  Gap sentences — the lexicon's example sentences with the word blanked (up to 6).
 //
 // Meanings: `en` is the word's English gloss, `de` its German translation
@@ -13,7 +13,7 @@
 import { select, units } from "../lexicon.js";
 import { shuffle, LETTERS } from "./seed.js";
 import { languagesFor } from "../languages.js";
-import { isDrillNoun } from "../generoDrill.js";
+import { isDrillNoun, drillChoice } from "../generoDrill.js";
 
 export const SHEET_LANGS = languagesFor("sheets").map((l) => l.code);
 export const LANG_NAMES = Object.fromEntries(languagesFor("sheets").map((l) => [l.code, l.native]));
@@ -27,7 +27,9 @@ const SENTENCE_MAX = 6;
  *  the gap is the word being matched, so it is the clue, not a giveaway. */
 export const deMeaningOf = (w) => w.deHint || w.syn?.[0] || null;
 
-const clean = (s) => String(s).toLowerCase().replace(/[^a-záéíóúüñäöß]/g, "");
+// An elided article or pronoun before the word (l'école, d'eau, qu'il) is not part of it.
+const ELIDED = /^(?:[ldjmnstc]|qu|jusqu|lorsqu|puisqu)['’]/i;
+const clean = (s) => String(s).toLowerCase().replace(ELIDED, "").replace(/[^a-zàâæçéèêëîïôœùûüÿ-]/g, "");
 
 /** The token of the example sentence that is this word (or one of its forms), if any. */
 function findToken(word) {
@@ -40,8 +42,8 @@ function findToken(word) {
   const tokens = word.example.split(/(\s+)/);
   const i = tokens.findIndex((t) => targets.has(clean(t)));
   if (i < 0) return null;
-  // Keep punctuation outside the gap: "Tisch." → gap "Tisch" + ".".
-  const m = tokens[i].match(/^([¿¡«„"(]*)(.*?)([.,!?;:»“")]*)$/);
+  // Keep punctuation and an elided article outside the gap: "l'école." → "l'" + gap "école" + ".".
+  const m = tokens[i].match(/^([«„"(]*(?:(?:[ldjmnstc]|qu|jusqu|lorsqu|puisqu)['’])?)(.*?)([.,!?;:»“")]*)$/i);
   return { before: tokens.slice(0, i).join("") + m[1], answer: m[2], after: m[3] + tokens.slice(i + 1).join("") };
 }
 
@@ -68,12 +70,14 @@ export function wortschatzSheet(unitId, { words = select({ unit: unitId }), lang
     answers: picked.map((_, i) => LETTERS[order.indexOf(i)]),
   };
 
-  // B — nouns with one right article (lexicon `gender`, content-plan §1.4). el/la estudiante,
-  // plural-only nouns (las gafas) and either-gender nouns (el/la mar) stay out: generoDrill.js.
+  // B — nouns with one right article (lexicon `gender`, content-plan §1.4), asked as the games
+  // ask them (generoDrill.js): le / la, and un / une for a noun that elides (l'école → une), so
+  // the answer always shows the gender. Either-gender nouns (le/la journaliste), plurals and
+  // the AMBIGUOUS list stay out.
   const nouns = words
     .filter((w) => w.pos === "noun" && isDrillNoun(w))
     .slice(0, NOUN_MAX)
-    .map((w) => ({ lemma: w.lemma, gender: w.gender, plural: w.plural ?? null }));
+    .map((w) => ({ lemma: w.lemma, gender: drillChoice(w).answer, plural: w.plural ?? null }));
 
   // C — example sentences where the word itself can be found and blanked.
   const sentences = [];

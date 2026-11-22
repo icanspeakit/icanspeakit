@@ -1,4 +1,4 @@
-/* "Mein Fortschritt" — the cross-exam progress view behind /progress.
+/* "Mein Fortschritt" — the cross-exam progress view behind /progressi.
  *
  * Shape borrowed from the Pflegeplace dashboard: a left rail that nests the selected
  * exam's parts under it with a per-part count, the other exams listed below it as a
@@ -29,7 +29,7 @@ const t = (key, vars) => translate(dict, key, vars);
 const tOr = (key, fallback, vars) => (dict[key] != null ? translate(dict, key, vars) : fallback);
 
 const SKILL_KEY = { "Hören": "skill.hoeren", "Lesen": "skill.lesen", "Schreiben": "skill.schreiben" };
-const PLAIN_LABEL_KEY = { "Schreiben": "skill.schreiben", "Questions on Spain": "lid.federalQuestions", "My comunidad (extra)": "lid.sec.stateExtra" };
+const PLAIN_LABEL_KEY = { "Schreiben": "skill.schreiben", "Questions on Italy": "lid.federalQuestions", "My region (extra)": "lid.sec.stateExtra" };
 const SUB_KEY = { "Leseverstehen · Schreiben": "tdf.sub", "Einbürgerungstest": "lid.sub", "Übungssatz 1": "exam.h1.set1" };
 export function locLabel(label) {
   const m = /^(Hören|Lesen|Schreiben) · (Teil|Aufgabe) ([0-9]+)$/.exec(label || "");

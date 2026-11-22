@@ -14,6 +14,7 @@ import { pronunciationProvider as provider, PronunciationError } from "./pronunc
 import { checkMicrophone, alignWords, MSG } from "./ausspracheCheck.js";
 import { findingsFor, findingsHtml, insertionsOf, esc, t } from "./aussprachePatterns.js";
 import { DRILL_AUDIO_DIR, drillSlug } from "./drillAudio.js";
+import { withBase } from "./paths.js";
 
 const LANG = "en-GB";
 const ROUNDS = 5;
@@ -40,7 +41,7 @@ function browserSpeak(text) {
 export async function say(text) {
   current?.pause();
   window.speechSynthesis?.cancel();
-  const a = new Audio(`${DRILL_AUDIO_DIR}/${drillSlug(text)}.mp3`);
+  const a = new Audio(withBase(`${DRILL_AUDIO_DIR}/${drillSlug(text)}.mp3`));
   current = a;
   try {
     await a.play();

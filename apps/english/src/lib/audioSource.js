@@ -1,8 +1,8 @@
 // Where an audio file actually comes from. The one resolver for every "/audio/…" path
 // (ANDROID-APP-TIERED-PROMPT.md, Tier 2). Next to audioSlug.js, which names the files.
 //
-// On the website every path is served by the site itself, so the answer is always the path
-// as given.
+// On the website every path is served by the site itself, so the answer is the path under
+// the base (/english/audio/…).
 //
 // In the Android app (PUBLIC_TARGET=app), in this order:
 //   1. bundled    — in the app itself (/audio-manifest.json, written by scripts/build-app.mjs:
@@ -13,10 +13,10 @@
 // src/lib/appShell.js routes every audio source a page sets through audioUrl(), so no page
 // has to know.
 import { downloadedUrl, initPacks } from "./audioPacks.js";
-import { withBase } from "./paths.js";
+import { withBase, SITE_ORIGIN, BASE_PATH } from "./paths.js";
 
 const APP = import.meta.env.PUBLIC_TARGET === "app";
-const SITE = "https://icanspeak.it/english";
+const SITE = SITE_ORIGIN + BASE_PATH;
 
 /** @type {Set<string> | null} null until the manifest is loaded (or when it cannot be). */
 let bundled = null;
@@ -37,7 +37,8 @@ export async function loadAudioManifest() {
  * @param {string} path
  */
 export function audioUrl(path) {
-  if (!APP || typeof path !== "string" || !path.startsWith("/audio/")) return path;
+  if (!APP) return withBase(path);
+  if (typeof path !== "string" || !path.startsWith("/audio/")) return path;
   const clean = path.split(/[?#]/)[0];
   // Before the manifest has loaded, assume the file is in the app: most are.
   if (!bundled || bundled.has(clean)) return path;

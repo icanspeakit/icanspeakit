@@ -12,6 +12,7 @@
 //   check-grammatik-ui counts help-language gaps of an old language list; only a baseline
 //   check-jsonld       reads dist/, so it can't run before a build; a report for now
 //   check-lemmas, check-free  lookup tools for lexicon imports, they take arguments
+//   (check-berufe and validate-wortgeschichte were paused by vocab-a1; `cleanup` put them back.)
 // Run those by hand: pnpm check:karten, check:downloads, check:inhalte, check:grammatik-ui, seo:jsonld.
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -22,14 +23,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECKS = [
   "check-einfach-pfad.mjs",
   "check-pruefungen.mjs",
-  "check-berufe.mjs",
-  "check-business-spanish.mjs",
-  "validate-wortgeschichte.mjs",
+  "check-business-italian.mjs",
   "check-premium.mjs",
   "check-pruefungsplan.mjs",
   "check-lindenau.mjs",
   "check-knigge.mjs",
   "check-redewendungen.mjs",
+  "check-berufe.mjs",
+  "validate-wortgeschichte.mjs",
   "validate-lexicon.mjs",
   "check-variety.mjs",
   "check-verbtabellen.mjs",

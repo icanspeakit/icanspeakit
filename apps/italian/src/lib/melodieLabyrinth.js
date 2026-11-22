@@ -1,4 +1,4 @@
-// Melodie-Labyrinth (/intonation#labyrinth): the melody as height you can see.
+// Melodie-Labyrinth (/intonazione#labyrinth): the melody as height you can see.
 // Quaki hops along the words while the sentence plays. At the end the corridor splits into
 // three exits by height: up for the question (↗), down for the statement (↘), the deep
 // slide for the exclamation (↘!). The learner picks one, Quaki takes it. Then the stones
@@ -14,7 +14,7 @@ import { withBase } from "./paths.js";
 const NS = "http://www.w3.org/2000/svg";
 const MID = 125, X0 = 34, XW = 236, XEND = 330;
 const MARK = { aussage: ".", echo: "?", ausruf: "!" };
-const OPEN = { aussage: "", echo: "¿", ausruf: "¡" };
+const OPEN = { aussage: "", echo: "", ausruf: "" };
 const said = (c) => OPEN[c.t] + c.base + MARK[c.t];
 const WHY = {
   aussage: "Statement: the voice goes down at the end ↘ – the way down.",

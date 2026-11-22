@@ -1,8 +1,9 @@
-// Checks the Business Spanish units before every build (scripts/check-content.mjs):
+// Checks the Business French units (src/data/business-spanish/, internal Spanish names kept) before
+// every build (scripts/check-content.mjs):
 //
 //   node scripts/check-business-spanish.mjs
 //
-// The rules live in validateUnits() in src/lib/businessSpanish.js: unit schema, register, variety,
+// The rules live in validateUnits() in src/lib/businessSpanish.js: unit schema, phrases under `fr`, register, variety,
 // exercises with one gap and the answer among the options, every unit of UNIT_IDS present. The
 // words are deck entries and are checked by check-berufe.mjs with the other decks. Reports every
 // problem at once, then exits 1 if there was any.
@@ -22,5 +23,5 @@ const files = readdirSync(DIR).filter((f) => f.endsWith(".json")).sort().map((fi
 const errors = validateUnits(files);
 for (const e of errors) console.error(`  ERROR ${e}`);
 const total = (k) => files.reduce((n, { unit }) => n + (unit?.[k]?.length ?? 0), 0);
-console.log(`business-spanish: ${files.length} units, ${total("phrases")} phrases, ${total("models")} model texts, ${total("words")} words, ${total("exercises")} exercises, ${errors.length} errors`);
+console.log(`business-french: ${files.length} units, ${total("phrases")} phrases, ${total("models")} model texts, ${total("words")} words, ${total("exercises")} exercises, ${errors.length} errors`);
 if (errors.length) process.exit(1);

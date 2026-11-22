@@ -1,19 +1,29 @@
-// The packs of the el / la trainer ("By topic" and "By rule"), worked out at build time from the
-// lexicon and src/data/artikel-packs.json.
+// The packs of the il / lo / la / l' trainer ("By topic" and "By rule"), worked out at build time from
+// the lexicon and src/data/artikel-packs.json.
 //
 // Topic packs group the lexicon's own unit topics. A noun can carry more than one topic; it
 // belongs to the pack of its first, so every noun sits in exactly one pack and the packs of a
 // level add up to the level.
 //
-// Rule packs are gender patterns: the ending of the noun's first word (-ción → la, -aje → el), a
-// word list (-ma words from Greek) or the feminine nouns with a stressed a- (el agua). A noun joins
-// one only when it matches the pattern AND its real article is the pack's article. The ones that
-// match and break the rule (el día, la mano) are returned as exceptions: they are what a rule pack
-// must never teach, and together they make the "Exceptions" pack (id "ausnahmen").
+// Rule packs are patterns of the first word. Two kinds:
+//   * gender rules (genus "m" or "f"): -zione and -sione → feminine, -ma from Greek → masculine,
+//     -o → masculine, -a → feminine. A noun joins one only when its real GENDER matches (the
+//     article may be il, lo or l': l'amica is feminine). The nouns that match the ending and
+//     break the rule (la mano, il pianeta) are exceptions: what a rule pack must never teach, and
+//     together the "Exceptions" pack (id "ausnahmen").
+//   * sound rules (`starts`: a regex on the first word): l' before a vowel, lo before z-,
+//     s+consonant, gn-, ps-. The article follows from the sound, not from the gender
+//     (`onlyGenus: "m"` keeps feminine nouns out of the lo rule: la zia, la scuola).
+//     They never produce exceptions.
 //
-// Also importable from plain `node`, like lexicon.js — scripts can print the stats.
+// Also importable from plain `node`, like lexicon.js: scripts can print the stats.
+import { withArticle } from "./articles.js";
 import config from "../data/artikel-packs.json" with { type: "json" };
 export const PACK_CONFIG = config;
+/** m or f, from the article (l' carries it in `genus`); null for il/la nouns that take both. */
+export const genusOf = (n) => (n.genus === "m" || n.genus === "f" ? n.genus : n.gender === "la" ? "f" : n.gender === "il" || n.gender === "lo" ? "m" : null);
+/** Does the noun follow this rule? Gender rules compare the gender, sound rules the article itself. */
+export const ruleHolds = (rule, noun) => (rule.genus ? genusOf(noun) === rule.genus : rule.article === noun.gender);
 const LEVELS = ["A1", "A2", "B1", "B2"];
 
 const topicPackOf = new Map();
@@ -28,7 +38,7 @@ export function topicPackFor(noun) {
   return null;
 }
 
-/** The word that decides the article: la oferta de trabajo, el dolor de cabeza. */
+/** The word that decides the article: la carta d'identità, il codice fiscale. */
 export const headWord = (lemma) => lemma.split(" ")[0].toLowerCase();
 
 /**
@@ -36,12 +46,14 @@ export const headWord = (lemma) => lemma.split(" ")[0].toLowerCase();
  * when no pattern applies. `why` names the matched pattern, for the exception list.
  */
 export function ruleMatch(noun) {
-  // el IVA, la ESO: an acronym takes the article of the word behind it, not of its last letter.
+  // il CAP, la TARI: an acronym takes the article of the word behind it, not of its last letter.
   if (/^\p{Lu}{2,}/u.test(noun.lemma) || config.noRule?.includes(noun.lemma)) return null;
   const L = headWord(noun.lemma);
   for (const r of config.rules) {
-    if (r.genusF) {
-      if (noun.genus === "f") return { rule: r, why: "stressed a-" };
+    if (r.onlyGenus && genusOf(noun) !== r.onlyGenus) continue;
+    if (r.starts) {
+      const m = L.match(new RegExp(r.starts));
+      if (m) return { rule: r, why: r.why ?? `${m[0]}-` };
       continue;
     }
     if (r.names?.includes(L)) return { rule: r, why: "-ma" };
@@ -64,8 +76,8 @@ export function buildArtikelPacks(lexNouns) {
     nounTopic[n.id] = topicPackFor(n);
     const m = ruleMatch(n);
     if (!m) continue;
-    if (m.rule.article === n.gender) nounRule[n.id] = m.rule.id;
-    else exceptions.push({ id: n.id, level: n.level, lemma: n.lemma, gender: n.gender, rule: m.rule.id, ruleArticle: m.rule.article, why: m.why });
+    if (ruleHolds(m.rule, n)) nounRule[n.id] = m.rule.id;
+    else if (!m.rule.starts) exceptions.push({ id: n.id, level: n.level, lemma: n.lemma, gender: n.gender, rule: m.rule.id, ruleArticle: m.rule.article, why: m.why });
   }
 
   const byLevel = {};
@@ -89,8 +101,8 @@ export function buildArtikelPacks(lexNouns) {
     if (exc.length >= 5) {
       rules.push({
         id: "ausnahmen", article: null, name: "Exceptions",
-        rule: "These words look as if a rule applies, and break it: el día, el mapa, la mano, la foto. Learn them one by one.",
-        ruleLeicht: "These words do not follow the rule. Learn each word with el or la.",
+        rule: "These words look as if a rule applies, and break it: il pianeta, il poeta, la mano, la foto. Learn them one by one.",
+        ruleLeicht: "These words do not follow the rule. Learn each word with its article: il, lo, la or l'.",
         ids: exc.map((e) => e.id),
       });
     }
@@ -103,5 +115,5 @@ export function buildArtikelPacks(lexNouns) {
 /** Two or three real examples for a rule's intro card, from the nouns of its pack. */
 export function ruleExamples(pack, pool, n = 3) {
   const byId = new Map(pool.map((q) => [q.id, q]));
-  return pack.ids.slice(0, n).map((id) => byId.get(id)).filter(Boolean).map((q) => `${q.answer} ${q.lemma}`);
+  return pack.ids.slice(0, n).map((id) => byId.get(id)).filter(Boolean).map((q) => withArticle(q.answer, q.lemma));
 }

@@ -16,6 +16,7 @@ import { lernsets } from "./lernsets.js";
 import themenTr from "../data/uebersetzungen/grammatik-themen.json";
 import { langsFor, languagesFor, languageOf } from "./languages.js";
 import startBook from "../data/grammatik-start/en.json";
+import { withBase } from "./paths.js";
 
 const DIR = path.join(process.cwd(), "public", "downloads");
 
@@ -41,7 +42,7 @@ function fileInfo(file) {
   if (!existsSync(abs)) return null;
   const meta = manifest[file] ?? {};
   const bytes = meta.bytes ?? statSync(abs).size;
-  return { href: `/downloads/${file}`, pages: meta.pages ?? null, bytes, size: formatSize(bytes) };
+  return { href: withBase(`/downloads/${file}`), pages: meta.pages ?? null, bytes, size: formatSize(bytes) };
 }
 
 /* The translated editions of a file: a Wortliste with the learner's own language in place

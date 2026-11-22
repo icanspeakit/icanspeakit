@@ -365,7 +365,8 @@ html.abm-arrive .abm-pick { animation: abm-pick-drop 380ms cubic-bezier(.2, .8, 
 
 /* ============================================================== print == */
 @media print {
-  @page { size: A4; margin: 14mm 14mm 12mm; }
+  /* No page size: the print dialog's paper wins, so A4 and US Letter both fit (margins in mm suit both). */
+  @page { margin: 14mm 14mm 12mm; }
   /* Only the sheet: the site header, the toolbar and everything else fixed on the page
      (demo dock, rails) stay off the paper. */
   body > :not(:has(#ab-root)):not(#ab-root),

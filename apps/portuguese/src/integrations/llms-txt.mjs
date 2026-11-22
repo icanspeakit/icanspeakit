@@ -17,14 +17,14 @@ import { htmlFiles, toPathname, NOINDEX, REFRESH } from './sitemap.mjs';
 import { absoluteUrl } from '../lib/paths.js';
 
 /** Headings and the pages under them. `/x/*` = every built page below /x as well. */
-// Site paths (without /portuguese); the URLs are built with absoluteUrl() (src/lib/paths.js).
+// Site paths (without /portugues); the URLs are built with absoluteUrl() (src/lib/paths.js).
 const SECTIONS = [
-  ['Start here', ['/placement-test', '/step-by-step', '/exercises', '/progress']],
-  ['Grammar and vocabulary', ['/grammar', '/grammar/conjugation', '/vocabulary', '/pronunciation']],
-  ['Skills', ['/skills', '/speaking', '/listening', '/reading', '/writing']],
-  ['Exams', ['/exams', '/caple', '/caple/*','/exams/ciple-deple-celpe-bras', '/civics', '/civics/*', '/nationality', '/nationality/*']],
-  ['Life and work in Portugal', ['/portuguese-for-work', '/business-portuguese', '/imt-vocabulary', '/culture', '/knowledge', '/knowledge/word-stories']],
-  ['For teachers', ['/teachers']],
+  ['Start here', ['/teste-de-nivel', '/passo-a-passo', '/exercicios', '/progresso']],
+  ['Grammar and vocabulary', ['/gramatica', '/gramatica/conjugacao', '/vocabulario', '/pronuncia']],
+  ['Skills', ['/competencias', '/expressao-oral', '/compreensao-oral', '/leitura', '/escrita']],
+  ['Exams', ['/exames', '/caple', '/caple/*','/exames/ciple-deple-celpe-bras', '/civics', '/civics/*', '/nationality', '/nationality/*']],
+  ['Life and work in Portugal', ['/portuguese-for-work', '/business-portuguese', '/imt-vocabulary', '/cultura', '/conhecimentos', '/conhecimentos/historias-de-palavras']],
+  ['For teachers', ['/professores']],
   // The entry pages with their own URL per language (./entry-pages.mjs): the home of each.
   ['In other languages', ['/de', '/fr', '/pt', '/it']],
 ];

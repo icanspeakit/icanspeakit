@@ -6,7 +6,7 @@
 //
 // A round is ten nouns, drawn afresh each time. An answer is checked once; the learner then
 // sees the right form, can hear it again, and goes on. Each answer is recorded like any other
-// article answer, so it counts on /progress.
+// article answer, so it counts on /progressi.
 import { recordAttempt } from "./progress.js";
 import { t } from "./uiText.js";
 
@@ -48,17 +48,17 @@ export function check(typed, q) {
   return { ok: false, notes };
 }
 
-/** A Spanish voice, Spain first. False when the browser has no speech at all. */
+/** An Italian voice, Italy first. False when the browser has no speech at all. */
 const canSpeak = () => typeof window !== "undefined" && "speechSynthesis" in window;
 function say(text, slow) {
   if (!canSpeak()) return;
   const synth = window.speechSynthesis;
   synth.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "es-ES";
+  u.lang = "it-IT";
   u.rate = slow ? 0.6 : 0.9;
   const voices = synth.getVoices();
-  const v = voices.find((x) => /^es(-|_)ES/i.test(x.lang)) ?? voices.find((x) => /^es(-|_)/i.test(x.lang));
+  const v = voices.find((x) => /^it(-|_)IT/i.test(x.lang)) ?? voices.find((x) => /^it(-|_)/i.test(x.lang));
   if (v) u.voice = v;
   synth.speak(u);
 }
@@ -142,7 +142,7 @@ export function mountDiktat(root, { round: ROUND, pool }) {
     input.classList.add(r.ok ? "is-ok" : "is-no");
     feedback.hidden = false;
     feedback.className = `akd-feedback ${r.ok ? "is-ok" : "is-no"}`;
-    const answer = `<b lang="es">${esc(q.gender)} ${esc(q.lemma)}</b>`;
+    const answer = `<b lang="it">${esc(q.gender)} ${esc(q.lemma)}</b>`;
     feedback.innerHTML = r.ok
       ? `<p class="akd-verdict">${esc(t("akd.ok", "Correct:"))} ${answer}</p>`
       : `<p class="akd-verdict">${esc(t("akd.no", "The right answer:"))} ${answer}</p><ul>${r.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>`;

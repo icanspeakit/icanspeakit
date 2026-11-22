@@ -1,0 +1,57 @@
+LANE B - French course URLs in French (apps/french only)  -  2026-11-15
+
+SLUG MAP: see slug-map-fr.md in this folder (full table, sub-routes, fragments). Authoritative
+tables in code: apps/french/src/lib/routes.js (TOPIC_SLUGS, REF_SLUGS, ITEM_SLUGS, WORK_GROUP_SLUGS,
+BUSINESS_SLUGS, SHEET_SLUGS, EXAM_PATHS). Highlights:
+  /skills -> /competences   /listening -> /ecoute   /reading -> /lecture   /writing -> /ecriture
+  /speaking -> /expression-orale   /grammar -> /grammaire   /vocabulary -> /vocabulaire
+  /pronunciation -> /prononciation   /placement-test -> /test-de-niveau   /step-by-step -> /pas-a-pas
+  /games -> /jeux   /teachers -> /enseignants   /knowledge -> /savoirs   /exams -> /examens
+  /privacy -> /confidentialite  /terms -> /conditions-generales  /legal-notice -> /mentions-legales
+  kept: /delf-dalf /tcf /tef /tcf-irn /intonation /culture /prepositions /reference /montbruno
+Fragments: /competences#ecoute|lecture|ecriture|expression-orale (old #hoeren/#lesen/#schreiben/#sprechen
+still open the tab; tab ids and sessionStorage key da-fertigkeiten-tab unchanged), #bestenliste -> #classement,
+#offiziell -> #officiel, #grammatik-start -> #grammaire-debutant. #niveau-* and #tandem kept.
+
+DONE
+- 138 files git mv'd in src/pages (staged as renames, nothing committed). Item/topic slugs (about 230) translated
+  in routes.js; DGT groups added to WORK_GROUP_SLUGS; "print"->"impression", "words"->"mots".
+- Every internal link rewritten (src, public/i18n/*.json, tests, data JSON, integrations); string-built
+  paths, regexes (deckSwap TRAINER, arbeitsblatt/client, mascotHelp) and the first-segment switch in
+  versuche.js pageRef() fixed by hand. Hub/other apps contain no deep links into /francais/<old>.
+- Redirects: legacy-redirects.json (app root; 685 pages + 9 dynamic patterns such as
+  /vocabulary/[deck] -> /vocabulaire/[deck]) read by astro.config.mjs next to grammarTopicRedirects()
+  (now /grammaire/<slug> -> /<slug>). Astro writes them as stubs under /francais/ (meta refresh).
+  New src/integrations/legacy-redirects.mjs writes dist/_redirects with real 301s for Cloudflare
+  (1370 static + 9 dynamic rules; limits 2000/100; cf-hoist-headers.mjs already moves _redirects to cf-dist/).
+- Scripts touched outside my lane (build broke otherwise; 1-line route fixes): scripts/check-pruefungsplan.mjs,
+  check-knigge.mjs, check-links.mjs, check-i18n-luecken.mjs (exclusion regexes), i18n-luecken-baseline.json (file keys).
+
+VERIFICATION
+- pnpm build passes (prebuild checks incl. check-links, i18n-luecken; postbuild leak checks): 1594 pages.
+- pnpm check:base: ok, 3430 files.
+- Every one of the 1681 old routes from the previous dist exists in the new dist (page or redirect stub); 1715 stubs,
+  0 dead targets (node check against dist).
+- curl on dev (localhost:4393/francais): /competences /ecoute /lecture /ecriture /expression-orale /grammaire
+  /vocabulaire /prononciation /test-de-niveau /pas-a-pas /jeux/safari-d-ecoute /genre-des-noms
+  /ecoute/a1-supermarche /mentions-legales /enseignants /savoirs/expressions all 200;
+  /skills /listening /grammar/y-and-en /y-and-en /vocabulary/a1-01 /listening/a1-supermarket -> 301.
+- grep of old route strings in src: clean except stale file-path mentions in comments/_note fields
+  (e.g. "src/pages/speaking/[id].astro") and /terms in public/robots.txt comment.
+
+LEFTOVERS / NOTES
+- Dev server redirects send Location without /francais (pre-existing Astro behaviour); built stubs and
+  _redirects are correct (checked).
+- Not redirected: old UI-language copies (/francais/de/<old>, es, pt, it): entry-page copies only.
+- Left alone (internal endpoints/data ids): *.json endpoints (suche.json, klassen-katalog.json, lernset-woerter.json,
+  fehler-regeln.json, enseignants/cartes/lexikon/[level].json, quiz-chapters, tests/fertigkeiten|fragen.json,
+  jeux/*/woerter-[level].json, gloss-[lang].json, vocabulaire/glosses/[lang].json), /design-system (internal, noindex).
+- Still German/non-French in URLs because they are data ids: vocab deck "a1-teil-NN" (portions), partner sheets
+  "pa-a1-friseurtermin", "pa-a1-hofladen", "ga-a1-sprachcafe" ..., /jeu/hochstapler, quiz-chapters "g-..." slugs, "lexikon".
+- Scripts not updated (lane A turf, not in build): seo-audit.mjs, ux-sweep.mjs, build-suche-seiten.mjs may still
+  hold old route strings; docs/ and README mention old routes.
+- llms.txt is 10.9 KB (warning "over 10 KB", longer slugs); trim SECTIONS in src/integrations/llms-txt.mjs.
+- German UI text noticed on pages: conditions-generales, confidentialite, mentions-legales (whole pages), competences LEAD
+  strings, savoirs/histoires-de-mots/revision, plan-d-examen, exercices tabs, quiz/jeu labels (data-i18n fallbacks).
+- Files touched: ~580 paths in apps/french (138 renames), plus prompts/lanes-fr-2026-11-15/{B.done,slug-map-fr.md}.
+  Nothing committed.

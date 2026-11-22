@@ -1,13 +1,14 @@
-// Checks the language-trap data of the idioms-mistakes pages: /knowledge/false-friends
-// (wortfallen.json and its en.json rows), /grammar/common-mistakes (typische-fehler.json and the
-// `fehler` links of wortarten.json), /knowledge/slang (umgangssprache.json), the live quiz's
-// synonyms (synonyme.json) and /culture/mistakes (fehler-nach-sprache.json).
+// Checks the language-trap data of the idioms-mistakes pages: /conoscenze/falsi-amici
+// (wortfallen.json and its en.json rows), /grammatica/errori-comuni (typische-fehler.json and the
+// `fehler` links of wortarten.json), /conoscenze/gergo (umgangssprache.json), the live quiz's
+// synonyms (synonyme.json) and /cultura/errori (fehler-nach-sprache.json).
 // Shape only, plus the things a typo would break quietly: a gap with no blank, an answer that
-// isn't an option, a picture that isn't on disk, a dead link, a Spanish question without ¿.
+// isn't an option, a picture that isn't on disk, a dead link, (no opening-mark check: Italian has none).
 // Runs in the content gate; exit 1 on any problem.
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { isCourseStandard } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => JSON.parse(readFileSync(path.join(ROOT, p), "utf8"));
@@ -18,13 +19,8 @@ const bad = (where, msg) => problems.push(`${where}: ${msg}`);
 const emojiFile = (e) => [...e].map((c) => c.codePointAt(0)).filter((c) => c !== 0xfe0f).map((c) => c.toString(16).toUpperCase()).join("-");
 const hasEmoji = (e) => existsSync(path.join(ROOT, "public/img/openmoji", `${emojiFile(e)}.svg`));
 
-// A Spanish sentence with ? or ! needs its opening mark.
-const marks = (where, s) => {
-  for (const part of String(s).split(/(?<=[.:;])\s+/)) {
-    if (part.includes("?") && !part.includes("¿")) bad(where, `? without ¿: “${s}”`);
-    if (part.includes("!") && !part.includes("¡")) bad(where, `! without ¡: “${s}”`);
-  }
-};
+// Italian has no opening ¿ or ¡ (the Spanish course checked for them): kept as a no-op so the calls stay.
+const marks = () => {};
 const unique = (where, ids) => {
   const seen = new Set();
   for (const id of ids) {
@@ -77,7 +73,7 @@ for (const p of pairs) {
   const at = `typische-fehler ${p.id}`;
   if (!/^[a-z0-9-]+$/.test(p.id)) bad(at, "id isn't a plain slug");
   if (!["A1", "A2", "B1", "B2", "C1", "C2"].includes(p.level)) bad(at, `level “${p.level}”`);
-  if (p.variety !== "es-ES") bad(at, "no variety");
+  if (!isCourseStandard(p.variety)) bad(at, "no variety");
   for (const s of [p.a, p.b]) if (!s?.w || !s?.pos || !s?.ex) bad(at, "a side without w, pos or ex");
   if (p.a.wrong) bad(at, "only side b can be wrong (the page shows a first)");
   if (!p.why) bad(at, "no why");
@@ -97,7 +93,7 @@ for (const g of us.gruppen) {
   for (const e of g.eintraege) {
     const at = `umgangssprache ${g.id} ${e.w}`;
     if (!e.w || !e.std) bad(at, "no w or std");
-    if (e.variety !== "es-ES") bad(at, "no variety");
+    if (!isCourseStandard(e.variety)) bad(at, "no variety");
     if (g.reg === "vulgaer" && ![1, 2, 3].includes(e.stufe)) bad(at, "rude entry without stufe 1–3");
     if (e.bsp) marks(at, e.bsp);
   }
@@ -112,7 +108,7 @@ for (const g of read("src/data/synonyme.json").groups) {
   if (!LEVELS.has(g.level)) bad(at, `level “${g.level}”`);
   if (!POS.has(g.pos)) bad(at, `pos “${g.pos}”`);
   if (!(g.words?.length >= 2) || new Set(g.words).size !== g.words.length) bad(at, "needs two different words");
-  if (g.variety !== "es-ES") bad(at, "no variety");
+  if (!isCourseStandard(g.variety)) bad(at, "no variety");
   if (g.emoji && !hasEmoji(g.emoji)) bad(at, `no picture ${g.emoji}`);
 }
 

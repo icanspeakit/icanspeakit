@@ -18,19 +18,19 @@ import "../styles/practice.css";
 
 // The question each page answers, as a learner would ask it.
 const QUESTION: Record<string, { text: string; key: string }> = {
-  "/grammar/verbs": { text: "“He hablo” or “he hablado”?", key: "nsw.q.verbs" },
-  "/grammar/irregular-verbs": { text: "“Yo sabo” or “yo sé”?", key: "nsw.q.irregular" },
-  "/grammar/reflexive-verbs-list": { text: "“Levanto a las siete” or “me levanto a las siete”?", key: "nsw.q.reflexive" },
-  "/grammar/verbs-with-prepositions": { text: "“Pensar en” or “pensar a”?", key: "nsw.q.prepositions" },
-  "/grammar/parts-of-speech": { text: "Is “bien” an adjective or an adverb?", key: "nsw.q.parts" },
-  "/grammar/common-mistakes": { text: "“Por” or “para”?", key: "nsw.q.mistakes" },
+  "/grammaire/verbes": { text: "“He hablo” or “he hablado”?", key: "nsw.q.verbs" },
+  "/grammaire/verbes-irreguliers": { text: "“Yo sabo” or “yo sé”?", key: "nsw.q.irregular" },
+  "/grammaire/liste-verbes-pronominaux": { text: "“Levanto a las siete” or “me levanto a las siete”?", key: "nsw.q.reflexive" },
+  "/grammaire/verbes-avec-prepositions": { text: "“Pensar en” or “pensar a”?", key: "nsw.q.prepositions" },
+  "/grammaire/natures-des-mots": { text: "Is “bien” an adjective or an adverb?", key: "nsw.q.parts" },
+  "/grammaire/erreurs-frequentes": { text: "“Por” or “para”?", key: "nsw.q.mistakes" },
 };
 const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, label: "", className: "nsw-regi-fig" });
 ---
 <Layout
-  title="Reference: verb tables, verbs and parts of speech – icanspeak Spanish"
-  description="Spanish grammar to look up: verb tables with the present, indefinido and participle, irregular verbs, reflexive verbs, verbs with prepositions and parts of speech."
-  breadcrumb={[{ name: "Knowledge", path: "/knowledge" }]}
+  title="Reference: verb tables, verbs and parts of speech – icanspeak French"
+  description="French grammar to look up: verb tables with the present, passé composé and participle, irregular verbs, pronominal verbs, verbs with prepositions and parts of speech."
+  breadcrumb={[{ name: "Knowledge", path: "/savoirs" }]}
 >
   <SiteNav active="wissen" />
   <main class="practice-main nsw-page">
@@ -87,7 +87,7 @@ const regi = mascotSvg({ name: "regi", expr: "happy", view: "three", size: 96, l
       <div class="nsw-box">
         <h3 data-i18n="nsw.ueben.title">Üben</h3>
         <p data-i18n="nsw.ueben.p">Du lernst ein Thema Schritt für Schritt: Regel, Aufgaben, Feedback.</p>
-        <a href="/grammar" data-i18n="nsw.ueben.link">Zu den Grammatik-Themen</a>
+        <a href="/grammaire" data-i18n="nsw.ueben.link">Zu den Grammatik-Themen</a>
       </div>
       <div class="nsw-box nsw-box--here">
         <h3 data-i18n="nsw.nach.title">Nachschlagen</h3>

@@ -111,7 +111,7 @@ export function mountArtikelSprint(root, data) {
   const pools = new Map();
   async function wordsForRoom(lvl) {
     if (!roomWords.has(lvl)) {
-      roomWords.set(lvl, fetch(withBase(`/games/gender-sprint/woerter-${lvl.toLowerCase()}.json`))
+      roomWords.set(lvl, fetch(withBase(`/juegos/sprint-de-genero/woerter-${lvl.toLowerCase()}.json`))
         .then((r) => (r.ok ? r.json() : { nouns: [] }))
         .catch(() => ({ nouns: [] }))
         .then((lex) => {
@@ -403,7 +403,7 @@ export function mountArtikelSprint(root, data) {
           else showToast(t("sprint.toast.correct", "Richtig: {w}", { w: right }), "bad");
           // A miss: say the right form out loud ("der Tisch"), after the buzz of the wrong sound.
           if (!r.ok) setTimeout(() => { if (phase === "play") speak(r.q); }, 380);
-          // Progress (/progress, "Wörter gelernt"): every answer that was given; riding under the box is no answer.
+          // Progress (/progreso, "Wörter gelernt"): every answer that was given; riding under the box is no answer.
           if (!r.nojump) {
             const q = r.q;
             recordAttempt({

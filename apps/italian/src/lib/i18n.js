@@ -81,7 +81,7 @@ function applyToDom(dict) {
   document.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const key = el.getAttribute("data-i18n-html");
     const vars = varsOf(el, globals);
-    // rebaseHtml: a link in the string (href="/grammar") goes under the base path (paths.js).
+    // rebaseHtml: a link in the string (href="/grammatica") goes under the base path (paths.js).
     if (dict[key] != null) el.innerHTML = rebaseHtml(translate(dict, key, vars));
   });
   document.querySelectorAll("[data-i18n-attr]").forEach((el) => {

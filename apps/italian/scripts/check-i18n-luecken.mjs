@@ -26,8 +26,8 @@ const DIRS = ["src/pages", "src/components", "src/layouts"];
 const SKIP = [
   /^src\/pages\/intern\//,
   /^src\/pages\/(design-system|newfont|list|testnavbarlanguages|nav\d)\.astro$/,
-  /^src\/pages\/intonation\/check\.astro$/,
-  /^src\/pages\/(privacy|terms|legal-notice)\.astro$/,
+  /^src\/pages\/intonazione\/verifica\.astro$/,
+  /^src\/pages\/(privacy|condizioni|note-legali)\.astro$/,
   /^src\/paid\//,
 ];
 const VOID = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr", "path", "circle", "rect", "line", "polyline", "polygon", "ellipse", "use", "stop"]);

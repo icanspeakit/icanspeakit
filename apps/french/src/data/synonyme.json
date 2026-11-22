@@ -1,931 +1,692 @@
 {
-  "_comment": "Spanish synonym groups for the live quiz's same-language mode (src/lib/liveQuiz/questions.js). Every word in a group can stand in for every other one in an everyday sentence (empiezo / comienzo mañana); a word may sit in more than one group, and the quiz never offers a synonym of the prompt as a wrong option. Where the words differ in register, the group is still interchangeable in meaning, and `nota` says how they differ (English, not shown yet). level = the level a learner meets the group at; pos steers the wrong options (a verb is asked among verbs). Nouns carry el/la. Castilian Spanish first; variety on every group, es419 where Latin America prefers another word. idioms-mistakes run (2026-11-06), not yet reviewed.",
+  "_comment": "French synonym groups for the live quiz's same-language mode (src/lib/liveQuiz/questions.js). Every word in a group can stand in for every other one in an everyday sentence (je commence demain / je débute demain); a word may sit in more than one group, and the quiz never offers a synonym of the prompt as a wrong option. Where the words differ in register, the group is still interchangeable in meaning, and `nota` says how they differ (English, not shown yet). level = the level a learner meets the group at; pos steers the wrong options (a verb is asked among verbs). Nouns carry le/la/l'. Standard French of France first; variety on every group, frCA where Québec prefers another word. idioms-mistakes run (2026-11-11), not yet reviewed by a native teacher.",
   "groups": [
     {
-      "level": "A1",
+      "level": "A2",
       "pos": "verb",
       "words": [
-        "empezar",
-        "comenzar"
-      ],
-      "emoji": "🚀",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "verb",
-      "words": [
-        "terminar",
-        "acabar"
+        "finir",
+        "terminer"
       ],
       "emoji": "🏁",
-      "variety": "es-ES"
+      "variety": "fr-FR"
     },
     {
-      "level": "A1",
+      "level": "A2",
       "pos": "verb",
       "words": [
-        "creer",
-        "pensar"
+        "habiter",
+        "vivre"
+      ],
+      "emoji": "🏠",
+      "variety": "fr-FR",
+      "nota": "vivre is also “to live” in general (vivre bien); habiter is for the place"
+    },
+    {
+      "level": "A2",
+      "pos": "verb",
+      "words": [
+        "penser",
+        "croire"
       ],
       "emoji": "🤔",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "verb",
-      "words": [
-        "querer",
-        "desear"
-      ],
-      "variety": "es-ES",
-      "nota": "desear is more formal: ¿Qué desea?"
-    },
-    {
-      "level": "A1",
-      "pos": "verb",
-      "words": [
-        "volver",
-        "regresar"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "bonito",
-        "lindo"
-      ],
-      "emoji": "😊",
-      "variety": "es-ES",
-      "nota": "lindo is rarer in Spain"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "contento",
-        "alegre"
-      ],
-      "emoji": "😄",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "simpático",
-        "amable",
-        "majo"
-      ],
-      "emoji": "😊",
-      "variety": "es-ES",
-      "nota": "majo is informal, and mainly Spain"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "fácil",
-        "sencillo"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "difícil",
-        "complicado"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "estupendo",
-        "genial",
-        "fantástico"
-      ],
-      "emoji": "🤩",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "adj",
-      "words": [
-        "pequeño",
-        "chico"
-      ],
-      "variety": "es-ES",
-      "nota": "chico for size is rarer in Spain"
-    },
-    {
-      "level": "A1",
-      "pos": "adv",
-      "words": [
-        "quizás",
-        "tal vez"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A1",
-      "pos": "adv",
-      "words": [
-        "ahora",
-        "en este momento"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "noun",
-      "words": [
-        "el regalo",
-        "el obsequio"
-      ],
-      "emoji": "🎁",
-      "variety": "es-ES",
-      "nota": "el obsequio is formal"
-    },
-    {
-      "level": "A1",
-      "pos": "noun",
-      "words": [
-        "la bicicleta",
-        "la bici"
-      ],
-      "emoji": "🚲",
-      "variety": "es-ES",
-      "nota": "la bici is informal"
-    },
-    {
-      "level": "A1",
-      "pos": "noun",
-      "words": [
-        "la película",
-        "la peli"
-      ],
-      "emoji": "🎬",
-      "variety": "es-ES",
-      "nota": "la peli is informal"
-    },
-    {
-      "level": "A1",
-      "pos": "noun",
-      "words": [
-        "el piso",
-        "el apartamento"
-      ],
-      "emoji": "🏢",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In most of Latin America: el departamento or el apartamento, not el piso."
-      }
-    },
-    {
-      "level": "A1",
-      "pos": "noun",
-      "words": [
-        "el móvil",
-        "el teléfono"
-      ],
-      "emoji": "📱",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In most of Latin America: el celular."
-      }
-    },
-    {
-      "level": "A1",
-      "pos": "noun",
-      "words": [
-        "el coche",
-        "el automóvil"
-      ],
-      "emoji": "🚗",
-      "variety": "es-ES",
-      "nota": "el automóvil is formal",
-      "es419": {
-        "note": "In most of Latin America: el carro or el auto."
-      }
-    },
-    {
-      "level": "A1",
-      "pos": "noun",
-      "words": [
-        "el niño",
-        "el crío"
-      ],
-      "emoji": "🧒",
-      "variety": "es-ES",
-      "nota": "el crío is informal"
+      "variety": "fr-FR",
+      "nota": "croire que and penser que both take the indicative in an affirmative sentence"
     },
     {
       "level": "A2",
       "pos": "verb",
       "words": [
-        "elegir",
-        "escoger"
+        "manger",
+        "bouffer"
       ],
-      "variety": "es-ES"
+      "emoji": "🍳",
+      "variety": "fr-FR",
+      "nota": "bouffer is informal"
     },
     {
       "level": "A2",
       "pos": "verb",
       "words": [
-        "arreglar",
-        "reparar"
-      ],
-      "emoji": "🔧",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "verb",
-      "words": [
-        "trabajar",
-        "currar"
+        "travailler",
+        "bosser"
       ],
       "emoji": "💼",
-      "variety": "es-ES",
-      "nota": "currar is informal, and mainly Spain"
+      "variety": "fr-FR",
+      "nota": "bosser is informal"
     },
     {
       "level": "A2",
       "pos": "verb",
       "words": [
-        "ayudar",
-        "echar una mano"
+        "rire",
+        "rigoler"
       ],
-      "emoji": "🤝",
-      "variety": "es-ES",
-      "nota": "echar una mano is informal"
+      "emoji": "😊",
+      "variety": "fr-FR",
+      "nota": "rigoler is informal"
     },
     {
       "level": "A2",
       "pos": "verb",
       "words": [
-        "enfadarse",
-        "cabrearse"
+        "aimer",
+        "adorer"
       ],
-      "emoji": "😠",
-      "variety": "es-ES",
-      "nota": "cabrearse is very informal"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "alquilar",
-        "arrendar"
-      ],
-      "emoji": "🏢",
-      "variety": "es-ES",
-      "nota": "arrendar is formal; contracts use it"
-    },
-    {
-      "level": "A2",
-      "pos": "verb",
-      "words": [
-        "comprender",
-        "entender"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "rico",
-        "adinerado"
-      ],
-      "variety": "es-ES",
-      "nota": "adinerado is formal"
-    },
-    {
-      "level": "A2",
-      "pos": "adj",
-      "words": [
-        "raro",
-        "extraño"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adj",
-      "words": [
-        "inteligente",
-        "listo"
-      ],
-      "emoji": "🧠",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adj",
-      "words": [
-        "famoso",
-        "conocido"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adj",
-      "words": [
-        "enfermo",
-        "malo"
-      ],
-      "emoji": "🤒",
-      "variety": "es-ES",
-      "nota": "estar malo is informal"
-    },
-    {
-      "level": "A2",
-      "pos": "adj",
-      "words": [
-        "caro",
-        "costoso"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adj",
-      "words": [
-        "barato",
-        "económico"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adv",
-      "words": [
-        "a menudo",
-        "con frecuencia"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adv",
-      "words": [
-        "enseguida",
-        "ahora mismo"
-      ],
-      "emoji": "⏰",
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "adv",
-      "words": [
-        "a veces",
-        "de vez en cuando"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "A2",
-      "pos": "noun",
-      "words": [
-        "la basura",
-        "los residuos"
-      ],
-      "emoji": "🗑️",
-      "variety": "es-ES",
-      "nota": "los residuos is formal"
-    },
-    {
-      "level": "A2",
-      "pos": "noun",
-      "words": [
-        "el dinero",
-        "la pasta"
-      ],
-      "emoji": "💰",
-      "variety": "es-ES",
-      "nota": "la pasta is informal"
+      "emoji": "❤",
+      "variety": "fr-FR",
+      "nota": "adorer is stronger"
     },
     {
       "level": "B1",
       "pos": "verb",
       "words": [
-        "averiguar",
-        "descubrir"
+        "commencer",
+        "débuter"
       ],
-      "variety": "es-ES"
+      "emoji": "🏁",
+      "variety": "fr-FR",
+      "nota": "débuter is a little more formal"
     },
     {
       "level": "B1",
       "pos": "verb",
       "words": [
-        "aumentar",
-        "subir",
-        "incrementar"
+        "partir",
+        "s'en aller"
       ],
-      "emoji": "📈",
-      "variety": "es-ES",
-      "nota": "incrementar is formal"
+      "emoji": "🚶",
+      "variety": "fr-FR"
     },
     {
       "level": "B1",
       "pos": "verb",
       "words": [
-        "disminuir",
-        "bajar",
-        "reducir"
-      ],
-      "emoji": "📉",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "mejorar",
-        "progresar"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "proponer",
-        "sugerir"
-      ],
-      "emoji": "💡",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "seguir",
-        "continuar"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "aplazar",
-        "posponer"
-      ],
-      "emoji": "📅",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "cancelar",
-        "anular"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "quejarse",
-        "protestar"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "verb",
-      "words": [
-        "comprobar",
-        "verificar"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "necesario",
-        "imprescindible"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "enorme",
-        "gigantesco"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "delicioso",
-        "riquísimo"
-      ],
-      "emoji": "😋",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "agotado",
-        "hecho polvo"
-      ],
-      "emoji": "😴",
-      "variety": "es-ES",
-      "nota": "hecho polvo is informal"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "seguro",
-        "convencido"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adj",
-      "words": [
-        "tranquilo",
-        "relajado"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adv",
-      "words": [
-        "actualmente",
-        "en la actualidad"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adv",
-      "words": [
-        "especialmente",
-        "sobre todo"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adv",
-      "words": [
-        "por desgracia",
-        "lamentablemente"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adv",
-      "words": [
-        "completamente",
-        "totalmente"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adv",
-      "words": [
-        "de repente",
-        "de pronto"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "adv",
-      "words": [
-        "normalmente",
-        "por lo general"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "noun",
-      "words": [
-        "la ventaja",
-        "el beneficio"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "noun",
-      "words": [
-        "la desventaja",
-        "el inconveniente"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B1",
-      "pos": "noun",
-      "words": [
-        "el objetivo",
-        "la meta"
+        "essayer",
+        "tenter"
       ],
       "emoji": "🎯",
-      "variety": "es-ES"
+      "variety": "fr-FR",
+      "nota": "tenter is a little more formal"
     },
     {
       "level": "B1",
-      "pos": "noun",
+      "pos": "verb",
       "words": [
-        "la respuesta",
-        "la contestación"
+        "supprimer",
+        "effacer"
       ],
-      "emoji": "✉️",
-      "variety": "es-ES"
+      "emoji": "🗑",
+      "variety": "fr-FR",
+      "nota": "effacer is for text, files and marks; supprimer for accounts and rules too"
     },
     {
       "level": "B1",
-      "pos": "noun",
+      "pos": "verb",
       "words": [
-        "el error",
-        "la equivocación"
+        "enlever",
+        "retirer"
       ],
-      "variety": "es-ES"
+      "emoji": "🧹",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "B2",
+      "pos": "verb",
+      "words": [
+        "continuer",
+        "poursuivre"
+      ],
+      "emoji": "👉",
+      "variety": "fr-FR",
+      "nota": "poursuivre is more formal"
+    },
+    {
+      "level": "B2",
+      "pos": "verb",
+      "words": [
+        "obtenir",
+        "décrocher"
+      ],
+      "emoji": "🏆",
+      "variety": "fr-FR",
+      "nota": "décrocher is informal and used for a job, a contract or a flat"
+    },
+    {
+      "level": "B2",
+      "pos": "verb",
+      "words": [
+        "cacher",
+        "dissimuler"
+      ],
+      "emoji": "🔒",
+      "variety": "fr-FR",
+      "nota": "dissimuler is formal"
+    },
+    {
+      "level": "A1",
+      "pos": "adj",
+      "words": [
+        "beau",
+        "joli"
+      ],
+      "emoji": "🌈",
+      "variety": "fr-FR",
+      "nota": "beau is also used for weather and for men; joli is mild"
+    },
+    {
+      "level": "A2",
+      "pos": "adj",
+      "words": [
+        "gentil",
+        "aimable",
+        "sympa"
+      ],
+      "emoji": "😊",
+      "variety": "fr-FR",
+      "nota": "sympa is informal; aimable is more formal"
+    },
+    {
+      "level": "A2",
+      "pos": "adj",
+      "words": [
+        "content",
+        "heureux"
+      ],
+      "emoji": "😊",
+      "variety": "fr-FR",
+      "nota": "heureux is stronger"
+    },
+    {
+      "level": "A2",
+      "pos": "adj",
+      "words": [
+        "difficile",
+        "dur"
+      ],
+      "emoji": "💪",
+      "variety": "fr-FR",
+      "nota": "dur is informal"
+    },
+    {
+      "level": "A2",
+      "pos": "adj",
+      "words": [
+        "facile",
+        "simple"
+      ],
+      "emoji": "👍",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "A2",
+      "pos": "adj",
+      "words": [
+        "drôle",
+        "amusant"
+      ],
+      "emoji": "😊",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "A2",
+      "pos": "adj",
+      "words": [
+        "bon marché",
+        "pas cher"
+      ],
+      "emoji": "💶",
+      "variety": "fr-FR",
+      "nota": "bon marché never changes in the plural; pas cher does (pas chers)"
     },
     {
       "level": "B1",
-      "pos": "noun",
+      "pos": "adj",
       "words": [
-        "el sueldo",
-        "el salario"
+        "fatigué",
+        "crevé"
+      ],
+      "emoji": "😴",
+      "variety": "fr-FR",
+      "nota": "crevé is informal"
+    },
+    {
+      "level": "B1",
+      "pos": "adj",
+      "words": [
+        "étrange",
+        "bizarre"
+      ],
+      "emoji": "🤔",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "B1",
+      "pos": "adj",
+      "words": [
+        "ennuyeux",
+        "barbant"
+      ],
+      "emoji": "😴",
+      "variety": "fr-FR",
+      "nota": "barbant is informal"
+    },
+    {
+      "level": "B1",
+      "pos": "adj",
+      "words": [
+        "sûr",
+        "certain"
+      ],
+      "emoji": "👍",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "B1",
+      "pos": "adj",
+      "words": [
+        "libre",
+        "disponible"
+      ],
+      "emoji": "📅",
+      "variety": "fr-FR",
+      "nota": "disponible is the word for a person's time at work"
+    },
+    {
+      "level": "B1",
+      "pos": "adj",
+      "words": [
+        "nécessaire",
+        "indispensable"
+      ],
+      "emoji": "🔑",
+      "variety": "fr-FR",
+      "nota": "indispensable is stronger"
+    },
+    {
+      "level": "B2",
+      "pos": "adj",
+      "words": [
+        "cher",
+        "coûteux"
+      ],
+      "emoji": "💸",
+      "variety": "fr-FR",
+      "nota": "coûteux is formal"
+    },
+    {
+      "level": "B2",
+      "pos": "adj",
+      "words": [
+        "riche",
+        "aisé"
       ],
       "emoji": "💰",
-      "variety": "es-ES"
+      "variety": "fr-FR",
+      "nota": "aisé is more formal and softer"
+    },
+    {
+      "level": "B2",
+      "pos": "adj",
+      "words": [
+        "malade",
+        "souffrant"
+      ],
+      "emoji": "🏥",
+      "variety": "fr-FR",
+      "nota": "souffrant is formal and usually for a short illness"
+    },
+    {
+      "level": "B2",
+      "pos": "adj",
+      "words": [
+        "fou",
+        "dingue"
+      ],
+      "emoji": "🤔",
+      "variety": "fr-FR",
+      "nota": "dingue is informal"
+    },
+    {
+      "level": "A2",
+      "pos": "adv",
+      "words": [
+        "vite",
+        "rapidement"
+      ],
+      "emoji": "🏃",
+      "variety": "fr-FR",
+      "nota": "rapidement is a little more formal"
+    },
+    {
+      "level": "A2",
+      "pos": "adv",
+      "words": [
+        "tout de suite",
+        "immédiatement"
+      ],
+      "emoji": "⏰",
+      "variety": "fr-FR",
+      "nota": "immédiatement is more formal"
+    },
+    {
+      "level": "A2",
+      "pos": "adv",
+      "words": [
+        "toujours",
+        "tout le temps"
+      ],
+      "emoji": "⏳",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "A2",
+      "pos": "adv",
+      "words": [
+        "puis",
+        "ensuite"
+      ],
+      "emoji": "👉",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "B1",
+      "pos": "adv",
+      "words": [
+        "souvent",
+        "fréquemment"
+      ],
+      "emoji": "📅",
+      "variety": "fr-FR",
+      "nota": "fréquemment is formal"
+    },
+    {
+      "level": "B1",
+      "pos": "adv",
+      "words": [
+        "maintenant",
+        "à présent"
+      ],
+      "emoji": "⏰",
+      "variety": "fr-FR",
+      "nota": "à présent is a little formal"
+    },
+    {
+      "level": "B1",
+      "pos": "adv",
+      "words": [
+        "aussi",
+        "également"
+      ],
+      "emoji": "👉",
+      "variety": "fr-FR",
+      "nota": "également is more formal"
+    },
+    {
+      "level": "B1",
+      "pos": "adv",
+      "words": [
+        "environ",
+        "à peu près"
+      ],
+      "emoji": "🎯",
+      "variety": "fr-FR"
+    },
+    {
+      "level": "B1",
+      "pos": "adv",
+      "words": [
+        "seulement",
+        "uniquement"
+      ],
+      "emoji": "🎯",
+      "variety": "fr-FR",
+      "nota": "uniquement is a little more formal"
+    },
+    {
+      "level": "B2",
+      "pos": "adv",
+      "words": [
+        "pourtant",
+        "cependant",
+        "toutefois"
+      ],
+      "emoji": "🤔",
+      "variety": "fr-FR",
+      "nota": "cependant and toutefois are formal"
+    },
+    {
+      "level": "B2",
+      "pos": "adv",
+      "words": [
+        "presque",
+        "quasiment"
+      ],
+      "emoji": "🎯",
+      "variety": "fr-FR",
+      "nota": "quasiment is informal"
+    },
+    {
+      "level": "A1",
+      "pos": "noun",
+      "words": [
+        "le médecin",
+        "le docteur"
+      ],
+      "emoji": "🏥",
+      "variety": "fr-FR",
+      "nota": "docteur is the common word in speech, médecin on forms and in writing"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "le travail",
+        "le boulot"
+      ],
+      "emoji": "💼",
+      "variety": "fr-FR",
+      "nota": "le boulot is informal",
+      "frCA": {
+        "note": "In Québec the everyday word is la job (une job); boulot is understood."
+      }
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "la voiture",
+        "la bagnole"
+      ],
+      "emoji": "🚗",
+      "variety": "fr-FR",
+      "nota": "la bagnole is informal",
+      "frCA": {
+        "note": "In Québec the usual word is un char (also une auto); voiture is understood."
+      }
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "le livre",
+        "le bouquin"
+      ],
+      "emoji": "📚",
+      "variety": "fr-FR",
+      "nota": "le bouquin is informal"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "l'argent",
+        "le fric",
+        "la thune"
+      ],
+      "emoji": "💰",
+      "variety": "fr-FR",
+      "nota": "le fric and la thune are informal"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "le magasin",
+        "la boutique"
+      ],
+      "emoji": "🛒",
+      "variety": "fr-FR",
+      "nota": "boutique often means a small or fashion shop"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "la fête",
+        "la soirée"
+      ],
+      "emoji": "🎉",
+      "variety": "fr-FR",
+      "nota": "soirée is also just the evening"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "l'ami",
+        "le copain",
+        "le pote"
+      ],
+      "emoji": "👫",
+      "variety": "fr-FR",
+      "nota": "le pote is informal; mon copain / ma copine can mean boyfriend or girlfriend"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "l'enfant",
+        "le gamin",
+        "le gosse"
+      ],
+      "emoji": "🧒",
+      "variety": "fr-FR",
+      "nota": "le gamin and le gosse are informal"
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "le portable",
+        "le téléphone portable"
+      ],
+      "emoji": "📱",
+      "variety": "fr-FR",
+      "frCA": {
+        "note": "In Québec: le cellulaire (le cell); portable is understood."
+      }
+    },
+    {
+      "level": "A2",
+      "pos": "noun",
+      "words": [
+        "le courriel",
+        "le mail",
+        "l'e-mail"
+      ],
+      "emoji": "📧",
+      "variety": "fr-FR",
+      "nota": "mail and e-mail are common in France; courriel is the official word",
+      "frCA": {
+        "note": "In Québec courriel is the normal word; mail is rare."
+      }
     },
     {
       "level": "B1",
       "pos": "noun",
       "words": [
-        "el jefe",
-        "el superior"
+        "le travail",
+        "l'emploi"
       ],
-      "emoji": "👔",
-      "variety": "es-ES"
+      "emoji": "💼",
+      "variety": "fr-FR",
+      "nota": "emploi is the word for a job, in ads and administrative texts"
     },
     {
       "level": "B1",
       "pos": "noun",
       "words": [
-        "la oportunidad",
-        "la ocasión"
+        "le problème",
+        "le souci"
       ],
-      "variety": "es-ES"
+      "emoji": "😢",
+      "variety": "fr-FR",
+      "nota": "le souci is a little softer and more informal"
     },
     {
-      "level": "B2",
-      "pos": "verb",
+      "level": "B1",
+      "pos": "noun",
       "words": [
-        "requerir",
-        "exigir"
+        "le but",
+        "l'objectif"
       ],
-      "variety": "es-ES"
+      "emoji": "🎯",
+      "variety": "fr-FR"
     },
     {
-      "level": "B2",
-      "pos": "verb",
+      "level": "B1",
+      "pos": "noun",
       "words": [
-        "afrontar",
-        "hacer frente a"
+        "le patron",
+        "le chef"
       ],
-      "variety": "es-ES"
+      "emoji": "💼",
+      "variety": "fr-FR",
+      "nota": "patron is the boss of a firm; chef is the person in charge of a team"
     },
     {
-      "level": "B2",
-      "pos": "verb",
+      "level": "B1",
+      "pos": "noun",
       "words": [
-        "destacar",
-        "subrayar",
-        "resaltar"
+        "l'erreur",
+        "la faute"
       ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "prever",
-        "pronosticar"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "convencer",
-        "persuadir"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "fundar",
-        "crear",
-        "establecer"
-      ],
-      "emoji": "🏭",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "investigar",
-        "indagar"
-      ],
-      "emoji": "🔍",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "soportar",
-        "aguantar"
-      ],
-      "variety": "es-ES",
-      "nota": "aguantar is more informal"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "recuperarse",
-        "reponerse"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "verb",
-      "words": [
-        "demostrar",
-        "probar"
-      ],
-      "emoji": "📊",
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "esencial",
-        "fundamental",
-        "crucial"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "evidente",
-        "obvio",
-        "claro"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "fiable",
-        "de confianza"
-      ],
-      "variety": "es-ES",
-      "nota": "In parts of Latin America: confiable"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "exacto",
-        "preciso"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "considerable",
-        "notable"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "molesto",
-        "irritante"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adj",
-      "words": [
-        "entusiasta",
-        "apasionado"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adv",
-      "words": [
-        "sin embargo",
-        "no obstante"
-      ],
-      "variety": "es-ES",
-      "nota": "no obstante is formal"
-    },
-    {
-      "level": "B2",
-      "pos": "adv",
-      "words": [
-        "por lo tanto",
-        "por consiguiente",
-        "en consecuencia"
-      ],
-      "variety": "es-ES",
-      "nota": "the last two are formal"
-    },
-    {
-      "level": "B2",
-      "pos": "adv",
-      "words": [
-        "aproximadamente",
-        "más o menos",
-        "alrededor de"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adv",
-      "words": [
-        "al final",
-        "finalmente"
-      ],
-      "variety": "es-ES"
-    },
-    {
-      "level": "B2",
-      "pos": "adv",
-      "words": [
-        "además",
-        "asimismo"
-      ],
-      "variety": "es-ES",
-      "nota": "asimismo is formal"
+      "emoji": "🤦",
+      "variety": "fr-FR",
+      "nota": "faute also means a fault or a spelling mistake"
     },
     {
       "level": "B2",
       "pos": "noun",
       "words": [
-        "el asunto",
-        "el tema"
+        "la peur",
+        "la crainte"
       ],
-      "variety": "es-ES"
+      "emoji": "😬",
+      "variety": "fr-FR",
+      "nota": "la crainte is formal"
     },
     {
       "level": "B2",
       "pos": "noun",
       "words": [
-        "la falta",
-        "la escasez"
+        "le début",
+        "le commencement"
       ],
-      "variety": "es-ES"
+      "emoji": "🏁",
+      "variety": "fr-FR",
+      "nota": "le commencement is rarer and more formal"
+    },
+    {
+      "level": "B2",
+      "pos": "noun",
+      "words": [
+        "l'avis",
+        "l'opinion"
+      ],
+      "emoji": "💬",
+      "variety": "fr-FR"
     }
   ]
 }

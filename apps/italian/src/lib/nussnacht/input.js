@@ -1,23 +1,27 @@
 // Hamstis Nussnacht: keyboard, touch and gamepad, read once per tick as
 // { mx, my, art, skill, pick } – exactly what the simulation takes and the replay records.
 //
-//   Desktop  WASD / arrows move · 1 2 3 4 or J K L Ñ = el la los las · Space = skill · Esc / P = pause
+//   Desktop  WASD / arrows move · 1 2 3 4 or J K L ; = il lo la l' (5 6 7 = i gli le) · Space = skill · Esc / P = pause
 //   Touch    a floating joystick on the left half · the article buttons on the right
 //            (thumb zone) · the skill button above them
-//   Gamepad  left stick / d-pad · X el, A la, B los (LB/RB step through, also to las) · Y skill · Start pause
+//   Gamepad  left stick / d-pad · X il, A lo, B la (LB/RB step through all, also to l' and the plurals) · Y skill · Start pause
 //
-// los and las only answer once plurals are in the run: `artCount()` is 2 before that, 4 after.
+// i, gli and le only answer once plurals are in the run: `artCount()` is 4 before that, 7 after.
 //
 // Movement is rounded to 1/64 so a recorded run stays small and replays bit for bit.
 
-const KEYS_ART = { Digit1: 0, Digit2: 1, Digit3: 2, Digit4: 3, Numpad1: 0, Numpad2: 1, Numpad3: 2, Numpad4: 3, KeyJ: 0, KeyK: 1, KeyL: 2, Semicolon: 3 };
+const KEYS_ART = {
+  Digit1: 0, Digit2: 1, Digit3: 2, Digit4: 3, Digit5: 4, Digit6: 5, Digit7: 6,
+  Numpad1: 0, Numpad2: 1, Numpad3: 2, Numpad4: 3, Numpad5: 4, Numpad6: 5, Numpad7: 6,
+  KeyJ: 0, KeyK: 1, KeyL: 2, Semicolon: 3,
+};
 const KEYS_MOVE = {
   KeyW: [0, -1], ArrowUp: [0, -1], KeyS: [0, 1], ArrowDown: [0, 1],
   KeyA: [-1, 0], ArrowLeft: [-1, 0], KeyD: [1, 0], ArrowRight: [1, 0],
 };
 const q = (v) => Math.round(Math.max(-1, Math.min(1, v)) * 64) / 64;
 
-export function createInput({ stage, stick, knob, artButtons, skillButton, onPause, onArt, choosing, artCount = () => 2 }) {
+export function createInput({ stage, stick, knob, artButtons, skillButton, onPause, onArt, choosing, artCount = () => 4 }) {
   const held = new Set();
   let art = 0;
   let skillPress = false;

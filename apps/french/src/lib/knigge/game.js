@@ -1,4 +1,4 @@
-// The Manners Simulator (/games/manners): one day of manners and small talk, as a life sim.
+// The Manners Simulator (/jeux/bonnes-manieres): one day of manners and small talk, as a life sim.
 // The learner picks a mascot and lives through scenes (./scenes.js). In each turn someone
 // talks, the learner picks a reply; the reply moves that person's Sympathie (0–100, starts at
 // 50) and the overall Ruf (moved by delta / 2). A floating label (“+12 😊 Asked back”) rises
@@ -26,6 +26,9 @@ const SOUND_KEY = "da-knigge-sound";
 /** The topics each person was found to like (Smalltalk-Rad): { [personId]: [topicId] }. */
 const KNOWN_KEY = "da-knigge-known";
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+/** A French line for the screen: escaped, with the no-break space French print puts before
+ *  ? ! : ; and inside « » (scenes.js keeps plain spaces; English never has a space there). */
+const fr = (s) => esc(s).replace(/ ([?!:;»])/g, " $1").replace(/« /g, "« ");
 const icon = (code, size = 28, cls = "") => `<img class="${cls}" src="${withBase(`/img/openmoji/${code}.svg`)}" alt="" width="${size}" height="${size}" />`;
 const clamp = (v) => Math.max(0, Math.min(100, v));
 const store = {
@@ -177,7 +180,7 @@ export function mountKnigge(root) {
           ${mascotSvg({ name: S.casting[who.id], size: 40, label: "" })}
           <div><b>${esc(who.name)}</b><span>${esc(who.role)}</span></div>
         </div>
-        <p class="kn-line" lang="es">“${esc(tu.npc)}”</p>
+        <p class="kn-line" lang="fr">“${fr(tu.npc)}”</p>
         <div class="kn-tools">
           <button type="button" class="kn-tool" data-hear>🔊 ${esc(t("kn.hear", "Listen"))}</button>
           ${tu.en ? `<button type="button" class="kn-tool" data-help aria-expanded="false">💡 ${esc(t("kn.help", "Help"))}</button>` : ""}
@@ -185,7 +188,7 @@ export function mountKnigge(root) {
         ${tu.en ? `<p class="kn-gloss" lang="en" data-gloss hidden>${esc(tu.en)}</p>` : ""}` : `<div class="kn-tools"><button type="button" class="kn-tool" data-help aria-expanded="false">💡 ${esc(t("kn.help", "Help"))}</button></div>`}
       <p class="kn-you">${esc(t("kn.youSay", "What do you do?"))}</p>
       <div class="kn-opts">${tu.options.map((o, k) => `
-        <button type="button" class="kn-opt" data-opt="${k}" lang="es"><span class="kn-opt-n">${k + 1}</span><span>${esc(o.de)}${o.en ? `<small class="kn-opt-en" lang="en" data-gloss hidden>${esc(o.en)}</small>` : ""}</span></button>`).join("")}
+        <button type="button" class="kn-opt" data-opt="${k}" lang="fr"><span class="kn-opt-n">${k + 1}</span><span>${fr(o.de)}${o.en ? `<small class="kn-opt-en" lang="en" data-gloss hidden>${esc(o.en)}</small>` : ""}</span></button>`).join("")}
       </div>
       <div class="kn-after" data-after></div>
       <div class="kn-btns"><button type="button" class="quiz-btn quiz-btn--primary" data-go>${esc(t("kn.next", "Next"))}</button></div>`;
@@ -229,7 +232,7 @@ export function mountKnigge(root) {
     sheet.querySelector("[data-after]").innerHTML = `
       <div class="kn-react">
         ${mascotSvg({ name: S.casting[target], size: 36, label: "" })}
-        <p lang="es"><b>${esc(by.name)}:</b> ${esc(o.react)}${o.reactEn ? `<small class="kn-opt-en" lang="en">${esc(o.reactEn)}</small>` : ""}</p>
+        <p lang="fr"><b>${esc(by.name)}:</b> ${fr(o.react)}${o.reactEn ? `<small class="kn-opt-en" lang="en">${esc(o.reactEn)}</small>` : ""}</p>
       </div>
       <p class="kn-why"><b>${esc(t("kn.why", "Why?"))}</b> <span lang="en">${esc(o.why)}</span></p>
       ${more ? `<a class="kn-more" href="${esc(withBase(more))}" target="_blank" rel="noopener">${esc(t("kn.more", "Find out more"))} ↗</a>` : ""}`;
@@ -305,7 +308,7 @@ export function mountKnigge(root) {
     // What you said, above the answer.
     const said = tp.say[tu.du ? "du" : "sie"];
     const saidEn = tp.sayEn?.[tu.du ? "du" : "sie"];
-    sheet.querySelector(".kn-wheel").insertAdjacentHTML("afterend", `<p class="kn-said" lang="es"><b>${esc(t("kn.you", "You"))}:</b> “${esc(said)}”</p>${saidEn ? `<p class="kn-gloss" lang="en">${esc(saidEn)}</p>` : ""}`);
+    sheet.querySelector(".kn-wheel").insertAdjacentHTML("afterend", `<p class="kn-said" lang="fr"><b>${esc(t("kn.you", "You"))}:</b> “${fr(said)}”</p>${saidEn ? `<p class="kn-gloss" lang="en">${esc(saidEn)}</p>` : ""}`);
     apply({ de: said, delta: TOPIC_DELTA[kind], tag: t(tagKey, tagDe), react: tp.re[kind] ?? tp.re.ok ?? tp.re.taboo, reactEn: tp.reEn?.[kind] ?? tp.reEn?.ok ?? tp.reEn?.taboo, why }, `knigge-${scene().id}-${S.turnIdx}-${id}`, id);
   }
 
@@ -353,8 +356,8 @@ export function mountKnigge(root) {
         <li>${mascotSvg({ name: mascot, size: 34, label: "" })}<span><b>${esc(p.name)}</b> <small>${esc(p.role)}</small></span>
           <span class="kn-bar-track"><i style="width:${symp(p.id)}%" class="${symp(p.id) < 40 ? "is-low" : symp(p.id) > 70 ? "is-high" : ""}"></i></span></li>`).join("")}
       </ul>
-      ${best ? `<div class="kn-moment is-best"><b>${esc(t("kn.best", "Best moment"))}</b><p lang="es">“${esc(best.de)}” <span class="kn-tag" lang="en">${esc(best.tag)}</span></p><p class="kn-why" lang="en">${esc(best.why)}</p></div>` : ""}
-      ${worst && worst.delta < 0 ? `<div class="kn-moment is-worst"><b>${esc(t("kn.worst", "Biggest blunder"))}</b><p lang="es">“${esc(worst.de)}” <span class="kn-tag" lang="en">${esc(worst.tag)}</span></p><p class="kn-why" lang="en">${esc(worst.why)}</p></div>` : ""}
+      ${best ? `<div class="kn-moment is-best"><b>${esc(t("kn.best", "Best moment"))}</b><p lang="fr">“${fr(best.de)}” <span class="kn-tag" lang="en">${esc(best.tag)}</span></p><p class="kn-why" lang="en">${esc(best.why)}</p></div>` : ""}
+      ${worst && worst.delta < 0 ? `<div class="kn-moment is-worst"><b>${esc(t("kn.worst", "Biggest blunder"))}</b><p lang="fr">“${fr(worst.de)}” <span class="kn-tag" lang="en">${esc(worst.tag)}</span></p><p class="kn-why" lang="en">${esc(worst.why)}</p></div>` : ""}
       <div class="kn-btns">
         ${nextArea ? `<button type="button" class="quiz-btn quiz-btn--primary" data-next-area>${esc(t("kn.nextArea", "Next: {area}", { area: nextArea.title }))}</button>` : ""}
         <button type="button" class="quiz-btn${nextArea ? "" : " quiz-btn--primary"}" data-areas>${esc(nextArea ? t("kn.areas", "Areas") : t("kn.dayDone", "Day done – areas"))}</button>

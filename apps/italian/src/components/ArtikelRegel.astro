@@ -33,9 +33,10 @@ const ENDINGS_CAPTION = "Endings that tell you the gender";
   <div class="ap-drawer-body ap-regel">
     {gxTrainer && <GrammarHelp level={gxLevel} reviewed={gxTrainer.reviewed} />}
     <p class="akk-regel-intro" data-i18n="ap.regel.intro">
-      Every Spanish noun is masculine or feminine, and the article shows which: el or la. The ending
-      of the noun is often a reliable clue. These patterns help when you meet a new word, but they
-      have exceptions, so learn each noun with its article.
+      Every Italian noun is masculine or feminine. The article shows the gender, and it also depends
+      on the first sound of the noun: il, lo or l' for masculine, la or l' for feminine. The ending is
+      often a clue: -o is usually masculine, -a usually feminine, -e can be either. These patterns
+      help when you meet a new word, but they have exceptions, so learn each noun with its article.
     </p>
     <GrammarHelpText text={gxTrainer?.intro} />
     {/* The rule in full — the same tables, sentences and boxes a grammar topic's Regel
@@ -84,22 +85,23 @@ const ENDINGS_CAPTION = "Endings that tell you the gender";
     {rule.noteHtml && <p class="akk-regel-note" set:html={rule.noteHtml} />}
     <GrammarHelpText text={gxTopic?.note} />
     <p class="akk-regel-note" data-i18n="ap.regel.people">
-      With people and some animals the article follows the person: el médico / la médica, el
-      estudiante / la estudiante. For many words there is no pattern at all, and the article simply
-      has to be learned with the word.
+      With people the article follows the person: il ragazzo / la ragazza, l'amico / l'amica, lo
+      studente / la studentessa, il collega / la collega. For many words there is no pattern at all,
+      and the article simply has to be learned with the word.
     </p>
     <GrammarHelpText text={gxTrainer?.note} />
     <!-- Last, as the aside it is: the rule comes first when someone asks for the rule. -->
     <aside class="ap-regel-hint" id="ap-regel-hint" tabindex="-1">
       <p class="ap-regel-hint-title" data-i18n="ap.hint">Note</p>
       <p data-i18n="ap.hint.title.text">
-        Learning gender through rules only takes you so far, because many rules have exceptions.
-        What works best is learning every noun together with its article (la mesa, el libro, la
-        mano), for example in the vocabulary trainer, and then meeting the words in everyday life.
-        Treat the rules as help with a new word. The reliable ones: -ción, -sión, -dad, -tad, -tud,
-        -umbre → la and -aje → el.
+        Learning gender through rules only takes you so far, because many rules have exceptions (la
+        mano, il problema, la radio). What works best is learning every noun together with its
+        article (il libro, lo zaino, la casa, l'acqua), for example in the vocabulary trainer, and then
+        meeting the words in everyday life. Treat the rules as help with a new word. The reliable
+        ones: -zione, -sione, -tà, -tù → feminine (la stazione, la città); -ore → masculine (il
+        dottore, il colore).
       </p>
-      <p><a href="/vocabulary" data-i18n="ap.hint.vocab">vocabulary trainer</a></p>
+      <p><a href="/vocabolario" data-i18n="ap.hint.vocab">vocabulary trainer</a></p>
       <GrammarHelpText text={gxTrainer?.hint} />
     </aside>
   </div>

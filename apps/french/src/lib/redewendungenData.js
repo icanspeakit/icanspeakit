@@ -1,4 +1,4 @@
-// Redewendungen & Sprichwörter (/knowledge/idioms): the entries from
+// Redewendungen & Sprichwörter (/savoirs/expressions): the entries from
 // src/data/redewendungen.json with their theme attached, in page order. Build side only (it
 // imports the whole JSON); the browser gets what it needs as data attributes.
 //
@@ -22,12 +22,12 @@ export const themen = data.themen;
 export const themaById = Object.fromEntries(themen.map((t) => [t.id, t]));
 
 const sortKey = (de) =>
-  de.toLowerCase().replace(/^[“"¿¡]/, "").replace(/^(el|la|los|las|un|una|estar|ser|tener|no|a|al)\s+/, "");
+  de.toLowerCase().replace(/^[«“"]\s*/, "").replace(/^(l['’]|le |la |les |un |une |des |avoir |être |faire |ne |se |s['’]|en |à |au )\s*/, "");
 
 const order = Object.fromEntries(themen.map((t, i) => [t.id, i]));
 export const eintraege = data.eintraege
   .map((e) => ({ ...e, themaInfo: themaById[e.thema] }))
-  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "es"));
+  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "fr"));
 
 export const byId = Object.fromEntries(eintraege.map((e) => [e.id, e]));
 
@@ -48,15 +48,15 @@ export function prevNext(e) {
   return { prev: list[(i - 1 + list.length) % list.length], next: list[(i + 1) % list.length] };
 }
 
-export const hrefOf = (e) => `/knowledge/idioms/${e.id}`;
+export const hrefOf = (e) => `/savoirs/expressions/${e.id}`;
 export const emojiSrc = (code) => `/img/openmoji/${code}.svg`;
 
 /** The key word to gap in „Complete“: the longest word that carries the picture, leaving
- *  out small words and the everyday verbs that frame an idiom. “estar en las nubes” → “nubes”,
- *  “costar un ojo de la cara” → “cara”. */
-const GAP_SKIP = new Set("a al ante con de del el en la las lo los para por que sin sobre su un una y o no le se me te ni más muy mucha como cada alguien algo quien cuando donde estar ser tener hacer hace dar ir irse poner ponerse costar sacar sacarle tocar tocarle salir salirle llevarse buscarle importar sonar hablar hablando pagar tirar venir ahorrar llegar matar meter echar tomar quedarse ahogarse".split(" "));
+ *  out small words and the everyday verbs that frame an idiom. “avoir le cafard” → “cafard”,
+ *  “coûter les yeux de la tête” → “yeux”. */
+const GAP_SKIP = new Set("le la les un une des du de d l au aux à en dans sur sous par pour avec sans que qu qui quoi ne n pas plus se s me te m t y ça ce c il elle on je tu nous vous ils elles son sa ses mon ma mes ton ta tes et ou mais très tout tous toute comme quelqu quelqu'un quelque chose avoir être faire donner mettre prendre aller tomber passer coûter poser tirer tenir rester casser tourner jeter vendre sortir venir manger boire dire avoir ai a as avez ont est sont fait mis pris dis donne met prend va tombe passe coûte pose tire tient reste casse tourne jette vend sort vient mange boit dit avoir".split(" "));
 export function gapWord(de) {
-  const words = de.replace(/[„“"!?¿¡.,:;]/g, " ").split(/\s+/).filter(Boolean);
+  const words = de.replace(/[«»„“"!?.,:;…]/g, " ").replace(/['’]/g, " ").split(/\s+/).filter(Boolean);
   const pool = words.filter((w) => !GAP_SKIP.has(w.toLowerCase()) && w.length > 2);
   return [...(pool.length ? pool : words)].sort((a, b) => b.length - a.length)[0] ?? words[0];
 }

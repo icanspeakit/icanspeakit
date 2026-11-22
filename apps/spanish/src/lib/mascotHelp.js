@@ -15,16 +15,16 @@ import "../styles/mascot-help.css";
 /** Which help a path gets. The hubs only, not their subpages — except Wortschatz, where
  *  every deck page has the same trainer. */
 const PAGES = [
-  [/^\/culture\/?$/, "kultur"],
-  [/^\/grammar\/?$/, "grammatik"],
-  [/^\/listening\/?$/, "hoeren"],
-  [/^\/reading\/?$/, "lesen"],
-  [/^\/speaking\/?$/, "sprechen"],
-  [/^\/exercises\/?$/, "uebungen"],
-  [/^\/pronunciation\/?$/, "aussprache"],
-  [/^\/vocabulary(\/|$)/, "wortschatz"],
+  [/^\/cultura\/?$/, "kultur"],
+  [/^\/gramatica\/?$/, "grammatik"],
+  [/^\/comprension-auditiva\/?$/, "hoeren"],
+  [/^\/comprension-lectora\/?$/, "lesen"],
+  [/^\/expresion-oral\/?$/, "sprechen"],
+  [/^\/ejercicios\/?$/, "uebungen"],
+  [/^\/pronunciacion\/?$/, "aussprache"],
+  [/^\/vocabulario(\/|$)/, "wortschatz"],
   // Wort des Tages and every word page: the card first explains what etymology is.
-  [/^\/knowledge\/word-stories(\/|$)/, "wortgeschichte"],
+  [/^\/conocimientos\/historias-de-palabras(\/|$)/, "wortgeschichte"],
 ];
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
@@ -35,7 +35,7 @@ function init() {
   if (!page || !mascots.length) return;
 
   // The "?" is there to be found once. After the first tap it has done its job, so it goes
-  // — on this page (the key is per help page, so /grammar still shows it after /culture
+  // — on this page (the key is per help page, so /gramatica still shows it after /cultura
   // was opened) and on every later visit. The mascot stays a button; only the hint goes.
   const SEEN_KEY = `da-mhelp-seen-${page}`;
   let seen = false;

@@ -1,4 +1,4 @@
-// Regis Satzregen: is this order of chunks a correct sentence? (Spanish: the canonical order and
+// Regis Satzregen: is this order of chunks a correct sentence? (French: the canonical order and
 // the listed alts count, see src/data/satzregen/quelle.txt and VORFELD_MODES below.)
 //
 // A sentence (src/data/satzregen/saetze.json, built by scripts/build-satzregen.mjs) is a list
@@ -28,9 +28,8 @@ const NEVER_FIRST = /^(nicht|nichts|kein\w*|auch|doch|mal|denn|ja|noch|schon|seh
  *  Mittelfeld: "Man muss sich nach dem Umzug ummelden", not "… nach dem Umzug sich …". */
 const PRONOUN = /^(es|das|sich|mich|dich|uns|euch|ihn|ihm|ihr|mir|dir|ihnen|Ihnen)$/;
 
-// Spanish has no verb-second rule: no mode gets automatic Vorfeld variants. The sentences list the
-// other correct orders as alts instead ({alt} and {free} in src/data/satzregen/quelle.txt). The
-// German modes were ["v2", "klammer"].
+// French has no verb-second rule: no mode gets automatic Vorfeld variants. The sentences list the
+// other correct orders as alts instead ({alt} and {free} in src/data/satzregen/quelle.txt).
 const VORFELD_MODES = new Set([]);
 
 /** Does this sentence get Vorfeld variants? */
@@ -101,12 +100,14 @@ export function wrongMarks(s, order) {
 }
 
 /** The finished sentence as text: chunks joined, "," glued to the word before, the first
- *  letter capitalised, the end mark added, and a question opened with ¿. */
-export function sentenceText(order, end) {
+ *  letter capitalised, the end mark added. French typography: a no-break space (U+00A0) before
+ *  "?" in the displayed text. Pass nbsp = false for the plain text (build script, audio slugs,
+ *  matching); tiles and answers never contain the no-break space. */
+export function sentenceText(order, end, nbsp = true) {
   let t = "";
   for (const c of order) t += t && !c.startsWith(",") ? ` ${c}` : c;
-  return (end === "?" ? "¿" : "") + (t.charAt(0).toUpperCase() + t.slice(1)).trim() + (end || "");
+  return (t.charAt(0).toUpperCase() + t.slice(1)).trim() + (end ? (end === "?" && nbsp ? " " : "") + end : "");
 }
 
-/** A chunk as shown in slot `i`: capitalised in slot 1, with ¿ in front when the line is a question. */
-export const chunkLabel = (text, i, end) => (i === 0 ? (end === "?" ? "¿" : "") + text.charAt(0).toUpperCase() + text.slice(1) : text);
+/** A chunk as shown in slot `i`: capitalised in slot 1. */
+export const chunkLabel = (text, i) => (i === 0 ? text.charAt(0).toUpperCase() + text.slice(1) : text);

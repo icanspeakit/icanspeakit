@@ -86,7 +86,7 @@ function topRows(items, current, surface) {
   for (const i of items) if (i.special) add(i.code, "top");
   const languages = items.filter((i) => !i.special).map((i) => i.code);
   const suggested = suggestedLang(languages);
-  if (suggested && suggested !== current) add(suggested, "suggested", t("langpicker.suggested", "Vorschlag"));
+  if (suggested && suggested !== current) add(suggested, "suggested", t("langpicker.suggested", "Sprache deines Geräts"));
   for (const code of recentLangs(surface).filter((c) => c !== current).slice(0, 2)) add(code, "top");
   for (const code of CORE) add(code, "top");
   return rows;

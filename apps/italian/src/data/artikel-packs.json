@@ -1,109 +1,441 @@
 {
-  "_comment": "Packs for the el / la trainer (/articles), see src/lib/artikelPacks.js. `topics` groups the lexicon's own unit topics (src/content/lexicon/*.json; the topic ids stayed German) into everyday packs; a noun belongs to the pack of its FIRST topic, so every tagged noun is in exactly one. `rules` are gender patterns, checked in this order on the noun's first word; a noun joins a rule pack only if it matches the pattern AND its real article is the pack's article. The ones that match and break it are the exceptions (el día, la mano). `names` is a word list, `suffixes` are endings, `genusF` takes the feminine nouns with a stressed a- (el agua, lexicon genus: f). `min` lowers minPack for a rule with few nouns. `noRule` lists set phrases no ending rule speaks about; acronyms (IVA, ESO) are skipped by the code.",
-  "noRule": ["tira y afloja", "boca a boca"],
-  "minPack": 8,
-  "_levels": "A topic pack's `levels` renames it per level: one lexicon topic holds different nouns at each level (A1 wohnen = kitchen, bathroom; A2 = deposit, landlord), so no pack name repeats across A1–B2. `name`/`icon` are the fallback.",
-  "topics": [
-    { "id": "wohnen", "name": "Home & house", "icon": "🏠", "topics": ["wohnen"],
-      "levels": { "A2": { "name": "Renting & moving", "icon": "🔑" }, "B1": { "name": "Tenants & landlords", "icon": "🏢" }, "B2": { "name": "Property & housing", "icon": "🏡" } } },
-    { "id": "essen", "name": "Food & drink", "icon": "🍞", "topics": ["essen"],
-      "levels": { "A2": { "name": "Cooking & ingredients", "icon": "🧅" }, "B1": { "name": "Food & nutrition", "icon": "🥗" }, "B2": { "name": "Diet & where food comes from", "icon": "🌾" } } },
-    { "id": "menschen", "name": "Family & people", "icon": "👪", "topics": ["person", "familie", "gefuehle", "psychologie"],
-      "levels": { "A2": { "name": "Feelings & character", "icon": "💬" }, "B1": { "name": "Mind & mood", "icon": "🧠" }, "B2": { "name": "Psychology & personality", "icon": "🪞" } } },
-    { "id": "koerper", "name": "Body & health", "icon": "🩺", "topics": ["koerper", "gesundheit"],
-      "levels": { "A2": { "name": "Illness & the doctor's", "icon": "🩹" }, "B1": { "name": "Prevention & treatment", "icon": "💊" }, "B2": { "name": "The health system", "icon": "🏥" } } },
-    { "id": "kleidung", "name": "Clothes", "icon": "👕", "topics": ["kleidung"],
-      "levels": { "B1": { "name": "Fashion & fabrics", "icon": "🧵" }, "B2": { "name": "Fashion industry", "icon": "🪡" } } },
-    { "id": "stadt", "name": "Town & transport", "icon": "🚌", "topics": ["stadt", "verkehr"],
-      "levels": { "A2": { "name": "Buses & trains", "icon": "🚆" }, "B1": { "name": "On the road", "icon": "🚦" }, "B2": { "name": "Town planning", "icon": "🏗️" } } },
-    { "id": "arbeit", "name": "Work & school", "icon": "💼", "topics": ["arbeit", "bildung", "sprache", "wissenschaft", "wirtschaft"],
-      "levels": { "A2": { "name": "Applying & jobs", "icon": "📄" }, "B1": { "name": "Workplace & rights", "icon": "🏭" }, "B2": { "name": "Business & management", "icon": "📈" } } },
-    { "id": "freizeit", "name": "Free time & travel", "icon": "🧳", "topics": ["freizeit", "reisen", "kultur"],
-      "levels": { "A2": { "name": "Holidays & places to stay", "icon": "🏨" }, "B1": { "name": "Culture & clubs", "icon": "🎟️" }, "B2": { "name": "Arts & heritage", "icon": "🖼️" } } },
-    { "id": "zeit", "name": "Time, weather & nature", "icon": "🌦️", "topics": ["zeit", "wetter", "natur", "umwelt"],
-      "levels": { "A2": { "name": "Environment & climate", "icon": "🌍" }, "B1": { "name": "Sustainability & energy", "icon": "♻️" }, "B2": { "name": "Climate & energy", "icon": "🌱" } } },
-    { "id": "einkaufen", "name": "Shopping & money", "icon": "🛒", "topics": ["einkaufen", "geld"],
-      "levels": { "A2": { "name": "Banks & accounts", "icon": "💳" }, "B1": { "name": "Tax & finance", "icon": "🧾" }, "B2": { "name": "Markets & pensions", "icon": "💶" } } },
-    { "id": "aemter", "name": "Offices & society", "icon": "🏛️", "topics": ["aemter", "gesellschaft", "politik", "recht", "migration"],
-      "levels": { "A1": { "name": "Offices & forms", "icon": "📋" }, "A2": { "name": "Post & letters", "icon": "✉️" }, "B1": { "name": "Authorities & permits", "icon": "🛂" }, "B2": { "name": "Law & politics", "icon": "⚖️" } } },
-    { "id": "medien", "name": "Media & technology", "icon": "📱", "topics": ["medien", "kommunikation", "technik"],
-      "levels": { "A2": { "name": "Phone & email", "icon": "📞" }, "B1": { "name": "News & media", "icon": "📰" }, "B2": { "name": "Digital life & data", "icon": "💻" } } }
-  ],
-  "rules": [
-    {
-      "id": "el-a-tonica",
-      "article": "el",
-      "name": "el + stressed a-",
-      "rule": "Feminine nouns that start with a stressed a- or ha- take el in the singular, so the two a sounds don't run together: el agua, el aula, el hambre. They stay feminine: el agua fría, las aguas.",
-      "ruleLeicht": "Some words start with a strong “a”. They take “el”, but they are feminine: el agua fría, las aguas.",
-      "genusF": true,
-      "min": 4
+ "_comment": "Packs for the il / lo / la / l' trainer (/articles), see src/lib/artikelPacks.js. `topics` groups the lexicon's own unit topics (src/content/lexicon/*.json; the topic ids stayed German) into everyday packs; a noun belongs to the pack of its FIRST topic, so every tagged noun is in exactly one. `rules` are patterns of the noun's first word, checked in this order. A rule with `genus` (m or f) is a GENDER rule: a noun joins it when its gender matches (l'amica is feminine, whichever article it takes); nouns that match the pattern and break it are the exceptions (la mano, il pianeta). A rule with `starts` (a regex) is a SOUND rule: l' before a vowel, lo before z-, s+consonant, gn-, ps-; `onlyGenus` keeps the other gender out (la zia is not a lo word); sound rules have no exceptions. `names` is a word list, `suffixes` are endings, `why` names the pattern in the explanation. `min` lowers minPack for a rule with few nouns. `noRule` lists set phrases no rule speaks about; acronyms are skipped by the code. The rules are general teaching rules for standard Italian (variety it-IT), not taken from any exam material.",
+ "noRule": [
+  "carta d'identità",
+  "codice fiscale"
+ ],
+ "minPack": 8,
+ "_levels": "A topic pack's `levels` renames it per level: one lexicon topic holds different nouns at each level (A1 wohnen = kitchen, bathroom; A2 = deposit, landlord), so no pack name repeats across A1–B2. `name`/`icon` are the fallback.",
+ "topics": [
+  {
+   "id": "wohnen",
+   "name": "Home & house",
+   "icon": "🏠",
+   "topics": [
+    "wohnen"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Renting & moving",
+     "icon": "🔑"
     },
-    {
-      "id": "el-griego",
-      "article": "el",
-      "name": "-ma words from Greek",
-      "rule": "Many words in -ma come from Greek and are masculine: el problema, el tema, el idioma, el sistema. Not every word in -ma: la cama, la forma, la crema.",
-      "ruleLeicht": "These words end in -ma, but they take “el”: el problema, el idioma.",
-      "names": ["diploma", "ecosistema", "cronograma", "problema", "tema", "sistema", "idioma", "clima", "programa", "poema", "drama", "diagrama", "síntoma", "esquema", "dilema", "panorama", "teorema", "trauma", "lema", "emblema", "enigma", "dogma", "estigma", "fantasma", "telegrama", "crucigrama", "organigrama", "aroma", "cisma", "carisma"],
-      "min": 4
+    "B1": {
+     "name": "Tenants & landlords",
+     "icon": "🏢"
     },
-    {
-      "id": "la-cion",
-      "article": "la",
-      "name": "-ción and -sión",
-      "rule": "Nouns in -ción and -sión are feminine: la estación, la información, la televisión, la decisión.",
-      "ruleLeicht": "The word ends in -ción or -sión? Then you say “la”: la estación.",
-      "suffixes": ["ción", "sión"]
-    },
-    {
-      "id": "la-dad",
-      "article": "la",
-      "name": "-dad, -tad and -tud",
-      "rule": "Nouns in -dad, -tad and -tud are feminine: la ciudad, la universidad, la libertad, la salud.",
-      "ruleLeicht": "The word ends in -dad, -tad or -tud? Then you say “la”: la ciudad.",
-      "suffixes": ["dad", "tad", "tud"]
-    },
-    {
-      "id": "la-umbre",
-      "article": "la",
-      "name": "-umbre",
-      "rule": "Nouns in -umbre are feminine: la costumbre, la cumbre, la legumbre.",
-      "ruleLeicht": "The word ends in -umbre? Then you say “la”: la costumbre.",
-      "suffixes": ["umbre"],
-      "min": 4
-    },
-    {
-      "id": "el-aje",
-      "article": "el",
-      "name": "-aje",
-      "rule": "Nouns in -aje are masculine: el viaje, el garaje, el paisaje, el mensaje.",
-      "ruleLeicht": "The word ends in -aje? Then you say “el”: el viaje.",
-      "suffixes": ["aje"]
-    },
-    {
-      "id": "el-or",
-      "article": "el",
-      "name": "-or",
-      "rule": "Most nouns in -or are masculine: el ordenador, el color, el conductor. The ones to watch: la flor, la labor.",
-      "ruleLeicht": "The word ends in -or? Then you usually say “el”: el color.",
-      "suffixes": ["or"]
-    },
-    {
-      "id": "el-o",
-      "article": "el",
-      "name": "-o",
-      "rule": "Most nouns in -o are masculine: el libro, el trabajo, el vaso. The ones to watch: la mano, la foto, la moto, la radio.",
-      "ruleLeicht": "The word ends in -o? Then you usually say “el”: el libro.",
-      "suffixes": ["o"]
-    },
-    {
-      "id": "la-a",
-      "article": "la",
-      "name": "-a",
-      "rule": "Most nouns in -a are feminine: la casa, la silla, la mesa. The ones to watch: el día, el mapa, el planeta, el tranvía.",
-      "ruleLeicht": "The word ends in -a? Then you usually say “la”: la casa.",
-      "suffixes": ["a"]
+    "B2": {
+     "name": "Property & housing",
+     "icon": "🏡"
     }
-  ]
+   }
+  },
+  {
+   "id": "essen",
+   "name": "Food & drink",
+   "icon": "🍞",
+   "topics": [
+    "essen"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Cooking & ingredients",
+     "icon": "🧅"
+    },
+    "B1": {
+     "name": "Food & nutrition",
+     "icon": "🥗"
+    },
+    "B2": {
+     "name": "Diet & where food comes from",
+     "icon": "🌾"
+    }
+   }
+  },
+  {
+   "id": "menschen",
+   "name": "Family & people",
+   "icon": "👪",
+   "topics": [
+    "person",
+    "familie",
+    "gefuehle",
+    "psychologie"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Feelings & character",
+     "icon": "💬"
+    },
+    "B1": {
+     "name": "Mind & mood",
+     "icon": "🧠"
+    },
+    "B2": {
+     "name": "Psychology & personality",
+     "icon": "🪞"
+    }
+   }
+  },
+  {
+   "id": "koerper",
+   "name": "Body & health",
+   "icon": "🩺",
+   "topics": [
+    "koerper",
+    "gesundheit"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Illness & the doctor's",
+     "icon": "🩹"
+    },
+    "B1": {
+     "name": "Prevention & treatment",
+     "icon": "💊"
+    },
+    "B2": {
+     "name": "The health system",
+     "icon": "🏥"
+    }
+   }
+  },
+  {
+   "id": "kleidung",
+   "name": "Clothes",
+   "icon": "👕",
+   "topics": [
+    "kleidung"
+   ],
+   "levels": {
+    "B1": {
+     "name": "Fashion & fabrics",
+     "icon": "🧵"
+    },
+    "B2": {
+     "name": "Fashion industry",
+     "icon": "🪡"
+    }
+   }
+  },
+  {
+   "id": "stadt",
+   "name": "Town & transport",
+   "icon": "🚌",
+   "topics": [
+    "stadt",
+    "verkehr"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Buses & trains",
+     "icon": "🚆"
+    },
+    "B1": {
+     "name": "On the road",
+     "icon": "🚦"
+    },
+    "B2": {
+     "name": "Town planning",
+     "icon": "🏗️"
+    }
+   }
+  },
+  {
+   "id": "arbeit",
+   "name": "Work & school",
+   "icon": "💼",
+   "topics": [
+    "arbeit",
+    "bildung",
+    "sprache",
+    "wissenschaft",
+    "wirtschaft"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Applying & jobs",
+     "icon": "📄"
+    },
+    "B1": {
+     "name": "Workplace & rights",
+     "icon": "🏭"
+    },
+    "B2": {
+     "name": "Business & management",
+     "icon": "📈"
+    }
+   }
+  },
+  {
+   "id": "freizeit",
+   "name": "Free time & travel",
+   "icon": "🧳",
+   "topics": [
+    "freizeit",
+    "reisen",
+    "kultur"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Holidays & places to stay",
+     "icon": "🏨"
+    },
+    "B1": {
+     "name": "Culture & clubs",
+     "icon": "🎟️"
+    },
+    "B2": {
+     "name": "Arts & heritage",
+     "icon": "🖼️"
+    }
+   }
+  },
+  {
+   "id": "zeit",
+   "name": "Time, weather & nature",
+   "icon": "🌦️",
+   "topics": [
+    "zeit",
+    "wetter",
+    "natur",
+    "umwelt"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Environment & climate",
+     "icon": "🌍"
+    },
+    "B1": {
+     "name": "Sustainability & energy",
+     "icon": "♻️"
+    },
+    "B2": {
+     "name": "Climate & energy",
+     "icon": "🌱"
+    }
+   }
+  },
+  {
+   "id": "einkaufen",
+   "name": "Shopping & money",
+   "icon": "🛒",
+   "topics": [
+    "einkaufen",
+    "geld"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Banks & accounts",
+     "icon": "💳"
+    },
+    "B1": {
+     "name": "Tax & finance",
+     "icon": "🧾"
+    },
+    "B2": {
+     "name": "Markets & pensions",
+     "icon": "💶"
+    }
+   }
+  },
+  {
+   "id": "aemter",
+   "name": "Offices & society",
+   "icon": "🏛️",
+   "topics": [
+    "aemter",
+    "gesellschaft",
+    "politik",
+    "recht",
+    "migration"
+   ],
+   "levels": {
+    "A1": {
+     "name": "Offices & forms",
+     "icon": "📋"
+    },
+    "A2": {
+     "name": "Post & letters",
+     "icon": "✉️"
+    },
+    "B1": {
+     "name": "Authorities & permits",
+     "icon": "🛂"
+    },
+    "B2": {
+     "name": "Law & politics",
+     "icon": "⚖️"
+    }
+   }
+  },
+  {
+   "id": "medien",
+   "name": "Media & technology",
+   "icon": "📱",
+   "topics": [
+    "medien",
+    "kommunikation",
+    "technik"
+   ],
+   "levels": {
+    "A2": {
+     "name": "Phone & email",
+     "icon": "📞"
+    },
+    "B1": {
+     "name": "News & media",
+     "icon": "📰"
+    },
+    "B2": {
+     "name": "Digital life & data",
+     "icon": "💻"
+    }
+   }
+  }
+ ],
+ "rules": [
+  {
+   "id": "l-vocale",
+   "article": "l'",
+   "name": "Vowel: l'",
+   "rule": "Before a vowel, il, lo and la all become l', for masculine and feminine alike: l'amico, l'amica, l'uomo, l'acqua, l'ospedale. So l' does not tell you the gender: the plural does (gli amici, le amiche).",
+   "ruleLeicht": "The word starts with a vowel (a, e, i, o, u)? Then you say “l'”: l'amico, l'amica.",
+   "starts": "^[aeiouàèéìòù]",
+   "why": "a vowel",
+   "min": 4
+  },
+  {
+   "id": "lo-suono",
+   "article": "lo",
+   "name": "z, s + consonant, gn, ps: lo",
+   "rule": "Masculine nouns that start with z, s + consonant, gn or ps (also x and y) take lo, not il: lo zaino, lo studente, lo straniero, lo psicologo. The plural is gli: gli zaini, gli studenti.",
+   "ruleLeicht": "A masculine word with z-, s + consonant (sp-, st-, sc-…), gn- or ps-? Then you say “lo”: lo zaino, lo studente.",
+   "starts": "^(z|s[^aeiouàèéìòù]|gn|ps|pn|x|y)",
+   "why": "z-, s + consonant, gn-, ps-",
+   "onlyGenus": "m",
+   "min": 4
+  },
+  {
+   "id": "la-zione",
+   "article": "la",
+   "genus": "f",
+   "name": "-zione and -sione",
+   "rule": "Nouns in -zione and -sione are feminine: la stazione, la lezione, la televisione, la decisione. The plural is le: le stazioni.",
+   "ruleLeicht": "The word ends in -zione or -sione? Then you say “la”: la stazione.",
+   "suffixes": [
+    "zione",
+    "sione"
+   ]
+  },
+  {
+   "id": "la-ta",
+   "article": "la",
+   "genus": "f",
+   "name": "-tà and -tù",
+   "rule": "Nouns in -tà and -tù are feminine and do not change in the plural: la città, la verità, la qualità, la gioventù; le città.",
+   "ruleLeicht": "The word ends in -tà or -tù? Then you say “la”: la città.",
+   "suffixes": [
+    "tà",
+    "tù"
+   ],
+   "min": 4
+  },
+  {
+   "id": "la-si",
+   "article": "la",
+   "genus": "f",
+   "name": "-si (from Greek)",
+   "rule": "Nouns in -si from Greek are feminine and do not change in the plural: la crisi, la tesi, l'analisi, l'ipotesi, la diagnosi; le crisi.",
+   "ruleLeicht": "The word ends in -si? Then you say “la” (or “l'” before a vowel): la crisi, la tesi.",
+   "suffixes": [
+    "si"
+   ],
+   "min": 3
+  },
+  {
+   "id": "il-greco",
+   "article": "il",
+   "genus": "m",
+   "name": "-ma words from Greek",
+   "rule": "Many words in -ma come from Greek and are masculine: il problema, il tema, il sistema, il programma, il clima. Not every word in -ma: la mamma, la forma, la crema, la gamma.",
+   "ruleLeicht": "These words end in -ma, but you say “il”: il problema, il tema.",
+   "names": [
+    "diploma",
+    "ecosistema",
+    "problema",
+    "tema",
+    "sistema",
+    "clima",
+    "programma",
+    "poema",
+    "dramma",
+    "diagramma",
+    "schema",
+    "dilemma",
+    "panorama",
+    "teorema",
+    "trauma",
+    "lemma",
+    "emblema",
+    "enigma",
+    "dogma",
+    "stigma",
+    "fantasma",
+    "telegramma",
+    "aroma",
+    "carisma",
+    "cinema",
+    "pianeta",
+    "poeta",
+    "profeta"
+   ],
+   "min": 4
+  },
+  {
+   "id": "il-ore",
+   "article": "il",
+   "genus": "m",
+   "name": "-ore",
+   "rule": "Most nouns in -ore are masculine: il colore, il dolore, il fiore, il motore, il calore, il valore. Words for people in -tore follow: il direttore, il lavoratore (the feminine is -trice: la direttrice).",
+   "ruleLeicht": "The word ends in -ore? Then you usually say “il”: il colore, il fiore.",
+   "suffixes": [
+    "ore"
+   ],
+   "min": 4
+  },
+  {
+   "id": "la-ie",
+   "article": "la",
+   "genus": "f",
+   "name": "-ie",
+   "rule": "Nouns in -ie are feminine and do not change in the plural: la serie, la specie, la superficie; le serie.",
+   "ruleLeicht": "The word ends in -ie? Then you say “la”: la serie, la specie.",
+   "suffixes": [
+    "ie"
+   ],
+   "min": 3
+  },
+  {
+   "id": "il-o",
+   "article": "il",
+   "genus": "m",
+   "name": "-o",
+   "rule": "Most nouns in -o are masculine: il libro, il lavoro, il vaso, lo zaino. The ones to watch: la mano, la foto, la moto, la radio. The plural is -i: i libri.",
+   "ruleLeicht": "The word ends in -o? Then you usually say “il” (or “lo”): il libro.",
+   "suffixes": [
+    "o"
+   ]
+  },
+  {
+   "id": "la-a",
+   "article": "la",
+   "genus": "f",
+   "name": "-a",
+   "rule": "Most nouns in -a are feminine: la casa, la sedia, la tavola, l'amica. The ones to watch: il pianeta, il papa, il poeta, il cinema (and the -ma words from Greek). The plural is -e: le case.",
+   "ruleLeicht": "The word ends in -a? Then you usually say “la”: la casa.",
+   "suffixes": [
+    "a"
+   ]
+  }
+ ]
 }

@@ -4,7 +4,7 @@
 //
 // `a` keeps the lexicon's clip slug for when recordings exist; until then the browser's voice
 // speaks (game.js say(): a pt-PT voice, else a Brazilian one with a warning line). `m` is the
-// English meaning; the other interface languages are fetched from /vocabulary/glosses/ by the game.
+// English meaning; the other interface languages are fetched from /vocabulario/glosses/ by the game.
 import { nouns } from "../lexicon.js";
 import { wortBild } from "../wortBild.js";
 import { isDrillNoun } from "../generoDrill.js";

@@ -1,77 +1,81 @@
 {
   "id": "gern",
-  "name": "gustar: me gusta, me gustan",
+  "name": "Likes and wishes: aimer, adorer, préférer, détester",
   "level": "A1",
   "status": "entwurf",
-  "variety": "es-ES",
-  "es419": { "note": "gustar works the same in Latin America. Os gusta is Spain only: there people say les gusta for “you all like”." },
-  "source": "icanspeak Spanish original text (grammar-a1 run, 2026-11-04)",
-  "subtitle": "In Spanish, the thing you like is the subject: me gusta el café (coffee pleases me). One thing or an action: me gusta. More than one thing: me gustan.",
-  "briefMarks": ["me gusta", "me gustan", "a mí también", "a mí tampoco"],
+  "variety": "fr-FR",
+  "source": "icanspeak French original text (grammar-a1 run, 2026-11-08)",
+  "subtitle": "In French the person who likes is the subject: j'aime le café, elle adore les chats. With a noun, always use the article (le, la, les): J'aime le café, never J'aime café. After the verb you can also use an infinitive: j'aime cuisiner.",
+  "briefMarks": ["aimer", "adorer", "préférer", "détester", "je voudrais"],
   "concept": {
     "flow": [
-      { "text": "(a mí)" },
-      { "text": "me / te / le / nos / os / les", "variant": "prep" },
-      { "text": "gusta / gustan", "variant": "verb" },
-      { "text": "what you like" }
+      { "text": "je / tu / il …" },
+      { "text": "aimer · adorer · préférer · détester", "variant": "verb" },
+      { "text": "le / la / les + noun, or an infinitive", "variant": "prep" }
     ],
-    "exampleHtml": "<span class=\"vp-prep\">Me</span> <span class=\"vp-verb\">gusta</span> el café. · <span class=\"vp-prep\">Me</span> <span class=\"vp-verb\">gustan</span> los perros. · <span class=\"vp-prep\">No me</span> <span class=\"vp-verb\">gusta</span> cocinar. · ¿<span class=\"vp-prep\">Te</span> <span class=\"vp-verb\">gusta</span> Madrid?",
+    "exampleHtml": "<span class=\"vp-verb\">J'aime</span> <span class=\"vp-prep\">le</span> café. · Elle <span class=\"vp-verb\">adore</span> <span class=\"vp-prep\">les</span> chats. · Nous <span class=\"vp-verb\">détestons</span> attendre. · Tu <span class=\"vp-verb\">préfères</span> <span class=\"vp-prep\">le</span> thé ou <span class=\"vp-prep\">le</span> café ?",
     "qa": [
       {
-        "html": "<strong>gusta</strong> with one thing or a verb: <em>Me gusta la música. Me gusta bailar.</em> <strong>gustan</strong> with more than one thing: <em>Me gustan los perros.</em>",
-        "tag": "gusta or gustan"
-      },
-      {
-        "html": "The small word shows <strong>who likes it</strong>: <em>me</em> (I), <em>te</em> (you), <em>le</em> (he, she, you polite), <em>nos</em> (we), <em>os</em> (you all), <em>les</em> (they, you all polite).",
-        "tag": "Who likes it"
-      },
-      {
-        "html": "Use <strong>el, la, los, las</strong> with the noun: <em>Me gusta <strong>el</strong> fútbol.</em> Not: <em>Me gusta fútbol.</em> Use no article with a verb: <em>Me gusta leer.</em>",
+        "html": "With a noun, use <strong>le, la, l', les</strong>: <em>J'aime le café. J'adore la musique. Je déteste les lundis.</em> This is a general taste, so it is the definite article, not <em>un</em> or <em>une</em>.",
         "tag": "Use the article"
       },
       {
-        "html": "<strong>no</strong> goes first: <em>No me gusta el pescado.</em> Name the person with <strong>a</strong>: <em>A Ana le gusta correr. A mis hijos les gusta el parque.</em>",
-        "tag": "no, a"
+        "html": "With a verb, use the <strong>infinitive</strong> and nothing between: <em>J'aime cuisiner. Il déteste attendre. Elle préfère rester à la maison.</em> No <em>de</em>, no <em>à</em>.",
+        "tag": "Verb after"
       },
       {
-        "html": "To agree, say <strong>a mí también</strong> (me too) after a positive and <strong>a mí tampoco</strong> (me neither) after a negative. To disagree: <em>A mí no. / A mí sí.</em>",
-        "tag": "Me too"
+        "html": "From weak to strong: <em>détester</em> (hate), <em>ne pas aimer</em>, <em>aimer bien</em> (like), <em>aimer</em>, <em>adorer</em> (love). <em>J'aime bien ce restaurant</em> is softer than <em>J'aime ce restaurant</em>. With a person, <em>je t'aime</em> is love.",
+        "tag": "How much"
+      },
+      {
+        "html": "The negative goes around the verb, and the article stays: <em>Je n'aime pas le poisson. Je n'aime pas cuisiner.</em> (Not <em>pas de poisson</em>.)",
+        "tag": "Negative"
+      },
+      {
+        "html": "<strong>préférer</strong> changes its accent: <em>je préfère, tu préfères, il préfère</em>, but <em>nous préférons, vous préférez</em>, and <em>ils préfèrent</em>. Use it to compare: <em>Je préfère le thé</em>.",
+        "tag": "préférer"
+      },
+      {
+        "html": "To ask for something politely, use <strong>je voudrais</strong> (I would like), not <em>j'aime</em> and not <em>je veux</em>: <em>Je voudrais un café, s'il vous plaît.</em> <em>J'aime</em> is a taste, <em>je voudrais</em> is a wish right now.",
+        "tag": "je voudrais"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>Yo gusto el café</em> → ✓ <em>Me gusta el café</em>. ✗ <em>Me gusta los perros</em> → ✓ <em>Me gustan los perros</em>. ✗ <em>Me gustan cocinar y leer</em> → ✓ <em>Me gusta cocinar y leer</em>. ✗ <em>A mí también</em> after a negative → ✓ <em>A mí tampoco</em>. Polite wishes use <em>me gustaría</em> or <em>quiero</em>: <em>Quiero un café, por favor.</em>",
+    "noteHtml": "Common mistakes: ✗ <em>J'aime café</em> → ✓ <em>J'aime le café</em>. ✗ <em>J'aime de cuisiner</em> → ✓ <em>J'aime cuisiner</em>. ✗ <em>Je veux un café</em> in a shop → ✓ <em>Je voudrais un café, s'il vous plaît</em>. Next: <a href=\"/articles\">le, la, les, un, une</a> and <a href=\"/ne-pas\">ne … pas</a>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "All the forms",
-          "head": ["Who", "Word", "one thing, a verb", "more than one thing"],
+          "caption": "The four verbs in the present",
+          "head": ["Who", "aimer", "adorer", "préférer", "détester"],
           "rows": [
-            ["(a mí)", "me", "me gusta el té", "me gustan los libros"],
-            ["(a ti)", "te", "te gusta bailar", "te gustan los gatos"],
-            ["(a él, a ella, a usted)", "le", "le gusta el fútbol", "le gustan las plantas"],
-            ["(a nosotros/as)", "nos", "nos gusta cocinar", "nos gustan los parques"],
-            ["(a vosotros/as)", "os", "os gusta el piso", "os gustan las fotos"],
-            ["(a ellos, a ellas, a ustedes)", "les", "les gusta leer", "les gustan los perros"]
+            ["je", "j'aime", "j'adore", "je préfère", "je déteste"],
+            ["tu", "aimes", "adores", "préfères", "détestes"],
+            ["il, elle, on", "aime", "adore", "préfère", "déteste"],
+            ["nous", "aimons", "adorons", "préférons", "détestons"],
+            ["vous", "aimez", "adorez", "préférez", "détestez"],
+            ["ils, elles", "aiment", "adorent", "préfèrent", "détestent"]
           ]
         },
         {
-          "caption": "Agree or disagree",
-          "head": ["You hear", "Same for you", "Not the same"],
+          "caption": "What comes after the verb",
+          "head": ["After the verb", "Example", "Meaning"],
           "rows": [
-            ["Me gusta el café.", "A mí también.", "A mí no."],
-            ["No me gusta el café.", "A mí tampoco.", "A mí sí."]
+            ["le / la / l' + noun", "J'aime la musique.", "I like music."],
+            ["les + plural noun", "Elle adore les chiens.", "She loves dogs."],
+            ["infinitive", "Nous détestons attendre.", "We hate waiting."],
+            ["un / une (a wish)", "Je voudrais un thé.", "I would like a tea."]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Careful: gusta + verb",
+          "badge": "Careful: the article",
           "variant": "dat",
           "items": [
-            "Me gusta bailar. One verb: gusta.",
-            "Me gusta bailar y cantar. Two verbs: still gusta.",
-            "Me gustan el café y el té. Two nouns: gustan."
+            "J'aime le café. Not: J'aime café.",
+            "J'aime cuisiner. Not: J'aime le cuisiner.",
+            "Je n'aime pas le café. The article stays after pas."
           ]
         }
       ]
@@ -79,43 +83,43 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Me gusta el café.", "note": "One thing: gusta." },
-      { "text": "No me gustan los lunes.", "note": "More than one: gustan." },
-      { "text": "¿Te gusta cocinar?", "note": "A verb: gusta." },
-      { "text": "A mi madre le gusta caminar.", "note": "a + person, then le." }
+      { "text": "J'aime le café.", "note": "A noun: le." },
+      { "text": "Elle déteste les lundis.", "note": "More than one: les." },
+      { "text": "Tu aimes cuisiner ?", "note": "A verb after aimer: the infinitive." },
+      { "text": "Je voudrais un thé, s'il vous plaît.", "note": "A polite wish: je voudrais." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "No me gusta cocinar.", "choices": ["Me gusta cocinar.", "No me gusta cocinar.", "No cocino."], "correct": 1 },
-        { "text": "Nos gusta bailar.", "choices": ["Nos gusta bailar.", "Os gusta bailar.", "Les gusta bailar."], "correct": 0 },
-        { "text": "¿Te gustan los gatos?", "choices": ["¿Te gusta el gato?", "¿Le gustan los gatos?", "¿Te gustan los gatos?"], "correct": 2 },
-        { "text": "A mí tampoco.", "choices": ["A mí también.", "A mí tampoco.", "A mí no."], "correct": 1 }
+        { "text": "Je n'aime pas le poisson.", "choices": ["J'aime le poisson.", "Je n'aime pas le poisson.", "Je déteste le poisson."], "correct": 1 },
+        { "text": "Nous préférons le thé.", "choices": ["Je préfère le thé.", "Nous préférons le thé.", "Ils préfèrent le thé."], "correct": 1 },
+        { "text": "Elle adore cuisiner.", "choices": ["Elle déteste cuisiner.", "Elle aime bien cuisiner.", "Elle adore cuisiner."], "correct": 2 },
+        { "text": "Je voudrais un café, s'il vous plaît.", "choices": ["Je voudrais un café, s'il vous plaît.", "Je voudrais le café, s'il vous plaît.", "Je voudrais deux cafés, s'il vous plaît."], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
           "label": "1 · Say what you like",
-          "instruction": "You hear a word. Say that you like it. Is it me gusta or me gustan?",
-          "example": { "prompt": "el café", "answer": "Me gusta el café." },
+          "instruction": "You hear a word. Say that you like it, with the article.",
+          "example": { "prompt": "le café", "answer": "J'aime le café." },
           "items": [
-            { "prompt": "los perros", "answer": "Me gustan los perros." },
-            { "prompt": "la música", "answer": "Me gusta la música." },
-            { "prompt": "leer", "answer": "Me gusta leer." },
-            { "prompt": "las plantas", "answer": "Me gustan las plantas." },
-            { "prompt": "cocinar", "answer": "Me gusta cocinar." }
+            { "prompt": "la musique", "answer": "J'aime la musique." },
+            { "prompt": "les chiens", "answer": "J'aime les chiens." },
+            { "prompt": "cuisiner", "answer": "J'aime cuisiner." },
+            { "prompt": "l'été", "answer": "J'aime l'été." },
+            { "prompt": "le fromage", "answer": "J'aime le fromage." }
           ]
         },
         {
-          "label": "2 · Say it with no",
-          "instruction": "You hear a sentence with gusta. Make it negative.",
-          "example": { "prompt": "Me gusta correr.", "answer": "No me gusta correr." },
+          "label": "2 · Say it with ne … pas",
+          "instruction": "You hear a sentence with aimer. Make it negative.",
+          "example": { "prompt": "J'aime le poisson.", "answer": "Je n'aime pas le poisson." },
           "items": [
-            { "prompt": "Me gusta el pescado.", "answer": "No me gusta el pescado." },
-            { "prompt": "Me gustan los lunes.", "answer": "No me gustan los lunes." },
-            { "prompt": "Le gusta limpiar.", "answer": "No le gusta limpiar." },
-            { "prompt": "Nos gusta el frío.", "answer": "No nos gusta el frío." }
+            { "prompt": "J'aime cuisiner.", "answer": "Je n'aime pas cuisiner." },
+            { "prompt": "Elle aime les lundis.", "answer": "Elle n'aime pas les lundis." },
+            { "prompt": "Nous aimons le froid.", "answer": "Nous n'aimons pas le froid." },
+            { "prompt": "Tu aimes danser.", "answer": "Tu n'aimes pas danser." }
           ]
         }
       ]
@@ -124,98 +128,89 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "gusta or gustan?",
-      "hint": "One thing or a verb: gusta. More than one thing: gustan.",
-      "placeholder": "gusta / gustan",
+      "title": "Which ending?",
+      "hint": "Match the verb to the person: je, tu, il, nous, vous, ils.",
+      "placeholder": "Form",
       "items": [
-        { "prompt": "Me ___ el café.", "answer": "gusta", "choices": ["gusta", "gustan"] },
-        { "prompt": "Me ___ los perros.", "answer": "gustan", "choices": ["gusta", "gustan"] },
-        { "prompt": "¿Te ___ leer?", "answer": "gusta", "choices": ["gusta", "gustan"] },
-        { "prompt": "No nos ___ las películas de miedo.", "answer": "gustan", "choices": ["gusta", "gustan"] },
-        { "prompt": "A mi hijo le ___ jugar al fútbol.", "answer": "gusta", "choices": ["gusta", "gustan"] },
-        { "prompt": "¿Os ___ este piso?", "answer": "gusta", "choices": ["gusta", "gustan"], "es419": { "note": "In Latin America: ¿Les gusta este departamento?", "skip": true } },
-        { "prompt": "A mis padres no les ___ las ciudades grandes.", "answer": "gustan", "choices": ["gusta", "gustan"] }
-      ]
-    },
-    {
-      "type": "fill",
-      "title": "Who likes it?",
-      "hint": "me, te, le, nos, os, les.",
-      "placeholder": "me / te / le …",
-      "items": [
-        { "prompt": "A mí ___ gusta la playa.", "answer": "me", "choices": ["me", "te", "le"] },
-        { "prompt": "¿A ti ___ gusta el té?", "answer": "te", "choices": ["me", "te", "le"] },
-        { "prompt": "A Carmen ___ gusta cantar.", "answer": "le", "choices": ["la", "te", "le"] },
-        { "prompt": "A nosotros ___ gusta Valencia.", "answer": "nos", "choices": ["nos", "os", "les"] },
-        { "prompt": "A mis hijos ___ gustan los animales.", "answer": "les", "choices": ["nos", "le", "les"] },
-        { "prompt": "¿A usted ___ gusta el piso?", "answer": "le", "choices": ["te", "le", "lo"] }
-      ]
-    },
-    {
-      "type": "build",
-      "title": "Build the sentences.",
-      "hint": "(no) + me, te, le… + gusta / gustan + the thing.",
-      "sentences": [
-        { "id": "g1", "hint": "I like coffee", "correct": ["Me", "gusta", "el", "café", "."], "shuffled": ["el", ".", "café", "Me", "gusta"] },
-        { "id": "g2", "hint": "I don't like cooking", "correct": ["No", "me", "gusta", "cocinar", "."], "shuffled": ["cocinar", "me", ".", "No", "gusta"] },
-        { "id": "g3", "hint": "Ask: do you like dogs?", "correct": ["¿Te", "gustan", "los", "perros", "?"], "shuffled": ["los", "?", "perros", "gustan", "¿Te"] },
-        { "id": "g4", "hint": "Ana likes running", "correct": ["A", "Ana", "le", "gusta", "correr", "."], "shuffled": ["correr", "le", "Ana", ".", "A", "gusta"], "alt": [["Le","gusta","correr","a","Ana","."]] }
-      ]
-    },
-    {
-      "type": "match",
-      "title": "The small word and the person.",
-      "hint": "a mí goes with me, a ti goes with te …",
-      "pairs": [
-        { "q": "me gusta", "a": "a mí" },
-        { "q": "te gusta", "a": "a ti" },
-        { "q": "le gusta", "a": "a Carmen" },
-        { "q": "nos gusta", "a": "a nosotros" },
-        { "q": "os gusta", "a": "a vosotros" },
-        { "q": "les gusta", "a": "a mis padres" }
-      ]
-    },
-    {
-      "type": "fill",
-      "title": "también or tampoco?",
-      "hint": "Positive sentence: también. Negative sentence: tampoco.",
-      "placeholder": "también / tampoco",
-      "items": [
-        { "prompt": "—Me gustan los gatos. —A mí ___.", "answer": "también", "choices": ["también", "tampoco"] },
-        { "prompt": "—No me gusta el fútbol. —A mí ___.", "answer": "tampoco", "choices": ["también", "tampoco"] },
-        { "prompt": "—Me gusta cocinar. —A mí ___.", "answer": "también", "choices": ["también", "tampoco"] },
-        { "prompt": "—No me gustan los lunes. —A mí ___.", "answer": "tampoco", "choices": ["también", "tampoco"] }
+        { "prompt": "Nous ___ le cinéma.", "answer": "aimons", "choices": ["aimons", "aimez", "aiment"] },
+        { "prompt": "Tu ___ la musique ?", "answer": "aimes", "choices": ["aime", "aimes", "aimez"] },
+        { "prompt": "Les enfants ___ les animaux.", "answer": "adorent", "choices": ["adore", "adorent", "adorons"] },
+        { "prompt": "Vous ___ le thé ou le café ?", "answer": "préférez", "choices": ["préférez", "préférons", "préfèrent"] },
+        { "prompt": "Léa ___ danser.", "answer": "adore", "choices": ["adore", "adores", "adorent"] },
+        { "prompt": "Ils ___ attendre.", "answer": "détestent", "choices": ["détestent", "détestons", "déteste"] },
+        { "prompt": "___ le fromage.", "answer": "J'aime", "choices": ["J'aime", "Je aime"] },
+        { "prompt": "Nous ___ le train.", "answer": "préférons", "choices": ["préférons", "préfèrons", "préférent"] }
       ]
     },
     {
       "type": "fill",
       "title": "With an article or without?",
-      "hint": "A noun needs el, la, los, las. A verb does not.",
+      "hint": "A noun needs le, la, l' or les. A verb after aimer stays in the infinitive.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "Me gusta ___.", "hint": "football", "answer": "el fútbol", "choices": ["fútbol", "el fútbol"] },
-        { "prompt": "No me gusta ___.", "hint": "to clean", "answer": "limpiar", "choices": ["limpiar", "el limpiar"] },
-        { "prompt": "Nos gustan ___.", "hint": "dogs", "answer": "los perros", "choices": ["perros", "los perros"] },
-        { "prompt": "¿Te gusta ___?", "hint": "tea", "answer": "el té", "choices": ["té", "el té"] }
+        { "prompt": "J'aime ___ .", "hint": "coffee", "answer": "le café", "choices": ["café", "le café", "un café"] },
+        { "prompt": "Elle adore ___ .", "hint": "dogs", "answer": "les chiens", "choices": ["les chiens", "des chiens", "chiens"] },
+        { "prompt": "Nous détestons ___ .", "hint": "to wait", "answer": "attendre", "choices": ["attendre", "d'attendre", "le attendre"] },
+        { "prompt": "Tu préfères ___ ?", "hint": "the sea", "answer": "la mer", "choices": ["mer", "la mer", "une mer"] },
+        { "prompt": "J'adore ___ .", "hint": "summer", "answer": "l'été", "choices": ["l'été", "le été", "été"] },
+        { "prompt": "Il n'aime pas ___ .", "hint": "fish", "answer": "le poisson", "choices": ["poisson", "le poisson", "de poisson"] }
+      ]
+    },
+    {
+      "type": "build",
+      "title": "Build the sentences.",
+      "hint": "Subject + aimer / adorer … + the article and the noun, or an infinitive.",
+      "sentences": [
+        { "id": "g1", "hint": "I like coffee", "correct": ["J'aime", "le", "café", "."], "shuffled": ["le", ".", "café", "J'aime"] },
+        { "id": "g2", "hint": "I don't like cooking", "correct": ["Je", "n'aime", "pas", "cuisiner", "."], "shuffled": ["cuisiner", "pas", ".", "Je", "n'aime"] },
+        { "id": "g3", "hint": "Ask: do you like dogs?", "correct": ["Tu", "aimes", "les", "chiens", "?"], "shuffled": ["les", "?", "chiens", "Tu", "aimes"] },
+        { "id": "g4", "hint": "Léa loves music", "correct": ["Léa", "adore", "la", "musique", "."], "shuffled": ["la", "Léa", ".", "musique", "adore"] },
+        { "id": "g5", "hint": "Order politely: I would like a coffee, please", "correct": ["Je", "voudrais", "un", "café", ",", "s'il", "vous", "plaît", "."], "shuffled": ["café", "s'il", ".", "Je", "plaît", "un", "vous", ",", "voudrais"] }
+      ]
+    },
+    {
+      "type": "match",
+      "title": "The person and the verb.",
+      "hint": "Match the subject with the form of aimer.",
+      "pairs": [
+        { "q": "je", "a": "j'aime" },
+        { "q": "tu", "a": "aimes" },
+        { "q": "elle", "a": "aime" },
+        { "q": "nous", "a": "aimons" },
+        { "q": "vous", "a": "aimez" },
+        { "q": "ils", "a": "aiment" }
+      ]
+    },
+    {
+      "type": "fill",
+      "title": "Je voudrais or j'aime?",
+      "hint": "A wish right now: je voudrais. A taste: j'aime. adorer and détester: the sentence tells you how strong.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Au café : ___ un thé, s'il vous plaît.", "answer": "Je voudrais", "choices": ["Je voudrais", "J'aime"] },
+        { "prompt": "En général, ___ le thé.", "hint": "a general taste", "answer": "j'aime", "choices": ["j'aime", "je voudrais"] },
+        { "prompt": "À la boulangerie : ___ une baguette, s'il vous plaît.", "answer": "Je voudrais", "choices": ["Je voudrais", "J'aime"] },
+        { "prompt": "Mon mari ___ le football, il regarde tous les matchs.", "answer": "adore", "choices": ["adore", "déteste"] },
+        { "prompt": "Moi, je ___ le froid, je reste à la maison.", "answer": "déteste", "choices": ["adore", "déteste"] }
       ]
     },
     {
       "type": "story",
-      "title": "Fill the gaps: Javier and Nerea.",
-      "hint": "Who likes it? One thing or more than one?",
-      "choices": ["gusta", "gustan", "le", "les", "también", "tampoco"],
+      "title": "Fill the gaps: Léa and Hugo.",
+      "hint": "Match the verb to the subject and the article to the noun.",
+      "choices": ["aime", "aiment", "le", "la", "les"],
       "segments": [
-        { "text": "A Javier le " },
-        { "blank": 0, "answer": "gusta" },
-        { "text": " cocinar. A Nerea " },
-        { "blank": 1, "answer": "le" },
-        { "text": " gusta el cine. A los dos les " },
-        { "blank": 2, "answer": "gustan" },
-        { "text": " las películas de España. A Javier no le gustan los lunes, y a Nerea " },
-        { "blank": 3, "answer": "tampoco" },
-        { "text": ". A Javier le gusta el verano, y a Nerea " },
-        { "blank": 4, "answer": "también" },
-        { "text": "." }
+        { "text": "Léa et Hugo " },
+        { "blank": 0, "answer": "aiment" },
+        { "text": " " },
+        { "blank": 1, "answer": "la" },
+        { "text": " musique. Léa " },
+        { "blank": 2, "answer": "aime" },
+        { "text": " cuisiner, mais Hugo préfère " },
+        { "blank": 3, "answer": "les" },
+        { "text": " restaurants. Le dimanche, ils adorent " },
+        { "blank": 4, "answer": "le" },
+        { "text": " cinéma." }
       ]
     }
   ]

@@ -593,7 +593,7 @@ const levelActive = (level) => !isFreq && !isBerufe && !isRm && !isOwn && level 
 
 {!select && <SideNavFold />}
 <script>
-import { withBase, currentPath } from "../lib/paths.js";
+import { withBase, currentPath, BASE_PATH } from "../lib/paths.js";
   import { getResume, getProgress } from "../lib/progress.js";
   import { slide, replay } from "../lib/fold.js";
   import { mountSideNavFold } from "../lib/sideNavFold.js";
@@ -847,7 +847,7 @@ import { withBase, currentPath } from "../lib/paths.js";
         </a>`)
         .join("")}</div>` : ""}
 
-      <a class="ls-prog-more" href="/progress">${esc(say("sets.prog.more"))}</a>`;
+      <a class="ls-prog-more" href="${BASE_PATH}/progress">${esc(say("sets.prog.more"))}</a>`;
   }
 
   const progEl = root.querySelector("[data-ls-prog]");
@@ -946,13 +946,13 @@ import { withBase, currentPath } from "../lib/paths.js";
         ? sets.map((s) => {
             const n = s.words?.length ?? 0;
             const on = !select && s.id === here;
-            return `<a class="nvb-item${on ? " active" : ""}" href="/teachers/cards/learn?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
+            return `<a class="nvb-item${on ? " active" : ""}" href="${BASE_PATH}/teachers/cards/learn?set=${esc(s.id)}"${on ? ' aria-current="page"' : ""}${select ? ` data-pick="kartenset:${esc(s.id)}" data-level="${esc(s.level || "A1")}" data-name="${esc(s.name)}"` : ""}>
               <span class="nv-icon" aria-hidden="true">🗂️</span>
               <span class="ls-name"><span>${esc(s.name)}</span>${s.level ? `<small class="ls-item-sub">${esc(s.level)}</small>` : ""}</span>
               <span class="nv-count">${n}</span>
             </a>`;
-          }).join("") + (select ? "" : `<p class="ls-plan"><a href="/teachers/cards">Manage all card sets</a></p>`)
-        : `<p class="ls-plan">No card sets of your own yet. With <a href="/teachers/cards/photo">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
+          }).join("") + (select ? "" : `<p class="ls-plan"><a href="${BASE_PATH}/teachers/cards">Manage all card sets</a></p>`)
+        : `<p class="ls-plan">No card sets of your own yet. With <a href="${BASE_PATH}/teachers/cards/photo">Words from a photo</a> you can turn a page of a book into your own cards.</p>`;
       ownBtn.hidden = false;
     })();
   }

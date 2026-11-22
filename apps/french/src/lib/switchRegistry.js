@@ -12,6 +12,9 @@ import { enhanceSwitch } from "./segSwitch.js";
 const SWITCHES = [
   // Übungen
   { sel: "#hub-mode-tabs", content: "#view-grid-mode, #view-dashboard-mode" },
+  // Skills hub: the four skills, and the level filter under them
+  { sel: ".fk-tabs", content: ".fk-panel" },
+  { sel: ".fk-lvs", content: ".fk-panel" },
   { sel: ".uv-lvl-tabs", content: ".uv-wk-grid[data-wk-view]" },
   { sel: "#dash-tabs", content: ".dash-view" },
   // Fortschritt, Konto
@@ -38,20 +41,20 @@ const SWITCHES = [
   // Prüfungen, Leben in Deutschland
   { sel: ".sb-setpicker" },
   { sel: ".fl-chips", content: ".fl-card" },
-  // Typische Fehler (/culture/mistakes)
+  // Typische Fehler (/culture/erreurs)
   { sel: ".ft-tabs" },
   // Für Lehrkräfte
   { sel: ".abi-levels", content: ".abi-sec" },
   { sel: ".ab-seg" },
   { sel: ".ab-langs", options: ":scope > button" },
   { sel: ".sp-seg", options: ":scope > label", content: "[data-sp-sheets]" },
-  // Wortgeschichte: wöchentlich/täglich (subscribe box), Aus/Wöchentlich/Täglich (/account)
+  // Wortgeschichte: wöchentlich/täglich (subscribe box), Aus/Wöchentlich/Täglich (/compte)
   { sel: ".wg-freq", options: ":scope > label" },
   { sel: ".kt-wort-freq", options: ":scope > button" },
   // Merch: Motive by kind, and by product (the grid is redrawn on each change)
   { sel: ".mx-kinds[data-mx-filters]", content: "[data-grid]" },
   { sel: ".mx-tiles[data-mx-prodfilters]", content: "[data-grid]" },
-  // Preise: Monatlich | Jährlich (homepage, /exams, /preise)
+  // Preise: Monatlich | Jährlich (homepage, /examens, /preise)
   { sel: ".pc-switch", content: ".pc-price[data-show]" },
 ];
 

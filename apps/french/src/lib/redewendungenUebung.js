@@ -1,4 +1,4 @@
-// Practice for /knowledge/idioms (Tier 4 of REDEWENDUNGEN-TIERED-PROMPT.md), on the shared
+// Practice for /savoirs/expressions (Tier 4 of REDEWENDUNGEN-TIERED-PROMPT.md), on the shared
 // choice quiz (src/lib/quiz.js). Three kinds of question, built in the browser from the small
 // item list the page embeds (itemsOf in redewendungenItems.js):
 //
@@ -42,12 +42,12 @@ function distractors(item, items, pick) {
 
 const KIND = {
   bedeutung: (it, items) => ({
-    prompt: `<p class="rw-q-kind">${t("rw.q.bedeutung", "Was bedeutet das?")}</p><p class="rw-q-de" lang="es">${esc(it.de)}</p>`,
+    prompt: `<p class="rw-q-kind">${t("rw.q.bedeutung", "Was bedeutet das?")}</p><p class="rw-q-de" lang="fr">${esc(it.de)}</p>`,
     answer: it.bed,
     options: [it.bed, ...distractors(it, items, (o) => o.bed)],
   }),
   luecke: (it, items) => ({
-    prompt: `<p class="rw-q-kind">${t("rw.q.luecke", "Ergänze")}</p><p class="rw-q-de" lang="es">${esc(it.de.replace(it.gap, "___"))}</p>`,
+    prompt: `<p class="rw-q-kind">${t("rw.q.luecke", "Ergänze")}</p><p class="rw-q-de" lang="fr">${esc(it.de.replace(it.gap, "___"))}</p>`,
     answer: it.gap,
     options: [it.gap, ...distractors(it, items, (o) => o.gap)],
   }),

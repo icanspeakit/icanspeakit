@@ -12,7 +12,7 @@
   import { stripBase } from "../../lib/paths.js";
   const KEY = "da:abOrigin";
   const a = document.querySelector<HTMLAnchorElement>("[data-ab-origin]");
-  const isSheet = (u: URL) => stripBase(u.pathname).startsWith("/teachers/worksheets/");
+  const isSheet = (u: URL) => stripBase(u.pathname).startsWith("/profesores/fichas/");
   let origin: { url: string; name?: string } | null = null;
   try {
     const ref = document.referrer ? new URL(document.referrer) : null;

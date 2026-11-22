@@ -11,7 +11,7 @@
 //   from: "sprechen-dtz"      one picture of src/data/sprechen.json,       by `index`
 //   from: "sprechen-telc"     one prompt of src/data/sprechen-b1b2.json,   by `index`
 //
-// Borrowing rather than copying, because /reading-writing, /speaking and
+// Borrowing rather than copying, because /lecture-ecriture, /expression-orale and
 // the DTZ mock test all still read those files. Two copies of a Prüfungstext would drift
 // apart, and the one that drifted would be the one nobody reopened.
 //
@@ -69,17 +69,17 @@ function resolveSchreiben(entry) {
 // folder brings its own, which is always the better text.
 const FORM_CHECK = [
   "Every field is filled in. An empty field counts as a mistake, even if the information is in the text.",
-  "Copy names, numbers and dates exactly as they are in the text, with their accents; in Spain the day comes before the month (12 de septiembre, 12/09).",
+  "Copy names, numbers and dates exactly as they are in the text, with their accents; in France the day comes before the month (le 12 septembre, 12/09).",
   "Nothing made up: if something is not in the text, leave the field empty or put a dash.",
 ];
 const BRIEF_CHECK = [
   "Every point in the task is covered. A missing point costs more than three grammar mistakes.",
-  "Greeting and sign-off suit each other and the person (¡Hola, Javier! … Un abrazo).",
-  "The sentences are linked (así que, porque, pero, además, aunque), not just one after the other.",
+  "Greeting and sign-off suit each other and the person (Salut Théo, … À bientôt !).",
+  "The sentences are linked (donc, parce que, mais, de plus, même si), not just one after the other.",
 ];
 const ERROR_CHECK = [
   "Read first, then compare: discuss the text only once you have marked every mistake you can find.",
-  "The text has about 20 mistakes. Look at: ser or estar, gender, “desde” or “desde hace”, irregular participles, the subjunctive after “me gustaría que”, accents, “¿…?”, capital letters in dates, the punctuation after the greeting, and two closing lines translated word for word from English.",
+  "The text has about 15 mistakes. Look at: agreement and gender (“très sale”, “la problème”), prepositions after verbs and adjectives (“en colère sur”, “s'en intéresser”), adverb or adjective (“pas bon”), the subjunctive after “je voudrais que”, a missing article (“tous locataires”), a plural verb, a capital letter in a date, the space before “?”, and a closing line that is not a French formula.",
   "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
 
@@ -88,9 +88,9 @@ const cardPoint = (pt) => {
   return x[0].toUpperCase() + x.slice(1);
 };
 
-// The rule of the listening and reading items: instructions are English at A1–A2 and Spanish
-// from B1, where the question itself is part of the practice.
-const SPANISH_LEVELS = new Set(["B1", "B2"]);
+// The rule of the listening and reading items: instructions are English at A1–A2 and French
+// from B1, where the question itself is part of the practice. (Not the lexicon's FRENCH_LEVELS.)
+const PROMPT_FRENCH_LEVELS = new Set(["B1", "B2"]);
 
 function resolveSprechen(entry) {
   switch (entry.from) {
@@ -103,8 +103,8 @@ function resolveSprechen(entry) {
       return {
         ...entry,
         image: pic.image,
-        prompt: SPANISH_LEVELS.has(entry.level)
-          ? "Describe la foto. Después, el examinador te hace preguntas sobre tu propia experiencia."
+        prompt: PROMPT_FRENCH_LEVELS.has(entry.level)
+          ? "Décrivez la photo. Ensuite, l'examinateur vous pose des questions sur votre propre expérience."
           : "Describe the picture. After that, the examiner asks you about your own experience.",
         bullets: pic.beschreibung,
         followUps: pic.persoenlich,
@@ -118,13 +118,13 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
+          : `D'abord, parlez de la photo pendant une minute. Ensuite, prenez une minute pour préparer quelques notes et parlez jusqu'à deux minutes. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
         bullets: diskussion
-          ? ["Di con claridad lo que piensas.", "Da dos razones, cada una con un ejemplo.", "Responde a la objeción de la otra persona.", "Al final, resume tu postura."]
+          ? ["Dites clairement ce que vous pensez.", "Donnez deux raisons, chacune avec un exemple.", "Répondez à l'objection de l'autre personne.", "À la fin, résumez votre position."]
           // The card's points read on from "Explica:"; as bullets of their own they
           // start with a capital and drop the "y" before the last one.
           : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
-        href: "/speaking-b1-b2",
+        href: "/expression-orale-b1-b2",
         hrefLabel: "in the long-turn trainer",
       };
     }

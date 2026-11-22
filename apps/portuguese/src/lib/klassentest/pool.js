@@ -1,5 +1,5 @@
 // Klassentest: the questions a teacher's test can draw from, built once at build time and
-// served as /teachers/tests/fragen.json (the teacher's page fetches it when it opens).
+// served as /professores/testes/fragen.json (the teacher's page fetches it when it opens).
 //
 // Every question is a single gap from a reviewed grammar workspace (src/data/grammatik/*.json):
 // the `fill` items and the `table` rows, free exercises only. The options come from where

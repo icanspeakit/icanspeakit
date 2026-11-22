@@ -1,5 +1,5 @@
 ---
-// One file on /knowledge as a schoolbook card: the cover on top (BookCover.astro), the real
+// One file on /savoirs as a schoolbook card: the cover on top (BookCover.astro), the real
 // title and what is inside below it. A button, not a link: the card opens the sheet that
 // says what is in the file, and the download happens from there. A 210 KB PDF that turns
 // out to be the wrong level is a wasted download on a phone plan.
@@ -16,7 +16,7 @@ interface Props {
 }
 const { file: f, i = 0 } = Astro.props;
 ---
-<button class="wi-card wi-card--book" type="button" id={f.id} data-file={f.id}>
+<button class="wi-card wi-card--book" type="button" id={f.id === "grammatik-start" ? "grammaire-debutant" : f.id} data-file={f.id}>
   <BookCover file={f} i={i} />
   <b>{f.title}</b>
   {/* File titles stay German — they name a German-language PDF. The line under each says
@@ -24,7 +24,7 @@ const { file: f, i = 0 } = Astro.props;
   <i data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</i>
   <span class="wi-card-foot">
     <span class="wi-meta">
-      PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} Seiten`}</span> : ""} · {f.size}
+      PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}
       {f.editions.length > 0 && <span class="wi-meta-eds"> · +{f.editions.map((e) => e.lang.toUpperCase()).join("/")}</span>}
     </span>
     <span class="wi-dl" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>

@@ -1,4 +1,4 @@
-// "Correct my text" on a writing task (/writing/[id]).
+// "Correct my text" on a writing task (/escrita/[id]).
 //
 // Two checkers, one result:
 //   1. Our own rules, in the browser: what only the task knows, plus what learners of European

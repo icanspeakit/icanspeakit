@@ -1,23 +1,21 @@
-// Map geometry for /knowledge/accents (varieties of Spanish in Spain) — run once, output committed.
+// Map geometry for /knowledge/accents (regional accents of French in France) — run once, output committed.
 //
 //   node scripts/generate-dialekte-karte.mjs
 //
 // No packages and no network: the coast comes from the Natural Earth outlines committed in the
-// old Europe view (see karte-geo.mjs). It writes src/data/dialekte-karte.json: land around Spain,
-// Spain's outline as `mask`, one <path d> per accent area, the Canary Islands in an inset box,
-// the two sound lines and the label and marker positions from src/data/dialekte.json.
+// old Europe view (see karte-geo.mjs), whose projection is centred on France (4° E, 48° N), so
+// France and Corsica are drawn at 1:50 m. It writes src/data/dialekte-karte.json: land around
+// France, France's outline (mainland and Corsica) as `mask`, one <path d> per accent area, the
+// two lines and the label and marker positions from src/data/dialekte.json.
 //
-// The areas are hand-drawn on purpose. Each one follows the borders of its autonomous communities
-// only roughly and runs generously past the coast and the frontier; the page clips them to `mask`
-// with an SVG clipPath, so only the inner borders matter. Neighbouring areas share the vertices
-// below, so they fit without gaps. The Natural Earth Canary Islands are not in the old file
-// (its Europe view stops at 35.6° N and the 1:110 m world view has no such small islands), so
-// CANARIES is drawn by hand too, from their real coordinates.
+// The areas are hand-drawn on purpose. Each one follows the borders of its regions and
+// départements only roughly and runs generously past the coast and the frontier; the page clips
+// them to `mask` with an SVG clipPath, so only the inner borders matter. Neighbouring areas
+// share the vertex lists below, so they fit without gaps.
 //
-// If Natural Earth subunits can be installed one day (world-atlas, or the admin-1 file for the
-// real province borders), replace SHAPES and CANARIES; dialekte.json need not change.
-//
-// The English version (UK and Ireland, with polygon clipping): git show edf6596:scripts/generate-dialekte-karte.mjs
+// If Natural Earth admin-1 outlines can be installed one day, replace SHAPES; dialekte.json need
+// not change. The Spanish version (Spain with the Canary Islands in an inset box) is in the git
+// history of this file in apps/spanish.
 import fs from "node:fs";
 import { loadSource, parseRings, contains, europeProjection, smooth, ringPath, linePath, r1 } from "./karte-geo.mjs";
 
@@ -27,103 +25,117 @@ const base = europeProjection(source.w, source.h);
 
 // ── rings ─────────────────────────────────────────────────────────────
 const allRings = [...parseRings(source.land), ...Object.values(source.countries).flatMap(parseRings)];
-const SPAIN_SEEDS = [[-3.7, 40.4], [3, 39.6], [4.1, 40], [1.4, 39], [1.45, 38.7]];
-const spain = allRings.filter((r) => SPAIN_SEEDS.some((s) => contains(r, base(s))));
-if (spain.length !== SPAIN_SEEDS.length) throw new Error(`Spain: ${spain.length} rings, expected ${SPAIN_SEEDS.length}`);
-const others = allRings.filter((r) => !spain.includes(r));
-
-// ── the Canary Islands, moved into a box in the Atlantic ──────────────
-const CANARIES = [
-  [[-18.16, 27.76], [-17.98, 27.82], [-17.88, 27.8], [-17.98, 27.64], [-18.12, 27.7]],
-  [[-17.97, 28.85], [-17.78, 28.84], [-17.72, 28.7], [-17.77, 28.55], [-17.84, 28.46], [-17.93, 28.62]],
-  [[-17.34, 28.14], [-17.2, 28.2], [-17.1, 28.1], [-17.2, 28.02], [-17.32, 28.06]],
-  [[-16.92, 28.36], [-16.6, 28.4], [-16.32, 28.57], [-16.13, 28.57], [-16.38, 28.35], [-16.52, 28.05], [-16.7, 28.01], [-16.84, 28.22]],
-  [[-15.7, 28.16], [-15.4, 28.18], [-15.36, 27.95], [-15.58, 27.74], [-15.8, 27.83], [-15.83, 28]],
-  [[-14.01, 28.72], [-13.85, 28.75], [-13.83, 28.42], [-14.02, 28.2], [-14.33, 28.05], [-14.5, 28.09], [-14.22, 28.22], [-14, 28.42]],
-  [[-13.86, 28.87], [-13.55, 28.95], [-13.42, 29.15], [-13.5, 29.24], [-13.73, 29.1]],
-];
-// Same scale as the mainland, so the islands are not drawn larger than they are.
-const pxPerDeg = base([-5, 40])[1] - base([-5, 41])[1];
-const INSET_AT = [30, 548]; // source pixels of lon -18.3, lat 29.5
-const insetPx = ([lon, lat]) => [
-  INSET_AT[0] + (lon + 18.3) * Math.cos((28.5 * Math.PI) / 180) * pxPerDeg,
-  INSET_AT[1] + (29.5 - lat) * pxPerDeg,
-];
-const INSET_BOX = [[-18.45, 29.65], [-13.2, 29.65], [-13.2, 27.5], [-18.45, 27.5], [-18.45, 29.65]];
+const FRANCE_SEEDS = [[2.5, 46.5], [9.1, 42.1]]; // mainland, Corsica
+const france = allRings.filter((r) => FRANCE_SEEDS.some((s) => contains(r, base(s))));
+if (france.length !== FRANCE_SEEDS.length) throw new Error(`France: ${france.length} rings, expected ${FRANCE_SEEDS.length}`);
+const others = allRings.filter((r) => !france.includes(r));
 
 // ── frame ─────────────────────────────────────────────────────────────
-// The bottom edge is the old view's own (600), where Morocco is cut off anyway.
-const frame = { x0: INSET_AT[0] - 10, x1: 402, y0: 372, y1: source.h };
+// From the Channel coast of England to the south tip of Corsica, in the old view's pixels.
+const frame = { x0: 228, x1: 502, y0: 230, y1: 480 };
 const WIDTH = 760;
 const scale = WIDTH / (frame.x1 - frame.x0);
 const HEIGHT = Math.ceil((frame.y1 - frame.y0) * scale);
 const toOut = ([x, y]) => [(x - frame.x0) * scale, (y - frame.y0) * scale];
-// Latitudes south of 31° are the islands.
-const P = (ll) => toOut(ll[1] < 31 ? insetPx(ll) : base(ll));
+const P = (ll) => toOut(base(ll));
 const Pr = (ll) => P(ll).map(r1);
 
 const inFrame = (ring) => ring.some(([x, y]) => x >= frame.x0 && x <= frame.x1 && y >= frame.y0 && y <= frame.y1);
 const soft = (ring) => smooth(smooth(ring));
-const landPath = others.filter(inFrame).map((r) => ringPath(soft(r).map(toOut))).join("");
-const spainPaths = spain.map((r) => ringPath(soft(r).map(toOut))).join("");
-const canaryPaths = CANARIES.map((r) => ringPath(soft(r).map(P))).join("");
+// The neighbours' rings reach across Europe: clamp their points to a box a little larger than
+// the frame and drop the runs that collapse onto its edge, so the page ships no hidden coast.
+const M = 12;
+const clampRing = (ring) => {
+  const c = ring.map(([x, y]) => [
+    Math.min(frame.x1 + M, Math.max(frame.x0 - M, x)),
+    Math.min(frame.y1 + M, Math.max(frame.y0 - M, y)),
+  ]);
+  const onEdge = ([x, y]) => x === frame.x0 - M || x === frame.x1 + M || y === frame.y0 - M || y === frame.y1 + M;
+  return c.filter((p, i) => {
+    const a = c[(i - 1 + c.length) % c.length], b = c[(i + 1) % c.length];
+    return !(onEdge(p) && onEdge(a) && onEdge(b) && (a[0] === p[0] && b[0] === p[0] || a[1] === p[1] && b[1] === p[1]));
+  });
+};
+const landPath = others.filter(inFrame).map((r) => ringPath(clampRing(soft(r)).map(toOut))).join("");
+const francePaths = france.map((r) => ringPath(soft(r).map(toOut))).join("");
 
 // ── the areas (lon, lat): shared borders first ────────────────────────
-const COAST_N = 44.6; // north of every north coast
-const SOUTH = 35; // south of every south coast
-const galiciaEast = [[-7.05, 43.55], [-6.9, 43.1], [-6.85, 42.6], [-6.85, 42.1], [-6.75, 41.7]];
-const asturiasSouth = [[-6.9, 43.1], [-6.2, 43], [-5.5, 43.05], [-4.85, 43.15], [-4.5, 43], [-4.2, 42.85], [-3.9, 42.8], [-3.75, 43], [-3.4, 43.15]];
-const basqueWest = [[-3.4, 43.15], [-3.3, 43.1], [-3.25, 42.9], [-3, 42.6], [-2.85, 42.55], [-2.45, 42.5], [-2, 42.35], [-1.9, 41.95]];
-const navarreEast = [[-1.9, 41.95], [-1.4, 41.95], [-1.1, 42.15], [-1, 42.45], [-1.05, 42.7], [-0.8, 42.95], [-0.75, 43.6]];
-const aragonWest = [[-1.9, 41.95], [-2.05, 41.5], [-2, 41.15]];
-const aragonSouth = [[-2, 41.15], [-1.8, 40.7], [-1.7, 40.35], [-1.35, 40.1], [-1.1, 40], [-0.85, 40.05], [-0.55, 40.25], [-0.2, 40.35], [-0.2, 40.75], [0.15, 40.8]];
-const catalanWest = [[0.15, 40.8], [0.25, 41], [0.2, 41.3], [0.3, 41.6], [0.4, 42], [0.7, 42.4], [0.7, 42.85], [0.7, 43.6]];
-const catalanSouth = [[0.15, 40.8], [0.4, 40.6], [0.52, 40.52], [1, 40.52]];
-const manchaNorth = [[-2, 41.15], [-3.05, 41.2], [-3.05, 40.95], [-3.2, 40.6], [-3.05, 40.25], [-3.4, 40.05], [-3.75, 40.2], [-4.2, 40.2], [-4.55, 40.2], [-5, 40.15], [-5.35, 40.1]];
-const extremaduraNorth = [[-5.35, 40.1], [-5.75, 40.25], [-6.1, 40.35], [-6.8, 40.25], [-7.6, 40.25]];
-const extremaduraEast = [[-5.35, 40.1], [-5.35, 39.9], [-5.2, 39.45], [-5.05, 39.3], [-5.1, 38.85], [-4.9, 38.65]];
-const extremaduraSouth = [[-4.9, 38.65], [-5.5, 38.4], [-5.85, 38.15], [-6.4, 38], [-7, 38.1], [-7.6, 38.1]];
-const manchaSouth = [[-4.9, 38.65], [-4.25, 38.4], [-4, 38.4], [-3.3, 38.4], [-2.75, 38.35], [-2.35, 38.02]];
-const manchaEast = [[-1.35, 40.1], [-1.15, 39.95], [-1.25, 39.6], [-1.4, 39.35], [-1.2, 39], [-1.03, 38.85], [-1, 38.65]];
-const murciaNorth = [[-2.35, 38.02], [-2, 38.35], [-1.65, 38.45], [-1.4, 38.6], [-1, 38.65]];
-const murciaEast = [[-1, 38.65], [-1, 38.3], [-1.05, 38], [-0.75, 37.85], [-0.2, 37.85]];
-const murciaWest = [[-2.35, 38.02], [-2.15, 37.6], [-1.95, 37.4], [-1.65, 37.35], [-1.6, SOUTH]];
-const andaluciaSplit = [[-4.25, 38.4], [-4.25, 37.9], [-4, 37.4], [-4.25, 37.2], [-4.15, 37.05], [-3.95, 36.75], [-3.8, SOUTH]];
+const N = 52.2; // north of everything
+const S = 41.0; // south of Corsica and the Pyrenees
+const W = -6.5;
+const E = 10.2;
 const rev = (a) => [...a].reverse();
 
+// Junctions where three areas meet.
+const P1 = [1.5, 49.15]; // Paris, Nord, Ouest
+const P2 = [3.5, 49.1]; // Paris, Nord, Est
+const P3 = [3.55, 48.4]; // Paris, Est
+const P4 = [3.0, 48.1]; // Paris, Est, Ouest
+const P5 = [1.55, 48.3];
+const P6 = [1.45, 48.8];
+const J1 = [3.0, 46.75]; // Ouest, Est, Centre
+const J2 = [4.0, 46.3]; // Est, Centre, Lyon
+const J3 = [0.7, 45.95]; // Ouest, Centre, Sud-Ouest
+const J4 = [3.0, 44.7]; // Centre, Sud-Ouest, Provence
+const J5 = [4.3, 45.0]; // Centre, Lyon, Provence
+const J6 = [1.75, 42.85]; // Sud-Ouest, Provence, Roussillon
+
+const nordWest = [[0.6, N], [0.6, 50.4], [1.38, 50.06], [1.75, 49.7], [1.7, 49.25], P1];
+const estNord = [[4.25, N], [4.2, 49.95], [4.0, 49.4], P2];
+const ouestParis = [P1, P6, P5, P4];
+const ouestEst = [P4, [3.1, 47.6], [3.0, 47.0], J1];
+const ouestCentre = [J1, [2.6, 46.55], [2.0, 46.4], [1.2, 46.3], [0.85, 46.1], J3];
+const ouestSud = [J3, [0.2, 45.8], [-0.4, 45.65], [-1.2, 45.6], [-2.7, 45.6]];
+const bretagneEast = [[-2.0, 49.6], [-1.75, 48.75], [-1.5, 48.63], [-1.07, 48.5], [-1.0, 48.0], [-1.2, 47.75], [-1.8, 47.65], [-2.1, 47.5], [-2.45, 47.45], [-2.7, 47.0]];
+// The Vosges crest, north to south.
+const alsaceWest = [[7.65, 49.25], [7.55, 49.05], [7.3, 48.95], [7.05, 48.85], [7.15, 48.55], [7.05, 48.3], [6.95, 48.0], [6.85, 47.8], [6.85, 47.62], [7.0, 47.45], [7.0, 47.0]];
+const estCentre = [J1, [3.7, 46.65], J2];
+const lyonEst = [J2, [4.8, 46.25], [5.45, 46.3], [5.9, 46.2], [6.05, 46.4], [7.5, 46.6], [8.3, 46.6]];
+const lyonCentre = [J2, [3.8, 45.95], [3.7, 45.55], [3.95, 45.25], J5];
+const centreSud = [J3, [0.9, 45.5], [1.3, 45.15], [1.6, 44.95], [2.1, 44.85], [2.5, 44.65], J4];
+const centreProv = [J4, [3.9, 44.75], J5];
+const lyonProv = [J5, [4.85, 45.0], [5.5, 44.8], [5.9, 44.8], [6.35, 45.05], [7.2, 45.15], [8.3, 45.2]];
+const sudProv = [J4, [3.25, 44.2], [2.95, 43.7], [2.55, 43.4], [1.95, 43.2], J6];
+const roussNorth = [J6, [2.0, 42.85], [2.5, 42.9], [3.0, 42.95], [3.5, 42.95]];
+const roussWest = [J6, [1.7, 42.5], [1.7, S]];
+const basque = [[-2.7, 43.55], [-1.0, 43.55], [-0.5, 43.6], [-0.05, 43.55], [-0.1, 43.2], [0.0, 42.9], [0.0, S]];
+const CORSE_W = 8.3; // the sea between the Riviera and Corsica
+const CORSE_N = 43.3;
+
 const SHAPES = {
-  galicia: [[-10.5, COAST_N], [-7.05, COAST_N], ...galiciaEast, [-10.5, 41.7]],
-  asturias: [[-7.05, COAST_N], [-3.15, COAST_N], [-3.15, 43.35], ...rev(asturiasSouth), [-7.05, 43.55]],
-  euskadi: [[-3.15, COAST_N], [-0.75, COAST_N], ...rev(navarreEast), ...rev(basqueWest), [-3.15, 43.35]],
-  aragon: [...navarreEast, ...rev(catalanWest), ...rev(aragonSouth), ...rev(aragonWest)],
-  catalunya: [...catalanWest, [5, 43.6], [5, 37.5], [1, 37.5], [1, 40.52], ...rev(catalanSouth)],
-  centro: [
-    ...galiciaEast.slice(1), [-7.6, 41.7], ...rev(extremaduraNorth),
-    ...rev(manchaNorth).slice(1), ...rev(aragonWest).slice(1), ...rev(basqueWest).slice(1), ...rev(asturiasSouth).slice(1),
+  paris: [P1, P2, P3, P4, P5, P6],
+  nord: [[0.6, N], ...estNord, ...rev(nordWest).slice(0, -1)],
+  ouest: [
+    ...nordWest, ...ouestParis.slice(1), ...ouestEst.slice(1), ...ouestCentre.slice(1), ...ouestSud.slice(1),
+    ...rev(bretagneEast), [-2.0, N],
   ],
-  mancha: [...manchaNorth, ...extremaduraEast.slice(1), ...manchaSouth.slice(1), ...murciaNorth.slice(1), ...rev(manchaEast).slice(1), ...rev(aragonSouth.slice(1, 3))],
-  extremadura: [...extremaduraNorth, [-7.6, 38.1], ...rev(extremaduraSouth).slice(1), ...rev(extremaduraEast).slice(1)],
-  valencia: [...catalanSouth, [1, 37.85], ...rev(murciaEast), ...rev(manchaEast).slice(1), ...aragonSouth.slice(4)],
-  murcia: [...murciaNorth, ...murciaEast.slice(1), [-0.2, SOUTH], [-1.6, SOUTH], ...rev(murciaWest).slice(1)],
-  andaluciaoc: [...extremaduraSouth, [-7.6, SOUTH], [-3.8, SOUTH], ...rev(andaluciaSplit).slice(1, -1), [-4.25, 38.4]],
-  andaluciaor: [[-4.25, 38.4], [-4, 38.4], [-3.3, 38.4], [-2.75, 38.35], ...murciaWest, ...rev(andaluciaSplit).slice(0, -1)],
+  bretagne: [...bretagneEast, [W, 47.0], [W, 49.6]],
+  est: [
+    [4.25, N], [7.65, N], ...alsaceWest, [7.5, 46.6], ...rev(lyonEst).slice(2), ...estCentre.slice(1, -1).reverse(), J1,
+    ...rev(ouestEst).slice(1), P3, P2, ...rev(estNord).slice(1, -1),
+  ],
+  alsace: [...alsaceWest, [E, 47.0], [E, 49.25]],
+  centre: [...ouestCentre, ...centreSud.slice(1), ...centreProv.slice(1), ...rev(lyonCentre).slice(1), ...rev(estCentre).slice(1, -1)],
+  lyon: [...lyonEst, [8.3, 45.2], ...rev(lyonProv).slice(1), ...rev(lyonCentre).slice(1, -1)],
+  provence: [...centreProv, ...lyonProv.slice(1), [CORSE_W, 45.2], [CORSE_W, S], [3.5, S], ...rev(roussNorth), ...rev(sudProv).slice(1, -1)],
+  roussillon: [...roussNorth, [3.5, S], ...rev(roussWest).slice(0, -1)],
+  sudouest: [...rev(ouestSud), ...centreSud.slice(1), ...sudProv.slice(1), ...roussWest.slice(1), ...rev(basque)],
+  paysbasque: [...basque, [-2.7, S]],
+  corse: [[CORSE_W, CORSE_N], [E, CORSE_N], [E, S], [CORSE_W, S]],
 };
-for (const r of data.regions) if (r.id !== "canarias" && !SHAPES[r.id]) throw new Error("no shape for " + r.id);
-const dialects = Object.fromEntries(data.regions.map((r) => [
-  r.id,
-  r.id === "canarias" ? canaryPaths : ringPath(SHAPES[r.id].map(P)),
-]));
+for (const r of data.regions) if (!SHAPES[r.id]) throw new Error("no shape for " + r.id);
+const dialects = Object.fromEntries(data.regions.map((r) => [r.id, ringPath(SHAPES[r.id].map(P))]));
 
 const out = {
-  _comment: "Generated by scripts/generate-dialekte-karte.mjs from the Natural Earth outlines (public domain) of the old Europe view; inner borders and the Canary Islands are hand-drawn and rough. Do not edit by hand. The Canary Islands are drawn in an inset box. `swiss` is empty (no other language area is hatched on this map); `benrath` is the line of weak final s, `speyer` the line of seseo and ceceo.",
+  _comment: "Generated by scripts/generate-dialekte-karte.mjs from the Natural Earth outlines (public domain) of the old Europe view; inner borders are hand-drawn and rough. Do not edit by hand. `swiss` and `states` are empty (nothing else is hatched or boxed on this map); `benrath` is the oïl/oc line, `speyer` the Breton language line.",
   w: WIDTH,
   h: HEIGHT,
   land: landPath,
-  mask: spainPaths + canaryPaths,
+  mask: francePaths,
   swiss: "",
-  states: linePath(INSET_BOX.map(P)),
+  states: "",
   borders: "",
-  coast: spainPaths + canaryPaths,
+  coast: francePaths,
   dialects,
   labels: Object.fromEntries(data.regions.map((r) => [r.id, Pr(r.label)])),
   markers: Object.fromEntries(data.markers.map((m) => [m.id, Pr(m.at)])),
@@ -137,16 +149,25 @@ fs.writeFileSync("src/data/dialekte-karte.json", JSON.stringify(out));
 console.log("size", (Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0) + " KB", WIDTH + "x" + HEIGHT, "land rings", others.filter(inFrame).length);
 for (const [k, v] of Object.entries(out.dialects)) if (!v) console.log("EMPTY", k);
 
-// Self-check: every point of Spain's mainland and islands falls in exactly one area.
-const inside = (ring, [x, y]) => contains(ring, [x, y]);
+// Self-check: every point of France (mainland and Corsica) falls in exactly one area.
 let bad = 0, n = 0;
 const rings = Object.fromEntries(Object.entries(SHAPES).map(([id, sh]) => [id, sh.map(P)]));
-for (let x = 0; x < WIDTH; x += 4) for (let y = 0; y < HEIGHT; y += 4) {
+for (let x = 0; x < WIDTH; x += 3) for (let y = 0; y < HEIGHT; y += 3) {
   const src = [x / scale + frame.x0, y / scale + frame.y0];
-  if (!spain.some((r) => contains(r, src))) continue;
+  if (!france.some((r) => contains(r, src))) continue;
   n++;
-  const hits = Object.keys(rings).filter((id) => inside(rings[id], [x, y]));
+  const hits = Object.keys(rings).filter((id) => contains(rings[id], [x, y]));
   if (hits.length !== 1) { bad++; if (bad < 12) console.log("partition", x, y, hits.join(",") || "none"); }
 }
 console.log("partition check:", n, "points,", bad, "bad");
-if (bad > n * 0.002) throw new Error("areas do not partition Spain");
+if (bad > n * 0.002) throw new Error("areas do not partition France");
+
+// Every label and marker should sit inside France or its own area.
+for (const r of data.regions) {
+  const pt = P(r.label);
+  if (!contains(rings[r.id], pt)) console.log("label outside its area:", r.id);
+}
+for (const m of data.markers) {
+  const src = base(m.at);
+  if (!france.some((r) => contains(r, src))) console.log("marker outside France:", m.id);
+}

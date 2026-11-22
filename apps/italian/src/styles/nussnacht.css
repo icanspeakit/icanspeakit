@@ -1,4 +1,4 @@
-/* Hamstis Nussnacht (/games/nut-night). The canvas fills the stage; HUD, touch controls and
+/* Hamstis Nussnacht (/giochi/notte-delle-noci). The canvas fills the stage; HUD, touch controls and
    cards sit over it. Phone first: at 390px the stage takes the screen below the site nav.
    Article colours are the site's tokens (--info der, --danger die, --success das). */
 
@@ -13,10 +13,13 @@
   --nn-ink: #f4f1e8;
   --nn-card: rgba(12, 26, 34, 0.92);
   --nn-line: rgba(255, 255, 255, 0.14);
-  --nn-der: color-mix(in srgb, var(--info, #2563eb) 62%, #fff);
-  --nn-die: color-mix(in srgb, var(--danger, #c1462f) 62%, #fff);
-  --nn-das: color-mix(in srgb, var(--info, #2563eb) 28%, #fff); /* los: el's colour, paler */
-  --nn-las: color-mix(in srgb, var(--danger, #c1462f) 28%, #fff); /* las: la's colour, paler */
+  --nn-il: color-mix(in srgb, var(--info, #2563eb) 62%, #fff);
+  --nn-lo: color-mix(in srgb, var(--success, #2e9a62) 62%, #fff);
+  --nn-la: color-mix(in srgb, var(--danger, #c1462f) 62%, #fff);
+  --nn-lap: color-mix(in srgb, var(--warning, #d98a0b) 62%, #fff); /* l': before a vowel, either gender */
+  --nn-i: color-mix(in srgb, var(--info, #2563eb) 28%, #fff);      /* i, gli, le: the singular's colour, paler */
+  --nn-gli: color-mix(in srgb, var(--success, #2e9a62) 28%, #fff);
+  --nn-le: color-mix(in srgb, var(--danger, #c1462f) 28%, #fff);
   scroll-margin-top: 64px;
 }
 
@@ -86,9 +89,9 @@
 }
 .nn-touch[hidden] { display: none; }
 .nn-arts { display: flex; gap: 8px; }
-/* With los and las in play, a row of four would cover a phone's bottom edge: two by two instead. */
-@media (max-width: 480px) {
-  .nn-arts:has(.nn-art--las:not([hidden])) { display: grid; grid-template-columns: 1fr 1fr; }
+/* With i, gli and le in play, a row of seven would cover a phone's bottom edge: four per row instead. */
+@media (max-width: 560px) {
+  .nn-arts:has(.nn-art--le:not([hidden])) { display: grid; grid-template-columns: repeat(4, 1fr); }
 }
 .nn-art {
   position: relative;
@@ -104,16 +107,22 @@
   cursor: pointer;
   touch-action: none;
 }
-.nn-art--der { color: var(--nn-der); }
-.nn-art--die { color: var(--nn-die); }
-.nn-art--das { color: var(--nn-das); }
-.nn-art--las { color: var(--nn-las); }
+.nn-art--il { color: var(--nn-il); }
+.nn-art--lo { color: var(--nn-lo); }
+.nn-art--la { color: var(--nn-la); }
+.nn-art--lap { color: var(--nn-lap); }
+.nn-art--i { color: var(--nn-i); }
+.nn-art--gli { color: var(--nn-gli); }
+.nn-art--le { color: var(--nn-le); }
 .nn-art[hidden] { display: none; }
 .nn-art[aria-pressed="true"] { color: #10161f; border-color: #fff; transform: translateY(-2px); }
-.nn-art--der[aria-pressed="true"] { background: var(--nn-der); }
-.nn-art--die[aria-pressed="true"] { background: var(--nn-die); }
-.nn-art--das[aria-pressed="true"] { background: var(--nn-das); }
-.nn-art--las[aria-pressed="true"] { background: var(--nn-las); }
+.nn-art--il[aria-pressed="true"] { background: var(--nn-il); }
+.nn-art--lo[aria-pressed="true"] { background: var(--nn-lo); }
+.nn-art--la[aria-pressed="true"] { background: var(--nn-la); }
+.nn-art--lap[aria-pressed="true"] { background: var(--nn-lap); }
+.nn-art--i[aria-pressed="true"] { background: var(--nn-i); }
+.nn-art--gli[aria-pressed="true"] { background: var(--nn-gli); }
+.nn-art--le[aria-pressed="true"] { background: var(--nn-le); }
 .nn-key {
   position: absolute;
   top: 3px; left: 6px;
@@ -227,9 +236,10 @@
 .nn-muted { opacity: 0.75; margin: 0 0 var(--space-3); }
 .nn-label { margin: var(--space-2) 0 6px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.75; }
 .nn-a { font-family: var(--font-voice); font-weight: 700; }
-.nn-a--der { color: var(--nn-der); }
-.nn-a--die { color: var(--nn-die); }
-.nn-a--das { color: var(--nn-das); }
+.nn-a--il { color: var(--nn-il); }
+.nn-a--lo { color: var(--nn-lo); }
+.nn-a--la { color: var(--nn-la); }
+.nn-a--lap { color: var(--nn-lap); }
 .nn-seg { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 .nn-seg-btn {
   min-width: 92px;

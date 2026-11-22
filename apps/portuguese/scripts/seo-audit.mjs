@@ -24,9 +24,9 @@ const MAX_TITLE = 60;
 
 const PRIORITY = [
   "/", "/nationality/ciple-a2", "/nationality/ciple-a2/mock-test", "/nationality/ciple-a2/practice-set", "/civics",
-  "/civics/test", "/exams", "/caple", "/caple/level-check",
-  "/caple/acesso-a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
-  "/pronunciation-check",
+  "/civics/test", "/exames", "/caple", "/caple/level-check",
+  "/caple/acesso-a1", "/teste-de-nivel", "/gramatica", "/vocabulario", "/exercicios",
+  "/verificar-pronuncia",
 ];
 const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/caple/");
 

@@ -9,12 +9,12 @@
 // and saved progress key on them. Only the URL is the course's: English, except proper names
 // (/caple, /caple/ciple-a2) and the Portuguese grammar terms learners search for (/por-para,
 // /gostar-de, /perfeito-simples, /estar-a-infinitive). Slugs per content-plan §3 and §8 (routes item).
-// The site at /portuguese is new, so there are no redirects from any earlier address (§7, §8).
+// The site at /portugues is new, so there are no redirects from any earlier address (§7, §8).
 
 /** Pages that are hubs or overviews — places you pass through, not places you resume. */
-export const NOT_RESUMABLE = new Set(["/", "/exercises", "/exams", "/progress", "/grammar", "/knowledge", "/teachers", "/game",
-  "/legal-notice", "/privacy", "/terms", "/placement-test", "/account",
-  "/listening", "/reading", "/writing", "/speaking", "/culture", "/vocabulary", "/skills"]);
+export const NOT_RESUMABLE = new Set(["/", "/exercicios", "/exames", "/progresso", "/gramatica", "/conhecimentos", "/professores", "/jogo",
+  "/aviso-legal", "/privacidade", "/termos", "/teste-de-nivel", "/conta",
+  "/compreensao-oral", "/leitura", "/escrita", "/expressao-oral", "/cultura", "/vocabulario", "/competencias"]);
 
 // Grammar topics live at the top level (/<slug>). The key (the workspace's `slug ?? id`, what
 // progress, lehrplan and verwandt use) stays; the URL follows content-plan §3 "New slug".
@@ -78,17 +78,17 @@ export const topicKeyFromSlug = (slug) => TOPIC_KEYS[slug] ?? slug;
 /** The page of a grammar topic. */
 export const topicPath = (key) => `/${topicSlug(key)}`;
 
-// The reference tables under /grammar/<ref> (src/data/nachschlagen/<file>.json). The file
+// The reference tables under /gramatica/<ref> (src/data/nachschlagen/<file>.json). The file
 // names stayed; the URL is English.
 export const REF_SLUGS = {
-  "starke-schwache-verben": "irregular-verbs",
-  "trennbare-verben": "reflexive-verbs-list",
-  "verben-mit-praepositionen": "verbs-with-prepositions",
+  "starke-schwache-verben": "verbos-irregulares",
+  "trennbare-verben": "lista-de-verbos-reflexivos",
+  "verben-mit-praepositionen": "verbos-com-preposicoes",
 };
 /** A reference table's URL slug from its file name. */
 export const refSlug = (file) => REF_SLUGS[file] ?? file;
 /** The page of a reference table. */
-export const refPath = (file) => `/grammar/${refSlug(file)}`;
+export const refPath = (file) => `/gramatica/${refSlug(file)}`;
 
 // Teachers' worksheets and tandem sheets per topic: keyed like the topic (plus the
 // reference sheets nachschlagen-<file>, verbtabellen, typische-fehler); the URL is English.
@@ -98,14 +98,14 @@ export const sheetSlug = (key) =>
   String(key).startsWith("nachschlagen-") ? `reference-${refSlug(String(key).slice("nachschlagen-".length))}`
     : SHEET_SLUGS[key] ?? topicSlug(key);
 /** The worksheet page of a topic key. */
-export const sheetPath = (key) => `/teachers/worksheets/grammar/${sheetSlug(key)}`;
+export const sheetPath = (key) => `/professores/fichas/gramatica/${sheetSlug(key)}`;
 /** The tandem (pair work) sheet of a topic key. */
-export const tandemPath = (key) => `/teachers/worksheets/tandem/${sheetSlug(key)}`;
+export const tandemPath = (key) => `/professores/fichas/tandem/${sheetSlug(key)}`;
 // Item pages under a section (content-plan §1.3: "kebab-case of the English title, keep any
 // level prefix"). Keyed by the section's English path, then by the item's id, which stays
 // the key in the data, in progress and in class-task refs (h:<id>, l:<id>, k:<id> …).
 export const ITEM_SLUGS = {
-  "/listening": {
+  "/compreensao-oral": {
     "a1-ansage-bahnhof": "a1-station-announcement", "a1-anruf-arzt": "a1-health-centre-voicemail",
     "a1-supermarkt": "a1-supermarket", "a1-verabredung": "a1-arranging-to-meet",
     "a2-amt-termin": "a2-junta-appointment", "a2-wohnungsbesichtigung": "a2-flat-viewing",
@@ -115,14 +115,14 @@ export const ITEM_SLUGS = {
     "b2-diskussion-homeoffice": "b2-working-from-home-meeting", "b2-interview-anerkennung": "b2-degree-recognition-interview",
     "b2-beschwerde-versicherung": "b2-insurance-complaint", "b2-vortrag-ehrenamt": "b2-volunteering-talk",
   },
-  "/reading": {
+  "/leitura": {
     "a1-schilder-im-haus": "a1-notices-in-flats", "a1-nachricht-einladung": "a1-text-invitation",
     "a2-wohnungsanzeigen": "a2-flat-adverts", "a2-email-kurs-absage": "a2-language-school-email",
     "b1-digitales-buero": "b1-paperless-office", "b1-anzeigen": "b1-matching-notices",
     "b1-zeitungsartikel": "b1-local-news-article", "b1-forumsbeitraege": "b1-forum-posts",
     "b2-artikel-homeoffice": "b2-teleworking-article", "b2-kommentare-innenstadt": "b2-car-free-town-centre",
   },
-  "/writing": {
+  "/escrita": {
     "a1-formular-anmeldung": "a1-sports-centre-form", "a1-nachricht-absage": "a1-cant-come",
     "a2-email-nachbarn": "a2-email-to-neighbour", "a2-formular-arztpraxis": "a2-health-centre-form",
     "a2-email-school": "a2-email-to-school",
@@ -130,7 +130,7 @@ export const ITEM_SLUGS = {
     "b1-formular-vhs": "b1-completing-a-form", "b1-brief-david": "b1-reply-to-tiago",
     "b1-fehlerjagd": "b1-error-hunt", "b2-beschwerde-reiseveranstalter": "b2-holiday-complaint",
   },
-  "/speaking": {
+  "/expressao-oral": {
     "a1-sich-vorstellen": "a1-introducing-yourself", "a1-bild-bahnhof": "a1-picture-station",
     "a1-bild-kueche": "a1-picture-kitchen", "a1-bild-supermarkt": "a1-picture-supermarket",
     "a1-bild-spielplatz": "a1-picture-park", "a2-bild-gartenarbeit": "a2-picture-outdoor-work",
@@ -142,10 +142,10 @@ export const ITEM_SLUGS = {
     "b2-bild-wochenmarkt": "b2-picture-market", "b2-bild-videokonferenz": "b2-picture-video-call",
     "b2-bild-baustelle-innenstadt": "b2-picture-building-work", "b2-bild-wertstoffhof": "b2-picture-recycling-centre",
   },
-  "/speaking/set": {
+  "/expressao-oral/serie": {
     "a1-zuhause": "a1-at-home", "a2-unterwegs": "a2-out-and-about", "b1-arbeit": "b1-work", "b2-gesellschaft": "b2-society",
   },
-  "/culture": {
+  "/cultura": {
     // Ids stay (progress keys k:<id>); the slugs follow the Portugal topics (culture run, 2026-11-21).
     "duzen-siezen": "tu-or-o-senhor", pfand: "greetings", sonntagsruhe: "daily-rhythm", trinkgeld: "cafes-and-paying",
     bundeslaender: "regions", feiertage: "public-holidays", comida: "food-and-meals", fiestas: "festivals",
@@ -159,14 +159,14 @@ export const ITEM_SLUGS = {
     "historia-compartida": "shared-history",
     erinnerungskultur: "25-april-1974", grundgesetz: "constitution", mitbestimmung: "unions-and-workers-rights",
   },
-  "/culture/insider": {
+  "/cultura/por-dentro": {
     "hallo-sagen": "saying-hello", "naehe-abstand": "queues-and-personal-space", "hoefliche-notluegen": "please-and-thank-you",
     puenktlichkeit: "time-and-timing", "zusammen-oder-getrennt": "paying-the-bill", "leute-kennenlernen": "small-talk",
     "freunde-finden": "making-friends", "arbeit-finden": "how-hiring-works", "deutschland-und-das-auto": "cars-and-driving",
     gleichberechtigung: "women-and-men-at-work", "erstes-date": "dating", direktheit: "directness",
     vertrauen: "humour-and-banter",
   },
-  "/vocabulary/phrases": {
+  "/vocabulario/expressoes": {
     zustimmen: "agreeing", widersprechen: "disagreeing", zweifeln: "doubt", troesten: "comforting",
     meinung: "opinions", nachfragen: "checking-understanding", bitten: "asking-for-help", entschuldigen: "apologising",
     danken: "thanking", vorschlagen: "suggestions", gratulieren: "congratulating", begruessen: "greetings",
@@ -195,7 +195,7 @@ const ITEM_KEYS = Object.fromEntries(Object.entries(ITEM_SLUGS).map(([s, m]) => 
 const WORK_GROUP_KEYS = invert(WORK_GROUP_SLUGS);
 const ITEM_SECTIONS = Object.keys(ITEM_SLUGS).sort((a, b) => b.length - a.length);
 
-/** An item's URL slug in a section (English path, e.g. "/listening"). Unknown ids pass through. */
+/** An item's URL slug in a section (English path, e.g. "/compreensao-oral"). Unknown ids pass through. */
 export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
 /** An item's id from its URL slug. Unknown slugs pass through. */
 export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;

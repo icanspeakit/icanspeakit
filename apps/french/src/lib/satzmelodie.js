@@ -28,16 +28,16 @@ const WIN = 2048;            // ~43 ms at 48 kHz: long enough for a low male voi
 const MIN_HZ = 60;
 const MAX_HZ = 500;
 const MIN_CLARITY = 0.85;
-// Spanish question words carry a written accent, which tells them from que, como, cuando.
-const W_WORDS = /^(qué|quién|quiénes|cuál|cuáles|cómo|cuándo|dónde|adónde|cuánto|cuánta|cuántos|cuántas)$/i;
-// A question word often comes after a preposition: ¿De dónde eres? ¿A qué hora? ¿Por qué?
-const W_PREPOSITIONS = /^(a|de|desde|en|con|para|por|hasta|sobre|sin|hacia)$/i;
+// French question words. est-ce que after one of them still falls (Où est-ce que tu habites ?).
+const W_WORDS = /^(qui|que|qu|quoi|quel|quelle|quels|quelles|où|quand|comment|combien|pourquoi|lequel|laquelle|lesquels|lesquelles)$/i;
+// A question word often comes after a preposition: D'où viens-tu ? À quelle heure ? Depuis quand ?
+const W_PREPOSITIONS = /^(à|a|de|d|depuis|en|avec|pour|jusqu|sur|sans|vers|chez|dans|par)$/i;
 
 /** "ja-nein" (voice goes up), "w-frage" and "aussage" (voice goes down). */
 export function melodyType(text) {
   const t = text.trim();
   if (!t.endsWith("?")) return "aussage";
-  const [first, second] = t.split(/\s+/).map((w) => w.replace(/[^\p{L}]/gu, ""));
+  const [first, second] = t.split(/[\s'’]+/).map((w) => w.replace(/[^\p{L}]/gu, ""));
   return W_WORDS.test(first) || (W_PREPOSITIONS.test(first) && W_WORDS.test(second ?? "")) ? "w-frage" : "ja-nein";
 }
 

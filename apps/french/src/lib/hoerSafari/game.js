@@ -1,5 +1,5 @@
-// Hör-Safari (/games/listening-safari): a listening game in the spirit of the classic shooting
-// galleries. A voice says a noun with el or la ("la cuchara"); birds — our own "Pieper",
+// Hör-Safari (/jeux/safari-d-ecoute): a listening game in the spirit of the classic shooting
+// galleries. A voice says a noun with le or la ("la cuillère"); birds — our own "Pieper",
 // not anybody's chicken — fly over a wide landscape carrying picture or word cards, and the
 // player hits the matching one with the Gummi-Blaster, a toy that fires harmless rubber
 // pellets. A hit bird goes "Bonk!", sees stars and flies off; nothing falls.
@@ -20,7 +20,7 @@
 // - Records on this device (records.js) and a weekly / all-time board (board.js).
 //
 // Words: nouns from the lexicon with a picture (wort-bilder.json → OpenMoji), passed in by the
-// page (woerter.js). The browser's Spanish voice says them (see say()). Plan and decisions:
+// page (woerter.js). The browser's French voice says them (see say()). Plan and decisions:
 // HOER-SAFARI-TIERED-PROMPT.md, docs/hoer-safari-tier*-v1.md.
 
 import { makeSfx } from "./sound.js";
@@ -308,21 +308,22 @@ export function mountHoerSafari(root, allWords) {
     }
     return im;
   }
-  // The voice: no Spanish clips are recorded yet, so the browser's voice says the word with its
-  // article ("la cuchara"), as in Bruno Kart: one from Spain first, else any Spanish one. Recorded
-  // clips (/audio/wortschatz/<audio>.mp3, w.a) would go here, and they would have to say the
-  // article too. An English voice reading Spanish would teach the wrong sounds, so a browser
-  // with no Spanish voice stays silent and shows the word at once (nextTarget): the round can
-  // still be played by reading, and the start card says why. An empty voice list proves nothing,
-  // since it may still be loading, and some Android browsers never list their voices but speak
-  // anyway: there it tries, and a voice that fails counts as none.
+  // The voice: no French clips are recorded yet, so the browser's voice says the word with its
+  // article ("la cuillère"), as in Bruno Kart: one from France (fr-FR) first, else any French
+  // one (fr-CA, fr-BE, fr-CH …: the article and the noun are the same there). Recorded clips
+  // (/audio/wortschatz/<audio>.mp3, w.a) would go here, and they would have to say the article
+  // too. An English voice reading French would teach the wrong sounds, so a browser with no
+  // French voice stays silent and shows the word at once (nextTarget): the round can still be
+  // played by reading, and the start card says why. An empty voice list proves nothing, since
+  // it may still be loading, and some Android browsers never list their voices but speak
+  // anyway: there it tries (lang fr-FR), and a voice that fails counts as none.
   const synth = typeof speechSynthesis !== "undefined" ? speechSynthesis : null;
-  let esVoice = null;
+  let frVoice = null;
   let voiceFailed = false;
-  const canSpeak = () => !!synth && !voiceFailed && (!!esVoice || !(synth.getVoices?.().length));
+  const canSpeak = () => !!synth && !voiceFailed && (!!frVoice || !(synth.getVoices?.().length));
   const pickVoice = () => {
     const vs = synth?.getVoices?.() ?? [];
-    esVoice = vs.find((v) => /^es[-_]ES/i.test(v.lang)) ?? vs.find((v) => /^es([-_]|$)/i.test(v.lang)) ?? null;
+    frVoice = vs.find((v) => /^fr[-_]FR/i.test(v.lang)) ?? vs.find((v) => /^fr([-_]|$)/i.test(v.lang)) ?? null;
     ui.noVoice.hidden = canSpeak();
   };
   if (synth) synth.addEventListener?.("voiceschanged", pickVoice);
@@ -354,12 +355,12 @@ export function mountHoerSafari(root, allWords) {
       if (!canSpeak()) return finish();
       try {
         const u = new SpeechSynthesisUtterance(spoken(w));
-        u.lang = "es-ES";
+        u.lang = frVoice?.lang?.replace("_", "-") || "fr-FR";
         u.rate = 0.9;
-        if (esVoice) u.voice = esVoice;
+        if (frVoice) u.voice = frVoice;
         u.onend = finish;
         u.onerror = (e) => {
-          // hush() cancels on purpose; anything else means this browser cannot say Spanish
+          // hush() cancels on purpose; anything else means this browser cannot say French
           if (e?.error !== "canceled" && e?.error !== "interrupted") {
             voiceFailed = true;
             ui.noVoice.hidden = false;
@@ -390,7 +391,7 @@ export function mountHoerSafari(root, allWords) {
     const l = glossLang();
     if (INLINE.includes(l) || fetched[l]) return;
     try {
-      fetched[l] = await (await fetch(withBase(`/vocabulary/glosses/${l}.json`))).json();
+      fetched[l] = await (await fetch(withBase(`/vocabulaire/glosses/${l}.json`))).json();
     } catch {
       fetched[l] = {};
     }
@@ -420,8 +421,10 @@ export function mountHoerSafari(root, allWords) {
   let phase = "start";
   const defaultAim = () => ({ x: view.w / 2, y: VIEW_H * 0.4, on: false, mouse: false });
 
+  // B1 also plays the A2 words: the lexicon has few B1 nouns with a clear picture (13), too few
+  // for a round of five birds. The page's word count (listening-safari.astro) does the same.
   function poolFor(level) {
-    const lv = level === "B1" ? ["B1", "B2"] : [level];
+    const lv = level === "B1" ? ["A2", "B1", "B2"] : [level];
     return allWords.filter((w) => lv.includes(w.lv));
   }
 
@@ -1011,9 +1014,10 @@ export function mountHoerSafari(root, allWords) {
     if (Math.random() < 0.5) {
       return {
         word: w,
-        prompt: t("hs.q.article", "el or la?"),
+        prompt: t("hs.q.article", "le or la?"),
         big: `___ ${w.w}`,
-        options: ["el", "la"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
+        // le / la only: the pool has no l' nouns (woerter.js)
+        options: ["le", "la"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
         wrong: false,
       };
     }

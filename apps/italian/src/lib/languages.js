@@ -57,10 +57,10 @@ export const LANGUAGE_REGISTRY = [
   {
     code: "de", native: "Deutsch", de: "Deutsch", en: "German", word: "Sprache",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "de", urlPrefix: "de",
-    // Named only where German text exists (docs/content-plan.md §10.4). Help texts and the
+    // Named only where German text exists. Help texts and the
     // profession decks fall back to English; the legal pages are German already.
     // `fetch` keeps `de` out of the surfaces that inline glosses (live quiz, printable games):
-    // there, `de` on a question or option still means the Spanish being learnt.
+    // there, `de` on a question or option still means the Italian being learnt.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
@@ -71,18 +71,19 @@ export const LANGUAGE_REGISTRY = [
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
+    // Spanish of Spain, tú, interface only (2026-11-16): public/i18n/es.json reuses the Spanish the
+    // French, English and Spanish courses carry for the same English strings. No Spanish card
+    // sidecars yet, so `cards` stays off; help, legal and profession decks fall back to English.
+    surfaces: { ui: draft },
+  },
+  {
     code: "pt", native: "Português", de: "Portugiesisch", en: "Portuguese", word: "Idioma",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "pt-BR", urlPrefix: "pt",
     // Brazilian Portuguese: the code and URL say pt, <html lang> and hreflang say pt-BR. Same
     // shape as German and French. Help texts, the legal pages and the profession decks fall
     // back to English (the old pt blocks in src/data/uebersetzungen/ aren't used).
-    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
-  },
-  {
-    code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",
-    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "it", urlPrefix: "it",
-    // Same shape as German, French and Portuguese. Help texts, the legal pages and the profession
-    // decks fall back to English.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for

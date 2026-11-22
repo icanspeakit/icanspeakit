@@ -71,7 +71,7 @@ const ids = quotes.map((q: any) => q.id);
 </Layout>
 
 <script>
-import { withBase } from "../../../lib/paths.js";
+import { withBase, BASE_PATH } from "../../../lib/paths.js";
   import { getLang } from "../../../lib/i18n.js";
   import { t, i18nAttrs, onUiText } from "../../../lib/uiText.js";
   import { localYmd, addDays, indexFor } from "../../../lib/zitate.js";
@@ -110,7 +110,7 @@ import { withBase } from "../../../lib/paths.js";
       slot.innerHTML = html;
       initCards(slot);
     } catch {
-      slot.innerHTML = `<p class="zt-loading"><span${i18nAttrs("kaufen.start.failed.title")}>${t("kaufen.start.failed.title", "That didn’t work.")}</span> <a href="/knowledge/quotes/${id}"${i18nAttrs("zitate.day.toQuote")}>${t("zitate.day.toQuote", "Go to the quote")}</a></p>`;
+      slot.innerHTML = `<p class="zt-loading"><span${i18nAttrs("kaufen.start.failed.title")}>${t("kaufen.start.failed.title", "That didn’t work.")}</span> <a href="${BASE_PATH}/knowledge/quotes/${id}"${i18nAttrs("zitate.day.toQuote")}>${t("zitate.day.toQuote", "Go to the quote")}</a></p>`;
     }
     // The next day in the background, so › is instant.
     card(idFor(off + 1)).catch(() => {});

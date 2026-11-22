@@ -1,4 +1,4 @@
-// The Stundenplan generator (/teachers/timetable): one block of the course plan
+// The Stundenplan generator (/professores/horario): one block of the course plan
 // (src/data/kursinhalte.json) → N lessons of M minutes, each split into timed phases with
 // an activity and links to what the site has for it. No AI and no randomness: the same
 // block, number of lessons and length always give the same plan, so a link to it can be
@@ -241,8 +241,8 @@ export function build({ level, block, n, minutes, links }) {
   const gPer = spread(grammarIdx, teach);
   const kPer = spread(block.kannZiele, teach);
   const seen = new Set();
-  const quiz = { name: "Start a live quiz", href: "/teachers/quiz" };
-  const test = { name: "Topic test by QR code", href: "/teachers/tests" };
+  const quiz = { name: "Start a live quiz", href: "/professores/quiz" };
+  const test = { name: "Topic test by QR code", href: "/professores/testes" };
 
   const lessons = [];
   for (let i = 0; i < n; i++) {

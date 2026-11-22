@@ -19,14 +19,14 @@ const { file: f, i = 0 } = Astro.props;
 <button class="wi-card wi-card--book" type="button" id={f.id} data-file={f.id}>
   <BookCover file={f} i={i} />
   <b>{f.title}</b>
-  {/* File titles stay German — they name a German-language PDF. The line under each says
-      what is inside it, which is the part worth translating. */}
+  {/* The title is the file's own (English, as the PDF prints it). The line under it says
+      what is inside, which is the part worth translating. */}
   <i data-i18n={`wissen.file.${f.id}.desc`}>{f.desc}</i>
   <span class="wi-card-foot">
     <span class="wi-meta">
-      PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} Seiten`}</span> : ""} · {f.size}
+      PDF{f.pages ? <span data-i18n="wissen.pagesSuffix" data-i18n-vars={JSON.stringify({ n: f.pages })}>{` · ${f.pages} pages`}</span> : ""} · {f.size}
       {f.editions.length > 0 && <span class="wi-meta-eds"> · +{f.editions.map((e) => e.lang.toUpperCase()).join("/")}</span>}
-      {f.states && <span class="wi-meta-eds" data-i18n="wissen.land.count" data-i18n-vars={JSON.stringify({ n: f.states.length })}> · {f.states.length} Bundesländer</span>}
+      {f.states && <span class="wi-meta-eds" data-i18n="wissen.land.count" data-i18n-vars={JSON.stringify({ n: f.states.length })}> · {f.states.length} nations</span>}
     </span>
     <span class="wi-dl" aria-hidden="true"><Icon name="chevron-right" size={18} /></span>
   </span>

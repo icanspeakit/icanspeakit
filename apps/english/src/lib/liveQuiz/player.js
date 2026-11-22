@@ -18,7 +18,7 @@ import { mountMusicPickers, mountSoundToggles, music, sfx, unlock, victory } fro
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
 import { enhanceSwitch } from "../segSwitch.js";
-import { withBase, stripBase } from "../paths.js";
+import { withBase, stripBase, BASE_PATH } from "../paths.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 const HOST_WAIT_MS = 6000; // how long "is there a host?" gets before the PIN is called wrong
@@ -133,7 +133,7 @@ export function mountPlayer(root) {
     const back = $("[data-solo-back]");
     const keep = new URLSearchParams();
     for (const k of ["set", "mode", "level", "grammar"]) if (params.get(k)) keep.set(k, params.get(k));
-    back.href = `/teachers/quiz${keep.size ? `?${keep}` : ""}`;
+    back.href = `${BASE_PATH}/teachers/quiz${keep.size ? `?${keep}` : ""}`;
     back.addEventListener("click", (e) => {
       let from = null;
       try { from = new URL(document.referrer); } catch {}
@@ -160,7 +160,7 @@ export function mountPlayer(root) {
   nameInput.placeholder = drawn.name;
   const showAvatar = () => {
     const src = avatarSrc(avatar);
-    root.querySelectorAll("[data-name-avatar]").forEach((img) => { if (src) img.src = src; });
+    root.querySelectorAll("[data-name-avatar]").forEach((img) => { if (src) img.src = withBase(src); });
   };
   showAvatar();
   // One tap selects it all, so typing an own name needs no deleting first.
@@ -579,7 +579,7 @@ export function mountPlayer(root) {
 
   function setImg(el, src) {
     el.hidden = !src;
-    if (src) el.src = src;
+    if (src) el.src = withBase(src);
     else el.removeAttribute("src");
   }
 
@@ -786,10 +786,10 @@ export function mountPlayer(root) {
     recordRound(round).then((saved) => {
       if (!note) return;
       if (saved) {
-        note.innerHTML = `<a href="/progress?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${BASE_PATH}/progress?ansicht=quiz">${escapeHtml(t("lq.record.saved", "In „Mein Fortschritt“ gespeichert"))} →</a>`;
         note.hidden = false;
       } else if (solo && !/(?:^|;\s*)sb-[^=]+-auth-token/.test(document.cookie)) {
-        note.innerHTML = `<a href="/konto">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
+        note.innerHTML = `<a href="${BASE_PATH}/konto">${escapeHtml(t("lq.record.signIn", "Anmelden, dann wird jede Runde in deinem Fortschritt gespeichert"))} →</a>`;
         note.hidden = false;
       }
     });

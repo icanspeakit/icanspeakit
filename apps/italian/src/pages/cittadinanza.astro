@@ -1,0 +1,138 @@
+---
+// The language path to Italian citizenship and the long-term EU permit (content-plan §2, §5.11).
+// General orientation, never legal advice. All text lives in public/i18n/en.json, read here so
+// that one file holds each sentence.
+//
+// citizenship-path (2026-11-15) wrote the full page: the two proofs (B1 / A2), who may be
+// exempt, the 2025 changes and the order of steps. The file keeps the slug /cittadinanza until
+// `routes` renames it to /citizenship. Every fact here is worded as orientation and listed
+// "to verify" in reports/citizenship-path.md.
+import ExamDisclaimer from "../components/ExamDisclaimer.astro";
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import "../styles/practice.css";
+import "../styles/pruefungen.css";
+import en from "../../public/i18n/en.json";
+
+const tx = (key: string) => (en as Record<string, string>)[key];
+
+const shortVersion = ["1", "2", "3", "4"];
+const exempt = ["1", "2", "3", "4", "5"];
+const changes = ["1", "2", "3"];
+const steps = ["1", "2", "3", "4", "5", "6", "7"];
+const words = ["prefettura", "questura", "anagrafe", "patronato", "giuramento", "certificato"];
+const practice = [
+  { key: "ccse", href: "/cultura-civica" },
+  { key: "mock", href: "/cittadinanza/prova-b1/esercitazione" },
+  { key: "a2", href: "/cittadinanza/prova-b1/esercitazione?satz=uebungssatz-2" },
+  { key: "set", href: "/cils/a2" },
+];
+// Proper names, not translated: no keys.
+const bodies = [
+  { label: "CILS – Università per Stranieri di Siena", url: "https://cils.unistrasi.it" },
+  { label: "CELI – Università per Stranieri di Perugia (CVCL)", url: "https://www.cvcl.it" },
+  { label: "PLIDA – Società Dante Alighieri", url: "https://plida.it" },
+  { label: "CERT.IT – Università Roma Tre", url: "https://www.certificazioneitaliano.uniroma3.it" },
+];
+---
+<Layout
+  title="Italian citizenship and the long-term permit: the language proof – icanspeak Italian"
+  description="The language proof for Italian citizenship (B1) and for the long-term EU residence permit (A2): who needs it, which certificates count and how to practise. General orientation, dated November 2026."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide">
+    <a href="/esami" class="vp-back-link" data-i18n="fallen.back">{tx("fallen.back")}</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow" data-i18n="nat.eyebrow">{tx("nat.eyebrow")}</p>
+      <h1 data-i18n="nat.title">{tx("nat.title")}</h1>
+      <p data-i18n="nat.lead">{tx("nat.lead")}</p>
+      <p data-i18n-html="nat.legal" set:html={tx("nat.legal")} />
+      <ExamDisclaimer />
+    </div>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.short.title">{tx("nat.short.title")}</h2>
+      <ul class="task-points">
+        {shortVersion.map((n) => <li data-i18n={`nat.short.${n}`}>{tx(`nat.short.${n}`)}</li>)}
+      </ul>
+      <p class="format-note" data-i18n="nat.other">{tx("nat.other")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.two.title">{tx("nat.two.title")}</h2>
+      {["b1", "a2"].map((k) => (
+        <div class="mock-cta">
+          <h3 data-i18n={`nat.two.${k}.title`}>{tx(`nat.two.${k}.title`)}</h3>
+          <p data-i18n-html={`nat.two.${k}.text`} set:html={tx(`nat.two.${k}.text`)} />
+        </div>
+      ))}
+      <p class="format-note" data-i18n="nat.two.note">{tx("nat.two.note")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.exempt.title">{tx("nat.exempt.title")}</h2>
+      <p data-i18n="nat.exempt.intro">{tx("nat.exempt.intro")}</p>
+      <ul class="task-points">
+        {exempt.map((n) => <li data-i18n-html={`nat.exempt.${n}`} set:html={tx(`nat.exempt.${n}`)} />)}
+      </ul>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.changes.title">{tx("nat.changes.title")}</h2>
+      <ul class="task-points">
+        {changes.map((n) => <li data-i18n-html={`nat.changes.${n}`} set:html={tx(`nat.changes.${n}`)} />)}
+      </ul>
+      <p class="format-note" data-i18n="nat.changes.note">{tx("nat.changes.note")}</p>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.steps.title">{tx("nat.steps.title")}</h2>
+      {steps.map((n) => (
+        <div class="mock-cta">
+          <h3 data-i18n={`nat.step.${n}.title`}>{tx(`nat.step.${n}.title`)}</h3>
+          <p data-i18n={`nat.step.${n}.text`}>{tx(`nat.step.${n}.text`)}</p>
+        </div>
+      ))}
+      <div class="mock-cta">
+        <h3 data-i18n="nat.step.a2.title">{tx("nat.step.a2.title")}</h3>
+        <p data-i18n="nat.step.a2.text">{tx("nat.step.a2.text")}</p>
+      </div>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.words.title">{tx("nat.words.title")}</h2>
+      <table class="exam-table">
+        <thead><tr><th data-i18n="nat.words.th.it">{tx("nat.words.th.it")}</th><th data-i18n="nat.words.th.en">{tx("nat.words.th.en")}</th></tr></thead>
+        <tbody>
+          {words.map((w) => <tr><td lang="it">{w[0].toUpperCase() + w.slice(1)}</td><td data-i18n={`nat.w.${w}`}>{tx(`nat.w.${w}`)}</td></tr>)}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.practice.title">{tx("nat.practice.title")}</h2>
+      {practice.map((p) => (
+        <div class="mock-cta">
+          <h3 data-i18n={`nat.p.${p.key}.title`}>{tx(`nat.p.${p.key}.title`)}</h3>
+          <p data-i18n={`nat.p.${p.key}.text`}>{tx(`nat.p.${p.key}.text`)}</p>
+          <a class="quiz-btn quiz-btn--primary" href={p.href} data-i18n={`nat.p.${p.key}.cta`}>{tx(`nat.p.${p.key}.cta`)}</a>
+        </div>
+      ))}
+      <div class="mock-cta">
+        <h3 data-i18n="nat.p.plan.title">{tx("nat.p.plan.title")}</h3>
+        <p data-i18n="nat.p.plan.text">{tx("nat.p.plan.text")}</p>
+        <a class="plan-link" href="/piano-d-esame" data-i18n="plan.link">{tx("plan.link")}</a>
+      </div>
+    </section>
+
+    <section class="exam-section">
+      <h2 data-i18n="nat.sources.title">{tx("nat.sources.title")}</h2>
+      <ul class="task-points">
+        <li><a href="https://www.interno.gov.it" rel="noopener" data-i18n="nat.src.mj">{tx("nat.src.mj")}</a></li>
+        {bodies.map((b) => <li><a href={b.url} rel="noopener" translate="no">{b.label}</a></li>)}
+      </ul>
+      <p class="format-note" data-i18n="nat.checked">{tx("nat.checked")}</p>
+    </section>
+  </main>
+</Layout>

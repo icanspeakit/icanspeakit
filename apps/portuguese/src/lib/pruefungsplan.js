@@ -74,7 +74,7 @@ export function buildPlan({ exam, date, minutesPerDay, level, today }) {
       const pool = [];
       if (grammar.length) pool.push(() => ({ kind: "grammar", label: grammar[gi % grammar.length].name, href: grammar[gi++ % grammar.length].href }));
       if (words.length) pool.push(() => ({ kind: "words", label: `Wortschatz: ${words[wi % words.length].title}`, href: words[wi++ % words.length].href }));
-      if (d % 3 === 2) pool.push(() => ({ kind: "aussprache", label: "Aussprache-Check: 5 Sätze laut lesen", href: "/pronunciation-check" }));
+      if (d % 3 === 2) pool.push(() => ({ kind: "aussprache", label: "Aussprache-Check: 5 Sätze laut lesen", href: "/verificar-pronuncia" }));
       for (let k = 0; k < per && pool.length; k++) items.push(pool[k % pool.length]());
     }
     days.push({ date: ymd(start + d * DAY), week: Math.floor(d / 7) + 1, items });
@@ -83,7 +83,7 @@ export function buildPlan({ exam, date, minutesPerDay, level, today }) {
 }
 
 /** An .ics calendar: one all-day event per study day, the exam as its own event. */
-export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/portuguese" }) {
+export function planToIcs(plan, { examLabel, site = "https://icanspeak.it/portugues" }) {
   const esc = (s) => String(s).replace(/[\\;,]/g, (c) => `\\${c}`).replace(/\n/g, "\\n");
   const d8 = (s) => s.replaceAll("-", "");
   const next = (s) => ymd(parse(s) + DAY);

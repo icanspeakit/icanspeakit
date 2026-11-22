@@ -1,132 +1,147 @@
 # Regi's Sentence Rain – the sentences, split into chunks by hand.
 # scripts/build-satzregen.mjs turns this into src/data/satzregen/saetze.json.
+# Variety: standard French of France (fr-FR). Québec differences only as {frCA …}.
 #
-# One line = one sentence:   chunk / chunk / chunk .  = note shown under the solved line  {flags}
-#   Chunks are written as they stand inside the sentence ("yo", "los sábados", "en un bar").
-#   The first letter of slot 1 is capitalised in the display only, and a question gets its ¿ there.
-#   *  finite verb (or auxiliary)      ^  subject
+# One line = one sentence:   chunk / chunk / chunk .  = English translation shown under the solved line  {flags}
+#   Chunks are written as they stand inside the sentence ("je", "à Lyon", "n'ai").
+#   Elided forms are never split at the apostrophe: j'ai, l'a, n'ai, s'il, qu'est-ce que, d'ici.
+#   Straight apostrophe ' in the data. Punctuation sits on the last tile (", s'il vous plaît").
+#   No non-breaking spaces here: the game adds one before "?" when it shows the sentence.
+#   The first letter of slot 1 is capitalised in the display only. Questions have no ¿.
+#   *  finite verb (or auxiliary; an elided tile like j'ai or l'a counts as the verb)
+#   ^  subject
 #   ~  other verb part (participle or infinitive after the auxiliary)
 #   End: " ." or " ?" after the last chunk.
 #   {alt 3 0 1 2}   another correct order, as chunk indices (several allowed)
 #   {free 1<2 3-4}  every order of the chunks with these conditions, built into alts:
 #                   1<2 = chunk 1 somewhere before chunk 2; 3-4 = chunk 3 right before chunk 4
+#                   Only where the order is truly free (it almost never is in French).
 #   {rule …}        own rule line for "These sentences were tricky"
-#   {es419 …}       note for a future Latin American mode (content-plan §1.5)
+#   {frCA …}        note for a future Canada (Québec) mode (content-plan §1.5)
 #
-# Spanish word order is freer than English, and the game must never reject a good sentence. What
-# counts as correct:
-#   statements  the neutral order and what speakers really say: time or place at the front, the
-#               subject after the verb. A verb at the very end ("Yo café tomo") is not accepted,
-#               and neither is an object before its verb. Those can be heard for emphasis, but
-#               they are not what a learner should build.
-#   questions   the question word stays right before the verb; everything else may move
-#               (¿Dónde vives tú?, ¿Tú dónde vives?).
-#   pronouns    me, te, lo, la, le, nos, os, se stay right before the verb, as do no and haber.
-# Modes keep their German ids: v2 = statements and wh-questions (A1), janein = yes/no questions
-# (A1), klammer = object pronouns before the verb (A2), nebensatz = indirect questions (B1).
-# Source: all sentences written for the game by the games run (2026-11-06), Castilian Spanish.
+# French word order is much less free than Spanish. What counts as correct:
+#   statements  subject – verb – object – place/time. Fronted adverbials need a comma ("Demain, je
+#               pars"), which cannot sit on a movable tile, so they are not offered. Two adverbials
+#               at the end may swap when both orders are natural ({alt}).
+#   adjectives  BAGS adjectives (beau, bon, grand, petit, joli, vieux, gros …) before the noun, colours
+#               and nationalities after it. Each is its own tile, so the player must place it.
+#   adverbs     short adverbs (bien, déjà, beaucoup, vraiment) between avoir/être and the participle.
+#   questions   one tile set = one form. Inversion with a subject noun ("Où habitent tes parents ?"),
+#               est-ce que + statement order, or intonation ("Tes parents habitent où ?"). Where the
+#               tiles allow several natural orders, all are listed as {alt}.
+#   pronouns    me, te, le, la, les, lui, leur, nous, vous, y, en stand right before the verb (before
+#               avoir/être in the perfect); ne … pas wraps the conjugated verb (je ne travaille pas,
+#               je n'ai pas mangé).
+# Modes keep their ids: v2 = statements and wh-questions, adjectives, adverbs (A1), janein = yes/no
+# questions (A1), klammer = pronouns before the verb and ne … pas (A2), nebensatz = indirect questions (B1).
+# Source: all sentences written for the game by the games run (2026-11-12), French of France.
 
 @v2 A1
-^yo / *vivo / en Madrid . = subject + verb + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^yo / *hablo / tres idiomas . = subject + verb + object {alt 1 2 0} {alt 1 0 2}
-^nosotros / *tenemos / un piso pequeño . = subject + verb + object {alt 1 2 0} {alt 1 0 2} {es419 In much of Latin America: un departamento or un apartamento.}
-^mi hermana / *trabaja / en un hospital . = subject + verb + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^Javier / *juega / al fútbol / los sábados . = subject + verb + object + time {free 1<2}
-^yo / *tomo / café / por las mañanas . = subject + verb + object + time {free 1<2}
-^mis padres / *me visitan / en verano . = subject + pronoun and verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^la tienda / *abre / a las nueve . = subject + verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^ella / *va / al colegio / a pie . = subject + verb + place + how {free 1<2}
-^nosotros / *cenamos / a las nueve . = subject + verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^mi hermano / *es / enfermero . = subject + ser + job {alt 1 2 0}
-^los niños / *están / en el jardín . = subject + estar + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^yo / *quedo / con mis amigos / en un bar / los viernes . = subject + verb + with whom + place + time {free 1<2 1<3}
-^Amina / *estudia / español / en una academia . = subject + verb + object + place {free 1<2}
-^yo / *me levanto / a las siete . = subject + verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^Aitana / *tiene / dos hermanos . = subject + verb + object {alt 1 2 0} {alt 1 0 2}
-^mi piso / *tiene / una cocina grande . = subject + verb + object {alt 1 2 0} {alt 1 0 2} {es419 In much of Latin America: mi departamento or mi apartamento.}
-^yo / *no como / carne . = subject + no and verb + object {alt 1 2 0} {alt 1 0 2}
-^él / *no trabaja / los domingos . = subject + no and verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^ellos / *viven / cerca de la estación . = subject + verb + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^Youssef / *hace / la cena / para su familia . = subject + verb + object + for whom {free 1<2}
-^mi amiga / *da / clases / en un colegio . = subject + verb + object + place {free 1<2}
-^yo / *compro / pan / en el mercado / los sábados . = subject + verb + object + place + time {free 1<2 1<3}
-dónde / *vives / ^tú ? = question word + verb + subject {alt 2 0 1}
-qué / *haces / ^tú / el fin de semana ? = question word + verb + subject + time {free 0-1}
-a qué hora / *abre / ^la tienda ? = question word + verb + subject {alt 2 0 1}
-cómo / *te llamas / ^tú ? = question word + verb + subject {alt 2 0 1}
-cuál / *es / ^tu número de teléfono ? = question word + ser + subject {alt 2 0 1}
-dónde / *están / ^mis llaves ? = question word + estar + subject {alt 2 0 1}
-por qué / *llegas / ^tú / tarde ? = question word + verb + subject + time {free 0-1}
-cuánto / *cuesta / ^esta chaqueta ? = question word + verb + subject {alt 2 0 1}
-dónde / *trabaja / ^tu hermana ? = question word + verb + subject {alt 2 0 1}
-a qué hora / *empieza / ^la película ? = question word + verb + subject {alt 2 0 1}
-cuántos años / *tienen / ^tus hijos ? = question word + verb + subject {alt 2 0 1}
-qué / *desayunas / ^tú ? = question word + verb + subject {alt 2 0 1}
-quién / *es / ^tu profesora ? = question word + ser + subject {alt 2 0 1}
-^qué autobús / *va / a la estación ? = question word with its noun + verb + place {alt 2 0 1} {rule Qué autobús is the subject here, and the verb follows it straight away: ¿Qué autobús va …?}
+^je / *m'appelle / Camille . = My name is Camille.
+^Hugo / *habite / à Lyon . = Hugo lives in Lyon.
+^Léa / *travaille / dans une boulangerie . = Léa works in a bakery.
+^Wei / *joue / au football / au parc / le dimanche . = Wei plays football in the park on Sundays. {alt 0 1 2 4 3}
+^Hugo / *achète / du pain / à la boulangerie / le matin . = Hugo buys bread at the bakery in the morning. {alt 0 1 2 4 3}
+^nous / *avons / un / petit / appartement . = We have a small flat.
+^Inès / *a / une / grande / famille . = Inès has a big family.
+^Karim / *a / une / vieille / voiture . = Karim has an old car.
+^Mamadou / *habite / dans / une / belle / maison . = Mamadou lives in a beautiful house.
+^elle / *porte / un / joli / manteau . = She is wearing a pretty coat.
+^Nathan / *mange / un / bon / sandwich / à midi . = Nathan eats a good sandwich at noon.
+^Fatou / *lit / un / bon / livre . = Fatou is reading a good book.
+^mon voisin / *a / un / gros / chien . = My neighbour has a big dog.
+^Oksana / *a / une / voiture / rouge . = Oksana has a red car. {rule Colours go after the noun: une voiture rouge. But beau, bon, grand, petit, joli, vieux, gros go before it.}
+^Thi Lan / *porte / des / chaussures / noires . = Thi Lan is wearing black shoes. {rule Colours go after the noun: des chaussures noires. But beau, bon, grand, petit, joli, vieux, gros go before it.}
+*j'ai / bien / ~dormi / cette nuit . = I slept well last night. {rule In the perfect, a short adverb like bien goes between avoir and the participle: j'ai bien dormi.}
+^Hugo / *a / bien / ~mangé . = Hugo ate well. {rule In the perfect, a short adverb like bien goes between avoir and the participle: Hugo a bien mangé.}
+^nous / *avons / beaucoup / ~travaillé . = We worked a lot.
+^Léa / *a / déjà / ~fini / son travail . = Léa has already finished her work.
+*j'ai / mal / ~compris / la question . = I misunderstood the question.
+^le train / *est / déjà / ~parti . = The train has already left.
+^Camille / *a / vraiment / ~aimé / le film . = Camille really liked the film.
+^Aïcha / *travaille / souvent / le samedi . = Aïcha often works on Saturdays.
+^Karim / *est / toujours / à l'heure . = Karim is always on time.
+^nous / *dînons / à huit heures . = We have dinner at eight. {frCA In Québec, le déjeuner is breakfast, le dîner is lunch and le souper is the evening meal.}
+où / *habitent / ^tes parents ? = Where do your parents live? {alt 0 2 1} {alt 2 1 0}
+quand / *part / ^le train ? = When does the train leave? {alt 0 2 1} {alt 2 1 0}
+à quelle heure / *ouvre / ^la mairie ? = What time does the town hall open? {alt 0 2 1} {alt 2 1 0}
+où / *travaille / ^ton frère ? = Where does your brother work? {alt 0 2 1} {alt 2 1 0}
+où / est-ce que / ^tu / *travailles ? = Where do you work?
+pourquoi / est-ce que / ^tu / *pars / déjà ? = Why are you leaving already?
+où / est-ce que / ^vous / *habitez ? = Where do you live?
+combien / *coûte / ^ce billet ? = How much does this ticket cost? {alt 2 1 0}
+qu'est-ce que / ^tu / *fais / ce soir ? = What are you doing tonight?
+qui / *est / ^ton médecin ? = Who is your doctor? {alt 2 1 0}
+où / *est / ^la gare ? = Where is the station? {alt 2 1 0}
+quel / *est / ^votre numéro de téléphone ? = What is your phone number?
+comment / *s'appelle / ^votre fils ? = What is your son's name?
 
 @janein A1
-*hablas / ^tú / inglés ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*estás / ^tú / casado ? = estar + subject + adjective {alt 1 0 2} {alt 0 2 1}
-*está / ^este asiento / libre ? = estar + subject + adjective {alt 1 0 2} {alt 0 2 1}
-*vive / ^tu hermano / en Londres ? = verb + subject + place {alt 1 0 2} {alt 0 2 1}
-*tienes / ^tú / un bolígrafo ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*puedo / ~pagar / con tarjeta ? = poder + infinitive + how
-*está / ^el banco / abierto / hoy ? = estar + subject + adjective + time {alt 1 0 2 3} {alt 0 2 1 3} {alt 3 1 0 2} {alt 3 0 1 2} {alt 3 0 2 1}
-*te gusta / ^el café / con leche ? = pronoun and verb + subject + how {alt 1 0 2} {alt 0 2 1}
-*están / ^tus padres / en casa ? = estar + subject + place {alt 1 0 2} {alt 0 2 1}
-*para / ^este autobús / aquí ? = verb + subject + place {alt 1 0 2} {alt 0 2 1}
-*puedes / ~ayudarme / con esto ? = poder + infinitive + with what
-*hace / frío / fuera ? = hacer + weather + place {alt 2 0 1} {alt 0 2 1}
-*trabajan / ^ellos / los domingos ? = verb + subject + time {alt 1 0 2} {alt 0 2 1} {alt 2 0 1} {alt 2 1 0}
-*es / ^tu piso / grande ? = ser + subject + adjective {alt 1 0 2} {alt 0 2 1} {es419 In much of Latin America: tu departamento or tu apartamento.}
-*toca / ^Wei / la guitarra ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*llegamos / ^nosotros / tarde ? = verb + subject + time {alt 1 0 2} {alt 0 2 1}
-*hay / un banco / cerca de aquí ? = hay + noun + place {alt 2 0 1} {alt 0 2 1}
-*hay / huevos / en la nevera ? = hay + noun + place {alt 2 0 1} {alt 0 2 1}
-*necesito / ^yo / un billete ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*va / ^este tren / a Zaragoza ? = verb + subject + place {alt 1 0 2} {alt 0 2 1}
-*eres / ^tú / de Valencia ? = ser + subject + from where {alt 1 0 2} {alt 0 2 1}
+^tu / *viens / ce soir ? = Are you coming tonight? {alt 2 0 1}
+^tu / *travailles / demain ? = Are you working tomorrow? {alt 2 0 1}
+^tu / *veux / un café ? = Do you want a coffee?
+^vous / *êtes / de Marseille ? = Are you from Marseille?
+*il y a / un bus / après minuit ? = Is there a bus after midnight?
+^ça / *coûte / cher ? = Is it expensive?
+est-ce que / ^tu / *viens / ce soir ? = Are you coming tonight?
+est-ce que / ^vous / *acceptez / les cartes ? = Do you take cards?
+est-ce que / ^je / *peux / payer par carte ? = Can I pay by card?
+est-ce que / ^tu / *as / un stylo ? = Do you have a pen?
+est-ce que / ^le médecin / *est / là / aujourd'hui ? = Is the doctor in today?
+*est-ce qu'il y a / une pharmacie / près d'ici ? = Is there a pharmacy near here?
+*parlez-vous / anglais / ici ? = Do you speak English here?
+*avez-vous / un stylo / , s'il vous plaît ? = Do you have a pen, please?
+*habitez-vous / à Paris / depuis longtemps ? = Have you lived in Paris for a long time? {alt 0 2 1}
+*avez-vous / votre passeport / avec vous ? = Do you have your passport with you?
+*voulez-vous / un café / ou un thé ? = Would you like a coffee or a tea?
+*pouvez-vous / ~répéter / , s'il vous plaît ? = Can you repeat that, please?
+*êtes-vous / prêt / pour l'examen ? = Are you ready for the exam?
 
 @klammer A2
-^yo / te / *llamo / mañana . = subject + pronoun + verb + time {free 1-2}
-^Ana / me / *ha / ~dado / las llaves . = subject + pronoun + haber + participle + object {free 1-2 2-3 3<4}
-^nosotros / os / *esperamos / en la estación . = subject + pronoun + verb + place {free 1-2} {es419 Latin America has no vosotros: los esperamos.}
-^el médico / me / *ha / ~dicho / que descanse . = subject + pronoun + haber + participle + what {free 1-2 2-3 3<4}
-^yo / lo / *compro / en el mercado . = subject + pronoun + verb + place {free 1-2}
-^mi madre / nos / *hace / la comida . = subject + pronoun + verb + object {free 1-2 2<3}
-^yo / no / la / *veo / desde el lunes . = subject + no + pronoun + verb + time {free 1-2 2-3}
-^ella / se lo / *da / a Pablo . = subject + se lo + verb + to whom {free 1-2}
-^ellos / nos / *invitan / a cenar . = subject + pronoun + verb + to what {free 1-2 2<3}
-^tú / me / *debes / diez euros . = subject + pronoun + verb + object {free 1-2 2<3}
-^Lucía / te / *ha / ~enviado / un mensaje . = subject + pronoun + haber + participle + object {free 1-2 2-3 3<4}
-^yo / le / *escribo / una carta . = subject + pronoun + verb + object {free 1-2 2<3}
-^el casero / nos / *ha / ~subido / el alquiler . = subject + pronoun + haber + participle + object {free 1-2 2-3 3<4}
-^la médica / me / *receta / unas pastillas . = subject + pronoun + verb + object {free 1-2 2<3}
-^Carmen / no / me / *ha / ~llamado . = subject + no + pronoun + haber + participle {free 1-2 2-3 3-4}
-^mis vecinos / me / *saludan / siempre . = subject + pronoun + verb + how often {free 1-2}
-^yo / se la / *mando / esta tarde . = subject + se la + verb + time {free 1-2}
-^Iker / lo / *ha / ~arreglado / esta mañana . = subject + pronoun + haber + participle + time {free 1-2 2-3 3<4}
-^yo / las / *he / ~dejado / en casa . = subject + pronoun + haber + participle + place {free 1-2 2-3 3<4}
+^je / le / *vois / tous les jours . = I see him every day.
+^je / lui / *parle / souvent . = I often talk to him.
+^je / ne / le / *vois / pas . = I do not see him.
+^elle / me / *téléphone / tous les soirs . = She phones me every evening.
+^Hugo / nous / *a / ~invités / chez lui . = Hugo invited us to his place.
+^il / me / *l'a / ~donné / hier . = He gave it to me yesterday.
+^le médecin / me / *l'a / ~dit / hier . = The doctor told me yesterday.
+^je / ne / *travaille / pas / le dimanche . = I do not work on Sundays.
+^nous / *n'avons / pas / ~mangé / ce midi . = We did not eat at lunchtime today.
+^je / *n'ai / pas / ~dormi / cette nuit . = I did not sleep last night.
+^Camille / ne / *répond / jamais / au téléphone . = Camille never answers the phone.
+^ils / ne / *parlent / plus / français . = They no longer speak French.
+^Karim / *n'a / pas / ~compris / la question . = Karim did not understand the question.
+^je / vous / *envoie / le dossier / demain . = I will send you the file tomorrow.
+^je / leur / *donne / les clés . = I give them the keys.
+^Mamadou / y / *va / en bus . = Mamadou goes there by bus.
+^nous / en / *avons / deux . = We have two (of them).
+^je / *l'ai / ~vue / hier . = I saw her yesterday. {rule La becomes l' before ai, and the participle agrees with the feminine object: je l'ai vue.}
+^Inès / ne / *l'a / pas / ~appelé . = Inès did not call him.
+^le propriétaire / ne / nous / *a / pas / ~répondu . = The landlord has not answered us.
+^je / ne / lui / *ai / pas / ~écrit . = I did not write to him.
+^la CAF / *m'a / ~envoyé / un courrier . = The CAF sent me a letter.
+^la préfecture / nous / *a / ~donné / un rendez-vous . = The préfecture gave us an appointment.
+^Wei / ne / *prend / pas / le métro . = Wei does not take the metro.
+^je / vous / *rappelle / dans cinq minutes . = I will call you back in five minutes.
+^je / *n'ai / jamais / ~vu / ce film . = I have never seen this film.
 
 @nebensatz B1
-puedes decirme / dónde / *está / ^la estación ? = polite question + question word + verb + subject
-no sé / cómo / *se llama / ^él . = main clause + question word + verb + subject
-sabes / cuándo / *empieza / ^la película ? = main clause + question word + verb + subject
-me pregunto / si / *va a llover / mañana . = main clause + si + verb + time
-puede decirme / cuánto / *cuesta / ^esto ? = polite question + question word + verb + subject
-no recuerdo / dónde / *he dejado / las llaves . = main clause + question word + verb + object
-sabes / quién / *es / ^ese hombre ? = main clause + question word + ser + subject
-no me acuerdo / a qué hora / *sale / ^el autobús . = main clause + question word + verb + subject
-me preguntó / dónde / *vivía / ^yo . = main clause + question word + verb + subject
-puedes decirme / por qué / *llega / ^el tren / tarde ? = polite question + question word + verb + subject + time {alt 0 1 2 4 3}
-quiero saber / cómo / *funciona / ^esta máquina . = main clause + question word + verb + subject
-sabes / si / ^el banco / *está abierto ? = main clause + si + subject + verb {alt 0 1 3 2}
-quiere saber / cuándo / *venís / ^vosotros . = main clause + question word + verb + subject {es419 Latin America has no vosotros: cuándo vienen ustedes.}
-no tengo ni idea / de qué / *habla / ^ella . = main clause + question word + verb + subject
-puede decirme / de qué andén / *sale / ^el tren ? = polite question + question word + verb + subject
-no entiendo / por qué / *está enfadado / ^él . = main clause + question word + verb + subject {alt 0 1 3 2}
-dime / qué / *piensas / ^tú . = main clause + question word + verb + subject
-nadie sabe / adónde / *ha ido / ^el gato . = main clause + question word + verb + subject
-pregunté / si / ^la tienda / *estaba abierta . = main clause + si + subject + verb {alt 0 1 3 2}
-te acuerdas de / dónde / *aparcamos / el coche ? = main clause + question word + verb + object {es419 In much of Latin America: dónde estacionamos el carro.}
+pouvez-vous me dire / où / *est / ^la gare ? = Can you tell me where the station is?
+je ne sais pas / comment / ^il / *s'appelle . = I do not know what he is called.
+savez-vous / à quelle heure / ^la mairie / *ouvre ? = Do you know what time the town hall opens? {alt 0 1 3 2}
+je me demande / s'il / *va / ~pleuvoir / demain . = I wonder if it will rain tomorrow.
+pouvez-vous m'expliquer / comment / ^cette machine / *fonctionne ? = Can you explain how this machine works? {alt 0 1 3 2}
+je voudrais savoir / combien / ^ça / *coûte . = I would like to know how much it costs.
+dites-moi / où / ^vous / *habitez . = Tell me where you live.
+je ne me souviens plus / où / *j'ai / ~laissé / mes clés . = I no longer remember where I left my keys.
+il m'a demandé / pourquoi / *j'étais / en retard . = He asked me why I was late.
+savez-vous / quand / ^le médecin / *revient ? = Do you know when the doctor is coming back? {alt 0 1 3 2}
+je ne comprends pas / pourquoi / ^le train / *est / en retard . = I do not understand why the train is late.
+pouvez-vous me dire / de quel quai / ^le train / *part ? = Can you tell me which platform the train leaves from? {alt 0 1 3 2}
+dites-moi / si / ^la pharmacie / *est / ouverte . = Tell me whether the pharmacy is open.
+je voudrais savoir / ce que / ^vous / *faites / demain . = I would like to know what you are doing tomorrow.
+elle ne sait pas / avec qui / ^il / *travaille . = She does not know who he works with.
+je ne sais pas / s'il / *a / ~appelé / hier . = I do not know whether he called yesterday.
+peux-tu me dire / depuis quand / ^tu / *habites / ici ? = Can you tell me how long you have lived here?
+je me demande / où / ^Hugo / *a / ~garé / sa voiture . = I wonder where Hugo parked his car.
+pouvez-vous me dire / à qui / ^je / *dois / ~m'adresser ? = Can you tell me who I should speak to?

@@ -1,5 +1,5 @@
 // Everything in the Nachschlagewerk as one flat list of entries, for the search box on
-// /reference and the "Nachschlagewerk" hits in the nav search (searchIndex.js).
+// /consultazione and the "Nachschlagewerk" hits in the nav search (searchIndex.js).
 //
 // An entry is [label, sub, href, kind, keys]: what the row says, a short preview, where it
 // goes, which page it belongs to (KINDS), and extra words it is found by ("ging" for gehen),
@@ -52,10 +52,10 @@ export function nachschlagenEntries(_opts = {}) {
     }
   }
   for (const c of wortarten.classes) {
-    out.push([c.name, c.also ?? "", `/grammar/parts-of-speech#${c.id}`, "wortart", c.also ?? ""]);
+    out.push([c.name, c.also ?? "", `/grammatica/parti-del-discorso#${c.id}`, "wortart", c.also ?? ""]);
   }
   for (const p of fehlerPairs) {
-    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammar/common-mistakes#${p.id}`, "fehler", ""]);
+    out.push([`${p.a.w} or ${p.b.w}`, strip(p.why ?? ""), `/grammatica/errori-comuni#${p.id}`, "fehler", ""]);
   }
   return out;
 }

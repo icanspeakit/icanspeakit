@@ -59,7 +59,7 @@ export async function writeSitemap(root, site, logger = console) {
     if (NOINDEX.test(head) || REFRESH.test(head)) { skipped++; continue; }
     const alts = [...head.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)].map((m) => [m[1], m[2]]);
     const canonical = alts.length ? head.match(/<link rel="canonical" href="([^"]+)">/)?.[1] : null;
-    // Site path → https://icanspeak.it/spanish/… (src/lib/paths.js); `site` only says one is set.
+    // Site path → https://icanspeak.it/italiano/… (src/lib/paths.js); `site` only says one is set.
     entries.push({ loc: canonical ?? absoluteUrl(pathname), alts });
   }
   entries.sort((a, b) => a.loc.length - b.loc.length || a.loc.localeCompare(b.loc));

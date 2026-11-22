@@ -1,7 +1,10 @@
 ---
 import "../styles/global.css";
+import ConsentBanner from "../components/ConsentBanner.astro";
+import "../styles/brand.css";
 import LanguageOffer from "../components/LanguageOffer.astro";
-import PartOfIcanspeak from "../components/PartOfIcanspeak.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { footerFor } from "../lib/navFooter.js";
 // The paywall kill switch (src/lib/access.js). Only rendered when on, so with it off the
 // HTML is what it was before the paywall existed.
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
@@ -41,25 +44,25 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /spanish-for-work/care-work, or a top-level grammar topic that belongs
-      under /grammar). Start and the page itself are added. */
+      them (a dynamic parent such as /italiano-per-il-lavoro/care-work, or a top-level grammar topic that belongs
+      under /grammatica). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
       GA and the Meta Pixel never load. For pages that promise it. */
   noTracking?: boolean;
-  /** The slim "part of icanspeak.it" row at the very bottom (PartOfIcanspeak.astro). Off for
-      a page whose own footer already carries it (the home page). */
-  umbrella?: boolean;
+  /** The site footer (SiteFooter.astro). Unset = by route (footerFor in src/lib/navFooter.js);
+      "none" for a page that carries its own. */
+  footer?: "full" | "slim" | "none";
 }
 
 const {
-  title = "icanspeak Spanish – learn the Spanish of Spain for free: DELE, SIELE, CCSE",
-  description = "Learn Spanish as it is spoken in Spain, from A1 to C1: free grammar, vocabulary and practice for the DELE, the SIELE and the CCSE.",
+  title = "icanspeak Italian – learn Italian for free, A1 to C1: CILS, CELI, PLIDA, CERT.IT",
+  description = "Learn standard Italian from A1 to C1 for life, work and citizenship in Italy: free grammar, vocabulary and practice for CILS, CELI, PLIDA and CERT.IT.",
   noindex = false,
   schema,
   breadcrumb,
   noTracking = false,
-  umbrella = true,
+  footer: footerProp,
 } = Astro.props;
 
 // Open Graph / Twitter. There were none, so every link anyone pasted into WhatsApp,
@@ -74,8 +77,10 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-// The site path without the base (/spanish/grammar → /grammar, src/lib/paths.js): routes,
+// The site path without the base (/italiano/grammatica → /grammatica, src/lib/paths.js): routes,
 // hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
+// The site footer by route (src/lib/navFooter.js), since 2026-11-16; a page may set its own.
+const footer = footerProp ?? footerFor(stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/");
 const route = stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/";
 const hubOg = Object.values(hubBilder as Record<string, { path: string; og: string; alt: string }>)
   .find((h) => h.path === route);
@@ -83,13 +88,13 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
 // (`pnpm hubs:build --force`, which needs the original photos), every page shares the default
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
-const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
-const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Spanish – learn the Spanish of Spain for free";
+const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/og/og-default.png";
+const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Italian – learn Italian for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
 // collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
-// The home page is https://icanspeak.it/spanish/ (with the slash: it is a folder of the domain).
+// The home page is https://icanspeak.it/italiano/ (with the slash: it is a folder of the domain).
 const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 
 // Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
@@ -97,7 +102,7 @@ const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 // own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
 const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
-const pageName = title.replace(/\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/, "");
+const pageName = title.replace(/\s+[–|-]\s+(icanspeak Italian|icanspeak)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
@@ -118,7 +123,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {canonical && !noindex && <link rel="canonical" href={canonical} />}
     <!-- Rights reservation for text and data mining (§ 44b UrhG, TDMRep). Same reservation as
-         robots.txt, public/.well-known/tdmrep.json and /terms. -->
+         robots.txt, public/.well-known/tdmrep.json and /condizioni. -->
     <meta name="tdm-reservation" content="1" />
     <!-- No "Translate this page?" prompt from Chrome or Edge.
 
@@ -137,7 +142,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /spanish-for-work and
+         on iOS ignores the meta tag but honours the attribute; it translated a work page and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (NotFoundError on insertBefore; the same translation also loaded its CSS from
          www.gstatic.com). -->
@@ -297,19 +302,21 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          icon changes.
          `rel="shortcut icon"` was dropped: it is a non-standard legacy alias for
          `rel="icon"` and adds a second, competing declaration for the same file. -->
-    <!-- The icanspeak.it kit (public/logos, docs/brand/BRAND.md): SVG favicon for current
+    <!-- The icanspeak kit (brand/kit/icons, BRAND.md §2: the split i): SVG favicon for current
          browsers, the .ico for the rest, the app icon for home screens. -->
-    <link rel="icon" href={withBase("/logos/favicon.ico?v=4")} sizes="32x32" />
-    <link rel="icon" type="image/svg+xml" href={withBase("/logos/favicon.svg?v=4")} />
-    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/logos/icanspeak-spanish-apple-touch-icon.png?v=4")} />
-    <link rel="manifest" href={withBase("/site.webmanifest?v=4")} />
+    <link rel="icon" href={withBase("/favicon.ico?v=5")} sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg?v=5")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={withBase("/favicon-32x32.png?v=5")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={withBase("/favicon-16x16.png?v=5")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png?v=5")} />
+    <link rel="manifest" href={withBase("/site.webmanifest?v=5")} />
     <!-- The warm paper of the page (--page-bg in global.css), so the browser chrome runs
          into the page as on icanspeak.it. -->
-    <meta name="theme-color" content="#fbf7ef" />
+    <meta name="theme-color" content="#172a6e" />
     <script is:inline>
       (function () {
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#16130f");
+        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#0f141b");
       })();
     </script>
     <!-- Brand fonts, self-hosted: Fraunces (headings) and Inter (body/UI) from
@@ -317,10 +324,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          Nothing is fetched from fonts.googleapis.com. Preload the two faces that paint
          above the fold on almost every page. -->
     <link rel="preload" href={withBase("/fonts/icanspeak/inter-latin-400-normal.woff2")} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-500-normal.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-900-normal.woff2")} as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href={withBase("/fonts/icanspeak/fonts.css")} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="icanspeak Spanish" />
+    <meta property="og:site_name" content="icanspeak Italian" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -341,12 +348,8 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
   <body>
     <LanguageOffer />
     <slot />
-    {umbrella && (
-      <footer class="umbrella-row">
-        <PartOfIcanspeak />
-      </footer>
-    )}
-    {/* A lesson is running (/teachers/lesson): its bar and clock come along to every
+    {footer !== "none" && <SiteFooter size={footer} paywall={PAYWALL} />}
+    {/* A lesson is running (/insegnanti/lezione): its bar and clock come along to every
         page opened from it. Only the localStorage copy is read here; the module loads only
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
@@ -355,10 +358,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
-        if (running && !currentPath().startsWith("/teachers/lesson")) {
+        if (running && !currentPath().startsWith("/insegnanti/lezione")) {
           import("../lib/unterricht/leiste.js").then((m) => m.boot()).catch(() => {});
-        } else if (!running && lernt && currentPath() !== "/lesson") {
-          // A learner's Stunde (/lesson): the same bar in its learner mode. A teacher session
+        } else if (!running && lernt && currentPath() !== "/lezione") {
+          // A learner's Stunde (/lezione): the same bar in its learner mode. A teacher session
           // on the same device wins (the learner's stays stored).
           import("../lib/unterricht/leiste.js").then((m) => m.bootLern()).catch(() => {});
         }
@@ -372,12 +375,14 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <script>import "../lib/jumpNav.js";</script>
     {/* Not-ready buttons stay tappable and say what is missing (src/lib/notReady.js). */}
     <script>import "../lib/notReady.js";</script>
+    {/* Every <audio controls> gets our player: the position dot always visible (src/lib/audioPlayer.js). */}
+    <script>import "../lib/audioPlayer.js";</script>
     {/* The live quiz goes on the projector: every link to it (nav, Lehrkräfte hub, a page's
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
-        Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
+        Inside the quiz pages themselves (builder, /gioco) links keep the same tab. */}
     {(
       <script is:inline define:vars={{ BASE_PATH }}>
-        // Paths compared without the base (/spanish, src/lib/paths.js).
+        // Paths compared without the base (/italiano, src/lib/paths.js).
         const strip = (p) => (p === BASE_PATH || p.startsWith(BASE_PATH + "/") ? p.slice(BASE_PATH.length) || "/" : p);
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
@@ -391,20 +396,29 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
           }
           if (a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
+          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/insegnanti/quiz") return;
           const here = strip(location.pathname);
-          if (here.startsWith("/teachers/quiz") || here.startsWith("/game")) return;
+          if (here.startsWith("/insegnanti/quiz") || here.startsWith("/gioco")) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);
       </script>
+    )}
+    {!noTracking && (
+      // PostHog, and the consent banner that decides cookieless or replay (src/lib/analytics.js).
+      // Pages with noTracking skip both.
+      <ConsentBanner app="italian" privacyHref={withBase("/privacy")} />
     )}
     <script>
       import { initI18n } from "../lib/i18n.js";
       import { currentPath } from "../lib/paths.js";
       import "../styles/mascot-celebrate.css";
       import "../styles/touchpoints.css";
+      import { initAnalytics } from "../lib/analytics.js";
       initI18n();
+      // PostHog for this course. ConsentBanner starts it too (same app name, and initAnalytics
+      // runs only once per page); pages with noTracking have no banner and stay untracked.
+      if (document.querySelector("[data-consent]")) initAnalytics("italian");
       // Which language entry page (/es/, /pt-br/ …, src/integrations/entry-pages.mjs) brought
       // the visitor: one event per view, sent like every other (consent in analytics.js).
       const entryLang = document.documentElement.dataset.entryLang;
@@ -421,7 +435,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         window.addEventListener(type, (e) => { tips().then((m) => m.handle(e as CustomEvent)); });
       }
       try {
-        const onProgress = currentPath().startsWith("/progress");
+        const onProgress = currentPath().startsWith("/progressi");
         if (localStorage.getItem("da-tips-v1") == null || onProgress) {
           tips().then((m) => { m.noteVisit(); if (onProgress) m.markProgressSeen(); });
         }

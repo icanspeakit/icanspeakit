@@ -1,8 +1,9 @@
 // check:knigge — the scenes of the Manners Simulator (src/lib/knigge/scenes.js) hold together:
-// every option has Spanish, English help and a why; deltas follow the bands of the file's header;
-// Spanish opens what it closes (¿ ¡); reactions are translated unless they are only a stage
-// direction; a wheel's people have a hidden taste; `more` links exist; nothing the player says,
-// and nothing said to the player, carries a gender. Runs in check:content; exit 1 on any error.
+// every option has Italian, English help and a why; deltas follow the bands of the file's header;
+// no Spanish/English leftovers (¿ ¡ ñ, vosotros, Señor, pub …); reactions are translated unless
+// they are only a stage direction; a wheel's people have a hidden taste; `more` links exist;
+// nothing the player says, and nothing said to the player, carries a gender.
+// Runs in check:content; exit 1 on any error.
 import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -14,20 +15,25 @@ const kultur = JSON.parse(readFileSync(ROOT + "src/data/kultur.json", "utf8"));
 const errors = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
 
-// Spanish with the parenthesised English stage directions taken out.
+// Italian with the parenthesised English stage directions taken out.
 const spanish = (s) => (s ?? "").replace(/\([^)]*\)/g, "").trim();
+// Spanish has no place in the Italian lines: ¿ ¡ ñ and typical Spanish words.
 function marks(where, s) {
-  const text = spanish(s);
-  if (/\?/.test(text) && !text.includes("¿")) err(where, `¿ fehlt: ${s}`);
-  if (/!/.test(text) && !text.includes("¡")) err(where, `¡ fehlt: ${s}`);
+  if (/[¿¡ñ]/.test(s ?? "")) err(where, `Spanisches Zeichen: ${s}`);
 }
-// Forms that would need to know the player's (or Álex's) gender.
-const GENDERED = /(?<!la )\bbienvenid[oa]s?\b|\bencantad[oa]\b|\b(estoy|soy|eres|estás)\s+(muy\s+)?(nuev|cansad|reventad|list|segur|maj|sincer|despiert|llen|tranquil)[oa]\b|\bqué\s+maj[oa]\b/i;
-const LEFTOVER = /\b(Mr|Mrs|Ms|pub|pint|queue|lift)\b|£|British|England|Britain|\bUK\b/;
+// Forms that would need to know the player's (or Alex's) gender: benvenuto/a, contento/a,
+// stanco/a, nuovo/a, sicuro/a … after sono/sei/è, and participles with essere (sono andato/a).
+const GENDERED = new RegExp(
+  "\\bbenvenut[oa]\\b|\\b(sono|sei|mi sento|ti senti)\\s+(molto\\s+|davvero\\s+|proprio\\s+|troppo\\s+|un po'\\s+|così\\s+)?" +
+  "(content|stanc|nuov|sicur|pront|sincer|tranquill|preoccupat|arrabbiat|dispiaciut|abituat|riposat|impegnat|liber|invitat|arrivat|andat|venut|rimast|uscit|entrat|tornat|cresciut|nat|stat|perd)[oa]\\b|" +
+  "\\b(sono|sei) (perso|persa)\\b|\\bmi sono (perso|persa|trasferit[oa]|innamorat[oa]|sbagliat[oa]|svegliat[oa]|alzat[oa])\\b",
+  "i",
+);
+const LEFTOVER = /[¿¡ñ]|\b(vosotros|vosotras|usted|ustedes|Señor|Señora|gracias|hola|buenos|buenas|tío|tía|vale|Mr|Mrs|Ms|pub|pint|queue|lift)\b|£|British|England|Britain|\bUK\b/i;
 
-const culture = new Set(Object.values(ITEM_SLUGS["/culture/insider"] ?? {}).map((s) => `/culture/insider/${s}`));
+const culture = new Set(Object.values(ITEM_SLUGS["/cultura/dietro-le-quinte"] ?? {}).map((s) => `/cultura/dietro-le-quinte/${s}`));
 const topics = Array.isArray(kultur) ? kultur : kultur.topics ?? Object.values(kultur).find(Array.isArray);
-for (const x of topics ?? []) culture.add(`/culture/${ITEM_SLUGS["/culture"]?.[x.id] ?? x.id}`);
+for (const x of topics ?? []) culture.add(`/cultura/${ITEM_SLUGS["/cultura"]?.[x.id] ?? x.id}`);
 
 const topicIds = new Set(TOPICS.map((t) => t.id));
 for (const t of TOPICS) {
@@ -37,6 +43,7 @@ for (const t of TOPICS) {
     if (!t.sayEn?.[k]?.trim()) err(T, `sayEn.${k} fehlt`);
     marks(T, t.say?.[k]);
     if (GENDERED.test(t.say?.[k] ?? "")) err(T, `Form mit Genus: ${t.say[k]}`);
+    if (LEFTOVER.test(t.say?.[k] ?? "")) err(T, `Rest aus dem Spanischen/Englischen: ${t.say[k]}`);
   }
   for (const [kind, line] of Object.entries(t.re ?? {})) {
     if (!t.reEn?.[kind]?.trim()) err(T, `reEn.${kind} fehlt`);
@@ -64,7 +71,8 @@ for (const area of AREAS) {
       if (tu.npc) {
         marks(T, tu.npc);
         if (!tu.en?.trim()) err(T, "npc ohne en");
-        if (GENDERED.test(tu.npc) && !/reventado/.test(tu.npc)) err(T, `Form mit Genus: ${tu.npc}`);
+        if (GENDERED.test(tu.npc) && !/distrutto/.test(tu.npc)) err(T, `Form mit Genus: ${tu.npc}`);
+        if (LEFTOVER.test(tu.npc)) err(T, `Rest aus dem Spanischen/Englischen: ${tu.npc}`);
       }
       if (tu.wheel) {
         if (!tu.situation) err(T, "Rad ohne situation");
@@ -91,7 +99,7 @@ for (const area of AREAS) {
         if (GENDERED.test(spanish(o.de))) err(O, "Form mit Genus");
         if (GENDERED.test(spanish(o.react))) err(O, `Form mit Genus: ${o.react}`);
         if (LEFTOVER.test(spanish(o.de) + " " + spanish(o.react))) err(O, "Rest aus dem Englischkurs");
-        if (/£|British|Britain|England|\bUK\b/.test(`${o.why} ${o.en}`)) err(O, "Rest aus dem Englischkurs");
+        if (/£|British|Britain|England|\bUK\b|Spain|Spanish|\busted\b|\btú\b/.test(`${o.why} ${o.en}`)) err(O, "Rest aus dem Englischkurs");
       }
     }
   }

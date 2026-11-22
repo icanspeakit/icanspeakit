@@ -1,84 +1,146 @@
 {
-  "_note": "Sentences for /pronunciation-check, Castilian Spanish, A1–B1. Each sentence practises one or more sounds (focus: the ids in src/lib/ausspracheTipps.js; pnpm check:aussprache checks that a word of the sentence has each one). Ids are the old slot ids (content-plan §1.3; the beginner path refers to them as aussprache:<id>). `audio` is set to true once the reference recording is in public/audio/aussprache-check/<id>.mp3; until then the browser voice (es-ES) reads the sentence. `stress` (optional): the stressed syllable of a word in capitals, for the sentence-melody tip (src/lib/satzmelodie.js). The key is the word exactly as it is written in the sentence.",
+  "_note": "Sentences for /verifica-pronuncia, standard Italian, A1–B1. Each sentence practises one or more sounds (focus: the ids in src/lib/ausspracheTipps.js; pnpm check:aussprache checks that a word of the sentence has each one). Ids are the old slot ids (content-plan §1.3; the beginner path refers to them as aussprache:<id>), so some no longer describe the sentence. Written original for this course. `audio` is set to true once the reference recording is in public/audio/aussprache-check/<id>.mp3; until then the browser voice (it-IT) reads the sentence. `stress` (optional): the stressed syllable of a word in capitals, for the sentence-melody tip (src/lib/satzmelodie.js). The key is the word exactly as it is written in the sentence. `regional` (optional): a difference the learner meets in daily life; there is no second mode.",
   "levels": [
     {
       "level": "A1",
       "sentences": [
         {
           "id": "a1-broetchen",
-          "variety": "es-ES",
-          "es419": { "note": "In most of Latin America: un sándwich." },
-          "text": "Quiero dos bocadillos de queso, por favor.",
-          "focus": ["ll-y", "qu-gu"],
-          "audio": false,
-          "stress": { "bocadillos": "bo-ca-DI-llos" }
+          "variety": "it-IT",
+          "regional": {
+            "note": "The bread roll has local names (rosetta in Rome, michetta in Milan), but panino works everywhere.",
+            "area": "general"
+          },
+          "text": "Vorrei due panini al formaggio, per favore.",
+          "focus": [
+            "doppie",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "panini": "pa-NI-ni",
+            "formaggio": "for-MAG-gio",
+            "favore": "fa-VO-re"
+          }
         },
         {
           "id": "a1-tuer",
-          "variety": "es-ES",
-          "text": "Este es mi hermano, Carlos.",
-          "focus": ["h", "r"],
-          "audio": false,
-          "stress": { "hermano": "her-MA-no" }
+          "variety": "it-IT",
+          "text": "Questo è mio fratello, Marco.",
+          "focus": [
+            "qu",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "Questo": "QUE-sto",
+            "fratello": "fra-TEL-lo",
+            "Marco": "MAR-co"
+          }
         },
         {
           "id": "a1-wohnung",
-          "variety": "es-ES",
-          "es419": { "note": "un apartamento or departamento for piso; centro with seseo: c sounds like s." },
-          "text": "Vivimos en un piso pequeño en el centro.",
-          "focus": ["b-v", "enye", "ce-zi"],
-          "audio": false,
-          "stress": { "Vivimos": "vi-VI-mos", "pequeño": "pe-QUE-ño", "centro": "CEN-tro" }
+          "variety": "it-IT",
+          "text": "Abitiamo in un piccolo appartamento in centro.",
+          "focus": [
+            "doppie",
+            "c-g"
+          ],
+          "audio": true,
+          "stress": {
+            "Abitiamo": "a-bi-TIA-mo",
+            "piccolo": "PIC-co-lo",
+            "appartamento": "ap-par-ta-MEN-to",
+            "centro": "CEN-tro"
+          }
         },
         {
           "id": "a1-fussball",
-          "variety": "es-ES",
-          "text": "Jugamos al fútbol todos los domingos.",
-          "focus": ["j-g", "acento", "d"],
-          "audio": false,
-          "stress": { "fútbol": "FÚT-bol", "domingos": "do-MIN-gos" }
+          "variety": "it-IT",
+          "text": "Giochiamo a calcio ogni sabato.",
+          "focus": [
+            "c-g",
+            "gn"
+          ],
+          "audio": true,
+          "stress": {
+            "Giochiamo": "gio-CHIA-mo",
+            "calcio": "CAL-cio",
+            "sabato": "SA-ba-to"
+          }
         },
         {
           "id": "a1-deutsch",
-          "variety": "es-ES",
-          "text": "Hablo un poco de español.",
-          "focus": ["h", "enye", "vocal"],
-          "audio": false,
-          "stress": { "Hablo": "HA-blo", "español": "es-pa-ÑOL" }
+          "variety": "it-IT",
+          "text": "Parlo un po' di italiano.",
+          "focus": [
+            "r",
+            "vocal"
+          ],
+          "audio": true,
+          "stress": {
+            "Parlo": "PAR-lo",
+            "italiano": "i-ta-LIA-no"
+          }
         },
         {
           "id": "a1-maedchen",
-          "variety": "es-ES",
-          "text": "Mi hermana tiene un gato negro.",
-          "focus": ["h", "r", "vocal"],
-          "audio": false,
-          "stress": { "hermana": "her-MA-na", "negro": "NE-gro" }
+          "variety": "it-IT",
+          "text": "Mia sorella ha un gatto nero.",
+          "focus": [
+            "h",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "sorella": "so-REL-la",
+            "gatto": "GAT-to",
+            "nero": "NE-ro"
+          }
         },
         {
           "id": "a1-stuttgart",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the z of Zaragoza sounds like s." },
-          "text": "Tres amigos míos viven en Zaragoza.",
-          "focus": ["ce-zi", "r", "b-v"],
-          "audio": false,
-          "stress": { "amigos": "a-MI-gos", "Zaragoza": "Za-ra-GO-za" }
+          "variety": "it-IT",
+          "text": "Tre miei amici abitano a Torino.",
+          "focus": [
+            "c-g",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "amici": "a-MI-ci",
+            "abitano": "A-bi-ta-no",
+            "Torino": "To-RI-no"
+          }
         },
         {
           "id": "a1-frage-zeit",
-          "variety": "es-ES",
-          "text": "¿Estás libre mañana por la mañana?",
-          "focus": ["enye", "r", "acento"],
-          "audio": false,
-          "stress": { "libre": "LI-bre", "mañana": "ma-ÑA-na" }
+          "variety": "it-IT",
+          "text": "Sei libero domani mattina?",
+          "focus": [
+            "doppie",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "libero": "LI-be-ro",
+            "domani": "do-MA-ni",
+            "mattina": "mat-TI-na"
+          }
         },
         {
           "id": "a1-frage-tee",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the z of taza sounds like s." },
-          "text": "¿Quieres una taza de té?",
-          "focus": ["qu-gu", "ce-zi"],
-          "audio": false,
-          "stress": { "Quieres": "QUIE-res", "taza": "TA-za" }
+          "variety": "it-IT",
+          "text": "Vuoi una tazza di tè?",
+          "focus": [
+            "z",
+            "acento"
+          ],
+          "audio": true,
+          "stress": {
+            "Vuoi": "VUOI",
+            "tazza": "TAZ-za"
+          }
         }
       ]
     },
@@ -87,98 +149,173 @@
       "sentences": [
         {
           "id": "a2-muenchen",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the c of Barcelona sounds like s." },
-          "text": "Mañana voy a Barcelona en tren.",
-          "focus": ["enye", "ce-zi", "r"],
-          "audio": false,
-          "stress": { "Mañana": "Ma-ÑA-na", "Barcelona": "Bar-ce-LO-na" }
+          "variety": "it-IT",
+          "text": "Domani vado a Milano in treno.",
+          "focus": [
+            "r",
+            "vocal"
+          ],
+          "audio": true,
+          "stress": {
+            "Domani": "Do-MA-ni",
+            "Milano": "Mi-LA-no",
+            "treno": "TRE-no"
+          }
         },
         {
           "id": "a2-strasse",
-          "variety": "es-ES",
-          "text": "Las calles están muy tranquilas en invierno.",
-          "focus": ["ll-y", "qu-gu", "b-v"],
-          "audio": false,
-          "stress": { "tranquilas": "tran-QUI-las", "invierno": "in-VIER-no" }
+          "variety": "it-IT",
+          "text": "Le strade sono molto tranquille d'inverno.",
+          "focus": [
+            "qu",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "strade": "STRA-de",
+            "tranquille": "tran-QUIL-le",
+            "inverno": "in-VER-no"
+          }
         },
         {
           "id": "a2-sport",
-          "variety": "es-ES",
-          "text": "Perdona, pero esta semana no tengo tiempo para el perro.",
-          "focus": ["r", "vocal"],
-          "audio": false,
-          "stress": { "Perdona": "Per-DO-na", "semana": "se-MA-na" }
+          "variety": "it-IT",
+          "text": "Mi dispiace, ma questa settimana non ho tempo per lo sport.",
+          "focus": [
+            "h",
+            "doppie",
+            "st-sp"
+          ],
+          "audio": true,
+          "stress": {
+            "dispiace": "di-SPIA-ce",
+            "settimana": "set-ti-MA-na",
+            "sport": "SPORT"
+          }
         },
         {
           "id": "a2-carro",
-          "variety": "es-ES",
-          "es419": { "note": "In Latin America el carro usually means the car; for shopping: el carrito." },
-          "text": "El carro de la compra no es caro.",
-          "focus": ["r"],
-          "audio": false,
-          "stress": { "carro": "CA-rro", "caro": "CA-ro" }
+          "variety": "it-IT",
+          "text": "Il carrello è nuovo, ma non è caro.",
+          "focus": [
+            "r",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "carrello": "car-REL-lo",
+            "caro": "CA-ro",
+            "nuovo": "NUO-vo"
+          }
         },
         {
           "id": "a2-casa-caza",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo, casa and caza sound the same." },
-          "text": "Mi abuelo tiene una casa en el campo y le gusta la caza.",
-          "focus": ["ce-zi", "b-v"],
-          "audio": false,
-          "stress": { "abuelo": "a-BUE-lo", "campo": "CAM-po" }
+          "variety": "it-IT",
+          "regional": {
+            "note": "In the north casa is said with a voiced s (like z); in the centre and south it is voiceless. Both are fine.",
+            "area": "general"
+          },
+          "text": "Compro una cassa d'acqua e la porto a casa.",
+          "focus": [
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "Compro": "COM-pro",
+            "cassa": "CAS-sa",
+            "casa": "CA-sa"
+          }
         },
         {
           "id": "a2-rechnung",
-          "variety": "es-ES",
-          "text": "¿Puedes enviarme la factura por correo electrónico?",
-          "focus": ["r", "b-v", "acento"],
-          "audio": false,
-          "stress": { "factura": "fac-TU-ra", "electrónico": "e-lec-TRÓ-ni-co" }
+          "variety": "it-IT",
+          "text": "Può mandarmi la fattura per e-mail?",
+          "focus": [
+            "acento",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "mandarmi": "man-DAR-mi",
+            "fattura": "fat-TU-ra"
+          }
         },
         {
           "id": "a2-fruehling",
-          "variety": "es-ES",
-          "text": "En primavera hay muchas flores en el parque.",
-          "focus": ["h", "ch", "qu-gu"],
-          "audio": false,
-          "stress": { "primavera": "pri-ma-VE-ra", "flores": "FLO-res" }
+          "variety": "it-IT",
+          "text": "In primavera ci sono molti fiori nel parco.",
+          "focus": [
+            "c-g",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "primavera": "pri-ma-VE-ra",
+            "fiori": "FIO-ri",
+            "parco": "PAR-co"
+          }
         },
         {
           "id": "a2-husten",
-          "variety": "es-ES",
-          "es419": { "note": "Most of Latin America says me dio here, not me ha dado." },
-          "text": "El médico me ha dado unas pastillas para la tos.",
-          "focus": ["acento", "d", "ll-y"],
-          "audio": false,
-          "stress": { "médico": "MÉ-di-co", "pastillas": "pas-TI-llas" }
+          "variety": "it-IT",
+          "text": "Il medico mi ha dato delle pastiglie per la tosse.",
+          "focus": [
+            "gl",
+            "h",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "medico": "ME-di-co",
+            "pastiglie": "pa-STI-glie",
+            "tosse": "TOS-se"
+          }
         },
         {
           "id": "a2-kueche",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the c of cocina sounds like s." },
-          "text": "Esta tarde tenemos que limpiar la cocina.",
-          "focus": ["ce-zi", "qu-gu", "r"],
-          "audio": false,
-          "stress": { "tarde": "TAR-de", "cocina": "co-CI-na" }
+          "variety": "it-IT",
+          "text": "Questo pomeriggio dobbiamo pulire la cucina.",
+          "focus": [
+            "c-g",
+            "qu",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "pomeriggio": "po-me-RIG-gio",
+            "dobbiamo": "dob-BIA-mo",
+            "cucina": "cu-CI-na"
+          }
         },
         {
           "id": "a2-frage-bus",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: estación has an s sound. Many countries have their own word for bus: camión, colectivo, guagua." },
-          "text": "¿Este autobús va a la estación?",
-          "focus": ["b-v", "ce-zi", "acento"],
-          "audio": false,
-          "stress": { "autobús": "au-to-BÚS", "estación": "es-ta-CIÓN" }
+          "variety": "it-IT",
+          "text": "Scusi, questo autobus va alla stazione?",
+          "focus": [
+            "z",
+            "doppie",
+            "st-sp"
+          ],
+          "audio": true,
+          "stress": {
+            "autobus": "AU-to-bus",
+            "stazione": "sta-ZIO-ne"
+          }
         },
         {
           "id": "a2-frage-zimmer",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: habitación has an s sound." },
-          "text": "¿Tienen una habitación libre para esta noche?",
-          "focus": ["h", "ce-zi", "ch"],
-          "audio": false,
-          "stress": { "habitación": "ha-bi-ta-CIÓN", "noche": "NO-che" }
+          "variety": "it-IT",
+          "text": "Avete ancora una camera libera per stanotte?",
+          "focus": [
+            "doppie",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "camera": "CA-me-ra",
+            "libera": "LI-be-ra",
+            "stanotte": "sta-NOT-te"
+          }
         }
       ]
     },
@@ -187,71 +324,123 @@
       "sentences": [
         {
           "id": "b1-erfahrungen",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: experiencia has an s sound." },
-          "text": "Me gustaría hablar de mi experiencia laboral.",
-          "focus": ["r", "b-v", "ce-zi"],
-          "audio": false,
-          "stress": { "gustaría": "gus-ta-RÍ-a", "experiencia": "ex-pe-RIEN-cia", "laboral": "la-bo-RAL" }
+          "variety": "it-IT",
+          "text": "Vorrei raccontare la mia esperienza lavorativa.",
+          "focus": [
+            "doppie",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "Vorrei": "Vor-REI",
+            "esperienza": "e-spe-RIEN-za",
+            "lavorativa": "la-vo-ra-TI-va"
+          }
         },
         {
           "id": "b1-spazieren",
-          "variety": "es-ES",
-          "text": "Aunque está lloviendo, vamos a dar un paseo.",
-          "focus": ["ll-y", "b-v", "qu-gu"],
-          "audio": false,
-          "stress": { "lloviendo": "llo-VIEN-do", "paseo": "pa-SE-o" }
+          "variety": "it-IT",
+          "text": "Anche se piove, andiamo a fare una passeggiata.",
+          "focus": [
+            "c-g",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "piove": "PIO-ve",
+            "andiamo": "an-DIA-mo",
+            "passeggiata": "pas-seg-GIA-ta"
+          }
         },
         {
           "id": "b1-oeffnungszeiten",
-          "variety": "es-ES",
-          "text": "El horario de apertura está en la página web del ayuntamiento.",
-          "focus": ["h", "j-g", "acento"],
-          "audio": false,
-          "stress": { "horario": "ho-RA-rio", "página": "PÁ-gi-na", "ayuntamiento": "a-yun-ta-MIEN-to" }
+          "variety": "it-IT",
+          "text": "Gli orari di apertura sono sul sito del Comune.",
+          "focus": [
+            "gl",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "orari": "o-RA-ri",
+            "apertura": "a-per-TU-ra",
+            "Comune": "co-MU-ne"
+          }
         },
         {
           "id": "b1-beworben",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the z of empezó sounds like s." },
-          "text": "Consiguió el trabajo y empezó el lunes pasado.",
-          "focus": ["j-g", "ce-zi", "acento"],
-          "audio": false,
-          "stress": { "Consiguió": "Con-si-GUIÓ", "empezó": "em-pe-ZÓ" }
+          "variety": "it-IT",
+          "text": "Ha trovato lavoro e ha cominciato lunedì scorso.",
+          "focus": [
+            "h",
+            "c-g",
+            "acento"
+          ],
+          "audio": true,
+          "stress": {
+            "trovato": "tro-VA-to",
+            "cominciato": "co-min-CIA-to",
+            "lunedì": "lu-ne-DÌ"
+          }
         },
         {
           "id": "b1-problem",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the c of sincero sounds like s." },
-          "text": "Si te soy sincero, no entiendo cuál es el problema.",
-          "focus": ["ce-zi", "acento", "r"],
-          "audio": false,
-          "stress": { "sincero": "sin-CE-ro", "problema": "pro-BLE-ma" }
+          "variety": "it-IT",
+          "text": "Se devo essere sincero, non capisco qual è il problema.",
+          "focus": [
+            "c-g",
+            "acento",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "sincero": "sin-CE-ro",
+            "capisco": "ca-PI-sco",
+            "problema": "pro-BLE-ma"
+          }
         },
         {
           "id": "b1-geschaeft",
-          "variety": "es-ES",
-          "text": "La tienda cierra a las ocho los sábados.",
-          "focus": ["r", "ch", "acento"],
-          "audio": false,
-          "stress": { "tienda": "TIEN-da", "sábados": "SÁ-ba-dos" }
+          "variety": "it-IT",
+          "text": "Il negozio chiude alle otto di sera.",
+          "focus": [
+            "c-g",
+            "doppie"
+          ],
+          "audio": true,
+          "stress": {
+            "negozio": "ne-GO-zio",
+            "chiude": "CHIU-de",
+            "sera": "SE-ra"
+          }
         },
         {
           "id": "b1-frage-erklaeren",
-          "variety": "es-ES",
-          "es419": { "note": "With seseo: the z of vez sounds like s." },
-          "text": "¿Podría explicármelo otra vez?",
-          "focus": ["acento", "ce-zi", "d"],
-          "audio": false,
-          "stress": { "Podría": "Po-DRÍ-a", "explicármelo": "ex-pli-CÁR-me-lo" }
+          "variety": "it-IT",
+          "text": "Potrebbe spiegarmelo ancora una volta?",
+          "focus": [
+            "doppie",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "Potrebbe": "po-TREB-be",
+            "spiegarmelo": "spie-GAR-me-lo"
+          }
         },
         {
           "id": "b1-wfrage-spaet",
-          "variety": "es-ES",
-          "text": "¿Qué hora es, por cierto?",
-          "focus": ["qu-gu", "h", "r"],
-          "audio": false,
-          "stress": { "hora": "HO-ra" }
+          "variety": "it-IT",
+          "text": "Che ore sono, a proposito?",
+          "focus": [
+            "c-g",
+            "r"
+          ],
+          "audio": true,
+          "stress": {
+            "ore": "O-re",
+            "proposito": "pro-PO-si-to"
+          }
         }
       ]
     }

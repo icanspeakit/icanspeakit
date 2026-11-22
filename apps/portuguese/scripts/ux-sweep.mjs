@@ -5,14 +5,14 @@
 //   node scripts/ux-sweep.mjs                      # one page per route template, Android Chromium
 //   node scripts/ux-sweep.mjs --device iphone      # real WebKit (iOS quirks: input zoom, …); --device both
 //   node scripts/ux-sweep.mjs --taps               # also tap buttons and see what lands under the finger
-//   node scripts/ux-sweep.mjs --paths /grammar/aduso,/game --shots
+//   node scripts/ux-sweep.mjs --paths /gramatica/aduso,/jogo --shots
 //   node scripts/ux-sweep.mjs --all --limit 200    # every page, not one per template
 //   node scripts/ux-sweep.mjs --first-visit        # with the language offer and the intro tours
 //
 // By default the sweep is a returning visitor: the language offer and the one-time tours
 // ("da-…-seen") count as done, or they would cover every page. Dev-only controls (the demo
 // dock) are left out.
-//   BASE=https://icanspeak.it/portuguese node scripts/ux-sweep.mjs
+//   BASE=https://icanspeak.it/portugues node scripts/ux-sweep.mjs
 //
 // Pages: the sitemap at BASE (SITEMAP=<url|file> to take it from elsewhere); `astro dev` has
 // none, so then the site is crawled from "/" by its links. Default BASE is the dev server.
@@ -138,7 +138,7 @@ const template = (p) => {
   return segs.length <= 1 ? p : "/" + segs.slice(0, -1).join("/") + "/*";
 };
 
-// Git Bash turns "/game" into "C:/Program Files/Git/spiel"; take that back off.
+// Git Bash turns "/jogo" into "C:/Program Files/Git/spiel"; take that back off.
 const cleanPath = (p) => "/" + p.trim().replace(/^[A-Za-z]:\/.*?\/Git\/?/, "").replace(/^\/+/, "");
 let paths = PATHS ? PATHS.split(",").filter((s) => s.trim()).map(cleanPath) : (await sitemapPaths()) ?? (await crawlPaths());
 if (ONLY) paths = paths.filter((p) => p.startsWith(ONLY));

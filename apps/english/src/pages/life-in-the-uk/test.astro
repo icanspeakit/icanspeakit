@@ -230,7 +230,7 @@ const { questions, meta, bundeslaender } = lid;
 
           const actions = el("div", "exam-actions");
           const facts = el("a", "quiz-btn", t("lid.toFacts"));
-          facts.href = "/life-in-the-uk/facts";
+          facts.href = document.documentElement.dataset.base + "/life-in-the-uk/facts";
           actions.appendChild(facts);
           main.appendChild(actions);
         },

@@ -12,8 +12,8 @@ import { withBase, currentPath } from "./paths.js";
 const ON_QUIZ = /^\/(teachers\/quiz|game)(\/|$)/;
 
 function contextHref() {
-  const a = document.querySelector(`[data-lq-link] a[href], a.da-btn[href^="${withBase("/teachers/quiz")}"]`);
-  return a?.getAttribute("href") || withBase("/teachers/quiz");
+  const a = document.querySelector(`[data-lq-link] a[href], a.da-btn[href^="${withBase("/enseignants/quiz")}"]`);
+  return a?.getAttribute("href") || withBase("/enseignants/quiz");
 }
 
 function show(buttons) {

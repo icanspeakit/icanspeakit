@@ -1,5 +1,6 @@
 ---
 import { u } from '../../lib/url';
+import '../../styles/tiles.css';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
@@ -23,12 +24,15 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', y
 <Layout title={`${post.data.title} — icanspeak.it`} description={post.data.description}>
   <article class="post">
     <div class="container container--narrow">
-      <p class="eyebrow">{dateFmt.format(post.data.pubDate)}</p>
-      <h1>{post.data.title}</h1>
-      <p class="lede">{post.data.description}</p>
+      <header class="post-head">
+        <p class="eyebrow">{dateFmt.format(post.data.pubDate)}</p>
+        <h1>{post.data.title}</h1>
+        <p class="lede">{post.data.description}</p>
+      </header>
 
       {post.data.word && post.data.origin && (
-        <aside class="root-check">
+        <aside class="root-check isk-rise" style="--i:3">
+          <span class="isk-tile isk-tile--quarter root-check__motif" aria-hidden="true" style="--t:96px;--bg:transparent;--a:var(--isk-coral);--b:#fff"></span>
           <p class="eyebrow">Root check</p>
           <p><strong>{post.data.word}</strong> — {post.data.origin}</p>
         </aside>
@@ -54,13 +58,22 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', y
   .container--narrow { max-width: 42rem; }
   .post h1 { margin-block: 0.6rem 1rem; }
 
+  .post-head > * { animation: isk-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .post-head > :nth-child(2) { animation-delay: 0.07s; }
+  .post-head > :nth-child(3) { animation-delay: 0.14s; }
+  @media (prefers-reduced-motion: reduce) { .post-head > * { animation: none; } }
+
   .root-check {
-    background: var(--color-accent-soft);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: 1.1rem 1.3rem;
+    position: relative; overflow: hidden; isolation: isolate;
+    background: var(--isk-yellow);
+    color: var(--isk-navy);
+    border: 3px solid var(--isk-navy);
+    border-radius: var(--isk-radius-card);
+    padding: 1.2rem 1.4rem;
     margin-block: 2rem;
   }
+  .root-check__motif { position: absolute; top: -14px; right: -14px; z-index: -1; }
+  .root-check p:not(.eyebrow) { padding-inline-end: 3.5rem; font-size: 1.05rem; }
 
   .root-check p:last-child { margin-block-start: 0.35rem; }
 
@@ -79,6 +92,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'long', day: 'numeric', y
   .prose :global(a) { color: var(--color-primary); text-decoration: underline; }
 
   .post-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-block-start: 2rem; }
-  .back-link { margin-block-start: 2.5rem; font-weight: 600; }
-  .back-link a { color: var(--color-primary); }
+  .back-link { margin-block-start: 2.5rem; font-weight: 700; }
+  .back-link a { display: inline-block; color: var(--isk-white); background: var(--isk-navy); border-radius: var(--isk-radius-pill); padding: 0.6rem 1.2rem; transition: transform 0.15s ease; }
+  .back-link a:hover { transform: translateX(-3px); }
 </style>

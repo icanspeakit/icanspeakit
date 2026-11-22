@@ -1,10 +1,10 @@
 // Every set that has a printable sheet, with the page that holds it — what the Arbeitsmappe
-// (/teachers/worksheets/folder) can lay into one PDF and what the Live-Quiz's
+// (/professores/fichas/pasta) can lay into one PDF and what the Live-Quiz's
 // „Als Arbeitsblatt drucken“ can send there. Build time only.
 //
 //   w  a Lernset          → the teachers' worksheet (…/arbeitsblaetter/wortschatz/<id>)
 //      a whole level (a1) → the same, words from the whole level
-//      a frequency round  → the learners' print page (/vocabulary/print/<id>)
+//      a frequency round  → the learners' print page (/vocabulario/imprimir/<id>)
 //      a Berufe group     → its print page (/portuguese-for-work/<beruf>/<gruppe>/drucken)
 //   g  a grammar topic    → the teachers' worksheet (…/arbeitsblaetter/grammatik/<slug>)
 //   p  a partner or group sheet, checked ones only (…/arbeitsblaetter/partner/<id>)
@@ -22,9 +22,9 @@ let all = null;
 
 export function printableSets() {
   all ??= [
-    ...worksheetUnits().map((u) => ({ kind: "w", id: u.id, name: u.title ?? u.id, level: u.level, path: `/teachers/worksheets/vocabulary/${u.id}` })),
-    ...worksheetLevels.map((id) => ({ kind: "w", id, name: `Whole level ${id.toUpperCase()}, mixed`, level: id.toUpperCase(), path: `/teachers/worksheets/vocabulary/${id}` })),
-    ...cohorts().map((c) => ({ kind: "w", id: c.id, name: c.lead.join(" · "), level: c.levels.join("–"), path: `/vocabulary/print/${c.id}` })),
+    ...worksheetUnits().map((u) => ({ kind: "w", id: u.id, name: u.title ?? u.id, level: u.level, path: `/professores/fichas/vocabulario/${u.id}` })),
+    ...worksheetLevels.map((id) => ({ kind: "w", id, name: `Whole level ${id.toUpperCase()}, mixed`, level: id.toUpperCase(), path: `/professores/fichas/vocabulario/${id}` })),
+    ...cohorts().map((c) => ({ kind: "w", id: c.id, name: c.lead.join(" · "), level: c.levels.join("–"), path: `/vocabulario/imprimir/${c.id}` })),
     ...BERUFE.flatMap((b) => berufGroups(b.slug).map((g) => ({
       kind: "w",
       id: `berufe-${b.slug}-${g.id}`,
@@ -33,7 +33,7 @@ export function printableSets() {
       path: `${workPath(b.slug, g.id)}/print`,
     }))),
     ...sheetTopics.map((t) => ({ kind: "g", id: topicSlug(t), name: t.name, level: t.level, path: sheetPath(topicSlug(t)) })),
-    ...publicSheets().map((s) => ({ kind: "p", id: s.id, name: s.titel, level: s.niveau, path: `/teachers/worksheets/partner/${s.id}` })),
+    ...publicSheets().map((s) => ({ kind: "p", id: s.id, name: s.titel, level: s.niveau, path: `/professores/fichas/pares/${s.id}` })),
   ];
   return all;
 }

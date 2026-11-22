@@ -1,10 +1,9 @@
-// The verb tables behind /grammar/verbs (the "mini grammar"), the search lens's verb hits, the
+// The verb tables behind /grammatica/verbi (the "mini grammar"), the search lens's verb hits, the
 // worksheet and the live quiz. Data: src/data/verbtabellen.json. Generator:
 // src/lib/verbtabellenCore.js, which has no Vite imports so the checker can run it too.
 import data from "../data/verbtabellen.json";
 import { all } from "./lexicon.js";
-import { showsVosotros } from "./variety.js";
-import { buildAll, VOSOTROS } from "./verbtabellenCore.js";
+import { buildAll } from "./verbtabellenCore.js";
 
 export { PERSONS, regularPraes, regularPraet, regularP2 } from "./verbtabellenCore.js";
 
@@ -22,7 +21,7 @@ export const verbs = buildAll(data.verbs).map((v) => {
   return { ...v, en: v.en ?? lex?.en ?? "", level: v.level ?? lex?.level ?? "", lex };
 });
 
-/** The rows to show: the vosotros row goes in a LatAm mode (content-plan §1.5). */
-export const visibleRows = (v) => v.rows.filter((r) => r.person !== VOSOTROS || showsVosotros());
+/** The rows to show: always all six persons (Italian has no alternate mode, content-plan §1.5). */
+export const visibleRows = (v) => v.rows;
 
-export const verbHref = (v) => `/grammar/verbs#${v.id}`;
+export const verbHref = (v) => `/grammatica/verbi#${v.id}`;

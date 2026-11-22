@@ -109,7 +109,8 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
 
   <script type="application/json" id="ho-quiz-data" set:html={JSON.stringify(text.questions)}></script>
   <script>
-import { currentPath } from "../../lib/paths.js";
+    import { currentPath } from "../../lib/paths.js";
+    import { itemKey } from "../../lib/routes.js";
     import { mountQuiz } from "../../lib/quiz.js";
     import { recordAttempt } from "../../lib/progress.js";
 

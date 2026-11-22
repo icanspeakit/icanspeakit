@@ -1,25 +1,26 @@
-// The Wissensdatenbank's catalogue, joined to what is actually on disk.
+// The /knowledge catalogue, joined to what is actually on disk.
 //
-// src/data/downloads.json says what a file IS — title, level, category, who wrote it. The
+// src/data/downloads.json says what a file IS: title, level, category, who wrote it. The
 // generators say how BIG it is and how many pages it has, in public/downloads/manifest.json.
-// Keeping those apart is the point: the size of a PDF is not something anyone should be
-// hand-maintaining in a catalogue, and it goes stale the first time a generator runs.
+// Keeping those apart is the point: the size of a PDF goes stale the first time a generator
+// runs, so nobody types it into the catalogue.
 //
-// A catalogue entry whose file is missing is dropped rather than rendered as a dead link —
-// the Fakten PDFs are committed, but someone cloning the repo before running the generators
-// would otherwise get a page full of 404s.
+// A catalogue entry whose file is missing is dropped rather than rendered as a dead link.
+//
+// The generators (pnpm generate:pdfs): generate-grammar-pdf.mjs, generate-grammatik-start-pdf.mjs,
+// generate-reference-pdf.mjs, generate-wordlist-pdf.mjs, generate-life-in-the-uk-pdf.mjs.
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import catalogue from "../data/downloads.json";
 import { grammarTopics } from "./catalog.js";
 import { lernsets } from "./lernsets.js";
 import lid from "../data/leben-in-deutschland.json";
-import lidTr from "../data/uebersetzungen/leben-in-deutschland.json";
-import themenTr from "../data/uebersetzungen/grammatik-themen.json";
-import { langsFor, languagesFor, languageOf } from "./languages.js";
+import { languageOf } from "./languages.js";
 import startBook from "../data/grammatik-start/en.json";
+import { orderOf } from "./grammatikOrder.js";
 
 const DIR = path.join(process.cwd(), "public", "downloads");
+const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 const manifest = (() => {
   const file = path.join(DIR, "manifest.json");
@@ -31,10 +32,10 @@ const manifest = (() => {
   }
 })();
 
-/** "1,2 MB" / "214 KB" — German decimal comma, because the whole page is German. */
+/** "1.2 MB" / "214 KB". */
 export function formatSize(bytes) {
   if (!bytes) return null;
-  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1).replace(".", ",")} MB`;
+  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
   return `${Math.round(bytes / 1024)} KB`;
 }
 
@@ -43,26 +44,32 @@ function fileInfo(file) {
   if (!existsSync(abs)) return null;
   const meta = manifest[file] ?? {};
   const bytes = meta.bytes ?? statSync(abs).size;
-  return { href: `/downloads/${file}`, pages: meta.pages ?? null, bytes, size: formatSize(bytes) };
+  return { file, href: `/downloads/${file}`, pages: meta.pages ?? null, bytes, size: formatSize(bytes) };
 }
 
-/* The translated editions of a file: a Wortliste with the learner's own language in place
-   of the English column (generate-wortschatz-pdf.mjs), a Grammatik book with every rule
-   explained in it as well (generate-grammatik-pdf.mjs). Found on disk by
-   name rather than listed in the catalogue — the generator skips a level whose
-   translations are incomplete, and a catalogue entry would promise that file anyway.
-   Labels are each language's own name: the reader looking for it reads that language. */
-const edition = (l) => ({ lang: l.code, label: l.native, ...(l.dir === "rtl" ? { rtl: true } : {}) });
-const EDITIONS = languagesFor("cards", { fetched: true }).map(edition);
-/* A book with its own list (`editions` in the catalogue: Grammatik-Start comes in eleven
-   languages, more than the flashcards have) is looked up in that list instead. */
+/* The editions of a book with the explanations in another language (Grammar Start:
+   english-grammar-start-<code>.pdf, generate-grammatik-start-pdf.mjs). Listed in the
+   catalogue (`editions`), found on disk by name: the generator only writes a language whose
+   translation file passes its check. Labels are each language's own name. */
+const edition = (l) => ({ lang: l.code, hreflang: l.hreflang ?? l.code, label: l.native, ...(l.dir === "rtl" ? { rtl: true } : {}) });
 function editionsOf(entry) {
+  if (!entry.editions) return [];
   const base = entry.file.replace(/\.pdf$/, "");
-  const list = entry.editions ? entry.editions.map((c) => languageOf(c)).filter(Boolean).map(edition) : EDITIONS;
-  return list.map((e) => {
+  return entry.editions.map((c) => languageOf(c)).filter(Boolean).map(edition).map((e) => {
     const info = fileInfo(`${base}-${e.lang}.pdf`);
     return info && { ...e, ...info };
   }).filter(Boolean);
+}
+
+/* The nation sheets (generate-life-in-the-uk-pdf.mjs): one file per nation, offered in a
+   single card with a dropdown rather than as four cards. */
+function statesOf() {
+  return lid.bundeslaender
+    .map((l) => {
+      const info = fileInfo(`life-in-the-uk-${l.id}.pdf`);
+      return info && { id: l.id, name: l.name, ...info };
+    })
+    .filter(Boolean);
 }
 
 function hydrate(entry) {
@@ -71,116 +78,77 @@ function hydrate(entry) {
   return { ...entry, ...info, editions: editionsOf(entry), states: entry.states ? statesOf() : null };
 }
 
-/* The Bundesland booklets (generate-bundesland-pdf.mjs): one file per state, offered in a
-   single card with a dropdown rather than as sixteen cards. A state's classroom booklets
-   (Bayern's A2/B1) are catalogue entries with `parent` and ride along under it. */
-function statesOf() {
-  return lid.bundeslaender
-    .map((l) => {
-      const info = fileInfo(`leben-in-deutschland-land-${l.id}.pdf`);
-      return info && { id: l.id, name: l.name, ...info };
-    })
-    .filter(Boolean);
+/** The levels a range like "A1–C1" spans; a single level gives itself. */
+function levelsOf(range) {
+  const [a, b = a] = String(range).split(/[–-]/);
+  const i = LEVELS.indexOf(a);
+  const j = LEVELS.indexOf(b);
+  return i < 0 || j < 0 ? [] : LEVELS.slice(i, j + 1);
 }
 
-/* The contents lines in the learner's language. The books are German and so is every line
-   of their contents — that is what the reader will find printed — but a learner choosing
-   between "Adjektivdeklination" and "Konjugation" cannot pick the book that does not read
-   German yet. So each line can carry its translations, and the page shows the one for the
-   interface language under the German (CSS only, see .wi-toc-tr in wissen.css).
-   Sources: grammar topic names (uebersetzungen/grammatik-themen.json), set names (the same
-   ws.set.* strings the Wortschatz picker uses), Leben-in-Deutschland chapter titles. */
-const TR_LANGS = langsFor("help");
-const uiDicts = Object.fromEntries(TR_LANGS.map((l) => {
-  try {
-    return [l, JSON.parse(readFileSync(path.join(process.cwd(), "public", "i18n", `${l}.json`), "utf8"))];
-  } catch {
-    return [l, {}];
-  }
-}));
-const pick = (get) => {
-  const out = {};
-  for (const l of TR_LANGS) {
-    const v = get(l);
-    if (v) out[l] = v;
-  }
-  return Object.keys(out).length ? out : null;
+const REF_FILES = {
+  "irregular-verbs": "starke-schwache-verben",
+  "phrasal-verbs": "trennbare-verben",
+  "verbs-prepositions": "verben-mit-praepositionen",
 };
-const topicTr = (id) => pick((l) => themenTr.topics?.[id]?.[l]);
-const setTr = (id) => pick((l) => uiDicts[l][`ws.set.${id}`]);
-const chapterTr = (id) => pick((l) => lidTr.topics?.[id]?.title?.[l]);
-
-// What is actually inside a PDF, read from the same data the generator used — not
-// typed into the catalogue, where it would drift the first time a topic is added.
-// The download page shows this before the file is fetched: a 210 KB PDF that turns
-// out to be the wrong level is a wasted download on a phone plan.
-// Grammatik-Start's chapter titles in the help languages, from the book's own translations.
-const startTr = Object.fromEntries(TR_LANGS.map((l) => {
+const refData = Object.fromEntries(Object.entries(REF_FILES).map(([id, f]) => {
   try {
-    return [l, JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "grammatik-start", `${l}.json`), "utf8"))];
+    return [id, JSON.parse(readFileSync(path.join(process.cwd(), "src", "data", "nachschlagen", `${f}.json`), "utf8"))];
   } catch {
-    return [l, null];
+    return [id, null];
   }
 }));
 
+// What is actually inside a PDF, read from the same data the generator used, not typed into
+// the catalogue, where it would drift the first time a topic is added. The sheet shows it
+// before the file is fetched: a wrong-level download is a waste on a phone plan.
 function contentsOf(entry) {
   if (entry.id === "grammatik-start") {
     return {
-      label: "10 Kapitel",
+      label: `${startBook.chapters.length} chapters`,
       labelKey: "wissen.toc.chapters", labelVars: { n: startBook.chapters.length },
       items: startBook.chapters.map((c) => `${c.level} · ${c.titleDe}`),
-      itemTr: startBook.chapters.map((c) => pick((l) => startTr[l]?.chapters?.[c.id]?.title)),
     };
   }
   if (entry.category === "grammatik") {
-    const level = entry.level === "A1–B2" ? null : entry.level;
-    const topics = grammarTopics.filter((t) => !level || t.level === level);
+    const levels = levelsOf(entry.level);
+    const many = levels.length > 1;
+    const topics = grammarTopics
+      .filter((t) => levels.includes(t.level))
+      .sort((a, b) => levels.indexOf(a.level) - levels.indexOf(b.level) || orderOf(a) - orderOf(b));
     return {
-      label: level ? "Themen in diesem Band" : "Alle 27 Themen, nach Niveau",
-      labelKey: level ? "wissen.toc.topicsInBand" : "wissen.toc.allTopics",
-      items: topics.map((t) => (level ? t.name : `${t.level} · ${t.name}`)),
-      itemTr: topics.map((t) => topicTr(t.id)),
+      label: many ? `All ${topics.length} topics, by level` : `${topics.length} topics in this book`,
+      labelKey: many ? "wissen.toc.allTopics" : "wissen.toc.topicsInBand", labelVars: { n: topics.length },
+      items: topics.map((t) => (many ? `${t.level} · ${t.name}` : t.name)),
     };
   }
   if (entry.category === "wortschatz") {
-    // The A1–B2 book holds every level's sets; name the level in front of each.
-    if (entry.level === "A1–B2") {
-      const sets = ["A1", "A2", "B1", "B2"].flatMap((l) => lernsets({ level: l, status: "built" }).map((s) => ({ ...s, l })));
-      return {
-        label: `${sets.length} Lernsets`,
-        labelKey: "wissen.toc.sets", labelVars: { n: sets.length },
-        items: sets.map((s) => `${s.l} · ${s.title} · ${s.words} Wörter`),
-        itemTr: sets.map((s) => setTr(s.id)),
-      };
-    }
     const sets = lernsets({ level: entry.level, status: "built" });
     return {
-      label: `${sets.length} Lernsets`,
+      label: `${sets.length} learning sets`,
       labelKey: "wissen.toc.sets", labelVars: { n: sets.length },
-      items: sets.map((s) => `${s.title} · ${s.words} Wörter`),
-      // The set's name stays German (it is what the PDF prints); the count follows the UI.
+      items: sets.map((s) => `${s.title} · ${s.words} words`),
       itemKeys: sets.map((s) => ({ key: "wissen.toc.setRow", vars: { title: s.title, n: s.words } })),
-      itemTr: sets.map((s) => setTr(s.id)),
+    };
+  }
+  if (entry.category === "listen") {
+    const data = refData[entry.id];
+    if (!data) return null;
+    return {
+      label: `${data.sections.length} groups`,
+      labelKey: "wissen.toc.groups", labelVars: { n: data.sections.length },
+      items: data.sections.map((s) => `${s.name} · ${s.items.filter(Array.isArray).length}`),
     };
   }
   if (entry.category === "pruefungen") {
-    // The Bayern booklets are the Landesfragen; the two Fakten bands are the topic
-    // chapters. Both are answered by what the file's own name says it is.
     if (entry.states) {
       return {
-        label: "In jedem Übungsbogen", labelKey: "wissen.toc.land",
-        items: ["Kurzprofil des Bundeslands", "Fragen zum Bundesland", `${lid.questions.length} bundesweite Fragen`, "Lösungen am Ende"],
+        label: "In each practice sheet", labelKey: "wissen.toc.land",
+        items: ["A short profile of the nation", "Questions on the nation", `${lid.questions.length} questions on the whole UK`, "The answers at the end"],
         itemKeys: [{ key: "wissen.toc.land.profile" }, { key: "wissen.toc.land.q" }, { key: "wissen.toc.land.fed", vars: { n: lid.questions.length } }, { key: "wissen.toc.land.key" }],
       };
     }
-    if (entry.file.includes("bayern")) {
-      return {
-        label: "Landesteil Bayern", labelKey: "wissen.toc.bayern",
-        items: ["10 Landesfragen mit Lösungen", "Karte und Kurzprofil des Bundeslands"],
-        itemKeys: [{ key: "wissen.toc.bayern.q" }, { key: "wissen.toc.bayern.map" }],
-      };
-    }
-    return { label: `${lid.topics.length} Kapitel`, labelKey: "wissen.toc.chapters", labelVars: { n: lid.topics.length }, items: lid.topics.map((t) => t.title), itemTr: lid.topics.map((t) => chapterTr(t.id)) };
+    return { label: `${lid.topics.length} chapters`, labelKey: "wissen.toc.chapters", labelVars: { n: lid.topics.length }, items: lid.topics.map((t) => t.title) };
   }
   return null;
 }
@@ -194,15 +162,12 @@ export const files = all
 
 export const featured = files.filter((f) => f.featured);
 
-/** Categories in catalogue order, each carrying only the files that exist.
- *  The featured ones are left out: they already lead the page, and listing them
- *  twice made "14 PDFs" look like sixteen rows. */
-/* The exam boards' own Modellsätze, downloaded straight from the publisher's PDF URL rather
-   than via their landing pages. Not ours to host (see rightsNote), so they are
-   not in `files` and do not count towards the totals. The sizes are typed in by hand, since there is no
-   local file to stat. */
+/* Publisher PDFs downloaded straight from the exam board (none at the moment): not ours to
+   host (see rightsNote), so not in `files` and not in the totals. */
 export const external = (catalogue.external ?? []).map((e) => ({ ...e, size: formatSize(e.bytes) }));
 
+/** Categories in catalogue order, each carrying only the files that exist. The featured
+ *  ones are left out: they already lead the page. */
 export const categories = catalogue.categories
   .map((c) => ({
     ...c,
@@ -212,13 +177,21 @@ export const categories = catalogue.categories
   .filter((c) => c.items.length || c.external.length);
 
 export const links = catalogue.links;
+export const faq = catalogue.faq ?? [];
 export const rightsNote = catalogue.rightsNote;
 export const rights = catalogue.rights;
 
-// Every file on offer: each state's booklet counts, not just the card's default one.
-const everyFile = all.flatMap((f) => (f.states ? f.states : [f]));
+// Every file on offer: each nation's sheet and each language edition counts, not just the card.
+const everyFile = all.flatMap((f) => [...(f.states ?? [f]), ...f.editions]);
 export const totals = {
   files: everyFile.length,
   pages: everyFile.reduce((n, f) => n + (f.pages ?? 0), 0),
   bytes: everyFile.reduce((n, f) => n + f.bytes, 0),
 };
+
+/** The level range the files cover, from the files themselves: "A1–C2". */
+export const levelRange = (() => {
+  const ls = all.flatMap((f) => levelsOf(f.level));
+  const sorted = LEVELS.filter((l) => ls.includes(l));
+  return sorted.length ? `${sorted[0]}–${sorted.at(-1)}` : "";
+})();

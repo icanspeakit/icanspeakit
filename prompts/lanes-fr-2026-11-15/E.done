@@ -1,0 +1,25 @@
+Lane E done: Italian -> /italiano/, Portuguese -> /portugues/ (mirrors 602b562c). Nothing committed.
+
+Files touched
+- apps/italian, apps/portuguese: package.json (cf:prepare nest-dist path), wrangler.jsonc (routes /italiano, /portugues),
+  public/{robots.txt,site.webmanifest,_headers}, scripts/{cf-hoist-headers,check-links,check-base}.mjs, src/lib/paths.js (BASE_PATH).
+  (astro.config, middleware, integrations read BASE_PATH from paths.js; nothing else hardcoded.)
+- apps/{english,spanish,french}/scripts/check-base.mjs and english check-links.mjs: SIBLINGS lists / regex know the new bases.
+- apps/hub: src/data/courses.ts slugs (portugues, italiano; still live:false), package.json check:base, astro.config.mjs comment, public/_redirects.
+- DEPLOY.md (routing table note).
+- scripts/check-parity.mjs already had the new paths; unchanged.
+
+Redirects (apps/hub/public/_redirects, 301, land in the hub's root _redirects)
+/italian -> /italiano/ ; /italian/* -> /italiano/:splat ; /portuguese -> /portugues/ ; /portuguese/* -> /portugues/:splat
+(Hub is the right place: as with Spanish/French, these courses have no live Worker at the old paths.)
+
+Verification
+- italian: pnpm build ok (1603 pages), check:base ok (every URL under /italiano/), cf:prepare -> cf-dist/italiano/ + root _headers/_redirects.
+- portuguese: pnpm build ok, check:base ok (/portugues/), cf:prepare -> cf-dist/portugues/ + root _headers/_redirects (4778 files).
+- hub: pnpm build ok, check:base ok; dist/_redirects holds the four rules.
+- grep for /italian and /portuguese as paths: only the 301 rules plus the legacy entries in the SIBLINGS lists / hub check:base args (kept on purpose so stray old links still fail), and package.json filter names (build:italian etc.).
+
+Leftovers
+- Each app has its own cf-dist (no single combined root output); the redirects live in apps/hub dist.
+- Not touched (content, lane D / out of scope): robots.txt comments still say "icanspeak Spanish", manifest icon filenames icanspeak-spanish-app*, initAnalytics("italian"/"portuguese") app ids, README.md line 11 old /spanish/ wording, docs/handoff md mentions.
+- Hub index.astro description is plain text, unchanged. Hub sitemap/llms only list live courses, so nothing to update until they go live.

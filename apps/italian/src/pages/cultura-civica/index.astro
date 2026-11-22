@@ -1,0 +1,85 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import lid from "../../data/leben-in-deutschland.json";
+
+const { meta, questions, bundeslaender } = lid;
+---
+<Layout
+  title="Civic knowledge test: practice for the Accordo di integrazione – icanspeak Italian"
+  description="Practice questions on civic knowledge in Italy (Constitution, institutions, rights and duties, daily life), in the spirit of the civic part of the Accordo di integrazione. Our own questions; general orientation, not legal advice."
+>
+  <ExamShell
+    bild="leben-in-deutschland"
+    header="Civic knowledge"
+    title="Civic knowledge test"
+    titleKey="exam.lid.name"
+    lead="Practice questions on civic knowledge in Italy: the Constitution, institutions, rights and duties, and daily life. They are in the spirit of the civic part of the Accordo di integrazione. Our own questions, not an official test."
+    leadKey="lid.lead"
+    badges={["Knowledge test"]}
+    badgeKeys={["lid.badge.knowledgeTest"]}
+    practiceHeading="Practise for the test"
+    practiceHeadingKey="lid.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="lid.who.title">Who is this test for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="lid.who.badge.noCefr">No CEFR level — a knowledge test</span>
+          <span class="exam-meta-badge" data-i18n="lid.who.badge.course">Accordo di integrazione</span>
+        </div>
+        <p data-i18n="lid.who.text">This is practice for the civic-knowledge part of the Accordo di integrazione, the agreement that foreign adults usually sign when they apply for a longer permesso di soggiorno. It is about what you know of Italy, not your level of Italian. How the civic session works, who has to take part and what it covers can change, so treat our questions as general practice. This is general orientation, not legal advice: check the current rules on the Ministero dell'Interno portal, with your Prefettura or at your Comune.</p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.skills.title">Skills tested</h2>
+        <div class="skill-grid">
+          <div class="skill-card"><div class="skill-card-icon">📖</div><h4 data-i18n="skill.lesen">Reading</h4><p data-i18n="lid.skill.lesen.desc">Reading and understanding the questions</p></div>
+          <div class="skill-card skill-card--na"><div class="skill-card-icon">🎧</div><h4 data-i18n="skill.hoeren">Listening</h4><p data-i18n="lid.skill.hoeren.desc">No listening in this test</p></div>
+          <div class="skill-card skill-card--na"><div class="skill-card-icon">✍️</div><h4 data-i18n="skill.schreiben">Writing</h4><p data-i18n="lid.skill.schreiben.desc">No writing part — ticking boxes only</p></div>
+          <div class="skill-card skill-card--na"><div class="skill-card-icon">🗣️</div><h4 data-i18n="skill.sprechen">Speaking</h4><p data-i18n="lid.skill.sprechen.desc">No separate speaking part in this test</p></div>
+        </div>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.format.title">Format</h2>
+        <div class="format-table-wrap">
+          <table class="format-table">
+            <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.what">What is tested</th><th data-i18n="format.th.scope">Scope</th></tr></thead>
+            <tbody>
+              {meta.tareas.map((t) => (
+                <tr><td lang="it">{t.title}</td><td data-i18n={`lid.tarea.${t.n}.what`}>{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
+              ))}
+              <tr><td data-i18n="lid.fmt.state.part">Our extra: regions</td><td data-i18n="lid.fmt.state.what">Practice questions on ten regions of Italy (not part of any official test)</td><td data-i18n="lid.fmt.state.scope" data-i18n-vars={JSON.stringify({ st: meta.stateQuestions })}>{meta.stateQuestions}</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="format-note" data-i18n-html="lid.format.note" data-i18n-vars={JSON.stringify({ t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length })}>
+          Our practice settings: {meta.totalQuestions} questions, {meta.minutes} minutes, a target of {meta.passScore} correct answers (not official figures).
+        </p>
+        <p class="format-note" data-i18n="lid.format.more">How the civic session of the Accordo di integrazione works, who has to take part and whether there is a test can change (to verify). Ask your Prefettura, the Sportello Unico per l'Immigrazione or your Comune. This page is practice, not a preparation for one official paper.</p>
+        <p class="format-note">{meta.sourceNoteEasy}</p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="lid.cta.title" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>{questions.length} questions on life in Italy, in five areas</h2>
+      <p data-i18n="lid.cta.text" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, st: meta.stateQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, bl: bundeslaender.length, src: meta.sourceNote, facts: meta.stateFactsNote })}>
+        Our own questions on the Constitution and institutions, rights and duties, territory and history, health and school, work, taxes and daily life, each with a short explanation in English. There is also extra practice on ten regions (bl to choose from).
+      </p>
+      <div class="exam-meta-row">
+        <a class="quiz-btn quiz-btn--primary" href="/cultura-civica/test" data-i18n="lid.cta.test">To the practice test</a>
+        <a class="quiz-btn quiz-btn--primary" href="/cultura-civica/fatti" data-i18n="lid.cta.facts">Learn the facts</a>
+      </div>
+    </div>
+
+    <ExamPractice
+      heading="Prepare the language side"
+      headingKey="lid.practice.heading"
+      introKey="lid.practice.intro"
+      intro="This practice checks what you know about Italy, not your level of Italian, but you do have to understand the questions and the answer options. These tools help with that side. There is no speaking or writing part, so the speaking and writing tools are not linked here."
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

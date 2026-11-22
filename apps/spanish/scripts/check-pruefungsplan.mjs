@@ -8,11 +8,11 @@ import { buildPlan, planToIcs } from "../src/lib/pruefungsplan.js";
 
 const exam = {
   key: "dtz", label: "DTZ", level: "B1",
-  sets: [{ label: "Übungssatz 1", href: "/nationality/dele-a2/practice-set" }, { label: "Übungssatz 2", href: "/nationality/dele-a2/practice-set#uebungssatz-2", paid: true }],
-  grammar: { A2: [{ name: "Perfekt", href: "/present-perfect" }], B1: [{ name: "Passiv", href: "/passive-and-se" }, { name: "Konjunktiv II", href: "/konjunktiv-2" }] },
-  lernsets: { A2: [{ title: "Arbeit", href: "/vocabulary/a2-01" }], B1: [{ title: "Wohnen", href: "/vocabulary/b1-01" }] },
+  sets: [{ label: "Übungssatz 1", href: "/nacionalidad/dele-a2/practica" }, { label: "Übungssatz 2", href: "/nacionalidad/dele-a2/practica#uebungssatz-2", paid: true }],
+  grammar: { A2: [{ name: "Perfekt", href: "/preterito-perfecto" }], B1: [{ name: "Passiv", href: "/pasiva-y-se-pasiva" }, { name: "Konjunktiv II", href: "/konjunktiv-2" }] },
+  lernsets: { A2: [{ title: "Arbeit", href: "/vocabulario/a2-01" }], B1: [{ title: "Wohnen", href: "/vocabulario/b1-01" }] },
 };
-const known = new Set(["/pronunciation-check", ...exam.sets.map((s) => s.href), ...Object.values(exam.grammar).flat().map((g) => g.href), ...Object.values(exam.lernsets).flat().map((w) => w.href)]);
+const known = new Set(["/comprobar-pronunciacion", ...exam.sets.map((s) => s.href), ...Object.values(exam.grammar).flat().map((g) => g.href), ...Object.values(exam.lernsets).flat().map((w) => w.href)]);
 const today = "2026-10-05";
 const daysBefore = (plan, d) => Math.round((Date.parse(plan.examDate) - Date.parse(d.date)) / 86_400_000);
 
@@ -24,7 +24,7 @@ assert.equal(sit.length, 1, "7 days: one sitting");
 assert.ok(daysBefore(p, sit[0]) >= 3 && daysBefore(p, sit[0]) <= 5, "7 days: sitting 3–5 days before");
 assert.ok(!p.days.at(-1).items.some((i) => i.kind === "sitting"), "never on the last day");
 assert.ok(p.days.every((d) => d.items.every((i) => known.has(i.href))), "7 days: only known items");
-assert.ok(p.days.some((d) => d.items.some((i) => i.href === "/present-perfect")), "starts at the learner's level");
+assert.ok(p.days.some((d) => d.items.some((i) => i.href === "/preterito-perfecto")), "starts at the learner's level");
 
 // 8 weeks out
 p = buildPlan({ exam, date: "2026-11-30", minutesPerDay: 60, level: "B1", today });

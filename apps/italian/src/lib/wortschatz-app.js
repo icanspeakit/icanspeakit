@@ -217,7 +217,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     if (!languages.find((l) => l.code === code)?.fetch) return Promise.resolve();
     // German rides in the page as well (lexicon.js toCard): nothing to fetch then.
     if (cards.every((c) => c.translations?.[code])) return Promise.resolve();
-    glossLoads[code] ??= fetch(withBase(`/vocabulary/glosses/${code}.json`))
+    glossLoads[code] ??= fetch(withBase(`/vocabolario/glosses/${code}.json`))
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((map) => {
         for (const c of cards) if (c.id && map[c.id]) (c.translations ??= {})[code] = map[c.id];
@@ -446,7 +446,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   function synHtml(card) {
     if (!card.syn?.length) return "";
     // German whatever the interface language: it sits on the German face, as German.
-    return `<span class="vt-syn" lang="es"><span class="vt-syn-label" lang="en">also:</span> ${card.syn.map(escapeHtml).join(", ")}</span>`;
+    return `<span class="vt-syn" lang="it"><span class="vt-syn-label" lang="en">also:</span> ${card.syn.map(escapeHtml).join(", ")}</span>`;
   }
 
   /** Whichever side was asked for, ready to drop into innerHTML. */
@@ -1080,7 +1080,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
         <span class="vt-cl-name"${reg ? ` lang="${escapeHtml(code)}" dir="${reg.dir === "rtl" ? "rtl" : "ltr"}"` : ""}>${name}</span>
         ${pendingLang ? '<span class="vt-cl-spin" aria-hidden="true"></span>' : '<svg class="vt-cl-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>'}
       </button>`;
-    const deSide = `<span class="vt-cl-de" lang="es">Español</span>`;
+    const deSide = `<span class="vt-cl-de" lang="it">Italiano</span>`;
     const swap = `<button type="button" class="vt-cl-swap" data-cl-swap data-cl-focus="swap" aria-label="${escapeHtml(`${t("vt.cl.swap")} · ${dirText}`)}" title="${escapeHtml(t("vt.cl.swap"))}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7h12l-3-3M17 17H5l3 3"/></svg>
       </button>`;
@@ -1204,12 +1204,12 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
   };
   const deckHasInfo = cards.some((c) => c.pos || c.example);
   /* Regi under the class: one line on what the class is, and the way to all of them
-     (/grammar/parts-of-speech). The figure is a mascot part, so "Maskottchen aus" leaves the
+     (/grammatica/parti-del-discorso). The figure is a mascot part, so "Maskottchen aus" leaves the
      line and drops only Regi. German on purpose, like the class name above it. */
   const WA_SAY = Object.fromEntries(wortarten.classes.map((c) => [c.id, c.say]));
   const REGI = mascotSvg({ name: "regi", view: "three", size: 34, label: "", className: "vt-wa-fig" });
-  // The chip and Regi's link lead to the same place: the class on /grammar/parts-of-speech.
-  const posHref = (card) => withBase(`/grammar/parts-of-speech#${card.pos}`);
+  // The chip and Regi's link lead to the same place: the class on /grammatica/parti-del-discorso.
+  const posHref = (card) => withBase(`/grammatica/parti-del-discorso#${card.pos}`);
   function waHtml(card) {
     const say = WA_SAY[card.pos];
     if (!say) return "";
@@ -1252,7 +1252,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     const pos = POS_DE[card.pos];
     const ex = card.example
       ? `<span class="vt-info-ex">
-          <span class="vt-info-ex-text" lang="es" id="vt-info-ex-text">${exampleHtml(card)}</span>
+          <span class="vt-info-ex-text" lang="it" id="vt-info-ex-text">${exampleHtml(card)}</span>
           ${card.exampleAudio
             ? `<button type="button" class="vt-audio vt-audio--ex" data-audio="${escapeHtml(card.exampleAudio)}" aria-label="${escapeHtml(t("vt.audio.playSentence"))}" title="${escapeHtml(t("vt.audio.playSentence"))}">${SPEAKER_SVG}</button>`
             : ""}
@@ -1285,7 +1285,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
       const prefix = card.front.slice(0, cut);
       after = after.replace(new RegExp(` ${prefix}([.!?]*)$`), ` <mark>${prefix}</mark>$1`);
     }
-    return `<span class="vt-solved" lang="es">${escapeHtml(before)}<mark>${escapeHtml(card.deFill)}</mark>${after}</span>`;
+    return `<span class="vt-solved" lang="it">${escapeHtml(before)}<mark>${escapeHtml(card.deFill)}</mark>${after}</span>`;
   }
 
   function renderCards() {
@@ -1472,7 +1472,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
       const title = ok ? t("vt.learn.right") : t("vt.learn.wrong");
       // The German answer with its article in colour, as on the cards. <bdi> keeps
       // "die Dividende" in its own direction inside an Arabic sentence.
-      const expected = isDeSide("back") ? `<bdi lang="es">${deHtml(card)}</bdi>` : `<bdi>${escapeHtml(tr)}</bdi>`;
+      const expected = isDeSide("back") ? `<bdi lang="it">${deHtml(card)}</bdi>` : `<bdi>${escapeHtml(tr)}</bdi>`;
       // A keyed note is in the UI language; any other is the German example sentence.
       const note = card.noteKey && uiDict[card.noteKey] != null ? escapeHtml(learnNote(card))
         : card.note ? `<bdi>${escapeHtml(card.note)}</bdi>` : "";
@@ -1594,7 +1594,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
         <button type="button" class="vt-list-pick" role="checkbox" aria-checked="${selected ? "true" : "false"}" data-i="${i}">
           <span class="vt-list-box ${selected ? "is-selected" : ""}"></span>
           <span class="vt-list-word">
-            <span class="vt-list-de">${deHtml(card)}${card.syn?.length ? `<small class="vt-list-syn" lang="es">= ${card.syn.map(escapeHtml).join(", ")}</small>` : ""}</span>
+            <span class="vt-list-de">${deHtml(card)}${card.syn?.length ? `<small class="vt-list-syn" lang="it">= ${card.syn.map(escapeHtml).join(", ")}</small>` : ""}</span>
             <span class="vt-list-tr ${isRtl ? "vt-rtl" : ""}">${escapeHtml(foreignText(card))}</span>
           </span>
           <span class="vt-list-dot ${seen ? (res ? "is-right" : "is-wrong") : ""}" title="${dotLabel}"></span>
@@ -1752,7 +1752,7 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
               const card = cards[i];
               const second = state.learnRetry[i]?.ok === true;
               return `<li class="vt-done-missed-row">
-                <span class="vt-done-missed-de"><bdi lang="es">${deHtml(card)}</bdi></span>
+                <span class="vt-done-missed-de"><bdi lang="it">${deHtml(card)}</bdi></span>
                 <span class="vt-done-missed-gloss"><bdi${glossLang}>${escapeHtml(foreignText(card))}</bdi></span>
                 ${second ? `<span class="vt-done-second">${escapeHtml(t("vt.done.secondTry"))}</span>` : ""}
               </li>`;

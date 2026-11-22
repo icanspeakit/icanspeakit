@@ -12,7 +12,7 @@ import { wouldLock } from "./intent.js";
 import { setWaiting } from "./notReady.js";
 import { withBase } from "./paths.js";
 
-const LANG = "es-ES";
+const LANG = "it-IT";
 const BEST_KEY = "ac.best";
 const POS_KEY = "ac.pos";
 
@@ -135,8 +135,8 @@ function browserSpeak(text, rate = 0.9) {
     u.lang = LANG;
     u.rate = rate;
     const voices = synth.getVoices();
-    const es = voices.find((v) => v.lang?.replace("_", "-") === "es-ES") ?? voices.find((v) => v.lang?.startsWith("es"));
-    if (es) u.voice = es;
+    const it = voices.find((v) => v.lang?.replace("_", "-") === "it-IT") ?? voices.find((v) => v.lang?.startsWith("it"));
+    if (it) u.voice = it;
     u.onend = resolve;
     u.onerror = reject;
     synth.speak(u);
@@ -144,7 +144,7 @@ function browserSpeak(text, rate = 0.9) {
 }
 
 // The provider's voice when it can speak without asking for credentials (so listening
-// never forces a sign-in), the browser's own Spanish voice otherwise.
+// never forces a sign-in), the browser's own Italian voice otherwise.
 async function speak(text, { slow = false } = {}) {
   stopAudio();
   if (provider.canSpeak()) {
@@ -154,20 +154,20 @@ async function speak(text, { slow = false } = {}) {
 }
 
 // A sentence may bring its own files (`src`, and `srcSlow` for a slow take, as on
-// /tongue-twisters); otherwise its reference recording lives in /audio/aussprache-check/.
+// /scioglilingua); otherwise its reference recording lives in /audio/aussprache-check/.
 async function playSentence(s, { slow = false } = {}) {
   stopAudio();
   if (s.audio) {
     const a = new Audio(withBase((slow && s.srcSlow) || s.src || `/audio/aussprache-check/${s.id}.mp3`));
     currentAudio = a;
-    // For a page that draws along (the melody playhead on /tongue-twisters).
+    // For a page that draws along (the melody playhead on /scioglilingua).
     window.dispatchEvent(new CustomEvent("da:ac-play", { detail: { audio: a, sentence: s, slow } }));
     try { await a.play(); return; } catch { /* file missing or blocked: speak it instead */ }
   }
   await speak(s.text, { slow });
 }
 
-/** Plays another take of sentence `s` (the dialect take on /tongue-twisters) through the same
+/** Plays another take of sentence `s` (the dialect take on /scioglilingua) through the same
  *  single player, so it stops whatever plays and the next take stops it. No spoken fallback:
  *  the promise rejects when the file cannot play. `take` names it in the da:ac-play event. */
 export function playTake(s, url, take) {
@@ -184,7 +184,7 @@ export function playTake(s, url, take) {
 // the model has been heard once (and plays it by itself when the learner moves on).
 // `onResult(overall, sentence)` after each scored take. `onChange(levelIndex, index)` runs
 // whenever another sentence is shown; the returned
-// `select(levelIndex, index)` opens one from outside (the list on /tongue-twisters).
+// `select(levelIndex, index)` opens one from outside (the list on /scioglilingua).
 export function mountAusspracheCheck(root, data) {
   const POS = data.posKey || POS_KEY;
   const BEST = data.bestKey || BEST_KEY;

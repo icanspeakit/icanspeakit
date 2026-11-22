@@ -1,5 +1,5 @@
 // The ready-made questions of a class poll (Umfrage), in blocks the teacher ticks on
-// /teachers/surveys. A poll stores the questions it was made with (umfragen.fragen), so
+// /enseignants/sondages. A poll stores the questions it was made with (umfragen.fragen), so
 // changing this file never changes a poll that already runs.
 //
 // A stored question is

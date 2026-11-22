@@ -4,8 +4,8 @@
 // typical-mistake findings for that language. One component on both pages, one client module
 // (src/lib/ausspracheFuerDich.js), so the recording code exists once.
 //
-//   /culture/mistakes            <AusspracheFuerDich lang="deutsch" compact />  under each language
-//   /pronunciation-check         <AusspracheFuerDich lang="*" />  every drill; the page's language
+//   /cultura/errores            <AusspracheFuerDich lang="deutsch" compact />  under each language
+//   /comprobar-pronunciacion         <AusspracheFuerDich lang="*" />  every drill; the page's language
 //                              picker decides which are shown, and in which order
 //
 // Drills: src/data/aussprache-muttersprache.json. Audio: public/audio/muttersprache/.
@@ -68,7 +68,7 @@ const drills = ids.map((id) => ({ id, ...all[id] }));
           <button type="button" class="md-btn md-btn--primary" data-record-btn>● <span data-i18n="kultur.fehler.record">Nachsprechen</span></button>
           <p class="md-status" data-record-status aria-live="polite"></p>
           <div data-record-findings></div>
-          <p data-record-login hidden><a class="md-btn" href={`/account?next=${encodeURIComponent(stripBase(Astro.url.pathname))}`} data-i18n="af.login">Anmelden</a></p>
+          <p data-record-login hidden><a class="md-btn" href={`/cuenta?next=${encodeURIComponent(stripBase(Astro.url.pathname))}`} data-i18n="af.login">Anmelden</a></p>
         </div>
       </details>
     ))}

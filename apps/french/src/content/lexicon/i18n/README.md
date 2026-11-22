@@ -1,17 +1,18 @@
 # Translations of the lexicon
 
-> **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
-> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; all six since `vocab-c1-c2`). For those words every sidecar is
-> **Spanish → that language**, written with the Spanish word in front of the writer, never from
-> the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
-> (Brazilian Portuguese since `ui-lang-pt`: *trem, ônibus, celular*, the same variety as the
-> interface; written as European Portuguese first and converted) and `it.json`. Status: machine draft, no native speaker has reviewed them.
-> `scripts/lexicon-import.mjs` writes them. `de` is a normal card language since `ui-lang-de`
-> (`cards` with `fetch: true`), and is joined as `deHint` as well for the print sheets and the decks
-> built from rows; `fr` is a card language since `ui-lang-fr` (`cards` with `fetch: true`,
-> `src/lib/glossen.js` reads the file by name), so is `pt` since `ui-lang-pt` and `it` since `ui-lang-it`. `es.json` and the other empty
-> sidecars are deleted (`cleanup`); `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
-> A language comes back as a new file once someone can write it reliably.
+> **French lexicon (icanspeak French, A1–C2 since `vocab-c1-c2`).** Every level is French
+> (`variety: "fr-FR"`). The sidecars are **French → that language**
+> (docs/content-plan.md §1.4), written with the French word in front of the writer, never from the
+> English gloss: `de.json` (nouns with their article, „die Schule“), `es.json` (Spain Spanish, „la
+> escuela“), `pt.json` (Brazilian Portuguese, „a escola“) and `it.json` („la scuola“).
+> Status: machine draft, no native speaker has reviewed them. `scripts/lexicon-import.mjs` writes
+> them. `fr.json` was emptied by `vocab-a1` (a French gloss of a French word means nothing) and is
+> deleted by `ui-lang-es`, which also registers `es` as a card language; until then `es.json` is
+> written but no tab reads it.
+>
+> The empty sidecars of the German and Spanish courses (`ar, fa, hi, id, kmr, pl, ps, ro, ru, so,
+> sq, ti, tl, tr, uk, vi`) were removed by `cleanup` (2026-11-14); a missing file reads as "no
+> glosses" everywhere (`glossen.js`, `lang-coverage.mjs`). Arabic, when it comes, adds `ar.json`.
 >
 > The rest of this file describes the German-course setup; no level uses it any more.
 

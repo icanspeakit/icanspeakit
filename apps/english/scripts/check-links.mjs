@@ -109,6 +109,8 @@ function toSitePath(ref, fromPath) {
   if (u.origin !== ORIGIN && u.origin !== siteOrigin) return null;
   // The bare domain root is the umbrella site (icanspeak.it): a link to it is allowed, like check:base.
   if (u.origin === siteOrigin && u.pathname === "/") return null;
+  // So is a link to another app on icanspeak.it (the course home's five-languages pills).
+  if (u.origin === siteOrigin && /^\/(english|espanol|francais|italiano|portugues|spanish|french|portuguese|italian|linguistics)(\/|$)/.test(u.pathname) && !u.pathname.startsWith(BASE_PATH)) return null;
   if (u.origin === siteOrigin && !u.pathname.startsWith(BASE_PATH)) return { bad: `outside ${BASE_PATH}` };
   return { path: u.pathname + u.search };
 }

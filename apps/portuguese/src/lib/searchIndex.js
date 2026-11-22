@@ -167,14 +167,14 @@ export function buildSearchIndex() {
       c: "grammatik",
     })),
     // akkusativ has its own page outside the catalog's [id] route.
-    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/object-pronouns", c: "grammatik" },
-    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer conjugar verbos irregular subjunctive imperative", l: "", h: "/grammar/conjugation", c: "grammatik" },
+    { t: "Akkusativ", s: "", k: KEYWORDS.akkusativ, l: "A1", h: "/pronomes-complemento", c: "grammatik" },
+    { t: "Conjugation trainer", s: "Grammar", k: "conjugation verbs tenses drill trainer conjugar verbos irregular subjunctive imperative", l: "", h: "/gramatica/conjugacao", c: "grammatik" },
     ...conjugationTrainer.sets.map((s) => ({
       t: s.title,
       s: "Conjugation trainer",
       k: `conjugation ${s.id.replace(/-/g, " ")}`,
       l: s.level,
-      h: `/grammar/conjugation?set=${s.id}`,
+      h: `/gramatica/conjugacao?set=${s.id}`,
       c: "grammatik",
     })),
     ...praepTrainer.packs.map((p) => ({
@@ -182,7 +182,7 @@ export function buildSearchIndex() {
       s: "Prepositions",
       k: "präpositionen prepositions",
       l: p.id.slice(0, 2).toUpperCase(),
-      h: "/prepositions",
+      h: "/preposicoes",
       c: "praep",
     })),
     ...kultur.topics.map((k) => ({
@@ -190,7 +190,7 @@ export function buildSearchIndex() {
       s: "Kultur",
       k: kulturHay(k, "culture cultura portugal"),
       l: k.level ?? "",
-      h: itemPath("/culture", k.id),
+      h: itemPath("/cultura", k.id),
       c: "kultur",
     })),
     // „Deutschland von innen": matched on the same kind of keywords, so „Frau" or „Dating"
@@ -200,7 +200,7 @@ export function buildSearchIndex() {
       s: "Portugal from the inside",
       k: kulturHay(k, "culture portugal from the inside insider cultura"),
       l: k.level ?? "",
-      h: itemPath("/culture/insider", k.id),
+      h: itemPath("/cultura/por-dentro", k.id),
       c: "kultur",
     })),
   ];
@@ -211,7 +211,7 @@ export function buildSearchIndex() {
     k: [e.short, e.id, e.keywords].filter(Boolean).join(" "),
     h: e.href,
   }));
-  // Typische Fehler (/grammar/common-mistakes) is a Nachschlagewerk page, not a catalog
+  // Typische Fehler (/gramatica/erros-comuns) is a Nachschlagewerk page, not a catalog
   // topic: found by its pairs („man Mann", „seit seid") as well as by its name. Its
   // Tandembogen comes along for teachers who look for a pair sheet on it.
   const fehlerWords = [...new Set(fehlerPairs.flatMap((p) => [p.a.w, p.b.w]).map((w) => w.replace(/^(der|die|das) /, "")))].join(" ").toLowerCase();
@@ -219,13 +219,13 @@ export function buildSearchIndex() {
     t: "Typische Fehler",
     s: "Wörter, die man verwechselt: man oder Mann, das oder dass, seid oder seit",
     k: `typische fehler häufige fehler verwechseln verwechselt falsch richtig common mistakes confusing words ${fehlerWords}`,
-    h: "/grammar/common-mistakes",
+    h: "/gramatica/erros-comuns",
   });
   pages.push({
     t: "Typische Fehler: Tandembogen",
     s: "Partnerübung zum Ausdrucken: fragen, antworten, mit Lösungsblatt",
     k: "typische fehler tandembogen tandem partnerübung partnerarbeit arbeitsblatt lehrkräfte unterricht ausdrucken worksheet pair work",
-    h: "/teachers/worksheets/tandem/common-mistakes",
+    h: "/professores/fichas/tandem/common-mistakes",
   });
   // The path to nationality: a guide page under the exam hub.
   pages.push({
@@ -253,64 +253,64 @@ export function buildSearchIndex() {
     t: "CIPLE, DEPLE or Celpe-Bras?",
     s: "Which Portuguese exam fits your purpose: residence, nationality, work, study, Brazil",
     k: "ciple deple celpe-bras caple compare difference which exam comparison residence nationality university work brazil price validity",
-    h: "/exams/ciple-deple-celpe-bras",
+    h: "/exames/ciple-deple-celpe-bras",
   });
-  // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
+  // Prüfungsfallen (/exames/armadilhas): a page under the exam hub, not an exam of its own.
   pages.push({
     t: "Exam traps: CAPLE, level check, civics",
     s: "Parts of the exams with a catch, briefly explained, with an example and a task",
     k: "exam traps exam tips caple acesso ciple deple diple daple level check civics armadilhas exame conselhos reading listening writing speaking language use uso da língua",
-    h: "/exams/traps",
+    h: "/exames/armadilhas",
   });
-  // Über mich (/about): who teaches behind the site.
+  // Über mich (/sobre): who teaches behind the site.
   pages.push({
     t: "Über mich: Edgar Kretschmann",
     s: "Deutschlehrer seit 2015 – China, Korea, Philippinen, Deutschland",
     k: "über mich ueber mich edgar kretschmann lehrer lehrkraft gründer team wer about me teacher founder",
-    h: "/about",
+    h: "/sobre",
   });
   // The placement test is a hub tile (catalog.js), not one of the tools, so it needs its own row.
   pages.push({
     t: "Einstufungstest",
     s: "Wo stehst du? Höchstens acht Fragen, A1 bis B2",
     k: "einstufungstest einstufung einstufen test niveau niveautest sprachniveau level welches niveau habe ich mein niveau testen wo stehe ich deutschtest a1 a2 b1 b2 placement test level test what is my level",
-    h: "/placement-test",
+    h: "/teste-de-nivel",
   });
   pages.push({
     t: "Stundenplan-Generator für Lehrkräfte",
     s: "Unterricht für einen Themenblock planen: Phasen, Zeiten, Aktivitäten, passende Übungen",
     k: "stundenplan unterrichtsplanung unterrichtsentwurf lehrplan verlaufsplan stunde planen lehrkräfte lehrer unterricht generator lesson plan teacher",
-    h: "/teachers/timetable",
+    h: "/professores/horario",
   });
   pages.push({
     t: "Course content A1–C1",
     s: "What do you learn in each course? Topics, goals and grammar per level",
     k: "course content syllabus portuguese course curriculum plan topics goals progression level a1 a2 b1 b2 c1 a1.1 a1.2 b2.1 what do i learn conteúdos curso de português",
-    h: "/syllabus",
+    h: "/programa",
   });
   pages.push({
     t: "Einstufungstest für die Klasse",
     s: "Für Lehrkräfte: per QR-Code, mit dem Niveau jeder Person",
     k: "einstufungstest klasse klassentest thementest test erstellen lehrkräfte lehrer lehrerin unterricht kurs einstufung niveau einstufen grammatiktest prüfen ergebnisse schüler placement test teacher class test quiz results",
-    h: "/teachers/tests",
+    h: "/professores/testes",
   });
   pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country portugal all topics life in portugal lusophone world cultura",
-    h: "/knowledge/country-and-culture",
+    h: "/conhecimentos/pais-e-cultura",
   });
   pages.push({
     t: "Portugal from the inside",
     s: "How people in Portugal live, meet and talk",
     k: "culture portugal from the inside insider dating manners everyday life beijinhos café",
-    h: "/culture/insider",
+    h: "/cultura/por-dentro",
   });
   pages.push({
     t: "Portuguese around the world",
     s: "World map, language family, how close is your language?",
     k: "portuguese around the world where is portuguese spoken official language countries world map portuguese-speaking countries lusophone lusofonia cplp brazil angola mozambique cape verde guinea-bissau sao tome timor-leste macau equatorial guinea diaspora france luxembourg switzerland emigrants creole kriolu language family tree romance indo-european related languages cognates english portuguese word decoder false friends sprachen weltkarte",
-    h: "/knowledge/languages",
+    h: "/conhecimentos/linguas",
   });
   // The rest of the Nachschlagewerk: the overview, the three verb lists (found by their
   // verbs too: "warten auf" finds Verben mit Präpositionen) and the Wortarten.
@@ -318,7 +318,7 @@ export function buildSearchIndex() {
     t: "Nachschlagewerk",
     s: "Verbtabellen, Nomen in allen Fällen, Wortarten und mehr zum Nachschlagen",
     k: "nachschlagewerk nachschlagen nachschauen tabellen grammatik übersicht reference look up tables",
-    h: "/reference",
+    h: "/consulta",
   });
   for (const [ref, d, k] of [
     ["starke-schwache-verben", starkSchwach, "starke verben schwache verben unregelmäßige verben strong verbs weak verbs irregular verbs vokalwechsel ablaut präteritum partizip stammformen"],
@@ -332,21 +332,21 @@ export function buildSearchIndex() {
     t: "Wortarten",
     s: "Nomen, Verb, Adjektiv und Co.: was sie sind, woran du sie erkennst",
     k: "wortarten wortart word classes parts of speech nomen substantiv verb adjektiv adverb pronomen präposition konjunktion artikel zahlwort",
-    h: "/grammar/parts-of-speech",
+    h: "/gramatica/classes-de-palavras",
   });
   pages.push({
     t: "Accents: the map",
     s: "Accents of Portuguese in Portugal, and Portugal's other languages",
     k: "accents accent map dialects dialect portuguese accents regional accents portugal sotaque sotaques porto nortenho minho tras-os-montes transmontano coimbra beiras lisbon lisboa alentejo alentejano algarve algarvio azores acores acoriano sao miguel madeira madeirense binho pexe mirandese mirandes barranquenho minderico sign language lgp brazilian portuguese brazil angola mozambique cape verde guinea-bissau sao tome timor european portuguese dialekte",
-    h: "/knowledge/accents",
+    h: "/conhecimentos/acentos",
   });
-  // Every Redemittel set (/vocabulary/phrases/<id>), found by its name and its phrases.
+  // Every Redemittel set (/vocabulario/expressoes/<id>), found by its name and its phrases.
   for (const set of redemittel.sets) {
     pages.push({
       t: `Useful phrases: ${set.name}`,
       s: `${set.phrases.length} phrases, e.g. “${set.phrases[0]?.de ?? ""}”`,
       k: `useful phrases frases ${set.id} ${set.name} ${set.phrases.map((p) => `${p.de} ${p.en ?? ""}`).join(" ")}`.toLowerCase(),
-      h: itemPath("/vocabulary/phrases", set.id),
+      h: itemPath("/vocabulario/expressoes", set.id),
     });
   }
   // Redewendungen & Sprichwörter: the hub and every phrase, found by its words, its meaning
@@ -356,7 +356,7 @@ export function buildSearchIndex() {
       t: "Redewendungen & Sprichwörter",
       s: "Was sie bedeuten, wann man sie sagt und woher sie kommen",
       k: "redewendung redewendungen sprichwort sprichwörter idiom idioms proverb proverbs redensart redensarten",
-      h: "/knowledge/idioms",
+      h: "/conhecimentos/expressoes-idiomaticas",
     });
     for (const e of rwEintraege) {
       pages.push({ t: e.de, s: e.bedeutung, k: `${e.de} ${e.bedeutung} ${e.en} redewendung`.toLowerCase(), h: rwHref(e) });
@@ -366,7 +366,7 @@ export function buildSearchIndex() {
     t: "Umgangssprache, Slang und Schimpfwörter",
     s: "Wie man wirklich spricht – mit Hochdeutsch daneben und was man nie sagt",
     k: "umgangssprache slang jugendsprache jugendwort schimpfwörter schimpfwort fluchen vulgär beleidigung kurzformen haste biste nö gucken kriegen kohle bock krass digga alter chillen geil cringe lost zwo fuffzig mist scheiße colloquial swear words curse insults youth slang",
-    h: "/knowledge/slang",
+    h: "/conhecimentos/giria",
   });
 
   // A word links to its Lernset when that set has a page, else to the level's full list,
@@ -382,11 +382,11 @@ export function buildSearchIndex() {
       w.plural ?? "",
       w.en,
       w.level,
-      `${builtSets.has(w.unit) ? `/vocabulary/${w.unit}` : `/vocabulary/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
+      `${builtSets.has(w.unit) ? `/vocabulario/${w.unit}` : `/vocabulario/${w.level.toLowerCase()}`}?wort=${encodeURIComponent(w.id)}`,
       w.pos ?? "",
     ]);
 
-  // Verb tables (/grammar/verbs): [infinitive, preview, href, every form]. Every form
+  // Verb tables (/gramatica/verbos): [infinitive, preview, href, every form]. Every form
   // so that "tengo", "hizo" or "haga" also find their verb.
   const verbs = verbTables.map((v) => [
     v.inf,
@@ -403,7 +403,7 @@ export function buildSearchIndex() {
     .map((s) => [
       s.title,
       s.level ?? "",
-      `/vocabulary/${s.id}`,
+      `/vocabulario/${s.id}`,
       [s.moduleTitle ?? "", ...(s.topics ?? []), lernsetKeywords(s.id)].join(" ").replace(/&/g, " ").replace(/\s+/g, " ").trim(),
       [...new Set(lernsetCardsWords(s.id))].join("|"),
     ]);
@@ -422,7 +422,7 @@ export function buildSearchIndex() {
   const have = new Set(pages.map((p) => p.h));
   for (const p of seitenSuche) if (!have.has(p.h)) pages.push(p);
   // Zitat des Tages: found by every author, not by its 366 single quotes.
-  const zitatHub = pages.find((p) => p.h === "/knowledge/quotes");
+  const zitatHub = pages.find((p) => p.h === "/conhecimentos/citacoes");
   if (zitatHub) zitatHub.k = `${zitatHub.k ?? ""} zitat zitate ${Object.values(zitate.authors).map((a) => a.name).join(" ")}`.toLowerCase();
   return { topics, pages, words, verbs, sets, refs };
 }

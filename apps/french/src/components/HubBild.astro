@@ -15,6 +15,7 @@ import szenen from "../data/wortschatz-szenen.manifest.json";
 // still carries the alt texts of the German fork. The source holds the current English ones.
 import hubSource from "../data/hub-bilder.json";
 import szenenSource from "../data/wortschatz-szenen.json";
+import voll from "../data/hub-bilder-voll.json";
 import "../styles/hub-bild.css";
 
 interface Props {
@@ -44,23 +45,41 @@ const LIBRARIES: Record<string, { label: string; href: string }> = {
   pixabay: { label: "Pixabay", href: "https://pixabay.com" },
 };
 const lib = bild?.source ? LIBRARIES[bild.source] : null;
+// A hub banner shows the WHOLE photo beside the title ("daneben", as on deutschacademy since
+// 2026-11-15): the 16:6 cut kept less than half of each photo – faces without a scene.
+// The whole photos come from deutschacademy's scripts/generate-hub-voll.mjs (same Pexels
+// originals); a hub without one keeps the cut banner.
+const ganz = variant === "banner" && set === "hubs" ? (voll as Record<string, { width: number; height: number }>)[id] : undefined;
 ---
 {bild && (
-  <figure class={`hub-bild hub-bild--${variant}`}>
-    <picture>
-      <source type="image/avif" srcset={srcset("avif")} sizes={sizes} />
-      <source type="image/webp" srcset={srcset("webp")} sizes={sizes} />
+  <figure class={`hub-bild hub-bild--${ganz ? "daneben" : variant}`}>
+    {ganz ? (
       <img
-        src={`${dir}/${id}-1200.webp`}
+        src={`/assets/hubs/voll/${id}-1400.webp`}
+        srcset={`/assets/hubs/voll/${id}-800.webp 800w, /assets/hubs/voll/${id}-1400.webp 1400w`}
+        sizes="(min-width: 900px) 540px, 100vw"
         alt={alt}
-        width={bild.width}
-        height={bild.height}
-        fetchpriority={variant === "deck" || variant === "card" ? "auto" : "high"}
-        loading={variant === "card" ? "lazy" : undefined}
+        width={ganz.width}
+        height={ganz.height}
+        fetchpriority="high"
         decoding="async"
-        style={`object-position: ${bild.focusX ?? 50}% ${bild.objectY ?? 15}%`}
       />
-    </picture>
+    ) : (
+      <picture>
+        <source type="image/avif" srcset={srcset("avif")} sizes={sizes} />
+        <source type="image/webp" srcset={srcset("webp")} sizes={sizes} />
+        <img
+          src={`${dir}/${id}-1200.webp`}
+          alt={alt}
+          width={bild.width}
+          height={bild.height}
+          fetchpriority={variant === "deck" || variant === "card" ? "auto" : "high"}
+          loading={variant === "card" ? "lazy" : undefined}
+          decoding="async"
+          style={`object-position: ${bild.focusX ?? 50}% ${bild.objectY ?? 15}%`}
+        />
+      </picture>
+    )}
     {lib && (
       <figcaption class="hub-bild-credit">
         <span data-i18n="hubBild.credit">Foto:</span>{" "}

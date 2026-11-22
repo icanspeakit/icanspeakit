@@ -1,6 +1,6 @@
 // Checks the links between the typical mistakes (src/data/fehler-nach-sprache.json) and the
 // pronunciation drills (src/data/aussprache-muttersprache.json). They point at each other —
-// an error's `drill`, a drill's `fehler`, a language's drill list — and /culture/mistakes and
+// an error's `drill`, a drill's `fehler`, a language's drill list — and /cultura/errori and
 // the Aussprache-Check build their "Jetzt üben" / "Warum passiert das?" links from them, so
 // a typo here is a dead link there. Also: each sentence's focus sounds and stress words, and
 // each pronunciation rule's match against its own examples.
@@ -20,7 +20,7 @@ const md = read("src/data/aussprache-muttersprache.json");
 
 const problems = [];
 // Rule examples that show the contrast, so they are meant not to fit the rule's match.
-const NOT_MATCHING = new Set(["sch-st-sp/cosa", "ig/gato", "e-ende/dos", "e-ende/donde"]);
+const NOT_MATCHING = new Set(["doppie/pala", "doppie/nono", "doppie/sete"]);
 const drills = md.drills;
 const langs = new Map(fehler.languages.map((l) => [l.id, l]));
 const errors = new Map();
@@ -94,12 +94,12 @@ for (const r of read("src/data/ausspracheregeln.json").rules) {
   }
   for (const ex of r.examples) {
     if (ex.mark && !ex.w.toLowerCase().includes(ex.mark.toLowerCase())) problems.push(`rule ${r.id}: mark "${ex.mark}" is not in "${ex.w}"`);
-    // ch-less examples that show the opposite on purpose are spelled out in NOT_MATCHING.
+    // Examples that show the single-consonant contrast on purpose are spelled out in NOT_MATCHING.
     if (re && !/\s/.test(ex.w) && !re.test(ex.w.toLowerCase()) && !NOT_MATCHING.has(`${r.id}/${ex.w}`)) problems.push(`rule ${r.id}: example "${ex.w}" does not fit its match`);
   }
 }
 
-// Audio: the page falls back to the browser voice, so a missing mp3 is only a note until es-ES
+// Audio: the page falls back to the browser voice, so a missing mp3 is only a note until it-IT
 // recordings exist (content-plan §5.6). With --audio it is a problem.
 const missing = Object.values(drills)
   .flatMap(drillTexts)

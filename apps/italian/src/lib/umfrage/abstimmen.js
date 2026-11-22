@@ -1,4 +1,4 @@
-// /survey — a phone answers a class poll: code → intro → one question per screen → sent.
+// /sondaggio — a phone answers a class poll: code → intro → one question per screen → sent.
 // Every question may be skipped; „Weiter“ says „Überspringen“ while nothing is chosen.
 // The answer goes out once, at the end, through umfrage_abstimmen (daten.js). A phone that
 // answered before starts from its last answer, so changing it is the same walk again.
@@ -75,7 +75,7 @@ export async function mountAbstimmen(root) {
       return;
     }
     if (!poll.offen) return go("zu");
-    history.replaceState(null, "", `${withBase("/survey")}?c=${code}`);
+    history.replaceState(null, "", `${withBase("/sondaggio")}?c=${code}`);
     a = structuredClone(meineAntwort(code) ?? {});
     drawIntro();
     go("intro");

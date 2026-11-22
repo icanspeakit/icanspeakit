@@ -1,4 +1,4 @@
-// Checks the translations of „Spanish Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
+// Checks the translations of „French Grammar Start A1–B1“ (src/data/grammatik-start/<code>.json)
 // against the English-language original (en.json): every explaining block is there, nothing is
 // empty, and nothing is still English.
 //
@@ -12,10 +12,10 @@
 //
 // What gets translated (the book rule): the explaining blocks — intro, why, h, rule, merke,
 // mistake — plus chapter titles, mascot bubbles, the UI strings, table headings that
-// describe (not the Spanish forms: ser, hablar, yo, si + present …), the columns a table
+// describe (not the French forms: être, parler, je, si + présent …), the columns a table
 // lists in `explain`, and the titles of example lists and tables. Examples, word lists,
-// table contents, exercises and solutions stay Spanish: Spanish is the subject.
-// Words in *stars* are Spanish examples inside an explanation and stay Spanish.
+// table contents, exercises and solutions stay French: French is the subject.
+// Words in *stars* are French examples inside an explanation and stay French.
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -29,11 +29,12 @@ const base = JSON.parse(readFileSync(path.join(dir, `${BASE}.json`), "utf8"));
 // (docs/content-plan.md §1.4): fewer editions beat wrong ones.
 export const LANGS = readdirSync(dir).filter((f) => f.endsWith(".json")).map((f) => f.slice(0, -5)).filter((c) => c !== BASE).sort();
 
-// Table headings that are Spanish forms the book teaches: kept.
+// Table headings that are French forms the book teaches: kept.
 export const KEEP_HEAD = new Set([
-  "ser", "estar", "hablar", "comer", "vivir", "tener", "ir", "hacer", "venir",
-  "yo", "tú", "él / ella", "ellos / ellas", "nosotros", "levantarse", "ducharse", "ir a", "haber",
-  "estar + gerund", "perfecto", "indefinido", "imperfecto", "hay", "está / están", "si + present", "ver",
+  "être", "avoir", "parler", "habiter", "aimer", "aller", "faire", "venir", "prendre", "finir",
+  "devoir", "pouvoir", "vouloir", "se lever", "s'habiller",
+  "je", "nous", "il / elle", "ils / elles", "il y a", "est / sont",
+  "Présent", "être en train de", "imparfait", "passé composé", "si + présent",
 ]);
 
 /** The slots a translation has to fill, from the English: id → { field: English }. */
@@ -87,7 +88,7 @@ function check(code) {
   }
   for (const [id, v] of Object.entries(want.chapters)) {
     text(`${id}.title`, tr.chapters?.[id]?.title, v.title);
-    // A bubble may stay as it is: the mascots speak Spanish in the book, in every edition.
+    // A bubble may stay as it is: the mascots speak French in the book, in every edition.
     text(`${id}.bubble`, tr.chapters?.[id]?.bubble);
   }
   for (const [id, slot] of Object.entries(want.blocks)) {

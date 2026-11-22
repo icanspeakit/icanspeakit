@@ -3,8 +3,8 @@
 //
 // Used by the Aussprache-Check's result card, its live mode and the drill recorder
 // (AusspracheFuerDich), so a finding reads and links the same everywhere:
-//   „Jetzt üben →"          /pronunciation-check?lang=<id>&drill=<drill>
-//   „Warum passiert das? →" /culture/mistakes?lang=<id>#<error id>
+//   „Jetzt üben →"          /verificar-pronuncia?lang=<id>&drill=<drill>
+//   „Warum passiert das? →" /cultura/erros?lang=<id>#<error id>
 import { detectPatterns } from "./pronunciation/patterns.ts";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
 import { withBase } from "./paths.js";
@@ -49,8 +49,8 @@ export function findingsFor({ words, assessment, inserted, lang, info, max = 2 }
 }
 
 export const langName = (info, lang) => info?.languages?.find((l) => l.id === lang)?.name ?? lang;
-export const practiceHref = (lang, drill) => withBase(`/pronunciation-check?lang=${encodeURIComponent(lang)}&drill=${encodeURIComponent(drill)}`);
-export const whyHref = (lang, errorId) => withBase(`/culture/mistakes?lang=${encodeURIComponent(lang)}#${encodeURIComponent(errorId)}`);
+export const practiceHref = (lang, drill) => withBase(`/verificar-pronuncia?lang=${encodeURIComponent(lang)}&drill=${encodeURIComponent(drill)}`);
+export const whyHref = (lang, errorId) => withBase(`/cultura/erros?lang=${encodeURIComponent(lang)}#${encodeURIComponent(errorId)}`);
 
 /**
  * The findings as a list. `practice` false leaves out „Jetzt üben" (when the drill is the

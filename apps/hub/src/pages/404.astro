@@ -1,14 +1,34 @@
 ---
 import Hub from '../layouts/Hub.astro';
+import { HUB_LANGS, HUB_TEXT, tEn } from '../data/hubText';
 ---
-<Hub title="Page not found — icanspeak.it" description="This page doesn't exist on icanspeak.it.">
+<Hub title={tEn('nf.title')} description={tEn('nf.desc')}>
   <section class="notfound">
     <div class="wrap">
       <span class="eyebrow">404</span>
-      <h1>This page doesn't exist.</h1>
-      <p>It may have moved when icanspeak.it became home to the language courses. The word stories and speech exercises now live under Linguistics.</p>
-      <a class="button" href="/">Choose a course</a>
-      <p style="margin-top:14px"><a href="/linguistics/">Go to Linguistics</a></p>
+      <h1 data-i18n="nf.h1">{tEn('nf.h1')}</h1>
+      <p data-i18n="nf.body">{tEn('nf.body')}</p>
+      <a class="button" href="/" data-i18n="nf.cta">{tEn('nf.cta')}</a>
+      <p style="margin-top:14px"><a href="/linguistics/" data-i18n="nf.ling">{tEn('nf.ling')}</a></p>
     </div>
   </section>
+  <script is:inline define:vars={{ HUB_TEXT, HUB_LANGS }}>
+    // Same language choice as the landing page: the saved da_lang, else the browser's, else English.
+    (function () {
+      var codes = HUB_LANGS.map(function (l) { return l.code; });
+      var code = 'en';
+      try { var v = localStorage.getItem('da_lang'); if (codes.indexOf(v) >= 0) code = v; } catch (e) {}
+      if (code === 'en') {
+        var list = navigator.languages || [navigator.language || ''];
+        for (var i = 0; i < list.length; i++) { var c = String(list[i]).slice(0, 2).toLowerCase(); if (codes.indexOf(c) >= 0) { code = c; break; } }
+      }
+      if (code === 'en') return;
+      var d = HUB_TEXT[code], en = HUB_TEXT.en;
+      var meta = HUB_LANGS.filter(function (l) { return l.code === code; })[0];
+      document.documentElement.lang = meta.htmlLang;
+      document.title = d['nf.title'] || en['nf.title'];
+      document.querySelectorAll('[data-i18n]').forEach(function (el) { var k = el.getAttribute('data-i18n'); el.textContent = d[k] || en[k] || el.textContent; });
+      document.querySelectorAll('[data-i18n-aria]').forEach(function (el) { var k = el.getAttribute('data-i18n-aria'); el.setAttribute('aria-label', d[k] || en[k]); });
+    })();
+  </script>
 </Hub>

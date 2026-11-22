@@ -1,14 +1,14 @@
-// Builds „Spanish Grammar Start A1–B1 – The 10 most important chapters“, the free starter
+// Builds „Italian Grammar Start A1–B1 – The 10 most important chapters“, the free starter
 // grammar book, with English explanations and in every help language with a translation file:
 //
 //   pnpm generate:grammatik-start-pdf          all editions
 //   node scripts/generate-grammatik-start-pdf.mjs en de   some
 //
-// → public/downloads/grammatik-start.pdf (English) and grammatik-start-<code>.pdf.
+// → public/downloads/grammatica-base.pdf (English) and grammatica-base-<code>.pdf.
 //
 // The content is src/data/grammatik-start/en.json; each translation (<code>.json) carries only
 // the explaining blocks — the book rule: rules, explanations and Merke boxes in the learner's
-// language, examples, tables, exercises and solutions Spanish, because Spanish is the subject.
+// language, examples, tables, exercises and solutions Italian, because Italian is the subject.
 // Check them with scripts/check-grammatik-start.mjs. A translation with status "skeleton" is
 // not written yet and gets no edition.
 //
@@ -20,18 +20,18 @@
 // page, Bruno on the contents, Regi on the book's rule and at every Merke, Hamsti at the
 // exercises, Bruno at a typical mistake and dozing over the answer key, Quaki pointing to the
 // matching exercises online. Every chapter has a three-panel comic before its exercises
-// (the crew makes the chapter's typical mistake in Spanish and puts it right), and a page
+// (the crew makes the chapter's typical mistake in Italian and puts it right), and a page
 // with none of them gets a small one beside the page number. Never more than three on a
 // page (the comic counts as three), never on top of text.
 //
 // Every page says where it is from (footer, in the reader's language and English); the last
-// page sends the reader back to icanspeak.it/spanish, with a QR code.
+// page sends the reader back to icanspeak.it/italiano, with a QR code.
 import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import QRCode from "qrcode";
-import { createDoc, INK, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, BORDER, SURFACE, MARGIN } from "./lib/pdf-brand.mjs";
+import { createDoc, SITE, INK, MUTED, TEAL, TEAL_DARK, TEAL_SOFT, BORDER, SURFACE, MARGIN } from "./lib/pdf-brand.mjs";
 import { loadArt, single } from "./lib/pdf-art.mjs";
 import { languageOf, LANGUAGE_REGISTRY } from "../src/lib/languages.js";
 import { topicPath } from "../src/lib/routes.js";
@@ -39,7 +39,6 @@ import { topicPath } from "../src/lib/routes.js";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dataDir = path.join(root, "src", "data", "grammatik-start");
 const outDir = path.join(root, "public", "downloads");
-const SITE = "icanspeak.it/spanish";
 const LOGO = readFileSync(path.join(root, "public", "assets", "logo.png"));
 // Fredoka at SemiBold as a static TTF (pdfkit cannot subset the site's variable WOFF2); see scripts/fonts/README.md.
 const FREDOKA_FILE = path.join(root, "scripts", "fonts", "Fredoka-SemiBold.ttf");
@@ -74,7 +73,7 @@ async function build(lang) {
   const T = (id, field, english) => tr?.blocks?.[id]?.[field] ?? english;
   const chTitle = (c) => tr?.chapters?.[c.id]?.title ?? c.titleDe;
   const chBubble = (c) => tr?.chapters?.[c.id]?.bubble ?? c.bubble;
-  const file = lang === BASE ? "grammatik-start.pdf" : `grammatik-start-${lang}.pdf`;
+  const file = lang === BASE ? "grammatica-base.pdf" : `grammatica-base-${lang}.pdf`;
   const art = await loadArt();
   const pics = {
     regi: await single("regi", "thinking"),
@@ -93,7 +92,7 @@ async function build(lang) {
   let footerDraw = null;
   const pdf = createDoc({
     outPath: path.join(outDir, file),
-    runningHead: `SPANISH GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
+    runningHead: `ITALIAN GRAMMAR START A1–B1 · ${SITE.toUpperCase()}`,
     unicode: true,
     script: languageOf(lang)?.script,
     footer: (i, n) => footerDraw(i, n),
@@ -314,9 +313,9 @@ async function build(lang) {
     doc.rect(0, 0, pw, 318).fill(TEAL_SOFT);
     // The logo, with the name and the slogan beside it.
     doc.image(pdf.pic(LOGO), MARGIN, 36, { width: 150 });
-    doc.fillColor(INK).font(F.bold).fontSize(13).text("icanspeak Spanish", MARGIN + 164, 46, { lineBreak: false });
+    doc.fillColor(INK).font(F.bold).fontSize(13).text("icanspeak Italian", MARGIN + 164, 46, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(11).text("Here for you!", MARGIN + 164, 63, { lineBreak: false });
-    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN SPANISH · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
+    doc.fillColor(TEAL_DARK).font(F.bold).fontSize(9).text("LEARN ITALIAN · A1 – B1", MARGIN, 104, { characterSpacing: 1.2 });
     // As large as fits on one line: a break inside „A1–B1“ reads badly.
     let titleSize = 34;
     while (titleSize > 24 && doc.font(F.bold).fontSize(titleSize).widthOfString(baseUi.bookTitle) > W) titleSize -= 1;
@@ -355,7 +354,7 @@ async function build(lang) {
     doc.fillColor(TEAL_DARK).font(F.bold).fontSize(20).text(SITE, MARGIN, by + 12, { width: W, align: "center", link: `https://${SITE}` });
     let sy = by + 42;
     sy += draw(ui.share, MARGIN, sy, W, { size: 8.5, rtl: rtl && !!tr, color: MUTED, align: rtl ? "left" : "center" }) + 2;
-    doc.fillColor(MUTED).font(F.regular).fontSize(8).text(`${fill(baseUi.made, { date })} · © icanspeak Spanish`, MARGIN, sy + 2, { width: W, align: "center", lineBreak: false });
+    doc.fillColor(MUTED).font(F.regular).fontSize(8).text(`${fill(baseUi.made, { date })} · © icanspeak Italian`, MARGIN, sy + 2, { width: W, align: "center", lineBreak: false });
     doc.page.margins.bottom = bottom;
     doc.x = MARGIN;
   }
@@ -613,10 +612,10 @@ async function build(lang) {
     y += draw(ui.backLead, MARGIN, y, W, { size: 11, rtl: r, color: MUTED }) + 12;
 
     const links = [
-      [ui.back1, `${SITE}/grammar`],
-      [ui.back2, `${SITE}/vocabulary`],
-      [ui.back3, `${SITE}/placement-test`],
-      [ui.back4, `${SITE}/exams`],
+      [ui.back1, `${SITE}/grammatica`],
+      [ui.back2, `${SITE}/vocabolario`],
+      [ui.back3, `${SITE}/test-di-livello`],
+      [ui.back4, `${SITE}/esami`],
     ];
     const qrW = 118;
     const listW = W - qrW - 24;
@@ -640,7 +639,7 @@ async function build(lang) {
     const fy = pdf.contentBottom() - 70;
     doc.moveTo(MARGIN, fy).lineTo(RIGHT, fy).strokeColor(TEAL).lineWidth(1.5).stroke();
     doc.image(pdf.pic(LOGO), MARGIN, fy + 14, { width: 120 });
-    doc.fillColor(INK).font(F.bold).fontSize(11).text("icanspeak Spanish", MARGIN + 130, fy + 18, { lineBreak: false });
+    doc.fillColor(INK).font(F.bold).fontSize(11).text("icanspeak Italian", MARGIN + 130, fy + 18, { lineBreak: false });
     doc.fillColor(TEAL_DARK).font("Fredoka").fontSize(10).text("Here for you!", MARGIN + 130, fy + 33, { lineBreak: false });
     draw(ui.share, MARGIN + 250, fy + 12, W - 250, { size: 8.5, rtl: r, color: MUTED });
     doc.x = MARGIN;

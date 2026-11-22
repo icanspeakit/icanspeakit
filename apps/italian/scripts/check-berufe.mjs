@@ -11,7 +11,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validate, entryCount, ownWords } from "../src/lib/berufeCore.js";
-import { businessDeck } from "../src/lib/businessSpanish.js";
+import { businessDeck } from "../src/lib/businessItalian.js";
 import { slugify } from "../src/lib/audioSlug.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -31,22 +31,23 @@ for (const file of readdirSync(path.join(ROOT, DIR)).filter((f) => f.endsWith(".
   catch (err) { files.push({ file, deck: null }); console.error(`  ERROR ${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
-// The DGT driving deck: the same format, under its own slug (content-plan §4.4).
-const DGT_DIR = "src/data/dgt";
-if (existsSync(path.join(ROOT, DGT_DIR))) {
-  for (const file of readdirSync(path.join(ROOT, DGT_DIR)).filter((f) => f.endsWith(".json")).sort()) {
-    try { files.push({ file: `dgt/${file}`, slug: "dgt", deck: read(`${DGT_DIR}/${file}`) }); }
-    catch (err) { files.push({ file: `dgt/${file}`, slug: "dgt", deck: null }); console.error(`  ERROR dgt/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
+// The patente (driving) deck: the same format, under its own slug (content-plan §4.4).
+const PATENTE_DIR = "src/data/patente";
+const SECTORS_ONLY = process.argv.includes("--sectors"); // only src/data/berufe/*.json (used while the patente and business decks are still Spanish)
+if (!SECTORS_ONLY && existsSync(path.join(ROOT, PATENTE_DIR))) {
+  for (const file of readdirSync(path.join(ROOT, PATENTE_DIR)).filter((f) => f.endsWith(".json")).sort()) {
+    try { files.push({ file: `patente/${file}`, slug: "patente", deck: read(`${PATENTE_DIR}/${file}`) }); }
+    catch (err) { files.push({ file: `patente/${file}`, slug: "patente", deck: null }); console.error(`  ERROR patente/${file}: invalid JSON — ${err.message}`); process.exitCode = 1; }
   }
 }
 
-// Business Spanish: each unit's words are one group of a single deck (content-plan §4.3).
-const BUSINESS_DIR = "src/data/business-spanish";
-if (existsSync(path.join(ROOT, BUSINESS_DIR))) {
+// Business Italian: each unit's words are one group of a single deck (content-plan §4.3).
+const BUSINESS_DIR = "src/data/business-italian";
+if (!SECTORS_ONLY && existsSync(path.join(ROOT, BUSINESS_DIR))) {
   try {
     const units = readdirSync(path.join(ROOT, BUSINESS_DIR)).filter((f) => f.endsWith(".json")).map((f) => read(`${BUSINESS_DIR}/${f}`));
-    files.push({ file: "business-spanish", slug: "business", deck: businessDeck(units) });
-  } catch (err) { console.error(`  ERROR business-spanish: invalid JSON — ${err.message}`); process.exitCode = 1; }
+    files.push({ file: "business-italian", slug: "business", deck: businessDeck(units) });
+  } catch (err) { console.error(`  ERROR business-italian: invalid JSON — ${err.message}`); process.exitCode = 1; }
 }
 
 const { errors, warnings } = validate(files, { lexicon });

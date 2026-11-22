@@ -1,5 +1,7 @@
 ---
 import { u } from '../lib/url';
+import TileHero from '../components/TileHero.astro';
+import { look, ccStyle, motifStyle } from '../lib/looks';
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import ExerciseGrid from '../components/ExerciseGrid.astro';
@@ -14,25 +16,10 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
 ---
 
 <Layout title="icanspeak.it — Word origins & speaking practice" altHref={u("/de/")}>
-  <section class="hero">
-    <div class="container hero__inner">
-      <p class="eyebrow">A language hub for the curious</p>
-      <h1>Every word has a story. Every sound has a mechanism.</h1>
-      <p class="lede hero__lede--full">
-        icanspeak.it is a small, ad-free corner of the internet about language — where words came from,
-        and how to actually say them. Dig into etymology, or train the sounds, stress, and rhythm of
-        English with audio-driven exercises that explain the mechanics instead of just scoring your accent.
-      </p>
-      <p class="lede hero__lede--short">
-        A small, ad-free corner of the internet about language — word origins, and audio-driven exercises
-        for how to actually say them.
-      </p>
-      <div class="hero__actions">
-        <a href={u("/exercises/")} class="button button--primary">Start practicing</a>
-        <a href={u("/blog/")} class="button button--ghost">Read the blog</a>
-      </div>
-    </div>
-  </section>
+  <TileHero eyebrow="A language hub for the curious" title="Every word has a story. Every sound has a" mark="mechanism." lede="icanspeak.it is a small, ad-free corner of the internet about language — where words came from, and how to actually say them. Dig into etymology, or train the sounds, stress, and rhythm of English with audio-driven exercises that explain the mechanics instead of just scoring your accent." mascot="regi" bubble="Let's dig in!">
+    <a href={u("/exercises/")} class="button button--primary">Start practicing</a>
+    <a href={u("/blog/")} class="button button--ghost">Read the blog</a>
+  </TileHero>
 
   <section class="progress-teaser">
     <div class="container progress-teaser__intro">
@@ -58,7 +45,7 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         </div>
         <span class="practice__count">{topics.length} formats</span>
       </div>
-      <ExerciseGrid topics={topics} />
+      <ExerciseGrid topics={topics} offset={2} />
     </div>
   </section>
 
@@ -69,29 +56,32 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
         <h2>Because language is the longest-running story we've ever told</h2>
       </div>
       <div class="why__grid">
-        <a class="card why-card" href={u("/blog/salary-a-tiny-history-lesson/")}>
+        <a class="isk-cc isk-rise why-card" style={ccStyle(look(0, 3), 0)} href={u("/blog/salary-a-tiny-history-lesson/")}>
+          <span class={`isk-tile ${look(0, 3).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(0, 3))}></span>
           <h3>Every word is a tiny history lesson</h3>
           <p class="text-muted">
             "Salary" comes from the Latin for salt, once part of a Roman soldier's pay. Say the word and
             you're quoting a two-thousand-year-old paycheck.
           </p>
-          <span class="why-card__more">Read the full story →</span>
+          <span class="isk-cc__go">Read the full story →</span>
         </a>
-        <a class="card why-card" href={u("/blog/how-languages-borrow-from-each-other/")}>
+        <a class="isk-cc isk-rise why-card" style={ccStyle(look(1, 3), 1)} href={u("/blog/how-languages-borrow-from-each-other/")}>
+          <span class={`isk-tile ${look(1, 3).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(1, 3))}></span>
           <h3>Languages secretly borrow from each other</h3>
           <p class="text-muted">
             English alone has pulled words from more than 350 languages. "Ketchup" traveled from a Hokkien
             fish sauce through Malay trade routes before it ever met a tomato.
           </p>
-          <span class="why-card__more">Read the full story →</span>
+          <span class="isk-cc__go">Read the full story →</span>
         </a>
-        <a class="card why-card" href={u("/blog/how-word-meanings-drift/")}>
+        <a class="isk-cc isk-rise why-card" style={ccStyle(look(2, 3), 2)} href={u("/blog/how-word-meanings-drift/")}>
+          <span class={`isk-tile ${look(2, 3).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(2, 3))}></span>
           <h3>Meanings drift — sometimes on purpose</h3>
           <p class="text-muted">
             "Nice" once meant "foolish" in Latin. Give a word three centuries and enough gossip, and it can
             end up meaning almost the opposite of where it started.
           </p>
-          <span class="why-card__more">Read the full story →</span>
+          <span class="isk-cc__go">Read the full story →</span>
         </a>
       </div>
     </div>
@@ -105,12 +95,13 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
           <h2>Recent deep dives</h2>
         </div>
         <div class="latest__grid">
-          {posts.map((post) => (
-            <a class="post-card" href={u(`/blog/${post.id}/`)}>
+          {posts.map((post, i) => (
+            <a class="isk-cc isk-rise post-card" style={ccStyle(look(i, 5), i)} href={u(`/blog/${post.id}/`)}>
+              <span class={`isk-tile ${look(i, 5).motif} isk-cc__motif`} aria-hidden="true" style={motifStyle(look(i, 5))}></span>
               {post.data.word && <span class="tag">{post.data.word}</span>}
               <h3>{post.data.title}</h3>
               <p class="text-muted">{post.data.description}</p>
-              <span class="post-card__date">{dateFmt.format(post.data.pubDate)}</span>
+              <span class="isk-cc__meta">{dateFmt.format(post.data.pubDate)}</span>
             </a>
           ))}
         </div>
@@ -187,28 +178,9 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
     gap: 1.5rem;
   }
 
-  .why__grid h3 { margin-block-end: 0.6rem; }
 
-  .why-card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
 
-  .why-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-  }
 
-  .why-card__more {
-    margin-block-start: auto;
-    padding-block-start: 0.9rem;
-    font-weight: 600;
-    font-size: 0.88rem;
-    color: var(--color-primary);
-  }
 
   @media (max-width: 860px) {
     .why__grid, .latest__grid { grid-template-columns: 1fr 1fr; }
@@ -217,22 +189,8 @@ const dateFmt = new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', 
     .why__grid, .latest__grid { grid-template-columns: 1fr; }
   }
 
-  .post-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.6rem;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: clamp(1.25rem, 2vw, 1.5rem);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
 
-  .post-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .post-card h3 { font-size: 1.15rem; }
-  .post-card__date { font-size: 0.8rem; color: var(--color-muted); margin-block-start: auto; }
+  .post-card .tag + h3 { margin-block-start: 1.6rem; }
 
   .cta {
     background: var(--color-bg-soft);

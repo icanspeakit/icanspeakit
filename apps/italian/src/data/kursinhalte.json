@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Content for /syllabus (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro) and the lesson-plan generator (src/lib/stundenplan.js, which links each grammar line to a topic page by the patterns in GRAMMAR_RULES, so keep the wording of a grammar line close to the topic's name). Everything here is our own, written from the CEFR can-do descriptors. Never copy from coursebooks or from the Plan Curricular: no unit titles, no tables of contents, no texts. `lehrwerke` would name coursebook series only (\"goes with\"), without a level after the name; the lists are empty until Edgar decides whether to name any (scripts/check-lehrwerk-leak.mjs fails the build on series + level). To add a level: insert an object in `niveaus` (order = order on the page and in the timeline); the id becomes the URL (/syllabus/<id>). `pruefung` from A2.2 (DELE, SIELE; see docs/content-plan.md §2): name the exam and the skill, never a task number, a timing or a word count, because those facts are unverified until the exam items check them. `selbstcheck`: exactly 5 sentences describing what a learner can do BEFORE this level.",
+  "_hinweis": "Content for /programma (src/pages/kursinhalte.astro, src/pages/kursinhalte/[level].astro, src/components/KursProgression.astro) and the lesson-plan generator (src/lib/stundenplan.js, which links each grammar line to a topic page by the patterns in GRAMMAR_RULES, so keep the wording of a grammar line close to the topic's name). Everything here is our own, written from the CEFR can-do descriptors. Never copy from coursebooks, from the exam bodies' syllabi or from any official question bank: no unit titles, no tables of contents, no texts. `lehrwerke` would name coursebook series only (\"goes with\"), without a level after the name; the lists are empty until Edgar decides whether to name any (scripts/check-lehrwerk-leak.mjs fails the build on series + level). To add a level: insert an object in `niveaus` (order = order on the page and in the timeline); the id becomes the URL (/programma/<id>). `pruefung` from A2.2 (CILS, CELI, PLIDA, CERT.IT; see docs/content-plan.md §2): name the exam and the skill, never a task number, a timing or a word count, because those facts are unverified until the exam items check them. `selbstcheck`: exactly 5 sentences describing what a learner can do BEFORE this level.",
   "probestunde": {
     "href": "",
     "_hinweis": "Empty = no trial-lesson button (there is no booking page yet). Once there is one, put its path here, e.g. \"/probestunde\". {niveau} is replaced by the level."
@@ -25,15 +25,15 @@
             "You can spell your name."
           ],
           "grammatik": [
-            "Subject pronouns: yo, tú, usted, vosotros",
-            "ser and estar: soy, eres, es; estoy, estás, está",
-            "Question words: qué, quién, dónde, de dónde"
+            "Subject pronouns: io, tu, Lei, noi, voi",
+            "essere and stare: sono, sei, è; sto bene",
+            "Question words: come, chi, dove, di dove"
           ],
           "wortschatz": [
-            "Greetings",
+            "Greetings (buongiorno, buonasera, ciao)",
             "Countries and nationalities",
             "Languages",
-            "The alphabet"
+            "The alphabet and spelling your name"
           ]
         },
         {
@@ -43,15 +43,15 @@
             "You can fill in a simple form."
           ],
           "grammatik": [
-            "Numbers up to 1,000",
-            "Yes/no questions: ¿Eres…? ¿Tienes…?",
-            "Key irregular verbs: tener (tengo 30 años)"
+            "Numbers up to 1,000: uno, ventuno, cento",
+            "Yes/no questions and negation with non",
+            "essere and avere: sono di…, ho trent'anni"
           ],
           "wortschatz": [
             "Numbers",
             "Address",
             "Email",
-            "Forms: nombre, apellidos, domicilio"
+            "Forms: nome, cognome, indirizzo, data di nascita"
           ]
         },
         {
@@ -61,9 +61,9 @@
             "You can say who belongs to you and how old they are."
           ],
           "grammatik": [
-            "Possessives: mi, tu, su",
-            "Nouns and gender: el hermano, la hermana",
-            "Plurals: hijos, padres, jóvenes"
+            "Possessives: mio, tuo, suo (il mio libro, mia madre)",
+            "Nouns and gender: il fratello, la sorella",
+            "Plurals: figli, genitori, amici"
           ],
           "wortschatz": [
             "Family",
@@ -78,15 +78,15 @@
             "You can say what is in your home and where it is."
           ],
           "grammatik": [
-            "Articles: el, la, un, una",
-            "hay or está: Hay un sofá. El sofá está aquí.",
-            "Adjectives: agreement (la cocina pequeña)"
+            "Articles: il, lo, la, l', un, uno, una",
+            "c'è / ci sono: C'è un divano. Il divano è qui.",
+            "Adjectives: agreement (la cucina piccola)"
           ],
           "wortschatz": [
             "Rooms",
             "Furniture",
             "Colours",
-            "grande / pequeño / luminoso"
+            "grande / piccolo / luminoso"
           ]
         },
         {
@@ -97,15 +97,15 @@
             "You can write a shopping list."
           ],
           "grammatik": [
-            "Articles: unos, unas (unos tomates)",
-            "Polite requests: quería…, ¿me pone…?",
-            "Demonstratives: este, ese, aquel",
-            "Question words: ¿cuánto cuesta?"
+            "Articles: i, gli, le (i pomodori, gli spinaci)",
+            "Polite requests: Vorrei…, Mi dà…?",
+            "Demonstratives: questo, quello",
+            "Question words: quanto costa?"
           ],
           "wortschatz": [
             "Food",
             "Drinks",
-            "Containers (una botella de, un paquete de)",
+            "Containers (una bottiglia di, un pacco di)",
             "Prices in euros"
           ]
         },
@@ -116,10 +116,10 @@
             "You can say how often you do something."
           ],
           "grammatik": [
-            "Present tense: regular -ar, -er, -ir verbs",
-            "Telling the time: a las ocho, por la mañana",
-            "Reflexive verbs: me levanto, me ducho (first look)",
-            "Frequency: siempre, a veces, nunca (first look)"
+            "Present tense: regular -are, -ere, -ire verbs (also finire, capire)",
+            "Telling the time: alle otto, di mattina",
+            "Reflexive verbs: mi alzo, mi lavo (first look)",
+            "Frequency: sempre, spesso, mai (first look)"
           ],
           "wortschatz": [
             "Daily routine",
@@ -135,10 +135,10 @@
             "You can ask others what they do in their free time."
           ],
           "grammatik": [
-            "gustar: me gusta, me gustan",
-            "Stem-changing verbs: quiero, puedo, juego",
-            "Yes/no questions and negation with no: No trabajo hoy.",
-            "Linking words: y, o, pero, porque"
+            "piacere: mi piace, mi piacciono",
+            "Key irregular verbs: andare, fare, stare, uscire",
+            "Modal verbs: voglio, posso (first look)",
+            "Linking words: e, o, ma, perché"
           ],
           "wortschatz": [
             "Hobbies",
@@ -150,9 +150,9 @@
       ],
       "selbstcheck": [
         "I can read and write the letters of the Latin alphabet.",
-        "I know a few words in Spanish (hola, gracias, sí, no).",
-        "I can say my name in Spanish.",
-        "I know the numbers from 1 to 10 in Spanish.",
+        "I know a few words in Italian (ciao, grazie, sì, no, buongiorno).",
+        "I can say my name in Italian.",
+        "I know the numbers from 1 to 10 in Italian (uno … dieci).",
         "I have some time each week to practise at home."
       ],
       "selbstcheckNiedrig": "No problem: A1.1 is the beginning, you don't need to know anything yet. In the trial lesson we look together at the best way for you to start."
@@ -160,8 +160,8 @@
     {
       "id": "a1-2",
       "label": "A1.2",
-      "titel": "Everyday Spanish",
-      "ziel": "You get by in everyday life: in town, at the health centre, in shops and at the town hall.",
+      "titel": "Everyday Italian",
+      "ziel": "You get by in everyday life: in town, at the doctor, in shops and at the town hall (Comune).",
       "dauer": "about 8 weeks",
       "lehrwerke": "grundstufe",
       "bloecke": [
@@ -172,33 +172,32 @@
             "You can buy a ticket for the bus, the metro or the train."
           ],
           "grammatik": [
-            "Key irregular verbs: ir, venir, salir",
-            "a or en: voy a Madrid, estoy en Madrid",
-            "Saying where: al lado de, enfrente de, entre",
-            "Question words: ¿Cómo voy a…? ¿Dónde está…?"
+            "Key irregular verbs: andare, venire, uscire",
+            "a, in or da: vado a Roma, sono in Italia, vado dal dentista",
+            "Saying where: accanto a, davanti a, tra",
+            "Question words: Come vado a…? Dov'è…?"
           ],
           "wortschatz": [
             "Places in town",
             "Directions",
             "Transport",
-            "Tickets"
+            "Tickets (biglietto, abbonamento, convalidare)"
           ]
         },
         {
           "thema": "Health & the body",
           "kannZiele": [
-            "You can say what hurts at the health centre.",
+            "You can say what hurts at the doctor's.",
             "You can understand simple advice and instructions."
           ],
           "grammatik": [
-            "gustar and doler: me duele la cabeza",
-            "tener que, hay que, poder",
-            "Possessives or article: me duele la pierna"
+            "Possessives or article: mi fa male la gamba",
+            "Modal verbs: devo, posso, bisogna"
           ],
           "wortschatz": [
             "The body",
             "Illness",
-            "At the health centre",
+            "At the doctor's (il medico di base, la tessera sanitaria)",
             "Asking for an appointment"
           ]
         },
@@ -210,14 +209,14 @@
             "You can say what you have done today."
           ],
           "grammatik": [
-            "estar + gerund: estoy trabajando",
-            "ir a + infinitive: voy a llamar",
-            "Pretérito perfecto: first steps (hoy he comido)"
+            "stare + gerundio: sto lavorando",
+            "Future plans: present, stare per (Domani chiamo il medico)",
+            "Passato prossimo with avere: first steps (oggi ho mangiato)"
           ],
           "wortschatz": [
             "Everyday actions",
             "Plans for the weekend",
-            "hoy, ahora, mañana"
+            "oggi, adesso, domani"
           ]
         },
         {
@@ -227,14 +226,14 @@
             "You can describe your working day."
           ],
           "grammatik": [
-            "ser and estar: soy enfermera, estoy en paro",
-            "Article or no article: Soy enfermera.",
-            "Key irregular verbs: hacer, saber, conocer"
+            "essere and stare: sono infermiera, sto cercando lavoro",
+            "Article or no article: Sono infermiera. Faccio l'autista.",
+            "Key irregular verbs: fare, sapere, dire"
           ],
           "wortschatz": [
             "Jobs",
             "Workplaces",
-            "Hours and shifts"
+            "Hours and shifts (turni)"
           ]
         },
         {
@@ -244,9 +243,9 @@
             "You can compare two things."
           ],
           "grammatik": [
-            "Comparatives: más… que, menos… que",
-            "Direct object pronouns: lo, la (¿Lo tiene en azul?)",
-            "Demonstratives: este, esa, aquellos",
+            "Comparatives: più… di, meno… di",
+            "Direct object pronouns: lo, la (Lo ha in blu?)",
+            "Demonstratives: questo, quello (quel, quella)",
             "Adjectives: colours and agreement"
           ],
           "wortschatz": [
@@ -263,13 +262,13 @@
             "You can invite someone and accept or say no."
           ],
           "grammatik": [
-            "Ordinal numbers and dates: primero, segundo; el 3 de mayo",
-            "Telling the time and days: el lunes, los lunes",
-            "ir a + infinitive for plans"
+            "Ordinal numbers and dates: primo, secondo; il 3 maggio",
+            "Telling the time and days: il lunedì, di sera",
+            "Future plans: present for plans (Sabato vado al mare)"
           ],
           "wortschatz": [
             "Months",
-            "Festivals",
+            "Festivals (Natale, Pasqua, Ferragosto)",
             "Invitations",
             "Congratulations"
           ]
@@ -278,18 +277,18 @@
           "thema": "Services & offices",
           "kannZiele": [
             "You can make an appointment and ask for a form.",
-            "You can give your details at a counter (town hall, bank, health centre)."
+            "You can give your details at a counter (Comune, Poste, ASL)."
           ],
           "grammatik": [
-            "Polite requests: ¿Puede…? Quería…",
-            "Yes/no questions and short answers: Sí, claro. No, todavía no.",
-            "Numbers: letters and numbers of an NIE, phone numbers"
+            "Polite requests: Può…? Vorrei…",
+            "Yes/no questions and short answers: Sì, certo. No, non ancora.",
+            "Numbers: codice fiscale, phone numbers"
           ],
           "wortschatz": [
-            "Town hall",
-            "Bank",
+            "Comune",
+            "Poste",
             "Forms",
-            "Empadronamiento: the words"
+            "Anagrafe and residenza: the words"
           ]
         }
       ],
@@ -316,9 +315,9 @@
             "You can talk about what you used to do."
           ],
           "grammatik": [
-            "Pretérito imperfecto: antes vivía, era, iba",
-            "Frequency: soler + infinitive",
-            "Comparatives: más que antes"
+            "Imperfetto: da bambino vivevo, ero, andavo",
+            "Frequency: di solito, ogni giorno, a volte",
+            "Comparatives: più… di prima"
           ],
           "wortschatz": [
             "Childhood",
@@ -333,12 +332,12 @@
             "You can tell a short story from your life."
           ],
           "grammatik": [
-            "Pretérito indefinido: hablé, comí, fui",
-            "Pretérito perfecto: ya, todavía no, esta semana",
-            "Pretérito indefinido: ayer, el año pasado, hace dos años"
+            "Passato prossimo with avere: ho mangiato, ho fatto",
+            "Passato prossimo with essere: sono andato/a, sono nato/a",
+            "Passato prossimo: già, non ancora, questa settimana"
           ],
           "wortschatz": [
-            "Moving to Spain",
+            "Moving to Italy",
             "Life events",
             "Time words"
           ]
@@ -350,15 +349,15 @@
             "You can talk to a neighbour or a landlord about a small problem."
           ],
           "grammatik": [
-            "Saying where: encima de, debajo de, detrás de",
-            "a or en: going and being",
-            "Indefinites: algo, nada, alguien, nadie"
+            "Saying where: sopra, sotto, dietro",
+            "Prepositions with articles: nel, sul, dal",
+            "Indefinites: qualcosa, niente, qualcuno, nessuno"
           ],
           "wortschatz": [
-            "Renting",
+            "Renting (affitto, contratto, caparra)",
             "Repairs",
-            "Neighbours",
-            "Rubbish and recycling"
+            "Neighbours (condominio)",
+            "Rubbish and recycling (raccolta differenziata)"
           ]
         },
         {
@@ -368,9 +367,9 @@
             "You can say what you have to do at work."
           ],
           "grammatik": [
-            "porque, como, así que, por eso; creo que",
-            "tener que, hay que, deber",
-            "Indirect object pronouns: le doy, me pagan"
+            "perché, siccome, quindi, allora; penso che",
+            "Modal verbs: devo, dobbiamo, bisogna",
+            "Indirect object pronouns: gli do, mi pagano"
           ],
           "wortschatz": [
             "Contracts",
@@ -385,9 +384,9 @@
             "You can describe how you do things."
           ],
           "grammatik": [
-            "muy, mucho, poco, bastante, demasiado",
-            "Adverbs: -mente; bien or bueno",
-            "gustar: a mí también, a mí tampoco"
+            "Quantity: molto, poco, abbastanza, troppo",
+            "Adverbs in -mente; bene or buono",
+            "piacere: anche a me, neanche a me"
           ],
           "wortschatz": [
             "Interests",
@@ -402,14 +401,14 @@
             "You can talk about your routine and your health."
           ],
           "grammatik": [
-            "Comparatives and superlatives: tan… como, el mejor",
-            "Reflexive verbs: me cuido, me acuesto tarde",
-            "Negation: no, nunca, tampoco, nada"
+            "Comparatives and superlatives: (tanto)… quanto, il migliore",
+            "Reflexive verbs: mi curo, vado a letto tardi",
+            "Negation: non, mai, neanche, niente"
           ],
           "wortschatz": [
             "Food and exercise",
             "Sleep",
-            "At the pharmacy"
+            "At the pharmacy (la farmacia)"
           ]
         },
         {
@@ -419,9 +418,9 @@
             "You can pass things on and say who gets what."
           ],
           "grammatik": [
-            "ir a + infinitive for trips",
-            "Indirect object pronouns: se lo doy",
-            "Direct object pronouns: lo, la, los, las; personal a"
+            "Future plans: present for trips (Domani parto per Milano)",
+            "Indirect object pronouns: gli do, le mando",
+            "Direct object pronouns: lo, la, li, le (L'ho prenotato)"
           ],
           "wortschatz": [
             "Hotels",
@@ -431,7 +430,7 @@
         }
       ],
       "selbstcheck": [
-        "I can say what I have done today (hoy he…).",
+        "I can say what I have done today (oggi ho…).",
         "I can ask the way and understand the answer.",
         "I can tell a doctor what hurts.",
         "I can make or cancel an appointment.",
@@ -442,7 +441,7 @@
       "id": "a2-2",
       "label": "A2.2",
       "titel": "Confident in everyday life",
-      "ziel": "You describe people and things in more detail, give advice and deal with offices and work. This is the level of the DELE A2, the language certificate usually asked for on the path to Spanish nationality.",
+      "ziel": "You describe people and things in more detail, give advice and deal with offices and work. A2 is usually the level asked for the long-term EU residence permit; rules change, so check the current requirements before you register for an exam.",
       "dauer": "about 8 weeks",
       "lehrwerke": "grundstufe",
       "bloecke": [
@@ -453,7 +452,7 @@
             "You can say when things happened."
           ],
           "grammatik": [
-            "Pretérito indefinido: fui, tuve, hice, dije",
+            "Passato prossimo: irregular participles (fatto, detto, preso, visto)",
             "Ordinal numbers and dates",
             "Key irregular verbs: review"
           ],
@@ -463,7 +462,7 @@
             "Family celebrations"
           ],
           "pruefung": [
-            "DELE A2: reading practice"
+            "CILS A2: reading practice"
           ]
         },
         {
@@ -473,9 +472,9 @@
             "You can say what you have in common."
           ],
           "grammatik": [
-            "Article or no article: Me gusta el café. Tengo coche.",
+            "Article or no article: Mi piace il caffè. Ho la macchina.",
             "Adjectives: agreement and position",
-            "Comparatives: tan… como, tanto como"
+            "Comparatives: (tanto)… quanto, tanto quanto"
           ],
           "wortschatz": [
             "Character",
@@ -483,7 +482,7 @@
             "Feelings"
           ],
           "pruefung": [
-            "DELE A2: speaking practice"
+            "CILS A2: speaking practice"
           ]
         },
         {
@@ -493,9 +492,9 @@
             "You can give simple advice."
           ],
           "grammatik": [
-            "deber and tener que for advice",
-            "Polite requests: me gustaría, ¿te importa…?",
-            "Reflexive verbs: review"
+            "Modal verbs: dovere and potere for advice",
+            "Polite requests: Le dispiace se…? Potrebbe…?",
+            "Reflexive verbs: review (passato prossimo with essere)"
           ],
           "wortschatz": [
             "Everyday problems",
@@ -509,30 +508,30 @@
             "You can read a bill and understand the main charges."
           ],
           "grammatik": [
-            "Direct object pronouns: lo devuelvo, la pago; personal a",
-            "Indefinites: algún, ningún, otro",
-            "Indirect object pronouns: se lo mando"
+            "Direct object pronouns: lo restituisco, la pago",
+            "Indefinites: qualche, nessun, altro",
+            "Indirect object pronouns: gli mando i documenti"
           ],
           "wortschatz": [
             "Bank",
-            "Bills",
+            "Bills (bolletta)",
             "Online orders",
             "Returns"
           ],
           "pruefung": [
-            "DELE A2: writing practice"
+            "CILS A2: writing practice"
           ]
         },
         {
           "thema": "Nature & the environment",
           "kannZiele": [
-            "You can talk about the weather and the seasons in Spain.",
+            "You can talk about the weather and the seasons in Italy.",
             "You can say what you do for the environment."
           ],
           "grammatik": [
-            "muy, mucho, demasiado: review",
-            "Pretérito imperfecto: describing the weather and the place",
-            "Negation: nadie, ninguno, double negation"
+            "Quantity: molto, troppo, tanto: review",
+            "Imperfetto: describing the weather and the place",
+            "Negation: nessuno, niente, double negation"
           ],
           "wortschatz": [
             "Weather",
@@ -547,47 +546,47 @@
             "You can answer simple questions in an interview."
           ],
           "grammatik": [
-            "Pretérito perfecto and pretérito indefinido in your CV",
-            "porque, como, por eso",
-            "Saying how often: siempre, a menudo, soler"
+            "Passato prossimo and imperfetto in your CV",
+            "perché, siccome, quindi",
+            "Frequency: sempre, spesso, di solito"
           ],
           "wortschatz": [
             "Job adverts",
-            "CV (currículum)",
+            "CV (curriculum)",
             "Experience and skills"
           ],
           "pruefung": [
-            "DELE A2: listening practice"
+            "CILS A2: listening practice"
           ]
         },
         {
           "thema": "Offices & services",
           "kannZiele": [
-            "You can explain what you need at an office (padrón, NIE, health card) and understand what to bring.",
+            "You can explain what you need at an office (permesso di soggiorno, codice fiscale, tessera sanitaria) and understand what to bring.",
             "You can ask someone to repeat or to write something down."
           ],
           "grammatik": [
-            "Polite requests: ¿Podría…? Quería…",
-            "Direct object pronouns: ¿Lo traigo? ¿La firmo?",
-            "Ordinal numbers: la primera planta, el segundo piso"
+            "Polite requests: Potrebbe…? Vorrei…",
+            "Direct object pronouns: Lo porto? La firmo?",
+            "Ordinal numbers: il primo piano, il secondo sportello"
           ],
           "wortschatz": [
-            "Town hall",
-            "Appointments (cita previa)",
+            "Comune and Questura",
+            "Appointments (appuntamento)",
             "Documents",
             "Forms"
           ],
           "pruefung": [
-            "DELE A2: all parts"
+            "CILS A2: all parts"
           ]
         }
       ],
       "selbstcheck": [
         "I can talk about my childhood.",
-        "I can give reasons with porque and como.",
-        "I can ask politely: ¿Puede…? Quería…",
-        "I can compare things: más grande que, el mejor.",
-        "I can talk about my hobbies (me interesa, me gusta)."
+        "I can give reasons with perché and siccome.",
+        "I can ask politely: Può…? Vorrei…",
+        "I can compare things: più grande di, il migliore.",
+        "I can talk about my hobbies (mi interessa, mi piace)."
       ]
     },
     {
@@ -605,9 +604,9 @@
             "You can describe the background of an event."
           ],
           "grammatik": [
-            "Indefinido or imperfecto: telling a story",
-            "Pluscuamperfecto: había comido",
-            "Time: desde, desde hace, hace… que, hasta, durante"
+            "Passato prossimo or imperfetto: telling a story",
+            "Trapassato prossimo: avevo già mangiato",
+            "Time: da, per, fa, fra, durante"
           ],
           "wortschatz": [
             "Life events",
@@ -615,7 +614,7 @@
             "Memories"
           ],
           "pruefung": [
-            "DELE B1: reading practice"
+            "CILS B1: reading practice"
           ]
         },
         {
@@ -625,9 +624,8 @@
             "You can write a short email to a company."
           ],
           "grammatik": [
-            "Perfecto or indefinido: hoy he ido, ayer fui",
-            "Verbal periphrases: acabar de, volver a, dejar de, llevar",
-            "Relative clauses: que, donde, lo que"
+            "Verbal periphrases: stare per, finire di, smettere di, continuare a",
+            "Relative clauses: che, cui, quello che"
           ],
           "wortschatz": [
             "Careers",
@@ -635,8 +633,8 @@
             "Colleagues"
           ],
           "pruefung": [
-            "DELE B1: writing practice",
-            "SIELE: writing practice"
+            "CILS B1: writing practice",
+            "CELI B1: writing practice"
           ]
         },
         {
@@ -646,8 +644,8 @@
             "You can give arguments for and against."
           ],
           "grammatik": [
-            "Linkers: aunque, sin embargo, además",
-            "Verbs + prepositions: pensar en, depender de"
+            "Linkers: anche se, però, tuttavia, inoltre",
+            "Verbs + prepositions: pensare a, dipendere da"
           ],
           "wortschatz": [
             "The press",
@@ -655,7 +653,7 @@
             "Internet"
           ],
           "pruefung": [
-            "DELE B1: writing practice"
+            "CILS B1: writing practice"
           ]
         },
         {
@@ -665,17 +663,17 @@
             "You can tell someone what to do and what not to do."
           ],
           "grammatik": [
-            "Imperative: toma, no tomes, tómalo",
-            "Verbs like gustar: doler, molestar, parecer"
+            "Imperative: prendi, non prendere, prendilo",
+            "Verbs like piacere: servire, mancare, bastare"
           ],
           "wortschatz": [
-            "The health system",
+            "The health system (SSN, medico di base)",
             "Medicine",
             "Mental health"
           ],
           "pruefung": [
-            "DELE B1: listening practice",
-            "SIELE: listening practice"
+            "CILS B1: listening practice",
+            "CELI B1: listening practice"
           ]
         },
         {
@@ -685,9 +683,9 @@
             "You can say what would be better."
           ],
           "grammatik": [
-            "Real conditions: si + present",
-            "Condicional simple: me gustaría, yo que tú",
-            "Pronouns after prepositions: para mí, conmigo"
+            "Real conditions: se + present",
+            "Condizionale presente: vorrei, io al tuo posto",
+            "Stressed pronouns: a me, per te, con lui"
           ],
           "wortschatz": [
             "Contracts",
@@ -695,8 +693,8 @@
             "Shared flats"
           ],
           "pruefung": [
-            "DELE B1: reading practice",
-            "SIELE: reading practice"
+            "CILS B1: reading practice",
+            "CELI B1: reading practice"
           ]
         },
         {
@@ -706,8 +704,8 @@
             "You can solve a problem while travelling."
           ],
           "grammatik": [
-            "Futuro simple: hablaré, tendré",
-            "por or para: salgo para Sevilla, paso por Toledo"
+            "Futuro semplice: parlerò, avrò",
+            "ci and ne: ci vuole un'ora, ne ho due"
           ],
           "wortschatz": [
             "Delays and complaints",
@@ -715,18 +713,18 @@
             "Public transport"
           ],
           "pruefung": [
-            "DELE B1: speaking practice"
+            "CILS B1: speaking practice"
           ]
         },
         {
           "thema": "Friends & family",
           "kannZiele": [
             "You can talk about relationships and what people are like.",
-            "You can say whose something is."
+            "You can pass something on and say who gets what."
           ],
           "grammatik": [
-            "ser and estar: when the meaning changes",
-            "Possessive pronouns: el mío, la tuya"
+            "sapere or conoscere; portare or prendere",
+            "Combined pronouns: me lo, te la, glielo"
           ],
           "wortschatz": [
             "Relationships",
@@ -734,23 +732,23 @@
             "Celebrations"
           ],
           "pruefung": [
-            "DELE B1: speaking practice"
+            "CILS B1: speaking practice"
           ]
         }
       ],
       "selbstcheck": [
-        "I can talk about past events with the indefinido and the perfecto.",
-        "I can give advice: Tienes que… Deberías…",
-        "I can describe people and things with ser, estar and adjectives.",
+        "I can talk about past events with the passato prossimo and the imperfetto.",
+        "I can give advice: Devi… Dovresti…",
+        "I can describe people and things with essere, stare and adjectives.",
         "I can write a simple email to a company.",
-        "I can say when something happened with cuando and después de."
+        "I can say when something happened with quando and dopo."
       ]
     },
     {
       "id": "b1-2",
       "label": "B1.2",
       "titel": "Ready for the B1 exam",
-      "ziel": "You discuss, describe processes and write clear texts, and you are ready for a B1 exam.",
+      "ziel": "You discuss, describe processes and write clear texts, and you are ready for a B1 exam. B1 is usually the level asked as language proof for Italian citizenship; the rules changed recently, so check the current requirements before you apply.",
       "dauer": "about 10 weeks",
       "lehrwerke": "grundstufe",
       "bloecke": [
@@ -761,8 +759,8 @@
             "You can discuss what should change."
           ],
           "grammatik": [
-            "Present subjunctive: the forms (hable, coma, tenga, vaya)",
-            "Subjunctive after wishes and feelings: espero que, ojalá"
+            "Congiuntivo presente: the forms (parli, abbia, vada)",
+            "Congiuntivo after wishes and feelings: spero che, voglio che"
           ],
           "wortschatz": [
             "Climate",
@@ -770,7 +768,7 @@
             "Water"
           ],
           "pruefung": [
-            "DELE B1: speaking practice"
+            "CILS B1: speaking practice"
           ]
         },
         {
@@ -780,8 +778,8 @@
             "You can say what something is for."
           ],
           "grammatik": [
-            "Infinitive or subjunctive: quiero ir, quiero que vayas",
-            "Purpose: para + infinitive, para que + subjunctive"
+            "Infinitive or congiuntivo: voglio andare, voglio che tu vada",
+            "Purpose: per + infinitive, affinché + congiuntivo"
           ],
           "wortschatz": [
             "Courses",
@@ -789,8 +787,8 @@
             "Skills"
           ],
           "pruefung": [
-            "DELE B1: reading practice",
-            "SIELE: reading practice"
+            "CILS B1: reading practice",
+            "CELI B1: reading practice"
           ]
         },
         {
@@ -800,8 +798,8 @@
             "You can ask for information politely."
           ],
           "grammatik": [
-            "Indirect questions and reporting: dice que, me pregunta si, no sé dónde",
-            "Relative clauses: lo que, donde"
+            "Indirect questions and reporting: dice che, mi chiede se, non so dove",
+            "Relative clauses: quello che, in cui"
           ],
           "wortschatz": [
             "Neighbourhood",
@@ -809,7 +807,7 @@
             "Rights"
           ],
           "pruefung": [
-            "DELE B1: listening practice"
+            "CILS B1: listening practice"
           ]
         },
         {
@@ -819,9 +817,9 @@
             "You can talk about what is on sale and what is closed."
           ],
           "grammatik": [
-            "estar + participle: la tienda está cerrada",
-            "Adjective position and short forms: buen, gran",
-            "Word formation: -ción, -dad, -ero, -ería"
+            "Participles: il negozio è chiuso, aperto",
+            "Adjective position and short forms: un buon prezzo, un bel regalo",
+            "Word formation: -zione, -tà, -mento, -ista"
           ],
           "wortschatz": [
             "Advertising",
@@ -829,7 +827,7 @@
             "Returns"
           ],
           "pruefung": [
-            "DELE B1: reading practice"
+            "CILS B1: reading practice"
           ]
         },
         {
@@ -839,8 +837,8 @@
             "You can write a formal email or a complaint."
           ],
           "grammatik": [
-            "Time clauses: cuando llegue, en cuanto, hasta que",
-            "lo + adjective: lo importante es, lo que"
+            "Time clauses: quando arrivo, appena, finché",
+            "il + adjective: l'importante è, quello che"
           ],
           "wortschatz": [
             "New jobs",
@@ -848,8 +846,8 @@
             "Contracts"
           ],
           "pruefung": [
-            "DELE B1: writing practice",
-            "SIELE: writing practice"
+            "CILS B1: writing practice",
+            "CELI B1: writing practice"
           ]
         },
         {
@@ -859,16 +857,16 @@
             "You can recommend something and say why."
           ],
           "grammatik": [
-            "Verbs + prepositions: soñar con, acordarse de, tardar en",
-            "Verbs like gustar: encantar, interesar, quedar"
+            "Verbs + prepositions: sognare di, ricordarsi di, abituarsi a",
+            "Verbs like piacere: interessare, sembrare, dispiacere"
           ],
           "wortschatz": [
             "Cinema and books",
-            "Festivals in Spain",
+            "Festivals in Italy",
             "Regions"
           ],
           "pruefung": [
-            "DELE B1: reading practice"
+            "CILS B1: reading practice"
           ]
         },
         {
@@ -879,22 +877,22 @@
           ],
           "grammatik": [
             "Review: past tenses and time clauses",
-            "Review: subjunctive and conditions"
+            "Review: congiuntivo and conditions"
           ],
           "wortschatz": [
             "Exam instructions",
             "Useful phrases for writing and speaking"
           ],
           "pruefung": [
-            "DELE B1: all parts",
-            "SIELE: all modules"
+            "CILS B1: all parts",
+            "CELI B1: all modules"
           ]
         }
       ],
       "selbstcheck": [
-        "I can tell a story in the right order (primero, después, mientras).",
-        "I can give my opinion and support it with aunque and sin embargo.",
-        "I can say what I would like to do (me gustaría…).",
+        "I can tell a story in the right order (prima, poi, mentre).",
+        "I can give my opinion and support it with anche se and tuttavia.",
+        "I can say what I would like to do (mi piacerebbe…).",
         "I can write a complaint or a formal email.",
         "I can plan a meeting or a trip with other people."
       ]
@@ -914,8 +912,8 @@
             "You can write a formal letter of application."
           ],
           "grammatik": [
-            "Subjunctive in opinion and doubt: no creo que, es posible que",
-            "Collocations: tomar una decisión, dar un paseo"
+            "Congiuntivo in opinion and doubt: credo che, può darsi che",
+            "Collocations: prendere una decisione, fare un giro"
           ],
           "wortschatz": [
             "Labour market",
@@ -923,8 +921,8 @@
             "Applications"
           ],
           "pruefung": [
-            "DELE B2: writing practice",
-            "SIELE: writing practice"
+            "CILS B2: writing practice",
+            "CELI B2: writing practice"
           ]
         },
         {
@@ -934,8 +932,8 @@
             "You can report what was said."
           ],
           "grammatik": [
-            "Passive and se: se dice, se alquila, fue aprobado",
-            "Reported speech with tense shifts: dijo que vendría"
+            "Passive and si: si dice, si affitta, è stato approvato",
+            "Reported speech with tense shifts: ha detto che sarebbe venuto"
           ],
           "wortschatz": [
             "News",
@@ -943,8 +941,8 @@
             "Public debate"
           ],
           "pruefung": [
-            "DELE B2: reading practice",
-            "SIELE: reading practice"
+            "CILS B2: reading practice",
+            "CELI B2: reading practice"
           ]
         },
         {
@@ -954,8 +952,8 @@
             "You can say exactly what you are looking for."
           ],
           "grammatik": [
-            "Relative clauses with subjunctive: busco un piso que tenga…",
-            "Concession and consequence: aunque + subjunctive"
+            "Relative clauses with congiuntivo and prepositions: cerco un appartamento che abbia…",
+            "Concession and consequence: benché + congiuntivo"
           ],
           "wortschatz": [
             "Housing",
@@ -963,7 +961,7 @@
             "Urban life"
           ],
           "pruefung": [
-            "DELE B2: speaking practice"
+            "CILS B2: speaking practice"
           ]
         },
         {
@@ -973,8 +971,8 @@
             "You can tell someone about a small accident or a mistake."
           ],
           "grammatik": [
-            "Verbs of change: ponerse, volverse, quedarse",
-            "Accidental se: se me olvidó, se me ha roto"
+            "Verbs of change: diventare, farsi, rimanere",
+            "Gerundio and participle constructions: avendo finito, essendo stanco"
           ],
           "wortschatz": [
             "Stress",
@@ -982,8 +980,8 @@
             "Health care"
           ],
           "pruefung": [
-            "DELE B2: listening practice",
-            "SIELE: listening practice"
+            "CILS B2: listening practice",
+            "CELI B2: listening practice"
           ]
         },
         {
@@ -993,8 +991,8 @@
             "You can say what you wanted other people to do."
           ],
           "grammatik": [
-            "Imperfect subjunctive: quería que vinieras",
-            "Unreal conditions: si tuviera, compraría"
+            "Congiuntivo imperfetto: volevo che venissi",
+            "Periodo ipotetico: se avessi, comprerei"
           ],
           "wortschatz": [
             "School system",
@@ -1002,7 +1000,7 @@
             "Lifelong learning"
           ],
           "pruefung": [
-            "DELE B2: writing practice"
+            "CILS B2: writing practice"
           ]
         },
         {
@@ -1012,8 +1010,8 @@
             "You can explain results and effects."
           ],
           "grammatik": [
-            "Adjectives + prepositions: harto de, capaz de, interesado en",
-            "Concession and consequence: tan… que, de modo que"
+            "Adjectives + prepositions: stufo di, capace di, interessato a",
+            "Concession and consequence: così… che, in modo che"
           ],
           "wortschatz": [
             "Companies",
@@ -1021,7 +1019,7 @@
             "Insurance"
           ],
           "pruefung": [
-            "DELE B2: reading practice"
+            "CILS B2: reading practice"
           ]
         },
         {
@@ -1031,8 +1029,8 @@
             "You can guess what has happened and say how sure you are."
           ],
           "grammatik": [
-            "Discourse markers in speech: pues, bueno, o sea, es que",
-            "Probability: serán las tres, habrá salido"
+            "Discourse markers in speech: allora, cioè, insomma, boh",
+            "Probability: saranno le tre, sarà uscito"
           ],
           "wortschatz": [
             "Spoken language",
@@ -1040,14 +1038,14 @@
             "Politeness"
           ],
           "pruefung": [
-            "DELE B2: speaking practice"
+            "CILS B2: speaking practice"
           ]
         }
       ],
       "selbstcheck": [
         "I have finished B1 or feel confident at B1.",
-        "I can use the present subjunctive for wishes and feelings.",
-        "I can link ideas with aunque, sin embargo and por lo tanto.",
+        "I can use the congiuntivo presente for wishes and feelings.",
+        "I can link ideas with anche se, tuttavia and quindi.",
         "I can give a talk on a topic for 3–4 minutes.",
         "I understand the main points of the news on the radio."
       ]
@@ -1067,8 +1065,8 @@
             "You can weigh up possible solutions."
           ],
           "grammatik": [
-            "Probability: future and conditional of conjecture",
-            "Unreal conditions: si hubiera…, habría… (introduction)"
+            "Probability: futuro and condizionale of conjecture",
+            "Periodo ipotetico: se avessi saputo, sarei venuto (introduction)"
           ],
           "wortschatz": [
             "Climate policy",
@@ -1076,7 +1074,7 @@
             "Technology"
           ],
           "pruefung": [
-            "DELE B2: speaking practice"
+            "CILS B2: speaking practice"
           ]
         },
         {
@@ -1086,7 +1084,7 @@
             "You can describe processes in a formal style."
           ],
           "grammatik": [
-            "Passive and se: se ha demostrado, fue descubierto",
+            "Passive and si: si è dimostrato, è stato scoperto",
             "Nominalisation in formal writing (introduction)"
           ],
           "wortschatz": [
@@ -1095,19 +1093,19 @@
             "Data"
           ],
           "pruefung": [
-            "DELE B2: reading practice",
-            "SIELE: reading practice"
+            "CILS B2: reading practice",
+            "CELI B2: reading practice"
           ]
         },
         {
           "thema": "Politics & taking part",
           "kannZiele": [
-            "You can explain how decisions are made in Spain.",
+            "You can explain how decisions are made in Italy.",
             "You can report requests and demands."
           ],
           "grammatik": [
-            "Reported speech with tense shifts: me pidió que fuera",
-            "Subjunctive in opinion and doubt: dudo que, no es verdad que"
+            "Reported speech with tense shifts: mi ha chiesto di aiutarlo",
+            "Congiuntivo in opinion and doubt: dubito che, non è vero che"
           ],
           "wortschatz": [
             "Institutions",
@@ -1115,7 +1113,7 @@
             "Unions and associations"
           ],
           "pruefung": [
-            "DELE B2: listening practice"
+            "CILS B2: listening practice"
           ]
         },
         {
@@ -1125,16 +1123,16 @@
             "You can describe how a person or a place has changed."
           ],
           "grammatik": [
-            "Relative clauses with prepositions: el piso en el que vivo, quien",
-            "Verbs of change: hacerse, convertirse en"
+            "Relative clauses with congiuntivo and prepositions: la casa in cui abito, il quale",
+            "Verbs of change: diventare, farsi, rimanere"
           ],
           "wortschatz": [
             "Regions",
-            "Languages of Spain",
+            "Dialects and regional Italian",
             "Migration"
           ],
           "pruefung": [
-            "SIELE: speaking practice"
+            "CELI B2: speaking practice"
           ]
         },
         {
@@ -1144,8 +1142,8 @@
             "You can say what you would like to happen."
           ],
           "grammatik": [
-            "Imperfect subjunctive: me gustaría que, ojalá pudiera",
-            "Collocations: hacer caso, poner una queja, echar de menos"
+            "Congiuntivo imperfetto: vorrei che, magari potessi",
+            "Collocations: dare una mano, presentare reclamo, avere voglia di"
           ],
           "wortschatz": [
             "International teams",
@@ -1153,8 +1151,8 @@
             "Meetings"
           ],
           "pruefung": [
-            "DELE B2: writing practice",
-            "SIELE: writing practice"
+            "CILS B2: writing practice",
+            "CELI B2: writing practice"
           ]
         },
         {
@@ -1164,16 +1162,16 @@
             "You can make a formal complaint."
           ],
           "grammatik": [
-            "Concession and consequence: por mucho que, aunque",
-            "Adjectives + prepositions: contento con, responsable de"
+            "Concession and consequence: per quanto, benché",
+            "Adjectives + prepositions: contento di, responsabile di"
           ],
           "wortschatz": [
             "Rights",
-            "Complaints (hoja de reclamaciones)",
+            "Complaints (reclamo)",
             "Public services"
           ],
           "pruefung": [
-            "DELE B2: reading practice"
+            "CILS B2: reading practice"
           ]
         },
         {
@@ -1183,7 +1181,7 @@
             "You can do a full practice test."
           ],
           "grammatik": [
-            "Review: subjunctive and conditions",
+            "Review: congiuntivo and conditions",
             "Review: reported speech and linkers"
           ],
           "wortschatz": [
@@ -1191,15 +1189,15 @@
             "Useful phrases for writing and speaking"
           ],
           "pruefung": [
-            "DELE B2: all parts",
-            "SIELE: all modules"
+            "CILS B2: all parts",
+            "CELI B2: all modules"
           ]
         }
       ],
       "selbstcheck": [
         "I can write formal emails without help.",
-        "I understand the imperfect subjunctive when I read it.",
-        "I can report what someone said (dijo que…).",
+        "I understand the congiuntivo imperfetto when I read it.",
+        "I can report what someone said (ha detto che…).",
         "I can disagree in a discussion and suggest a compromise.",
         "I understand newspaper articles on familiar topics."
       ]
@@ -1207,7 +1205,7 @@
     {
       "id": "c1",
       "label": "C1",
-      "titel": "Spanish for study and work",
+      "titel": "Italian for study and work",
       "ziel": "You understand demanding texts, speak spontaneously and fluently, and write well-structured texts.",
       "dauer": "about 14 weeks",
       "lehrwerke": "oberstufe",
@@ -1220,7 +1218,7 @@
           ],
           "grammatik": [
             "Nominalisation in formal writing",
-            "Sequence of tenses with the subjunctive; hubiera hecho"
+            "Sequence of tenses: congiuntivo trapassato"
           ],
           "wortschatz": [
             "Research",
@@ -1228,8 +1226,8 @@
             "Data"
           ],
           "pruefung": [
-            "DELE C1: reading practice",
-            "SIELE: reading practice"
+            "CILS C1: reading practice",
+            "CELI C1: reading practice"
           ]
         },
         {
@@ -1239,17 +1237,17 @@
             "You can lead a meeting and sum up."
           ],
           "grammatik": [
-            "Non-finite clauses: al llegar, viendo que…, terminada la reunión",
-            "Formal connectors: debido a, a raíz de"
+            "Non-finite clauses: finita la riunione, dopo aver finito",
+            "Formal connectors: a causa di, pertanto, ai sensi di"
           ],
           "wortschatz": [
-            "Business Spanish",
+            "Business Italian",
             "Reports",
             "Meetings"
           ],
           "pruefung": [
-            "DELE C1: writing practice",
-            "SIELE: writing practice"
+            "CILS C1: writing practice",
+            "CELI C1: writing practice"
           ]
         },
         {
@@ -1259,8 +1257,8 @@
             "You can set conditions and limits precisely."
           ],
           "grammatik": [
-            "Conditions without si: de + infinitive, a no ser que, siempre que",
-            "Formal relatives: el cual, lo cual, cuyo"
+            "Conditions without se: purché, a meno che non, qualora",
+            "Formal relatives: il quale, la cui"
           ],
           "wortschatz": [
             "Values",
@@ -1268,7 +1266,7 @@
             "Public debate"
           ],
           "pruefung": [
-            "DELE C1: writing practice"
+            "CILS C1: writing practice"
           ]
         },
         {
@@ -1278,8 +1276,8 @@
             "You can put the focus exactly where you want it."
           ],
           "grammatik": [
-            "Emphasis and cleft sentences: Fue Ana quien…, Lo que necesito es…",
-            "Modal periphrases: deber de, venir a, llegar a"
+            "Emphasis and cleft sentences: È Anna che…, Quello che mi serve è…",
+            "Passato remoto: andai, fu, disse (in texts and in southern speech)"
           ],
           "wortschatz": [
             "Press",
@@ -1287,27 +1285,27 @@
             "Rhetoric"
           ],
           "pruefung": [
-            "DELE C1: listening practice",
-            "SIELE: listening practice"
+            "CILS C1: listening practice",
+            "CELI C1: listening practice"
           ]
         },
         {
           "thema": "Language & communication",
           "kannZiele": [
-            "You can talk about how language varies in Spain and the Spanish-speaking world.",
+            "You can talk about how language varies in Italy and the Italian-speaking world.",
             "You can switch between formal and informal style."
           ],
           "grammatik": [
-            "Prefixes and derivation: des-, re-, pre-, in-, sobre-",
+            "Prefixes and derivation: dis-, ri-, pre-, in-, sovra-",
             "Discourse markers and register"
           ],
           "wortschatz": [
-            "Varieties of Spanish",
+            "Varieties of Italian",
             "Register",
             "Fixed expressions"
           ],
           "pruefung": [
-            "DELE C1: speaking practice"
+            "CILS C1: speaking practice"
           ]
         },
         {
@@ -1317,8 +1315,8 @@
             "You can turn a spoken explanation into formal writing."
           ],
           "grammatik": [
-            "Nominalisation and verbal style: decidir, la decisión",
-            "Formal connectors: no obstante, por consiguiente, en virtud de"
+            "Nominalisation and verbal style: decidere, la decisione",
+            "Formal connectors: tuttavia, pertanto, nondimeno"
           ],
           "wortschatz": [
             "Globalisation",
@@ -1326,7 +1324,7 @@
             "International cooperation"
           ],
           "pruefung": [
-            "DELE C1: speaking practice"
+            "CILS C1: speaking practice"
           ]
         },
         {
@@ -1336,8 +1334,8 @@
             "You can follow a discussion about a film or a book."
           ],
           "grammatik": [
-            "como si + subjunctive; ni que",
-            "Cohesion: reference, ellipsis, lo and ello"
+            "come se + congiuntivo; Se l'avessi saputo, sarei venuto",
+            "Cohesion: reference, ellipsis, ciò, quello"
           ],
           "wortschatz": [
             "Literature",
@@ -1345,7 +1343,7 @@
             "Art"
           ],
           "pruefung": [
-            "DELE C1: writing practice"
+            "CILS C1: writing practice"
           ]
         },
         {
@@ -1356,15 +1354,15 @@
           ],
           "grammatik": [
             "Review: formal style and sentence structure",
-            "Review: subjunctive and sequence of tenses"
+            "Review: congiuntivo and sequence of tenses"
           ],
           "wortschatz": [
             "Exam instructions",
             "Useful phrases for writing and speaking"
           ],
           "pruefung": [
-            "DELE C1: all parts",
-            "SIELE: all modules"
+            "CILS C1: all parts",
+            "CELI C1: all modules"
           ]
         }
       ],

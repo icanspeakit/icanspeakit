@@ -1,0 +1,249 @@
+---
+import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+// The civic knowledge practice test on the exam-app shell (src/lib/examApp.js). The questions on Italy are
+// our own and come in five areas (meta.tareas, questions[].tarea),
+// about one and a half sittings; the score on them is compared with our own practice target. The questions
+// on one region are an extra and do not count.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import ExamApp from "../../components/ExamApp.astro";
+import ExamFacts from "../../components/ExamFacts.astro";
+import "../../styles/practice.css";
+import "../../styles/pruefungen.css";
+import lid from "../../data/leben-in-deutschland.json";
+
+const { questions, meta, bundeslaender } = lid;
+---
+<Layout
+  title="Civic knowledge practice test – online – icanspeak Italian"
+  description="A civic knowledge practice test: our own questions about life and institutions in Italy, for the civic part of the Accordo di integrazione. Not an official question bank; general orientation, not legal advice."
+>
+  <SiteNav active="pruefungen" />
+  <main class="practice-main practice-main--wide practice-main--trainer">
+    <a href="/progressi?pruefung=leben-in-deutschland" class="vp-back-link" data-i18n="exam.backToOverview">Back to the overview</a>
+
+    <div class="practice-hero">
+      <p class="eyebrow"><span data-i18n="exam.lid.name">Civic knowledge test</span> · <span data-i18n="lid.test.eyebrow">Practice test</span></p>
+      <h1><span class="hero-exam" data-i18n="exam.lid.name">Civic knowledge test</span> <span data-i18n="exam.h1.lidTest">Practice test</span></h1>
+      <p data-i18n-html="lid.test.hero" data-i18n-vars={JSON.stringify({ n: meta.federalQuestions, t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore })}>
+        n practice questions in Italian in five areas, plus extra questions on a region. A sitting here is t questions in m minutes with pass correct answers as our own target; these are not official figures. Unsure of the facts? Go through the <a href="/cultura-civica/fatti">facts page</a> first.
+      </p>
+    </div>
+    <ExamDisclaimer />
+
+    {/* The figures come from meta in leben-in-deutschland.json ("to verify" in the `ccse` report).
+        Questions on one region are an extra. */}
+    <ExamFacts
+      title="How the test works"
+      titleKey="lid.facts.title"
+      rows={[
+        [{ text: "Questions", key: "lid.facts.questions" }, `${meta.totalQuestions}`],
+        [{ text: "Answers", key: "lid.facts.answers" }, { text: "three options, or true or false", key: "lid.facts.answersVal" }],
+        [{ text: "Time", key: "ps.format.th.time" }, `${meta.minutes} min`],
+        [{ text: "Pass", key: "sd1.facts.pass" }, `${meta.passScore} / ${meta.totalQuestions}`],
+        [{ text: "Based on", key: "lid.facts.catalog" }, { text: "public facts and the text of the Constitution; our own questions, no official bank", key: "lid.facts.catalogVal" }],
+      ]}
+      notes={[
+        { key: "lid.facts.note", html: "Our questions are our own, written from public sources; they are not official questions. We could not confirm one official civic test with a fixed format: the length, time and pass mark here are our own practice settings. Questions on a region are extra practice. General orientation, not legal advice." },
+      ]}
+      sources={[
+        { label: "Ministero dell'Interno (Accordo di integrazione: to verify)", url: "https://www.interno.gov.it/" },
+      ]}
+      checked="14.11.2026"
+    />
+
+    <ExamApp brand="Civic knowledge" sub="Practice test" subKey="lid.test.eyebrow" unit="questions" />
+  </main>
+
+  <script type="application/json" id="lid-data" set:html={JSON.stringify({ questions, meta, bundeslaender })}></script>
+  <script type="module">
+    import { mountExamApp } from "../../lib/examApp.js";
+    import { withBase } from "../../lib/paths.js";
+    import { choiceCard, el, sectionHeader, escapeHtml } from "../../lib/exam/renderHelpers.js";
+    import { seededShuffle } from "../../lib/seededShuffle.js";
+    import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
+    import { recordAttempt } from "../../lib/progress.js";
+    import { readyExamI18n, tx } from "../../lib/exam/i18n.js";
+
+    /* Resolved once, before the app mounts — see the note on start-deutsch-1.astro. The
+       test holds answers in progress, so its chrome is fixed at load rather than
+       re-rendered on a language switch. The questions stay Italian, the language of the test. */
+    await readyExamI18n();
+    const t = (key, vars) => tx(key, key, vars);
+    const T = (key, de, vars) => tx(key, de, vars);
+
+    const { questions: federal, meta, bundeslaender } = JSON.parse(document.getElementById("lid-data").textContent);
+    const LAND_KEY = "da-lid-land";
+
+    function savedLand() {
+      try {
+        const id = localStorage.getItem(LAND_KEY);
+        if (bundeslaender.some((l) => l.id === id)) return id;
+      } catch {}
+      return bundeslaender[0].id;
+    }
+    let landId = savedLand();
+    const land = () => bundeslaender.find((l) => l.id === landId) ?? bundeslaender[0];
+
+    // Ids are positional and prefixed per part, so a stored answer keeps meaning when a learner
+    // switches region and back, and answers on one region never count for another.
+    const federalIds = federal.map((_, i) => "bund-" + (i + 1));
+    const landIds = () => land().stateQuestions.map((_, i) => "land-" + landId + "-" + (i + 1));
+
+    // Options are lettered and the letter is what gets stored: the text can be a full sentence.
+    const LETTERS = "abcdefgh";
+    function askAll(main, items, ids, ctx, labelPrefix) {
+      items.forEach((q, i) => {
+        const id = ids[i];
+        main.appendChild(
+          choiceCard({
+            qLabel: T("exam.qLabel.question", "Question {n}", { n: i + 1 }),
+            questionText: q.prompt,
+            // Fixed per-question order (the data lists the right answer first). The key stays the
+            // option's original letter. Vero / Falso keeps its order.
+            options: (q.options.length === 2 ? q.options.map((o, n) => ({ key: LETTERS[n], label: o })) : seededShuffle(q.options.map((o, n) => ({ key: LETTERS[n], label: o })), q.prompt)).map((o, pos) => ({ ...o, badge: LETTERS[pos] })),
+            correctKey: LETTERS[q.options.indexOf(q.answer)],
+            existing: ctx.state.answers[id],
+            contentLang: "it",
+            why: q.explain,
+            onAnswer: (given, correct) => ctx.record(id, given, correct),
+            // bund-3 → x:lid/q3, land-lombardia-2 → x:lid/lombardia/q2 (Tier 0 §2)
+            meldung: id.replace(/^bund-(\d+)$/, "x:lid/q$1").replace(/^land-(.+)-(\d+)$/, "x:lid/$1/q$2"),
+          })
+        );
+      });
+    }
+
+    const sections = [
+      {
+        key: "start",
+        label: "Start",
+        labelKey: "exam.sec.start",
+        ids: null,
+        render(main, ctx) {
+          sectionHeader(main, {
+            eyebrow: T("lid.test.eyebrow", "Practice test"),
+            title: t("lid.chooseState"),
+            instruction: escapeHtml(T("lid.test.startIntro", "The five tasks cover the Constitution and institutions, rights and duties, territory and history, health and school, and work, taxes and daily life. The questions on your region are extra practice and don't count towards your result.")),
+          });
+
+          const picker = el("div", "topic-tabs");
+          for (const l of bundeslaender) {
+            const b = el("button", "topic-tab" + (l.id === landId ? " active" : ""), l.name);
+            b.type = "button";
+            b.addEventListener("click", () => {
+              landId = l.id;
+              try { localStorage.setItem(LAND_KEY, landId); } catch {}
+              ctx.refresh();
+            });
+            picker.appendChild(b);
+          }
+          main.appendChild(picker);
+
+          const l = land();
+          main.appendChild(
+            el("p", "format-note", l.sourced
+              ? escapeHtml(T("lid.test.sourced", "{land}: {n} extra questions written by icanspeak Italian from public sources.", { land: l.name, n: l.stateQuestions.length }))
+              : escapeHtml(T("lid.test.public", "{land}: {n} extra questions written by icanspeak Italian from well-known public facts.", { land: l.name, n: l.stateQuestions.length })))
+          );
+
+          const go = el("button", "quiz-btn quiz-btn--primary", t("exam.startTest"));
+          go.type = "button";
+          go.addEventListener("click", () => ctx.goTo("t1"));
+          main.appendChild(el("div", "exam-actions")).appendChild(go);
+        },
+      },
+      ...meta.tareas.map((tarea) => {
+        const items = federal.filter((q) => q.tarea === tarea.n);
+        const ids = federalIds.filter((_, i) => federal[i].tarea === tarea.n);
+        return {
+          key: "t" + tarea.n,
+          label: T("lid.sec.task", "Task {n}", { n: tarea.n }),
+          ids,
+          render(main, ctx) {
+            sectionHeader(main, {
+              eyebrow: T("lid.sec.task", "Task {n}", { n: tarea.n }),
+              title: tarea.title,
+              instruction: escapeHtml(T(tarea.options === 2 ? "lid.test.taskIntroTf" : "lid.test.taskIntro", "", { n: items.length, real: tarea.realCount })),
+            });
+            askAll(main, items, ids, ctx, "question");
+          },
+        };
+      }),
+      {
+        key: "land",
+        label: "My region",
+        labelKey: "lid.sec.state",
+        ids: landIds,
+        render(main, ctx) {
+          const l = land();
+          sectionHeader(main, {
+            eyebrow: T("lid.sec.extra", "Extra"),
+            title: l.name,
+            instruction: escapeHtml(T("lid.test.stateIntro", "{n} extra questions on {land}. They don't count towards your result. A different region? Back to “Start”.", { n: l.stateQuestions.length, land: l.name })),
+          });
+          askAll(main, l.stateQuestions, landIds(), ctx, "question");
+        },
+      },
+      {
+        key: "ergebnis",
+        label: "Ergebnis",
+        labelKey: "exam.sec.result",
+        ids: null,
+        render(main, ctx) {
+          // Only the questions on Italy count; the region questions are an extra.
+          const ids = federalIds;
+          const answered = countAnswered(ids, ctx.state);
+          const correct = countCorrect(ids, ctx.state);
+          const pct = percent(correct, ids.length);
+          sectionHeader(main, { eyebrow: T("exam.result.eyebrow", "Evaluation"), title: T("exam.result.title", "Your result") });
+
+          const card = el("div", "exam-result");
+          if (!answered) {
+            card.appendChild(el("p", "instruction", escapeHtml(T("lid.result.empty", "No question answered yet. Start with Task 1; your result appears here automatically."))));
+          } else {
+            card.appendChild(el("div", "exam-score", `${correct} <small>${escapeHtml(T("exam.result.ofCorrect", "of {n} correct", { n: ids.length }))}</small>`));
+            // This bank is bigger than one sitting, so the comparison is made on the share, and
+            // the rule it comes from is printed underneath.
+            const passPct = Math.round((meta.passScore / meta.totalQuestions) * 100);
+            const band = pct >= passPct ? ["", t("lid.abovePass")] : pct >= passPct - 12 ? ["mid", t("lid.band.near")] : ["low", t("lid.band.low")];
+            card.appendChild(el("span", "exam-band " + band[0], band[1]));
+            card.appendChild(el("p", "instruction", escapeHtml(T("lid.result.pct", "{pct}% correct on the questions on Italy. Our own target is {pass} of {t} ({passPct}%); it is a practice goal, not an official pass mark.", { pct, pass: meta.passScore, t: meta.totalQuestions, passPct }))));
+
+            const table = el("table", "exam-breakdown");
+            table.innerHTML =
+              "<thead><tr><th>" + escapeHtml(t("format.th.part")) + "</th><th>" + escapeHtml(t("exam.th.correct")) + "</th></tr></thead><tbody>" +
+              meta.tareas.map((tarea) => {
+                const part = federalIds.filter((_, i) => federal[i].tarea === tarea.n);
+                return `<tr><td lang="it">${escapeHtml(tarea.title)}</td><td>${countCorrect(part, ctx.state)} / ${part.length}</td></tr>`;
+              }).join("") +
+              `<tr><td>${escapeHtml(land().name)} (${escapeHtml(T("lid.sec.extra", "Extra"))})</td><td>${countCorrect(landIds(), ctx.state)} / ${landIds().length}</td></tr>` +
+              "</tbody>";
+            card.appendChild(table);
+
+            if (answered < ids.length) {
+              card.appendChild(el("p", "instruction", escapeHtml(T("exam.result.openQuestions", "Still open: {n} questions.", { n: ids.length - answered }))));
+            }
+          }
+          main.appendChild(card);
+
+          const actions = el("div", "exam-actions");
+          const facts = el("a", "quiz-btn", t("lid.toFacts"));
+          facts.href = withBase("/cultura-civica/fatti");
+          actions.appendChild(facts);
+          main.appendChild(actions);
+        },
+      },
+    ];
+
+    mountExamApp(document.querySelector("[data-exam-root]"), {
+      examId: "leben-in-deutschland",
+      // traffic-baseline: exam_start / exam_finish
+      meta: { exam: "leben-in-deutschland", set: "test", scoreIds: () => federalIds },
+      sections,
+      unit: "questions",
+      unitKey: "exam.unit.questions",
+      onAnswer: (ok) => recordAttempt({ skill: "pruefungen", correct: ok }),
+    });
+  </script>
+</Layout>

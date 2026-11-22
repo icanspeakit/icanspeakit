@@ -2,6 +2,7 @@ import { languagesFor, htmlLang, BASE } from "./languages.js";
 import { loadScriptFont } from "./scriptFonts.js";
 import { applyLangCss } from "./langCss.js";
 import { withBase, rebaseHtml } from "./paths.js";
+import { showReviewBanner } from "./reviewBanner.js";
 
 /** The interface languages, from the registry (src/lib/languages.js), in menu order. */
 // `htmlLang` is what <html lang> says: the code, or its hreflang where the registry has one
@@ -22,6 +23,10 @@ export function getLang() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved && LANGUAGES.some((l) => l.code === saved)) return saved;
   } catch {}
+  // No choice yet: what Layout.astro picked before the first paint (the browser's language,
+  // else the course's own one). Not stored, so it is not a choice.
+  const auto = typeof document !== "undefined" ? document.documentElement.getAttribute("data-lang-auto") : null;
+  if (auto && LANGUAGES.some((l) => l.code === auto)) return auto;
   return BASE_LANG;
 }
 
@@ -81,14 +86,14 @@ function applyToDom(dict) {
   document.querySelectorAll("[data-i18n-html]").forEach((el) => {
     const key = el.getAttribute("data-i18n-html");
     const vars = varsOf(el, globals);
-    // rebaseHtml: a link in the string (href="/grammar") goes under the base path (paths.js).
+    // rebaseHtml: a link in the string (href="/grammaire") goes under the base path (paths.js).
     if (dict[key] != null) el.innerHTML = rebaseHtml(translate(dict, key, vars));
   });
   document.querySelectorAll("[data-i18n-attr]").forEach((el) => {
     el.getAttribute("data-i18n-attr").split(";").forEach((pair) => {
       const [attr, key] = pair.split(":").map((s) => s.trim());
       if (!attr || !key || dict[key] == null) return;
-      el.setAttribute(attr, translate(dict, key, globals));
+      el.setAttribute(attr, translate(dict, key, varsOf(el, globals)));
     });
   });
 }
@@ -117,6 +122,8 @@ export async function applyLang(code) {
   loadScriptFont(lang.code);
   // Which translation spans show for this language (langCss.js).
   applyLangCss(lang.code);
+  // The course's own language is a draft until a native speaker has read it (reviewBanner.js).
+  showReviewBanner(lang.code);
   const dict = await mergedDict(lang.code);
   applyToDom(dict);
   listeners.forEach((fn) => fn(lang.code, dict));

@@ -1,9 +1,14 @@
 ---
+import LogoDrop from '../components/LogoDrop.astro';
 // icanspeak.it root: the umbrella landing in the brand pattern (brand/kit/BRAND.md §5):
 // header, ribbon, hero with the 3×3 mascot tile grid, "Choose a course", the linguistics
 // band and the navy footer. Tiles are CSS (styles/tiles.css) and decoration only: aria-hidden.
 import Brand from '../layouts/Brand.astro';
 import { COURSES } from '../data/courses';
+import { HUB_LANGS, HUB_TEXT, tEn } from '../data/hubText';
+
+// The course names are written in their own language, whatever the interface language is.
+const LANG: Record<string, string> = { EN: 'en', ES: 'es', FR: 'fr', PT: 'pt-PT', IT: 'it' };
 
 const RIBBON = [
   { cls: 'isk-tile--half', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff' },
@@ -23,21 +28,43 @@ const HERO = [
   { cls: 'isk-tile--half', bg: 'var(--isk-yellow)', a: 'var(--isk-green)', b: 'var(--isk-coral)', switch: true },
   { cls: '', bg: 'var(--isk-navy)', a: 'var(--isk-yellow)', b: '#fff', glyph: '¡' },
   { cls: '', bg: 'var(--isk-yellow)', a: 'var(--isk-navy)', b: '#fff', mascot: 'regi' },
-  { cls: 'isk-tile--bubble', bg: 'var(--isk-sky)', a: '#fff', b: '#fff', say: 'Here for you!' },
+  { cls: 'isk-tile--bubble', bg: 'var(--isk-sky)', a: '#fff', b: '#fff', say: tEn('hero.say') },
   { cls: 'isk-tile--half', bg: 'var(--isk-green)', a: 'var(--isk-coral)', b: 'var(--isk-yellow)', turn: true },
   { cls: '', bg: 'var(--isk-coral)', a: 'var(--isk-navy)', b: '#fff', mascot: 'quaki' },
   { cls: '', bg: 'var(--isk-green)', a: 'var(--isk-navy)', b: '#fff', mascot: 'hamsti' },
 ];
+// The linguistics band: four tiles in the word-card style (apps/linguistics WordCards.astro).
+const lingTiles = [
+  { href: '/linguistics/blog/', title: 'Word stories', tag: 'Magazine', desc: 'Where words came from, told properly.', bg: 'var(--isk-sky)', motif: 'isk-tile--half', a: 'var(--isk-navy)', b: 'var(--isk-yellow)' },
+  { href: '/linguistics/words/', title: 'Word cards', tag: 'Bite-sized', desc: "Flip a card, learn a word's secret.", bg: 'var(--isk-yellow)', motif: 'isk-tile--quarter', a: 'var(--isk-coral)', b: '#fff' },
+  { href: '/linguistics/exercises/', title: 'Speech exercises', tag: 'Practice', desc: 'Articulation, prosody, voice and pace.', bg: 'var(--isk-coral)', motif: 'isk-tile--dots', a: 'var(--isk-navy)', b: '#fff' },
+  { href: '/linguistics/', title: 'All of linguistics', tag: 'Start here', desc: 'Everything for the curious, in one place.', bg: 'var(--isk-navy)', motif: 'isk-tile--dome', a: 'var(--isk-green)', b: '#fff', dark: true },
+];
 ---
 <Brand
   title="icanspeak.it — learn a language, properly"
-  description="Ad-free language courses from A1 to C1 — English first, Spanish, French, Portuguese and Italian on the way — plus word stories and speech training for the curious."
+  description={tEn('meta.desc')}
 >
   <div class="l-frame">
   <header class="l-header">
     <div class="l-wrap">
-      <a href="/" aria-label="icanspeak.it home"><img src="/logos/icanspeakit-wordmark.svg" alt="icanspeak.it" width="160" height="34" /></a>
-      <nav aria-label="Main"><a href="/linguistics/">Linguistics</a></nav>
+      <a href="/" aria-label={tEn('aria.home')} data-i18n-aria="aria.home"><LogoDrop src="/logos/icanspeak-wordmark.svg" alt="icanspeak!" width={164} height={34} /></a>
+      <nav class="l-nav" aria-label={tEn('aria.main')} data-i18n-aria="aria.main">
+        <!-- Interface language: the courses' six, stored under da_lang so the courses follow (data/hubText.ts). -->
+        <div class="l-lang">
+          <button type="button" class="l-lang__btn" id="l-lang-btn" aria-haspopup="true" aria-expanded="false" aria-controls="l-lang-menu" aria-label={tEn('lang.label')} data-i18n-aria="lang.label">
+            <svg class="l-lang__globe" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.8 3.9 6 3.9 9.5s-1.3 6.7-3.9 9.5c-2.6-2.8-3.9-6-3.9-9.5s1.3-6.7 3.9-9.5z"/></svg>
+            <span class="l-lang__code" data-lang-code>EN</span>
+            <svg class="l-lang__caret" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <ul class="l-lang__menu" id="l-lang-menu" hidden>
+            {HUB_LANGS.map((l) => (
+              <li><button type="button" lang={l.htmlLang} data-lang={l.code} aria-pressed={l.code === 'en' ? 'true' : 'false'}><span>{l.native}</span><span class="l-lang__tick" aria-hidden="true">✓</span></button></li>
+            ))}
+          </ul>
+        </div>
+        <a href="/linguistics/" data-i18n="nav.ling">Linguistics</a>
+      </nav>
     </div>
   </header>
 
@@ -52,25 +79,25 @@ const HERO = [
   <main>
     <section class="l-hero">
       <div class="l-hero__copy">
-        <p class="l-eyebrow">Language courses</p>
-        <h1 class="l-h1">Learn a language.<br /><span class="l-h1__mark">Step by step.</span></h1>
-        <p class="l-lead">Full courses from your first words to C1: grammar, vocabulary, real-life situations and exam preparation. No ads, no tricks.</p>
+        <p class="l-eyebrow" data-i18n="hero.eyebrow">{tEn('hero.eyebrow')}</p>
+        <h1 class="l-h1"><span data-i18n="hero.h1a">{tEn('hero.h1a')}</span><br /><span class="l-h1__mark" data-i18n="hero.h1b">{tEn('hero.h1b')}</span></h1>
+        <p class="l-lead" data-i18n="hero.lead">{tEn('hero.lead')}</p>
         <div class="l-cta">
-          <a href="#courses" class="l-btn l-btn--primary">Choose a course</a>
-          <a href="/linguistics/" class="l-btn l-btn--outline">Word stories</a>
+          <a href="#courses" class="l-btn l-btn--primary" data-i18n="cta.choose">{tEn('cta.choose')}</a>
+          <a href="/linguistics/" class="l-btn l-btn--outline" data-i18n="cta.stories">{tEn('cta.stories')}</a>
         </div>
-        <p class="l-free">Free exercises, no account needed.</p>
+        <p class="l-free" data-i18n="hero.free">{tEn('hero.free')}</p>
       </div>
       <div class="l-hero__grid">
         {HERO.map((t) => t.switch ? (
-          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label="Switch layout" aria-pressed="false" style="--t:150px"></button>
+          <button type="button" class={`isk-tile ${t.cls} l-flip`} aria-label={tEn('tile.switch')} data-i18n-aria="tile.switch" aria-pressed="false" style="--t:150px"></button>
         ) : t.turn ? (
-          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label="Turn" aria-pressed="false" style="--t:150px"></button>
+          <button type="button" class={`isk-tile ${t.cls} l-turn`} aria-label={tEn('tile.turn')} data-i18n-aria="tile.turn" aria-pressed="false" style="--t:150px"></button>
         ) : (
           <div class={`isk-tile ${t.cls}`} aria-hidden="true" style={`--t:150px;--bg:${t.bg};--a:${t.a};--b:${t.b}`}>
             {t.mascot && <div class="isk-tile__fill"><img src={`/mascots/${t.mascot}.svg`} alt="" width="120" height="120" /></div>}
             {t.glyph && <div class="isk-tile__fill">{t.glyph}</div>}
-            {t.say && <span class="isk-tile__say">{t.say}</span>}
+            {t.say && <span class="isk-tile__say" data-i18n="hero.say">{t.say}</span>}
           </div>
         ))}
       </div>
@@ -78,24 +105,23 @@ const HERO = [
 
     <section class="l-band" id="courses" aria-labelledby="courses-title">
       <div class="l-wrap">
-        <h2 class="l-h2 l-h2--light" id="courses-title">Choose a course</h2>
+        <h2 class="l-h2 l-h2--light" id="courses-title" data-i18n="cta.choose">{tEn('cta.choose')}</h2>
         <ul class="l-courses">
           {COURSES.map((c) => (
             <li>
               {c.live ? (
-                <a class="l-course l-course--live" href={`/${c.slug}/`} lang={c.slug === 'english' ? 'en' : undefined}>
-                  <span class="l-course__tag">Almost ready</span>
+                <a class="l-course l-course--live" href={`/${c.slug}/`}>
                   <span class="l-course__code">{c.code}</span>
-                  <span class="l-course__name">{c.name}</span>
-                  <span class="l-course__meta">{c.meta}</span>
-                  <span class="l-course__go">Start learning {c.english} →</span>
+                  <span class="l-course__name" lang={LANG[c.code]}>{c.name}</span>
+                  <span class="l-course__meta" data-i18n={`course.meta.${c.slug}`}>{tEn(`course.meta.${c.slug}`)}</span>
+                  <span class="l-course__go" data-i18n={`course.go.${c.slug}`}>{tEn(`course.go.${c.slug}`)}</span>
                 </a>
               ) : (
-                <div class="l-course" aria-label={`${c.english} course, coming soon`}>
-                  <span class="l-course__tag">Coming soon</span>
+                <div class="l-course">
+                  <span class="l-course__tag" data-i18n="course.soon">{tEn('course.soon')}</span>
                   <span class="l-course__code">{c.code}</span>
-                  <span class="l-course__name">{c.name}</span>
-                  <span class="l-course__meta">{c.meta}</span>
+                  <span class="l-course__name" lang={LANG[c.code]}>{c.name}</span>
+                  <span class="l-course__meta" data-i18n={`course.meta.${c.slug}`}>{tEn(`course.meta.${c.slug}`)}</span>
                 </div>
               )}
             </li>
@@ -115,15 +141,22 @@ const HERO = [
     <section class="l-ling" aria-labelledby="ling-title">
       <div class="l-wrap">
         <div class="l-ling__copy">
-          <p class="l-eyebrow">For the curious</p>
-          <h2 id="ling-title">Linguistics: where words come from and how speech works</h2>
-          <p>Word origin stories, word cards and speech exercises for articulation, prosody, voice and pace: the mechanics behind sounding like yourself in another language.</p>
+          <p class="l-eyebrow" data-i18n="ling.eyebrow">{tEn('ling.eyebrow')}</p>
+          <h2 id="ling-title" data-i18n="ling.title">{tEn('ling.title')}</h2>
+          <p data-i18n="ling.body">{tEn('ling.body')}</p>
         </div>
-        <ul>
-          <li><a href="/linguistics/blog/">Word stories <span>Magazine</span></a></li>
-          <li><a href="/linguistics/words/">Word cards <span>Bite-sized</span></a></li>
-          <li><a href="/linguistics/exercises/">Speech exercises <span>Practice</span></a></li>
-          <li><a href="/linguistics/">All of linguistics <span>→</span></a></li>
+        <ul class="l-ling__tiles">
+          {lingTiles.map((t, i) => (
+            <li style={`--i:${i};--front:${t.bg}`} class={t.dark ? 'is-dark' : undefined}>
+              <a href={t.href}>
+                <span class={`isk-tile ${t.motif} l-ling__motif`} aria-hidden="true" style={`--t:96px;--bg:transparent;--a:${t.a};--b:${t.b}`}></span>
+                <span class="l-ling__tag" data-i18n={`ling.${i}.tag`}>{t.tag}</span>
+                <span class="l-ling__title" data-i18n={`ling.${i}.title`}>{t.title}</span>
+                <span class="l-ling__desc" data-i18n={`ling.${i}.desc`}>{t.desc}</span>
+                <span class="l-ling__go" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </section>
@@ -131,27 +164,128 @@ const HERO = [
 
   <footer class="l-footer">
     <div class="l-wrap">
-      <img src="/logos/icanspeakit-wordmark-dark.svg" alt="icanspeak.it" width="160" height="30" />
-      <nav aria-label="Footer"><a href="/linguistics/former-site/impressum/">Impressum</a></nav>
+      <img src="/logos/icanspeak-wordmark-dark.svg" alt="icanspeak!" width="145" height="30" />
+      <nav aria-label={tEn('aria.footer')} data-i18n-aria="aria.footer"><a href="/linguistics/former-site/impressum/">Impressum</a></nav>
     </div>
   </footer>
   </div>
+  <script is:inline define:vars={{ HUB_TEXT, HUB_LANGS }}>
+    (function () {
+      // Interface language. The HTML is English; a saved choice (da_lang, shared with every course)
+      // wins, else the browser's first language the hub has, else English. Only a pick in the menu
+      // is saved, so a browser guess never decides the courses' language on its own.
+      var KEY = 'da_lang';
+      var codes = HUB_LANGS.map(function (l) { return l.code; });
+      function saved() { try { var v = localStorage.getItem(KEY); return codes.indexOf(v) >= 0 ? v : null; } catch (e) { return null; } }
+      function guess() {
+        var list = navigator.languages || [navigator.language || ''];
+        for (var i = 0; i < list.length; i++) {
+          var c = String(list[i]).slice(0, 2).toLowerCase();
+          if (codes.indexOf(c) >= 0) return c;
+        }
+        return 'en';
+      }
+      var btn = document.getElementById('l-lang-btn');
+      var menu = document.getElementById('l-lang-menu');
+      var codeEl = btn.querySelector('[data-lang-code]');
+      function apply(code) {
+        var d = HUB_TEXT[code] || HUB_TEXT.en, en = HUB_TEXT.en;
+        var meta = HUB_LANGS.filter(function (l) { return l.code === code; })[0] || HUB_LANGS[0];
+        document.documentElement.lang = meta.htmlLang;
+        document.title = d['meta.title'] || en['meta.title'];
+        var md = document.querySelector('meta[name="description"]');
+        if (md) md.setAttribute('content', d['meta.desc'] || en['meta.desc']);
+        document.querySelectorAll('[data-i18n]').forEach(function (el) {
+          var k = el.getAttribute('data-i18n'); el.textContent = d[k] || en[k] || el.textContent;
+        });
+        document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+          var k = el.getAttribute('data-i18n-aria'); el.setAttribute('aria-label', d[k] || en[k]);
+        });
+        codeEl.textContent = meta.code.toUpperCase();
+        menu.querySelectorAll('[data-lang]').forEach(function (b) {
+          b.setAttribute('aria-pressed', b.dataset.lang === meta.code ? 'true' : 'false');
+        });
+      }
+      var start = saved() || guess();
+      if (start !== 'en') apply(start);
+
+      function open(on) {
+        menu.hidden = !on;
+        btn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        if (on) (menu.querySelector('[aria-pressed="true"]') || menu.querySelector('button')).focus();
+      }
+      btn.addEventListener('click', function () { open(menu.hidden); });
+      menu.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-lang]');
+        if (!b) return;
+        try { localStorage.setItem(KEY, b.dataset.lang); } catch (err) {}
+        apply(b.dataset.lang);
+        open(false);
+        btn.focus();
+      });
+      menu.addEventListener('keydown', function (e) {
+        var items = Array.prototype.slice.call(menu.querySelectorAll('button'));
+        var i = items.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.hidden) { open(false); btn.focus(); }
+      });
+      document.addEventListener('click', function (e) {
+        if (!menu.hidden && !e.target.closest('.l-lang')) open(false);
+      });
+    })();
+  </script>
   <script is:inline>
     (function () {
-      // Two circles, each with its own step through the four brand colours. A click moves only the
-      // clicked circle, and the page background takes that circle's new colour. The layout never changes.
-      var TONES = ['green', 'red', 'blue', 'yellow'];
-      document.body.dataset.tone = TONES[0];
+      // Every tile on the page plays along: a click spins it and the page background takes on that
+      // tile's look: its colour, and its dots or stripes when it has them. The two half-moon buttons
+      // first step through their own four colours, then hand their new look to the page the same way.
+      // One delegated listener and transform-only animation on the clicked tile: cheap at any tile count.
+      var body = document.body;
+      var frame = document.querySelector('.l-frame');
+      body.dataset.tone = 'green';
+      // Same look as the page already wears: the card gives a short wobble so the click still answers.
+      function bump() {
+        frame.classList.remove('l-bump');
+        void frame.offsetWidth;
+        frame.classList.add('l-bump');
+      }
+      function wear(t) {
+        var cs = getComputedStyle(t);
+        var bg = cs.getPropertyValue('--bg').trim(), a = cs.getPropertyValue('--a').trim();
+        var img = 'none', size = 'auto', pos = '0 0';
+        if (t.classList.contains('isk-tile--dots')) {
+          img = 'radial-gradient(' + a + ' 22%, transparent 24%)'; size = '28px 28px'; pos = '14px 14px';
+        } else if (t.classList.contains('isk-tile--stripes')) {
+          img = 'repeating-linear-gradient(to bottom, ' + a + ' 0 24px, ' + cs.getPropertyValue('--b').trim() + ' 24px 48px)';
+        }
+        var bs = getComputedStyle(body), was = bs.backgroundColor + bs.backgroundImage;
+        body.style.backgroundColor = bg;
+        body.style.backgroundImage = img;
+        body.style.backgroundSize = size;
+        body.style.backgroundPosition = pos;
+        if (bs.backgroundColor + bs.backgroundImage === was) bump();
+      }
       document.querySelectorAll('.l-turn, .l-flip').forEach(function (b) {
         var step = 0;
         b.dataset.step = '0';
         b.addEventListener('click', function () {
-          step = (step + 1) % TONES.length;
+          step = (step + 1) % 4;
           b.dataset.step = String(step);
           b.style.setProperty('--spin', (step * 360) + 'deg');
           b.setAttribute('aria-pressed', step === 0 ? 'false' : 'true');
-          document.body.dataset.tone = TONES[step];
+          wear(b);
         });
+      });
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest && e.target.closest('.l-frame .isk-tile');
+        if (!t || t.matches('.l-turn, .l-flip')) return;
+        var turns = (+t.dataset.turns || 0) + 1;
+        t.dataset.turns = String(turns);
+        t.style.setProperty('--spin', (turns * 360) + 'deg');
+        wear(t);
       });
     })();
   </script>

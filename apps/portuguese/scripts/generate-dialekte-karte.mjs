@@ -1,4 +1,4 @@
-// Map geometry for /knowledge/accents (varieties of Portuguese in Portugal) — run once, output committed.
+// Map geometry for /conhecimentos/acentos (varieties of Portuguese in Portugal) — run once, output committed.
 //
 //   node scripts/generate-dialekte-karte.mjs
 //

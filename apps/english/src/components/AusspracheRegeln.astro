@@ -11,6 +11,7 @@
 // An example the lexicon has voiced plays its recording; the rest are plain text.
 import rules from "../data/ausspracheregeln.json";
 import { asAudioItems, units } from "../lib/lexicon.js";
+import { withBase } from "../lib/paths.js";
 
 // Word → its recording, by the bare word ("a table" → "table", "der Tisch" → "tisch").
 const bare = (t: string) => t.replace(/^(der|die|das|a|an|the)\s+/i, "").trim().toLowerCase();
@@ -66,7 +67,7 @@ function parts(ex: Ex) {
             return (
               <li>
                 {src ? (
-                  <button type="button" class="pr-regel-word" data-regel-play={src} lang="en">
+                  <button type="button" class="pr-regel-word" data-regel-play={withBase(src)} lang="en">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                     <span>{word}</span>
                   </button>

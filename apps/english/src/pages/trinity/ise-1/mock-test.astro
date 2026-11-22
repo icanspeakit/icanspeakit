@@ -44,6 +44,7 @@ const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
     import { recordAttempt } from "../../../lib/progress.js";
     import { readyExamI18n, tx } from "../../../lib/exam/i18n.js";
     import { intent } from "../../../lib/intent.js";
+    import { BASE_PATH } from "../../../lib/paths.js";
 
     // Chrome only (progress line, buttons, the summary table). The reading texts and
     // questions stay German. A task already on screen keeps its language until the next
@@ -131,7 +132,7 @@ const totalQuestions = tasks.reduce((sum, t) => sum + t.questions.length, 0);
         </div>
         <div class="exam-cta">
           <button type="button" id="mock-restart" class="quiz-btn quiz-btn--primary">${esc(tx("dtzMock.restart", "Mock-Test wiederholen"))}</button>
-          <p style="margin-top:14px;"><a href="/reading-writing">${esc(tx("dtzMock.toWriting", "Weiter mit Formular- und Schreibaufgaben"))}</a></p>
+          <p style="margin-top:14px;"><a href="${BASE_PATH}/reading-writing">${esc(tx("dtzMock.toWriting", "Weiter mit Formular- und Schreibaufgaben"))}</a></p>
         </div>`;
       document.getElementById("mock-restart").addEventListener("click", () => {
         taskIndex = 0;

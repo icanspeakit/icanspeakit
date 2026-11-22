@@ -5,7 +5,7 @@
 //
 // There is no Pause for a learner. The clock stops by itself when the tab is closed or
 // asleep (timer.js) and runs again as soon as a page of the Stunde is open – unless the
-// learner chose „Später weiter“ (extra.parked), which stops it until /lesson is opened again.
+// learner chose „Später weiter“ (extra.parked), which stops it until /lezione is opened again.
 import { createSteuerung } from "./steuerung.js";
 import { topicPath } from "../routes.js";
 import { readLocal, writeLocal, clearLocal } from "./speichern.js";

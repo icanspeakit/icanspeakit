@@ -22,11 +22,11 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { entryLanguages, BASE } from '../lib/languages.js';
+import { entryLanguages, languageOf, BASE } from '../lib/languages.js';
 import { absoluteUrl, rebaseHtml } from '../lib/paths.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const OG_LOCALE = { de: 'de_DE', fr: 'fr_FR', pt: 'pt_BR', it: 'it_IT' };
+const OG_LOCALE = { de: 'de_DE', es: 'es_ES', pt: 'pt_BR', it: 'it_IT' };
 
 const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => escText(s).replace(/"/g, '&quot;');
@@ -108,19 +108,35 @@ export function translateHtml(html, dict) {
 
 const setMeta = (html, re, value) => html.replace(re, (tag) => tag.replace(/content="[^"]*"/, `content="${escAttr(value)}"`));
 
-/** The German URL of a page and its copy in one language: home with a trailing slash, the rest without. */
-// Under the base path (src/lib/paths.js): https://icanspeak.it/spanish/de/…. `site` stays in
-// the signature for scripts/build-entry-pages.mjs; the base decides.
-const deUrl = (_site, page) => absoluteUrl(page.src);
-const langUrl = (_site, page, l) => absoluteUrl(`/${l.urlPrefix}/${page.slug}`);
+/** The base-language URL of a page (the English one) and its copy in one language. */
+// No trailing slash: the form Layout.astro puts in <link rel="canonical"> and the sitemap lists,
+// so a page's canonical and its hreflang entries are the same URL.
+const noSlash = (u) => u.replace(/\/$/, '');
+const baseUrl = (_site, page) => noSlash(absoluteUrl(page.src));
+const langUrl = (_site, page, l) => noSlash(absoluteUrl(`/${l.urlPrefix}/${page.slug}`));
 
 function alternatesHtml(site, page, langs) {
-  const de = deUrl(site, page);
-  return [`<link rel="alternate" hreflang="${BASE}" href="${de}">`,
+  const base = baseUrl(site, page);
+  return [`<link rel="alternate" hreflang="${BASE}" href="${base}">`,
     ...langs.map((l) => `<link rel="alternate" hreflang="${l.hreflang}" href="${langUrl(site, page, l)}">`),
-    `<link rel="alternate" hreflang="x-default" href="${de}">`].join('');
+    `<link rel="alternate" hreflang="x-default" href="${base}">`].join('');
 }
 const withAlternates = (html, alt) => html.replace(/<link rel="alternate" hreflang="[^"]*" href="[^"]*">/g, '').replace('</head>', `${alt}</head>`);
+
+/* The language switcher of an entry page: one link per version of the page (English and each
+ * entry language), rendered at build time so it works without JS and does not depend on the
+ * header picker (which only lists languages past GATES.ui). The current one is marked. */
+function switcherHtml(site, page, langs, current) {
+  const items = [
+    { code: BASE, hreflang: BASE, native: languageOf(BASE)?.native ?? BASE, href: baseUrl(site, page) },
+    ...langs.map((l) => ({ code: l.code, hreflang: l.hreflang, native: l.native, href: langUrl(site, page, l) })),
+  ];
+  const links = items.map((i) => `<a href="${escAttr(i.href)}" lang="${escAttr(i.hreflang)}" hreflang="${escAttr(i.hreflang)}"${i.code === current ? ' aria-current="true"' : ''}>${escText(i.native)}</a>`).join('');
+  return `<nav class="ep-langs" aria-label="Language · Sprache">`
+    + `<style>.ep-langs{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;padding:8px 16px;font-size:.9rem;background:var(--surface-card,#fff);border-bottom:1px solid var(--border,#e7e9ee)}.ep-langs a{color:var(--brand-blue-dark,#0f766e);text-decoration:none}.ep-langs a[aria-current="true"]{font-weight:700;text-decoration:underline}</style>`
+    + links + `</nav>`;
+}
+const withSwitcher = (html, nav) => (html.includes('class="ep-langs"') ? html : html.replace(/<body\b[^>]*>/i, (tag) => tag + nav));
 
 function introHtml(intro, l) {
   const links = intro.links.map(([label, href]) => `<li><a href="${escAttr(href)}" rel="noopener" target="_blank">${escText(label)}</a></li>`).join('');
@@ -129,6 +145,37 @@ function introHtml(intro, l) {
     + `<h2 id="ep-intro-h">${escText(intro.heading)}</h2>`
     + intro.paragraphs.map((p) => `<p>${escText(p)}</p>`).join('')
     + `<ul>${links}</ul></section>`;
+}
+
+/* The structured data of a copy, in its language. translateHtml leaves <script> bodies alone,
+ * so the JSON-LD would still be the English page's: the page node gets the copy's URL,
+ * language, title and description, and an FAQPage is rebuilt from the copy's own visible
+ * questions and answers ([data-faq-q] / [data-faq-a], already translated), so the markup never
+ * claims an answer the reader cannot see. Nodes that describe other things (the PDFs, the
+ * breadcrumb, the organisation) are left as they are. */
+const stripTags = (s) => decode(String(s).replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+function localizeLd(html, { lang, href, title, description }) {
+  return html.replace(/(<script type="application\/ld\+json">)([\s\S]*?)(<\/script>)/g, (all, open, body, close) => {
+    let data;
+    try { data = JSON.parse(body); } catch { return all; }
+    const nodes = Array.isArray(data['@graph']) ? data['@graph'] : [data];
+    const qs = [...html.matchAll(/<[^>]*\sdata-faq-q[\s>][^>]*>([\s\S]*?)<\/[a-z0-9]+>/gi)].map((m) => stripTags(m[1]));
+    const as = [...html.matchAll(/<[^>]*\sdata-faq-a[\s>][^>]*>([\s\S]*?)<\/[a-z0-9]+>/gi)].map((m) => stripTags(m[1]));
+    for (const n of nodes) {
+      const type = [n['@type']].flat();
+      if (type.includes('FAQPage') && qs.length && qs.length === as.length) {
+        n.mainEntity = qs.map((q, i) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: as[i] } }));
+        n.inLanguage = lang;
+      }
+      if (type.some((t) => ['CollectionPage', 'WebPage', 'FAQPage'].includes(t))) {
+        n.inLanguage = lang;
+        if (n.url) n.url = href;
+        if (title && n.name) n.name = title.replace(/\s+[–|-]\s+icanspeak French$/, '');
+        if (description && n.description) n.description = description;
+      }
+    }
+    return open + JSON.stringify(data).replace(/</g, '\\u003c') + close;
+  });
 }
 
 /** Writes the language copies of the entry pages into `root` (the built site). */
@@ -146,7 +193,7 @@ export async function buildEntryPages(root, site, logger = console) {
     if (!existsSync(src)) { logger.warn?.(`entry-pages: ${page.src} not built, skipped`); continue; }
     const german = await readFile(src, 'utf8');
     const alt = alternatesHtml(site, page, langs);
-    await writeFile(src, withAlternates(german, alt));
+    await writeFile(src, withAlternates(withSwitcher(german, switcherHtml(site, page, langs, BASE)), alt));
     for (const l of langs) {
       const own = cfg.langs[l.code];
       const [title, description, h1] = own.meta[page.src] ?? [];
@@ -168,8 +215,9 @@ export async function buildEntryPages(root, site, logger = console) {
         html = setMeta(html, /<meta property="og:description"[^>]*>/, description);
         html = setMeta(html, /<meta name="twitter:description"[^>]*>/, description);
       }
+      html = localizeLd(html, { lang: l.hreflang, href, title, description });
       // An H1 that is data rather than a dictionary key (a deck title) gets its own line.
-      if (h1) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, (tag) => tag.replace(/\slang="(?:de|es)"/, '').replace(/>[\s\S]*<\/h1>$/, `>${escText(h1)}</h1>`));
+      if (h1) html = html.replace(/<h1\b[^>]*>[\s\S]*?<\/h1>/, (tag) => tag.replace(/\slang="de"/, '').replace(/>[\s\S]*<\/h1>$/, `>${escText(h1)}</h1>`));
       // The home page: an intro for this audience, after the hero.
       if (page.src === '/' && own.intro) {
         const hero = html.match(/<section class="fr-page fr-page--home"[^>]*>/);
@@ -177,7 +225,7 @@ export async function buildEntryPages(root, site, logger = console) {
         if (close) html = html.slice(0, close.end) + introHtml(own.intro, l) + html.slice(close.end);
         else logger.warn?.('entry-pages: home hero not found, intro skipped');
       }
-      html = rebaseHtml(withAlternates(html, alt));
+      html = rebaseHtml(withAlternates(withSwitcher(html, switcherHtml(site, page, langs, l.code)), alt));
       const out = fileOf(`/${l.urlPrefix}${page.slug ? `/${page.slug}` : ''}`);
       await mkdir(path.dirname(out), { recursive: true });
       await writeFile(out, html);

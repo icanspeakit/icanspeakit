@@ -17,6 +17,7 @@ import { t } from "../uiText.js";
 import { track } from "../track.js";
 import { createVoice } from "../spielKit.js";
 import { AREAS, MOODS, PLAYERS, TOPICS, TOPIC_DELTA, areaById, titleFor, topicById, topicKind } from "./scenes.js";
+import { BASE_PATH } from "../paths.js";
 
 const PLAYER_KEY = "da-knigge-player";
 /** "1" once a whole day was played: then every area is free to pick. */
@@ -25,7 +26,7 @@ const SOUND_KEY = "da-knigge-sound";
 /** The topics each person was found to like (Smalltalk-Rad): { [personId]: [topicId] }. */
 const KNOWN_KEY = "da-knigge-known";
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const icon = (code, size = 28, cls = "") => `<img class="${cls}" src="/img/openmoji/${code}.svg" alt="" width="${size}" height="${size}" />`;
+const icon = (code, size = 28, cls = "") => `<img class="${cls}" src="${BASE_PATH}/img/openmoji/${code}.svg" alt="" width="${size}" height="${size}" />`;
 const clamp = (v) => Math.max(0, Math.min(100, v));
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -91,7 +92,7 @@ export function mountKnigge(root) {
     const mood = S.mood ?? moodOf(5);
     stage.className = `kn-stage kn-bg--${sc.backdrop}`;
     stage.innerHTML = `
-      <div class="kn-props" aria-hidden="true">${(sc.props ?? []).map((p) => `<img src="/img/openmoji/${p.icon}.svg" alt="" style="left:${p.x}%;top:${p.y}%;" width="56" height="56" />`).join("")}</div>
+      <div class="kn-props" aria-hidden="true">${(sc.props ?? []).map((p) => `<img src="${BASE_PATH}/img/openmoji/${p.icon}.svg" alt="" style="left:${p.x}%;top:${p.y}%;" width="56" height="56" />`).join("")}</div>
       <div class="kn-bars">${sc.people.map((p) => barHtml(p, casting[p.id])).join("")}</div>
       <div class="kn-cast">
         <div class="kn-actor kn-actor--me" data-me>
@@ -382,7 +383,7 @@ export function mountKnigge(root) {
     voice.stop();
     stage.className = "kn-stage kn-bg--tag";
     stage.innerHTML = `
-      <div class="kn-props" aria-hidden="true">${AREAS.map((a, i) => `<img src="/img/openmoji/${a.icon}.svg" alt="" style="left:${12 + i * 19}%;top:16%;" width="56" height="56" />`).join("")}</div>
+      <div class="kn-props" aria-hidden="true">${AREAS.map((a, i) => `<img src="${BASE_PATH}/img/openmoji/${a.icon}.svg" alt="" style="left:${12 + i * 19}%;top:16%;" width="56" height="56" />`).join("")}</div>
       <div class="kn-cast kn-cast--solo"><div class="kn-actor kn-actor--me">
         <span class="kn-blase">${icon("1F642", 34)}</span>
         ${mascotSvg({ name: S.player, expr: "happy", size: 120, label: t("kn.you", "You") })}

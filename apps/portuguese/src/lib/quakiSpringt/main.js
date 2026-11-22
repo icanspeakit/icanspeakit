@@ -1,4 +1,4 @@
-// Quaki springt: wires the page (/games/quaki-jumps) to the run. Screens, HUD, the question
+// Quaki springt: wires the page (/jogos/saltos-do-quaki) to the run. Screens, HUD, the question
 // bar, the controls (hold to charge, aim left/up/right, release to jump), the fixed 120 Hz
 // loop and the sounds. All UI strings are in TXT so the release tier can move them to i18n.
 

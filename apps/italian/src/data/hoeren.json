@@ -1,35 +1,35 @@
 {
-  "note": "Listening, A1–B2. Every script here is written for this site, in Castilian Spanish with settings in Spain, and will be voiced with generated es-ES TTS once a provider is wired (BACKEND.speech); nothing is taken from a coursebook CD or an exam paper. Speakers map to a voice in `voices` below; a generator renders one clip per turn and joins them, so a dialogue really has two people in it. Towns, firms and people (Valdelora, Montealbar, Envíos Albar, Seguros Albar, Radio Valdelora …) are made up; large real cities only appear as destinations and in the weather. Questions and options are in English at A1 and A2 (the check is about listening, not about reading the question) and in Spanish at B1 and B2 (as exams do); `explain` is always English. Administrative details in the scripts (padrón papers, the baja, homologación, insurance complaints, fianza) are general orientation inside a story, not advice; see the listening report for what to verify.",
+  "note": "Listening, A1–B2. Every script here is written for this site, in standard Italian with settings in Italy, and will be voiced with generated it-IT TTS once a provider is wired (BACKEND.speech); nothing is taken from a coursebook CD or an exam paper. Speakers map to a voice in `voices` below; a generator renders one clip per turn and joins them, so a dialogue really has two people in it. Towns, firms and people (Casalbruno, Montealbar, Corrieri Albar, Assicurazioni Albar, Radio Casalbruno …) are made up; large real cities only appear as destinations and in the weather. Questions and options are in English at A1 and A2 (the check is about listening, not about reading the question) and in Italian at B1 and B2 (as exams do); `explain` is always English. Every script carries `variety: \"it-IT\"`; a `regional` note appears only where a learner will really meet a difference. Administrative details in the scripts (residenza at the Anagrafe, the certificato di malattia and its protocol number, deposito cauzionale, riconoscimento dei titoli, insurance complaints and IVASS) are general orientation inside a story, not advice; see the listening report for what to verify.",
   "voices": {
     "ansage": {
       "label": "Announcement",
       "id": "",
-      "azure": "es-ES-ElviraNeural",
-      "note": "A calm, clear Castilian female voice for station announcements. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "it-IT-ElsaNeural",
+      "note": "A calm, clear female voice for station announcements. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "frau": {
       "label": "Speaker (f)",
       "id": "",
-      "azure": "es-ES-EstrellaNeural",
-      "note": "Warm Castilian female voice for most female roles. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "it-IT-IsabellaNeural",
+      "note": "Warm female voice for most female roles. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "frau2": {
       "label": "Second speaker (f)",
       "id": "",
-      "azure": "es-ES-AbrilNeural",
-      "note": "A second Castilian female voice, so a two-woman dialogue is still two people. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "it-IT-FiammaNeural",
+      "note": "A second female voice, so a two-woman dialogue is still two people. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "mann": {
       "label": "Speaker (m)",
       "id": "",
-      "azure": "es-ES-AlvaroNeural",
-      "note": "Castilian male voice. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "it-IT-DiegoNeural",
+      "note": "Male voice. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "mann2": {
       "label": "Second speaker (m)",
       "id": "",
-      "azure": "es-ES-ArnauNeural",
-      "note": "A second Castilian male voice for the second male role. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "it-IT-GianniNeural",
+      "note": "A second male voice for the second male role. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     }
   },
   "types": {
@@ -45,33 +45,30 @@
     {
       "id": "a1-ansage-bahnhof",
       "level": "A1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In much of Latin America: el atraso or la demora for el retraso."
-      },
+      "variety": "it-IT",
       "type": "ansage",
       "title": "Announcement at the station",
-      "blurb": "Vía, retraso, minutos: the words you really hear at a Spanish train station.",
+      "blurb": "Binario, ritardo, minuti: the words you really hear at an Italian train station.",
       "seconds": 25,
       "script": [
         {
           "speaker": "ansage",
-          "text": "Atención, por favor. Información para los viajeros de la vía cuatro. El tren con destino a Zaragoza, de las doce y veinte, tiene hoy un retraso de unos diez minutos."
+          "text": "Attenzione, prego. Informazioni per i viaggiatori diretti a Bologna. Il treno regionale delle dodici e venti per Bologna ha oggi un ritardo di circa dieci minuti."
         },
         {
           "speaker": "ansage",
-          "text": "Hoy este tren sale de la vía siete, no de la vía cuatro. Repito: vía siete. Disculpen las molestias."
+          "text": "Oggi questo treno parte dal binario sette, non dal binario quattro. Ripeto: binario sette. Ci scusiamo per il disagio."
         }
       ],
       "questions": [
         {
           "prompt": "Where is the train going?",
           "options": [
-            "To Valencia",
-            "To Zaragoza",
-            "To Sevilla"
+            "To Verona",
+            "To Bologna",
+            "To Napoli"
           ],
-          "answer": "To Zaragoza"
+          "answer": "To Bologna"
         },
         {
           "prompt": "Which platform does the train leave from today?",
@@ -81,7 +78,7 @@
             "Platform 7"
           ],
           "answer": "Platform 7",
-          "explain": "“De la vía siete, no de la vía cuatro”: the new platform comes first, the old one comes after “no”. La vía is the platform number you look for at a Spanish station."
+          "explain": "“Dal binario sette, non dal binario quattro”: the new platform comes first, the old one comes after “non”. Il binario is the platform number you look for at an Italian station."
         },
         {
           "prompt": "How late is the train?",
@@ -91,30 +88,30 @@
             "About 4 minutes"
           ],
           "answer": "About 10 minutes",
-          "explain": "“Las doce y veinte” is the time the train leaves, not the delay."
+          "explain": "“Le dodici e venti” is the time the train leaves, not the delay."
         }
       ]
     },
     {
       "id": "a1-anruf-arzt",
       "level": "A1",
-      "variety": "es-ES",
+      "variety": "it-IT",
       "type": "anrufbeantworter",
-      "title": "Voicemail: your appointment at the health centre",
-      "blurb": "The centro de salud cancels an appointment and offers a new one. Write down the day and the time.",
+      "title": "Voicemail: your appointment at the doctor's",
+      "blurb": "The medico di base's surgery cancels an appointment and offers a new one. Write down the day and the time.",
       "seconds": 35,
       "script": [
         {
           "speaker": "frau",
-          "text": "Hola, buenos días. Este mensaje es para la señora Nowak. Soy Marta, del centro de salud Las Acacias."
+          "text": "Buongiorno. Questo messaggio è per la signora Nowak. Sono Marta, dello studio della dottoressa Ferri."
         },
         {
           "speaker": "frau",
-          "text": "Usted tiene cita con la doctora Ruiz el miércoles a las dos. Lo siento, pero el miércoles la doctora está enferma."
+          "text": "Lei ha un appuntamento con la dottoressa mercoledì alle due. Mi dispiace, ma mercoledì la dottoressa è malata."
         },
         {
           "speaker": "frau",
-          "text": "¿Puede venir el viernes a las nueve? Por favor, llámenos. Nuestro teléfono es el nueve cinco cinco, cuatro nueve seis, cero tres dos. Gracias. Adiós."
+          "text": "Può venire venerdì alle nove? Per favore, ci richiami. Il nostro numero è lo zero due, cinque cinque cinque, quattro nove sei. Grazie. Arrivederci."
         }
       ],
       "questions": [
@@ -123,71 +120,68 @@
           "options": [
             "The pharmacy",
             "The hospital",
-            "The health centre"
+            "The doctor's surgery"
           ],
-          "answer": "The health centre"
+          "answer": "The doctor's surgery"
         },
         {
           "prompt": "Why is there a new appointment?",
           "options": [
             "The doctor is ill",
-            "The centre is closed",
+            "The surgery is closed",
             "Mrs Nowak is ill"
           ],
           "answer": "The doctor is ill"
         },
         {
-          "prompt": "When is the new appointment?",
+          "prompt": "When is the new appointment offered?",
           "options": [
             "Wednesday at 2:00",
             "Friday at 9:00",
             "Friday at 2:00"
           ],
           "answer": "Friday at 9:00",
-          "explain": "Wednesday at two (“el miércoles a las dos”) was the old appointment. The new offer is “el viernes a las nueve”."
+          "explain": "Wednesday at two (“mercoledì alle due”) was the old appointment. The new offer is “venerdì alle nove”."
         },
         {
-          "prompt": "What must Mrs Nowak do?",
+          "prompt": "What should Mrs Nowak do?",
           "options": [
             "Send an email",
             "Just come on Friday",
-            "Call the health centre"
+            "Call the surgery back"
           ],
-          "answer": "Call the health centre"
+          "answer": "Call the surgery back"
         }
       ]
     },
     {
       "id": "a1-supermarkt",
       "level": "A1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: ¿tienen…? for ¿tenéis…? (ustedes, never vosotros), and often sigue derecho for sigue todo recto."
-      },
+      "variety": "it-IT",
       "type": "gespraech",
-      "title": "In the supermarket: ¿Dónde está…?",
+      "title": "In the supermarket: Dov'è…?",
       "blurb": "Asking the way in a shop. Left, right, at the back, and what they haven't got today.",
       "seconds": 30,
       "script": [
         {
           "speaker": "mann",
-          "text": "Perdona, ¿dónde está la leche?"
+          "text": "Scusi, dov'è il latte?"
         },
         {
           "speaker": "frau",
-          "text": "La leche está al fondo, a la derecha, al lado del queso. Sigue todo recto hasta el final."
+          "text": "Il latte è in fondo, a destra, accanto al formaggio. Vada dritto fino alla fine."
         },
         {
           "speaker": "mann",
-          "text": "Gracias. ¿Y tenéis pan fresco?"
+          "text": "Grazie. E avete il pane fresco?"
         },
         {
           "speaker": "frau",
-          "text": "Sí, el pan está aquí delante, a la izquierda. Pero hoy no tenemos pan integral, lo siento."
+          "text": "Sì, il pane è qui davanti, a sinistra. Ma oggi non abbiamo il pane integrale, mi dispiace."
         },
         {
           "speaker": "mann",
-          "text": "No pasa nada. ¡Muchas gracias!"
+          "text": "Non importa. Grazie mille!"
         }
       ],
       "questions": [
@@ -208,7 +202,7 @@
             "Wholemeal bread"
           ],
           "answer": "Wholemeal bread",
-          "explain": "They have fresh bread. Only el pan integral (wholemeal bread) is missing today."
+          "explain": "They have fresh bread. Only il pane integrale (wholemeal bread) is missing today."
         },
         {
           "prompt": "Where is the bread?",
@@ -224,38 +218,35 @@
     {
       "id": "a1-verabredung",
       "level": "A1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: ¿Nos vemos? for ¿Quedamos?, and está bien (in some countries dale) for vale."
-      },
+      "variety": "it-IT",
       "type": "telefonat",
-      "title": "Phone call: ¿Quedamos?",
+      "title": "Phone call: Ci vediamo?",
       "blurb": "Two friends make a plan. A time, a place and a small change at the last minute.",
       "seconds": 30,
       "script": [
         {
           "speaker": "frau",
-          "text": "Hola, Amira, soy Mei. ¿Tienes un minuto?"
+          "text": "Ciao Amira, sono Mei. Hai un minuto?"
         },
         {
           "speaker": "frau2",
-          "text": "¡Hola, Mei! Sí, claro. ¿Qué pasa?"
+          "text": "Ciao Mei! Sì, certo. Dimmi."
         },
         {
           "speaker": "frau",
-          "text": "¿Quedamos mañana? ¿Tomamos un café a las cinco en la cafetería de la plaza?"
+          "text": "Ci vediamo domani? Prendiamo un caffè alle cinque al bar della piazza?"
         },
         {
           "speaker": "frau2",
-          "text": "A las cinco no puedo. Trabajo hasta las cinco y media. ¿A las seis?"
+          "text": "Alle cinque non posso. Lavoro fino alle cinque e mezza. Alle sei?"
         },
         {
           "speaker": "frau",
-          "text": "Vale, a las seis en la cafetería."
+          "text": "Va bene, alle sei al bar."
         },
         {
           "speaker": "frau2",
-          "text": "Perfecto. ¡Hasta mañana!"
+          "text": "Perfetto. A domani!"
         }
       ],
       "questions": [
@@ -267,7 +258,7 @@
             "Tomorrow at 6:00"
           ],
           "answer": "Tomorrow at 6:00",
-          "explain": "Mei first says five, but Amira can't. They agree on “a las seis”."
+          "explain": "Mei first says five, but Amira can't. They agree on “alle sei”."
         },
         {
           "prompt": "Why can't Amira come at five?",
@@ -292,53 +283,55 @@
     {
       "id": "a2-amt-termin",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In parts of Latin America (Argentina, for example): el turno for la cita. The padrón itself is a Spanish procedure."
+      "variety": "it-IT",
+      "regional": {
+        "note": "In Ticino the office is the Controllo abitanti and the town hall is il Municipio. The residenza procedure itself is an Italian one.",
+        "area": "ch",
+        "form": "Controllo abitanti"
       },
       "type": "telefonat",
-      "title": "At the town hall: changing a cita",
-      "blurb": "Your appointment for the padrón doesn't work any more. What to say on the phone, and what to bring.",
+      "title": "At the Comune: changing an appointment",
+      "blurb": "Your appointment at the Anagrafe for the residenza doesn't work any more. What to say on the phone, and what to bring.",
       "seconds": 50,
       "script": [
         {
           "speaker": "mann",
-          "text": "Buenos días, Ayuntamiento de Valdelora, Atención a la Ciudadanía. Le atiende David. ¿En qué puedo ayudarle?"
+          "text": "Comune di Casalbruno, Ufficio Anagrafe, buongiorno. Sono David. Come posso aiutarla?"
         },
         {
           "speaker": "frau",
-          "text": "Buenos días. Me llamo Amina Khalil. Tengo cita el jueves para empadronarme, pero no puedo ir. Necesito cambiarla."
+          "text": "Buongiorno. Mi chiamo Amina Khalil. Ho un appuntamento giovedì per la richiesta di residenza, ma non posso venire. Devo spostarlo."
         },
         {
           "speaker": "mann",
-          "text": "No hay problema. ¿Me da su número de cita?"
+          "text": "Nessun problema. Mi dice il numero della prenotazione?"
         },
         {
           "speaker": "frau",
-          "text": "Sí, un momento… Es el cuatro ocho nueve dos."
+          "text": "Sì, un momento… È il quattro, otto, nove, due."
         },
         {
           "speaker": "mann",
-          "text": "Gracias. Sí, aquí la veo. La próxima cita libre es el dieciocho de marzo a las diez y media. ¿Le viene bien?"
+          "text": "Grazie. Sì, la vedo. Il primo appuntamento libero è il diciotto marzo alle dieci e mezza. Va bene?"
         },
         {
           "speaker": "frau",
-          "text": "Sí, me viene bien. ¿Tengo que llevar algo?"
+          "text": "Sì, va bene. Devo portare qualcosa?"
         },
         {
           "speaker": "mann",
-          "text": "Traiga su pasaporte o su tarjeta de residencia y el contrato de alquiler. Sin un documento de la vivienda no podemos hacer el empadronamiento."
+          "text": "Porti il passaporto o il permesso di soggiorno e il contratto d'affitto. Senza un documento che provi l'indirizzo non possiamo fare la pratica."
         },
         {
           "speaker": "frau",
-          "text": "De acuerdo. ¡Muchas gracias!"
+          "text": "D'accordo. Grazie mille!"
         }
       ],
       "questions": [
         {
           "prompt": "Why does Ms Khalil call?",
           "options": [
-            "To cancel the padrón",
+            "To cancel her residenza",
             "To change her appointment",
             "She missed her appointment"
           ],
@@ -358,69 +351,66 @@
           "options": [
             "A passport photo",
             "A birth certificate",
-            "A document for the home"
+            "A document proving the address"
           ],
-          "answer": "A document for the home",
-          "explain": "“Sin un documento de la vivienda no podemos…”: that is the one condition he stresses. Each town hall sets its own list, so check yours."
+          "answer": "A document proving the address",
+          "explain": "“Senza un documento che provi l'indirizzo non possiamo…”: that is the one condition he stresses. Each Comune sets its own list, so check yours."
         },
         {
           "prompt": "What does Ms Khalil give on the phone?",
           "options": [
-            "Her appointment number",
+            "Her booking number",
             "Her phone number",
             "Her address"
           ],
-          "answer": "Her appointment number"
+          "answer": "Her booking number"
         }
       ]
     },
     {
       "id": "a2-wohnungsbesichtigung",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el departamento or el apartamento for el piso, often el depósito for la fianza, and la sala for el salón."
-      },
+      "variety": "it-IT",
       "type": "gespraech",
-      "title": "Viewing a flat (el piso)",
-      "blurb": "Alquiler, gastos, fianza: the numbers you have to understand in a short viewing.",
+      "title": "Viewing a flat (l'appartamento)",
+      "blurb": "Affitto, spese, deposito: the numbers you have to understand in a short viewing.",
       "seconds": 45,
       "script": [
         {
           "speaker": "mann",
-          "text": "Buenas tardes. Pase, pase. Este es el piso. Tiene dos habitaciones, un salón y una cocina bastante grande."
+          "text": "Buonasera. Prego, entri. Questo è l'appartamento. Ha due camere, un soggiorno e una cucina abbastanza grande."
         },
         {
           "speaker": "frau",
-          "text": "Es muy luminoso. ¿Cuánto es el alquiler?"
+          "text": "È molto luminoso. Quanto costa l'affitto?"
         },
         {
           "speaker": "mann",
-          "text": "Setecientos cincuenta euros al mes, con los gastos de comunidad incluidos. La luz, el agua y el gas van aparte."
+          "text": "Settecentocinquanta euro al mese, con le spese condominiali incluse. Luce, acqua e gas sono a parte."
         },
         {
           "speaker": "frau",
-          "text": "¿Y cuánto se paga de luz, agua y gas, más o menos?"
+          "text": "E quanto si paga di luce, acqua e gas, più o meno?"
         },
         {
           "speaker": "mann",
-          "text": "Unos cien euros al mes."
+          "text": "Circa cento euro al mese."
         },
         {
           "speaker": "frau",
-          "text": "¿Hay que pagar fianza?"
+          "text": "C'è un deposito cauzionale?"
         },
         {
           "speaker": "mann",
-          "text": "Sí, un mes de fianza, o sea, setecientos cincuenta euros, cuando firmamos el contrato."
+          "text": "Sì, due mensilità, cioè millecinquecento euro, alla firma del contratto."
         },
         {
           "speaker": "frau",
-          "text": "Vale. ¿Y cuándo está libre?"
+          "text": "Va bene. E da quando è libero?"
         },
         {
           "speaker": "mann",
-          "text": "Desde el uno de mayo. Si le interesa, llámeme antes del viernes, porque hay otra persona interesada."
+          "text": "Dal primo maggio. Se le interessa, mi chiami prima di venerdì, perché c'è un'altra persona interessata."
         }
       ],
       "questions": [
@@ -432,26 +422,26 @@
             "€850 a month"
           ],
           "answer": "€750 a month",
-          "explain": "€750 is the rent. The €100 is his estimate for electricity, water and gas, which are extra (“van aparte”)."
+          "explain": "€750 is the rent. The €100 is his estimate for electricity, water and gas, which are extra (“a parte”)."
         },
         {
           "prompt": "What is included in the rent?",
           "options": [
             "Electricity",
             "Water and gas",
-            "Community fees"
+            "Building fees"
           ],
-          "answer": "Community fees",
-          "explain": "Los gastos de comunidad pay for the shared parts of the building, such as the lift and the stairs."
+          "answer": "Building fees",
+          "explain": "Le spese condominiali pay for the shared parts of the building, such as the stairs, the lift and the cleaning."
         },
         {
-          "prompt": "How much is the deposit (la fianza)?",
+          "prompt": "How much is the deposit (il deposito cauzionale)?",
           "options": [
             "One month's rent",
             "Two months' rent",
             "€100"
           ],
-          "answer": "One month's rent"
+          "answer": "Two months' rent"
         },
         {
           "prompt": "Why should she call before Friday?",
@@ -467,10 +457,7 @@
     {
       "id": "a2-radio-wetter-verkehr",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America you often hear el embotellamiento (in Colombia el trancón) for el atasco."
-      },
+      "variety": "it-IT",
       "type": "radio",
       "title": "Radio: weather and traffic",
       "blurb": "Two short reports, one after the other. Temperatures, roads and a warning.",
@@ -478,19 +465,19 @@
       "script": [
         {
           "speaker": "frau",
-          "text": "Y ahora, el tiempo para hoy. Por la mañana va a llover en el norte, sobre todo en Galicia y Asturias. En el centro y en el sur va a hacer sol y bastante calor: treinta y un grados en Madrid y treinta y cuatro en Sevilla."
+          "text": "E ora il meteo di oggi. Al mattino pioverà al nord, soprattutto in Piemonte e in Lombardia. Al centro e al sud ci sarà il sole e farà molto caldo: trentuno gradi a Roma e trentaquattro a Palermo."
         },
         {
           "speaker": "frau",
-          "text": "Por la tarde va a hacer mucho viento en la costa de Cádiz. Hay aviso amarillo, así que tengan cuidado en la playa."
+          "text": "Nel pomeriggio ci sarà molto vento sulla costa della Liguria. C'è un'allerta gialla, quindi fate attenzione in spiaggia."
         },
         {
           "speaker": "mann",
-          "text": "Y vamos con el tráfico. Hay un atasco de ocho kilómetros en la autovía, en dirección a Madrid, por un accidente. Si va hacia Madrid, salga de la autovía en la salida treinta y siga por la carretera nacional."
+          "text": "E passiamo alla viabilità. Ci sono otto chilometri di coda sull'autostrada in direzione di Roma, a causa di un incidente. Se siete diretti a Roma, uscite a Casalbruno e proseguite sulla strada statale."
         },
         {
           "speaker": "mann",
-          "text": "En Valdelora, la calle Mayor está cortada por obras hasta las dos de la tarde."
+          "text": "A Casalbruno, via Garibaldi è chiusa per lavori fino alle due del pomeriggio."
         }
       ],
       "questions": [
@@ -506,39 +493,41 @@
         {
           "prompt": "Where is it hottest today?",
           "options": [
-            "In Sevilla",
-            "In Madrid",
-            "In Cádiz"
+            "In Palermo",
+            "In Roma",
+            "In Liguria"
           ],
-          "answer": "In Sevilla",
-          "explain": "Thirty-four degrees in Sevilla, thirty-one in Madrid. Cádiz gets a warning about the wind, not a temperature."
+          "answer": "In Palermo",
+          "explain": "Thirty-four degrees in Palermo, thirty-one in Rome. Liguria gets a warning about the wind, not a temperature."
         },
         {
           "prompt": "What is the warning about?",
           "options": [
-            "Rain in Galicia",
-            "Heat in Madrid",
+            "Rain in Piedmont",
+            "Heat in Rome",
             "Wind on the coast"
           ],
           "answer": "Wind on the coast"
         },
         {
-          "prompt": "What should drivers going to Madrid do?",
+          "prompt": "What should drivers going to Rome do?",
           "options": [
             "Wait for the road to open",
-            "Leave the motorway at exit 30",
-            "Go through Valdelora"
+            "Leave the motorway at Casalbruno",
+            "Drive on through the queue"
           ],
-          "answer": "Leave the motorway at exit 30"
+          "answer": "Leave the motorway at Casalbruno"
         }
       ]
     },
     {
       "id": "a2-paketdienst",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el plomero for el fontanero, el celular for el móvil, and la llave or la canilla for el grifo."
+      "variety": "it-IT",
+      "regional": {
+        "note": "In Swiss Italian il natel is the mobile phone; in Italy it is il cellulare (or just il telefono).",
+        "area": "ch",
+        "form": "natel"
       },
       "type": "anrufbeantworter",
       "title": "Voicemails: a parcel and the plumber",
@@ -547,19 +536,19 @@
       "script": [
         {
           "speaker": "mann",
-          "text": "Buenos días, este mensaje es para Daniel Popescu. Le llamo de Envíos Albar, la empresa de mensajería. Esta mañana hemos ido a su casa con un paquete, pero no había nadie."
+          "text": "Buongiorno, questo messaggio è per Daniel Popescu. La chiamo da Corrieri Albar, l'azienda di spedizioni. Stamattina siamo passati da lei con un pacco, ma non c'era nessuno."
         },
         {
           "speaker": "mann",
-          "text": "Hemos dejado el paquete en la papelería de la calle Mayor, número doce. Puede recogerlo hasta el viernes a las ocho de la tarde. Lleve su pasaporte o su tarjeta de residencia."
+          "text": "Abbiamo lasciato il pacco alla cartoleria di via Garibaldi, numero dodici. Può ritirarlo fino a venerdì alle otto di sera. Porti il passaporto o il permesso di soggiorno."
         },
         {
           "speaker": "mann2",
-          "text": "Hola, Daniel, soy Paco, el fontanero. Mañana no puedo ir a arreglar el grifo de la cocina porque tengo una urgencia. ¿Te va bien el martes a las cuatro?"
+          "text": "Ciao Daniel, sono Paolo, l'idraulico. Domani non posso venire a riparare il rubinetto della cucina perché ho un'urgenza. Ti va bene martedì alle quattro?"
         },
         {
           "speaker": "mann2",
-          "text": "Si no te va bien, mándame un mensaje al móvil antes de esta noche. Y mientras tanto, cierra la llave de paso de la cocina. Hasta luego."
+          "text": "Se non ti va bene, mandami un messaggio sul cellulare prima di stasera. E intanto chiudi il rubinetto dell'acqua sotto il lavello. A presto."
         }
       ],
       "questions": [
@@ -571,7 +560,7 @@
             "With a neighbour"
           ],
           "answer": "In a stationery shop",
-          "explain": "Una papelería sells paper and pens. Small shops like this are often collection points."
+          "explain": "Una cartoleria sells paper and pens. Small shops like this are often collection points."
         },
         {
           "prompt": "When can Daniel collect it until?",
@@ -587,9 +576,9 @@
           "options": [
             "A letter from the firm",
             "Money for the parcel",
-            "A passport or residence card"
+            "A passport or residence permit"
           ],
-          "answer": "A passport or residence card"
+          "answer": "A passport or residence permit"
         },
         {
           "prompt": "What should Daniel do if Tuesday is bad for him?",
@@ -599,311 +588,303 @@
             "Fix the tap himself"
           ],
           "answer": "Text the plumber by tonight",
-          "explain": "“Mándame un mensaje al móvil antes de esta noche”: a text message before tonight."
+          "explain": "“Mandami un messaggio sul cellulare prima di stasera”: a text message before tonight."
         }
       ]
     },
     {
       "id": "b1-krankmeldung",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: la incapacidad or la licencia médica for la baja, and in some countries el médico de familia for el médico de cabecera."
-      },
+      "variety": "it-IT",
       "type": "telefonat",
-      "title": "Calling in sick at work (la baja)",
-      "blurb": "Calling in sick without over-apologising, and knowing how the baja reaches your company.",
+      "title": "Calling in sick at work (il certificato di malattia)",
+      "blurb": "Calling in sick without over-apologising, and knowing how the certificate reaches your company.",
       "seconds": 70,
       "script": [
         {
           "speaker": "frau2",
-          "text": "Recursos Humanos, le atiende Elena Gil. Buenos días."
+          "text": "Risorse umane, sono Elena Gallo. Buongiorno."
         },
         {
           "speaker": "mann",
-          "text": "Buenos días, Elena. Soy Tarek Mansour, del almacén. Mira, te llamo porque hoy no voy a poder ir a trabajar. Tengo una gripe muy fuerte."
+          "text": "Buongiorno, Elena. Sono Tarek Mansour, del magazzino. Ti chiamo perché oggi non riesco a venire al lavoro. Ho un'influenza fortissima."
         },
         {
           "speaker": "frau2",
-          "text": "Vaya, lo siento. ¿Has ido ya al médico?"
+          "text": "Mi dispiace. Sei già stato dal medico?"
         },
         {
           "speaker": "mann",
-          "text": "Todavía no. Tengo cita con mi médica de cabecera a las once. Creo que estaré en casa hasta el viernes, pero depende de lo que me diga."
+          "text": "Non ancora. Ho l'appuntamento con la mia dottoressa di base alle undici. Credo che resterò a casa fino a venerdì, ma dipende da quello che mi dice."
         },
         {
           "speaker": "frau2",
-          "text": "De acuerdo. Si te da la baja, nos lo dices en cuanto salgas de la consulta. El parte nos llega directamente de la Seguridad Social, así que no tienes que traernos ningún papel."
+          "text": "Va bene. Se ti fa il certificato, il medico lo invia online all'INPS. A te basta comunicarci il numero di protocollo appena esci dallo studio. Non devi portarci nessun foglio."
         },
         {
           "speaker": "mann",
-          "text": "Ah, muy bien. ¿Y la próxima vez puedo avisar con un correo?"
+          "text": "Ah, perfetto. E la prossima volta posso avvisare con una mail?"
         },
         {
           "speaker": "frau2",
-          "text": "Mejor no. En esta empresa hay que llamar por teléfono a tu encargado o a nosotros el primer día, antes de empezar el turno. Pero tranquilo, hoy has llamado, así que no hay problema."
+          "text": "Meglio di no. In questa azienda bisogna telefonare al proprio responsabile o a noi il primo giorno, prima dell'inizio del turno. Ma tranquillo, oggi hai chiamato, quindi non c'è nessun problema."
         },
         {
           "speaker": "mann",
-          "text": "Vale. ¿Y el turno del jueves? Me tocaba con Iván."
+          "text": "Va bene. E il turno di giovedì? Ero in coppia con Ivan."
         },
         {
           "speaker": "frau2",
-          "text": "De eso me encargo yo. Tú descansa y que te mejores, Tarek."
+          "text": "Ci penso io. Tu riposati e guarisci presto, Tarek."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Hasta cuándo cree Tarek que estará en casa?",
+          "prompt": "Fino a quando pensa Tarek di restare a casa?",
           "options": [
-            "Hasta el jueves",
-            "Hasta el viernes",
-            "Más de una semana"
+            "Fino a giovedì",
+            "Fino a venerdì",
+            "Più di una settimana"
           ],
-          "answer": "Hasta el viernes"
+          "answer": "Fino a venerdì"
         },
         {
-          "prompt": "¿Cómo llega el parte de baja a la empresa?",
+          "prompt": "Come arriva il certificato all'azienda?",
           "options": [
-            "Tarek lo lleva en papel",
-            "Lo envía Iván",
-            "Lo envía la Seguridad Social"
+            "Lo porta Tarek su carta",
+            "Lo manda Ivan",
+            "Lo invia il medico all'INPS"
           ],
-          "answer": "Lo envía la Seguridad Social",
-          "explain": "“El parte nos llega directamente de la Seguridad Social”, so Elena asks for no paper. She still wants a call as soon as he knows."
+          "answer": "Lo invia il medico all'INPS",
+          "explain": "The doctor sends the certificate online and Tarek only passes on the protocol number, so Elena asks for no paper. This is general orientation: the exact steps depend on the contract and on current rules."
         },
         {
-          "prompt": "¿Cómo hay que avisar en esta empresa?",
+          "prompt": "Come bisogna avvisare in questa azienda?",
           "options": [
-            "Por teléfono, antes del turno",
-            "Por correo, durante el día",
-            "Con un mensaje a un compañero"
+            "Per telefono, prima del turno",
+            "Per email, durante la giornata",
+            "Con un messaggio a un collega"
           ],
-          "answer": "Por teléfono, antes del turno",
+          "answer": "Per telefono, prima del turno",
           "explain": "This is the rule of Tarek's company. Other employers may ask for something else."
         },
         {
-          "prompt": "¿Quién se ocupa del turno del jueves?",
+          "prompt": "Chi si occupa del turno di giovedì?",
           "options": [
             "Tarek",
             "Elena",
-            "Iván"
+            "Ivan"
           ],
           "answer": "Elena",
-          "explain": "“De eso me encargo yo”: encargarse de algo means to take care of it, and yo is Elena."
+          "explain": "“Ci penso io”: pensarci means to take care of it, and io is Elena."
         },
         {
-          "prompt": "¿Qué tiene que hacer Tarek si la médica le da la baja?",
+          "prompt": "Che cosa deve fare Tarek se la dottoressa gli fa il certificato?",
           "options": [
-            "Pasar por la oficina",
-            "Llamar a Iván",
-            "Avisar a la empresa"
+            "Passare in ufficio",
+            "Telefonare a Ivan",
+            "Comunicare il protocollo all'azienda"
           ],
-          "answer": "Avisar a la empresa"
+          "answer": "Comunicare il protocollo all'azienda"
         }
       ]
     },
     {
       "id": "b1-elterngespraech",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In most of Latin America: las tareas for los deberes. Upper secondary school has other names and structures there."
-      },
+      "variety": "it-IT",
       "type": "gespraech",
-      "title": "Meeting with the class tutor (tutoría)",
-      "blurb": "A tutora and a father talk about marks, homework and what comes next.",
+      "title": "Meeting with the class teacher (colloquio con l'insegnante)",
+      "blurb": "A teacher and a father talk about marks, homework and what comes next.",
       "seconds": 70,
       "script": [
         {
           "speaker": "frau",
-          "text": "Buenas tardes, señor Benali. Gracias por venir. Quería hablar con usted sobre Yassin."
+          "text": "Buonasera, signor Benali. Grazie per essere venuto. Volevo parlarle di Yassin."
         },
         {
           "speaker": "mann",
-          "text": "Buenas tardes. Dígame, ¿hay algún problema?"
+          "text": "Buonasera. Mi dica, c'è qualche problema?"
         },
         {
           "speaker": "frau",
-          "text": "En general, no. Yassin es muy trabajador y se lleva bien con sus compañeros. Ha sacado un nueve en Matemáticas y un ocho en Física, pero la Lengua le está costando: en la última evaluación tuvo un cuatro."
+          "text": "In generale no. Yassin è molto impegnato e va d'accordo con i compagni. Ha preso nove in Matematica e otto in Scienze, ma fa fatica in Italiano: nell'ultimo compito in classe ha preso cinque."
         },
         {
           "speaker": "mann",
-          "text": "Ya. En casa hablamos árabe, y por eso le cuesta escribir. Además, los deberes de Lengua los deja siempre para el final."
+          "text": "Lo so. A casa parliamo arabo, e per questo gli costa scrivere. Inoltre i compiti di Italiano li lascia sempre per ultimi."
         },
         {
           "speaker": "frau",
-          "text": "Lo entiendo. El instituto tiene clases de refuerzo de Lengua los martes y los jueves por la tarde, y son gratuitas. Creo que le vendrían muy bien."
+          "text": "Capisco. La scuola organizza dei corsi di recupero di Italiano il martedì e il giovedì pomeriggio, e sono gratuiti. Credo che gli farebbero molto bene."
         },
         {
           "speaker": "mann",
-          "text": "Me parece bien. ¿Hay que apuntarlo?"
+          "text": "Mi sembra una buona idea. Bisogna iscriverlo?"
         },
         {
           "speaker": "frau",
-          "text": "Sí. Necesito que firme esta autorización y que me la devuelva antes del viernes."
+          "text": "Sì. Ho bisogno che firmi questa autorizzazione e che me la riporti entro venerdì."
         },
         {
           "speaker": "mann",
-          "text": "De acuerdo. Y para el curso que viene, ¿qué nos recomienda? A él le gustaría hacer el Bachillerato de Ciencias."
+          "text": "D'accordo. E per il prossimo anno, che cosa ci consiglia? A lui piacerebbe fare il liceo scientifico."
         },
         {
           "speaker": "frau",
-          "text": "Con esas notas, me parece una buena opción, siempre que apruebe Lengua. Volvemos a hablar en junio, ¿le parece?"
+          "text": "Con questi voti mi sembra una buona scelta, purché recuperi l'Italiano. Ci rivediamo a giugno, le va bene?"
         }
       ],
       "questions": [
         {
-          "prompt": "¿En qué asignatura tiene problemas Yassin?",
+          "prompt": "In quale materia ha difficoltà Yassin?",
           "options": [
-            "En Lengua",
-            "En Matemáticas",
-            "En Física"
+            "In Italiano",
+            "In Matematica",
+            "In Scienze"
           ],
-          "answer": "En Lengua",
-          "explain": "Secondary schools in Spain mark from 0 to 10 and a 5 is a pass, so un cuatro is a fail. Lengua here is the Spanish language subject."
+          "answer": "In Italiano",
+          "explain": "Italian schools mark from 1 to 10 and a 6 is a pass, so un cinque is insufficient. Italiano here is the Italian language subject."
         },
         {
-          "prompt": "Según su padre, ¿por qué le cuesta escribir?",
+          "prompt": "Secondo suo padre, perché gli costa scrivere?",
           "options": [
-            "Porque falta mucho a clase",
-            "Porque en casa hablan árabe",
-            "Porque no se lleva bien con nadie"
+            "Perché salta molte lezioni",
+            "Perché a casa parlano arabo",
+            "Perché non va d'accordo con nessuno"
           ],
-          "answer": "Porque en casa hablan árabe"
+          "answer": "Perché a casa parlano arabo"
         },
         {
-          "prompt": "¿Qué ofrece el instituto?",
+          "prompt": "Che cosa offre la scuola?",
           "options": [
-            "Un profesor particular en casa",
-            "Clases gratuitas por la tarde",
-            "Un cambio de grupo"
+            "Un insegnante privato a casa",
+            "Corsi gratuiti il pomeriggio",
+            "Un cambio di classe"
           ],
-          "answer": "Clases gratuitas por la tarde"
+          "answer": "Corsi gratuiti il pomeriggio"
         },
         {
-          "prompt": "¿Qué tiene que hacer el padre antes del viernes?",
+          "prompt": "Che cosa deve fare il padre entro venerdì?",
           "options": [
-            "Pagar las clases",
-            "Hablar con Yassin",
-            "Firmar una autorización"
+            "Pagare i corsi",
+            "Parlare con Yassin",
+            "Firmare un'autorizzazione"
           ],
-          "answer": "Firmar una autorización"
+          "answer": "Firmare un'autorizzazione"
         },
         {
-          "prompt": "¿Qué condición pone la tutora para el Bachillerato de Ciencias?",
+          "prompt": "Quale condizione pone l'insegnante per il liceo scientifico?",
           "options": [
-            "Aprobar Lengua",
-            "Sacar un nueve en Física",
-            "Hablar con ella en junio"
+            "Recuperare l'Italiano",
+            "Prendere nove in Scienze",
+            "Parlare con lei a giugno"
           ],
-          "answer": "Aprobar Lengua",
-          "explain": "“Siempre que apruebe Lengua”: siempre que + subjunctive sets a condition. The talk in June is only the next meeting."
+          "answer": "Recuperare l'Italiano",
+          "explain": "“Purché recuperi l'Italiano”: purché + subjunctive sets a condition. The talk in June is only the next meeting."
         }
       ]
     },
     {
       "id": "b1-radio-muelltrennung",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "Recycling colours and rules change by country in Latin America, and a bucket is often el balde or la cubeta, not el cubo."
+      "variety": "it-IT",
+      "regional": {
+        "note": "Colours and rules differ by Comune, and many areas use door-to-door collection (porta a porta) with bags or small bins instead of street containers.",
+        "area": "general"
       },
       "type": "radio",
-      "title": "Radio feature: recycling and the coloured containers",
-      "blurb": "Which container for what, and why plastic causes the most mistakes.",
+      "title": "Radio feature: recycling and the bin calendar",
+      "blurb": "Which bin for what, and why plastic causes the most mistakes.",
       "seconds": 85,
       "script": [
         {
           "speaker": "mann",
-          "text": "Buenos días. Hoy en Radio Valdelora hablamos de reciclaje con Laura Campos, técnica de Medio Ambiente del ayuntamiento. Laura, mucha gente sigue dudando delante de los contenedores. ¿Qué es lo más importante?"
+          "text": "Buongiorno. Oggi a Radio Casalbruno parliamo di raccolta differenziata con Laura Conti, tecnica dell'ufficio Ambiente del Comune. Laura, molte persone hanno ancora dubbi davanti ai bidoni. Qual è la cosa più importante?"
         },
         {
           "speaker": "frau",
-          "text": "Recordar los colores. El azul es para papel y cartón. El verde, para el vidrio, es decir, botellas y tarros. El amarillo, para los envases: plástico, latas y briks. El marrón, para los restos de comida. Y lo demás va al gris."
+          "text": "Ricordare i colori. A Casalbruno il blu è per carta e cartone. Il verde, per il vetro, cioè bottiglie e barattoli. Il giallo, per gli imballaggi: plastica e lattine. Il marrone, per l'umido, cioè gli avanzi di cibo. E tutto il resto va nel grigio, il secco residuo."
         },
         {
           "speaker": "mann",
-          "text": "¿Y dónde se cometen más errores?"
+          "text": "E dove si sbaglia di più?"
         },
         {
           "speaker": "frau",
-          "text": "En el amarillo, sin duda. Mucha gente cree que es el contenedor del plástico, pero en realidad es el de los envases. Un juguete de plástico o un cubo viejo no son envases, así que no deben ir ahí."
+          "text": "Nel giallo, senza dubbio. Molti pensano che sia il bidone di tutta la plastica, ma in realtà è quello degli imballaggi. Un giocattolo di plastica o un secchio vecchio non sono imballaggi, quindi non devono andare lì."
         },
         {
           "speaker": "mann",
-          "text": "¿Y un vaso roto? Es de vidrio, ¿no?"
+          "text": "E un bicchiere rotto? È di vetro, no?"
         },
         {
           "speaker": "frau",
-          "text": "Ese es otro error típico. Los vasos, los espejos y la cerámica no se reciclan como las botellas, así que no van al verde. Un vaso roto va al gris. Y las pilas, el aceite usado o un electrodoméstico viejo se llevan al punto limpio."
+          "text": "Questo è un altro errore tipico. I bicchieri, gli specchi e la ceramica non si riciclano come le bottiglie, quindi non vanno nel verde. Un bicchiere rotto va nel grigio. Le pile, l'olio usato o un elettrodomestico vecchio si portano all'ecocentro."
         },
         {
           "speaker": "mann",
-          "text": "Para terminar, ¿un consejo?"
+          "text": "Per finire, un consiglio?"
         },
         {
           "speaker": "frau",
-          "text": "Si tiene dudas, consulte la web de su ayuntamiento, porque en algunos municipios el sistema es un poco distinto. Y si no está seguro, mejor al gris que al contenedor equivocado."
+          "text": "Se avete dubbi, guardate il calendario della raccolta e il sito del Comune, perché in alcune zone il sistema è un po' diverso. E se non siete sicuri, meglio il grigio che il bidone sbagliato."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Para qué es el contenedor amarillo?",
+          "prompt": "Per che cosa è il bidone giallo?",
           "options": [
-            "Para todo el plástico",
-            "Para los envases",
-            "Para los restos de comida"
+            "Per tutta la plastica",
+            "Per gli imballaggi",
+            "Per gli avanzi di cibo"
           ],
-          "answer": "Para los envases"
+          "answer": "Per gli imballaggi"
         },
         {
-          "prompt": "¿Por qué un juguete de plástico no va al amarillo?",
+          "prompt": "Perché un giocattolo di plastica non va nel giallo?",
           "options": [
-            "Porque no es un envase",
-            "Porque es demasiado grande",
-            "Porque va al marrón"
+            "Perché non è un imballaggio",
+            "Perché è troppo grande",
+            "Perché va nel marrone"
           ],
-          "answer": "Porque no es un envase",
-          "explain": "The material isn't what counts. A yellow container takes packaging, and a toy is not packaging."
+          "answer": "Perché non è un imballaggio",
+          "explain": "The material isn't what counts. The yellow bin takes packaging, and a toy is not packaging."
         },
         {
-          "prompt": "¿Dónde se tira un vaso roto?",
+          "prompt": "Dove si butta un bicchiere rotto?",
           "options": [
-            "En el verde",
-            "En el amarillo",
-            "En el gris"
+            "Nel verde",
+            "Nel giallo",
+            "Nel grigio"
           ],
-          "answer": "En el gris",
-          "explain": "Drinking glasses are not recycled like bottles, so they don't go in the green container."
+          "answer": "Nel grigio",
+          "explain": "Drinking glasses are not recycled like bottles, so they don't go in the green bin."
         },
         {
-          "prompt": "¿Adónde hay que llevar las pilas y el aceite usado?",
+          "prompt": "Dove bisogna portare le pile e l'olio usato?",
           "options": [
-            "Al ayuntamiento",
-            "Al punto limpio",
-            "Al contenedor marrón"
+            "Al Comune",
+            "All'ecocentro",
+            "Nel bidone marrone"
           ],
-          "answer": "Al punto limpio"
+          "answer": "All'ecocentro"
         },
         {
-          "prompt": "¿Qué recomienda Laura si hay dudas sobre el sistema?",
+          "prompt": "Che cosa consiglia Laura in caso di dubbi?",
           "options": [
-            "Consultar la web del ayuntamiento",
-            "Llamar a la radio",
-            "Guardar el residuo en casa"
+            "Guardare il calendario e il sito del Comune",
+            "Telefonare alla radio",
+            "Tenere i rifiuti in casa"
           ],
-          "answer": "Consultar la web del ayuntamiento"
+          "answer": "Guardare il calendario e il sito del Comune"
         }
       ]
     },
     {
       "id": "b1-durchsage-ersatzverkehr",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el boleto for el billete, and the word for a bus changes by country (camión, colectivo, micro…)."
-      },
+      "variety": "it-IT",
       "type": "ansage",
       "title": "Announcement: line closure and replacement bus",
       "blurb": "There are no trains on part of the line. If you need to get somewhere, listen carefully now.",
@@ -911,266 +892,260 @@
       "script": [
         {
           "speaker": "ansage",
-          "text": "Atención, por favor. Información para los viajeros de la línea tres de cercanías. Debido a unas obras en la vía, desde hoy hasta el domingo no circularán trenes entre Valdelora y Montealbar."
+          "text": "Attenzione, prego. Informazioni per i viaggiatori della linea regionale tre. A causa di lavori sui binari, da oggi fino a domenica non circoleranno treni tra Casalbruno e Montealbar."
         },
         {
           "speaker": "ansage",
-          "text": "Para hacer este trayecto, hemos organizado un servicio de autobuses. Los autobuses salen cada veinte minutos de la plaza de la estación, junto a la parada de taxis, y tardan unos cuarenta minutos más que el tren."
+          "text": "Per questo tragitto è stato organizzato un servizio di autobus sostitutivi. Gli autobus partono ogni venti minuti da piazza della Stazione, accanto alla fermata dei taxi, e impiegano circa quaranta minuti in più del treno."
         },
         {
           "speaker": "ansage",
-          "text": "Los viajeros que vayan al aeropuerto deben cambiar en Valdelora a la línea uno, ya que el autobús no para en el aeropuerto."
+          "text": "I viaggiatori diretti all'aeroporto devono cambiare a Casalbruno sulla linea uno, perché l'autobus non ferma all'aeroporto."
         },
         {
           "speaker": "ansage",
-          "text": "Los billetes y abonos de cercanías son válidos en estos autobuses. Tengan en cuenta que no se admiten bicicletas. Les pedimos disculpas por las molestias."
+          "text": "I biglietti e gli abbonamenti ferroviari sono validi su questi autobus. Si ricorda che non è ammesso il trasporto di biciclette. Ci scusiamo per il disagio."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Hasta cuándo no hay trenes en este tramo?",
+          "prompt": "Fino a quando non ci sono treni su questo tratto?",
           "options": [
-            "Hasta el sábado",
-            "Hasta el domingo",
-            "Hasta el lunes"
+            "Fino a sabato",
+            "Fino a domenica",
+            "Fino a lunedì"
           ],
-          "answer": "Hasta el domingo"
+          "answer": "Fino a domenica"
         },
         {
-          "prompt": "¿De dónde salen los autobuses?",
+          "prompt": "Da dove partono gli autobus?",
           "options": [
-            "De la plaza de la estación",
-            "Del andén de la línea tres",
-            "Del aeropuerto"
+            "Da piazza della Stazione",
+            "Dal binario della linea tre",
+            "Dall'aeroporto"
           ],
-          "answer": "De la plaza de la estación"
+          "answer": "Da piazza della Stazione"
         },
         {
-          "prompt": "¿Cuánto tiempo más se tarda en autobús?",
+          "prompt": "Quanto tempo in più ci vuole in autobus?",
           "options": [
-            "Unos veinte minutos",
-            "Una hora",
-            "Unos cuarenta minutos"
+            "Circa venti minuti",
+            "Un'ora",
+            "Circa quaranta minuti"
           ],
-          "answer": "Unos cuarenta minutos",
-          "explain": "“Cada veinte minutos” is how often the buses leave, not the extra time."
+          "answer": "Circa quaranta minuti",
+          "explain": "“Ogni venti minuti” is how often the buses leave, not the extra time."
         },
         {
-          "prompt": "¿Qué deben hacer los viajeros que van al aeropuerto?",
+          "prompt": "Che cosa devono fare i viaggiatori diretti all'aeroporto?",
           "options": [
-            "Tomar el autobús",
-            "Cambiar a la línea uno",
-            "Comprar otro billete"
+            "Prendere l'autobus",
+            "Cambiare sulla linea uno",
+            "Comprare un altro biglietto"
           ],
-          "answer": "Cambiar a la línea uno",
-          "explain": "Los viajeros que vayan: que + subjunctive, because it refers to whoever is going there."
+          "answer": "Cambiare sulla linea uno",
+          "explain": "“Perché l'autobus non ferma all'aeroporto”: the replacement bus doesn't go there, so they change to line one at Casalbruno."
         },
         {
-          "prompt": "¿Qué no se puede llevar en el autobús?",
+          "prompt": "Che cosa non si può portare sull'autobus?",
           "options": [
-            "Maletas",
-            "Una bicicleta",
-            "Un abono"
+            "Le valigie",
+            "Una bicicletta",
+            "Un abbonamento"
           ],
-          "answer": "Una bicicleta"
+          "answer": "Una bicicletta"
         }
       ]
     },
     {
       "id": "b2-diskussion-homeoffice",
       "level": "B2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: ustedes and les for vosotros and os (¿Qué les parece?). You also hear home office for el teletrabajo."
-      },
+      "variety": "it-IT",
       "type": "diskussion",
-      "title": "Team meeting: teletrabajo",
+      "title": "Team meeting: smart working",
       "blurb": "Three positions, one compromise. Follow the arguments, and notice who gives way on what.",
       "seconds": 90,
       "script": [
         {
           "speaker": "frau",
-          "text": "Tenemos que acordar una política de teletrabajo antes de fin de mes. Ahora mismo cada departamento va por libre y eso está generando bastantes roces. ¿Qué os parece?"
+          "text": "Dobbiamo definire una politica di smart working entro la fine del mese. Adesso ogni reparto fa un po' come vuole e questo sta creando parecchi attriti. Che ne pensate?"
         },
         {
           "speaker": "mann2",
-          "text": "A mi modo de ver, lo mejor sería dejarlo como está. Los equipos son muy distintos: atención al cliente tiene que estar localizable, mientras que los desarrolladores necesitan tranquilidad. Una norma única no haría justicia a ninguno de los dos."
+          "text": "Secondo me la cosa migliore sarebbe lasciare tutto com'è. I team sono molto diversi: l'assistenza clienti deve essere sempre reperibile, mentre gli sviluppatori hanno bisogno di tranquillità. Una regola unica non renderebbe giustizia a nessuno dei due."
         },
         {
           "speaker": "frau2",
-          "text": "Entiendo lo que dices, pero se te escapa algo. Si decide cada departamento, en la práctica decide el jefe. Es decir, todo depende de quién te haya tocado como responsable, y esa es precisamente la injusticia de la que se queja la gente."
+          "text": "Capisco quello che dici, ma ti sfugge una cosa. Se decide ogni reparto, in pratica decide il capo. Cioè, tutto dipende da chi ti è capitato come responsabile, ed è proprio questa l'ingiustizia di cui la gente si lamenta."
         },
         {
           "speaker": "mann2",
-          "text": "Ahí te doy la razón. A mí, más que la libertad de los departamentos, lo que me preocupaba era que el trabajo saliera adelante."
+          "text": "Su questo hai ragione. Più che la libertà dei reparti, quello che mi preoccupava era che il lavoro andasse avanti."
         },
         {
           "speaker": "frau",
-          "text": "Entonces os propongo un marco en lugar de una cifra fija. Cada uno podrá teletrabajar hasta tres días a la semana, pero cada equipo acordará un día común en la oficina. Así atención al cliente queda cubierta y los desarrolladores tienen sus días tranquilos."
+          "text": "Allora vi propongo una cornice invece di una cifra fissa. Ognuno potrà lavorare da casa fino a tre giorni a settimana, ma ogni team concorderà un giorno comune in ufficio. Così l'assistenza clienti resta coperta e gli sviluppatori hanno i loro giorni tranquilli."
         },
         {
           "speaker": "frau2",
-          "text": "Yo podría aceptarlo, siempre y cuando ese día quede por escrito y no se renegocie cada semana."
+          "text": "Per me va bene, a patto che quel giorno sia messo per iscritto e non venga rinegoziato ogni settimana."
         },
         {
           "speaker": "mann2",
-          "text": "De acuerdo. Solo añadiría que lo revisemos dentro de seis meses para ver si funciona."
+          "text": "D'accordo. Aggiungerei solo che lo rivediamo tra sei mesi per vedere se funziona."
         },
         {
           "speaker": "frau",
-          "text": "Perfecto. Resumiendo: hasta tres días en casa, un día fijo de oficina por equipo, todo por escrito y una revisión a los seis meses."
+          "text": "Perfetto. Riassumendo: fino a tre giorni da casa, un giorno fisso in ufficio per team, tutto per iscritto e una verifica dopo sei mesi."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Cuál es el problema de la situación actual?",
+          "prompt": "Qual è il problema della situazione attuale?",
           "options": [
-            "Nadie puede teletrabajar",
-            "Cada departamento va por libre",
-            "Atención al cliente no responde"
+            "Nessuno può lavorare da casa",
+            "Ogni reparto fa un po' come vuole",
+            "L'assistenza clienti non risponde"
           ],
-          "answer": "Cada departamento va por libre",
-          "explain": "Ir por libre means each one does things its own way, without agreeing with the others."
+          "answer": "Ogni reparto fa un po' come vuole",
+          "explain": "Fare come si vuole means each department does things its own way, without agreeing with the others."
         },
         {
-          "prompt": "¿Qué objeción plantea la segunda mujer?",
+          "prompt": "Quale obiezione solleva la seconda donna?",
           "options": [
-            "Que en casa se trabaja menos",
-            "Que los desarrolladores no necesitan tranquilidad",
-            "Que en la práctica decide el jefe"
+            "Che a casa si lavora meno",
+            "Che gli sviluppatori non hanno bisogno di tranquillità",
+            "Che in pratica decide il capo"
           ],
-          "answer": "Que en la práctica decide el jefe",
+          "answer": "Che in pratica decide il capo",
           "explain": "She doesn't deny that the teams are different; she shows what that leads to in practice."
         },
         {
-          "prompt": "¿Cómo reacciona el hombre a su argumento?",
+          "prompt": "Come reagisce l'uomo al suo argomento?",
           "options": [
-            "Lo acepta",
-            "Mantiene su postura",
-            "Cambia de tema"
+            "Lo accetta",
+            "Mantiene la sua posizione",
+            "Cambia argomento"
           ],
-          "answer": "Lo acepta",
-          "explain": "“Ahí te doy la razón”, and then he explains what he really cared about."
+          "answer": "Lo accetta",
+          "explain": "“Su questo hai ragione”, and then he explains what he really cared about."
         },
         {
-          "prompt": "¿A qué acuerdo llega el equipo?",
+          "prompt": "A quale accordo arriva il gruppo?",
           "options": [
-            "Tres días fijos de oficina para todos",
-            "Hasta tres días en casa y un día fijo de oficina",
-            "Que cada departamento siga decidiendo"
+            "Tre giorni fissi in ufficio per tutti",
+            "Fino a tre giorni da casa e un giorno fisso in ufficio",
+            "Che ogni reparto continui a decidere"
           ],
-          "answer": "Hasta tres días en casa y un día fijo de oficina"
+          "answer": "Fino a tre giorni da casa e un giorno fisso in ufficio"
         },
         {
-          "prompt": "¿Qué añade el hombre al final?",
+          "prompt": "Che cosa aggiunge l'uomo alla fine?",
           "options": [
-            "Una votación en toda la empresa",
-            "Una excepción para atención al cliente",
-            "Una revisión a los seis meses"
+            "Una votazione in tutta l'azienda",
+            "Un'eccezione per l'assistenza clienti",
+            "Una verifica dopo sei mesi"
           ],
-          "answer": "Una revisión a los seis meses"
+          "answer": "Una verifica dopo sei mesi"
         }
       ]
     },
     {
       "id": "b2-interview-anerkennung",
       "level": "B2",
-      "variety": "es-ES",
+      "variety": "it-IT",
       "type": "radio",
-      "title": "Interview: getting a foreign degree recognised (homologación)",
-      "blurb": "An adviser explains homologación and equivalencia, and the most common mistake people make in the process.",
+      "title": "Interview: getting a foreign degree recognised (riconoscimento del titolo)",
+      "blurb": "An adviser explains riconoscimento and the attestato di comparabilità, and the most common mistake people make in the process.",
       "seconds": 95,
       "script": [
         {
           "speaker": "mann",
-          "text": "Muchas personas llegan a España con un título extranjero y no saben si les sirve. Hoy nos acompaña Sofía Márquez, orientadora de un servicio de empleo de Valdelora. Sofía, ¿qué significa exactamente homologar un título?"
+          "text": "Molte persone arrivano in Italia con un titolo di studio straniero e non sanno se serve a qualcosa. Oggi con noi c'è Sofia Marchetti, orientatrice di un centro per l'impiego di Casalbruno. Sofia, che cosa significa esattamente far riconoscere un titolo?"
         },
         {
           "speaker": "frau",
-          "text": "Significa que la Administración reconoce que tu título tiene el mismo valor que el título español correspondiente. Es imprescindible si quieres ejercer una profesión regulada, como enfermería o medicina."
+          "text": "Significa che lo Stato italiano riconosce che il tuo titolo ha lo stesso valore del titolo italiano corrispondente. È indispensabile se vuoi esercitare una professione regolamentata, come infermiere o medico."
         },
         {
           "speaker": "mann",
-          "text": "¿Y si mi profesión no está regulada?"
+          "text": "E se la mia professione non è regolamentata?"
         },
         {
           "speaker": "frau",
-          "text": "Entonces a menudo no hace falta. Un informático o una diseñadora pueden buscar trabajo con el título que tienen, porque quien decide es la empresa. Aun así, puede ser útil pedir la equivalencia, que reconoce el nivel de estudios y el campo, pero no un título concreto."
+          "text": "Allora spesso non serve. Un informatico o una designer possono cercare lavoro con il titolo che hanno, perché a decidere è l'azienda. Può comunque essere utile chiedere un attestato di comparabilità, che indica il livello di studi e il campo, ma non un titolo preciso."
         },
         {
           "speaker": "mann",
-          "text": "¿Cuál es el error más frecuente?"
+          "text": "Qual è l'errore più frequente?"
         },
         {
           "speaker": "frau",
-          "text": "Empezar por el final. Mucha gente manda traducir los documentos antes de legalizarlos. Primero hay que legalizar el título y el expediente en el país de origen, por ejemplo con la apostilla de La Haya. Después viene la traducción jurada; si se hace al revés, a veces toca pagarla dos veces."
+          "text": "Cominciare dalla fine. Molti fanno tradurre i documenti prima di legalizzarli. Di solito prima bisogna legalizzare il titolo e il certificato degli esami nel Paese d'origine, per esempio con l'apostille dell'Aia. Poi viene la traduzione giurata; se si fa al contrario, a volte tocca pagarla due volte."
         },
         {
           "speaker": "mann",
-          "text": "¿Y cuánto se tarda?"
+          "text": "E quanto ci vuole?"
         },
         {
           "speaker": "frau",
-          "text": "Depende mucho del caso, pero pueden ser bastantes meses, así que yo no esperaría a tener una oferta de trabajo. Además, la respuesta no siempre es un sí directo: a veces piden una formación complementaria o una prueba. Y un último consejo: antes de pagar nada, mira la información oficial, porque los requisitos cambian, y desconfía de quien te prometa una homologación rápida."
+          "text": "Dipende molto dal caso, ma possono volerci diversi mesi, quindi io non aspetterei di avere un'offerta di lavoro. Inoltre la risposta non è sempre un sì diretto: a volte chiedono una formazione integrativa o una prova. E un ultimo consiglio: prima di pagare qualsiasi cosa, guarda le informazioni ufficiali, perché i requisiti cambiano, e diffida di chi ti promette un riconoscimento rapido."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Cuándo es imprescindible homologar un título?",
+          "prompt": "Quando è indispensabile il riconoscimento del titolo?",
           "options": [
-            "Siempre que se busca trabajo",
-            "Para ejercer una profesión regulada",
-            "Solo para trabajar en la Administración"
+            "Ogni volta che si cerca lavoro",
+            "Per esercitare una professione regolamentata",
+            "Solo per lavorare nella pubblica amministrazione"
           ],
-          "answer": "Para ejercer una profesión regulada"
+          "answer": "Per esercitare una professione regolamentata"
         },
         {
-          "prompt": "¿Qué reconoce la equivalencia?",
+          "prompt": "Che cosa indica l'attestato di comparabilità?",
           "options": [
-            "El nivel de estudios y el campo",
-            "Un título español concreto",
-            "La experiencia laboral"
+            "Il livello di studi e il campo",
+            "Un titolo italiano preciso",
+            "L'esperienza di lavoro"
           ],
-          "answer": "El nivel de estudios y el campo",
-          "explain": "Homologación compares you to one specific Spanish degree; equivalencia only to a level and a field. This is general orientation: check the official rules for your case."
+          "answer": "Il livello di studi e il campo",
+          "explain": "Riconoscimento compares you to one specific Italian title; the attestato only gives a level and a field. This is general orientation: check the official rules for your case."
         },
         {
-          "prompt": "¿Cuál es el error más frecuente, según Sofía?",
+          "prompt": "Qual è l'errore più frequente, secondo Sofia?",
           "options": [
-            "Pedir la equivalencia sin necesitarla",
-            "Esperar a tener una oferta de trabajo",
-            "Traducir antes de legalizar"
+            "Chiedere l'attestato senza averne bisogno",
+            "Aspettare di avere un'offerta di lavoro",
+            "Tradurre prima di legalizzare"
           ],
-          "answer": "Traducir antes de legalizar",
+          "answer": "Tradurre prima di legalizzare",
           "explain": "The order is legalise first, then translate. Waiting for a job offer is something she also advises against, but it isn't the mistake she names as most frequent."
         },
         {
-          "prompt": "¿Qué puede pasar aunque se presente todo bien?",
+          "prompt": "Che cosa può succedere anche se si presenta tutto correttamente?",
           "options": [
-            "Que pidan una formación o una prueba",
-            "Que haya que volver al país de origen",
-            "Que el título deje de ser válido"
+            "Che chiedano una formazione o una prova",
+            "Che si debba tornare nel Paese d'origine",
+            "Che il titolo non sia più valido"
           ],
-          "answer": "Que pidan una formación o una prueba"
+          "answer": "Che chiedano una formazione o una prova"
         },
         {
-          "prompt": "¿De qué advierte al final?",
+          "prompt": "Di che cosa avverte alla fine?",
           "options": [
-            "De las traducciones demasiado baratas",
-            "De las promesas de homologación rápida",
-            "De las ofertas de trabajo en el extranjero"
+            "Delle traduzioni troppo economiche",
+            "Delle promesse di un riconoscimento rapido",
+            "Delle offerte di lavoro all'estero"
           ],
-          "answer": "De las promesas de homologación rápida"
+          "answer": "Delle promesse di un riconoscimento rapido"
         }
       ]
     },
     {
       "id": "b2-beschwerde-versicherung",
       "level": "B2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el departamento for el piso and el plomero for el fontanero. The complaint bodies differ in each country."
-      },
+      "variety": "it-IT",
       "type": "telefonat",
       "title": "Complaint to an insurance company",
       "blurb": "A claim has been turned down. How to stay polite and still not back down.",
@@ -1178,175 +1153,173 @@
       "script": [
         {
           "speaker": "mann",
-          "text": "Seguros Albar, le atiende Javier. ¿En qué puedo ayudarle?"
+          "text": "Assicurazioni Albar, parla Giacomo. Come posso aiutarla?"
         },
         {
           "speaker": "frau",
-          "text": "Buenos días. Soy Irina Petrova, con número de póliza siete cuatro uno nueve. Les llamo porque han rechazado mi parte y no estoy conforme."
+          "text": "Buongiorno. Sono Irina Petrova, numero di polizza sette quattro uno nove. La chiamo perché hanno respinto la mia denuncia di sinistro e non sono d'accordo."
         },
         {
           "speaker": "mann",
-          "text": "Déjeme que lo mire. Sí, aquí lo tengo: daños por agua en su piso de la calle Olmo. Según el perito, la fuga se debió a la falta de mantenimiento de una tubería, y eso está excluido de la póliza."
+          "text": "Mi faccia controllare. Sì, eccolo: danni da acqua nel suo appartamento di via dell'Olmo. Secondo il perito, la perdita è dovuta alla mancata manutenzione di un tubo, e questo è escluso dalla polizza."
         },
         {
           "speaker": "frau",
-          "text": "Eso es precisamente lo que no entiendo. La tubería se revisó hace un año y tengo la factura del fontanero. Además, el perito estuvo diez minutos en casa y ni siquiera abrió el armario donde está la tubería."
+          "text": "È proprio quello che non capisco. Il tubo è stato controllato un anno fa e ho la fattura dell'idraulico. Inoltre il perito è rimasto dieci minuti in casa e non ha nemmeno aperto l'armadio dove c'è il tubo."
         },
         {
           "speaker": "mann",
-          "text": "Comprendo su malestar, pero yo no puedo modificar esa decisión."
+          "text": "Capisco il suo disappunto, ma io non posso modificare questa decisione."
         },
         {
           "speaker": "frau",
-          "text": "Lo entiendo, y no le estoy culpando a usted. Lo que le pido es, primero, que me envíen por escrito los motivos del rechazo junto con el informe del perito y, segundo, que me indiquen cómo presentar una reclamación formal."
+          "text": "Lo capisco, e non ne faccio una colpa a lei. Quello che le chiedo è, primo, che mi mandiate per iscritto i motivi del rifiuto insieme alla relazione del perito e, secondo, che mi indichiate come presentare un reclamo formale."
         },
         {
           "speaker": "mann",
-          "text": "Por supuesto. Puede dirigirla a nuestro Servicio de Atención al Cliente a través de la web. Ahora mismo le mando el enlace y el informe. Le aconsejo que adjunte la factura y unas fotos de los daños."
+          "text": "Certamente. Può inviarlo al nostro Servizio Reclami tramite il sito. Adesso le mando il link e la relazione. Le consiglio di allegare la fattura e qualche foto dei danni."
         },
         {
           "speaker": "frau",
-          "text": "¿Y si la desestiman o no me contestan?"
+          "text": "E se lo respingono o non mi rispondono?"
         },
         {
           "speaker": "mann",
-          "text": "En ese caso, puede acudir al servicio de reclamaciones de la Dirección General de Seguros y Fondos de Pensiones, pero antes tiene que haber reclamado ante nosotros."
+          "text": "In quel caso può rivolgersi all'IVASS, l'autorità che vigila sulle assicurazioni, ma prima deve aver presentato reclamo a noi."
         },
         {
           "speaker": "frau",
-          "text": "Muy bien. Pues espero el correo hoy mismo. Gracias, Javier."
+          "text": "Molto bene. Allora aspetto l'email oggi stesso. Grazie, Giacomo."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Por qué rechazó la compañía el parte?",
+          "prompt": "Perché la compagnia ha respinto la denuncia di sinistro?",
           "options": [
-            "Por falta de mantenimiento",
-            "Porque la póliza había caducado",
-            "Porque Irina avisó tarde"
+            "Per mancata manutenzione",
+            "Perché la polizza era scaduta",
+            "Perché Irina ha avvisato in ritardo"
           ],
-          "answer": "Por falta de mantenimiento"
+          "answer": "Per mancata manutenzione"
         },
         {
-          "prompt": "¿Qué argumento da Irina en contra?",
+          "prompt": "Quale argomento porta Irina contro la decisione?",
           "options": [
-            "Que el vecino causó la fuga",
-            "Que la tubería se revisó hace un año",
-            "Que la póliza cubre todo"
+            "Che il vicino ha causato la perdita",
+            "Che il tubo è stato controllato un anno fa",
+            "Che la polizza copre tutto"
           ],
-          "answer": "Que la tubería se revisó hace un año",
-          "explain": "She has la factura del fontanero as proof, and she also questions the expert's short visit."
+          "answer": "Che il tubo è stato controllato un anno fa",
+          "explain": "She has la fattura dell'idraulico as proof, and she also questions the expert's short visit."
         },
         {
-          "prompt": "¿Cómo reacciona Irina cuando Javier dice que no puede cambiar la decisión?",
+          "prompt": "Come reagisce Irina quando Giacomo dice che non può cambiare la decisione?",
           "options": [
-            "Lo culpa a él",
-            "Cuelga y busca otra compañía",
-            "Pide los motivos por escrito"
+            "Dà la colpa a lui",
+            "Riattacca e cerca un'altra compagnia",
+            "Chiede i motivi per iscritto"
           ],
-          "answer": "Pide los motivos por escrito",
-          "explain": "“No le estoy culpando a usted. Lo que le pido es…”: polite to the person, firm on the matter. A useful pattern for complaints."
+          "answer": "Chiede i motivi per iscritto",
+          "explain": "“Non ne faccio una colpa a lei. Quello che le chiedo è…”: polite to the person, firm on the matter. A useful pattern for complaints."
         },
         {
-          "prompt": "¿Dónde debe presentar primero la reclamación?",
+          "prompt": "Dove deve presentare per prima il reclamo?",
           "options": [
-            "En el Servicio de Atención al Cliente",
-            "En la Dirección General de Seguros",
-            "En el juzgado"
+            "Al Servizio Reclami della compagnia",
+            "All'IVASS",
+            "In tribunale"
           ],
-          "answer": "En el Servicio de Atención al Cliente"
+          "answer": "Al Servizio Reclami della compagnia",
+          "explain": "General orientation only: the order of steps (company first, then the supervisory authority) and any deadlines must be checked in the policy and on the official site."
         },
         {
-          "prompt": "¿Qué le aconseja Javier que adjunte?",
+          "prompt": "Che cosa consiglia Giacomo di allegare?",
           "options": [
-            "Una copia de la póliza",
-            "La factura y unas fotos",
-            "Una carta del vecino"
+            "Una copia della polizza",
+            "La fattura e qualche foto",
+            "Una lettera del vicino"
           ],
-          "answer": "La factura y unas fotos"
+          "answer": "La fattura e qualche foto"
         }
       ]
     },
     {
       "id": "b2-vortrag-ehrenamt",
       "level": "B2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America a speaker says ustedes, not vosotros: han colaborado, sus hijos, hablarles, les pongo un ejemplo."
-      },
+      "variety": "it-IT",
       "type": "vortrag",
-      "title": "Short talk: volunteering",
+      "title": "Short talk: volunteering (il volontariato)",
       "blurb": "A trend, a problem and a proposal. Tell the main point from the examples.",
       "seconds": 90,
       "script": [
         {
           "speaker": "frau",
-          "text": "Buenas tardes a todos y gracias por venir. Seguro que muchos de vosotros habéis colaborado alguna vez como voluntarios: en un banco de alimentos, en la asociación de vecinos o en el club de fútbol de vuestros hijos. Hoy quiero hablaros de un cambio que llevamos años viendo en nuestra asociación de Valdelora."
+          "text": "Buonasera a tutti e grazie di essere venuti. Sono sicura che molti di voi hanno collaborato almeno una volta come volontari: in un banco alimentare, nell'associazione del quartiere o nella squadra di calcio dei vostri figli. Oggi vorrei parlarvi di un cambiamento che osserviamo da anni nella nostra associazione di Casalbruno."
         },
         {
           "speaker": "frau",
-          "text": "La gente no ha dejado de ayudar, pero ayuda de otra manera. Antes, una persona se comprometía durante años con la misma entidad. Hoy muchos prefieren colaborar en proyectos concretos y breves: una recogida de alimentos en Navidad o la limpieza del barrio después de una inundación."
+          "text": "Le persone non hanno smesso di aiutare, ma aiutano in modo diverso. Un tempo ci si impegnava per anni con la stessa associazione. Oggi molti preferiscono partecipare a progetti concreti e brevi: una raccolta alimentare a Natale o la pulizia del quartiere dopo un'alluvione."
         },
         {
           "speaker": "frau",
-          "text": "En principio, esto es positivo, pero tiene un problema: las tareas de siempre se quedan sin manos. Me refiero a llevar las cuentas, solicitar subvenciones o acompañar cada semana a una persona mayor. Son trabajos poco vistosos y, sin embargo, sin ellos ninguna asociación puede funcionar."
+          "text": "In linea di principio è positivo, ma ha un problema: i compiti di sempre restano senza braccia. Mi riferisco a tenere i conti, presentare le domande di contributo o accompagnare ogni settimana una persona anziana. Sono lavori poco appariscenti e, tuttavia, senza di essi nessuna associazione può funzionare."
         },
         {
           "speaker": "frau",
-          "text": "Os pongo un ejemplo. El año pasado organizamos una recogida de ropa y se apuntaron sesenta personas en dos días. Ese mismo mes buscábamos a alguien que llevara la contabilidad dos horas a la semana, y tardamos cinco meses en encontrarlo."
+          "text": "Vi faccio un esempio. L'anno scorso abbiamo organizzato una raccolta di vestiti e in due giorni si sono iscritte sessanta persone. Nello stesso mese cercavamo qualcuno che tenesse la contabilità due ore a settimana, e ci abbiamo messo cinque mesi a trovarlo."
         },
         {
           "speaker": "frau",
-          "text": "¿Qué proponemos? Dividir esas tareas largas en bloques pequeños, con un principio y un final claros: por ejemplo, tres meses de contabilidad compartidos entre dos personas. Que nadie sienta que firma para toda la vida. No se trata de pedir más, sino de pedirlo de otra manera. Muchas gracias."
+          "text": "Che cosa proponiamo? Di dividere questi compiti lunghi in piccoli blocchi, con un inizio e una fine chiari: per esempio, tre mesi di contabilità divisi tra due persone. Che nessuno senta di firmare per tutta la vita. Non si tratta di chiedere di più, ma di chiedere in un altro modo. Grazie mille."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Cuál es el cambio que describe la ponente?",
+          "prompt": "Qual è il cambiamento descritto dalla relatrice?",
           "options": [
-            "Cada vez menos gente ayuda",
-            "La gente prefiere proyectos breves",
-            "Las asociaciones piden más dinero"
+            "Sempre meno gente aiuta",
+            "Le persone preferiscono progetti brevi",
+            "Le associazioni chiedono più soldi"
           ],
-          "answer": "La gente prefiere proyectos breves",
-          "explain": "“La gente no ha dejado de ayudar”: dejar de means to stop, so people have not stopped helping. They help differently."
+          "answer": "Le persone preferiscono progetti brevi",
+          "explain": "“Non hanno smesso di aiutare”: smettere di means to stop, so people have not stopped helping. They help differently."
         },
         {
-          "prompt": "¿Qué problema trae este cambio?",
+          "prompt": "Quale problema comporta questo cambiamento?",
           "options": [
-            "Los proyectos breves salen muy caros",
-            "Faltan personas para las tareas de siempre",
-            "Hay demasiados voluntarios en Navidad"
+            "I progetti brevi costano troppo",
+            "Mancano persone per i compiti di sempre",
+            "Ci sono troppi volontari a Natale"
           ],
-          "answer": "Faltan personas para las tareas de siempre"
+          "answer": "Mancano persone per i compiti di sempre"
         },
         {
-          "prompt": "¿Qué quiere demostrar con la recogida de ropa?",
+          "prompt": "Che cosa vuole dimostrare con la raccolta di vestiti?",
           "options": [
-            "Que la gente responde a lo puntual, no a lo regular",
-            "Que la asociación necesita más ropa que antes",
-            "Que sesenta voluntarios son demasiados para dos días"
+            "Che la gente risponde a ciò che è puntuale, non a ciò che è regolare",
+            "Che l'associazione ha bisogno di più vestiti di prima",
+            "Che sessanta volontari sono troppi per due giorni"
           ],
-          "answer": "Que la gente responde a lo puntual, no a lo regular",
+          "answer": "Che la gente risponde a ciò che è puntuale, non a ciò che è regolare",
           "explain": "Sixty people in two days, against five months to find one bookkeeper. The example supports the main point; it isn't the main point itself."
         },
         {
-          "prompt": "¿Qué propone la ponente?",
+          "prompt": "Che cosa propone la relatrice?",
           "options": [
-            "Pagar a quien lleve las cuentas",
-            "Dejar de organizar recogidas",
-            "Dividir las tareas en bloques pequeños"
+            "Pagare chi tiene i conti",
+            "Smettere di organizzare raccolte",
+            "Dividere i compiti in piccoli blocchi"
           ],
-          "answer": "Dividir las tareas en bloques pequeños"
+          "answer": "Dividere i compiti in piccoli blocchi"
         },
         {
-          "prompt": "¿Qué significa «No se trata de pedir más, sino de pedirlo de otra manera»?",
+          "prompt": "Che cosa significa «Non si tratta di chiedere di più, ma di chiedere in un altro modo»?",
           "options": [
-            "Que la manera de pedir es la clave",
-            "Que hay que pedir menos a la gente",
-            "Que no hay que pedir nada a nadie"
+            "Che il modo di chiedere è la chiave",
+            "Che bisogna chiedere meno alla gente",
+            "Che non bisogna chiedere niente a nessuno"
           ],
-          "answer": "Que la manera de pedir es la clave"
+          "answer": "Che il modo di chiedere è la chiave"
         }
       ]
     }

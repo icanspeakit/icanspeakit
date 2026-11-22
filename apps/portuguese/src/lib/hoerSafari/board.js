@@ -7,7 +7,7 @@ import { t, onUiText } from "../uiText.js";
 import { withBase } from "../paths.js";
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const LOGIN = withBase(`/account?next=${encodeURIComponent("/games/listening-safari#bestenliste")}`);
+const LOGIN = withBase(`/conta?next=${encodeURIComponent("/jogos/safari-auditivo#classificacao")}`);
 const karten = (k) => (k === "bild" ? t("hs.cards.bild", "Bilder") : k === "wort" ? t("hs.cards.wort", "Wörter") : k);
 
 export function mountBoard(el) {
@@ -102,7 +102,7 @@ export function mountBoard(el) {
   function renderOver() {
     if (!overEl || !overState) return;
     const mine = data?.rows?.find((r) => r.ich);
-    const link = `<a href="#bestenliste" data-lb-jump>${t("hs.lb.see", "Bestenliste ansehen")}</a>`;
+    const link = `<a href="#classificacao" data-lb-jump>${t("hs.lb.see", "Bestenliste ansehen")}</a>`;
     let html;
     if (overState === "login") html = `${t("hs.lb.overLogin", "Melde dich an, dann kommt diese Runde in die Bestenliste.")} <a href="${LOGIN}">${t("hs.lb.loginBtn", "Anmelden")}</a>`;
     else if (overState === "name") html = `${t("hs.lb.overName", "Gespeichert. Wähl noch einen Namen, dann stehst du in der Bestenliste.")} ${link}`;

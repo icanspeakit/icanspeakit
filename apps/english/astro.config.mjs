@@ -160,6 +160,9 @@ export default defineConfig({
     // /v2 tested practising inside the dashboard (the focus layout). Retired with the
     // inline exercises — see FORTSCHRITT-KARTE-PROMPT.md.
     '/v2': '/progress',
+    // /start was a draft of a tidied-up homepage (EXPERIMENTE.md, Archiv); the course home replaced it.
+    '/start': r301('/'),
+    '/start-neu': r301('/'),
     // The easy-mode prototype became „Einfach lernen" (EINFACH-LERNEN-TIERED-PROMPT.md,
     // Tier 0). A real 301 keeps the #/… screen: browsers carry the fragment across it.
     '/leicht': { status: 301, destination: '/step-by-step' },
@@ -190,6 +193,31 @@ export default defineConfig({
     allowedHosts: true,
   },
   vite: {
+    // Dev only: the course lives under its base (/francais, /espanol …) and the domain root
+    // is the separate hub site, so localhost:<port>/ was a bare 404. Send it to the course.
+    plugins: [{
+      name: 'root-to-base',
+      apply: 'serve',
+      configureServer(server) {
+        // Returned function = runs after Vite and Astro have added their middlewares; then
+        // it goes to the front, or their base handler answers "/" with a 404 first.
+        return () => {
+          server.middlewares.stack.unshift({
+            route: '',
+            handle(req, res, next) {
+              // originalUrl: Vite strips the base from req.url, so /francais/ arrives as "/".
+              const url = req.originalUrl ?? req.url;
+              if (url === '/' || url?.startsWith('/?')) {
+                res.writeHead(302, { Location: `${BASE_PATH}/` });
+                res.end();
+                return;
+              }
+              next();
+            },
+          });
+        };
+      },
+    }],
     // A Gradle build drops ~6,600 copies of the site into android/app/build; watching
     // them floods the dev server until module loads time out.
     server: {
