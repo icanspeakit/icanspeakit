@@ -922,8 +922,8 @@ const defaultVariant = variants[0];
                         ? <span class="nv-modmeta" data-i18n={rowMeta(item)!.key} data-i18n-vars={vars(rowMeta(item)!.vars)}>{item.level} · {item.tasks} tasks · approx. {item.minutes} min</span>
                         : <span class="nv-modmeta" data-i18n={item.tasks && !item.minutes && item.id !== "grammatik-basis" ? "fortschritt.row.metaTasks" : undefined} data-i18n-vars={vars({ level: item.level, n: item.tasks })}>
                             {item.level}
-                            {item.tasks ? ` · ${item.tasks} Aufgaben` : ""}
-                            {item.minutes ? ` · ca. ${item.minutes} Min.` : ""}
+                            {item.tasks ? ` · ${item.tasks} tasks` : ""}
+                            {item.minutes ? ` · approx. ${item.minutes} min` : ""}
                           </span>}
                     </span>
                     {itemPct(item) === null
