@@ -1,5 +1,5 @@
 // Hör-Safari (/games/listening-safari): a listening game in the spirit of the classic shooting
-// galleries. A voice says a noun with el or la ("la cuchara"); birds — our own "Pieper",
+// galleries. A voice says a noun with o or a ("a chave"); birds — our own "Pieper",
 // not anybody's chicken — fly over a wide landscape carrying picture or word cards, and the
 // player hits the matching one with the Gummi-Blaster, a toy that fires harmless rubber
 // pellets. A hit bird goes "Bonk!", sees stars and flies off; nothing falls.
@@ -19,8 +19,8 @@
 //   right bubble.
 // - Records on this device (records.js) and a weekly / all-time board (board.js).
 //
-// Words: nouns from the lexicon with a picture (wort-bilder.json → OpenMoji), passed in by the
-// page (woerter.js). The browser's Spanish voice says them (see say()). Plan and decisions:
+// Words: nouns from the lexicon with a picture (woerter.js PICTURE_HERE or wort-bilder.json →
+// OpenMoji), passed in by the page. The browser's Portuguese voice says them (see say()). Plan and decisions:
 // HOER-SAFARI-TIERED-PROMPT.md, docs/hoer-safari-tier*-v1.md.
 
 import { makeSfx } from "./sound.js";
@@ -32,7 +32,7 @@ import {
 } from "./scene.js";
 import { migrate, boardRecords, saveRound } from "./records.js";
 import { mountBoard } from "./board.js";
-import { LEVELS, levelProgress, saveLevel, starsFor } from "./levels.js";
+import { LEVELS, levelProgress, saveLevel, starsFor, wordsForLevel } from "./levels.js";
 import { t, onUiText } from "../uiText.js";
 import { getLang } from "../i18n.js";
 import { isRtl } from "../languages.js";
@@ -153,6 +153,7 @@ export function mountHoerSafari(root, allWords) {
     back: $("[data-back]"),
     best: $("[data-best]"),
     noVoice: $("[data-novoice]"),
+    brVoice: $("[data-brvoice]"),
     result: $("[data-result]"),
     album: $("[data-album]"),
     practice: $("[data-practice]"),
@@ -308,22 +309,26 @@ export function mountHoerSafari(root, allWords) {
     }
     return im;
   }
-  // The voice: no Spanish clips are recorded yet, so the browser's voice says the word with its
-  // article ("la cuchara"), as in Bruno Kart: one from Spain first, else any Spanish one. Recorded
-  // clips (/audio/wortschatz/<audio>.mp3, w.a) would go here, and they would have to say the
-  // article too. An English voice reading Spanish would teach the wrong sounds, so a browser
-  // with no Spanish voice stays silent and shows the word at once (nextTarget): the round can
-  // still be played by reading, and the start card says why. An empty voice list proves nothing,
+  // The voice: no European Portuguese clips are recorded yet, so the browser's voice says the
+  // word with its article ("a chave"), as in Bruno Kart: one from Portugal (pt-PT) first, else
+  // any Portuguese one. Many devices only have a Brazilian voice (pt-BR); it still says the right
+  // word and the right article, so it is used, and a line on the start card says the sound is
+  // Brazilian (open vowels, no swallowed e) and how to add a Portugal voice. Recorded clips
+  // (/audio/wortschatz/<audio>.mp3, w.a) would go here, and they would have to say the article
+  // too. An English voice reading Portuguese would teach the wrong sounds, so a browser with no
+  // Portuguese voice stays silent and shows the word at once (nextTarget): the round can still
+  // be played by reading, and the start card says why. An empty voice list proves nothing,
   // since it may still be loading, and some Android browsers never list their voices but speak
-  // anyway: there it tries, and a voice that fails counts as none.
+  // anyway: there it tries (asking for pt-PT), and a voice that fails counts as none.
   const synth = typeof speechSynthesis !== "undefined" ? speechSynthesis : null;
-  let esVoice = null;
+  let ptVoice = null;
   let voiceFailed = false;
-  const canSpeak = () => !!synth && !voiceFailed && (!!esVoice || !(synth.getVoices?.().length));
+  const canSpeak = () => !!synth && !voiceFailed && (!!ptVoice || !(synth.getVoices?.().length));
   const pickVoice = () => {
     const vs = synth?.getVoices?.() ?? [];
-    esVoice = vs.find((v) => /^es[-_]ES/i.test(v.lang)) ?? vs.find((v) => /^es([-_]|$)/i.test(v.lang)) ?? null;
+    ptVoice = vs.find((v) => /^pt[-_]PT/i.test(v.lang)) ?? vs.find((v) => /^pt([-_]|$)/i.test(v.lang)) ?? null;
     ui.noVoice.hidden = canSpeak();
+    if (ui.brVoice) ui.brVoice.hidden = !ptVoice || /^pt[-_]PT/i.test(ptVoice.lang);
   };
   if (synth) synth.addEventListener?.("voiceschanged", pickVoice);
   pickVoice();
@@ -354,12 +359,12 @@ export function mountHoerSafari(root, allWords) {
       if (!canSpeak()) return finish();
       try {
         const u = new SpeechSynthesisUtterance(spoken(w));
-        u.lang = "es-ES";
+        u.lang = ptVoice?.lang || "pt-PT";
         u.rate = 0.9;
-        if (esVoice) u.voice = esVoice;
+        if (ptVoice) u.voice = ptVoice;
         u.onend = finish;
         u.onerror = (e) => {
-          // hush() cancels on purpose; anything else means this browser cannot say Spanish
+          // hush() cancels on purpose; anything else means this browser cannot say Portuguese
           if (e?.error !== "canceled" && e?.error !== "interrupted") {
             voiceFailed = true;
             ui.noVoice.hidden = false;
@@ -421,8 +426,7 @@ export function mountHoerSafari(root, allWords) {
   const defaultAim = () => ({ x: view.w / 2, y: VIEW_H * 0.4, on: false, mouse: false });
 
   function poolFor(level) {
-    const lv = level === "B1" ? ["B1", "B2"] : [level];
-    return allWords.filter((w) => lv.includes(w.lv));
+    return wordsForLevel(allWords, level);
   }
 
   /** The round's difficulty: a level's numbers, or the free round's ramp (TUNING). */
@@ -1011,9 +1015,9 @@ export function mountHoerSafari(root, allWords) {
     if (Math.random() < 0.5) {
       return {
         word: w,
-        prompt: t("hs.q.article", "el or la?"),
+        prompt: t("hs.q.article", "o or a?"),
         big: `___ ${w.w}`,
-        options: ["el", "la"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
+        options: ["o", "a"].map((g) => ({ text: g, ok: g === w.g, popped: false, shake: 0 })),
         wrong: false,
       };
     }
