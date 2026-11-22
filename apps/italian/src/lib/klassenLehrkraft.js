@@ -7,13 +7,14 @@ import QRCode from "qrcode";
 import { currentUser, isTeacher, setTeacher } from "./liveQuiz/custom.js";
 import { loadText, t } from "./liveQuiz/text.js";
 import { withBase, currentPath } from "./paths.js";
+import { uiLocale } from "./i18n.js";
 import {
   MAX_MITGLIEDER, codeErneuern, joinLink, klasseAnlegen, klasseArchivieren, klasseLoeschen,
   meineKlassen, mitgliedEntfernen, mitglieder,
 } from "./klassen.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString(uiLocale(), { day: "numeric", month: "short", year: "numeric" });
 
 export async function mountKlassen(root) {
   const $ = (s) => root.querySelector(s);
