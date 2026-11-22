@@ -10,11 +10,10 @@
 // so a Brazil mode can be switched on later without rewriting content. Until then nothing is
 // shown for ptBR: BRAZIL_MODE is false and the read helpers below return the Portugal text.
 //
-// Transition: the data still holds the Spanish course's `variety: "es-ES"` and `es419` notes
-// until each module's Portuguese item has run. Those legacy values are accepted (with the old
-// Spanish rules) while LEGACY_ALLOWED is true; scripts/check-variety.mjs counts them and makes
-// them errors in modules already converted (its STRICT list). `cleanup` sets LEGACY_ALLOWED to
-// false once no Spanish value is left.
+// Transition (over): while the modules were converted, the Spanish course's `variety: "es-ES"`
+// and `es419` notes were accepted through LEGACY_ALLOWED. `cleanup` (2026-11-22) set it to false
+// once no Spanish value was left: an es-ES variety or an es419 note is now an error everywhere.
+// The legacy names below stay only so the validators can name the old shape in their message.
 //
 // Plain ESM without Vite imports: scripts/check-variety.mjs and the lexicon/berufe/business
 // validators share these rules with the pages.
@@ -34,8 +33,8 @@ export const PTBR_NOTE_MAX = 160;
 /** `ptBR.gender`: the article of the Brazilian noun when it differs (o autocarro → o ônibus keeps "o"). */
 export const PTBR_GENDERS = ["o", "a"];
 
-/** Spanish-course values still in unconverted data (see the header). */
-export const LEGACY_ALLOWED = true;
+/** Spanish-course values: no longer accepted (see the header). */
+export const LEGACY_ALLOWED = false;
 export const LEGACY_VARIETIES = ["es-ES", "es-419"];
 export const LEGACY_NOTE_KEY = "es419";
 const LEGACY_GENDERS = ["el", "la"];

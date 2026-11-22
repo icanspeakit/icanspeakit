@@ -7,12 +7,10 @@
 // 1. Shape, everywhere: every `variety` / `ptBR` key in any JSON under src/data, src/content and
 //    src/paid is checked by varietyProblems() in src/lib/variety.js (allowed values, ptBR.note
 //    present and ≤ 160 characters, ptBR.gender only o/a, no unknown keys). A wrong shape is an
-//    error. The Spanish course's `variety: "es-ES"` and `es419` notes are still accepted (the
-//    "legacy" count) in modules whose Portuguese item hasn't run yet; in a STRICT module they are
-//    errors.
-// 2. Coverage, per module (the table in §1.5): items that should carry `variety` but don't. In a
-//    module that is not strict yet this is one summary line; in a STRICT module every missing
-//    `variety` is an error.
+//    error. The Spanish course's `variety: "es-ES"` and `es419` notes are errors too (the
+//    transition ended with `cleanup`, LEGACY_ALLOWED = false).
+// 2. Coverage, per module (the table in §1.5): items that should carry `variety` but don't. Every
+//    module is strict: every missing `variety` is an error.
 // 3. Brazilian forms in pt-PT text: the patterns in scripts/data/brazilianisms.json, run over the
 //    Portuguese-text fields of every item whose own or inherited variety is "pt-PT". Warnings
 //    only: a deliberate pt-BR example can be right in context. The patterns test themselves
@@ -28,10 +26,6 @@ const rel = (p) => path.relative(ROOT, p).replaceAll("\\", "/");
 const SHOW_ALL = process.argv.includes("--all");
 const WARN_LINES = 40;
 
-// Modules whose Portuguese item has run: a missing `variety`, a legacy es-ES value or an es419
-// note is an error there. The Portuguese content items add their module id here in the same
-// commit that converts the module (e.g. vocab-a1 adds "lexicon-a1"). placement-test made einstufung the first.
-const STRICT = new Set(["einstufung", "grammatik-a1", "grammatik-start", "lexicon-a1", "wortschatz", "umgangssprache", "synonyme", "fehler-nach-sprache", "typische-fehler", "wortfallen", "redewendungen", "arbeitsblatt", "partneruebungen", "unterricht-wortschatz", "berufe", "business"]);
 
 const arr = (v) => (Array.isArray(v) ? v : []);
 const jsonFiles = (dir) =>
@@ -65,13 +59,6 @@ const MODULES = [
   // A grammar topic carries `variety` at the top level; its exercises inherit.
   { id: "grammatik", files: [...jsonFiles("src/data/grammatik"), ...jsonFiles("src/paid/grammatik")],
     items: (d) => [{ item: d }] },
-  // The A1 slots, converted by grammar-a1: strict while the other levels still hold Spanish text.
-  // grammar-c1 (or cleanup) makes "grammatik" strict and drops this entry.
-  { id: "grammatik-a1", files: ["nomen", "artikel", "personalpronomen", "praesens", "konjugation",
-      "praeteritum-sein-haben", "verb-position-2", "berufe-mit-in", "w-fragen", "ja-nein-fragen", "plural",
-      "adjektive-nach-sein", "possessivartikel", "welcher-dieser", "gern", "temporale-praepositionen", "aduso",
-      "zahlen", "wortarten"].flatMap((id) => one(`src/data/grammatik/${id}.json`)),
-    items: (d) => [{ item: d }] },
   { id: "grammatik-quiz", files: one("src/data/grammatik.json"), items: (d) => arr(d).map((item) => ({ item })) },
   // The starter book carries `variety` at the top level; its translations hold no Portuguese of their own.
   { id: "grammatik-start", files: one("src/data/grammatik-start/en.json"), items: (d) => [{ item: d }] },
@@ -103,7 +90,10 @@ const MODULES = [
   { id: "partneruebungen", files: jsonFiles("src/data/partneruebungen"), items: (d) => [{ item: d }] },
   { id: "unterricht-wortschatz", files: one("src/data/unterricht-wortschatz.json"), items: (d) => [{ item: d }] },
 ];
-for (const id of STRICT) if (!MODULES.some((m) => m.id === id)) throw new Error(`STRICT names unknown module "${id}"`);
+// Every module is strict: a missing `variety`, a legacy es-ES value or an es419 note is an error.
+// The content items made their modules strict one by one; `cleanup` (2026-11-22) made all of them
+// strict once every module was Portuguese. A new module added above is strict at once.
+const STRICT = new Set(MODULES.map((m) => m.id));
 
 const errors = [];
 const read = (file) => {
