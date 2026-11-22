@@ -7,7 +7,9 @@
 //   node scripts/check-parity.mjs                 all course apps that exist
 //   node scripts/check-parity.mjs french italian  only these
 //
-// Exit 1 on any error. Warnings (audio, UI languages) don't fail.
+// Exit 1 on any error. Warnings (audio, UI languages) don't fail. Every course must have a ru.json
+// that matches en.json key for key, with the same placeholders and tags (check 10). German left
+// in ru.json is scripts/scan-german-ui.mjs's job (--dicts-only).
 // Reference: brand/kit (MANIFEST.md says where each kit file goes), apps/hub/src/lib/analytics.js,
 // apps/hub/src/data/courses.ts (which courses are live).
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
@@ -25,7 +27,13 @@ const COURSES = {
   portuguese: { name: "Portuguese", lang: "pt", path: "portugues" },
   italian: { name: "Italian", lang: "it", path: "italiano" },
 };
-const UI_LANGS = ["en", "de", "es", "fr", "pt", "it"];
+const UI_LANGS = ["en", "de", "es", "fr", "pt", "it", "ru"];
+// UI dictionaries held to en.json key for key (errors): every key of en.json, no extra keys, the
+// same {placeholders} and HTML tags. Russian since 2026-11-22 (russian-ui queue); the older
+// dictionaries have their own checks in each app (check-i18n-keys, validate-i18n).
+const STRICT_UI = ["ru"];
+const tokens = (v) => (String(v).match(/\{\w+\}|%[sd]/g) ?? []).sort().join(" ");
+const tags = (v) => (String(v).match(/<\/?[a-z][a-z0-9]*/gi) ?? []).map((t) => t.toLowerCase()).sort().join(" ");
 
 const read = (p) => readFileSync(p);
 const text = (p) => readFileSync(p, "utf8");
@@ -163,6 +171,28 @@ for (const slug of apps) {
     for (const u of lex.units ?? []) for (const w of u.words ?? []) {
       if (w.audio && RESERVED.test(w.audio)) err.push(`${p.slice(app.length + 1).replaceAll("\\", "/")}: audio slug "${w.audio}" is a reserved file name on Windows (use e.g. "${w.audio}-${w.pos ?? "x"}")`);
     }
+  }
+
+  // 10. Strict UI dictionaries (ru): key parity and identical placeholders/tags against en.json.
+  const enDictPath = join(app, "public/i18n/en.json");
+  const enDict = existsSync(enDictPath) ? JSON.parse(text(enDictPath)) : null;
+  for (const l of STRICT_UI) {
+    const p = join(app, `public/i18n/${l}.json`);
+    if (!enDict) continue;
+    if (!existsSync(p)) { err.push(`public/i18n/${l}.json missing (every course offers ${l})`); continue; }
+    let d;
+    try { d = JSON.parse(text(p)); } catch (e) { err.push(`public/i18n/${l}.json unreadable: ${e.message}`); continue; }
+    const missing = Object.keys(enDict).filter((k) => !(k in d));
+    const extra = Object.keys(d).filter((k) => !(k in enDict));
+    const badPh = Object.keys(enDict).filter((k) => k in d && tokens(enDict[k]) !== tokens(d[k]));
+    const badTag = Object.keys(enDict).filter((k) => k in d && tags(enDict[k]) !== tags(d[k]));
+    const empty = Object.keys(enDict).filter((k) => k in d && String(enDict[k]).trim() && !String(d[k]).trim());
+    const show = (list) => list.slice(0, 5).join(", ") + (list.length > 5 ? ` … (+${list.length - 5})` : "");
+    if (missing.length) err.push(`public/i18n/${l}.json lacks ${missing.length} key(s) of en.json: ${show(missing)}`);
+    if (extra.length) err.push(`public/i18n/${l}.json has ${extra.length} key(s) en.json lacks: ${show(extra)}`);
+    if (badPh.length) err.push(`public/i18n/${l}.json: ${badPh.length} value(s) with other {placeholders} than en.json: ${show(badPh)}`);
+    if (badTag.length) err.push(`public/i18n/${l}.json: ${badTag.length} value(s) with other HTML tags than en.json: ${show(badTag)}`);
+    if (empty.length) err.push(`public/i18n/${l}.json: ${empty.length} empty value(s): ${show(empty)}`);
   }
 
   // Warnings: things a course may legitimately lack for a while.
