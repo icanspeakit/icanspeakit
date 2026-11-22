@@ -4,7 +4,7 @@
 //
 // Three parts, each with its own answer key:
 //   A  Word and meaning — up to 10 words against their meanings, shuffled by a seed.
-//   B  el or la? — up to 10 nouns with the article left out.
+//   B  o or a? — up to 10 nouns with the article left out (the lexicon's gender is "o" or "a").
 //   C  Gap sentences — the lexicon's example sentences with the word blanked (up to 6).
 //
 // Meanings: `en` is the word's English gloss, `de` its German translation
@@ -27,7 +27,7 @@ const SENTENCE_MAX = 6;
  *  the gap is the word being matched, so it is the clue, not a giveaway. */
 export const deMeaningOf = (w) => w.deHint || w.syn?.[0] || null;
 
-const clean = (s) => String(s).toLowerCase().replace(/[^a-záéíóúüñäöß]/g, "");
+const clean = (s) => String(s).toLowerCase().replace(/[^a-záàâãéêíóôõúüçñäöß]/g, "");
 
 /** The token of the example sentence that is this word (or one of its forms), if any. */
 function findToken(word) {
@@ -68,8 +68,9 @@ export function wortschatzSheet(unitId, { words = select({ unit: unitId }), lang
     answers: picked.map((_, i) => LETTERS[order.indexOf(i)]),
   };
 
-  // B — nouns with one right article (lexicon `gender`, content-plan §1.4). el/la estudiante,
-  // plural-only nouns (las gafas) and either-gender nouns (el/la mar) stay out: generoDrill.js.
+  // B — nouns with one right article (lexicon `gender` "o" / "a", content-plan §1.4). o/a estudante,
+  // plural-only nouns (os óculos, as calças) and either-gender nouns stay out: generoDrill.js,
+  // which accepts the articles o/a (plural os/as).
   const nouns = words
     .filter((w) => w.pos === "noun" && isDrillNoun(w))
     .slice(0, NOUN_MAX)
