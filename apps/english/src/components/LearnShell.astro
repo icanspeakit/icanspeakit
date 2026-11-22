@@ -338,7 +338,7 @@ const portions = packedPortions.map((parts, idx) => {
   const of = pieceCount[head.topic];
   const nth = (pieceSeen[head.topic] = (pieceSeen[head.topic] ?? 0) + 1);
   const names = parts.map((x) => x.topicLabel).filter((n, k, all) => all.indexOf(n) === k);
-  const base = of > 1 ? `${head.topicLabel} · Teil ${nth} von ${of}` : head.topicLabel;
+  const base = of > 1 ? `${head.topicLabel} · part ${nth} of ${of}` : head.topicLabel;
   const tasks = partsSize(parts);
   return {
     id: `portion-${idx + 1}`,
@@ -1172,7 +1172,7 @@ import { currentPath } from "../lib/paths.js";
 
     /** "Artikel: der, die, das · Teil 1 von 2" — the topic names stay German. */
     function portionLabel(p: any) {
-      const base = p.of > 1 ? t("fortschritt.portion.part", "{name} · Teil {n} von {of}", { name: p.name, n: p.nth, of: p.of }) : p.name;
+      const base = p.of > 1 ? t("fortschritt.portion.part", "{name} · part {n} of {of}", { name: p.name, n: p.nth, of: p.of }) : p.name;
       return p.extra?.length ? `${base} + ${p.extra.join(" + ")}` : base;
     }
     const itemLabel = (id: string) => {
