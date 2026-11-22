@@ -99,7 +99,7 @@ const rule = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").repl
                     <div class:list={["tf-side", { "tf-side--wrong": m.wrong }]}>
                       <b class="tf-w" lang="pt-PT">{m.w}</b>
                       <span class="tf-pos">{m.pos}</span>
-                      <span class="tf-ex" lang={m.wrong ? undefined : "es"} set:html={m.ex} />
+                      <span class="tf-ex" lang={m.wrong ? undefined : "pt-PT"} set:html={m.ex} />
                     </div>
                   </>
                 ))}

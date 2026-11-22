@@ -31,7 +31,7 @@ import { withBase } from "../paths.js";
 import { examPath } from "../routes.js";
 
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
-const CONTENT_LANG = "es";
+const CONTENT_LANG = "pt-PT";
 const TF_LABELS = { richtig: "Richtig", falsch: "Falsch", ja: "Ja", nein: "Nein", "nicht im text": "Steht nicht im Text" };
 // The letter on each answer button; "nicht im Text" is the exams' own "x".
 const TF_KEYS = { richtig: "r", falsch: "f", ja: "j", nein: "n", "nicht im text": "x" };
