@@ -46,9 +46,9 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
     <section class="rw-day" data-day aria-labelledby="rw-day-h">
       <p class="rw-day-eyebrow" id="rw-day-h" data-i18n="rw.day">Redewendung des Tages</p>
       <a class="rw-day-card" data-day-link href={`/knowledge/idioms/${buildDay.id}`}>
-        <span class="rw-day-de" data-day-de lang="es">{buildDay.de}</span>
+        <span class="rw-day-de" data-day-de lang="pt-PT">{buildDay.de}</span>
         <span class="rw-day-bed" data-day-bed>{buildDay.bed}</span>
-        <span class="rw-day-bsp" data-day-bsp lang="es">“{buildDay.bsp}”</span>
+        <span class="rw-day-bsp" data-day-bsp lang="pt-PT">“{buildDay.bsp}”</span>
         <span class="rw-day-more" data-i18n="rw.day.more">Bild, Beispiele und Herkunft ›</span>
       </a>
     </section>
@@ -94,9 +94,9 @@ const searchText = (e: any) => [e.de, e.bedeutung, e.en, ...(e.bsp ?? [])].join(
                   {e.typ === "sprichwort" && <span class="rw-tag" data-i18n="rw.typ.sprichwort">{TYP.sprichwort}</span>}
                   {e.register === "umgang" && <span class="rw-tag rw-tag--umgang" data-i18n="rw.reg.umgang">{REGISTER.umgang}</span>}
                 </span>
-                <span class="rw-de" lang="es">{e.de}</span>
+                <span class="rw-de" lang="pt-PT">{e.de}</span>
                 <span class="rw-bed">{e.bedeutung}</span>
-                <span class="rw-bsp" lang="es">“{e.bsp[0]}”</span>
+                <span class="rw-bsp" lang="pt-PT">“{e.bsp[0]}”</span>
               </a>
               <button type="button" class="rw-say-btn" data-say={e.de} data-src={audioOf(e.id)} aria-label={`Listen: ${e.de}`} data-i18n-attr="aria-label:rw.listen">🔊</button>
             </li>

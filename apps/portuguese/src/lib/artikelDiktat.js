@@ -143,7 +143,7 @@ export function mountDiktat(root, { round: ROUND, pool }) {
     input.classList.add(r.ok ? "is-ok" : "is-no");
     feedback.hidden = false;
     feedback.className = `akd-feedback ${r.ok ? "is-ok" : "is-no"}`;
-    const answer = `<b lang="es">${esc(q.gender)} ${esc(q.lemma)}</b>`;
+    const answer = `<b lang="pt-PT">${esc(q.gender)} ${esc(q.lemma)}</b>`;
     feedback.innerHTML = r.ok
       ? `<p class="akd-verdict">${esc(t("akd.ok", "Correct:"))} ${answer}</p>`
       : `<p class="akd-verdict">${esc(t("akd.no", "The right answer:"))} ${answer}</p><ul>${r.notes.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>`;

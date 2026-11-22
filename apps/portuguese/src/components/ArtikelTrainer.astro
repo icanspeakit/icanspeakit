@@ -401,7 +401,7 @@ const freqChart = {
        says something worth reading: the rule of the pack being drilled, why a noun is an
        exception, or el + stressed a-. The plain ending line and "no rule here" are the same
        sentence card after card. "Stop" holds any card. */
-    const HOLD_KINDS = new Set(["exception", "afem"]);
+    const HOLD_KINDS = new Set(["exception"]);
     const holdAfterWrong = (q) => Boolean(q._pack) || HOLD_KINDS.has(q.ex?.k);
 
     /* How we'll know the new error flow works (ARTIKEL-FEHLER-FLOW-PROMPT.md, Tier 4): rounds

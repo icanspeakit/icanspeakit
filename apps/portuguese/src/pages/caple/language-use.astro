@@ -41,7 +41,7 @@ function tk(s) {
         <span class="badge badge-brand" data-i18n="telcSb.badge">Language use practice</span>
         <span class="badge badge-info">B2–C1</span>
       </div>
-      <h1 lang="es">{data.name}</h1>
+      <h1 lang="pt-PT">{data.name}</h1>
       <p data-i18n={tk(data.subtitle)}>{data.subtitle}</p>
       <ExamDisclaimer />
     </div>
@@ -58,7 +58,7 @@ function tk(s) {
         ))}
       </div>
 
-      <p class="vp-example" lang="es" set:html={concept.exampleHtml} />
+      <p class="vp-example" lang="pt-PT" set:html={concept.exampleHtml} />
 
       <div class="vp-qa-grid">
         {concept.qa.map((item) => (
@@ -85,7 +85,7 @@ function tk(s) {
           {reference.boxes.map((box) => (
             <div class={`vp-ref-box vp-ref-box--${box.variant}`}>
               <span class={`badge ${box.variant === "dat" ? "badge-info" : "badge-brand"}`} data-i18n={tk(box.badge)}>{box.badge}</span>
-              <ul lang="es">{box.items.map((item) => <li>{item}</li>)}</ul>
+              <ul lang="pt-PT">{box.items.map((item) => <li>{item}</li>)}</ul>
             </div>
           ))}
         </div>

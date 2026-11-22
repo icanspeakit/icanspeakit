@@ -84,7 +84,7 @@ const ERROR_CHECK = [
 ];
 
 const cardPoint = (pt) => {
-  const x = pt.replace(/^y /, "");
+  const x = pt.replace(/^e /, "");
   return x[0].toUpperCase() + x.slice(1);
 };
 
@@ -118,11 +118,11 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
+          : `Primeiro fala da fotografia durante um minuto. Depois tens um minuto para preparar umas notas e falas até dois minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
         bullets: diskussion
-          ? ["Di con claridad lo que piensas.", "Da dos razones, cada una con un ejemplo.", "Responde a la objeción de la otra persona.", "Al final, resume tu postura."]
+          ? ["Diz com clareza o que pensas.", "Dá duas razões, cada uma com um exemplo.", "Responde à objeção da outra pessoa.", "No fim, resume a tua posição."]
           // The card's points read on from "Explica:"; as bullets of their own they
-          // start with a capital and drop the "y" before the last one.
+          // start with a capital and drop the "e" before the last one.
           : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
         href: "/speaking-b1-b2",
         hrefLabel: "in the long-turn trainer",

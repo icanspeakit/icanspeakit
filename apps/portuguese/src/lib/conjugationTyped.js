@@ -95,7 +95,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
           <p class="akk-focus-sentence">${sentence}</p>
           ${settled ? "" : `
           <form class="cj-typed-form" data-form autocomplete="off" novalidate>
-            <input class="ak-write-input ${p.wrong ? "is-wrong" : ""}" data-input type="text" lang="es" spellcheck="false" autocapitalize="off" autocorrect="off"
+            <input class="ak-write-input ${p.wrong ? "is-wrong" : ""}" data-input type="text" lang="pt-PT" spellcheck="false" autocapitalize="off" autocorrect="off"
               value="${esc(p.typed)}"
               placeholder="${esc(t("conj.placeholder", "Type the form …"))}"
               aria-label="${esc(t("conj.placeholder", "Type the form …"))}">
@@ -115,7 +115,7 @@ export function mountTypedDrill(root, questions, { onSessionUpdate, onAnswer, on
               <div class="akk-why">
                 <span class="akk-tag">${esc(t("pw.why", "WHY?"))}</span>
                 <p class="akk-why-text">${esc(q.explain)}${also ? ` ${esc(t("conj.also", "Also right: {form}.", { form: also }))}` : ""}</p>
-                <span class="akk-why-chip" lang="es">${esc(q.change)}</span>
+                <span class="akk-why-chip" lang="pt-PT">${esc(q.change)}</span>
               </div>` : ""}
           </div>
           ${meldung ? meldenLinkHtml(`data-mf-qid="${esc(q.id)}"`) : ""}

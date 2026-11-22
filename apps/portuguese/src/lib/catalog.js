@@ -1128,7 +1128,7 @@ export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.d
 // /knowledge/slang: tío, mola, joder — how Spanish is spoken in Spain, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
-export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal Spanish & slang",
+export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal Portuguese & slang",
   hintKey: "nav.wissen.umgangsspracheHint", hint: "Tío, mola, currar – and what never to say" };
 
 // /knowledge/idioms: Redewendungen & Sprichwörter, each with its picture, meaning and
@@ -1136,7 +1136,7 @@ export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wiss
 // (src/lib/redewendungenLive.js); null until then, like navWortgeschichte.
 export const navRedewendungen = REDEWENDUNGEN_LIVE
   ? { href: "/knowledge/idioms", titleKey: "nav.wissen.redewendungen", title: "Idioms & Proverbs",
-      hintKey: "nav.wissen.redewendungenHint", hint: "Puzzled by “estar en las nubes”? Look here" }
+      hintKey: "nav.wissen.redewendungenHint", hint: "Puzzled by “estar com a cabeça na lua”? Look here" }
   : null;
 
 // /merch: an interest page for shirts, mugs and caps with the crew and the Wortfallen (no

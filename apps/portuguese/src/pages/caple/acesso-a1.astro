@@ -126,7 +126,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
       const btn = el("button", "quiz-btn quiz-btn--ghost", t("exam.showText"));
       btn.type = "button";
       const body = el("p", "hoer-transcript", escapeHtml(item.transcript));
-      body.lang = "es";
+      body.lang = "pt-PT";
       body.hidden = true;
       btn.addEventListener("click", () => {
         body.hidden = !body.hidden;
@@ -211,7 +211,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           // works, where you read once and answer five questions against it.
           for (const t of lesen.teil1.texts) {
             const box = el("div", "lese-text");
-            box.lang = "es";
+            box.lang = "pt-PT";
             box.appendChild(el("p", "lese-text-label", escapeHtml(t.label)));
             box.appendChild(el("p", "lese-text-body", escapeHtml(t.body).replace(/\n/g, "<br>")));
             main.appendChild(box);
@@ -256,7 +256,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           sectionHeader(main, { eyebrow: T("exam.eb.lesen3", "Lesen · Teil 3"), title: T("sd1.t.lesen3", "Schilder und Hinweise"), instruction: escapeHtml(lesen.teil3.instruction) });
           lesen.teil3.items.forEach((item, i) => {
             const box = el("div", "lese-sign", escapeHtml(item.sign).replace(/\n/g, "<br>"));
-            box.lang = "es";
+            box.lang = "pt-PT";
             main.appendChild(box);
             trueFalseCard(main, item, ctx, { qLabel: T("exam.qLabel.task", "Aufgabe {n}", { n: i + 11 }) });
           });
@@ -282,11 +282,11 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           main.appendChild(el("h3", "sub-title", escapeHtml(T("sd1.sub.form", "Teil 1 — Formular"))));
           main.appendChild(el("p", "instruction", escapeHtml(t1.instruction)));
           const ctxText = el("p", "lese-text-body", escapeHtml(t1.context));
-          ctxText.lang = "es";
+          ctxText.lang = "pt-PT";
           main.appendChild(ctxText);
 
           const table = el("table", "form-table");
-          table.lang = "es";
+          table.lang = "pt-PT";
           table.appendChild(el("caption", null, escapeHtml(t1.form.title)));
           const tb = el("tbody");
           for (const row of t1.form.rows) {
@@ -327,11 +327,11 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           main.appendChild(el("h3", "sub-title", escapeHtml(T("sd1.sub.message", "Teil 2 — Kurze Nachricht"))));
           main.appendChild(el("p", "instruction", escapeHtml(t2.instruction)));
           const taskText = el("p", "lese-text-body", escapeHtml(t2.task));
-          taskText.lang = "es";
+          taskText.lang = "pt-PT";
           main.appendChild(taskText);
 
           const pts = el("ul", "task-points");
-          pts.lang = "es";
+          pts.lang = "pt-PT";
           for (const p of t2.points) pts.appendChild(el("li", null, escapeHtml(p)));
           main.appendChild(pts);
 
@@ -359,7 +359,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           const model = el("div", "model-answer");
           model.hidden = true;
           const modelText = el("p", "lese-text-body", escapeHtml(t2.model).replace(/\n/g, "<br>"));
-          modelText.lang = "es";
+          modelText.lang = "pt-PT";
           model.appendChild(modelText);
           const check = el("ul", "task-points");
           for (const c of t2.checklist) check.appendChild(el("li", null, escapeHtml(c)));
@@ -395,10 +395,10 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
           for (const task of sprechen.tasks) {
             main.appendChild(el("h3", "sub-title", escapeHtml(T("sd1.sprechen." + task.id, task.title))));
             const line = el("p", "lese-text-body", escapeHtml(task.task));
-            line.lang = "es";
+            line.lang = "pt-PT";
             main.appendChild(line);
             const points = el("ul", "task-points");
-            points.lang = "es";
+            points.lang = "pt-PT";
             for (const p of task.points) points.appendChild(el("li", null, escapeHtml(p)));
             main.appendChild(points);
 
@@ -407,7 +407,7 @@ const data = { ...satz, audio: examClips("sd1-01", hoerIds) };
             const box = el("div", "model-answer");
             box.hidden = true;
             const text = el("p", "lese-text-body", escapeHtml(task.model).replace(/\n/g, "<br>"));
-            text.lang = "es";
+            text.lang = "pt-PT";
             box.appendChild(text);
             btn.addEventListener("click", () => {
               box.hidden = !box.hidden;

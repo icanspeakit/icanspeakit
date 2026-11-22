@@ -12,7 +12,7 @@
 // editing one JSON file.
 //
 // AUDIO — until scripts/generate-grammatik-audio.mjs has run for a topic, every line is
-// spoken by the browser's Spanish (es-ES) SpeechSynthesis voice. Quality varies by OS and the
+// spoken by the browser's Portuguese (pt-PT, else pt-BR) SpeechSynthesis voice. Quality varies by OS and the
 // voice can be absent entirely. Every item may carry an `audio` path; when it does the
 // file wins and the synthesiser is never touched, so the generator is purely additive and
 // nothing in this module changes when the mp3s land.
@@ -21,10 +21,9 @@ import { withBase } from "./paths.js";
 
 /* ---------------------------------------------------------------- voice ---- */
 
-/* `lang` follows the topic's variety ([id].astro): "pt-PT" for the Portuguese topics, "es-ES"
-   for slots still holding the Spanish course's text (content-plan §13.1, the voice switches with
-   the module whose text it reads). Browser voices for Portuguese are often pt-BR only. */
-export function makeVoice(lang = "es-ES") {
+/* `lang` follows the topic's variety ([id].astro): "pt-PT" for every topic since `cleanup`.
+   Browser voices for Portuguese are often pt-BR only. */
+export function makeVoice(lang = "pt-PT") {
   const synth = typeof speechSynthesis !== "undefined" ? speechSynthesis : null;
   const family = lang.split("-")[0];
   let preferred = null;
@@ -471,17 +470,13 @@ export function mountSprechen(root, data, { voice, onRate } = {}) {
  * says so when that was the only difference. Accents count: "esta" is not "está", and the
  * verdict says when an accent was the only thing wrong (content-plan §1.2).
  */
-// The key row of content-plan §1.2 for Portuguese; the Spanish row stays for the slots that
-// still hold Spanish text until their grammar item has run.
-const ACCENT_KEYS = {
-  pt: ["á", "à", "â", "ã", "ç", "é", "ê", "í", "ó", "ô", "õ", "ú"],
-  es: ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"],
-};
+// The key row of content-plan §1.2 for Portuguese (every slot is Portuguese since `cleanup`).
+const ACCENT_KEYS = ["á", "à", "â", "ã", "ç", "é", "ê", "í", "ó", "ô", "õ", "ú"];
 
-export function mountSchreiben(root, data, { voice, onAnswer, lang = "es-ES" } = {}) {
+export function mountSchreiben(root, data, { voice, onAnswer, lang = "pt-PT" } = {}) {
   if (!root || !data?.rounds?.length) return { stop() {} };
-  const keys = lang.startsWith("pt") ? ACCENT_KEYS.pt : ACCENT_KEYS.es;
-  const inputLang = lang.startsWith("pt") ? "pt-PT" : "es";
+  const keys = ACCENT_KEYS;
+  const inputLang = "pt-PT";
   const rounds = data.rounds;
   let r = 0;
   let i = 0;

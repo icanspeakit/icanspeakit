@@ -204,7 +204,7 @@ function mountFill(root, ex, notify) {
             <p class="vp-fill-prompt">${escapeHtml(item.prompt)}</p>
             ${item.hint ? `<p class="vp-fill-hint">${escapeHtml(item.hint)}${irregularHtml(item)}</p>` : ""}
             <div class="vp-fill-row">${control}${feedback}</div>
-            ${others.length ? `<p class="vp-fill-why" lang="es"><b>${escapeHtml(t("vp.fillAlso", "Auch richtig:"))}</b> ${others.map((a) => `„${escapeHtml(a)}“`).join(", ")}</p>` : ""}
+            ${others.length ? `<p class="vp-fill-why" lang="pt-PT"><b>${escapeHtml(t("vp.fillAlso", "Auch richtig:"))}</b> ${others.map((a) => `„${escapeHtml(a)}“`).join(", ")}</p>` : ""}
             ${checked && !ok && item.why ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
           </div>`;
       })

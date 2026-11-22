@@ -16,7 +16,7 @@ import { findingsFor, findingsHtml, insertionsOf, esc, t } from "./aussprachePat
 import { DRILL_AUDIO_DIR, drillSlug } from "./drillAudio.js";
 import { withBase } from "./paths.js";
 
-const LANG = "es-ES";
+const LANG = "pt-PT";
 const ROUNDS = 5;
 const band = (s) => (s >= 80 ? "good" : s >= 60 ? "ok" : "bad");
 
@@ -30,8 +30,9 @@ function browserSpeak(text) {
     u.lang = LANG;
     u.rate = 0.85;
     const voices = synth.getVoices();
-    const es = voices.find((v) => v.lang?.replace("_", "-") === "es-ES") ?? voices.find((v) => v.lang?.startsWith("es"));
-    if (es) u.voice = es;
+    // Portugal first; a Brazilian voice only when the browser has no other Portuguese one.
+    const pt = voices.find((v) => v.lang?.replace("_", "-") === "pt-PT") ?? voices.find((v) => v.lang?.startsWith("pt"));
+    if (pt) u.voice = pt;
     u.onend = resolve;
     u.onerror = resolve;
     synth.speak(u);

@@ -154,9 +154,9 @@ const tasks = taskCountOf(data);
 // levels and rounds, with audio — instead of this topic's handful of fixed exercises. The
 // lesson around it (Sehen, Hören, Sprechen) is unchanged. See ArtikelTrainer.astro.
 const isArtikel = topicKey === "artikel";
-// The language of the topic's target text: pt-PT once its grammar item has run (variety
-// "pt-PT"), Spanish for the slots that still hold the Spanish course's text (content-plan §13.1).
-const targetLang = data.variety === "pt-PT" ? "pt-PT" : "es";
+// The language of the topic's target text: pt-PT (every slot since `cleanup`; check-variety
+// makes `variety: "pt-PT"` strict for all of them).
+const targetLang = "pt-PT";
 
 // Aktiv mode — Sehen · Hören · Sprechen, for the topics whose JSON carries an `aktiv`
 // block. It is a second view of THIS page, not a second page: the fourth beat, Schreiben,
@@ -172,7 +172,7 @@ const exampleHtml = (s: string) => String(s)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/{([^{}]+)}/g, "<strong>$1</strong>");
 const premiumPractice = isPaidLevel(level) && workspace?.exercises?.some((ex) => ex.paid);
-// No mp3s for this topic yet, so the browser's own Spanish voice reads every line. Say so
+// No mp3s for this topic yet, so the browser's own Portuguese voice reads every line. Say so
 // rather than let a learner conclude the site sounds like that on purpose. The check is
 // the data, not a flag, so the notice disappears by itself the moment the generator runs.
 const synthetic = aktiv ? !aktiv.hoeren?.items?.some((i) => i.audio) : false;
@@ -583,7 +583,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
                 <li class={`vp-comic-rule-step vp-comic-rule-step--${st.q}`}>
                   <span class="vp-comic-rule-who" data-mascot-part aria-hidden="true"><Mascot name={st.name} expr={st.expr ?? "happy"} size={40} /></span>
                   <div>
-                    <p class="vp-comic-rule-say" lang={targetLang}><span class="vp-comic-rule-q">{st.q === "wohin" ? "¿Adónde?" : "¿Dónde?"}</span> <span set:html={st.say} /></p>
+                    <p class="vp-comic-rule-say" lang={targetLang}><span class="vp-comic-rule-q">{st.q === "wohin" ? "Para onde?" : "Onde?"}</span> <span set:html={st.say} /></p>
                     <p class="vp-comic-rule-why" set:html={st.why} />
                   </div>
                 </li>
@@ -988,8 +988,8 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
       const { recordDrill } = await import("../lib/progress.js");
 
       const page = document.getElementById("vp-page");
-      // pt-PT for the Portuguese topics, es-ES for slots still holding Spanish text.
-      const speechLang = data.variety === "pt-PT" ? "pt-PT" : "es-ES";
+      // Every topic is European Portuguese (check-variety, strict).
+      const speechLang = "pt-PT";
       const voice = makeVoice(speechLang);
 
       // Aktiv opens only when the address asks for it: #aktiv, or an older link to one of
