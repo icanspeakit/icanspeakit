@@ -6,7 +6,9 @@
 import { audioUrl } from "./audioSource.js";
 import { withBase } from "./paths.js";
 
-let deVoice; // the Spanish (Spain) browser voice (name kept from the German original)
+// The Portuguese (Portugal) browser voice (name kept from the German original). Many systems only
+// ship a Brazilian voice: it is the fallback, and the line is still marked pt-PT.
+let deVoice;
 if (typeof window !== "undefined" && window.speechSynthesis) {
   window.speechSynthesis.addEventListener?.("voiceschanged", () => { deVoice = undefined; });
 }
@@ -19,10 +21,10 @@ export function createVoice(clipPath) {
   function speak(text, npc = false) {
     const s = window.speechSynthesis;
     if (!s) return;
-    if (deVoice === undefined) deVoice = s.getVoices().find((v) => v.lang?.toLowerCase().replace("_", "-").startsWith("es-es")) || s.getVoices().find((v) => v.lang?.toLowerCase().startsWith("es")) || null;
+    if (deVoice === undefined) deVoice = s.getVoices().find((v) => v.lang?.toLowerCase().replace("_", "-").startsWith("pt-pt")) || s.getVoices().find((v) => v.lang?.toLowerCase().startsWith("pt")) || null;
     s.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "es-ES";
+    u.lang = "pt-PT";
     if (deVoice) u.voice = deVoice;
     u.rate = 0.9;
     if (npc) {
