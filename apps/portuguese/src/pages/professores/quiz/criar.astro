@@ -157,8 +157,8 @@ const groups = [
             <legend data-i18n="qb.own.options">Antworten — die richtige ankreuzen</legend>
             {[0, 1, 2, 3].map((i) => (
               <label class={`qb-opt lq-opt--${"abcd"[i]}`}>
-                <input type="radio" name="qb-correct" value={i} checked={i === 0} aria-label={`Antwort ${i + 1} ist richtig`} />
-                <input type="text" maxlength="80" data-own-opt={i} required={i < 2} placeholder={i < 2 ? `Antwort ${i + 1}` : `Antwort ${i + 1} (optional)`} />
+                <input type="radio" name="qb-correct" value={i} checked={i === 0} aria-label={`Answer ${i + 1} is correct`} />
+                <input type="text" maxlength="80" data-own-opt={i} required={i < 2} placeholder={i < 2 ? `Answer ${i + 1}` : `Answer ${i + 1} (optional)`} />
               </label>
             ))}
           </fieldset>
