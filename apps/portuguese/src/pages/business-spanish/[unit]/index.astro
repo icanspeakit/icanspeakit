@@ -8,8 +8,8 @@ import Layout from "../../../layouts/Layout.astro";
 import SiteNav from "../../../components/SiteNav.astro";
 import SectionMascot from "../../../components/mascots/SectionMascot.astro";
 import LeichtToggle from "../../../components/LeichtToggle.astro";
-import { UNITS } from "../../../lib/businessSpanishData.js";
-import { phraseGroups } from "../../../lib/businessSpanish.js";
+import { UNITS } from "../../../lib/businessPortugueseData.js";
+import { phraseGroups } from "../../../lib/businessPortuguese.js";
 import { cardsOf } from "../../../lib/berufeWortschatz.js";
 import { BUSINESS_SLUGS, businessPath, workPath } from "../../../lib/routes.js";
 import { pair } from "../../../lib/leichteSprache.js";
@@ -47,9 +47,9 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
 }));
 ---
 <Layout
-  title={fitTitle(`${unit.title} – Business Spanish`, unit.title)}
-  description={`${unit.title} (${unit.level}): phrases, model texts, words and exercises for work in Spain.`}
-  breadcrumb={[{ name: "Business Spanish", path: "/business-spanish" }]}
+  title={fitTitle(`${unit.title} – Business Portuguese`, unit.title)}
+  description={`${unit.title} (${unit.level}): phrases, model texts, words and exercises for work in Portugal.`}
+  breadcrumb={[{ name: "Business Portuguese", path: "/business-spanish" }]}
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide bz-unit">
@@ -80,15 +80,15 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
           <h3>{g.use}</h3>
           <ul class="bz-phrases">
             {g.phrases.map((p: any) => {
-              const es = textFor(p, p.es);
+              const pt = textFor(p, p.pt);
               return (
                 <li>
                   <span class="bz-phrase-text">
-                    <b lang="es">{es}</b>
+                    <b lang="pt-PT">{pt}</b>
                     <span class="bz-phrase-en">{p.en}</span>
                   </span>
                   <span class={`bz-reg bz-reg--${p.register}`} data-i18n={`biz.reg.${p.register}`}>{tx(`biz.reg.${p.register}`)}</span>
-                  <button type="button" class="bz-say" data-say={es} aria-label="Listen" data-i18n-attr="aria-label:biz.listen" hidden>
+                  <button type="button" class="bz-say" data-say={pt} aria-label="Listen" data-i18n-attr="aria-label:biz.listen" hidden>
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
                   </button>
                 </li>
@@ -104,7 +104,7 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
       {unit.models.map((m: any) => (
         <article class="bz-model">
           <h3>{m.title}</h3>
-          <div class="bz-model-text" lang="es">{m.text}</div>
+          <div class="bz-model-text" lang="pt-PT">{m.text}</div>
           <h4 data-i18n="biz.notes">{tx("biz.notes")}</h4>
           <ul class="bz-notes">{m.notes.map((n: string) => <li>{n}</li>)}</ul>
         </article>
@@ -128,7 +128,7 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
       <ul class="bz-words">
         {words.map((w: any) => (
           <li>
-            <b lang="es">{w.gender ? `${w.gender} ${w.front}` : w.front}</b>
+            <b lang="pt-PT">{w.gender ? `${w.gender} ${w.front}` : w.front}</b>
             <span>{w.translations?.en}</span>
           </li>
         ))}
@@ -168,14 +168,14 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
 
   mountLeichteSprache(document);
 
-  // Phrases: the browser's Spanish voice, as in the workspace. No voice, no button.
+  // Phrases: the browser's Portuguese voice (pt-PT asked; many browsers only have pt-BR). No voice, no button.
   if (typeof speechSynthesis !== "undefined") {
     document.querySelectorAll<HTMLButtonElement>(".bz-say").forEach((btn) => {
       btn.hidden = false;
       btn.addEventListener("click", () => {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(btn.dataset.say ?? "");
-        u.lang = "es-ES";
+        u.lang = "pt-PT";
         speechSynthesis.speak(u);
       });
     });

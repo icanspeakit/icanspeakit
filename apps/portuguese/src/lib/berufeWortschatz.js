@@ -10,11 +10,11 @@ import path from "node:path";
 import { BERUFE, IMT, BUSINESS, LANGS, entryCount, refKind } from "./berufeCore.js";
 import { byId as lexiconById, toVokabelCards, spokenForm, pluralArticle } from "./lexicon.js";
 import { rowOf, liveDeck } from "./berufeRows.js";
-import { businessDeck } from "./businessSpanish.js";
+import { businessDeck } from "./businessPortuguese.js";
 
 const modules = {
   ...import.meta.glob(["../data/berufe/*.json", "../data/imt/*.json"], { eager: true, import: "default" }),
-  business: businessDeck(Object.values(import.meta.glob("../data/business-spanish/*.json", { eager: true, import: "default" }))),
+  business: businessDeck(Object.values(import.meta.glob("../data/business-portuguese/*.json", { eager: true, import: "default" }))),
 };
 
 /** slug → deck, in hub order. */

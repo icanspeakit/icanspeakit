@@ -198,14 +198,14 @@ export const itemSlug = (section, id) => ITEM_SLUGS[section]?.[id] ?? id;
 export const itemKey = (section, slug) => ITEM_KEYS[section]?.[slug] ?? slug;
 /** The page of an item. */
 export const itemPath = (section, id) => `${section}/${itemSlug(section, id)}`;
-/** Business Spanish units: the id is the Spanish name of the file, the URL says it in English. */
+/** Business Portuguese units: the id is the file name, the URL a slightly longer English slug. */
 export const BUSINESS_SLUGS = {
-  correos: "emails",
-  llamadas: "phone-calls",
-  curriculum: "cv-and-cover-letter",
-  entrevista: "job-interviews",
-  reuniones: "meetings",
-  negociacion: "negotiating",
+  emails: "emails",
+  calls: "phone-calls",
+  cv: "cv-and-cover-letter",
+  interviews: "job-interviews",
+  meetings: "meetings",
+  negotiation: "negotiating",
 };
 export const businessPath = (unit) => `/business-spanish/${BUSINESS_SLUGS[unit] ?? unit}`;
 /** A work sector, or one word group of it. */

@@ -241,11 +241,11 @@ export function buildSearchIndex() {
     k: "imt driving licence test theory exam portuguese portugal carta de condução código da estrada escola de condução carro estrada sinais trânsito road signs car words coima multa inspeção IUC pontos trocar a carta exchange foreign licence vocabulary",
     h: "/imt-vocabulary",
   });
-  // Business Spanish: phrases, model texts and exercises for office work.
+  // Business Portuguese: phrases, model texts and exercises for office work.
   pages.push({
-    t: "Business Spanish",
-    s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Spain, B1 to C1",
-    k: "business spanish work office email correo formal letter phone call llamada cv currículum curriculum resume cover letter carta de presentación job interview entrevista meeting reunión negotiate negociación figures presentation estimado atentamente",
+    t: "Business Portuguese",
+    s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Portugal, B1 to C1",
+    k: "business portuguese work office email formal letter exmo cumprimentos phone call chamada telefone cv currículo curriculum resume cover letter carta de apresentação candidatura job interview entrevista meeting reunião ordem de trabalhos negotiate negociação figures faturação presentation",
     h: "/business-spanish",
   });
   // CIPLE, DEPLE or Celpe-Bras?: a comparison page under the exam hub.

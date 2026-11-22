@@ -1,10 +1,10 @@
 ---
-// /business-spanish: the hub of the Business Spanish module (content-plan §4.3). One card per unit,
-// the register labels explained once, links to the office deck and the everyday writing tasks.
-// All text lives in public/i18n/en.json and the units' JSON.
+// /business-spanish (slug renamed by `routes`): the hub of the Business Portuguese module
+// (content-plan §4.3). One card per unit, the register labels explained once, links to the office
+// deck and the everyday writing tasks. All text lives in public/i18n/en.json and the units' JSON.
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
-import { UNITS } from "../../lib/businessSpanishData.js";
+import { UNITS } from "../../lib/businessPortugueseData.js";
 import { businessPath, itemPath, workPath } from "../../lib/routes.js";
 import en from "../../../public/i18n/en.json";
 import "../../styles/practice.css";
@@ -24,8 +24,8 @@ const related = [
 ];
 ---
 <Layout
-  title="Business Spanish: emails, calls, CVs, interviews, meetings – icanspeak Portuguese"
-  description="Spanish for office work in Spain, B1 to C1: formal emails, phone calls, CVs and cover letters, job interviews, meetings and negotiating, with phrases, model texts and exercises."
+  title="Business Portuguese: emails, calls, CVs, interviews, meetings – icanspeak Portuguese"
+  description="European Portuguese for office work in Portugal, B1 to C1: formal emails, phone calls, CVs and cover letters, job interviews, meetings and negotiating, with phrases, model texts and exercises."
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide">

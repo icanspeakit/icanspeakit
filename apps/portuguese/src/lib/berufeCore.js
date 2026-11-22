@@ -33,8 +33,8 @@ export const SLUGS = BERUFE.map((b) => b.slug);
  *  ids (bv-imt-…), so sector decks can point at its words, but its own page, not a sector. */
 export const IMT = { slug: "imt", emoji: "🚗" };
 
-/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
- *  a group of this one deck, ids bv-business-…, under its own pages. */
+/** Business Portuguese (src/data/business-portuguese/<unit>.json, content-plan §4.3): each unit's
+ *  words are a group of this one deck, ids bv-business-…, under its own pages. */
 export const BUSINESS = { slug: "business", emoji: "💼" };
 
 /** Translation languages of a deck (registry surface "berufe"); LANGS adds "de", the German
@@ -43,9 +43,8 @@ export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
 /** The article as the learner says it: o/a, o/a for common-gender person nouns (content-plan §1.4).
- *  The ten sector decks and the IMT deck are Portuguese; the Spanish el/la/el/la stay accepted only
- *  for the Business Spanish units until `business-portuguese` converts them (`cleanup` drops them). */
-export const GENDERS = ["o", "a", "o/a", "el", "la", "el/la"];
+ *  Every deck (sectors, IMT, Business Portuguese) is Portuguese, so the Spanish el/la are gone. */
+export const GENDERS = ["o", "a", "o/a"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
