@@ -1,6 +1,6 @@
 ---
 import { fitTitle } from "../../../lib/seo/title.js";
-// /business-spanish/[unit]: one unit (content-plan §4.3): phrases by purpose, model texts with notes,
+// /business-portuguese/[unit]: one unit (content-plan §4.3): phrases by purpose, model texts with notes,
 // tips, its words with a link to the flashcards, and exercises in the shared practice workspace.
 // The exercises come in through a data attribute; the script below mounts them. Portugal text only
 // while BRAZIL_MODE is off: textFor and skippedFor read the ptBR fields once a Brazil mode exists.
@@ -19,7 +19,7 @@ import "../../../styles/practice.css";
 import "../../../styles/kultur.css";
 import "../../../styles/berufe.css";
 import "../../../styles/akkusativ.css";
-import "../../../styles/business-spanish.css";
+import "../../../styles/business-portuguese.css";
 
 export function getStaticPaths() {
   return UNITS.map((u: any) => ({ params: { unit: (BUSINESS_SLUGS as Record<string, string>)[u.id] }, props: { unit: u } }));
@@ -49,12 +49,12 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
 <Layout
   title={fitTitle(`${unit.title} – Business Portuguese`, unit.title)}
   description={`${unit.title} (${unit.level}): phrases, model texts, words and exercises for work in Portugal.`}
-  breadcrumb={[{ name: "Business Portuguese", path: "/business-spanish" }]}
+  breadcrumb={[{ name: "Business Portuguese", path: "/business-portuguese" }]}
 >
   <SiteNav active="wortschatz" />
   <main class="practice-main practice-main--wide bz-unit">
     <div class="practice-hero">
-      <p class="eyebrow"><a href="/business-spanish" data-i18n="biz.title">{tx("biz.title")}</a></p>
+      <p class="eyebrow"><a href="/business-portuguese" data-i18n="biz.title">{tx("biz.title")}</a></p>
       <h1>{unit.title}</h1>
       <div class="bv-badges">
         <span class="bv-badge">{unit.level}</span>
@@ -154,7 +154,7 @@ const questions = unit.exercises.filter((q: any) => !skippedFor(q)).map((q: any)
 
     <nav class="bz-pager" aria-label="Units" data-i18n-attr="aria-label:biz.units">
       {prev ? <a href={businessPath(prev.id)}>← {prev.title}</a> : <span />}
-      <a href="/business-spanish" data-i18n="biz.allUnits">{tx("biz.allUnits")}</a>
+      <a href="/business-portuguese" data-i18n="biz.allUnits">{tx("biz.allUnits")}</a>
       {next ? <a href={businessPath(next.id)}>{next.title} →</a> : <span />}
     </nav>
   </main>

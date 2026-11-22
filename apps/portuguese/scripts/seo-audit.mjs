@@ -24,11 +24,11 @@ const MAX_TITLE = 60;
 
 const PRIORITY = [
   "/", "/nationality/ciple-a2", "/nationality/ciple-a2/mock-test", "/nationality/ciple-a2/practice-set", "/civics",
-  "/civics/test", "/exams", "/dele", "/siele",
-  "/dele/a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
+  "/civics/test", "/exams", "/caple", "/caple/level-check",
+  "/caple/acesso-a1", "/placement-test", "/grammar", "/vocabulary", "/exercises",
   "/pronunciation-check",
 ];
-const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/dele/");
+const isPriority = (p) => PRIORITY.includes(p) || p.startsWith("/caple/");
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((name) => {

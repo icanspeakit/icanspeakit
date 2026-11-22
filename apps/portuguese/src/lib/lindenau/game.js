@@ -1,4 +1,4 @@
-// The Legend of Vila Bruno (/games/villabruno, slug kept until the routes item): a small top-down town. The learner plays Regi
+// The Legend of Vila Bruno (/games/vila-bruno): a small top-down town. The learner plays Regi
 // (as Super-Blubb, drawHero in ./action.js), walks around (arrow keys / WASD, or tap where to
 // go on a phone) and talks to the people: Bruno, Hamsti, Quaki, a doctor and a neighbour. Three of them have
 // an A1 errand – Bäckerei, Bahnhof, Arztpraxis – played as a dialogue: pick the right reply or

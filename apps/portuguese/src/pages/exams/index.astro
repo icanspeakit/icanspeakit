@@ -16,7 +16,7 @@ import "../../styles/exam-dashboard.css";
 const exams = [
   {
     id: "goethe",
-    href: "/dele",
+    href: "/caple",
     icon: "landmark",
     title: "CAPLE exams",
     level: "A1–C2",
@@ -36,7 +36,7 @@ const exams = [
   },
   {
     id: "testdaf",
-    href: "/siele",
+    href: "/caple/level-check",
     icon: "graduation-cap",
     title: "Level check",
     level: "A1–C1",
@@ -58,8 +58,8 @@ const exams = [
 ];
 
 // Which exam on this site fits which CEFR level. The routes keep their old names for now
-// (the `routes` item renames them): /dele = CAPLE, /nationality/ciple-a2 = CIPLE A2 mock for
-// residence and nationality, /siele = level check, /dele/a1 = ACESSO A1.
+// (the `routes` item renames them): /caple = CAPLE, /nationality/ciple-a2 = CIPLE A2 mock for
+// residence and nationality, /caple/level-check = level check, /caple/acesso-a1 = ACESSO A1.
 // An entry without href is shown as plain text (exam not on this site yet).
 // Civics has no CEFR level (a knowledge quiz), so it is in no row.
 const levels = [
@@ -67,14 +67,14 @@ const levels = [
     level: "A1",
     desc: "First steps — understanding and using simple everyday expressions.",
     exams: [
-      { name: "ACESSO A1 practice test", href: "/dele/a1" },
+      { name: "ACESSO A1 practice test", href: "/caple/acesso-a1" },
     ],
   },
   {
     level: "A2",
     desc: "Basic user — exchanging simple, direct information.",
     exams: [
-      { name: "CIPLE A2", href: "/dele/a2" },
+      { name: "CIPLE A2", href: "/caple/ciple-a2" },
       { name: "CIPLE A2 for residence and nationality (full mock test)", href: "/nationality/ciple-a2" },
     ],
   },
@@ -82,28 +82,28 @@ const levels = [
     level: "B1",
     desc: "Independent user — familiar topics at home, work and school.",
     exams: [
-      { name: "DEPLE B1", href: "/dele/b1" },
+      { name: "DEPLE B1", href: "/caple/deple-b1" },
     ],
   },
   {
     level: "B2",
     desc: "Independent user, advanced.",
     exams: [
-      { name: "DIPLE B2", href: "/dele/b2" },
+      { name: "DIPLE B2", href: "/caple/diple-b2" },
     ],
   },
   {
     level: "C1",
     desc: "Proficient user — complex topics, university and work.",
     exams: [
-      { name: "DAPLE C1", href: "/dele/c1" },
+      { name: "DAPLE C1", href: "/caple/daple-c1" },
     ],
   },
   {
     level: "C2",
     desc: "Near-native proficiency.",
     exams: [
-      { name: "DUPLE C2 (format only, no practice set here)", href: "/dele" },
+      { name: "DUPLE C2 (format only, no practice set here)", href: "/caple" },
     ],
   },
 ];

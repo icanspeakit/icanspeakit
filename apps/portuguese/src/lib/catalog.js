@@ -43,7 +43,7 @@ import praepTrainer from "../data/praepositionen-trainer.json";
 // shadows the quiz entry with the same id.
 const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
 // Deutsch für den Beruf (FACHVOKABULAR-TIERED-PROMPT.md, Tier 3): the word count over every
-// profession deck, refs included — the number the /spanish-for-work hub shows.
+// profession deck, refs included — the number the /portuguese-for-work hub shows.
 const berufeDecks = Object.values(import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" }));
 const berufeWordCount = berufeDecks.reduce((n, d) => n + (d.groups ?? []).reduce((m, g) => m + (g.words ?? []).length, 0), 0);
 const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
@@ -135,7 +135,7 @@ export const tools = [
     titleKey: "tool.aussprache.title", title: "Aussprache-Training", shortKey: "group.short.aussprache", short: "Aussprache",
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
-  { id: "berufe", group: "woerter", href: "/spanish-for-work", icon: "target",
+  { id: "berufe", group: "woerter", href: "/portuguese-for-work", icon: "target",
     titleKey: "tool.berufe.title", title: "Portuguese for work", shortKey: "group.short.berufe", short: "Work",
     descKey: "tool.berufe.desc", desc: "Job vocabulary for Portugal: care work, cafés and restaurants, cleaning, farm work, construction and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
@@ -245,8 +245,8 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "CAPLE", short: "CAPLE", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "Level check", short: "Level check", count: "A1–C1" },
+  { id: "goethe", group: "pruefungen", href: "/caple", icon: "landmark", title: "CAPLE", short: "CAPLE", count: "A1–C2" },
+  { id: "testdaf", group: "pruefungen", href: "/caple/level-check", icon: "graduation-cap", title: "Level check", short: "Level check", count: "A1–C1" },
   { id: "dtz", group: "pruefungen", href: "/nationality/ciple-a2", icon: "book-open", title: "CIPLE A2 for residence and nationality", short: "CIPLE A2", count: "A2" },
   { id: "lid", group: "pruefungen", href: "/civics", icon: "map-pin", titleKey: "exam.lid.name", title: "Civics: Portugal, how it works", short: "Civics",
     keywords: "civics cidadania nationality nacionalidade citizenship naturalisation constituição constitution portugal",
@@ -831,7 +831,7 @@ const wortschatzItems = notSelf("/vocabulary", itemsOf("woerter"));
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
 const spieleItems = [
-  { id: "lindenau", href: "/games/villabruno", icon: "landmark",
+  { id: "lindenau", href: "/games/vila-bruno", icon: "landmark",
     titleKey: "nav.spiele.lindenau", title: "The Legend of Vila Bruno",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
@@ -1039,11 +1039,11 @@ export const navUebenMenu = {
           href: `/vocabulary/${level.toLowerCase()}`,
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
-        // Not a level: the profession decks (/spanish-for-work), A2–B1, for learners who work.
-        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Portuguese for work",
+        // Not a level: the profession decks (/portuguese-for-work), A2–B1, for learners who work.
+        { href: "/portuguese-for-work", titleKey: "tool.berufe.title", title: "Portuguese for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
-        // Not a level: phrases, model texts and exercises for office work (/business-spanish).
-        { href: "/business-spanish", titleKey: "biz.title", title: "Business Portuguese",
+        // Not a level: phrases, model texts and exercises for office work (/business-portuguese).
+        { href: "/business-portuguese", titleKey: "biz.title", title: "Business Portuguese",
           hintKey: "biz.navHint", hint: "Emails, calls, CVs, interviews, meetings" },
         // Not a level either: the driving words (/imt-vocabulary).
         { href: "/imt-vocabulary", titleKey: "dgt.title", title: "IMT driving vocabulary",

@@ -1,16 +1,16 @@
 ---
-import ExamDisclaimer from "../../components/ExamDisclaimer.astro";
+import ExamDisclaimer from "../../../components/ExamDisclaimer.astro";
 // Level-check practice (the testdaf slot) on the exam shell (src/lib/examApp.js): three reading
 // tasks from about B1 to C1 and an opinion text. It is NOT an exam and not a CAPLE paper: the
 // Start part says so out loud, and every text and item is written by icanspeak Portuguese.
 // Listening is deliberately absent: it needs recordings. The CAPLE sets by level have
 // listening scripts to read until audio exists.
-import Layout from "../../layouts/Layout.astro";
-import SiteNav from "../../components/SiteNav.astro";
-import ExamApp from "../../components/ExamApp.astro";
-import "../../styles/practice.css";
-import "../../styles/pruefungen.css";
-import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
+import Layout from "../../../layouts/Layout.astro";
+import SiteNav from "../../../components/SiteNav.astro";
+import ExamApp from "../../../components/ExamApp.astro";
+import "../../../styles/practice.css";
+import "../../../styles/pruefungen.css";
+import satz from "../../../data/pruefungen/testdaf/uebungssatz-1.json";
 ---
 <Layout
   title="Level check: reading and writing practice – icanspeak Portuguese"
@@ -18,7 +18,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 >
   <SiteNav active="pruefungen" />
   <main class="practice-main practice-main--wide practice-main--trainer">
-    <a href="/siele" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the level-check page</a>
+    <a href="/caple/level-check" class="vp-back-link" data-i18n="exam.backToTestdaf">Back to the level-check page</a>
 
     <div class="practice-hero">
       <p class="eyebrow"><span translate="no">Level check</span> · <span data-i18n="exam.h1.set">Practice set</span></p>
@@ -35,12 +35,12 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
   <script type="application/json" id="tdaf-data" set:html={JSON.stringify(satz)}></script>
   <script type="module">
-    import { mountExamApp } from "../../lib/examApp.js";
-    import { withBase } from "../../lib/paths.js";
-    import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../../lib/exam/renderHelpers.js";
-    import { countAnswered, countCorrect, percent } from "../../lib/exam/scoring.js";
-    import { recordAttempt } from "../../lib/progress.js";
-    import { readyExamI18n, tx } from "../../lib/exam/i18n.js";
+    import { mountExamApp } from "../../../lib/examApp.js";
+    import { withBase } from "../../../lib/paths.js";
+    import { choiceCard, el, sectionHeader, escapeHtml, practiceToggle } from "../../../lib/exam/renderHelpers.js";
+    import { countAnswered, countCorrect, percent } from "../../../lib/exam/scoring.js";
+    import { recordAttempt } from "../../../lib/progress.js";
+    import { readyExamI18n, tx } from "../../../lib/exam/i18n.js";
 
     /* Resolved once, before the app mounts, rather than re-rendered on every language
        change. This page is a running exam: its sections are built from one config array
@@ -344,7 +344,7 @@ import satz from "../../data/pruefungen/testdaf/uebungssatz-1.json";
 
           const actions = el("div", "exam-actions");
           const back = el("a", "quiz-btn", escapeHtml(T("tdf.toPage", "To the level-check page")));
-          back.href = withBase("/siele");
+          back.href = withBase("/caple/level-check");
           actions.appendChild(back);
           main.appendChild(actions);
         },

@@ -41,8 +41,8 @@ export const examRegistry = [
     title: "ACESSO A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
-    href: "/dele/a1",
-    overview: "/dele",
+    href: "/caple/acesso-a1",
+    overview: "/caple",
     store: { kind: "exam", key: "start-deutsch-1" },
     // In the style of the ACESSO A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
     passNote: "Our own guide: 60 % of the Listening and Reading points. The real ACESSO A1 has its own scoring rules (to verify).",
@@ -63,8 +63,8 @@ export const examRegistry = [
     title: "Level check: reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
-    href: "/siele/practice-set",
-    overview: "/siele",
+    href: "/caple/level-check/practice-set",
+    overview: "/caple/level-check",
     store: { kind: "exam", key: "testdaf" },
     // Deliberately no pass percentage: this is our own check, not an exam, and every
     // institution sets its own requirement, so a line here would be invented.

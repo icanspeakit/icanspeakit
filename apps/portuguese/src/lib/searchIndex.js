@@ -229,9 +229,9 @@ export function buildSearchIndex() {
   });
   // The path to nationality: a guide page under the exam hub.
   pages.push({
-    t: "Spanish nationality by residence: CCSE and DELE A2",
-    s: "How many years, who needs which test, who is exempt, and the steps in order",
-    k: "spanish nationality citizenship residence nacionalidad española residencia ccse dele a2 exempt dispensa oath jura registro civil how to become spanish passport",
+    t: "Portuguese residence and nationality: CIPLE A2",
+    s: "Who needs which language proof, who is exempt, and the steps in order",
+    k: "portuguese nationality citizenship residence nacionalidade portuguesa autorização de residência aima irn ciple a2 language proof exempt how to become portuguese passport",
     h: "/nationality",
   });
   // The IMT driving deck: words for the driving course, the road and the paperwork.
@@ -246,7 +246,7 @@ export function buildSearchIndex() {
     t: "Business Portuguese",
     s: "Emails, phone calls, CVs, job interviews, meetings and negotiating in Portugal, B1 to C1",
     k: "business portuguese work office email formal letter exmo cumprimentos phone call chamada telefone cv currículo curriculum resume cover letter carta de apresentação candidatura job interview entrevista meeting reunião ordem de trabalhos negotiate negociação figures faturação presentation",
-    h: "/business-spanish",
+    h: "/business-portuguese",
   });
   // CIPLE, DEPLE or Celpe-Bras?: a comparison page under the exam hub.
   pages.push({
@@ -257,9 +257,9 @@ export function buildSearchIndex() {
   });
   // Prüfungsfallen (/exams/traps): a page under the exam hub, not an exam of its own.
   pages.push({
-    t: "Exam traps: DELE, SIELE, CCSE",
+    t: "Exam traps: CAPLE, level check, civics",
     s: "Parts of the exams with a catch, briefly explained, with an example and a task",
-    k: "exam traps exam tips dele siele ccse trampas examen consejos reading listening writing speaking language use uso de la lengua",
+    k: "exam traps exam tips caple acesso ciple deple diple daple level check civics armadilhas exame conselhos reading listening writing speaking language use uso da língua",
     h: "/exams/traps",
   });
   // Über mich (/about): who teaches behind the site.

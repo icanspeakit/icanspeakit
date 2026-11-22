@@ -72,7 +72,7 @@ talk to a service keep their **exact exports** but run offline:
 | Brevo e-mail | removed | |
 | Cloudflare Workers adapter, middleware, worker | removed: plain static `dist/` | |
 | Capacitor Android app | removed (`audioPacks.js` kept as a stub) | |
-| Account/checkout/merch pages | removed; their URLs redirect to `/account` | `astro.config.mjs` (`ACCOUNT_REDIRECTS`), `pages/account.astro` |
+| Account/checkout/merch pages | removed; in-site links point at `/account` (no redirects: the site at /portuguese is new, content-plan §7) | `pages/account.astro` |
 
 Features that only make sense with a server (live quiz rooms, teacher classes, cloud sync,
 leaderboards) still compile and render, and they fail softly: you see "signed out / not

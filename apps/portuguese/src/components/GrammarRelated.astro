@@ -21,20 +21,20 @@ const EXAMS: Record<string, { href: string; label: string }[]> = {
   // start-deutsch-1), the dtz mock = CIPLE A2 for residence and nationality, testdaf = our
   // level check (not an official exam). The telc slot (SIELE by band) is not linked: the
   // `exams-caple` item removes it. Hrefs renamed by `routes`.
-  A1: [{ href: "/dele/a1", label: "ACESSO A1 practice test" }],
+  A1: [{ href: "/caple/acesso-a1", label: "ACESSO A1 practice test" }],
   A2: [
-    { href: "/dele/a2", label: "CIPLE A2 practice test" },
+    { href: "/caple/ciple-a2", label: "CIPLE A2 practice test" },
     { href: "/nationality/ciple-a2/practice-set", label: "CIPLE A2 full mock for residence and nationality" },
   ],
   B1: [
-    { href: "/dele/b1", label: "DEPLE B1 practice test" },
+    { href: "/caple/deple-b1", label: "DEPLE B1 practice test" },
   ],
   B2: [
-    { href: "/dele/b2", label: "DIPLE B2 practice test" },
-    { href: "/siele", label: "Level-check practice" },
+    { href: "/caple/diple-b2", label: "DIPLE B2 practice test" },
+    { href: "/caple/level-check", label: "Level-check practice" },
   ],
   C1: [
-    { href: "/dele/c1", label: "DAPLE C1 practice test" },
+    { href: "/caple/daple-c1", label: "DAPLE C1 practice test" },
   ],
 };
 const level = String(byId.get(id)?.level ?? "").match(/[ABC][12]/)?.[0] ?? "";

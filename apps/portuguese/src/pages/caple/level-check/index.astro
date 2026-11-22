@@ -1,13 +1,13 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import ExamShell from "../../components/ExamShell.astro";
-import ExamPractice from "../../components/ExamPractice.astro";
-import ExamFormat from "../../components/ExamFormat.astro";
-import formate from "../../data/pruefungen/testdaf-formate.json";
+import Layout from "../../../layouts/Layout.astro";
+import ExamShell from "../../../components/ExamShell.astro";
+import ExamPractice from "../../../components/ExamPractice.astro";
+import ExamFormat from "../../../components/ExamFormat.astro";
+import formate from "../../../data/pruefungen/testdaf-formate.json";
 
 // Level check (content-plan §2: the testdaf slot): our own reading and writing rehearsal,
-// not an official exam. The route stays /siele until the routes item moves it to
-// /caple/level-check. Figures come from testdaf-formate.json (our own set).
+// not an official exam, at /caple/level-check (content-plan §8). Figures come from
+// testdaf-formate.json (our own set).
 ---
 <Layout
   title="Level check: reading and writing practice – icanspeak Portuguese"
@@ -63,7 +63,7 @@ import formate from "../../data/pruefungen/testdaf-formate.json";
         Three reading tasks from about B1 to C1, plus an opinion text with structure, useful phrases and a
         checklist. All texts and tasks are written by us, not official exam material.
       </p>
-      <a class="quiz-btn quiz-btn--primary" href="/siele/practice-set" data-i18n="exam.startSet">Start the practice set</a>
+      <a class="quiz-btn quiz-btn--primary" href="/caple/level-check/practice-set" data-i18n="exam.startSet">Start the practice set</a>
     </div>
 
     <ExamPractice

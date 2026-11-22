@@ -149,9 +149,9 @@ export function videoSearch(name, level) {
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // The level check = /siele, the CAPLE exams = /dele.
-  if (/SIELE|[Ll]evel check/.test(text)) return "/siele";
-  if (/CAPLE|ACESSO|CIPLE|DEPLE|DIPLE|DAPLE|DUPLE|DELE/.test(text)) return "/dele";
+  // The level check = /caple/level-check, the CAPLE exams = /caple.
+  if (/SIELE|[Ll]evel check/.test(text)) return "/caple/level-check";
+  if (/CAPLE|ACESSO|CIPLE|DEPLE|DIPLE|DAPLE|DUPLE|DELE/.test(text)) return "/caple";
   return null;
 }
 

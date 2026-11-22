@@ -66,16 +66,16 @@ export function breadcrumbLd(site: string, items: Crumb[]) {
 
 // Pages with a URL of their own that a nested route sits under, named like the pages
 // themselves (short). A step that is not a page (/speaking/set) is left
-// out of the trail rather than pointing at a 404; a dynamic one (/spanish-for-work/care-work) is named by
+// out of the trail rather than pointing at a 404; a dynamic one (/portuguese-for-work/care-work) is named by
 // the page through Layout's `breadcrumb` prop.
 export const SECTION_PAGES: Record<string, string> = {
   "/grammar": "Grammar",
   "/vocabulary": "Vocabulary & phrases",
   "/exams": "Exams",
-  "/dele": "DELE",
+  "/caple": "CAPLE",
   "/nationality/ciple-a2": "CIPLE A2 for residence and nationality",
-  "/siele": "SIELE",
-  "/spanish-for-work": "Portuguese for work",
+  "/caple/level-check": "Level check",
+  "/portuguese-for-work": "Portuguese for work",
   "/civics": "Civics",
   "/nationality": "Residence and nationality",
   "/knowledge": "Knowledge base",
