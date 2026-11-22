@@ -51,8 +51,7 @@ const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?¿¡]/gu) ?? [];
 /* ---- /grammar/verbs ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
-  // A verb with gaps in its table (haber, soler) hardly uses the indefinido, so it is asked in
-  // the present only.
+  // A verb with gaps in its table (haver, chover) is asked in the present only.
   const past = pools.map((l) => l.filter((v) => !v.defective));
   const pick = (skip, lists = past) => roundRobin(lists, ROWS, skip);
   const g = Object.fromEntries(verbGroupList.map((x) => [x.id, x]));
@@ -61,7 +60,7 @@ function verbTopic() {
     slug: "verbtabellen",
     name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Presente, indefinido and pretérito perfecto of the most important verbs",
+    subtitle: "Presente, pretérito perfeito and imperfeito of the most important verbs",
     reference: "/grammar/verbs",
     concept: {
       qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[0], g.hilfsverb?.regel?.[2]]
@@ -71,9 +70,9 @@ function verbTopic() {
       {
         type: "table",
         title: "Presente: write the verb form.",
-        hint: "Careful with the yo form and with stem changes: tengo, pienso, pensamos.",
+        hint: "Careful with the eu form: faço, peço, durmo, tenho.",
         columns: ["Person + verb", "Presente"],
-        // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+        // The person whose form breaks the pattern (tenho, faço), else ele/ela/você.
         rows: pick(0, pools).map((v) => {
           const x = v.rows.findIndex((r) => r.praes.x);
           const p = x === -1 ? 2 : x;
@@ -82,15 +81,17 @@ function verbTopic() {
       },
       {
         type: "table",
-        title: "Indefinido: write the yo form.",
-        columns: ["Verb", "yo (indefinido)"],
+        title: "Pretérito perfeito: write the eu form.",
+        hint: "Regular: falei, comi, parti. Irregular: fui, tive, fiz, disse.",
+        columns: ["Verb", "eu (perfeito)"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Pretérito perfecto: haber + participle.",
-        columns: ["Verb", "él/ella (pretérito perfecto)"],
-        rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
+        title: "Imperfeito: write the ele/ela form.",
+        hint: "Only four are irregular: era, tinha, vinha, punha.",
+        columns: ["Verb", "ele/ela (imperfeito)"],
+        rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].imperf.f })),
       },
     ],
   };
@@ -210,7 +211,7 @@ function fehlerTopic() {
     slug: "typische-fehler",
     name: "Common mistakes: words people mix up",
     level: "A1",
-    subtitle: "tú or tu, sé or se, por or para",
+    subtitle: "é or e, há or à, ser or estar, bom or bem",
     reference: "/grammar/common-mistakes",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({
