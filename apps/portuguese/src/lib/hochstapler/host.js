@@ -359,7 +359,7 @@ export function mountHost(root) {
       if (!k) return;
       const p = players.get(id);
       const imp = r.impostors.includes(id);
-      // The word lists' `de` is the Spanish word itself, so a German UI reads the English meaning.
+      // The word lists' `de` is the Portuguese word itself, so a German UI reads the English meaning.
       const lang = ["en", "ar", "uk", "ru", "tr"].includes(p.lang) ? p.lang : "en";
       const body = imp
         ? { role: "hochstapler", theme: r.theme }
