@@ -10,7 +10,7 @@ import { isDrillNoun } from "../generoDrill.js";
 
 export const LEVELS = ["A1", "A2", "B1"];
 /** Languages with a meaning in the lexicon (inline or as a sidecar) and a UI. English ships with the word. */
-export const GLOSS_LANGS = ["de", "fr", "pt", "it"];
+export const GLOSS_LANGS = ["de", "es", "fr", "it"];
 
 // o / a nouns with one right article (generoDrill.js); short single words, accents allowed. A noun
 // with no plural in the lexicon only joins the article gates (questions.js).

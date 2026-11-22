@@ -96,7 +96,7 @@ const ids = quotes.map((q: any) => q.id);
     if (off === -1) return t("dash.date.yesterday", "Yesterday");
     if (off === 1) return t("zitate.day.tomorrow", "Tomorrow");
     const lang = getLang();
-    const locale = lang === "de" ? "de-DE" : lang === "pt" ? "pt-BR" : lang;
+    const locale = lang === "de" ? "de-DE" : lang;
     return new Date(`${addDays(today, off)}T12:00:00`).toLocaleDateString(locale, { weekday: "long", day: "numeric", month: "long" });
   }
 

@@ -1105,7 +1105,7 @@ export const navLernen = { href: "/knowledge/learning", titleKey: "nav.wissen.le
 
 // „Wortfallen" (/knowledge/false-friends): Küche, Kuchen, Koch — words that sound alike and get
 // mixed up, with a quiz. A row in the Sprachen column and in the phone drawer.
-export const navWortfallen = { href: "/knowledge/false-friends", titleKey: "nav.wissen.wortfallen", title: "False friends: embarazada, éxito, carpeta",
+export const navWortfallen = { href: "/knowledge/false-friends", titleKey: "nav.wissen.wortfallen", title: "False friends: puxar, largo, esquisito",
   hintKey: "nav.wissen.wortfallenHint", hint: "Words that are easy to mix up" };
 
 // „Bildkarten" (/knowledge/picture-dictionary): the 100 most important words as picture cards, all
@@ -1129,7 +1129,7 @@ export const navDialekte = { href: "/knowledge/accents", titleKey: "nav.wissen.d
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
 export const navUmgangssprache = { href: "/knowledge/slang", titleKey: "nav.wissen.umgangssprache", title: "Informal Portuguese & slang",
-  hintKey: "nav.wissen.umgangsspracheHint", hint: "Tío, mola, currar – and what never to say" };
+  hintKey: "nav.wissen.umgangsspracheHint", hint: "Pá, fixe, bué – and what never to say" };
 
 // /knowledge/idioms: Redewendungen & Sprichwörter, each with its picture, meaning and
 // origin. In the Sprachen column under Umgangssprache and in the phone drawer, once released
