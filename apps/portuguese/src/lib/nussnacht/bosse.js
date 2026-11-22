@@ -1,60 +1,57 @@
-// Hamstis Nussnacht: the minute bosses, the famous el / la traps. One per minute from 1 to 9,
+// Hamstis Nussnacht: the minute bosses, the famous o / a traps. One per minute from 1 to 9,
 // three at once in the final wave at minute 10. A boss is a big creature with more HP; when it
-// falls, its rule card shows ("el mapa – It ends in -a but …").
+// falls, its rule card shows ("o mapa – It ends in -a but …").
 //
-// Three kinds of trap: the ending points the wrong way (el mapa, la mano, el problema), a stressed
-// a- takes el although the noun is feminine (el agua, el aula), and an ending that says nothing
-// (el coche, la noche). Nouns with two possible articles stay out (generoDrill.js AMBIGUOUS): the
-// game can accept only one answer.
+// Three kinds of trap: the ending points the wrong way (o mapa, o dia, a mão, a foto, a cor,
+// o coração), a Greek -ma word that is masculine (o problema, o clima), and an ending that says
+// nothing (o leite but a noite, o nariz but a voz). Several are also false friends for learners
+// who know Spanish (a dor / el dolor, o leite / la leche, a viagem / el viaje). Nouns with two
+// possible articles stay out (generoDrill.js AMBIGUOUS): the game can accept only one answer.
 //
 // `lv` is the first level that may meet the boss. Every boss is checked against the lexicon at
 // build time (bosseFuer): article and level must match, and the voice clip comes from there.
-// A boss with `lex: false` skips that check (el paraguas: not in the lexicon yet). The build
-// names any boss that does not match, and the page leaves it out.
+// A boss with `lex: false` skips that check (a foto, o idioma …: not in the lexicon yet). The
+// build names any boss that does not match, and the page leaves it out.
 //
-// Castilian Spanish: where Latin America differs, `es419` holds the note (src/lib/variety.js).
-// It is not shown until a LatAm mode exists; the rule text only states the Spanish standard.
+// European Portuguese: where Brazil differs, `ptBR` holds the note (src/lib/variety.js). None of
+// these genders differs in Brazil, so no boss carries one; the rule text states the pt-PT standard.
 import { select } from "../lexicon.js";
 import { ARTS } from "./woerter.js";
 
-export const VARIETY = "es-ES";
+export const VARIETY = "pt-PT";
 
 export const BOSSE = [
-  { w: "mapa", g: "el", lv: "A1", regel: "It ends in -a but it is masculine: el mapa, los mapas." },
-  { w: "foto", g: "la", lv: "A1", regel: "Short for la fotografía, so it stays feminine in spite of the -o: la foto, las fotos." },
-  { w: "agua", g: "el", lv: "A1", regel: "Feminine, but a stressed a- takes el in the singular: el agua fría, las aguas." },
-  { w: "problema", g: "el", lv: "A1", regel: "A word from Greek in -ma, and masculine: el problema, el idioma." },
-  { w: "idioma", g: "el", lv: "A1", regel: "A word from Greek in -ma, and masculine: el idioma, el problema." },
-  { w: "día", g: "el", lv: "A1", regel: "It ends in -a but it is masculine: el día, buenos días." },
-  { w: "mano", g: "la", lv: "A1", regel: "One of the very few feminine nouns in -o: la mano derecha, las manos." },
-  { w: "hambre", g: "el", lv: "A1", regel: "Feminine with a stressed a-: el hambre, but tengo mucha hambre." },
-  { w: "tranvía", g: "el", lv: "A1", regel: "Most nouns in -ía are feminine (la cafetería), but it is el tranvía." },
-  { w: "coche", g: "el", lv: "A1", regel: "An -e tells you nothing: el coche, but la noche. Learn the article with the word." },
-  { w: "noche", g: "la", lv: "A1", regel: "An -e tells you nothing: la noche, but el coche. Learn the article with the word." },
-  { w: "llave", g: "la", lv: "A1", regel: "An -e tells you nothing: la llave, but el viaje. Learn the article with the word." },
-  { w: "flor", g: "la", lv: "A1", regel: "Nouns in -or are usually masculine (el color, el dolor), but it is la flor." },
-  { w: "nariz", g: "la", lv: "A1", regel: "A -z tells you nothing: la nariz, but el lápiz." },
-  { w: "cumpleaños", g: "el", lv: "A1", regel: "It ends in -s but it is one birthday: el cumpleaños, los cumpleaños." },
-  { w: "sartén", g: "la", lv: "A1", regel: "A consonant at the end tells you little: la sartén, las sartenes.",
-    es419: { note: "Parts of Latin America say el sartén.", gender: "el" } },
-  { w: "planeta", g: "el", lv: "A2", regel: "It ends in -a but it is masculine: el planeta, like el mapa." },
-  { w: "clima", g: "el", lv: "A2", regel: "A word from Greek in -ma, and masculine: el clima, el programa." },
-  { w: "programa", g: "el", lv: "A2", regel: "A word from Greek in -ma, and masculine: el programa, el clima." },
-  { w: "sal", g: "la", lv: "A2", regel: "A consonant at the end tells you little: la sal, but el sol." },
-  { w: "sangre", g: "la", lv: "A2", regel: "An -e tells you nothing, so learn this one with its article: la sangre." },
-  { w: "costumbre", g: "la", lv: "A2", regel: "Nouns in -umbre are feminine: la costumbre, la legumbre." },
-  { w: "garaje", g: "el", lv: "A2", regel: "Nouns in -aje are masculine: el garaje, el viaje, el paisaje." },
-  { w: "pintalabios", g: "el", lv: "A2", regel: "Verb + noun: pinta + labios. These compounds are masculine: el pintalabios, los pintalabios." },
-  { w: "lavavajillas", g: "el", lv: "A2", regel: "Verb + noun: lava + vajillas. These compounds are masculine: el lavavajillas." },
-  { w: "paraguas", g: "el", lv: "A2", lex: false, regel: "Verb + noun: para + aguas. It ends in -s, but it is one umbrella: el paraguas, los paraguas." },
-  { w: "radio", g: "la", lv: "B1", regel: "Short for la radiodifusión, so in Spain it stays feminine in spite of the -o: la radio.",
-    es419: { note: "Mexico, Central America, the Caribbean, Colombia, Venezuela and Peru usually say el radio.", gender: "el" } },
-  { w: "tema", g: "el", lv: "B1", regel: "A word from Greek in -ma, and masculine: el tema, el problema." },
-  { w: "diploma", g: "el", lv: "B1", regel: "A word from Greek in -ma, and masculine: el diploma, el clima." },
-  { w: "aula", g: "el", lv: "B1", regel: "Feminine, but a stressed a- takes el in the singular: el aula, las aulas." },
-  { w: "crisis", g: "la", lv: "B1", regel: "Many Greek nouns in -is are feminine (but el análisis). The plural looks the same: la crisis, las crisis." },
-  { w: "rascacielos", g: "el", lv: "B1", regel: "Verb + noun: rasca + cielos. These compounds are masculine: el rascacielos, los rascacielos." },
-  { w: "paisaje", g: "el", lv: "B1", regel: "Nouns in -aje are masculine: el paisaje, el viaje, el garaje." },
+  { w: "mapa", g: "o", lv: "A1", regel: "It ends in -a but it is masculine: o mapa, os mapas." },
+  { w: "dia", g: "o", lv: "A1", regel: "It ends in -a but it is masculine: o dia, bom dia, os dias." },
+  { w: "mão", g: "a", lv: "A1", regel: "Most nouns in -ão are masculine (o pão, o cão), but it is a mão, as mãos." },
+  { w: "foto", g: "a", lv: "A1", lex: false, regel: "Short for a fotografia, so it stays feminine in spite of the -o: a foto, as fotos." },
+  { w: "idioma", g: "o", lv: "A1", lex: false, regel: "A word from Greek in -ma, and masculine: o idioma, o problema." },
+  { w: "cinema", g: "o", lv: "A1", regel: "A word from Greek in -ma, and masculine: o cinema, o problema." },
+  { w: "cor", g: "a", lv: "A1", regel: "Most nouns in -or are masculine (o amor, o calor), but it is a cor, as cores." },
+  { w: "dor", g: "a", lv: "A1", regel: "Most nouns in -or are masculine (o amor, o calor), but it is a dor: tenho uma dor de cabeça." },
+  { w: "flor", g: "a", lv: "A1", regel: "Most nouns in -or are masculine (o amor, o calor), but it is a flor, as flores." },
+  { w: "coração", g: "o", lv: "A1", regel: "Nouns in -ção are feminine (a estação, a lição), but o coração is masculine. Learn it as the exception: o coração, os corações." },
+  { w: "leite", g: "o", lv: "A1", regel: "An -e tells you nothing: o leite, but a noite. Learn the article with the word." },
+  { w: "noite", g: "a", lv: "A1", regel: "An -e tells you nothing: a noite, but o leite. Learn the article with the word." },
+  { w: "ponte", g: "a", lv: "A1", regel: "An -e tells you nothing: a ponte, but o dente. Learn the article with the word." },
+  { w: "nariz", g: "o", lv: "A1", regel: "A -z tells you nothing: o nariz, but a voz and a luz." },
+  { w: "voz", g: "a", lv: "A1", regel: "A -z tells you nothing: a voz, but o nariz and o arroz." },
+  { w: "árvore", g: "a", lv: "A1", regel: "An -e tells you nothing, and this one is feminine: a árvore, as árvores." },
+  { w: "viagem", g: "a", lv: "A1", regel: "Nouns in -gem are feminine: a viagem, a garagem, a mensagem." },
+  { w: "problema", g: "o", lv: "A2", regel: "A word from Greek in -ma, and masculine: o problema, o sistema. Sem problema!" },
+  { w: "programa", g: "o", lv: "A2", lex: false, regel: "A word from Greek in -ma, and masculine: o programa, o problema." },
+  { w: "planeta", g: "o", lv: "A2", lex: false, regel: "It ends in -a but it is masculine: o planeta, like o mapa." },
+  { w: "sangue", g: "o", lv: "A2", lex: false, regel: "An -e tells you nothing, so learn this one with its article: o sangue, as análises ao sangue." },
+  { w: "sal", g: "o", lv: "A2", lex: false, regel: "A consonant at the end tells you little: o sal and o mar, but a flor and a cor." },
+  { w: "chave", g: "a", lv: "A2", regel: "An -e tells you nothing: a chave, but o pente. Learn the article with the word." },
+  { w: "clima", g: "o", lv: "B1", regel: "A word from Greek in -ma, and masculine: o clima, o problema." },
+  { w: "diploma", g: "o", lv: "B1", regel: "A word from Greek in -ma, and masculine: o diploma, o clima." },
+  { w: "tema", g: "o", lv: "B1", lex: false, regel: "A word from Greek in -ma, and masculine: o tema, o sistema." },
+  { w: "sistema", g: "o", lv: "B1", lex: false, regel: "A word from Greek in -ma, and masculine: o sistema, o Sistema Nacional de Saúde." },
+  { w: "costume", g: "o", lv: "B1", regel: "An -e tells you nothing, and this one is masculine: o costume, como de costume." },
+  { w: "paisagem", g: "a", lv: "B1", regel: "Nouns in -gem are feminine: a paisagem, a viagem, a garagem." },
+  { w: "luz", g: "a", lv: "B1", regel: "A -z tells you nothing: a luz, a conta da luz, but o nariz." },
+  { w: "guarda-chuva", g: "o", lv: "B1", lex: false, regel: "Verb + noun: guarda + chuva. These compounds are masculine, even with a feminine noun: o guarda-chuva, os guarda-chuvas." },
 ];
 
 const ORDER = ["A1", "A2", "B1"];

@@ -248,7 +248,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     c.alive = true; c.gen++;
     c.x = c.px = x; c.y = c.py = y;
     c.w = wi; c.kind = kind; c.boss = -1; c.scale = 1; c.angry = 0;
-    c.art = kind === 1 ? w.pa : w.g; // a plural takes los or las, from the noun's gender
+    c.art = kind === 1 ? w.pa : w.g; // a plural takes os or as, from the noun's gender
     c.text = kind === 1 ? w.pl : w.w;
     c.r = T.CRE_R;
     c.maxHp = c.hp = T.CRE_HP * hpMul * (kind === 2 ? 1.5 : 1);

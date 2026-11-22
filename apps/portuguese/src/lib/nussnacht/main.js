@@ -35,7 +35,7 @@ export const TXT = {
   skillReadyTouch: "Whirl ready!",
   skillTitle: "Cheek whirl: clears everything around Hamsti (recharges in 30 s)",
   bossCame: "Boss: {art} {w}?",
-  split: "{art} {first} | {rest}",
+  split: "{art} {first} + {rest}", // o guarda + chuva: the hyphen is the seam, dropped in the popup
   pop: "Pop",
   timeTitle: "Time",
   killsTitle: "Words defeated",
@@ -246,7 +246,7 @@ export function mountNussnacht(root, data) {
         case EV.SPLIT: {
           const w = S.words[e.a];
           // a compound cracks at its seam: the verb and the noun it is made of
-          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h), rest: w.w.slice(w.h) }), "#fff", 1.6);
+          if (w?.h) renderer.popup(e.x, e.y - 30, fmt(TXT.split, { art: TXT.arts[w.g], first: w.w.slice(0, w.h).replace(/-$/, ""), rest: w.w.slice(w.h) }), "#fff", 1.6);
           break;
         }
         default:
