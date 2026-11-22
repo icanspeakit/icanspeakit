@@ -1374,3 +1374,17 @@ handled by the `ui-*` items where they are rendered.
 - Open: no pt-PT clips for the RPG yet (`public/audio/lindenau/` does not exist); the browser voice speaks. `VOICES` names (`pt-PT-DuarteNeural`, `RaquelNeural`, `FernandaNeural`) to verify when the generate script is written.
 - Open: `uebersetzungen/lindenau.json` is empty: help glosses in de/es/fr/it fall back to English until the `ui-lang-*` items fill them (keys = the Portuguese lines).
 - Open: `pt.json` still has the RPG keys (renamed to *Vila Bruno*); it goes with the removal of the Portuguese UI.
+
+### Decisions and open points from `teachers` (2026-11-22)
+
+- Decision: all 59 tandem-extra files (`arbeitsblatt/<id>.json`) practise the slot's **Portuguese** topic (§3), not a translation of the Spanish sentences; partners use *tu*, formal scenes *o senhor / a senhora* or the verb alone. New files for the three new slots: `clitic-placement`, `mesoclise`, `mais-que-perfeito-simples` (the C1 two run formal written ↔ spoken). `arbeitsblatt`, `partneruebungen` and `unterricht-wortschatz` are **strict** in `check-variety`.
+- Decision: `es419` notes in teacher files became short `ptBR` notes where Brazil really differs, else were dropped.
+- Decision: partner sheets keep their file names and ids (`pa-a1-hofladen` = the *banca na feira*, `strassenfest` = the *arraial / festa da junta*, `wg-wuerfel` = the *casa partilhada*); all stay drafts (`geprueft: false`). The weekend bingo stays in the present (*Tomas o pequeno-almoço cedo ao fim de semana?*); the past (*o que fizeste…*) lives on the perfeito memory sheet.
+- Decision: the kitchen round of the a/para/em tandem asks *Onde põe o Bruno o tacho?* → *O tacho está no fogão* (`render.js` builds the tiles `onde` + verb + `o Bruno` + thing).
+- Decision: lesson mode (`unterricht-wortschatz.json`) has a word task for each of the 49 A1 word fields of `kursinhalte.json`; `seitenDaten.js` splits *o/a* off a word only when the rest is an A1 lemma (plural articles keep the text whole).
+- Decision: the class-test pool (`klassentest/pool.js`) now has a Portuguese closed set of grammar words (articles and contractions, clitics, demonstratives with *de/em*, *ser/estar/ter/haver/ir* forms), so options for *no/na/ao*, *é/está*, *o/lhe* gaps are drawn from the other gaps.
+- Decision: the verb-table worksheet (`nachschlagen.js`) asks presente, *eu* perfeito and *ele/ela* imperfeito (no compound tense: the perfeito composto is not a past tense to drill as one).
+- Decision: downloads catalogue: word counts from the current lexicon ("about 540 / 430 / 360 / 470"); new official links Infopédia, Portal das Finanças, Segurança Social, ePortugal (de/fr/it/pt carry the English text until the `ui-lang-*` items).
+- Open: `kursinhalte.json` B2 line "Accidental dative: esqueceu-me a carteira" (`beginner-path`) still maps to `irgend`, which is now the future-subjunctive slot; the course plan should say "Future subjunctive: quem quiser, seja qual for" or the rule in `stundenplan.js` should point elsewhere.
+- Open: `lang="es"` is gone from the teacher pages, class tests and live-quiz builder, but stays in many learner pages and components (`cleanup`).
+- Open: `pt.json` holds the new link keys too; they go with the Portuguese UI.
