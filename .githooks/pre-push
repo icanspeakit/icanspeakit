@@ -1,0 +1,68 @@
+#!/bin/sh
+# Versioned pre-push guard (enable with: git config core.hooksPath .githooks).
+# Builds only the apps under apps/ that changed between the pushed commit and origin's version
+# of the branch (all buildable apps if that can't be determined), runs check-parity, and blocks
+# the push on any failure, naming the failing step.
+# Override for manual runs: PRE_PUSH_APPS="hub french" sh .githooks/pre-push </dev/null
+
+ROOT=$(git rev-parse --show-toplevel) || { echo "pre-push: not in a git repo" >&2; exit 1; }
+ZERO=0000000000000000000000000000000000000000
+
+buildable_all() {
+  for pkg in "$ROOT"/apps/*/package.json; do
+    [ -f "$pkg" ] || continue
+    grep -q '"build"' "$pkg" && basename "$(dirname "$pkg")"
+  done
+}
+
+changed=""
+all=0
+seen_ref=0
+if [ -n "$PRE_PUSH_APPS" ]; then
+  changed="$PRE_PUSH_APPS"
+else
+  while read -r local_ref local_sha remote_ref remote_sha; do
+    [ -n "$local_sha" ] || continue
+    seen_ref=1
+    [ "$local_sha" = "$ZERO" ] && continue            # branch deletion: nothing to build
+    if [ "$remote_sha" = "$ZERO" ] || ! git -C "$ROOT" cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+      all=1                                            # new branch or remote commit unknown locally
+      continue
+    fi
+    files=$(git -C "$ROOT" diff --name-only "$remote_sha" "$local_sha" 2>/dev/null) || { all=1; continue; }
+    changed="$changed $(printf '%s\n' "$files" | sed -n 's#^apps/\([^/]*\)/.*#\1#p' | sort -u | tr '\n' ' ')"
+  done
+  [ "$seen_ref" = 0 ] && all=1                         # no ref info: be safe
+fi
+
+if [ "$all" = 1 ]; then
+  apps=$(buildable_all)
+else
+  apps=$(printf '%s\n' $changed | sort -u)
+fi
+
+fail() {
+  echo "" >&2
+  echo "pre-push: BLOCKED, step failed: $1" >&2
+  exit 1
+}
+
+for app in $apps; do
+  pkg="$ROOT/apps/$app/package.json"
+  [ -f "$pkg" ] || continue                            # app deleted in this push
+  grep -q '"build"' "$pkg" || continue                 # no build script (e.g. apps/rel)
+  echo "pre-push: building apps/$app"
+  log=$(mktemp)
+  if ! pnpm --dir "$ROOT/apps/$app" build >"$log" 2>&1; then
+    tail -30 "$log" >&2
+    rm -f "$log"
+    fail "build apps/$app"
+  fi
+  rm -f "$log"
+done
+
+echo "pre-push: check-parity"
+node "$ROOT/scripts/check-parity.mjs" || fail "check-parity"
+
+echo "pre-push: ok (built: $(printf '%s ' $apps))"
+exit 0
