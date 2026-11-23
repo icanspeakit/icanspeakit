@@ -51,7 +51,7 @@ function parts(ex: Ex) {
   <div class="pr-regel-body">
     {/* The rules that fit the word on the stage, as links down to them. */}
     <div class="pr-regel-mine" data-regel-mine hidden>
-      <p class="pr-regel-mine-h">For “<span data-regel-word lang="es"></span>”</p>
+      <p class="pr-regel-mine-h">For “<span data-regel-word lang="pt-PT"></span>”</p>
       <div class="pr-regel-mine-list" data-regel-mine-list></div>
     </div>
 
@@ -66,12 +66,12 @@ function parts(ex: Ex) {
             return (
               <li>
                 {src ? (
-                  <button type="button" class="pr-regel-word" data-regel-play={src} lang="es">
+                  <button type="button" class="pr-regel-word" data-regel-play={src} lang="pt-PT">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
                     <span>{word}</span>
                   </button>
                 ) : (
-                  <span class="pr-regel-word pr-regel-word--quiet" lang="es"><span>{word}</span></span>
+                  <span class="pr-regel-word pr-regel-word--quiet" lang="pt-PT"><span>{word}</span></span>
                 )}
                 {ex.note && <span class="pr-regel-note" lang="en">{ex.note}</span>}
               </li>

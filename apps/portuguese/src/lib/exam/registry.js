@@ -9,9 +9,9 @@
  *
  * Two storage shapes exist and both are read as-is rather than migrated:
  *   store "exam" → "da-exam-v1:<key>", { answers: { id: {given, correct} } }
- *                  (src/lib/exam/state.js — A1 practice test, SIELE, CCSE)
+ *                  (src/lib/exam/state.js — ACESSO A1 practice test, level check, civics quiz)
  *   store "dtz"  → "da-dtz-v1:<key>",  same answers plus a schreiben object
- *                  (src/lib/dtzTrainer.js — the DELE A2 mock for nationality in the /nationality/dele-a2 slot)
+ *                  (src/lib/dtzTrainer.js — the CIPLE A2 mock for nationality in the /nationality/ciple-a2 slot)
  * The ids (start-deutsch-1, testdaf, leben-in-deutschland, dtz) are storage keys from the
  * German course and stay; only the texts are English (docs/content-plan.md §2).
  *
@@ -30,22 +30,22 @@ import { examPath } from "../routes.js";
 
 const idsOf = (part) => part.items.map((i) => i.id);
 
-/* Leben in Deutschland numbers its federal questions positionally, exactly as
-   test.astro does; the state questions depend on the Bundesland the learner picked,
+/* The civics test numbers its national questions positionally, exactly as
+   test.astro does; the extra questions depend on the district or region the learner picked,
    which only the browser knows — hence `idsFrom`, resolved client-side. */
 const lidFederalIds = lid.questions.map((_, i) => "bund-" + (i + 1));
 
 export const examRegistry = [
   {
     id: "start-deutsch-1",
-    title: "DELE A1 practice test",
+    title: "ACESSO A1 practice test",
     subtitle: "Listening · Reading · Writing · Speaking",
     level: "A1",
-    href: "/dele/a1",
-    overview: "/dele",
+    href: "/caple/acesso-a1",
+    overview: "/caple",
     store: { kind: "exam", key: "start-deutsch-1" },
-    // In the style of the DELE A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
-    passNote: "Our own guide: 60 % of the Listening and Reading points. The real DELE A1 has its own scoring rules.",
+    // In the style of the ACESSO A1 (content-plan §2), shorter than the real exam: 60 % is our own convention.
+    passNote: "Our own guide: 60 % of the Listening and Reading points. The real ACESSO A1 has its own scoring rules (to verify).",
     passPct: 60,
     modules: [
       { key: "hoeren1", label: "Listening · Part 1", ids: idsOf(sd1.hoeren.teil1) },
@@ -60,15 +60,15 @@ export const examRegistry = [
   },
   {
     id: "testdaf",
-    title: "SIELE reading and writing",
+    title: "Level check: reading and writing",
     subtitle: "Reading · Writing",
     level: "B1–C1",
-    href: "/siele/practice-set",
-    overview: "/siele",
+    href: "/caple/level-check/practice-set",
+    overview: "/caple/level-check",
     store: { kind: "exam", key: "testdaf" },
-    // Deliberately no pass percentage: the SIELE gives a score per test and every
+    // Deliberately no pass percentage: this is our own check, not an exam, and every
     // institution sets its own requirement, so a line here would be invented.
-    passNote: "No pass mark: each SIELE test gets a score from 0 to 250 and a CEFR level, and each institution decides what it asks for.",
+    passNote: "No pass mark and no certificate: this is our own level check, and each institution decides what it asks for.",
     passPct: null,
     modules: [
       { key: "lesen1", label: "Reading · Task 1", ids: idsOf(tdaf.leseverstehen.aufgabe1) },
@@ -79,32 +79,31 @@ export const examRegistry = [
   },
   {
     id: "leben-in-deutschland",
-    title: "CCSE",
+    title: "Civics",
     subtitle: "Practice test",
-    level: "Knowledge test",
-    href: "/ccse/test",
-    overview: "/ccse",
+    level: "Knowledge practice",
+    href: "/civics/test",
+    overview: "/civics",
     store: { kind: "exam", key: "leben-in-deutschland" },
-    passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
+    passNote: `Our own benchmark: ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions. Not an official test.`,
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
-      { key: "bund", label: "Questions on Spain", ids: lidFederalIds },
-      // The ids depend on the comunidad stored in "da-lid-land"; only the browser knows which one,
-      // so the client resolves this. An extra: the real test has no part on one comunidad, so it
-      // does not count towards the score.
-      { key: "land", label: "My comunidad (extra)", idsFrom: "lid-land", scored: false },
+      { key: "bund", label: "Questions on Portugal", ids: lidFederalIds },
+      // The ids depend on the district or region stored in "da-lid-land"; only the browser knows which one,
+      // so the client resolves this. An extra: it does not count towards the score.
+      { key: "land", label: "My district or region (extra)", idsFrom: "lid-land", scored: false },
     ],
   },
   {
     id: "dtz",
-    title: "DELE A2 mock for nationality",
+    title: "CIPLE A2 mock for residence and nationality",
     subtitle: dtz1.label,
     level: "A2",
-    href: "/nationality/dele-a2/practice-set",
-    overview: "/nationality/dele-a2",
+    href: "/nationality/ciple-a2/practice-set",
+    overview: "/nationality/ciple-a2",
     store: { kind: "dtz", key: dtz1.id },
-    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a DELE score.
-    passNote: "Our own guide, not a DELE score: listening and reading count together, and 33 of 45 points means you are well prepared.",
+    // Our own bands, kept from the trainer (src/lib/dtzTrainer.js stufeFor), not a CAPLE result.
+    passNote: "Our own guide, not a CAPLE result: listening and reading count together, and 33 of 45 points means you are well prepared.",
     passPct: Math.round((33 / 45) * 100),
     modules: [
       ...dtz1.parts.map((part, i) => ({
@@ -136,13 +135,13 @@ export const examRegistry = [
   })),
 ];
 
-/** The question ids for one comunidad, in the trainer's own numbering. */
+/** The question ids for one district or region, in the trainer's own numbering. */
 export function lidLandIds(landId) {
   const land = lid.bundeslaender.find((l) => l.id === landId) ?? lid.bundeslaender[0];
   return land.stateQuestions.map((_, i) => "land-" + land.id + "-" + (i + 1));
 }
 
-/** The first comunidad is the trainer's fallback, so it is what the registry counts until
+/** The first district is the trainer's fallback, so it is what the registry counts until
  *  the browser says otherwise. */
 export const lidDefaultLandIds = lidLandIds(lid.bundeslaender[0].id);
 

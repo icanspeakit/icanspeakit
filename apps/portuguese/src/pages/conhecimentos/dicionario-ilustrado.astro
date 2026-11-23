@@ -43,15 +43,15 @@ const PER_PAGE = 12; // the size checked by default
 const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) };
 ---
 <Layout
-  title="Picture cards: the 100 most important Spanish words – icanspeak Spanish"
-  description="Casa, ir, grande, en: the 100 most important Spanish words as picture cards. One picture, one word, to listen to. All at once or one after the other."
+  title="Picture cards: the 100 most important Portuguese words – icanspeak Portuguese"
+  description="Casa, ir, grande, em: the 100 most important Portuguese words as picture cards. One picture, one word, to listen to. All at once or one after the other."
 >
   <SiteNav active="wissen" />
   <main class="practice-main practice-main--wide bk-page" data-view="alle">
     <header class="practice-hero bk-hero">
       <p class="eyebrow" data-i18n="bildwb.eyebrow">Bildkarten</p>
       <h1 data-i18n="bildwb.title">The 100 most important words</h1>
-      <p data-i18n="bildwb.lead" data-i18n-vars={JSON.stringify(groupN)}>One picture, one word. Tap a card and hear the word. The words you hear most often in Spanish: {groupN.nomen} nouns, {groupN.verben} verbs, {groupN.adjektive} adjectives and {groupN.kleine} little words.</p>
+      <p data-i18n="bildwb.lead" data-i18n-vars={JSON.stringify(groupN)}>One picture, one word. Tap a card and hear the word. The words you hear most often in Portuguese: {groupN.nomen} nouns, {groupN.verben} verbs, {groupN.adjektive} adjectives and {groupN.kleine} little words.</p>
       <div class="bk-crew" aria-hidden="true" data-mascot-part>
         <Fragment set:html={mascotSvg({ name: "hamsti", expr: "happy", view: "three", size: 60, label: "" })} />
         <p class="bk-say">„<span data-i18n="bildwb.say">Erst sagen, dann tippen!</span>“</p>
@@ -137,11 +137,11 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       <p data-i18n="bildwb.merch">Die schönsten zehn gibt es bald auch auf Shirt, Tasse, Postkarte und Geschenkkarte.</p>
       <a class="btn btn-secondary" href="/conta" data-i18n="bildwb.merchCta">Zum Merch</a>
     </aside>
-    <p class="bk-foot" data-i18n-html="bildwb.foot">Alle Bilder hat icanspeak Spanish selbst gezeichnet. Mehr Wörter üben: <a href="/vocabulario">Wortschatz</a> · <a href="/articles">Artikel-Trainer</a></p>
+    <p class="bk-foot" data-i18n-html="bildwb.foot">Alle Bilder hat icanspeak Portuguese selbst gezeichnet. Mehr Wörter üben: <a href="/vocabulario">Wortschatz</a> · <a href="/articles">Artikel-Trainer</a></p>
   </main>
 
   <style>
-    .bk-page { --der: #2f6fd6; --die: #c2415a; --das: #2e9a62; --paper: #fffdf8; --card-ink: #24201b; }
+    .bk-page { --der: #2f6fd6; --die: #c2415a; --das: #2e9a62; --paper: #fffdf8; --card-ink: #172a6e; }
     .bk-crew { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 0; }
     .bk-say { margin: 0 !important; font-family: var(--font-voice); font-weight: 600; color: var(--ink) !important; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 6px 12px; }
 
@@ -246,7 +246,7 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       @page { size: A4 portrait; margin: 8mm; }
       :global(body.bk-printing > *:not(.bk-sheets)) { display: none !important; }
       :global(body.bk-printing) { background: #fff !important; }
-      :global(.bk-sheets) { display: block; color: #24201b; font-family: var(--font-voice, "Fredoka", sans-serif); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      :global(.bk-sheets) { display: block; color: #172a6e; font-family: var(--font-voice, "Fredoka", sans-serif); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       :global(.bk-sheet) {
         width: 194mm; height: 281mm; box-sizing: border-box; display: grid; break-after: page; overflow: hidden;
         grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--rows), 1fr);
@@ -262,9 +262,9 @@ const printVars = { n: cards.length, pages: Math.ceil(cards.length / PER_PAGE) }
       :global(.bk-cell .bk-art) { font-size: .72em; }
       :global(.bk-cell .bk-art--der) { color: #2f6fd6; } :global(.bk-cell .bk-art--die) { color: #c2415a; } :global(.bk-cell .bk-art--das) { color: #287346; }
       /* Zum Ausmalen: every fill white, the outline stays — except small solid ink (eyes). */
-      :global(.bk-sheets.is-outline svg [fill]:not([fill="none"]):not([fill="#24201b"])) { fill: #fff !important; }
+      :global(.bk-sheets.is-outline svg [fill]:not([fill="none"]):not([fill="#172a6e"])) { fill: #fff !important; }
       :global(.bk-sheets.is-outline svg [stroke="#fff"]) { stroke: none !important; }
-      :global(.bk-sheets.is-outline .bk-art) { color: #24201b !important; }
+      :global(.bk-sheets.is-outline .bk-art) { color: #172a6e !important; }
     }
 
     @media (prefers-reduced-motion: reduce) {

@@ -4,24 +4,21 @@
 // landscape carrying picture cards, and the learner hits the matching one with the
 // Gummi-Blaster, a toy that fires harmless rubber pellets on a ballistic curve. 90 s and 3
 // hearts, diving birds, extras, a multiple-choice quiz to reload, records and a ranking.
-// (The voice says el / la + noun.) Logic: src/lib/hoerSafari/. Plan: HOER-SAFARI-TIERED-PROMPT.md.
+// (The voice says o / a + noun, pt-PT if the device has it, else pt-BR with a note.) Logic: src/lib/hoerSafari/. Plan: HOER-SAFARI-TIERED-PROMPT.md.
 // A prototype from 2026-10-26, in the menu "Spiele" and indexed since 2026-10-27 (EXPERIMENTE.md).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
 import { safariWords } from "../../lib/hoerSafari/woerter.js";
+import { wordsForLevel } from "../../lib/hoerSafari/levels.js";
 import "../../styles/hoer-safari.css";
 
 const words = safariWords();
-const count =(lv: string[]) => words.filter((w) => lv.includes(w.lv)).length;
-const levels = [
-  { id: "A1", n: count(["A1"]) },
-  { id: "A2", n: count(["A2"]) },
-  { id: "B1", n: count(["B1", "B2"]) },
-];
+// The same pools the game plays (a thin level is topped up from the one below).
+const levels = ["A1", "A2", "B1"].map((id) => ({ id, n: wordsForLevel(words, id).length }));
 ---
 <Layout
-  title="Hamsti's Bird Safari: hear the word, hit the picture – icanspeak Spanish"
-  description="A listening game in the browser: you hear a word with el or la and hit the bird with the matching picture using the rubber blaster. 90 seconds, A1 to B1, on your phone too."
+  title="Hamsti's Bird Safari: hear the word, hit the picture – icanspeak Portuguese"
+  description="A listening game in the browser: you hear a word with o or a and hit the bird with the matching picture using the rubber blaster. 90 seconds, A1 to B1, on your phone too."
 >
   <SiteNav active="ueben" />
   <main class="hs-page">
@@ -63,7 +60,7 @@ const levels = [
           <div class="hs-start-a">
           <p class="hs-eyebrow" data-i18n="hs.eyebrow">Spiel · Prototyp</p>
           <h1 lang="en">Hamsti’s Bird Safari</h1>
-          <p class="hs-lead" data-i18n-html="hs.lead">You hear a word – <b>“a fork”</b>. Birds with pictures fly over the meadow. Hit the right one with the rubber blaster! Far away scores more, a wrong bird costs 10.</p>
+          <p class="hs-lead" data-i18n-html="hs.lead">You hear a word – <b>“o comboio”</b>. Birds with pictures fly over the meadow. Hit the right one with the rubber blaster! Far away scores more, a wrong bird costs 10.</p>
           </div>
 
           <div class="hs-start-b">
@@ -93,7 +90,8 @@ const levels = [
 
           <button type="button" class="hs-go" data-play data-i18n="hs.go">Los geht's</button>
           <p class="hs-best" data-best></p>
-          <p class="hs-muted" data-novoice hidden data-i18n="hs.noVoice">Your browser has no Spanish voice, so each word is written at the top as soon as it is called. To hear it, add a Spanish voice in your device's settings.</p>
+          <p class="hs-muted" data-novoice hidden data-i18n="hs.noVoice">Your browser has no Portuguese voice, so each word is written at the top as soon as it is called. To hear it, add a Portuguese (Portugal) voice in your device's settings.</p>
+          <p class="hs-muted" data-brvoice hidden data-i18n="hs.brVoice">Your device only has a Brazilian Portuguese voice, so the words sound Brazilian here: the words and the o / a are the same, but in Portugal unstressed vowels are much shorter (“telemóvel” sounds like “tlmóvel”). For the European sound, add a Portuguese (Portugal) voice in your device's settings.</p>
           </div>
 
           <details class="hs-how">
@@ -160,8 +158,8 @@ const levels = [
 
     <section class="hs-about">
       <h2 data-i18n="hs.about.title">Worum geht's?</h2>
-      <p data-i18n-html="hs.about.p">Hamsti’s Bird Safari practises <b>listening and vocabulary</b> at the same time: you hear each noun with its el or la and have to recognise it quickly. Reloading brings el / la and picture questions. All words come from our <a href="/vocabulario">vocabulary</a> – you can also practise them there at your own pace.</p>
-      <p class="hs-muted" data-i18n="hs.about.voice">The voice comes from your browser, from Spain where such a voice is installed, so how it sounds depends on your device. We have no recordings for this game yet.</p>
+      <p data-i18n-html="hs.about.p">Hamsti’s Bird Safari practises <b>listening and vocabulary</b> at the same time: you hear each noun with its o or a and have to recognise it quickly. Reloading brings o / a and picture questions. All words come from our <a href="/vocabulario">vocabulary</a> – you can also practise them there at your own pace.</p>
+      <p class="hs-muted" data-i18n="hs.about.voice">The voice comes from your browser: a European Portuguese voice where one is installed, otherwise a Brazilian one, so how it sounds depends on your device. We have no recordings for this game yet.</p>
       <p class="hs-muted" data-i18n="hs.about.credit">Bilder: OpenMoji (CC BY-SA 4.0).</p>
     </section>
   </main>

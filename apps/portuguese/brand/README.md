@@ -1,9 +1,10 @@
 # Brand masters
 
-> **icanspeak Spanish (2026-11-03):** the masters below are the "da für Dich" lockup inherited
-> from deutschacademy and are **not** this site's brand. The brand is the icanspeak.it kit:
-> SVG masters in `public/logos/`, rules in `docs/brand/BRAND.md`. `public/assets/logo.png` and
-> `public/assets/og-default.png` are rasterised from the kit's wordmark by
+> **icanspeak Portuguese (updated 2026-11-22):** the masters below are the "da für Dich" lockup
+> inherited from deutschacademy and are **not** this site's brand. The brand is the icanspeak
+> kit of 2026-11-10: SVG masters in `public/logos/`, rules in `docs/brand/BRAND.md`; favicons,
+> app icons and the share card `public/og/og-default.png` come from the kit as they are.
+> Only `public/assets/logo.png` (hub share cards) is rasterised from the kit's wordmark, by
 > `node scripts/build-wordmark.mjs`. Don't run `build-brand-assets.py` on these masters: it
 > would bring the old lockup back.
 

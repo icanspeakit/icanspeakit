@@ -50,21 +50,21 @@ import { waitAttrs } from "./notReady.js";
 import { withBase } from "./paths.js";
 
 /* Everything Bruno says, in one place. Short (≤ 8 words), warm, never blaming. No line
-   mentions missed days. His reactions are simple Spanish, so the learner hears the language
+   mentions missed days. His reactions are simple Portuguese, so the learner hears the language
    from the first round: `text` is what the bubble shows, `help` the English a tap shows, and
    the verdict under the task always says right or wrong in English without him. The lines a
    learner needs to understand (the first hello, a hint) are English. */
-const es = (text, help) => ({ text, help, lang: "es" });
+const pt = (text, help) => ({ text, help, lang: "pt-PT" });
 const BRUNO_LINES = {
-  right: [es("¡Muy bien!", "Very good!"), es("¡Exacto!", "Exactly!"), es("¡Guau! ¡Correcto!", "Woof! That's right!")],
-  wrong: [es("¡Casi! Mira otra vez.", "Almost! Look again."), es("No pasa nada.", "No problem."), es("Lo aprendemos juntos.", "We'll learn this together.")],
-  first: { text: "¡Hola! I'm Bruno. Have you got two minutes?" },
-  back: es("¡Qué bien verte otra vez!", "Nice to see you again!"),
-  hello: [es("¿Un paseo? ¡Primero, español!", "A walk? Spanish first!"), es("¡Vamos!", "Let's go!"), es("¡Ya estás aquí!", "You're here!")],
+  right: [pt("Muito bem!", "Very good!"), pt("Exato!", "Exactly!"), pt("Au, au! Certo!", "Woof! That's right!")],
+  wrong: [pt("Quase! Olha outra vez.", "Almost! Look again."), pt("Não faz mal.", "No problem."), pt("Aprendemos isto juntos.", "We'll learn this together.")],
+  first: { text: "Olá! I'm Bruno. Have you got two minutes?" },
+  back: pt("Que bom ver-te outra vez!", "Nice to see you again!"),
+  hello: [pt("Um passeio? Primeiro, português!", "A walk? Portuguese first!"), pt("Vamos!", "Let's go!"), pt("Já estás aqui!", "You're here!")],
   hintless: { text: "Look carefully. You can do it." },
-  known: es("¡Esto ya lo sabes!", "You know this one!"),
-  skipped: es("No pasa nada. Otro día.", "No problem. Another day."),
-  spoke: [es("¡Bien dicho!", "Nicely said!"), es("¡Buen trabajo!", "Well done!")],
+  known: pt("Isto já sabes!", "You know this one!"),
+  skipped: pt("Não faz mal. Fica para outro dia.", "No problem. Another day."),
+  spoke: [pt("Bem dito!", "Nicely said!"), pt("Bom trabalho!", "Well done!")],
 };
 
 /** The skill mascot that steps in beside Bruno, by task type. Quaki waits for speaking tasks. */
@@ -94,7 +94,7 @@ function say(text) {
   const synth = window.speechSynthesis;
   if (!synth) return Promise.resolve();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "es-ES";
+  u.lang = "pt-PT";
   u.rate = 0.9;
   synth.speak(u);
   return Promise.resolve();
@@ -102,8 +102,7 @@ function say(text) {
 
 const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-/* "Sí" + ", un poco." must not read "Sí , un poco.", and "¿" + "vives?" must not read
-   "¿ ___ vives?": no space before punctuation, none after an opening mark. */
+/* "Sim" + ", um pouco." must not read "Sim , um pouco.": no space before punctuation. */
 const gapLine = (before, blank, after) =>
   `${before ? esc(before) + (/[¿¡]$/.test(before) ? "" : " ") : ""}${blank}${after ? (/^[.,;:!?]/.test(after) ? "" : " ") + esc(after) : ""}`;
 const splitGapView = (prompt) => {
@@ -114,13 +113,13 @@ const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[
 /* "1 task", "6 tasks": the only counts easy mode shows are small ones, so a plain -s does. */
 const count = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const minutes = (n) => count(n, "minute");
-/* A lexicon noun asks el or la (content-plan §1.4); a grammar table row brings its own set. */
-const articleOptions = (task) => task.options || ["el", "la"];
+/* A lexicon noun asks o or a; a grammar table row brings its own set. */
+const articleOptions = (task) => task.options || ["o", "a"];
 /* Comparing a built sentence: the chips keep the source's capitals and commas, an alternative
    order has its own ("Normalmente como" / "Como normalmente"). */
 const bareWord = (w) => w.toLowerCase().replace(/[,;:]/g, "");
 const sameOrder = (a, b) => a.length === b.length && a.every((w, i) => bareWord(w) === bareWord(b[i]));
-/* "el or la?", "la, los or las?" */
+/* "o or a?", "a, os or as?" */
 const articleQuestion = (task) => {
   const o = articleOptions(task);
   return `${o.slice(0, -1).join(", ")} or ${o[o.length - 1]}?`;
@@ -367,11 +366,11 @@ export function mountEinfach(root) {
         ${walkPlain(items.length, check.i)}
         <div class="el-task" tabindex="-1">
           <p class="el-kind">What fits?</p>
-          <p class="el-sentence" lang="es">${gapLine(gap.before, `<span class="el-blank">___</span>`, gap.after)}</p>
+          <p class="el-sentence" lang="pt-PT">${gapLine(gap.before, `<span class="el-blank">___</span>`, gap.after)}</p>
           <p class="el-gloss">Just guess. Nothing is wrong here.</p>
         </div>
       `,
-      action: `<div class="el-opts" lang="es">${q.options
+      action: `<div class="el-opts" lang="pt-PT">${q.options
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`,
     });
@@ -574,17 +573,17 @@ export function mountEinfach(root) {
     const open = run.flipped || run.answer !== null;
 
     if (task.type === "wort") {
-      const plural = task.plural ? `<span class="el-card-plural" lang="es">${esc(task.plural)}</span>` : "";
+      const plural = task.plural ? `<span class="el-card-plural" lang="pt-PT">${esc(task.plural)}</span>` : "";
       return `
         ${kind(task, "Word")}
         <button class="el-card" type="button" data-flip>
           <span class="el-card-inner ${open && !run.flipAnim ? "is-flipped" : ""}">
             <span class="el-face" ${open ? `aria-hidden="true"` : ""}>
-              <b lang="es">${esc(task.front)}</b>${plural}
+              <b lang="pt-PT">${esc(task.front)}</b>${plural}
               <span class="el-card-tap">tap</span>
             </span>
             <span class="el-face el-face--back" ${open ? "" : `aria-hidden="true"`}>
-              <b lang="es">${esc(task.front)}</b>${plural}
+              <b lang="pt-PT">${esc(task.front)}</b>${plural}
               <span class="el-card-back">${esc(task.back)}<i${task.hintLang ? ` lang="${task.hintLang}"` : ""}>${esc(task.hint || "")}</i></span>
             </span>
           </span>
@@ -597,7 +596,7 @@ export function mountEinfach(root) {
     if (task.type === "artikel") {
       return `
         ${kind(task, articleQuestion(task))}
-        <p class="el-sentence" lang="es"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
+        <p class="el-sentence" lang="pt-PT"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
         ${task.back ? `<p class="el-gloss">${esc(task.back)}</p>` : ""}
       `;
     }
@@ -605,7 +604,7 @@ export function mountEinfach(root) {
     if (task.type === "luecke") {
       return `
         ${kind(task, "Sentence")}
-        <p class="el-sentence" lang="es">${gapLine(task.before, `<span class="el-blank ${blankState}">${esc(run.answer || "___")}</span>`, task.after)}</p>
+        <p class="el-sentence" lang="pt-PT">${gapLine(task.before, `<span class="el-blank ${blankState}">${esc(run.answer || "___")}</span>`, task.after)}</p>
       `;
     }
 
@@ -613,7 +612,7 @@ export function mountEinfach(root) {
       // Replay as often as wanted, no clock. The transcript comes after the answer.
       return `
         ${kind(task, "Listen")}
-        <p class="el-listen-title" lang="es">${esc(task.title)}</p>
+        <p class="el-listen-title" lang="pt-PT">${esc(task.title)}</p>
         <button class="el-play" type="button" data-play>
           <span aria-hidden="true">▶</span> ${run.played ? "Listen again" : "Listen"}
         </button>
@@ -621,7 +620,7 @@ export function mountEinfach(root) {
         ${
           run.answer !== null
             ? `<details class="el-transcript" open><summary>What you heard</summary>${task.transcript
-                .map((l) => `<p lang="es">${esc(l)}</p>`)
+                .map((l) => `<p lang="pt-PT">${esc(l)}</p>`)
                 .join("")}</details>`
             : ""
         }
@@ -632,7 +631,7 @@ export function mountEinfach(root) {
       return `
         ${kind(task, "What do you say?")}
         <p class="el-situation">${esc(task.situation)}</p>
-        ${run.answer ? `<p class="el-sentence el-sentence--sm" lang="es"><span class="el-blank ${blankState}">${esc(run.answer)}</span></p>` : ""}
+        ${run.answer ? `<p class="el-sentence el-sentence--sm" lang="pt-PT"><span class="el-blank ${blankState}">${esc(run.answer)}</span></p>` : ""}
       `;
     }
 
@@ -643,7 +642,7 @@ export function mountEinfach(root) {
         : esc(task.text);
       return `
         ${kind(task, "Speak")}
-        <p class="el-sentence el-sentence--speak" lang="es">${words}</p>
+        <p class="el-sentence el-sentence--speak" lang="pt-PT">${words}</p>
         <button class="el-play" type="button" data-play>
           <span aria-hidden="true">▶</span> Listen
         </button>
@@ -664,11 +663,11 @@ export function mountEinfach(root) {
       <p class="el-kind">Build the sentence</p>
       <div class="el-line ${run.answer ? (run.answer === "ok" ? "is-right" : "is-wrong") : ""}">
         ${
-          run.built.map((w, n) => `<button class="el-word" type="button" lang="es" data-un="${n}">${esc(w)}</button>`).join("") ||
+          run.built.map((w, n) => `<button class="el-word" type="button" lang="pt-PT" data-un="${n}">${esc(w)}</button>`).join("") ||
           `<span class="el-line-ph">tap the words</span>`
         }${task.end && run.built.length ? `<span class="el-line-end" aria-hidden="true">${esc(task.end)}</span>` : ""}
       </div>
-      <div class="el-pool" lang="es">
+      <div class="el-pool" lang="pt-PT">
         ${rest.map((w) => `<button class="el-word el-word--pool" type="button" data-add="${esc(w)}">${esc(w)}</button>`).join("")}
       </div>
     `;
@@ -685,13 +684,13 @@ export function mountEinfach(root) {
     }
     if (task.type === "artikel" || task.type === "luecke") {
       const opts = task.type === "artikel" ? articleOptions(task) : run.opts;
-      return `<div class="el-opts" lang="es">${opts
+      return `<div class="el-opts" lang="pt-PT">${opts
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`;
     }
     if (task.type === "hoeren" || task.type === "redemittel") {
       // Whole phrases: one per row, so a long answer never wraps into its neighbour.
-      return `<div class="el-opts el-opts--stack" lang="es">${run.opts
+      return `<div class="el-opts el-opts--stack" lang="pt-PT">${run.opts
         .map((o) => `<button class="el-opt" type="button" data-pick="${esc(o)}">${esc(o)}</button>`)
         .join("")}</div>`;
     }
@@ -717,7 +716,7 @@ export function mountEinfach(root) {
       if (run.answer === "skip") return `<p class="el-said is-right">No problem. We'll speak another time.</p>`;
       const tip = run.result?.tip;
       return `<p class="el-said is-right">${run.result?.good ? "Well said." : "Good try!"}${
-        tip ? `<i>A tip for “<span lang="es">${esc(tip.word)}</span>”: ${esc(tip.text)}</i>` : ""
+        tip ? `<i>A tip for “<span lang="pt-PT">${esc(tip.word)}</span>”: ${esc(tip.text)}</i>` : ""
       }</p>`;
     }
     const ok = isRight(task);
@@ -726,10 +725,10 @@ export function mountEinfach(root) {
       task.type === "wort"
         ? ok
           ? "Got it."
-          : `This one comes back — <b lang="es">${esc(task.front)}</b>: ${esc(task.back)}${/[.!?…]$/.test(task.back) ? "" : "."}`
+          : `This one comes back — <b lang="pt-PT">${esc(task.front)}</b>: ${esc(task.back)}${/[.!?…]$/.test(task.back) ? "" : "."}`
         : ok
           ? "Right."
-          : `Almost. The answer is <b lang="es">${esc(solution)}</b>${/[.!?…]$/.test(solution) ? "" : "."}`;
+          : `Almost. The answer is <b lang="pt-PT">${esc(solution)}</b>${/[.!?…]$/.test(solution) ? "" : "."}`;
     const why = task.why && !ok ? `<i>${esc(task.why)}</i>` : "";
     return `<p class="el-said ${ok ? "is-right" : "is-wrong"}">${line}${why}</p>`;
   }

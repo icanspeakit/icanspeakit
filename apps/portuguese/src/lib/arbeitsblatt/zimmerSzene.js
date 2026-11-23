@@ -20,11 +20,11 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 
 /** Partner B's room: how far each moved thing goes, and the sentence for the key. */
 export const DIFFS = [
-  { key: "katze", dx: 540, dy: -186, a: "El gato está debajo de la mesa.", b: "El gato está en la cama." },
-  { key: "vase", dx: 520, dy: -136, a: "El jarrón está en la mesa.", b: "El jarrón está en el alféizar." },
-  { key: "schuhe", dx: 236, dy: 4, a: "Los zapatos están delante del armario.", b: "Los zapatos están debajo de la cama." },
-  { key: "ball", dx: -446, dy: 6, a: "La pelota está entre el armario y la cama.", b: "La pelota está delante de la puerta." },
-  { key: "uhr", dx: 252, dy: 70, a: "El reloj está encima de la puerta.", b: "El reloj está encima del escritorio." },
+  { key: "katze", dx: 540, dy: -186, a: "O gato está debaixo da mesa.", b: "O gato está na cama." },
+  { key: "vase", dx: 520, dy: -136, a: "O vaso está na mesa.", b: "O vaso está no parapeito." },
+  { key: "schuhe", dx: 236, dy: 4, a: "Os sapatos estão à frente do armário.", b: "Os sapatos estão debaixo da cama." },
+  { key: "ball", dx: -446, dy: 6, a: "A bola está entre o armário e a cama.", b: "A bola está à frente da porta." },
+  { key: "uhr", dx: 252, dy: 70, a: "O relógio está em cima da porta.", b: "O relógio está em cima da secretária." },
 ];
 
 const NUMS = [

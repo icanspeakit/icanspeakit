@@ -1,64 +1,65 @@
 {
   "id": "welcher-dieser",
-  "name": "Demonstratives: este, ese, aquel; esto, eso",
+  "name": "Demonstratives: este, esse, aquele; isto, isso, aquilo",
   "level": "A1",
   "status": "geprueft",
-  "variety": "es-ES",
-  "subtitle": "This one, that one, that one over there: este is near you, ese is near the other person, aquel is far from you both. They match the noun: esta casa, esos libros. Esto and eso name something unknown.",
-  "briefMarks": ["este", "ese", "aquel", "esto", "eso"],
-  "source": "icanspeak Spanish original text (grammar-a1 run, 2026-11-04)",
+  "variety": "pt-PT",
+  "ptBR": { "note": "In Brazilian speech esse often replaces este (Esse livro aqui). In Portugal este (near me) and esse (near you) stay apart." },
+  "subtitle": "This one, that one, that one over there: este is near me, esse is near you, aquele is far from us both. They match the noun: esta casa, esses livros. Isto, isso and aquilo name something without a noun. After de and em they join up: deste, nesta, daquele, nisso.",
+  "briefMarks": ["este", "esse", "aquele", "isto", "isso"],
+  "source": "icanspeak Portuguese original text (grammar-a1 run, 2026-11-12)",
   "concept": {
     "comic": {
       "title": "At the market",
       "panels": [
         {
           "caption": "Near me",
-          "tag": "{este} · {esta} · {estos} · {estas}",
-          "left": { "name": "hamsti", "expr": "thinking", "say": "¿Cuánto cuesta {este} melón?" },
-          "right": { "name": "bruno", "expr": "happy", "say": "Dos euros." }
+          "tag": "{este} · {esta} · {estes} · {estas}",
+          "left": { "name": "hamsti", "expr": "thinking", "say": "Quanto custa {este} melão?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "Dois euros." }
         },
         {
           "caption": "Near you",
-          "tag": "{ese} · {esa} · {esos} · {esas}",
-          "left": { "name": "quaki", "expr": "thinking", "say": "¿Y {esas} manzanas?" },
-          "right": { "name": "regi", "expr": "happy", "say": "Tres euros el kilo." }
+          "tag": "{esse} · {essa} · {esses} · {essas}",
+          "left": { "name": "quaki", "expr": "thinking", "say": "E {essas} maçãs?" },
+          "right": { "name": "regi", "expr": "happy", "say": "Três euros o quilo." }
         },
         {
           "caption": "Far from us both",
-          "tag": "{aquel} · {aquella} · {aquellos} · {aquellas}",
-          "left": { "name": "bruno", "expr": "thinking", "say": "¿Ves {aquella} tienda?" },
-          "right": { "name": "hamsti", "expr": "happy", "say": "Sí, es nueva." }
+          "tag": "{aquele} · {aquela} · {aqueles} · {aquelas}",
+          "left": { "name": "bruno", "expr": "thinking", "say": "Vês {aquela} loja?" },
+          "right": { "name": "hamsti", "expr": "happy", "say": "Vejo. É nova." }
         }
       ]
     },
     "flow": [
-      { "text": "este, ese, aquel…", "variant": "prep" },
+      { "text": "este, esse, aquele…", "variant": "prep" },
       { "text": "noun", "variant": "verb" },
-      { "text": "aquí · ahí · allí" }
+      { "text": "aqui · aí · ali" }
     ],
     "qa": [
       {
-        "html": "<strong>este</strong> = near me (<em>aquí</em>). <strong>ese</strong> = near you, or not far (<em>ahí</em>). <strong>aquel</strong> = far from us both (<em>allí</em>).",
+        "html": "<strong>este</strong> = near me (<em>aqui</em>). <strong>esse</strong> = near you (<em>aí</em>). <strong>aquele</strong> = far from us both (<em>ali</em>, <em>lá</em>).",
         "tag": "Near or far"
       },
       {
-        "html": "They match the noun: <em>este piso, esta casa, estos pisos, estas casas</em>. Careful with the masculine: <em>aquel</em> has no <em>-e</em>, and it is not <em>aquello</em>.",
+        "html": "They match the noun: <em>este prédio, esta casa, estes prédios, estas casas</em>. The same for <em>esse, essa, esses, essas</em> and <em>aquele, aquela, aqueles, aquelas</em>.",
         "tag": "Four forms"
       },
       {
-        "html": "They can stand alone: <em>¿Quieres esta camisa o esa?</em> The RAE does not ask for an accent here. Write <em>este, esa</em>.",
-        "tag": "Without a noun"
+        "html": "<strong>isto, isso, aquilo</strong> are for something you do not name or do not know yet. They never change and never go before a noun: <em>O que é isto? Não percebo isso.</em>",
+        "tag": "isto, isso, aquilo"
       },
       {
-        "html": "<strong>esto, eso, aquello</strong> are for something you do not name or do not know yet. They do not change and never go before a noun: <em>¿Qué es esto? No entiendo eso.</em>",
-        "tag": "esto, eso"
+        "html": "After <strong>de</strong> and <strong>em</strong> they always join up: <em>de + este = <strong>deste</strong>, em + esta = <strong>nesta</strong>, de + aquele = <strong>daquele</strong>, em + isso = <strong>nisso</strong></em>. <em>Moro nesta rua. Gosto deste café.</em> Not: <em>em esta rua</em>.",
+        "tag": "Contractions"
       },
       {
-        "html": "To say which one, ask with <strong>¿cuál?</strong> (plural <em>¿cuáles?</em>): <em>¿Cuál quieres? – Este.</em> <strong>esta</strong> (this) has no accent, but <strong>está</strong> (is) does: <em>Esta casa está aquí.</em>",
-        "tag": "¿cuál?"
+        "html": "To ask which one: <strong>qual?</strong> (plural <em>quais?</em>): <em>Qual queres? — Este.</em> <strong>esta</strong> (this) has no accent, <strong>está</strong> (is) has one: <em>Esta casa está vazia.</em>",
+        "tag": "qual?"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>esto libro</em> → ✓ <em>este libro</em>. ✗ <em>este casa</em> → ✓ <em>esta casa</em>. ✗ <em>aquello coche</em> → ✓ <em>aquel coche</em>. ✗ <em>esta aquí</em> for “is here” → ✓ <em>está aquí</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>isto livro</em> → ✓ <em>este livro</em>. ✗ <em>em este apartamento</em> → ✓ <em>neste apartamento</em>. ✗ <em>esta aqui</em> for “is here” → ✓ <em>está aqui</em>. Spanish speakers: <em>estos</em> is <em>estes</em>, <em>ese</em> is <em>esse</em> (double s), <em>aquel</em> is <em>aquele</em>, and <em>esto, eso</em> are <em>isto, isso</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
@@ -67,20 +68,30 @@
           "caption": "All the forms",
           "head": ["", "masc. sing.", "fem. sing.", "masc. pl.", "fem. pl.", "no noun"],
           "rows": [
-            ["near me (aquí)", "este", "esta", "estos", "estas", "esto"],
-            ["near you (ahí)", "ese", "esa", "esos", "esas", "eso"],
-            ["far (allí)", "aquel", "aquella", "aquellos", "aquellas", "aquello"]
+            ["near me (aqui)", "este", "esta", "estes", "estas", "isto"],
+            ["near you (aí)", "esse", "essa", "esses", "essas", "isso"],
+            ["far (ali)", "aquele", "aquela", "aqueles", "aquelas", "aquilo"]
+          ]
+        },
+        {
+          "caption": "With de and em",
+          "head": ["", "de", "em"],
+          "rows": [
+            ["este, esta", "deste, desta", "neste, nesta"],
+            ["esse, essa", "desse, dessa", "nesse, nessa"],
+            ["aquele, aquela", "daquele, daquela", "naquele, naquela"],
+            ["isto, isso, aquilo", "disto, disso, daquilo", "nisto, nisso, naquilo"]
           ]
         },
         {
           "caption": "Examples",
-          "head": ["Spanish", "Meaning"],
+          "head": ["Portuguese", "Meaning"],
           "rows": [
-            ["este bolso", "this bag"],
-            ["esas llaves", "those keys (near you)"],
-            ["aquella casa", "that house over there"],
-            ["¿Qué es esto?", "What is this?"],
-            ["Eso es verdad.", "That is true."]
+            ["este saco", "this bag"],
+            ["essas chaves", "those keys (near you)"],
+            ["aquela casa", "that house over there"],
+            ["O que é isto?", "What is this?"],
+            ["Isso é verdade.", "That is true."]
           ]
         }
       ],
@@ -90,7 +101,7 @@
           "variant": "dat",
           "items": [
             "esta casa = this house.",
-            "La casa está aquí. = The house is here."
+            "A casa está aqui. = The house is here."
           ]
         }
       ]
@@ -98,32 +109,32 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Quiero este, por favor.", "note": "Near me: este." },
-      { "text": "¿Cuánto cuestan esas manzanas?", "note": "Near you, plural: esas." },
-      { "text": "Aquel edificio es el hospital.", "note": "Far: aquel." },
-      { "text": "¿Qué es esto?", "note": "Something you do not know: esto." }
+      { "text": "Quero este, por favor.", "note": "Near me: este." },
+      { "text": "Quanto custam essas maçãs?", "note": "Near you, plural: essas." },
+      { "text": "Aquele prédio é o hospital.", "note": "Far: aquele." },
+      { "text": "O que é isto?", "note": "Something you do not know: isto." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Esta casa es grande.", "choices": ["Esta casa es grande.", "Esa casa es grande.", "Estas casas son grandes."], "correct": 0 },
-        { "text": "¿Qué es eso?", "choices": ["¿Qué es esto?", "¿Qué es eso?", "¿Quién es ese?"], "correct": 1 },
-        { "text": "Aquellos niños son mis hijos.", "choices": ["Estos niños son mis hijos.", "Esos niños son mis hijos.", "Aquellos niños son mis hijos."], "correct": 2 },
-        { "text": "¿Cuál quieres, este o ese?", "choices": ["¿Cuál quieres, este o ese?", "¿Cuál quieres, esta o esa?", "¿Quieres este o aquel?"], "correct": 0 }
+        { "text": "Esta casa é grande.", "choices": ["Esta casa é grande.", "Essa casa é grande.", "Estas casas são grandes."], "correct": 0 },
+        { "text": "O que é isso?", "choices": ["O que é isto?", "O que é isso?", "Quem é esse?"], "correct": 1 },
+        { "text": "Aquelas crianças são os meus filhos.", "choices": ["Estas crianças são os meus filhos.", "Essas crianças são os meus filhos.", "Aquelas crianças são os meus filhos."], "correct": 2 },
+        { "text": "Qual queres, este ou esse?", "choices": ["Qual queres, este ou esse?", "Qual queres, esta ou essa?", "Queres este ou aquele?"], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
           "label": "1 · Point at it",
-          "instruction": "You hear a noun with el or la. Say it with este or esta.",
-          "example": { "prompt": "el libro", "answer": "este libro" },
+          "instruction": "You hear a noun with o, a, os or as. Say it with este, esta, estes or estas.",
+          "example": { "prompt": "o livro", "answer": "este livro" },
           "items": [
-            { "prompt": "la silla", "answer": "esta silla" },
-            { "prompt": "los zapatos", "answer": "estos zapatos" },
-            { "prompt": "las llaves", "answer": "estas llaves" },
-            { "prompt": "el bolso", "answer": "este bolso" },
-            { "prompt": "la camisa", "answer": "esta camisa" }
+            { "prompt": "a cadeira", "answer": "esta cadeira" },
+            { "prompt": "os sapatos", "answer": "estes sapatos" },
+            { "prompt": "as chaves", "answer": "estas chaves" },
+            { "prompt": "o casaco", "answer": "este casaco" },
+            { "prompt": "a camisa", "answer": "esta camisa" }
           ]
         }
       ]
@@ -132,43 +143,45 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "este, esta, estos or estas?",
-      "hint": "Match the noun: masculine or feminine, one or more.",
+      "title": "este, esta, estes or estas?",
+      "hint": "Match the noun: masculine or feminine, one or more. After em and de: nesta, deste.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "___ piso es muy caro.", "answer": "Este", "choices": ["Este", "Esta", "Esto"] },
-        { "prompt": "¿Quién es ___ mujer?", "answer": "esta", "choices": ["este", "esta", "estas"] },
-        { "prompt": "___ zapatos son nuevos.", "answer": "Estos", "choices": ["Estas", "Estos", "Este"] },
-        { "prompt": "Me gustan ___ fotos.", "answer": "estas", "choices": ["estos", "estas", "esta"] },
-        { "prompt": "___ semana trabajo mucho.", "answer": "Esta", "choices": ["Este", "Esta", "Está"] },
-        { "prompt": "___ problema es difícil.", "answer": "Este", "choices": ["Este", "Esta", "Esto"] }
+        { "prompt": "___ apartamento é muito caro.", "answer": "Este", "choices": ["Este", "Esta", "Isto"] },
+        { "prompt": "Quem é ___ senhora?", "answer": "esta", "choices": ["este", "esta", "estas"] },
+        { "prompt": "___ sapatos são novos.", "answer": "Estes", "choices": ["Estas", "Estes", "Este"] },
+        { "prompt": "___ fotos são bonitas.", "answer": "Estas", "choices": ["Estes", "Estas", "Esta"] },
+        { "prompt": "___ semana trabalho muito.", "answer": "Esta", "choices": ["Este", "Esta", "Está"] },
+        { "prompt": "___ problema é difícil.", "answer": "Este", "choices": ["Este", "Esta", "Isto"] },
+        { "prompt": "Moro ___ rua.", "hint": "em + esta", "answer": "nesta", "choices": ["nesta", "esta", "desta"] },
+        { "prompt": "Gosto muito ___ café.", "hint": "de + este", "answer": "deste", "choices": ["deste", "este", "neste"] }
       ]
     },
     {
       "type": "fill",
       "title": "Near or far?",
-      "hint": "aquí: este. ahí: ese. allí: aquel.",
+      "hint": "aqui: este. aí: esse. ali: aquele.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "___ libro de aquí es de Ana.", "answer": "Este", "choices": ["Este", "Ese", "Aquel"] },
-        { "prompt": "¿De quién es ___ bolso que tienes ahí?", "answer": "ese", "choices": ["este", "ese", "aquel"] },
-        { "prompt": "___ casa de allí es muy vieja.", "answer": "Aquella", "choices": ["Esta", "Aquella"] },
-        { "prompt": "¿Cuánto cuestan ___ manzanas de ahí?", "answer": "esas", "choices": ["estas", "esas", "aquellas"] },
-        { "prompt": "Mira ___ edificios de allí.", "answer": "aquellos", "choices": ["estos", "aquellos"] }
+        { "prompt": "___ livro aqui é da Ana.", "answer": "Este", "choices": ["Este", "Esse", "Aquele"] },
+        { "prompt": "De quem é ___ saco que tens aí?", "answer": "esse", "choices": ["este", "esse", "aquele"] },
+        { "prompt": "___ casa ali é muito velha.", "answer": "Aquela", "choices": ["Esta", "Aquela"] },
+        { "prompt": "Quanto custam ___ maçãs aí?", "answer": "essas", "choices": ["estas", "essas", "aquelas"] },
+        { "prompt": "Olha para ___ prédios ali.", "answer": "aqueles", "choices": ["estes", "aqueles"] }
       ]
     },
     {
       "type": "table",
-      "title": "este or esto? ese or eso?",
-      "hint": "Before a noun: este, esta, ese, esa. With no noun, for something unknown: esto, eso.",
+      "title": "este or isto? esse or isso?",
+      "hint": "Before a noun: este, esta, esse, essa. With no noun, for something unknown: isto, isso.",
       "columns": ["Sentence", "Word"],
       "placeholder": "Word",
       "rows": [
-        { "term": "¿Qué es ___?", "answer": "esto", "choices": ["este", "esto"] },
-        { "term": "___ coche es de Iker.", "answer": "Ese", "choices": ["Ese", "Eso"], "es419": { "note": "In much of Latin America: carro or auto." } },
-        { "term": "___ es verdad.", "answer": "Eso", "choices": ["Ese", "Eso"] },
-        { "term": "¿Te gusta ___ pantalón?", "answer": "este", "choices": ["este", "esto"] },
-        { "term": "___ no es verdad.", "answer": "Esto", "choices": ["Este", "Esto"] }
+        { "term": "O que é ___?", "answer": "isto", "choices": ["este", "isto"] },
+        { "term": "___ carro é do Rui.", "answer": "Esse", "choices": ["Esse", "Isso"] },
+        { "term": "___ é verdade.", "answer": "Isso", "choices": ["Esse", "Isso"] },
+        { "term": "Gostas ___ casaco?", "answer": "deste", "choices": ["deste", "disto"] },
+        { "term": "___ não é verdade.", "answer": "Isto", "choices": ["Este", "Isto"] }
       ]
     },
     {
@@ -176,12 +189,12 @@
       "title": "Singular and plural.",
       "hint": "The demonstrative changes with the noun.",
       "pairs": [
-        { "q": "este libro", "a": "estos libros" },
-        { "q": "esa silla", "a": "esas sillas" },
-        { "q": "aquel edificio", "a": "aquellos edificios" },
+        { "q": "este livro", "a": "estes livros" },
+        { "q": "essa cadeira", "a": "essas cadeiras" },
+        { "q": "aquele prédio", "a": "aqueles prédios" },
         { "q": "esta mesa", "a": "estas mesas" },
-        { "q": "ese vaso", "a": "esos vasos" },
-        { "q": "aquella casa", "a": "aquellas casas" }
+        { "q": "esse copo", "a": "esses copos" },
+        { "q": "aquela casa", "a": "aquelas casas" }
       ]
     },
     {
@@ -190,30 +203,30 @@
       "hint": "esta + noun means this. está is the verb estar.",
       "placeholder": "esta / está",
       "items": [
-        { "prompt": "___ casa es grande.", "answer": "Esta", "choices": ["Esta", "Está"] },
-        { "prompt": "El médico no ___ aquí.", "answer": "está", "choices": ["esta", "está"] },
-        { "prompt": "Vivo en ___ calle.", "answer": "esta", "choices": ["esta", "está"] },
-        { "prompt": "¿Dónde ___ la llave?", "answer": "está", "choices": ["esta", "está"] },
-        { "prompt": "___ tarde no trabajo.", "answer": "Esta", "choices": ["Esta", "Está"] }
+        { "prompt": "___ casa é grande.", "answer": "Esta", "choices": ["Esta", "Está"] },
+        { "prompt": "O médico não ___ aqui.", "answer": "está", "choices": ["esta", "está"] },
+        { "prompt": "___ rua é muito calma.", "answer": "Esta", "choices": ["Esta", "Está"] },
+        { "prompt": "Onde ___ a chave?", "answer": "está", "choices": ["esta", "está"] },
+        { "prompt": "___ tarde não trabalho.", "answer": "Esta", "choices": ["Esta", "Está"] }
       ]
     },
     {
       "type": "story",
       "title": "Fill the gaps: In the clothes shop.",
       "hint": "Near me, near you or far? Match the noun.",
-      "choices": ["este", "esta", "esas", "ese", "aquella", "esto"],
+      "choices": ["este", "esta", "essas", "esse", "aquele", "isto"],
       "segments": [
-        { "text": "—Buenos días. ¿Cuánto cuesta " },
+        { "text": "— Bom dia. Quanto custa " },
         { "blank": 0, "answer": "esta" },
-        { "text": " camisa que tengo aquí? —Veinte euros. —¿Y " },
-        { "blank": 1, "answer": "esas" },
-        { "text": " camisetas que tiene usted ahí? —Diez euros. —¿Y " },
-        { "blank": 2, "answer": "aquella" },
-        { "text": " chaqueta de allí? —Cuarenta euros. —Bien, me llevo " },
+        { "text": " camisa que tenho aqui? — Vinte euros. — E " },
+        { "blank": 1, "answer": "essas" },
+        { "text": " t-shirts que tem aí? — Dez euros. — E " },
+        { "blank": 2, "answer": "aquele" },
+        { "text": " casaco ali? — Quarenta euros. — Bem, levo " },
         { "blank": 3, "answer": "esta" },
-        { "text": " camisa. ¿Y qué es " },
-        { "blank": 4, "answer": "esto" },
-        { "text": "? —Un regalo de la tienda." }
+        { "text": " camisa. E o que é " },
+        { "blank": 4, "answer": "isto" },
+        { "text": "? — É uma oferta da loja." }
       ]
     },
     {
@@ -221,9 +234,9 @@
       "title": "Build the sentences.",
       "hint": "The demonstrative comes before the noun.",
       "sentences": [
-        { "id": "de1", "hint": "This flat is expensive", "correct": ["Este", "piso", "es", "caro", "."], "shuffled": ["caro", "piso", ".", "Este", "es"] },
-        { "id": "de2", "hint": "Ask: what is that?", "correct": ["¿Qué", "es", "eso", "?"], "shuffled": ["eso", "?", "es", "¿Qué"] },
-        { "id": "de3", "hint": "These shoes are new", "correct": ["Estos", "zapatos", "son", "nuevos", "."], "shuffled": ["nuevos", ".", "zapatos", "Estos", "son"] }
+        { "id": "de1", "hint": "This flat is expensive", "correct": ["Este", "apartamento", "é", "caro", "."], "shuffled": ["caro", "apartamento", ".", "Este", "é"] },
+        { "id": "de2", "hint": "Ask: what is that?", "correct": ["O", "que", "é", "isso", "?"], "shuffled": ["isso", "?", "é", "O", "que"] },
+        { "id": "de3", "hint": "These shoes are new", "correct": ["Estes", "sapatos", "são", "novos", "."], "shuffled": ["novos", ".", "sapatos", "Estes", "são"] }
       ]
     }
   ]

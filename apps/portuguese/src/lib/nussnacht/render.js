@@ -10,12 +10,12 @@ import { mascotImage, ready } from "../mascotImage.js";
 import { orbitPos } from "./sim.js";
 
 export const VIEW = 520; // world units across the screen's shorter side
-const ARTS = ["el", "la", "los", "las"];
+const ARTS = ["o", "a", "os", "as"];
 // The blob hues: from the word, never from its article (that would give the answer away).
 const HUES = ["#f6c177", "#9ccfd8", "#c4a7e7", "#f2a7b8", "#a6da95", "#f5bde6"];
 
-/** Article colours: the site's tokens (--info el, --danger la), lifted toward white so they read
- *  on the night garden. los and las are paler shades of the same two, so a gender keeps its colour
+/** Article colours: the site's tokens (--info o, --danger a), lifted toward white so they read
+ *  on the night garden. os and as are paler shades of the same two, so a gender keeps its colour
  *  in the plural. */
 export function articleColours(el) {
   const cs = getComputedStyle(el);

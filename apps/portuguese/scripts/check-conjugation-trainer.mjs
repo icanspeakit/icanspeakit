@@ -3,17 +3,18 @@
 //   node scripts/check-conjugation-trainer.mjs
 //
 // 1. Sets: shape, unique ids, exactly one blank, one right option, the answer among the options,
-//    English explanations, inverted marks in Spanish questions.
+//    English explanations, no inverted marks.
 // 2. Drills: every verb in exactly one drill group or on notDrilled; presets and limits name real
 //    verbs, groups and tenses; every topic link points at a real topic and a real drill or set.
 // 3. Generated questions, every form of every drilled verb: the right form is among the options
 //    exactly once, 3–4 distinct options, no dash, no wrong option that is also right (-se forms),
-//    the answer passes judge() and a wrong option doesn't. A vosotros-free pool has no vosotros.
+//    the answer passes judge() and a wrong option doesn't. A vós-free pool has no vós row.
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createTrainer, judge, LEVELS } from "../src/lib/conjugationTrainer.js";
 import { DASH, VOSOTROS } from "../src/lib/verbtabellenCore.js";
+import { isStandardVariety } from "../src/lib/variety.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (f) => JSON.parse(readFileSync(path.join(ROOT, f), "utf8"));
@@ -30,7 +31,7 @@ for (const set of data.sets) {
   for (const k of ["title", "lead"]) if (!set[k]) err(`${set.id}: needs ${k}`);
   if (!set.rule?.text) err(`${set.id}: needs rule.text`);
   if (!LEVELS.includes(set.level)) err(`${set.id}: level ${set.level}`);
-  if (set.variety !== "es-ES") err(`${set.id}: variety must be es-ES`);
+  if (!isStandardVariety(set.variety)) err(`${set.id}: variety must be pt-PT`);
   if (!["choice", "form"].includes(set.kind)) err(`${set.id}: kind ${set.kind}`);
   if (set.items.length < 8) err(`${set.id}: only ${set.items.length} items`);
   const prompts = new Set();
@@ -42,10 +43,8 @@ for (const set of data.sets) {
     prompts.add(it.prompt);
     if ((it.prompt.match(/___/g) ?? []).length !== 1) err(`${at}: needs exactly one ___`);
     if (!it.explain || it.explain.length < 8) err(`${at}: needs explain`);
-    // ¿ ¡ open what ? ! close (a sentence may hold both kinds, so count them).
-    for (const [open, close] of [["¿", "?"], ["¡", "!"]]) {
-      if (it.prompt.split(open).length !== it.prompt.split(close).length) err(`${at}: ${open} and ${close} don't pair`);
-    }
+    // Portuguese has no inverted marks: a stray ¿ or ¡ is a leftover from the Spanish course.
+    if (/[¿¡]/.test(it.prompt)) err(`${at}: inverted punctuation in a Portuguese sentence`);
     if (set.kind === "choice") {
       if (!Array.isArray(it.options) || it.options.length < 2) err(`${at}: needs options`);
       else {
@@ -125,7 +124,7 @@ for (const stub of pool) {
   }
   if (!judge(q, q.answer).ok) err(`${at}: its own answer fails the check`);
   if (!q.prompt.includes("___")) err(`${at}: no blank in the prompt`);
-  if (q.negative && !q.change.includes(" no ")) err(`${at}: a negative command without no`);
+  if (q.negative && !q.change.includes(" não ")) err(`${at}: a negative command without não`);
   if (/undefined|null/.test(q.explain + q.prompt + q.change)) err(`${at}: undefined text`);
 }
 if (trainer.poolFor({ vosotros: false }).some((s) => s.person === VOSOTROS)) err("a pool without vosotros still has vosotros forms");
@@ -140,17 +139,20 @@ for (const set of data.sets) {
 // The accent rule itself, on forms that differ by nothing else (content-plan §1.2).
 const ask = (verb, tense, person) => trainer.question({ id: "x", verb, tense, person });
 const cases = [
-  [ask("hablar", "praet", 2), "hablo", "accent"],
-  [ask("saber", "praes", 0), "se", "accent"],
-  [ask("hablar", "praes", 4), "hablais", "accent"],
-  [ask("levantarse", "praes", 0), "levanto", "pronoun"],
-  [ask("tener", "praet", 0), "tení", "wrong"],
+  [ask("falar", "praet", 3), "falamos", "accent"],
+  [ask("falar", "praes", 3), "falámos", "accent"],
+  [ask("poder", "praet", 2), "pode", "wrong"],
+  [ask("estar", "praes", 2), "esta", "accent"],
+  [ask("levantar-se", "praes", 0), "levanto", "pronoun"],
+  [ask("levantar-se", "fut", 0), "levantarei", "pronoun"],
+  [ask("levantar-se", "praes", 3), "levantamos", "pronoun"],
+  [ask("ter", "praet", 0), "ti", "wrong"],
 ];
 for (const [q, typed, why] of cases) {
   const got = judge(q, typed);
   if (got.ok || got.why !== why) err(`judge: "${typed}" for ${q.change} gives ${JSON.stringify(got)}, wanted ${why}`);
 }
-for (const [q, typed] of [[ask("tener", "subjImpf", 0), "tuviese"], [ask("hablar", "impNeg", 1), "no hables"], [ask("hablar", "impNeg", 1), "hables"], [ask("tener", "praes", 0), "  Tengo "]]) {
+for (const [q, typed] of [[ask("falar", "impNeg", 1), "não fales"], [ask("falar", "impNeg", 1), "fales"], [ask("ter", "praes", 0), "  Tenho "], [ask("levantar-se", "impNeg", 1), "te levantes"]]) {
   if (!judge(q, typed).ok) err(`judge: "${typed}" for ${q.change} should pass`);
 }
 

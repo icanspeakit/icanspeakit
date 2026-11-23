@@ -32,7 +32,7 @@ const decode = (s) => s
 const text = (html) => decode(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 
 const xml = readFileSync(`${DIST}/sitemap.xml`, "utf8");
-const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/spanish(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
+const paths = [...new Set([...xml.matchAll(/<loc>https?:\/\/[^/<]+([^<]*)<\/loc>/g)].map((m) => m[1].replace(/^\/portugues(?=\/|$)/, "").replace(/\/$/, "") || "/"))];
 
 // What the search already finds from its own sources: the index minus this file's entries.
 const ix = JSON.parse(readFileSync(`${DIST}/suche.json`, "utf8"));
@@ -51,7 +51,7 @@ for (const p of todo) {
       if (!existsSync(file)) { failed.push(`${p} not in dist`); continue; }
       const html = readFileSync(file, "utf8");
       if (/<meta name="robots" content="noindex/i.test(html)) continue;
-      const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+icanspeak Spanish$/, "");
+      const title = text(/<title>([\s\S]*?)<\/title>/i.exec(html)?.[1] ?? "").replace(/\s+[–|-]\s+icanspeak Portuguese$/, "");
       const desc = decode(/<meta name="description" content="([^"]*)"/i.exec(html)?.[1] ?? "");
       const main = /<main[\s\S]*?<\/main>/i.exec(html)?.[0] ?? html;
       const heads = [...main.matchAll(/<h[1-3][^>]*>([\s\S]*?)<\/h[1-3]>/gi)].map((m) => text(m[1])).filter(Boolean);

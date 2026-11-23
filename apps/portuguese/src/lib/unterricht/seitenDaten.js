@@ -50,10 +50,11 @@ export function unterrichtDaten() {
   const wortfelder = Object.fromEntries(Object.entries(wortfelderRoh).filter(([, f]) => f?.woerter).map(([feld, f]) => [feld, {
     aufgabe: f.aufgabe,
     woerter: f.woerter.map((t) => {
-      // "la carta": a noun written with its article. The article is split off only when the rest
-      // is an A1 word, so phrases like "una botella de agua" or "la semana pasada" stay whole.
-      const [, artikel, wort] = /^(el|la|los|las) (\S.*)$/.exec(t) ?? [, null, t];
-      const w = lexikon.get(t) ?? lexikon.get(wort);
+      // "a carta": a noun written with its article. The article is split off only when the rest
+      // is an A1 word, so phrases like "uma garrafa de água" or "a semana passada" stay whole.
+      // A plural article ("os pais") keeps the text as written: the lexicon entry is singular.
+      const [, artikel, wort] = /^(o|a|os|as) (\S.*)$/.exec(t) ?? [, null, t];
+      const w = lexikon.get(t) ?? (artikel === "o" || artikel === "a" ? lexikon.get(wort) : undefined);
       return w
         ? { text: w.lemma, artikel: w.gender ?? artikel, plural: w.plural ?? null, beispiel: w.example ?? null }
         : { text: t, artikel: null };

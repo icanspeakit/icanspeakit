@@ -7,6 +7,23 @@
 // appState.js mirrors da_* keys in the Android app, and a later account sync hooks in there.
 // Every access is wrapped: blocked storage must never stop the game.
 
+// The words of a Niveau (A1, A2, B1; B1 takes B2 too). A Niveau with fewer than MIN_POOL words of
+// its own is topped up from the Niveau below, so a round always has enough different pictures
+// (the Portuguese lexicon has few picturable nouns above A1 so far). The top-up is the last
+// words of the level below in list order: fixed, so the daily round stays the same for everyone.
+// The page counts with the same function.
+const NIVEAUS = ["A1", "A2", "B1"];
+export const MIN_POOL = 24;
+export function wordsForLevel(all, level) {
+  const own = (lv) => all.filter((w) => (lv === "B1" ? w.lv === "B1" || w.lv === "B2" : w.lv === lv));
+  let pool = own(level);
+  for (let i = NIVEAUS.indexOf(level) - 1; pool.length < MIN_POOL && i >= 0; i--) {
+    const below = own(NIVEAUS[i]);
+    pool = pool.concat(below.slice(Math.max(0, below.length - (MIN_POOL - pool.length))));
+  }
+  return pool;
+}
+
 /**
  * speed: bird speed factor · birds: how many fly at once · dives: seconds between divers
  * (0 = none) · divers: at most at once · dive: how fast a diver comes (× the Niveau's time)
