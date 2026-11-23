@@ -19,7 +19,7 @@ const mods = import.meta.glob("../../data/grammatik/*.json", { eager: true });
     of their own (nachschlagen.js). */
 export const sheetTopics = [...Object.values(mods).map((m) => m.default ?? m), ...refTopics]
   .filter((t) => (t.exercises ?? []).some((ex) => !ex.paid))
-  .sort((a, b) => a.level.localeCompare(b.level) || a.name.localeCompare(b.name, "es"));
+  .sort((a, b) => a.level.localeCompare(b.level) || a.name.localeCompare(b.name, "pt"));
 /** The ones the worksheet index offers: reviewed only (topicStatus.js). */
 export const grammarTopics = sheetTopics.filter(isReviewed);
 

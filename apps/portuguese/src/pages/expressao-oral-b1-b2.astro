@@ -1,5 +1,5 @@
 ---
-// Speaking exams B1/B2 — the three-stage shape, in the style of DELE and SIELE speaking tasks (Bildbeschreibung → Kurzvortrag →
+// Speaking exams B1/B2 — the three-stage shape, in the style of the oral parts of the CAPLE exams (Bildbeschreibung → Kurzvortrag →
 // Diskussion), each stage with its own timer. The existing /expressao-oral covers the
 // DTZ shape instead (description + personal follow-ups, 90 s each), so the two don't overlap.
 import Layout from "../layouts/Layout.astro";
@@ -8,7 +8,7 @@ import "../styles/practice.css";
 import data from "../data/sprechen-b1b2.json";
 ---
 <Layout
-  title="Speaking B1/B2: the long turn – icanspeak Spanish"
+  title="Speaking B1/B2: the long turn – icanspeak Portuguese"
   description="Practise a B1/B2 speaking exam: describing a picture, a long turn and a discussion — each stage with its own timer."
 >
   <SiteNav active="fertigkeiten" />
@@ -52,13 +52,13 @@ import data from "../data/sprechen-b1b2.json";
 
     function stageBody(p, s) {
       if (s.key === "beschreibung") {
-        return `<ul lang="es">${p.beschreibung.map((q) => `<li>${q}</li>`).join("")}</ul>`;
+        return `<ul lang="pt-PT">${p.beschreibung.map((q) => `<li>${q}</li>`).join("")}</ul>`;
       }
       if (s.key === "kurzvortrag") {
-        return `<p class="prompt-topic"><strong>${t("sprechenB1B2.topic", "Topic:")}</strong> <span lang="es">${p.kurzvortrag.topic}</span></p>
-                <ul lang="es">${p.kurzvortrag.points.map((q) => `<li>${q}</li>`).join("")}</ul>`;
+        return `<p class="prompt-topic"><strong>${t("sprechenB1B2.topic", "Topic:")}</strong> <span lang="pt-PT">${p.kurzvortrag.topic}</span></p>
+                <ul lang="pt-PT">${p.kurzvortrag.points.map((q) => `<li>${q}</li>`).join("")}</ul>`;
       }
-      return `<p class="prompt-topic" lang="es">${p.diskussion}</p>`;
+      return `<p class="prompt-topic" lang="pt-PT">${p.diskussion}</p>`;
     }
 
     function render() {

@@ -126,10 +126,10 @@ export function select(opts = {}) {
   return opts.limit ? rows.slice(0, opts.limit) : rows;
 }
 
-/** The levels in Spanish (docs/content-plan.md §1.4): their nouns carry el / la. All six since
- *  `vocab-c1-c2`. */
-export const SPANISH_LEVELS = new Set(
-  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["el", "la", "el/la"].includes(e.gender)))
+/** The levels in Portuguese (docs/content-plan.md §1.4): their nouns carry o / a / o/a. All six
+ *  since `vocab-c1-c2`; `cleanup` removed the Spanish counterpart (SPANISH_LEVELS). */
+export const PORTUGUESE_LEVELS = new Set(
+  LEVELS.filter((level) => ENTRIES.some((e) => e.level === level && ["o", "a", "o/a"].includes(e.gender)))
 );
 
 export const all = () => ENTRIES;
@@ -199,13 +199,13 @@ export const CARD_LANGS = [...TRANSLATION_LANGS, "de"];
  *  the page asks for is not the slug the file was written under. */
 export const spokenForm = (e) => {
   if (e.pos !== "noun" || !e.gender) return e.lemma;
-  if (e.pluralOnly && ["el", "la"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
-  // el/la estudiante: the voice says one article, the masculine, as a dictionary lists it.
-  return `${e.gender === "el/la" ? "el" : e.gender} ${e.lemma}`;
+  if (e.pluralOnly && ["o", "a"].includes(e.gender)) return `${pluralArticle(e)} ${e.plural ?? e.lemma}`;
+  // o/a estudante: the voice says one article, the masculine, as a dictionary lists it.
+  return `${e.gender === "o/a" ? "o" : e.gender} ${e.lemma}`;
 };
 
-/** los or las for a Spanish noun: from the article, except that el agua is feminine (las aguas). */
-export const pluralArticle = (e) => (e.genus === "f" || e.gender === "la" ? "las" : "los");
+/** os / as for a noun, from its article. o/a nouns take the masculine plural, as a list does. */
+export const pluralArticle = (e) => (e.gender === "a" ? "as" : "os");
 
 /** Shape of src/data/wortschatz.json: `{ front, note, translations }`. */
 const toCard = (e) => {
@@ -246,12 +246,12 @@ const toCard = (e) => {
     // plural article, which is what a dictionary prints: "die Eltern".
     ...(e.pos === "noun"
       ? {
-          // los padres, las gafas: a plural-only noun shows its plural article, not el / la.
-          gender: e.pluralOnly && ["el", "la"].includes(e.gender) ? pluralArticle(e) : e.gender ?? (e.pluralOnly ? "die" : null),
+          // os óculos, as férias: a plural-only noun shows its plural article, not o / a.
+          gender: e.pluralOnly && ["o", "a"].includes(e.gender) ? pluralArticle(e) : e.gender ?? null,
           plural: e.plural ?? null,
           pluralOnly: !!e.pluralOnly,
-          // las aguas, not los aguas: the card's article alone can't tell (el agua is feminine).
-          ...(["el", "la", "el/la"].includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
+          // as casas, os pães.
+          ...(["o", "a", "o/a"].includes(e.gender) ? { pluralArt: pluralArticle(e) } : {}),
         }
       : {}),
     // Only the words that actually have a file. A deck is partly voiced for as long as

@@ -1,226 +1,276 @@
 {
-  "_note": "The Spanish pronunciation rules in the right-hand column of /pronuncia (AusspracheRegeln.astro), in teaching order. `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the stressed syllable, shown in bold. Castilian Spanish with distinción is the standard; what Latin America does differently is in `es419`, and regional sounds a learner in Spain will hear (seseo, ceceo, a weak final s) are named in the rule text. Rule ids are the old slot ids (content-plan §1.3) plus ll-y and enye. Not yet reviewed by a teacher.",
+  "_note": "The European Portuguese pronunciation rules in the right-hand column of /pronuncia (AusspracheRegeln.astro), in teaching order. `match` is a regular expression tested on the lower-case word without an article: if it matches, the rule is listed under “For this word”. A rule without `match` is general and is never highlighted. `mark` (optional) is the stressed syllable, shown in bold. Standard Portuguese of Portugal (Lisbon); what Brazil does differently is in `ptBR`. Rule ids are the old slot ids (content-plan §1.3) plus aberta-fechada, nasal, ao and x. Phonetic descriptions are simplified for learners; sound values to verify against a pronunciation dictionary (Infopédia, Priberam). Not yet reviewed by a teacher.",
   "reviewed": false,
   "rules": [
     {
       "id": "lang-kurz",
-      "variety": "es-ES",
-      "title": "The five vowels",
-      "text": "Spanish has five vowels: a, e, i, o, u. Each one always sounds the same: short and clear, stressed or not. Don't let a vowel glide (no is not “noh-oo”) and don't make it weak: mañana has three full a's.",
+      "variety": "pt-PT",
+      "ptBR": { "note": "In Brazil unstressed vowels are fuller: pequeno is “pekeno”, and t and d before i are said ch and j: tia, dia." },
+      "title": "Weak vowels: the unstressed e nearly disappears",
+      "text": "This is the biggest difference from Spanish or Italian. In Portugal, vowels that are not stressed become weak and short. An unstressed e is a very short, closed sound (like the e in “roses”) or is not said at all: pequeno sounds like “p'keno”, telefone like “t'lefon'”. A final e is hardly heard: leite, noite. An unstressed a is a short, relaxed “uh” (casa), and a final unstressed o sounds like u (livro is “livru”). Listeners understand you if you say full vowels, but you will sound foreign, and you will not understand fast speech until you know that the consonants carry the word.",
       "examples": [
-        { "w": "casa", "note": "a as in “father”, but short" },
-        { "w": "mesa", "note": "e as in “met”" },
-        { "w": "vino", "note": "i as in “machine”, but short" },
-        { "w": "poco", "note": "o as in “hot”, with round lips" },
-        { "w": "uno", "note": "u as in “put”" },
-        { "w": "mañana", "note": "three clear a's" }
-      ]
+        { "w": "pequeno", "mark": "que", "note": "p'keno: the first e almost disappears" },
+        { "w": "telefone", "mark": "fo", "note": "t'lefon': first and last e are weak" },
+        { "w": "leite", "mark": "lei", "note": "final e hardly heard" },
+        { "w": "estudar", "mark": "dar", "note": "'studar: the first e is nearly lost" },
+        { "w": "semana", "mark": "ma", "note": "s'mana" }
+      ],
+      "match": "e$|^e|[^aeiou]e[^aeiouáéíóúâêôãõ]"
+    },
+    {
+      "id": "aberta-fechada",
+      "variety": "pt-PT",
+      "title": "Open and closed vowels: é, ê, ó, ô",
+      "text": "Stressed e and o can be open or closed. The accent tells you: é and ó are open (mouth wide, like the vowels of “bed” and “not”), ê and ô are closed (lips rounder, like the vowels of French “fée” and “beau”). A single wrong vowel can change the word: avó is grandmother, avô is grandfather; pode (he can) is not pôde (he could). Without an accent the vowel has to be learned with the word, but a few patterns help: the plural of some words opens the vowel (o ovo, os ovos; o olho, os olhos), and e or o before m or n (nasal) are closed (tema, homem).",
+      "examples": [
+        { "w": "avó", "mark": "vó", "note": "open o: grandmother" },
+        { "w": "avô", "mark": "vô", "note": "closed o: grandfather" },
+        { "w": "café", "mark": "fé", "note": "open e" },
+        { "w": "você", "mark": "cê", "note": "closed e" },
+        { "w": "ovos", "mark": "ovos", "note": "open o in the plural; ovo has a closed o" }
+      ],
+      "match": "[éêóô]"
+    },
+    {
+      "id": "nasal",
+      "variety": "pt-PT",
+      "title": "Nasal vowels",
+      "text": "A vowel before m or n at the end of a syllable (and a vowel with a tilde) is nasal: air goes through your nose and the m or n is not a separate sound. Compare “bom” with English “bone”: the vowel is nasal and you do not finish with a clear n. Nasal vowels also exist in French (bon, vin), so they are not new to French speakers, but the Portuguese ones are different: Portuguese em is closer to “ãy”, and a nasal a is a weak “ã”. Before a vowel there is no nasalisation: ano and cama have a clear n or m, because the n or m begins the next syllable.",
+      "examples": [
+        { "w": "bom", "note": "nasal o, no clear m" },
+        { "w": "bem", "note": "like “bãy”" },
+        { "w": "um", "note": "nasal u" },
+        { "w": "mundo", "note": "nasal u + n" },
+        { "w": "tampa", "note": "nasal a" },
+        { "w": "muito", "note": "even without n or m: the ui is nasal" }
+      ],
+      "match": "ã|õ|[aeiou][nm]($|[^aeiouáéíóúâêôãõ])"
+    },
+    {
+      "id": "ao",
+      "variety": "pt-PT",
+      "title": "ão, ãe, õe: nasal diphthongs",
+      "text": "Three endings are very frequent and a nasal glide: ão (pão, são, coração), ãe (mãe, cães) and õe (põe, limões). Start with the nasal vowel and let it glide on to a short w (ão) or y (ãe, õe). You do not say a clear n at the end. Think “pãw”, “mãy”, “põy”. The plural of -ão words is usually -ões (um limão, dois limões), and the ending of many words in -ção is the same sound: informação, estação.",
+      "examples": [
+        { "w": "pão", "note": "like “pãw”, bread" },
+        { "w": "mãe", "note": "like “mãy”, mother" },
+        { "w": "põe", "note": "like “põy”, he puts" },
+        { "w": "limões", "note": "plural of limão" },
+        { "w": "informação", "note": "-ção ending: sound of ão" }
+      ],
+      "match": "ão|ãe|õe"
     },
     {
       "id": "ei-ie",
-      "variety": "es-ES",
-      "title": "Two vowels together",
-      "text": "When i or u stands next to a, e or o, the two vowels normally join in one syllable (a diphthong): bien, puerta, aire. Say both, quickly. A written accent on the i or u splits them into two syllables: día is dí-a, país is pa-ís.",
+      "variety": "pt-PT",
+      "title": "Two vowels together: diphthongs",
+      "text": "When i or u stands next to another vowel, the two normally form one syllable (a diphthong): pai, leite, pouco, muito, eu. The second vowel is short. In Portugal, ei is a short “ɐy” (like “ay” with a relaxed start) and ou is just o: pouco is “poco”. A written accent on the i or u splits the two vowels into separate syllables: país is pa-ís, saída is sa-í-da. Many Portuguese words have two vowels together that are not a diphthong, such as ia in dia and ea in área: here the vowels are two syllables or a very quick glide.",
       "examples": [
-        { "w": "bien", "note": "one syllable" },
-        { "w": "puerta", "note": "puer-ta" },
-        { "w": "aire", "note": "ai-re" },
-        { "w": "día", "note": "two syllables: dí-a" },
-        { "w": "país", "note": "two syllables: pa-ís" }
+        { "w": "pai", "note": "one syllable" },
+        { "w": "leite", "note": "ei: short “ɐy”" },
+        { "w": "pouco", "note": "ou sounds like o" },
+        { "w": "eu", "note": "one syllable" },
+        { "w": "país", "note": "two syllables: pa-ís" },
+        { "w": "saída", "note": "three syllables: sa-í-da" }
       ],
-      "match": "(?<![qg])u[eéi]|i[aeouáéó]|u[aoáó]|[aeo][iu]|[aeo]y$|í[aeo]|[aeo]í|ú[aeo]|[aeo]ú"
+      "match": "[aeiou][iu]|[aeo][íú]|[íú][aeo]"
     },
     {
       "id": "betonung",
-      "variety": "es-ES",
-      "title": "Word stress: llana and aguda",
-      "text": "Every word has one strong syllable, and two rules tell you which. A word that ends in a vowel, n or s is stressed on the second-to-last syllable (llana). A word that ends in any other consonant is stressed on the last syllable (aguda). Where a word breaks these rules, it has a written accent.",
+      "variety": "pt-PT",
+      "title": "Word stress: which syllable is strong?",
+      "text": "Every word has one strong syllable, and the rules are simple. A word that ends in a, e, o, as, es, os, am, em or ens is stressed on the second-to-last syllable. A word that ends in i, u, l, r, z, im, um or a nasal ã/ão is stressed on the last syllable. Where a word breaks these rules, it has a written accent. Because the stress is so strong, the unstressed vowels become weak (see the first rule).",
       "examples": [
-        { "w": "casa", "mark": "ca", "note": "ends in a vowel" },
-        { "w": "hablan", "mark": "ha", "note": "ends in n" },
-        { "w": "zapatos", "mark": "pa", "note": "ends in s" },
-        { "w": "hablar", "mark": "blar", "note": "ends in r" },
-        { "w": "ciudad", "mark": "dad", "note": "ends in d" }
+        { "w": "casa", "mark": "ca", "note": "ends in a: second-to-last" },
+        { "w": "falam", "mark": "fa", "note": "ends in am: second-to-last" },
+        { "w": "mesas", "mark": "me", "note": "ends in as: second-to-last" },
+        { "w": "falar", "mark": "lar", "note": "ends in r: last" },
+        { "w": "azul", "mark": "zul", "note": "ends in l: last" },
+        { "w": "pão", "mark": "pão", "note": "ending ão: last" }
       ]
     },
     {
       "id": "auslaut",
-      "variety": "es-ES",
+      "variety": "pt-PT",
       "title": "Written accents",
-      "text": "A written accent shows the strong syllable when the two rules don't. Words stressed three syllables from the end (esdrújulas) always have one: médico, música. An accent can also change the word: hablo (I speak), habló (she spoke); papa (the Pope), papá (dad).",
+      "text": "There are four marks. The acute (á, é, í, ó, ú) shows the stressed syllable and an open vowel. The circumflex (â, ê, ô) shows the stressed syllable and a closed vowel. The tilde (ã, õ) shows a nasal vowel. The grave (à) is only used when a and a join: vou à praia. Words stressed three syllables from the end always have an accent: médico, música, último. An accent can change the word: está (is) and esta (this), país (country) and pais (parents), falámos (we spoke) and falamos (we speak). Since the 1990 agreement, the verb pára is written para, like the preposition, so the accent no longer tells them apart.",
       "examples": [
-        { "w": "café", "mark": "fé", "note": "ends in a vowel, stressed on the last" },
-        { "w": "árbol", "mark": "ár", "note": "ends in l, stressed on the first" },
-        { "w": "médico", "mark": "mé", "note": "esdrújula" },
-        { "w": "habló", "mark": "bló", "note": "she spoke; hablo = I speak" },
-        { "w": "papá", "mark": "pá", "note": "dad; papa = the Pope" }
+        { "w": "café", "mark": "fé", "note": "ends in e, stressed on the last" },
+        { "w": "árvore", "mark": "ár", "note": "stressed on the first: esdrúxula" },
+        { "w": "médico", "mark": "mé", "note": "esdrúxula" },
+        { "w": "está", "mark": "tá", "note": "is; esta = this" },
+        { "w": "país", "mark": "ís", "note": "country; pais = parents" },
+        { "w": "falámos", "mark": "lá", "note": "we spoke; falamos = we speak" }
       ],
-      "match": "[áéíóú]"
+      "match": "[áéíóúâêôà]"
     },
     {
       "id": "r",
-      "variety": "es-ES",
+      "variety": "pt-PT",
+      "ptBR": { "note": "In much of Brazil the strong r is an h-like sound (rato ≈ “hatu”) and r at the end of a word is often said strongly." },
       "title": "r and rr",
-      "text": "A single r between vowels or at the end of a syllable is one quick tap of the tongue tip behind the top teeth: pero, caro, hablar. rr is several quick taps (a trill), and so is r at the start of a word or after n, l, s: perro, carro, rojo. pero (but) and perro (dog) are different words. Neither one is made in the throat.",
+      "text": "A single r between vowels, or after a consonant like p, t, b, is one quick tap of the tongue tip behind the top teeth: caro, para, obrigado. A strong r is said at the back of the mouth, like the French r: at the start of a word, after n, l, s, and when written rr: rato, carro, honra. The difference matters: caro (expensive) and carro (car) are different words. At the end of a word the r is weak: falar, mulher. Some speakers in Portugal use a rolled r for the strong one; both are fine.",
       "examples": [
-        { "w": "pero", "note": "one tap: but" },
-        { "w": "perro", "note": "trill: dog" },
         { "w": "caro", "note": "one tap: expensive" },
-        { "w": "carro", "note": "trill: cart, trolley" },
-        { "w": "rojo", "note": "trill at the start" },
-        { "w": "hablar", "note": "one tap at the end" }
+        { "w": "carro", "note": "strong r: car" },
+        { "w": "rato", "note": "strong r at the start" },
+        { "w": "honra", "note": "strong r after n" },
+        { "w": "falar", "note": "weak r at the end" },
+        { "w": "obrigado", "note": "tap after b" }
       ],
       "match": "r"
     },
     {
       "id": "sch-st-sp",
-      "variety": "es-ES",
-      "es419": { "note": "Latin America has seseo: z and c before e, i sound like s, so casa and caza sound the same." },
-      "title": "c and z: /θ/ (distinción)",
-      "text": "In most of Spain, z and c before e or i are /θ/, like th in “think”: the tongue tip between the teeth, only air. s stays /s/, so casa (house) and caza (hunting) are different words. c before a, o, u is /k/. You will also hear seseo (s for /θ/) in the Canaries and much of Andalusia, and ceceo (/θ/ for s too) in parts of Andalusia. Both are normal there, not mistakes.",
+      "variety": "pt-PT",
+      "ptBR": { "note": "In most of Brazil s before a consonant and at the end of a word is a plain s: “mas” is “mas”, “português” ends in s. In Rio it is sh, as in Portugal." },
+      "title": "s and z as sh: the Portuguese “shh”",
+      "text": "In Portugal an s before a consonant or at the end of a word sounds like sh: mas “mash”, os pais “oosh paish”, festa “feshta”, português “portoogesh”. Before the voiced consonants b, d, g, m, n, l, r, v it sounds like the s in “measure”: mesmo “mezhmu”, desde “dezhd'”. A final z is also sh: luz “loosh”, vez “vesh”. This sound is very frequent, and learners who say a clear s often sound Spanish or Italian. At the start of a word, before a vowel, s is still s: sol, sábado.",
       "examples": [
-        { "w": "gracias", "note": "/ˈɡɾaθjas/" },
-        { "w": "cena", "note": "c + e = /θ/" },
-        { "w": "zapato", "note": "z = /θ/" },
-        { "w": "caza", "note": "hunting; casa = house" },
-        { "w": "cosa", "note": "c + o = /k/" }
+        { "w": "mas", "note": "like “mash”" },
+        { "w": "festa", "note": "like “feshta”" },
+        { "w": "mesmo", "note": "like “mezhmu”" },
+        { "w": "português", "note": "final s: sh" },
+        { "w": "luz", "note": "final z: sh" },
+        { "w": "casas", "note": "final s: sh" }
       ],
-      "match": "z|c[eiéí]"
+      "match": "s($|[^aeiouáéíóúâêôãõs])|z$"
     },
     {
       "id": "s",
-      "variety": "es-ES",
-      "es419": { "note": "Much of Latin America also weakens a final s, especially the Caribbean, Argentina and Chile." },
-      "title": "s: no buzz",
-      "text": "Spanish s is the s in “sun”, also between vowels. Don't make it a buzzing z: casa, mesa, museo. It only buzzes a little before b, d, g, m, n, l (mismo, desde), and that happens by itself. In southern Spain and the Canaries a final s often becomes a breath or disappears: los amigos can sound like “loh amigoh”. You will hear this, but you don't have to copy it.",
+      "variety": "pt-PT",
+      "title": "s, ss, ç, c and z between vowels and at the start",
+      "text": "A single s between two vowels buzzes like z: casa, mesa, coisa. ss, ç, and c before e or i are a sharp s: passo, aço, cidade, cedo. At the start of a word s is sharp, and z is a buzz (zero, zona). So casa (house) and caça (hunt) are different words, and so are asa (wing) and assa (he bakes). c before a, o, u is k: casa, copo. ç never comes before e or i: always before a, o, u: açúcar, coração.",
       "examples": [
-        { "w": "casa", "note": "/s/, no buzz" },
-        { "w": "mesa", "note": "/s/, no buzz" },
-        { "w": "museo", "note": "/s/, no buzz" },
-        { "w": "sopa", "note": "/s/, no buzz" }
+        { "w": "casa", "note": "s between vowels: z (house)" },
+        { "w": "caça", "note": "ç: sharp s (hunt)" },
+        { "w": "pássaro", "note": "ss: sharp s" },
+        { "w": "cidade", "note": "c before i: sharp s" },
+        { "w": "zero", "note": "z at the start: buzz" },
+        { "w": "sol", "note": "s at the start: sharp" }
       ],
-      "match": "[aeiouáéíóú]s[aeiouáéíóú]|^s[aeiouáéíóú]"
+      "match": "[aeiouáéíóúâêôãõ]s[aeiouáéíóúâêôãõ]|ss|ç|c[eiéíê]|^s|^z|z[aeiouáéíóú]"
     },
     {
       "id": "ig",
-      "variety": "es-ES",
-      "es419": { "note": "In the Caribbean, Central America and Colombia this sound is softer, close to the h in “house”." },
-      "title": "j, and g before e or i: /x/",
-      "text": "j, and g before e or i, are /x/: a rasp at the back of the mouth, like ch in Scottish “loch”. In Spain it is strong and clearly audible. It is not the j in “jam”. g before a, o, u is the g in “go”: gato, amigo.",
+      "variety": "pt-PT",
+      "title": "j, and g before e or i",
+      "text": "j, and g before e or i, are the s of “measure” or the g of French “genou”: a buzzing sh. It is not the j of “jam” and not a rasp as in Spanish jota. já, janela, gente, gelo, igreja. g before a, o, u is the g of “go”: gato, amigo, gula. To keep the g hard before e or i, a u is added (and not said): guerra, guitarra.",
       "examples": [
-        { "w": "jamón", "note": "/x/" },
-        { "w": "gente", "note": "g + e = /x/" },
-        { "w": "trabajo", "note": "/x/" },
-        { "w": "página", "note": "g + i = /x/" },
-        { "w": "gato", "note": "g + a = g in “go”" }
+        { "w": "já", "note": "like the s of “measure”" },
+        { "w": "gente", "note": "g + e: same sound" },
+        { "w": "janela", "note": "j: same sound" },
+        { "w": "igreja", "note": "g + r: hard g; j: soft" },
+        { "w": "gato", "note": "g + a: g as in “go”" }
       ],
-      "match": "j|g[eiéí]"
+      "match": "j|g[eiéíê]"
     },
     {
       "id": "ll-y",
-      "variety": "es-ES",
-      "es419": { "note": "In Argentina and Uruguay ll and y often sound like sh or the s in “measure”." },
-      "title": "ll and y (yeísmo)",
-      "text": "In most of Spain ll and y are one sound (yeísmo): like y in “yes”, a little stronger. Some older speakers in rural areas still keep ll apart. It is never an l: calle, not “cale”. On its own or at the end of a word, y is a vowel, like i: y (and), hoy, muy.",
+      "variety": "pt-PT",
+      "title": "lh",
+      "text": "lh is one sound: the middle of the tongue presses against the roof of the mouth, as in “million” (but more clearly): filho, olho, trabalho, mulher. It is not l + h and not l + y. Spanish speakers should not say ll as in Spanish “calle” (y-like), and French speakers should not stop at y: the tongue touches the roof of the mouth. Italians find it easy: it is the same as gli in figlio. velho (old) and vela (candle) are different words.",
       "examples": [
-        { "w": "calle", "note": "like “ca-ye”" },
-        { "w": "llave", "note": "like “ya-ve”" },
-        { "w": "yo", "note": "same sound" },
-        { "w": "mayo", "note": "same sound" },
-        { "w": "hoy", "note": "y at the end = i" }
+        { "w": "filho", "note": "like “fiʎu”" },
+        { "w": "olho", "note": "eye" },
+        { "w": "trabalho", "note": "work" },
+        { "w": "mulher", "note": "woman" },
+        { "w": "velho", "note": "old; vela = candle" }
       ],
-      "match": "ll|y[aeiouáéíóú]|y$"
+      "match": "lh"
     },
     {
       "id": "enye",
-      "variety": "es-ES",
-      "title": "ñ",
-      "text": "ñ is one sound, like ny in “canyon” or gn in French and Italian. Press the middle of your tongue against the roof of your mouth. It is a letter of its own, and it changes the word: pena (sorrow), peña (rock; a group of friends).",
+      "variety": "pt-PT",
+      "title": "nh",
+      "text": "nh is one sound, like ny in “canyon” or gn in Italian “gnocchi” and French “montagne”: vinho, ninho, tenho, manhã. It is the same sound as Spanish ñ. It is not n + h: say it with the middle of the tongue against the roof of the mouth. vinha (vineyard) and vila (small town) are different words.",
       "examples": [
-        { "w": "año", "note": "year" },
-        { "w": "mañana", "note": "morning, tomorrow" },
-        { "w": "España", "note": "Spain" },
-        { "w": "peña", "note": "pena is another word" }
+        { "w": "vinho", "note": "wine" },
+        { "w": "tenho", "note": "I have" },
+        { "w": "manhã", "note": "morning" },
+        { "w": "banho", "note": "bath" },
+        { "w": "unha", "note": "nail" }
       ],
-      "match": "ñ"
+      "match": "nh"
     },
     {
       "id": "buchstaben",
-      "variety": "es-ES",
-      "title": "b and v: one sound",
-      "text": "b and v sound exactly the same. At the start of a phrase and after m or n, close both lips: vino, bien, un vaso. Between vowels your lips almost touch, and the sound is soft: abuela, nuevo. Your top teeth never touch your lip.",
+      "variety": "pt-PT",
+      "title": "x: four sounds",
+      "text": "x has four values, and you learn them with the word. Most common: sh, as in caixa, xadrez, peixe. Also ks in táxi, tóxico; z in exame, exemplo, exército (e + x + vowel, usually); and a sharp s in próximo, máximo, auxílio. There is no simple rule that works for every word, so use a dictionary when you are unsure. At the start of a word x is nearly always sh.",
       "examples": [
-        { "w": "vino", "note": "both lips" },
-        { "w": "bien", "note": "both lips" },
-        { "w": "hombre", "note": "after m: both lips" },
-        { "w": "abuela", "note": "soft, between vowels" },
-        { "w": "nuevo", "note": "soft, between vowels" }
+        { "w": "caixa", "note": "sh" },
+        { "w": "xadrez", "note": "sh at the start" },
+        { "w": "táxi", "note": "ks" },
+        { "w": "exame", "note": "z" },
+        { "w": "próximo", "note": "sharp s" }
       ],
-      "match": "[bv]"
+      "match": "x"
     },
     {
       "id": "e-ende",
-      "variety": "es-ES",
-      "title": "Hard and soft d",
-      "text": "At the start of a phrase and after n or l, d is hard, with the tongue against the top teeth: dos, donde. Everywhere else it is soft /ð/, like th in “this”: nada, cansado. At the end of a word it is very weak: Madrid, usted. In relaxed speech in Spain, -ado often sounds like “-ao”: cansao.",
+      "variety": "pt-PT",
+      "title": "Word endings: -l, -r, -z",
+      "text": "An l at the end of a syllable is dark in Portugal: the back of the tongue is raised and the sound is close to a very short “w”, as in English “full”: azul, papel, alto, mal. It is not the clear l of Spanish or Italian. Final r is very weak (falar, mulher), and final z is sh (luz). Say these endings softly and shortly: a strong, clear final consonant sounds foreign.",
       "examples": [
-        { "w": "dos", "note": "hard" },
-        { "w": "donde", "note": "both hard" },
-        { "w": "nada", "note": "soft /ð/" },
-        { "w": "cansado", "note": "soft /ð/" },
-        { "w": "Madrid", "note": "very weak at the end" }
+        { "w": "azul", "note": "dark l" },
+        { "w": "papel", "note": "dark l" },
+        { "w": "alto", "note": "dark l before a consonant" },
+        { "w": "falar", "note": "weak final r" },
+        { "w": "luz", "note": "final z: sh" }
       ],
-      "match": "[aeiouáéíóú]d[aeiouáéíóú]|d$"
+      "match": "[rz]$|l($|[^aeiouáéíóúâêôãõh])"
     },
     {
       "id": "h",
-      "variety": "es-ES",
+      "variety": "pt-PT",
       "title": "h is silent",
-      "text": "You never say the letter h. Start straight on the next vowel: hola sounds just like ola (wave). h only has a sound together with c, as ch.",
+      "text": "You never say the letter h at the start of a word: hoje is “oje”, hotel is “otel”. Start straight on the next vowel. h is also part of three letter pairs, and there it makes a different sound: ch (sh), lh and nh.",
       "examples": [
-        { "w": "hola", "note": "like “ola”" },
+        { "w": "hoje", "note": "like “oje”" },
+        { "w": "hotel", "note": "like “otel”" },
         { "w": "hora", "note": "like “ora”" },
-        { "w": "ahora", "note": "“a-o-ra”" },
-        { "w": "hospital", "note": "“os-pi-tal”" }
+        { "w": "homem", "note": "like “omem”" }
       ],
-      "match": "(^|[^c])h"
+      "match": "(^|[^cnl])h"
     },
     {
       "id": "ch",
-      "variety": "es-ES",
+      "variety": "pt-PT",
       "title": "ch",
-      "text": "ch is one sound, as in “church”: ocho, noche, leche. It is not sh, and it is not k.",
+      "text": "ch is sh, as in “shop”: chave, chá, chuva, achar. It is not the ch of “church”, and it is not a k (that is qu). Spanish speakers: it is the opposite of your ch. chave (key) and cave (cellar) are different words.",
       "examples": [
-        { "w": "chico" },
-        { "w": "ocho" },
-        { "w": "noche" },
-        { "w": "leche" }
+        { "w": "chave", "note": "key" },
+        { "w": "chá", "note": "tea" },
+        { "w": "chuva", "note": "rain" },
+        { "w": "achar", "note": "to find, to think" }
       ],
       "match": "ch"
     },
     {
       "id": "umlaute",
-      "variety": "es-ES",
-      "title": "qu, gu and gü",
-      "text": "In que and qui the u is silent and the sound is /k/: queso, quiero. In gue and gui the u is silent too and the g is the one in “go”: guerra, guitarra. Only with two dots (ü) do you say the u: vergüenza, pingüino.",
+      "variety": "pt-PT",
+      "title": "qu and gu",
+      "text": "Before e and i, qu and gu have a silent u: que “ke”, aqui “aki”, guerra “gerra”, guitarra “gitarra”. The ü that marked a spoken u was dropped in 1990. Before a and o the u is usually said: quando (kw), quase, água (gw), língua. So you see the pattern in the word, not in a rule: you learn the exceptions with the words (for example cinquenta, where the u is said: kw).",
       "examples": [
-        { "w": "queso", "note": "“ke-so”" },
-        { "w": "quiero", "note": "“kie-ro”" },
-        { "w": "guerra", "note": "“ge-rra”, g as in “go”" },
-        { "w": "guitarra", "note": "silent u" },
-        { "w": "pingüino", "note": "you say the u" }
+        { "w": "que", "note": "u silent: “ke”" },
+        { "w": "aqui", "note": "u silent: “aki”" },
+        { "w": "guerra", "note": "u silent, g as in “go”" },
+        { "w": "quando", "note": "u is said: “kwandu”" },
+        { "w": "água", "note": "u is said" }
       ],
-      "match": "qu|gu[eiéí]|gü"
+      "match": "qu|gu"
     },
     {
       "id": "knacklaut",
-      "variety": "es-ES",
+      "variety": "pt-PT",
       "title": "Linking words",
-      "text": "Spanish flows from word to word with no stop. A last vowel and a first vowel join in one syllable (sinalefa): mi amigo. A last consonant moves on to the next vowel: los otros sounds like “lo-so-tros”.",
+      "text": "Portuguese flows from word to word with no stop, and in Portugal a final vowel often disappears before a vowel: de amigos is nearly “d'amigos”, a Ana is “anna”. A last consonant is carried on to the next vowel: os amigos sounds like “oz amigos” (the s becomes z), and mais um sounds like “maiz um”. The same final s that is sh before a consonant (os pais) is z before a vowel (os amigos).",
       "examples": [
-        { "w": "mi amigo", "note": "mia-mi-go" },
-        { "w": "los otros", "note": "lo-so-tros" },
-        { "w": "en España", "note": "e-nes-pa-ña" }
+        { "w": "os amigos", "note": "“oz amigush”" },
+        { "w": "de amigos", "note": "nearly “d'amigos”" },
+        { "w": "mais um", "note": "“maiz um”" },
+        { "w": "uma hora", "note": "h is silent: “uma ora”" }
       ]
     }
   ]

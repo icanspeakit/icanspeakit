@@ -1,10 +1,21 @@
-// Display names of the exams behind the generic practice sets. The slot ids stay goethe/telc
-// (routes and storage keys); the exams they hold are the DELE and practice for the SIELE by
-// level (docs/content-plan.md §2). Kept apart from saetze.js so the /progresso registry can use
-// the names without bundling the sets.
-export const EXAM_NAMES = { goethe: "DELE", telc: "SIELE" };
+// Display names of the exams behind the generic practice sets. The slot id stays goethe
+// (routes and storage keys); the exams it holds are the CAPLE certificates, one per level
+// (docs/content-plan.md §2). The telc slot (SIELE by band) was removed by `exams-caple`.
+// Kept apart from saetze.js so the /progresso registry can use the names without bundling the sets.
+export const EXAM_NAMES = { goethe: "CAPLE" };
 
-/** "DELE B1", "SIELE B1". Each DELE diploma is named after its level. */
+/** The CAPLE certificate of each CEFR level. */
+export const CAPLE_BY_LEVEL = {
+  A1: "ACESSO",
+  A2: "CIPLE",
+  B1: "DEPLE",
+  B2: "DIPLE",
+  C1: "DAPLE",
+  C2: "DUPLE",
+};
+
+/** "CIPLE A2", "DEPLE B1": each CAPLE certificate is named after its level. */
 export function examLabel(set) {
-  return `${EXAM_NAMES[set.exam] ?? set.exam} ${set.level}`;
+  const name = CAPLE_BY_LEVEL[set.level] ?? EXAM_NAMES[set.exam] ?? set.exam;
+  return `${name} ${set.level}`;
 }

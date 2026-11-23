@@ -29,7 +29,7 @@ const live = entry.status === STATUS.REVIEWED && entry.publishOn <= day;
 const lemma = entry.lemma;
 const firstSentences = sentences(entry.history).slice(0, 2).join(" ");
 const description = `Where does the word ${lemma} come from? ${firstSentences}`.slice(0, 158).replace(/\s+\S*$/, "") + " …";
-// Origin + base path (src/lib/paths.js): https://icanspeak.it/spanish
+// Origin + base path (src/lib/paths.js): https://icanspeak.it/portugues
 const site = SITE_ORIGIN + BASE_PATH;
 const jsonLd = {
   "@context": "https://schema.org",

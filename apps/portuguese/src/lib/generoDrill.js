@@ -1,19 +1,21 @@
 // Which lexicon nouns a gender drill may ask about, and the article of their plural.
 // Browser-safe (no imports): the trainer, Bruno Kart and the domino all use it.
 //
-// A drill needs one right answer. So out go: common-gender person nouns ("el/la"), plural-only
-// nouns (no singular article to ask for), and the nouns below, which take either article, or
-// change meaning with it, or which Spain really says both ways (la final / el final,
-// el parte / la parte, el azúcar / la azúcar). They stay in the lexicon, just not in a drill.
+// A drill needs one right answer. So out go: common-gender person nouns ("o/a estudante"),
+// plural-only nouns (no singular article to ask for), and the nouns below, which take either
+// article with a different meaning (o capital = money / a capital = capital city, o guia = the
+// guide (person) / a guia = the form, o polícia = the police officer / a polícia = the police), or
+// which speakers really say both ways (o/a personagem, o/a diabetes). They stay in the lexicon,
+// just not in a drill.
 export const AMBIGUOUS = new Set([
-  "azúcar", "internet", "mar", "maratón", "parte", "final", "terminal", "editorial", "moral",
-  "orden", "margen", "cometa", "pendiente", "corte", "coma", "frente", "capital", "cura",
-  "guía", "modelo", "cólera", "papa", "AMPA",
+  "capital", "cabeça", "caixa", "guia", "guarda", "polícia", "rádio", "moral", "cura", "final",
+  "grama", "cólera", "coma", "lente", "personagem", "diabetes", "praça", "modelo", "cisma",
+  "crisma", "sentinela", "omelete", "lama",
 ]);
 
-/** May this noun be asked as "el or la?" */
+/** May this noun be asked as "o or a?" */
 export const isDrillNoun = (e) =>
-  (e.gender === "el" || e.gender === "la") && !e.pluralOnly && !AMBIGUOUS.has(e.lemma);
+  (e.gender === "o" || e.gender === "a") && !e.pluralOnly && !AMBIGUOUS.has(e.lemma);
 
-/** los or las: comes from the gender, not from the singular article (el agua → las aguas). */
-export const pluralArticle = (e) => ((e.article ?? e.gender) === "la" || e.genus === "f" ? "las" : "los");
+/** os or as: from the singular article (o dia → os dias, a mão → as mãos). */
+export const pluralArticle = (e) => ((e.article ?? e.gender) === "a" ? "as" : "os");

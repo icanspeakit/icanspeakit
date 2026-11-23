@@ -1,108 +1,108 @@
 {
   "id": "positionsverben",
-  "name": "Verbs like gustar: encantar, interesar, doler, molestar, parecer",
+  "name": "Verbs like apetecer: apetecer, doer, interessar, custar, faltar, parecer",
   "level": "B1",
   "status": "geprueft",
-  "variety": "es-ES",
-  "es419": { "note": "These verbs work the same in Latin America, but apetecer is typical of Spain: there, ¿Quieres…? or ¿Se te antoja…? Os is Spain only: ustedes takes les." },
-  "subtitle": "These verbs work like gustar: the thing or activity is the subject, and the person takes me, te, le, nos, os, les. Me encanta este barrio. Me encantan los lunes. The verb agrees with the thing, not with the person.",
-  "briefMarks": ["encanta", "interesa", "duele", "molesta", "parece", "queda", "apetece", "falta"],
-  "source": "icanspeak Spanish original text (grammar-b1 run, 2026-11-04)",
+  "variety": "pt-PT",
+  "ptBR": { "note": "Brazil puts the pronoun first (Me dói a cabeça; Me parece bem) and rarely uses apetecer: Quer um café? Está com vontade de sair?" },
+  "subtitle": "These verbs work the other way round from gostar de: the thing or activity is the subject, and the person is a small pronoun (me, te, lhe, nos, lhes). Apetece-me um café. Doem-me os pés. The verb agrees with the thing, not with the person. In Portugal the pronoun usually comes after the verb.",
+  "briefMarks": ["apetece-me", "interessa-me", "dói-me", "parece-me", "custa-me", "falta-me", "faz-me falta", "fica-me bem", "cai-me bem"],
+  "source": "icanspeak Portuguese original text (grammar-b1 run, 2026-11-13)",
   "concept": {
     "comic": {
-      "title": "¿Qué te {duele}?",
+      "title": "Onde te {dói}?",
       "panels": [
         {
           "caption": "One thing",
-          "tag": "{duele} + singular",
-          "left": { "name": "regi", "expr": "thinking", "say": "¿Qué te pasa, Quaki?" },
-          "right": { "name": "quaki", "expr": "oops", "say": "Me {duele} la cabeza." }
+          "tag": "{dói} + singular",
+          "left": { "name": "regi", "expr": "thinking", "say": "Que tens, Quaki?" },
+          "right": { "name": "quaki", "expr": "oops", "say": "{Dói}-me a cabeça." }
         },
         {
           "caption": "Two or more things",
-          "tag": "{duelen} + plural",
-          "left": { "name": "bruno", "expr": "sleepy", "say": "A mí me {duelen} los pies." },
-          "right": { "name": "regi", "expr": "thinking", "say": "¿Te {apetece} un café?" }
+          "tag": "{doem} + plural",
+          "left": { "name": "bruno", "expr": "sleepy", "say": "A mim {doem}-me os pés." },
+          "right": { "name": "regi", "expr": "thinking", "say": "{Apetece}-te um café?" }
         },
         {
-          "caption": "A person with a",
-          "tag": "{a Hamsti le…}",
-          "left": { "name": "bruno", "expr": "happy", "say": "¿Y a Hamsti?" },
-          "right": { "name": "regi", "expr": "celebrate", "say": "A Hamsti le {encanta} el café." }
+          "caption": "A person with à / ao",
+          "tag": "{ao Hamsti … -lhe}",
+          "left": { "name": "bruno", "expr": "happy", "say": "E ao Hamsti?" },
+          "right": { "name": "regi", "expr": "celebrate", "say": "Ao Hamsti {apetece}-lhe sempre um café." }
         }
       ]
     },
     "flow": [
-      { "text": "(a mí) me · te · le · nos · os · les", "variant": "prep" },
-      { "text": "encanta · encantan", "variant": "verb" },
+      { "text": "apetece · dói · custa · falta · parece", "variant": "verb" },
+      { "text": "-me · -te · -lhe · -nos · -lhes", "variant": "prep" },
       { "text": "the thing" }
     ],
     "qa": [
       {
-        "html": "The thing is the <strong>subject</strong>. One thing or an infinitive: singular. Several things: plural. <em>Me duele la cabeza. Me duelen las piernas. Me encanta cocinar.</em>",
+        "html": "The thing is the <strong>subject</strong>. One thing or an infinitive: singular. Several things: plural. <em>Dói-me a cabeça. Doem-me as pernas. Apetece-me cozinhar.</em> Compare <em>gostar de</em>, where the person is the subject: <em>Gosto de café.</em>",
         "tag": "Agreement"
       },
       {
-        "html": "The person takes a pronoun: <strong>me, te, le, nos, os, les</strong>. With a name, add <strong>a</strong> and keep the pronoun: <em>A Ana le duele la espalda. A mis padres les interesa la política.</em>",
+        "html": "The person is a pronoun: <strong>me, te, lhe, nos, lhes</strong> (<em>lhes</em> also for <em>vocês</em>). In Portugal it normally goes <strong>after</strong> the verb, with a hyphen: <em>Apetece-me. Dói-te? Falta-nos tempo.</em> After <strong>não</strong> or a question word it goes before: <em>Não me apetece. Que te parece?</em>",
         "tag": "The person"
       },
       {
-        "html": "<strong>encantar</strong> (love), <strong>interesar</strong> (be interested in), <strong>molestar</strong> (bother): <em>Me encanta este barrio. ¿Te interesa el curso? Nos molesta el ruido.</em>",
-        "tag": "encantar, interesar, molestar"
+        "html": "With a name or a noun add <strong>a</strong> (<em>à Ana, ao Omar, aos meus pais</em>) and keep the pronoun: <em>À Ana dói-lhe a cabeça. Aos meus pais apetece-lhes ficar em casa.</em> The extra <em>a mim, a ti</em> only stresses the person: <em>A mim parece-me caro.</em>",
+        "tag": "À Ana … -lhe"
       },
       {
-        "html": "<strong>doler</strong> (o → ue, to hurt): <em>Me duele la cabeza.</em> Use the article, not a possessive: ✗ <em>Me duele mi cabeza</em>.",
-        "tag": "doler"
+        "html": "<strong>apetecer</strong> (feel like, very common): <em>Apetece-te um café? Não me apetece sair.</em> No <em>de</em> and no <em>que</em>: ✗ <em>Apetece-me de sair</em>. <strong>custar</strong> (be hard for, be hard to accept): <em>Custa-me acordar cedo. Custa-me acreditar.</em> (<em>Quanto custa?</em> = how much is it, a different use.)",
+        "tag": "apetecer, custar"
       },
       {
-        "html": "<strong>parecer</strong> (seem, think of): <em>¿Qué te parece? Me parece bien.</em> <strong>quedar</strong> with clothes (suit, fit): <em>Esta camisa me queda bien. Los pantalones me quedan grandes.</em>",
-        "tag": "parecer, quedar"
+        "html": "<strong>doer</strong> (hurt; <em>dói, doem</em>): <em>Dói-me a cabeça. Doem-me as costas.</em> Use the article, not a possessive: ✗ <em>Dói-me a minha cabeça</em>. <strong>interessar</strong> (be of interest): <em>Interessa-me este curso. Interessam-me as notícias.</em> With <em>ele/ela</em>, <em>interessar</em> and <em>encantar</em> can also take <em>o/a</em>, so here the clean cases are <em>me, te, nos</em>.",
+        "tag": "doer, interessar"
       },
       {
-        "html": "<strong>apetecer</strong> (feel like, very common in Spain): <em>¿Te apetece un café? No me apetece salir.</em> <strong>faltar</strong> and <strong>hacer falta</strong> (be missing, need): <em>Me falta un documento. Me hacen falta dos fotos.</em>",
-        "tag": "apetecer, faltar, hacer falta"
+        "html": "<strong>parecer</strong> (seem, think of): <em>Que te parece? Parece-me bem. Parece-me caro.</em> <strong>ficar bem</strong> (suit, fit, for clothes): <em>Esta camisola fica-me bem. As calças ficam-me grandes.</em> <strong>cair bem</strong> (go down well, agree with you): <em>O peixe não me caiu bem. Essa ideia caiu-lhe bem.</em> <strong>faltar</strong> (be missing) and <strong>fazer falta</strong> (be needed, be missed): <em>Falta-me um documento. Faz-me falta um carregador.</em>",
+        "tag": "parecer, ficar bem, cair bem, faltar"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>Yo gusto el café</em> → ✓ <em>Me gusta el café</em>. ✗ <em>Me duele las piernas</em> → ✓ <em>Me duelen las piernas</em>. ✗ <em>Ana le encanta</em> → ✓ <em>A Ana le encanta</em>. ✗ <em>A mí encanta</em> → ✓ <em>A mí me encanta</em>. <em>quedar</em> has other meanings too: <em>Quedamos a las ocho</em> = we'll meet at eight.",
+    "noteHtml": "Common mistakes: ✗ <em>Eu apetece um café</em> → ✓ <em>Apetece-me um café</em>. ✗ <em>Dói-me as pernas</em> → ✓ <em>Doem-me as pernas</em>. ✗ <em>A Ana dói a cabeça</em> → ✓ <em>À Ana dói-lhe a cabeça</em>. ✗ <em>Apetece-me de sair</em> → ✓ <em>Apetece-me sair</em>. ✗ <em>Não apetece-me</em> → ✓ <em>Não me apetece</em>. Don't use <em>apetecer</em> for a person you love or like: that is <em>gostar de</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
           "caption": "The pattern",
-          "head": ["Optional", "Pronoun", "Verb", "Thing"],
+          "head": ["Optional", "Verb + pronoun", "Thing"],
           "rows": [
-            ["(a mí)", "me", "encanta", "este barrio"],
-            ["(a ti)", "te", "duelen", "los pies"],
-            ["(a él, a ella, a Ana, a usted)", "le", "interesa", "el curso"],
-            ["(a nosotros/as)", "nos", "molesta", "el ruido"],
-            ["(a vosotros/as)", "os", "parece", "bien"],
-            ["(a ellos, a ellas, a ustedes)", "les", "falta", "un documento"]
+            ["(a mim)", "apetece-me", "um café"],
+            ["(a ti)", "doem-te", "os pés"],
+            ["(a ele, a ela, ao Omar, ao senhor)", "falta-lhe", "um documento"],
+            ["(a nós)", "custa-nos", "madrugar"],
+            ["(a eles, a elas, a vocês, aos senhores)", "parece-lhes", "bem"]
           ]
         },
         {
           "caption": "What they mean",
           "head": ["Verb", "Meaning", "Example"],
           "rows": [
-            ["encantar", "love", "Me encanta tu idea."],
-            ["interesar", "interest", "No me interesa el fútbol."],
-            ["doler", "hurt", "Me duele un brazo."],
-            ["molestar", "bother", "¿Te molesta la música?"],
-            ["parecer", "seem, think of", "Me parece caro."],
-            ["quedar", "suit, fit", "Te queda muy bien."],
-            ["apetecer", "feel like", "¿Te apetece salir?"],
-            ["faltar", "be missing", "Falta una firma."],
-            ["hacer falta", "be needed", "Me hace falta un bolígrafo."]
+            ["apetecer", "feel like", "Apetece-te sair?"],
+            ["doer", "hurt", "Dói-me um braço."],
+            ["interessar", "be of interest", "Não me interessa o futebol."],
+            ["custar", "be hard for", "Custa-me levantar cedo."],
+            ["parecer", "seem, think of", "Parece-me caro."],
+            ["ficar bem", "suit, fit", "Fica-te muito bem."],
+            ["cair bem", "agree with, go down well", "O café não me cai bem."],
+            ["faltar", "be missing", "Falta uma assinatura."],
+            ["fazer falta", "be needed, be missed", "Faz-me falta uma caneta."]
           ]
         }
       ],
       "boxes": [
         {
-          "badge": "Hace falta",
+          "badge": "Faltar or fazer falta",
           "variant": "dat",
           "items": [
-            "With a person: Me hace falta un documento.",
-            "With no person, it is a general need: Hace falta pedir cita."
+            "Falta-me um documento: the document is not there, it is missing.",
+            "Faz-me falta um documento: I need it, I feel the lack of it.",
+            "No person: Faltam duas assinaturas = two signatures are missing."
           ]
         }
       ]
@@ -110,19 +110,19 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Me encanta este barrio.", "note": "One thing: singular." },
-      { "text": "Me duelen las piernas.", "note": "Several things: plural." },
-      { "text": "A Ana le molesta el ruido.", "note": "a + person, and le as well." },
-      { "text": "¿Te apetece un café?", "note": "Very common in Spain." },
-      { "text": "Esta camisa me queda bien.", "note": "quedar for clothes." }
+      { "text": "Encanta-me este bairro.", "note": "One thing: singular." },
+      { "text": "Doem-me as pernas.", "note": "Several things: plural." },
+      { "text": "Ao Omar apetece-lhe um café.", "note": "ao + person, and -lhe as well." },
+      { "text": "Não me apetece sair.", "note": "After não the pronoun goes before the verb." },
+      { "text": "Esta camisola fica-me bem.", "note": "ficar bem for clothes." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Me duelen los pies.", "choices": ["Me duele el pie.", "Me duelen los pies.", "Te duelen los pies."], "correct": 1 },
-        { "text": "¿Te apetece salir?", "choices": ["¿Te apetece salir?", "¿Te interesa salir?", "¿Le apetece salir?"], "correct": 0 },
-        { "text": "A mis padres les interesa el curso.", "choices": ["A mi padre le interesa el curso.", "A mis padres les molesta el curso.", "A mis padres les interesa el curso."], "correct": 2 },
-        { "text": "Me hace falta una firma.", "choices": ["Me falta una foto.", "Me hace falta una firma.", "Nos hace falta una firma."], "correct": 1 }
+        { "text": "Doem-me os pés.", "choices": ["Dói-me o pé.", "Doem-me os pés.", "Doem-te os pés."], "correct": 1 },
+        { "text": "Apetece-te sair?", "choices": ["Apetece-te sair?", "Interessa-te sair?", "Apetece-lhe sair?"], "correct": 0 },
+        { "text": "Aos meus pais apetece-lhes sair.", "choices": ["Ao meu pai apetece-lhe sair.", "Aos meus pais custa-lhes sair.", "Aos meus pais apetece-lhes sair."], "correct": 2 },
+        { "text": "Faz-me falta um carregador.", "choices": ["Falta-me um carregador.", "Faz-me falta um carregador.", "Faz-nos falta um carregador."], "correct": 1 }
       ]
     },
     "sprechen": {
@@ -130,23 +130,23 @@
         {
           "label": "1 · It hurts",
           "instruction": "You hear a part of the body. Say that it hurts. Watch singular and plural.",
-          "example": { "prompt": "la cabeza", "answer": "Me duele la cabeza." },
+          "example": { "prompt": "a cabeça", "answer": "Dói-me a cabeça." },
           "items": [
-            { "prompt": "las piernas", "answer": "Me duelen las piernas." },
-            { "prompt": "la espalda", "answer": "Me duele la espalda." },
-            { "prompt": "los pies", "answer": "Me duelen los pies." },
-            { "prompt": "un brazo", "answer": "Me duele un brazo." }
+            { "prompt": "as pernas", "answer": "Doem-me as pernas." },
+            { "prompt": "as costas", "answer": "Doem-me as costas." },
+            { "prompt": "os pés", "answer": "Doem-me os pés." },
+            { "prompt": "um braço", "answer": "Dói-me um braço." }
           ]
         },
         {
           "label": "2 · Do you feel like it?",
           "instruction": "You hear something. Ask a friend if they feel like it.",
-          "example": { "prompt": "un café", "answer": "¿Te apetece un café?" },
+          "example": { "prompt": "um café", "answer": "Apetece-te um café?" },
           "items": [
-            { "prompt": "salir", "answer": "¿Te apetece salir?" },
-            { "prompt": "dar un paseo", "answer": "¿Te apetece dar un paseo?" },
-            { "prompt": "un té", "answer": "¿Te apetece un té?" },
-            { "prompt": "ir al cine", "answer": "¿Te apetece ir al cine?" }
+            { "prompt": "sair", "answer": "Apetece-te sair?" },
+            { "prompt": "dar um passeio", "answer": "Apetece-te dar um passeio?" },
+            { "prompt": "um chá", "answer": "Apetece-te um chá?" },
+            { "prompt": "ir ao cinema", "answer": "Apetece-te ir ao cinema?" }
           ]
         }
       ]
@@ -159,46 +159,46 @@
       "hint": "The verb agrees with the thing, not with the person.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "Me ___ este barrio.", "answer": "encanta", "choices": ["encanta", "encantan", "encanto"], "why": "este barrio: singular." },
-        { "prompt": "Me ___ los fines de semana.", "answer": "encantan", "choices": ["encanta", "encantan", "encanto"], "why": "los fines de semana: plural." },
-        { "prompt": "A Ana le ___ la cabeza.", "answer": "duele", "choices": ["duele", "duelen", "doler"], "why": "la cabeza: singular." },
-        { "prompt": "Me ___ las piernas.", "answer": "duelen", "choices": ["duele", "duelen", "doler"], "why": "las piernas: plural." },
-        { "prompt": "Nos ___ el ruido de la calle.", "answer": "molesta", "choices": ["molesta", "molestan", "molestamos"], "why": "el ruido: singular. Nos already says who." },
-        { "prompt": "¿Os ___ estos cursos?", "answer": "interesan", "choices": ["interesa", "interesan", "interesáis"], "why": "estos cursos: plural.", "es419": { "note": "In Latin America: ¿Les interesan estos cursos?", "skip": true } },
-        { "prompt": "¿Qué te ___ esta hora?", "answer": "parece", "choices": ["parece", "parecen", "pareces"], "why": "esta hora: singular." },
-        { "prompt": "Me ___ dos firmas en este formulario.", "answer": "faltan", "choices": ["falta", "faltan", "falto"], "why": "dos firmas: plural." },
-        { "prompt": "¿Te ___ un café?", "answer": "apetece", "choices": ["apetece", "apetecen", "apeteces"], "why": "un café: singular.", "es419": { "note": "In Latin America: ¿Quieres un café?" } },
-        { "prompt": "Esta camisa me ___ bien.", "answer": "queda", "choices": ["queda", "quedan", "quedo"], "why": "esta camisa: singular." }
+        { "prompt": "Este bairro ___-me.", "answer": "encanta", "choices": ["encanta", "encantam", "encanto"], "why": "este bairro: singular." },
+        { "prompt": "Os fins de semana ___-me.", "answer": "encantam", "choices": ["encanta", "encantam", "encanto"], "why": "os fins de semana: plural." },
+        { "prompt": "À Ana ___-lhe a cabeça.", "answer": "dói", "choices": ["dói", "doem", "doer"], "why": "a cabeça: singular." },
+        { "prompt": "As pernas ___-me.", "answer": "doem", "choices": ["dói", "doem", "doer"], "why": "as pernas: plural." },
+        { "prompt": "Madrugar ___-nos.", "answer": "custa", "choices": ["custa", "custam", "custamos"], "why": "An infinitive is singular. -nos already says who." },
+        { "prompt": "Estes cursos ___-te?", "answer": "interessam", "choices": ["interessa", "interessam", "interessas"], "why": "estes cursos: plural." },
+        { "prompt": "Que te ___ esta hora?", "answer": "parece", "choices": ["parece", "parecem", "pareces"], "why": "esta hora: singular. After a question word, te goes before the verb." },
+        { "prompt": "___-me duas assinaturas neste formulário.", "answer": "Faltam", "choices": ["Falta", "Faltam", "Falto"], "why": "duas assinaturas: plural." },
+        { "prompt": "___-te um café?", "answer": "Apetece", "choices": ["Apetece", "Apetecem", "Apeteces"], "why": "um café: singular.", "ptBR": { "note": "In Brazil: Quer um café?", "form": "Quer um café?" } },
+        { "prompt": "Esta camisola ___-me bem.", "answer": "fica", "choices": ["fica", "ficam", "fico"], "why": "esta camisola: singular." }
       ]
     },
     {
       "type": "fill",
       "title": "Which pronoun?",
-      "hint": "a + person, then me, te, le, nos, os, les.",
+      "hint": "a mim → me, a ti → te, a ele/ela/ao Omar → lhe, a nós → nos, a eles/aos meus pais → lhes.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "A mí ___ encanta Sevilla.", "answer": "me", "choices": ["me", "mi", "yo"], "why": "a mí goes with me." },
-        { "prompt": "A Omar ___ duele la espalda.", "answer": "le", "choices": ["le", "lo", "se"], "why": "One person: le." },
-        { "prompt": "A mis padres ___ interesa la política.", "answer": "les", "choices": ["le", "les", "los"], "why": "Several people: les." },
-        { "prompt": "A nosotros ___ molesta el ruido.", "answer": "nos", "choices": ["nos", "les", "os"], "why": "a nosotros goes with nos." },
-        { "prompt": "¿A ti ___ apetece salir?", "answer": "te", "choices": ["te", "ti", "se"], "why": "a ti goes with te.", "es419": { "note": "In Latin America: ¿Quieres salir?" } },
-        { "prompt": "A Fatima ___ parece bien la cita.", "answer": "le", "choices": ["le", "la", "se"], "why": "One person, in this pattern: le, even for a woman." },
-        { "prompt": "¿A vosotros ___ hace falta algo?", "answer": "os", "choices": ["os", "nos", "les"], "why": "a vosotros goes with os.", "es419": { "note": "In Latin America: ¿A ustedes les hace falta algo?", "skip": true } }
+        { "prompt": "A mim apetece-___ um café.", "answer": "me", "choices": ["me", "mim", "eu"], "why": "a mim goes with me." },
+        { "prompt": "Ao Omar doem-___ as costas.", "answer": "lhe", "choices": ["lhe", "o", "se"], "why": "One person: lhe. The verb is plural because of as costas." },
+        { "prompt": "Aos meus pais falta-___ tempo.", "answer": "lhes", "choices": ["lhe", "lhes", "os"], "why": "Several people: lhes." },
+        { "prompt": "A nós custa-___ muito acordar cedo.", "answer": "nos", "choices": ["nos", "lhes", "vos"], "why": "a nós goes with nos." },
+        { "prompt": "A ti apetece-___ sair?", "answer": "te", "choices": ["te", "ti", "se"], "why": "a ti goes with te.", "ptBR": { "note": "In Brazil: Você quer sair?", "form": "Você quer sair?" } },
+        { "prompt": "À Fátima parece-___ boa ideia.", "answer": "lhe", "choices": ["lhe", "a", "se"], "why": "One person, in this pattern: lhe, even for a woman." },
+        { "prompt": "A vocês falta-___ alguma coisa?", "answer": "lhes", "choices": ["lhes", "nos", "vos"], "why": "vocês takes the 3rd person: lhes (vos is archaic)." }
       ]
     },
     {
       "type": "table",
       "title": "Make the sentence.",
-      "hint": "Person · verb · thing. The verb agrees with the thing.",
+      "hint": "Verb + pronoun, then the thing. The verb agrees with the thing.",
       "columns": ["Words", "Sentence"],
       "placeholder": "Sentence",
       "rows": [
-        { "term": "yo · encantar · este piso", "answer": "Me encanta este piso.", "choices": ["Me encanta este piso.", "Yo encanto este piso.", "Me encantan este piso."], "es419": { "note": "In Latin America: este departamento." } },
-        { "term": "tú · doler · los pies", "answer": "Te duelen los pies.", "choices": ["Te duele los pies.", "Te duelen los pies.", "Tú dueles los pies."] },
-        { "term": "Ana · molestar · el humo", "answer": "A Ana le molesta el humo.", "choices": ["A Ana le molesta el humo.", "Ana molesta el humo.", "A Ana le molestan el humo."] },
-        { "term": "nosotros · interesar · las noticias", "answer": "Nos interesan las noticias.", "choices": ["Nos interesa las noticias.", "Interesamos las noticias.", "Nos interesan las noticias."] },
-        { "term": "mis hijos · faltar · un libro", "answer": "A mis hijos les falta un libro.", "choices": ["A mis hijos les falta un libro.", "Mis hijos faltan un libro.", "A mis hijos les faltan un libro."] },
-        { "term": "yo · hacer falta · un documento", "answer": "Me hace falta un documento.", "choices": ["Hago falta un documento.", "Me hace falta un documento.", "Me hacen falta un documento."] }
+        { "term": "eu · encantar · este apartamento", "answer": "Encanta-me este apartamento.", "choices": ["Encanta-me este apartamento.", "Encanto este apartamento.", "Encantam-me este apartamento."], "ptBR": { "note": "In Brazil: Me encanta este apartamento.", "form": "Me encanta este apartamento." } },
+        { "term": "tu · doer · os pés", "answer": "Doem-te os pés.", "choices": ["Dói-te os pés.", "Doem-te os pés.", "Dóis os pés."] },
+        { "term": "a Ana · doer · a cabeça", "answer": "À Ana dói-lhe a cabeça.", "choices": ["À Ana dói-lhe a cabeça.", "A Ana dói a cabeça.", "À Ana doem-lhe a cabeça."] },
+        { "term": "nós · interessar · as notícias", "answer": "Interessam-nos as notícias.", "choices": ["Interessa-nos as notícias.", "Interessamos as notícias.", "Interessam-nos as notícias."] },
+        { "term": "os meus filhos · faltar · um livro", "answer": "Aos meus filhos falta-lhes um livro.", "choices": ["Aos meus filhos falta-lhes um livro.", "Os meus filhos faltam um livro.", "Aos meus filhos faltam-lhes um livro."] },
+        { "term": "eu · fazer falta · um documento", "answer": "Faz-me falta um documento.", "choices": ["Faço falta um documento.", "Faz-me falta um documento.", "Fazem-me falta um documento."] }
       ]
     },
     {
@@ -206,43 +206,44 @@
       "title": "What does it mean?",
       "hint": "The English often has the person first.",
       "pairs": [
-        { "q": "Me duele la cabeza.", "a": "I have a headache." },
-        { "q": "Me encanta este barrio.", "a": "I love this neighbourhood." },
-        { "q": "¿Te apetece salir?", "a": "Do you feel like going out?" },
-        { "q": "Me hace falta un bolígrafo.", "a": "I need a pen." },
-        { "q": "Me queda bien.", "a": "It suits me." },
-        { "q": "¿Qué te parece?", "a": "What do you think of it?" }
+        { "q": "Dói-me a cabeça.", "a": "I have a headache." },
+        { "q": "Encanta-me este bairro.", "a": "I love this neighbourhood." },
+        { "q": "Apetece-te sair?", "a": "Do you feel like going out?" },
+        { "q": "Faz-me falta uma caneta.", "a": "I need a pen." },
+        { "q": "Fica-me bem.", "a": "It suits me." },
+        { "q": "Que te parece?", "a": "What do you think of it?" },
+        { "q": "Custa-me levantar cedo.", "a": "It is hard for me to get up early." }
       ]
     },
     {
       "type": "story",
       "title": "Fill the gaps: Yuri has a bad day.",
-      "hint": "Which verb fits the sentence?",
-      "choices": ["encanta", "duele", "molesta", "apetece", "parece"],
+      "hint": "Which verb fits the sentence? The pronoun is already written.",
+      "choices": ["dói", "custa", "falta", "apetece", "parece"],
       "segments": [
-        { "text": "A Yuri le " },
-        { "blank": 0, "answer": "encanta" },
-        { "text": " su barrio porque es tranquilo. Pero hoy le " },
-        { "blank": 1, "answer": ["duele", "molesta"] },
-        { "text": " mucho la cabeza y hay obras en la calle. También le " },
-        { "blank": 2, "answer": "molesta" },
-        { "text": " el ruido. Su compañera le pregunta: “¿Te " },
-        { "blank": 3, "answer": "apetece" },
-        { "text": " tomar un café?”. Yuri contesta: “Me " },
-        { "blank": 4, "answer": "parece" },
-        { "text": " bien, pero en mi casa”." }
+        { "text": "Hoje ao Yuri " },
+        { "blank": 0, "answer": "dói" },
+        { "text": "-lhe muito a cabeça e há obras na rua. Com tanto barulho, " },
+        { "blank": 1, "answer": "custa" },
+        { "text": "-lhe trabalhar. Além disso, " },
+        { "blank": 2, "answer": ["falta", "faz"] },
+        { "text": "-lhe o carregador do computador. A colega pergunta: “" },
+        { "blank": 3, "answer": "Apetece" },
+        { "text": "-te tomar um café?” O Yuri responde: “" },
+        { "blank": 4, "answer": "Parece" },
+        { "text": "-me boa ideia, mas em casa.”" }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
-      "hint": "First the pronoun, then the verb, then the thing.",
+      "hint": "Verb and pronoun together (with a hyphen), then the thing.",
       "sentences": [
-        { "id": "gu1", "hint": "I have a headache", "correct": ["Me", "duele", "la", "cabeza", "."], "shuffled": ["cabeza", ".", "duele", "Me", "la"] },
-        { "id": "gu2", "hint": "Omar loves football", "correct": ["A", "Omar", "le", "encanta", "el", "fútbol", "."], "shuffled": ["le", "fútbol", ".", "Omar", "A", "el", "encanta"], "alt": [["Le", "encanta", "el", "fútbol", "a", "Omar", "."]] },
-        { "id": "gu3", "hint": "Do you feel like a coffee?", "correct": ["¿Te", "apetece", "un", "café", "?"], "shuffled": ["café", "?", "apetece", "¿Te", "un"], "es419": { "note": "In Latin America: ¿Quieres un café?" } },
-        { "id": "gu4", "hint": "I need two photos", "correct": ["Me", "hacen", "falta", "dos", "fotos", "."], "shuffled": ["dos", ".", "falta", "fotos", "Me", "hacen"] },
-        { "id": "gu5", "hint": "This shirt suits me", "correct": ["Esta", "camisa", "me", "queda", "bien", "."], "shuffled": ["bien", "me", ".", "Esta", "queda", "camisa"] }
+        { "id": "gu1", "hint": "I have a headache", "correct": ["Dói-me", "a", "cabeça", "."], "shuffled": ["cabeça", ".", "Dói-me", "a"], "ptBR": { "note": "In Brazil: Me dói a cabeça.", "form": "Me dói a cabeça." } },
+        { "id": "gu2", "hint": "Omar feels like a coffee", "correct": ["Ao", "Omar", "apetece-lhe", "um", "café", "."], "shuffled": ["apetece-lhe", "café", ".", "Omar", "Ao", "um"], "alt": [["Apetece-lhe", "um", "café", "ao", "Omar", "."]] },
+        { "id": "gu3", "hint": "Do you feel like a coffee?", "correct": ["Apetece-te", "um", "café", "?"], "shuffled": ["café", "?", "Apetece-te", "um"], "ptBR": { "note": "In Brazil: Quer um café?", "form": "Quer um café?" } },
+        { "id": "gu4", "hint": "I need two photos", "correct": ["Fazem-me", "falta", "duas", "fotografias", "."], "shuffled": ["duas", ".", "falta", "fotografias", "Fazem-me"] },
+        { "id": "gu5", "hint": "This jumper suits me", "correct": ["Esta", "camisola", "fica-me", "bem", "."], "shuffled": ["bem", "fica-me", ".", "Esta", "camisola"] }
       ]
     }
   ]

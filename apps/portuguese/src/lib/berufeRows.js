@@ -3,13 +3,13 @@
 // (berufeWortschatz.rowsOf) and the live quiz (liveQuiz/questions.js). No node: imports, so
 // the quiz host can load it in the browser. A deck's unit id is `berufe-<beruf>-<gruppe>`,
 // the same id VokabelTrainer gets as its deck.
-import { BERUFE, DGT, BUSINESS, refKind } from "./berufeCore.js";
+import { BERUFE, IMT, BUSINESS, refKind } from "./berufeCore.js";
 import { byId as lexiconById } from "./lexicon.js";
-import { businessDeck } from "./businessSpanish.js";
+import { businessDeck } from "./businessPortuguese.js";
 
 const modules = {
-  ...import.meta.glob(["../data/berufe/*.json", "../data/dgt/*.json"], { eager: true, import: "default" }),
-  business: businessDeck(Object.values(import.meta.glob("../data/business-spanish/*.json", { eager: true, import: "default" }))),
+  ...import.meta.glob(["../data/berufe/*.json", "../data/imt/*.json"], { eager: true, import: "default" }),
+  business: businessDeck(Object.values(import.meta.glob("../data/business-portuguese/*.json", { eager: true, import: "default" }))),
 };
 
 /** The decks point at lexicon ids, and check-berufe fails on one that is gone. Should a page ever
@@ -18,7 +18,7 @@ const resolves = (w) => !w.ref || refKind(w.ref) !== "lexicon" || !!lexiconById(
 export const liveDeck = (deck) => ({ ...deck, groups: (deck.groups ?? []).map((g) => ({ ...g, words: (g.words ?? []).filter(resolves) })) });
 
 const decks = Object.fromEntries(
-  [...BERUFE, DGT, BUSINESS].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
+  [...BERUFE, IMT, BUSINESS].map((b) => [b.slug, Object.values(modules).find((d) => d?.beruf === b.slug)]).filter(([, d]) => d).map(([s, d]) => [s, liveDeck(d)])
 );
 
 const own = new Map(
@@ -49,7 +49,7 @@ export function rowOf(w) {
   return row;
 }
 
-/** `berufe-hotel-taetigkeiten` (or `berufe-dgt-road`) → { slug, group } or null. */
+/** `berufe-hotel-taetigkeiten` (or `berufe-imt-road`) → { slug, group } or null. */
 export function berufeUnit(unit) {
   if (!unit?.startsWith("berufe-")) return null;
   for (const [slug, deck] of Object.entries(decks)) {

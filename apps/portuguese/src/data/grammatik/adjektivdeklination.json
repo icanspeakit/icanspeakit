@@ -1,88 +1,92 @@
 {
   "id": "adjektivdeklination",
-  "name": "Adjective position and short forms: buen, gran, un gran hombre",
+  "name": "Adjective position and short forms: bom, mau, grande, são",
   "level": "B1",
-  "variety": "es-ES",
-  "es419": { "note": "Position and short forms work the same in Latin America. Coche is carro there." },
-  "subtitle": "Most adjectives go after the noun: un coche rojo. A few can go before it and lose their ending before a masculine singular noun: buen, mal, primer, tercer, algún, ningún. Gran is short before any singular noun. Some adjectives change meaning with position: un gran hombre, un hombre grande.",
-  "briefMarks": ["buen", "mal", "primer", "tercer", "algún", "ningún", "gran"],
-  "source": "icanspeak Spanish original text (grammar-b1 run, 2026-11-04)",
+  "variety": "pt-PT",
+  "ptBR": { "note": "Position, bom/mau and São/Santo work the same in Brazil. Brazil says térreo, where Portugal says rés-do-chão, for the ground floor." },
+  "subtitle": "Most adjectives go after the noun: um carro vermelho. A few can go before it, to give an opinion: uma boa ideia, um mau dia. Bom, mau, primeiro and grande keep one form per gender, but santo becomes são before a masculine name starting with a consonant: São João. Some adjectives change meaning with position: um grande homem, um homem grande.",
+  "briefMarks": ["bom", "boa", "mau", "má", "primeiro", "grande", "são", "santo"],
+  "source": "icanspeak Portuguese original text (grammar-b1 run, 2026-11-13)",
   "concept": {
     "comic": {
-      "title": "¿Un {gran} hombre o un hombre {grande}?",
+      "title": "Um {grande} homem ou um homem {grande}?",
       "panels": [
         {
           "caption": "Before the noun",
-          "tag": "{gran} = great",
-          "left": { "name": "regi", "expr": "thinking", "say": "¿Cómo es tu médico?" },
-          "right": { "name": "bruno", "expr": "happy", "say": "Es un {gran} hombre. Ayuda a todos." }
+          "tag": "{grande} = great",
+          "left": { "name": "regi", "expr": "thinking", "say": "Como é o teu médico?" },
+          "right": { "name": "bruno", "expr": "happy", "say": "É um {grande} homem. Ajuda toda a gente." }
         },
         {
           "caption": "After the noun",
           "tag": "{grande} = big",
-          "left": { "name": "quaki", "expr": "oops", "say": "¡Mira a ese hombre {grande}!" },
-          "right": { "name": "hamsti", "expr": "happy", "say": "Sí, ¡mide dos metros!" }
+          "left": { "name": "quaki", "expr": "oops", "say": "Olha para aquele homem {grande}!" },
+          "right": { "name": "hamsti", "expr": "happy", "say": "Sim, mede dois metros!" }
         }
       ]
     },
     "flow": [
-      { "text": "buen · mal · primer · gran", "variant": "prep" },
+      { "text": "bom · mau · primeiro · grande", "variant": "prep" },
       { "text": "noun" },
-      { "text": "rojo · español · redondo", "variant": "verb" }
+      { "text": "vermelho · português · redondo", "variant": "verb" }
     ],
-    "exampleHtml": "Hoy hace <span class=\"vp-prep\">buen</span> tiempo. · Vivo en el <span class=\"vp-prep\">primer</span> piso. · Madrid es una <span class=\"vp-prep\">gran</span> ciudad. · Tengo un coche <span class=\"vp-verb\">rojo</span>. · Mi médica es <span class=\"vp-verb\">española</span>.",
+    "exampleHtml": "Hoje faz <span class=\"vp-prep\">bom</span> tempo. · Vivo no <span class=\"vp-prep\">primeiro</span> andar. · Lisboa é uma <span class=\"vp-prep\">grande</span> cidade. · Tenho um carro <span class=\"vp-verb\">vermelho</span>. · A minha médica é <span class=\"vp-verb\">portuguesa</span>.",
     "qa": [
       {
-        "html": "<strong>After the noun</strong> is the normal place, above all when the adjective separates one thing from others: colour, nationality, shape. <em>un coche rojo, una médica española, una mesa redonda</em>.",
+        "html": "<strong>After the noun</strong> is the normal place, above all when the adjective separates one thing from others: colour, nationality, shape. <em>um carro vermelho, uma médica portuguesa, uma mesa redonda</em>.",
         "tag": "After the noun"
       },
       {
-        "html": "<strong>Before the noun</strong>, an adjective gives an opinion or a value, more than a description: <em>una buena idea, un mal momento</em>.",
+        "html": "<strong>Before the noun</strong>, an adjective gives an opinion or a value, more than a description: <em>uma boa ideia, um mau momento, um grande dia</em>.",
         "tag": "Before the noun"
       },
       {
-        "html": "Before a <strong>masculine singular</strong> noun, these lose the <em>-o</em>: <em>bueno → buen, malo → mal, primero → primer, tercero → tercer, alguno → algún, ninguno → ningún</em>. Feminine and plural don't change: <em>una buena amiga, buenos días, la primera vez</em>.",
-        "tag": "Short forms"
+        "html": "<strong>bom, mau, primeiro, terceiro</strong> agree with the noun, but do not shorten: <em>um bom trabalho, uma boa ideia, bons amigos; um mau dia, uma má notícia, maus momentos; o primeiro andar, a primeira vez, os primeiros dias</em>. Note <em>mau</em> (adjective) and <em>mal</em> (adverb): <em>Dormi mal. Foi um mau dia.</em>",
+        "tag": "bom, mau, primeiro"
       },
       {
-        "html": "<strong>grande → gran</strong> before <strong>any</strong> singular noun, masculine or feminine: <em>un gran problema, una gran ciudad</em>. In the plural: <em>grandes ciudades</em>. <strong>ciento → cien</strong> before a noun: <em>cien euros</em>; but <em>ciento veinte euros</em>.",
-        "tag": "gran, cien"
+        "html": "<strong>santo → são</strong> before the name of a male saint that starts with a <strong>consonant</strong>: <em>São João, São Pedro, São José</em>. Before a vowel it stays <em>Santo</em>: <em>Santo António</em>. For women it is always <em>Santa</em>: <em>Santa Catarina</em>.",
+        "tag": "são, santo, santa"
       },
       {
-        "html": "A few change meaning. <strong>grande:</strong> <em>un gran hombre</em> (great) · <em>un hombre grande</em> (big). <strong>viejo:</strong> <em>un viejo amigo</em> (for many years) · <em>un amigo viejo</em> (elderly). <strong>pobre:</strong> <em>¡Pobre niño!</em> (I feel sorry for him) · <em>un niño pobre</em> (no money).",
+        "html": "<strong>grande</strong> has one form for masculine and feminine, and <em>grandes</em> in the plural: <em>um grande problema, uma grande cidade, grandes cidades</em>. Numbers: <em>cem euros</em>, but <em>cento e vinte euros</em>.",
+        "tag": "grande, cem"
+      },
+      {
+        "html": "A few change meaning. <strong>grande:</strong> <em>um grande homem</em> (great) · <em>um homem grande</em> (big). <strong>velho:</strong> <em>um velho amigo</em> (for many years) · <em>um amigo velho</em> (elderly). <strong>pobre:</strong> <em>Pobre menino!</em> (I feel sorry for him) · <em>um menino pobre</em> (no money). <strong>novo:</strong> <em>um novo carro</em> (another one, new to you) · <em>um carro novo</em> (brand new).",
         "tag": "Meaning changes"
       },
       {
-        "html": "<strong>mismo</strong> before the noun means <strong>same</strong>: <em>Vivimos en la misma calle.</em> After a noun or pronoun, it means <strong>myself, herself…</strong>: <em>Lo hago yo mismo. La directora misma me llamó.</em>",
-        "tag": "mismo"
+        "html": "<strong>mesmo</strong> before the noun means <strong>same</strong>: <em>Vivemos na mesma rua.</em> After a pronoun, it stresses the person: <em>Fiz isto eu mesmo.</em> For a noun, use <em>próprio</em> before it: <em>Falei com o próprio diretor.</em>",
+        "tag": "mesmo, próprio"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>un bueno trabajo</em> → ✓ <em>un buen trabajo</em>. ✗ <em>una buen amiga</em> → ✓ <em>una buena amiga</em>. ✗ <em>una grande ciudad</em> → ✓ <em>una gran ciudad</em>. ✗ <em>un rojo coche</em> → ✓ <em>un coche rojo</em>. ✗ <em>el tercero piso</em> → ✓ <em>el tercer piso</em>.",
+    "noteHtml": "Common mistakes: ✗ <em>um vermelho carro</em> → ✓ <em>um carro vermelho</em>. ✗ <em>um mal dia</em> → ✓ <em>um mau dia</em>. ✗ <em>uma mau notícia</em> → ✓ <em>uma má notícia</em>. ✗ <em>a primeiro vez</em> → ✓ <em>a primeira vez</em>. ✗ <em>Santo João</em> → ✓ <em>São João</em>. ✗ <em>São António</em> → ✓ <em>Santo António</em>.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
       "tables": [
         {
-          "caption": "Short forms",
-          "head": ["Adjective", "Before a masc. sing. noun", "Feminine", "Plural"],
+          "caption": "Forms",
+          "head": ["Adjective", "Masculine", "Feminine", "Plural"],
           "rows": [
-            ["bueno", "un buen trabajo", "una buena idea", "buenos amigos"],
-            ["malo", "un mal día", "una mala noticia", "malos momentos"],
-            ["primero", "el primer piso", "la primera vez", "los primeros días"],
-            ["tercero", "el tercer piso", "la tercera calle", "los terceros"],
-            ["alguno", "algún problema", "alguna duda", "algunos papeles"],
-            ["ninguno", "ningún problema", "ninguna duda", "(not usual)"],
-            ["grande", "un gran hombre", "una gran ciudad", "grandes ciudades"]
+            ["bom", "um bom trabalho", "uma boa ideia", "bons amigos"],
+            ["mau", "um mau dia", "uma má notícia", "maus momentos"],
+            ["primeiro", "o primeiro andar", "a primeira vez", "os primeiros dias"],
+            ["terceiro", "o terceiro andar", "a terceira rua", "os terceiros"],
+            ["grande", "um grande homem", "uma grande cidade", "grandes cidades"],
+            ["santo", "São João (consonant), Santo António (vowel)", "Santa Catarina", "os santos"]
           ]
         },
         {
           "caption": "Position changes the meaning",
           "head": ["Before the noun", "After the noun"],
           "rows": [
-            ["un gran hombre: a great man", "un hombre grande: a big man"],
-            ["un viejo amigo: a friend for many years", "un amigo viejo: an elderly friend"],
-            ["¡Pobre niño!: I feel sorry for him", "un niño pobre: a child with no money"],
-            ["la misma doctora: the same doctor", "la doctora misma: the doctor herself"]
+            ["um grande homem: a great man", "um homem grande: a big man"],
+            ["um velho amigo: a friend for many years", "um amigo velho: an elderly friend"],
+            ["Pobre menino!: I feel sorry for him", "um menino pobre: a child with no money"],
+            ["um novo carro: another car, new to you", "um carro novo: a brand-new car"],
+            ["o mesmo médico: the same doctor", "o médico mesmo: the doctor himself (usually o próprio médico)"]
           ]
         }
       ],
@@ -91,8 +95,8 @@
           "badge": "Careful",
           "variant": "dat",
           "items": [
-            "gran: short before masculine and feminine singular nouns.",
-            "buen, mal, primer, tercer, algún, ningún: short only before masculine singular nouns."
+            "bom, mau, primeiro, terceiro, grande: no short form. They only agree with the noun.",
+            "santo: são before a masculine name starting with a consonant; Santo before a vowel; Santa for women."
           ]
         }
       ]
@@ -100,43 +104,43 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Hoy hace buen tiempo.", "note": "bueno → buen before a masculine noun." },
-      { "text": "Es una buena idea.", "note": "Feminine: no short form." },
-      { "text": "Madrid es una gran ciudad.", "note": "gran before any singular noun." },
-      { "text": "Vivo en el tercer piso.", "note": "tercero → tercer." },
-      { "text": "No tengo ningún problema.", "note": "ninguno → ningún." }
+      { "text": "Hoje faz bom tempo.", "note": "bom before the noun: an opinion." },
+      { "text": "É uma boa ideia.", "note": "Feminine: boa." },
+      { "text": "Lisboa é uma grande cidade.", "note": "grande: one form for both genders." },
+      { "text": "Vivo no terceiro andar.", "note": "terceiro: no short form." },
+      { "text": "A festa de São João é em junho.", "note": "são before a masculine name with a consonant." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Es un viejo amigo.", "choices": ["Es un amigo viejo.", "Es un viejo amigo.", "Es un buen amigo."], "correct": 1 },
-        { "text": "Es un hombre grande.", "choices": ["Es un hombre grande.", "Es un gran hombre.", "Es un hombre pobre."], "correct": 0 },
-        { "text": "¿Tienes algún problema?", "choices": ["¿Tienes ningún problema?", "¿Tienes un gran problema?", "¿Tienes algún problema?"], "correct": 2 },
-        { "text": "Es la primera vez.", "choices": ["Es el primer día.", "Es la primera vez.", "Es la tercera vez."], "correct": 1 }
+        { "text": "É um velho amigo.", "choices": ["É um amigo velho.", "É um velho amigo.", "É um bom amigo."], "correct": 1 },
+        { "text": "É um homem grande.", "choices": ["É um homem grande.", "É um grande homem.", "É um homem pobre."], "correct": 0 },
+        { "text": "A festa de São João é em junho.", "choices": ["A festa de São João é em junho.", "A festa de Santo António é em junho.", "A festa de São Pedro é em junho."], "correct": 0 },
+        { "text": "É a primeira vez.", "choices": ["É o primeiro dia.", "É a primeira vez.", "É a terceira vez."], "correct": 1 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · Short form",
-          "instruction": "You hear a noun. Say that it is a good one, with bueno in the right form.",
-          "example": { "prompt": "trabajo", "answer": "Es un buen trabajo." },
+          "label": "1 · A good one",
+          "instruction": "You hear a noun. Say that it is a good one, with bom in the right form.",
+          "example": { "prompt": "trabalho", "answer": "É um bom trabalho." },
           "items": [
-            { "prompt": "idea", "answer": "Es una buena idea." },
-            { "prompt": "médico", "answer": "Es un buen médico." },
-            { "prompt": "amiga", "answer": "Es una buena amiga." },
-            { "prompt": "barrio", "answer": "Es un buen barrio." }
+            { "prompt": "ideia", "answer": "É uma boa ideia." },
+            { "prompt": "médico", "answer": "É um bom médico." },
+            { "prompt": "amiga", "answer": "É uma boa amiga." },
+            { "prompt": "bairro", "answer": "É um bom bairro." }
           ]
         },
         {
-          "label": "2 · No problem",
-          "instruction": "You hear a noun. Say that you don't have any, with ningún or ninguna.",
-          "example": { "prompt": "problema", "answer": "No tengo ningún problema." },
+          "label": "2 · A bad one",
+          "instruction": "You hear a noun. Say that it is a bad one, with mau in the right form.",
+          "example": { "prompt": "dia", "answer": "É um mau dia." },
           "items": [
-            { "prompt": "duda", "answer": "No tengo ninguna duda." },
-            { "prompt": "cita", "answer": "No tengo ninguna cita." },
-            { "prompt": "documento", "answer": "No tengo ningún documento." },
-            { "prompt": "pregunta", "answer": "No tengo ninguna pregunta." }
+            { "prompt": "notícia", "answer": "É uma má notícia." },
+            { "prompt": "momento", "answer": "É um mau momento." },
+            { "prompt": "ideia", "answer": "É uma má ideia." },
+            { "prompt": "ano", "answer": "É um mau ano." }
           ]
         }
       ]
@@ -145,19 +149,19 @@
   "exercises": [
     {
       "type": "fill",
-      "title": "Short form or not?",
-      "hint": "Short before a masculine singular noun. gran: before any singular noun.",
+      "title": "Which form fits?",
+      "hint": "Agree with the noun. Santo becomes são before a masculine name starting with a consonant.",
       "placeholder": "Form",
       "items": [
-        { "prompt": "Hoy hace ___ tiempo.", "hint": "bueno", "answer": "buen", "choices": ["buen", "bueno", "buena"], "why": "el tiempo: masculine singular, before the noun." },
-        { "prompt": "Es una ___ idea.", "hint": "bueno", "answer": "buena", "choices": ["buen", "bueno", "buena"], "why": "la idea: feminine, so no short form." },
-        { "prompt": "Vivo en el ___ piso.", "hint": "primero", "answer": "primer", "choices": ["primer", "primero", "primera"], "why": "el piso: masculine singular." },
-        { "prompt": "Este es un ___ momento para hablar.", "hint": "malo", "answer": "mal", "choices": ["mal", "malo", "mala"], "why": "el momento: masculine singular." },
-        { "prompt": "¿Tienes ___ problema?", "hint": "alguno", "answer": "algún", "choices": ["algún", "alguno", "alguna"], "why": "el problema: masculine singular." },
-        { "prompt": "No tengo ___ problema.", "hint": "ninguno", "answer": "ningún", "choices": ["ningún", "ninguno", "ninguna"], "why": "el problema: masculine singular." },
-        { "prompt": "Esta es la ___ vez que vengo.", "hint": "primero", "answer": "primera", "choices": ["primer", "primero", "primera"], "why": "la vez: feminine, so no short form." },
-        { "prompt": "Madrid es una ___ ciudad.", "hint": "grande", "answer": "gran", "choices": ["gran", "grande", "grandes"], "why": "gran before any singular noun." },
-        { "prompt": "Mi oficina está en el ___ piso.", "hint": "tercero", "answer": "tercer", "choices": ["tercer", "tercero", "tercera"], "why": "el piso: masculine singular." }
+        { "prompt": "Hoje faz ___ tempo.", "hint": "bom", "answer": "bom", "choices": ["bom", "boa", "bem"], "why": "o tempo: masculine singular." },
+        { "prompt": "É uma ___ ideia.", "hint": "bom", "answer": "boa", "choices": ["bom", "boa", "bem"], "why": "a ideia: feminine." },
+        { "prompt": "Vivo no ___ andar.", "hint": "primeiro", "answer": "primeiro", "choices": ["primeiro", "primeira", "primeiros"], "why": "o andar: masculine singular." },
+        { "prompt": "Foi um ___ dia.", "hint": "mau", "answer": "mau", "choices": ["mau", "má", "mal"], "why": "o dia: masculine. Mal is the adverb." },
+        { "prompt": "Recebi uma ___ notícia.", "hint": "mau", "answer": "má", "choices": ["mau", "má", "mal"], "why": "a notícia: feminine." },
+        { "prompt": "A festa de ___ João é em junho.", "hint": "santo", "answer": "São", "choices": ["São", "Santo", "Santa"], "why": "Masculine name starting with a consonant." },
+        { "prompt": "A igreja de ___ António é muito antiga.", "hint": "santo", "answer": "Santo", "choices": ["São", "Santo", "Santa"], "why": "The name starts with a vowel: Santo." },
+        { "prompt": "Lisboa e Porto são ___ cidades.", "hint": "grande", "answer": "grandes", "choices": ["grande", "grandes", "grandeza"], "why": "Plural: grandes." },
+        { "prompt": "Esta é a ___ vez que venho cá.", "hint": "primeiro", "answer": "primeira", "choices": ["primeiro", "primeira", "primeiras"], "why": "a vez: feminine singular." }
       ]
     },
     {
@@ -166,13 +170,13 @@
       "hint": "The sentence around the gap tells you the meaning.",
       "placeholder": "Words",
       "items": [
-        { "prompt": "Omar y yo nos conocemos desde hace veinte años. Es un ___.", "answer": "viejo amigo", "choices": ["viejo amigo", "amigo viejo"], "why": "A friend for many years: viejo before the noun." },
-        { "prompt": "Mi coche tiene treinta años y funciona mal. Es un ___.", "answer": "coche viejo", "choices": ["viejo coche", "coche viejo"], "why": "Old in years: viejo after the noun.", "es419": { "note": "In Latin America: carro viejo." } },
-        { "prompt": "Mi jefe mide dos metros. Es un ___.", "answer": "hombre grande", "choices": ["gran hombre", "hombre grande"], "why": "Size: grande after the noun." },
-        { "prompt": "Ese médico ayudó a miles de personas. Es un ___.", "answer": "gran hombre", "choices": ["gran hombre", "hombre grande"], "why": "Great, admired: gran before the noun." },
-        { "prompt": "¡___! Se ha caído y le duele la pierna.", "answer": "Pobre niño", "choices": ["Pobre niño", "Niño pobre"], "why": "You feel sorry for him: pobre before the noun." },
-        { "prompt": "En este barrio hay ___: sus padres no tienen dinero.", "answer": "niños pobres", "choices": ["pobres niños", "niños pobres"], "why": "No money: pobre after the noun." },
-        { "prompt": "Luis y yo vivimos en ___.", "answer": "la misma calle", "choices": ["la misma calle", "la calle misma"], "why": "The same street: mismo before the noun." }
+        { "prompt": "Conheço o Omar há vinte anos. É um ___.", "answer": "velho amigo", "choices": ["velho amigo", "amigo velho"], "why": "A friend for many years: velho before the noun." },
+        { "prompt": "O meu carro tem trinta anos e já não anda bem. É um ___.", "answer": "carro velho", "choices": ["velho carro", "carro velho"], "why": "Old in years: velho after the noun." },
+        { "prompt": "O meu chefe mede dois metros. É um ___.", "answer": "homem grande", "choices": ["grande homem", "homem grande"], "why": "Size: grande after the noun." },
+        { "prompt": "Esse médico ajudou milhares de pessoas. É um ___.", "answer": "grande homem", "choices": ["grande homem", "homem grande"], "why": "Great, admired: grande before the noun." },
+        { "prompt": "___! Caiu e dói-lhe a perna.", "answer": "Pobre menino", "choices": ["Pobre menino", "Menino pobre"], "why": "You feel sorry for him: pobre before the noun." },
+        { "prompt": "Neste bairro há ___: os pais não têm dinheiro.", "answer": "meninos pobres", "choices": ["pobres meninos", "meninos pobres"], "why": "No money: pobre after the noun." },
+        { "prompt": "O Luís e eu vivemos ___.", "answer": "na mesma rua", "choices": ["na mesma rua", "na rua mesma"], "why": "The same street: mesmo before the noun." }
       ]
     },
     {
@@ -182,11 +186,11 @@
       "columns": ["Words", "Together"],
       "placeholder": "Words",
       "rows": [
-        { "term": "coche · rojo", "answer": "un coche rojo", "choices": ["un coche rojo", "un rojo coche"], "es419": { "note": "In Latin America: un carro rojo." } },
-        { "term": "casa · blanca", "answer": "una casa blanca", "choices": ["una blanca casa", "una casa blanca"] },
-        { "term": "médica · española", "answer": "una médica española", "choices": ["una médica española", "una española médica"] },
-        { "term": "mesa · redonda", "answer": "una mesa redonda", "choices": ["una redonda mesa", "una mesa redonda"] },
-        { "term": "familia · marroquí", "answer": "una familia marroquí", "choices": ["una familia marroquí", "una marroquí familia"] }
+        { "term": "carro · vermelho", "answer": "um carro vermelho", "choices": ["um carro vermelho", "um vermelho carro"] },
+        { "term": "casa · branca", "answer": "uma casa branca", "choices": ["uma branca casa", "uma casa branca"] },
+        { "term": "médica · portuguesa", "answer": "uma médica portuguesa", "choices": ["uma médica portuguesa", "uma portuguesa médica"] },
+        { "term": "mesa · redonda", "answer": "uma mesa redonda", "choices": ["uma redonda mesa", "uma mesa redonda"] },
+        { "term": "família · marroquina", "answer": "uma família marroquina", "choices": ["uma família marroquina", "uma marroquina família"] }
       ]
     },
     {
@@ -194,43 +198,43 @@
       "title": "What does it mean?",
       "hint": "Look at where the adjective stands.",
       "pairs": [
-        { "q": "un gran hombre", "a": "a great man" },
-        { "q": "un hombre grande", "a": "a big man" },
-        { "q": "un viejo amigo", "a": "a friend for many years" },
-        { "q": "un amigo viejo", "a": "an elderly friend" },
-        { "q": "¡Pobre Ana!", "a": "I feel sorry for Ana!" },
-        { "q": "una mujer pobre", "a": "a woman with no money" }
+        { "q": "um grande homem", "a": "a great man" },
+        { "q": "um homem grande", "a": "a big man" },
+        { "q": "um velho amigo", "a": "a friend for many years" },
+        { "q": "um amigo velho", "a": "an elderly friend" },
+        { "q": "Pobre Ana!", "a": "I feel sorry for Ana!" },
+        { "q": "uma mulher pobre", "a": "a woman with no money" }
       ]
     },
     {
       "type": "story",
       "title": "Fill the gaps: Yuri's first day.",
-      "hint": "Short forms, and gran before ciudad.",
-      "choices": ["primer", "buen", "gran", "algún", "ningún"],
+      "hint": "Agree with the noun. Think about São and Santo.",
+      "choices": ["primeiro", "bom", "grande", "São", "boa"],
       "segments": [
-        { "text": "Hoy es el " },
-        { "blank": 0, "answer": "primer" },
-        { "text": " día de Yuri en su trabajo. Hace " },
-        { "blank": 1, "answer": "buen" },
-        { "text": " tiempo y llega al taller a las ocho. Su jefa le dice: “Bilbao es una " },
-        { "blank": 2, "answer": "gran" },
-        { "text": " ciudad, ¿verdad? ¿Tienes " },
-        { "blank": 3, "answer": "algún" },
-        { "text": " problema con el contrato?”. Yuri contesta: “No, no tengo " },
-        { "blank": 4, "answer": "ningún" },
-        { "text": " problema, gracias”." }
+        { "text": "Hoje é o " },
+        { "blank": 0, "answer": "primeiro" },
+        { "text": " dia de trabalho do Yuri. Faz " },
+        { "blank": 1, "answer": "bom" },
+        { "text": " tempo e ele chega à oficina às oito. A chefe diz-lhe: “O Porto é uma " },
+        { "blank": 2, "answer": "grande" },
+        { "text": " cidade, não é? Hoje é dia de " },
+        { "blank": 3, "answer": "São" },
+        { "text": " João e há festa na rua.” O Yuri responde: “Que " },
+        { "blank": 4, "answer": "boa" },
+        { "text": " notícia!”" }
       ]
     },
     {
       "type": "build",
       "title": "Build the sentences.",
-      "hint": "Short forms go before the noun. Colours go after it.",
+      "hint": "Opinion words go before the noun. Colours go after it.",
       "sentences": [
-        { "id": "ad1", "hint": "I have a good job", "correct": ["Tengo", "un", "buen", "trabajo", "."], "shuffled": ["trabajo", ".", "Tengo", "buen", "un"] },
-        { "id": "ad2", "hint": "I live on the first floor", "correct": ["Vivo", "en", "el", "primer", "piso", "."], "shuffled": ["piso", "el", ".", "Vivo", "primer", "en"] },
-        { "id": "ad3", "hint": "My parents don't have any problem", "correct": ["Mis", "padres", "no", "tienen", "ningún", "problema", "."], "shuffled": ["ningún", "padres", ".", "Mis", "problema", "no", "tienen"] },
-        { "id": "ad4", "hint": "Ana is a great doctor", "correct": ["Ana", "es", "una", "gran", "médica", "."], "shuffled": ["gran", ".", "es", "Ana", "médica", "una"] },
-        { "id": "ad5", "hint": "We have bought a red car", "correct": ["Hemos", "comprado", "un", "coche", "rojo", "."], "shuffled": ["rojo", "un", ".", "Hemos", "coche", "comprado"], "es419": { "note": "In Latin America: Compramos un carro rojo." } }
+        { "id": "ad1", "hint": "I have a good job", "correct": ["Tenho", "um", "bom", "trabalho", "."], "shuffled": ["trabalho", ".", "Tenho", "bom", "um"] },
+        { "id": "ad2", "hint": "I live on the first floor", "correct": ["Vivo", "no", "primeiro", "andar", "."], "shuffled": ["andar", "no", ".", "Vivo", "primeiro"] },
+        { "id": "ad3", "hint": "St John's party is in June", "correct": ["A", "festa", "de", "São", "João", "é", "em", "junho", "."], "shuffled": ["João", "em", ".", "A", "é", "São", "junho", "de", "festa"] },
+        { "id": "ad4", "hint": "Ana is a great doctor", "correct": ["A", "Ana", "é", "uma", "grande", "médica", "."], "shuffled": ["grande", ".", "é", "A", "médica", "uma", "Ana"] },
+        { "id": "ad5", "hint": "We have bought a red car", "correct": ["Comprámos", "um", "carro", "vermelho", "."], "shuffled": ["vermelho", "um", ".", "Comprámos", "carro"], "ptBR": { "note": "In Brazil: Compramos um carro vermelho (no accent)." } }
       ]
     }
   ]

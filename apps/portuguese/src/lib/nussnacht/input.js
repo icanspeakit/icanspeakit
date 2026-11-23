@@ -1,12 +1,12 @@
 // Hamstis Nussnacht: keyboard, touch and gamepad, read once per tick as
 // { mx, my, art, skill, pick } – exactly what the simulation takes and the replay records.
 //
-//   Desktop  WASD / arrows move · 1 2 3 4 or J K L Ñ = el la los las · Space = skill · Esc / P = pause
+//   Desktop  WASD / arrows move · 1 2 3 4 or J K L ; = o a os as · Space = skill · Esc / P = pause
 //   Touch    a floating joystick on the left half · the article buttons on the right
 //            (thumb zone) · the skill button above them
-//   Gamepad  left stick / d-pad · X el, A la, B los (LB/RB step through, also to las) · Y skill · Start pause
+//   Gamepad  left stick / d-pad · X o, A a, B os (LB/RB step through, also to as) · Y skill · Start pause
 //
-// los and las only answer once plurals are in the run: `artCount()` is 2 before that, 4 after.
+// os and as only answer once plurals are in the run: `artCount()` is 2 before that, 4 after.
 //
 // Movement is rounded to 1/64 so a recorded run stays small and replays bit for bit.
 

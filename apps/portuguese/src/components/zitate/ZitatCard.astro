@@ -28,7 +28,7 @@ const Tag = heading;
     <span class="zt-level">{q.level}</span>
   </div>
 
-  <blockquote class="zt-quote" lang="es" data-original>
+  <blockquote class="zt-quote" lang="pt" data-original>
     <Tag class="zt-quote-text">{q.text.split(" / ").map((line: string, n: number) => <>{n > 0 && <br />}{line}</>)}</Tag>
   </blockquote>
   <div class="zt-easy" data-easy hidden>
@@ -70,7 +70,7 @@ const Tag = heading;
     <ul>
       {q.words.map((w: any) => (
         <li>
-          <p class="zt-w" lang="es">
+          <p class="zt-w" lang="pt">
             {w.art && <span class={`zt-art zt-art--${w.art}`}>{w.art}</span>} <b>{w.de}</b>
             {w.art && w.pl && <small>, plural: {w.pl}</small>}
           </p>
