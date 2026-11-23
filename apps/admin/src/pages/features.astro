@@ -1,0 +1,22 @@
+---
+import Admin from "../layouts/Admin.astro";
+import data from "../data/features.json";
+const today = Date.parse(new Date().toISOString().slice(0, 10));
+const age = (d: string) => Math.round((today - Date.parse(d)) / 86400000);
+const all = [...data.features].sort((a, b) => b.seen.localeCompare(a.seen));
+const fresh = all.filter((f) => age(f.seen) <= 14);
+const areas = [...new Set(all.map((f) => f.area))];
+---
+<Admin active="features" sub={`${all.length} features, ${fresh.length} new in the last 14 days. List: src/data/features.json`}>
+  <h2>New</h2>
+  <div class="grid">
+    {fresh.length === 0 && <p class="none">Nothing new in 14 days.</p>}
+    {fresh.map((f) => <div class="card"><span class={`pill ${f.art === "new" ? "" : "grey"}`}>{f.art}</span> <span class="none">{f.seen}</span><h3>{f.name}</h3><p>{f.what}</p><p class="none">Where: {f.where}</p></div>)}
+  </div>
+  <h2 style="margin-top:28px">All, by area</h2>
+  {areas.map((a) => (
+    <section class="card"><h2>{a}</h2><table><tbody>
+      {all.filter((f) => f.area === a).map((f) => <tr><td><b>{f.name}</b><br /><span class="none">{f.where}</span></td><td>{f.what}</td><td class="n">{f.seen}</td></tr>)}
+    </tbody></table></section>
+  ))}
+</Admin>

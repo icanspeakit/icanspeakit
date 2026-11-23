@@ -685,12 +685,12 @@ const kulturNavGroups = KULTUR_GROUPS.map((g) => ({
 // names: "Erste Sätze" is right for grammar and words, but the A1 culture topics are Du/Sie,
 // Pfand and Sonntagsruhe — a heading promising sentences misled.
 const KULTUR_LEVEL_NAME = {
-  A1: "Du, Sie & erste Regeln",
-  A2: "Land & Alltag",
-  B1: "Ämter, Wohnen, Schule",
-  B2: "Arbeit & Gesellschaft",
-  C1: "Staat & Sozialsystem",
-  C2: "Recht & Geschichte",
+  A1: "Manners & first rules",
+  A2: "Country & daily life",
+  B1: "Offices, housing, school",
+  B2: "Work & society",
+  C1: "State & welfare",
+  C2: "Law & history",
 };
 
 const kulturLevelGroups = KULTUR_LEVELS

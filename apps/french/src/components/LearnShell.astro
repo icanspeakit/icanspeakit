@@ -1660,7 +1660,7 @@ const defaultVariant = variants[0];
       const start = $<HTMLAnchorElement>("[data-detail-start]");
       if (!start) return;
       start.href = withBase(it.href);
-      start.textContent = !it.tasks ? t("fortschritt.detail.open", "Öffnen") : (progress[id] ?? 0) > 0 ? t("fortschritt.detail.continue", "Weiter üben") : t("fortschritt.detail.start", "Übungen starten");
+      start.textContent = !it.tasks ? t("fortschritt.detail.open", "Öffnen") : (progress[id] ?? 0) > 0 ? t("fortschritt.detail.continue", "Keep practising") : t("fortschritt.detail.start", "Übungen starten");
     }
 
     function paintItemRing(id: string, sweep = false) {

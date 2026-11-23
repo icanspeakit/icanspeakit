@@ -145,7 +145,7 @@ const LABEL = {
   fillOpen: (n) => escapeHtml(t("vp.fill.open", "{n} offen", { n })),
   get someWrong() { return escapeHtml(t("vp.someWrong", "Noch nicht alles richtig — markierte Lücken prüfen.")); },
   // Zuordnen: one line that says what to do next, and what just went wrong.
-  get matchStart() { return escapeHtml(t("vp.match.start", "① Tippen Sie links auf einen Satz.")); },
+  get matchStart() { return escapeHtml(t("vp.match.start", "① Tap a sentence on the left.")); },
   matchNext: (n) => escapeHtml(t("vp.match.next", "② Und jetzt rechts: Was passt zu {n}?", { n })),
   matchWrong: (l, n) => escapeHtml(t("vp.match.wrong", "✗ {l} passt nicht zu {n}. Wählen Sie rechts eine andere Antwort.", { l, n })),
   get wrongOrder() { return escapeHtml(t("vp.wrongOrder", "✗ Reihenfolge nicht korrekt — versuch's nochmal.")); },
@@ -219,7 +219,7 @@ function mountFill(root, ex, notify) {
     root.classList.add("vp-fill-list");
     root.innerHTML = `${items}
       <div class="vp-actions vp-fill-actions">
-        ${ex.instant ? "" : `<button type="button" class="vp-btn-check" data-fill-check${pending ? "" : open ? waitAttrs(t("vp.fillPick", "Tippen Sie zuerst in einem Satz ein Wort an."), ".vp-fill-item:not(.is-correct):not(.is-wrong) .vp-pills") : " disabled"}>${LABEL.check}</button>`}
+        ${ex.instant ? "" : `<button type="button" class="vp-btn-check" data-fill-check${pending ? "" : open ? waitAttrs(t("vp.fillPick", "First tap a word in a sentence."), ".vp-fill-item:not(.is-correct):not(.is-wrong) .vp-pills") : " disabled"}>${LABEL.check}</button>`}
         ${state.checkedOnce || pending ? `<button type="button" class="vp-link-btn" data-fill-reset>${LABEL.reset}</button>` : ""}
         ${summary}
       </div>`;

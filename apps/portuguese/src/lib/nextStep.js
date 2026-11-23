@@ -23,8 +23,8 @@ export function fallbackStep(path) {
   }
   return {
     state: "placement",
-    labelKey: "nav.next.placement", label: "Wo stehe ich?",
-    subKey: "nav.next.placementSub", sub: "Einstufungstest",
+    labelKey: "nav.next.placement", label: "Where do I stand?",
+    subKey: "nav.next.placementSub", sub: "Placement test",
     href: withBase(PLACEMENT),
   };
 }
@@ -52,7 +52,7 @@ export function getNextStep(path = typeof location !== "undefined" ? currentPath
       if (next) {
         return {
           state: "resume",
-          labelKey: "nav.next.resume", label: "Weiter üben",
+          labelKey: "nav.next.resume", label: "Keep practising",
           sub: next.title || "", href: withBase(next.path),
         };
       }
@@ -65,7 +65,7 @@ export function getNextStep(path = typeof location !== "undefined" ? currentPath
   if (level) {
     const href = `/gramatica#nivel-${level.toLowerCase()}`;
     if (norm(href) !== here) {
-      return { state: "level", labelKey: "nav.next.level", label: `Mit ${level} starten`, vars: { level }, href: withBase(href) };
+      return { state: "level", labelKey: "nav.next.level", label: `Start with ${level}`, vars: { level }, href: withBase(href) };
     }
   }
 

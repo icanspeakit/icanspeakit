@@ -5,13 +5,15 @@
 // site (astro dev or a preview of dist) in a real browser, with the interface language set,
 // and flags German in what the reader sees: text nodes, aria-label / title / alt /
 // placeholder, <title>, meta description. It also checks the i18n dictionaries themselves:
-// German values inside en/fr/es/it/pt.json, and keys that an offered language lacks.
+// German values inside en/fr/es/it/pt/ru.json (every dictionary but de.json), and keys that an
+// offered language lacks. Russian: Cyrillic is never German (only Latin words are tokenised), so
+// what can hit in ru.json is an umlaut or a German-only word left in Latin script.
 //
 //   --app <name>        french | spanish | italian | portuguese | english   (required)
 //   --base <url>        site root incl. base path, e.g. http://localhost:4393/francais
 //   --dist <dir>        instead of --base: serve a built dist/ (needs --prefix /francais) and scan that
 //   --nojs              scripts off: what a search engine, a link preview or the first paint shows
-//   --lang <code,...>   UI languages to test (default: en). "auto" = first visit, nothing stored
+//   --lang <code,...>   UI languages to test (default: en), e.g. en,ru. "auto" = first visit, nothing stored
 //   --max <n>           page limit (default 2000)    --paths a,b   only these paths (no crawl)
 //   --conc <n>          parallel pages (default 4)   --json <file> write the findings
 //   --dicts-only        only the dictionary checks   --no-dicts   skip them

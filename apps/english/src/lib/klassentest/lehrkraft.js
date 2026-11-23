@@ -8,9 +8,10 @@ import { loadText, t } from "../liveQuiz/text.js";
 import { ANZAHLEN, MAX_TESTS, PRO_NIVEAU, meineTests, testAnlegen, testLoeschen, testOffen } from "./daten.js";
 import { withBase, BASE_PATH } from "../paths.js";
 import { currentPath } from "../paths.js";
+import { uiLocale } from "../i18n.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString(uiLocale(), { day: "numeric", month: "short", year: "numeric" });
 const GENERIC = ["kl.t.err.generic", "Das hat gerade nicht geklappt. Prüfe die Internetverbindung und versuch es noch einmal."];
 const LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const davor = (n) => LEVELS[LEVELS.indexOf(n) - 1] ?? null;

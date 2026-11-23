@@ -114,7 +114,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
                   <input type="checkbox" data-abm-item={`p:${s.id}`} data-name={s.titel} data-lvl={s.niveau} data-path={`/profesores/fichas/parejas/${s.id}`} />
                   <span class="abi-badge">{s.niveau}</span>
                   <span class="abi-name">{s.titel}</span>
-                  <span class="abi-meta">{s.modus === "gruppe" ? `Gruppe (${s.personen})` : "Paar"}</span>
+                  <span class="abi-meta">{s.modus === "gruppe" ? <span data-i18n="ab.partner.group" data-i18n-vars={JSON.stringify({ n: s.personen })}>Group ({s.personen})</span> : <span data-i18n="ab.partner.pairOne">Pair</span>}</span>
                 </label>
               </li>
             ))}

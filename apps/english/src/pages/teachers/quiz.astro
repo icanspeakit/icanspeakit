@@ -169,7 +169,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
           {[5, 10, 15, 20].map((n) => <label><input type="radio" name="count" value={n} checked={n === 10} /> {n}</label>)}
           {/* Any number, for a class that wants a short round or a long one. Typing in the
               box selects its pill (host.js). */}
-          <label class="lq-custom"><input type="radio" name="count" value="custom" /> <input type="number" name="countCustom" min="1" max="50" inputmode="numeric" placeholder="Eigene" data-i18n-attr="placeholder:lq.host.custom" aria-label="Eigene Anzahl" /></label>
+          <label class="lq-custom"><input type="radio" name="count" value="custom" /> <input type="number" name="countCustom" min="1" max="50" inputmode="numeric" placeholder="Eigene" data-i18n-attr="placeholder:lq.host.custom" aria-label="Custom number" /></label>
         </fieldset>
 
         <fieldset class="lq-field lq-choice">
@@ -177,7 +177,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
           {[10, 20, 30, 60].map((n) => <label><input type="radio" name="seconds" value={n} checked={n === 20} /> {n}</label>)}
           {/* Up to five minutes: a class that reads slowly, or needs the word explained
               before it can answer, should not be beaten by the clock. */}
-          <label class="lq-custom"><input type="radio" name="seconds" value="custom" /> <input type="number" name="secondsCustom" min="5" max="300" inputmode="numeric" placeholder="Eigene" data-i18n-attr="placeholder:lq.host.custom" aria-label="Eigene Sekundenzahl" /></label>
+          <label class="lq-custom"><input type="radio" name="seconds" value="custom" /> <input type="number" name="secondsCustom" min="5" max="300" inputmode="numeric" placeholder="Eigene" data-i18n-attr="placeholder:lq.host.custom" aria-label="Custom number of seconds" /></label>
         </fieldset>
 
         <fieldset class="lq-field lq-choice">
@@ -228,7 +228,7 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
           <span class="lq-print-off" data-i18n="lq.print.pick">Zum Drucken ein Lernset oder ein Grammatik-Kapitel wählen</span>
         </a>
       </form>
-      <p class="lq-credit">Bilder: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
+      <p class="lq-credit">Pictures: <a href="https://openmoji.org" target="_blank" rel="noopener">OpenMoji</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></p>
       </div>
 
       {/* Grammatik, the mirror of the Wortschatz column: on the right, folded to its rail,
@@ -248,8 +248,8 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
     <section data-screen="lobby" class="lq-lobby" hidden>
       <div class="lq-join-card">
         <div class="lq-card-tools">
-          <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
-          <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+          <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Change music" data-i18n-attr="aria-label:lq.music.cycle" title="Change music"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+          <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Sound on/off" data-i18n-attr="aria-label:lq.sound.toggle" title="Sound on/off"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
         </div>
         <p class="lq-join-how"><span data-i18n="lq.host.joinAt">Mitspielen auf</span> <b data-join-url></b></p>
         <p class="lq-pin-label" data-i18n="lq.host.pinLabel">Spiel-PIN</p>
@@ -298,8 +298,8 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
         <button type="button" class="lq-tempo-chip" data-tempo-more data-i18n="lq.tempo.plus10">+10 s</button>
         <button type="button" class="lq-tempo-chip" data-tempo-pause aria-pressed="false" data-i18n="lq.tempo.pause">Pause</button>
       </span>
-      <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
-      <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+      <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Change music" data-i18n-attr="aria-label:lq.music.cycle" title="Change music"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+      <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Sound on/off" data-i18n-attr="aria-label:lq.sound.toggle" title="Sound on/off"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
       <span class="lq-tempo-seg t-sw" role="group" aria-label="Nach jeder Frage" data-i18n-attr="aria-label:lq.host.advance">
         <button type="button" data-tempo-auto="1" aria-pressed="true" data-i18n="lq.tempo.auto">Automatisch</button>
         <button type="button" data-tempo-auto="0" aria-pressed="false" data-i18n="lq.tempo.click">Per Klick</button>
@@ -338,13 +338,13 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
       <div class="lq-dists" data-r-dist></div>
       <div class="lq-actions">
         <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
-        <button type="button" class="lq-btn lq-btn--primary" data-r-next>Rangliste</button>
+        <button type="button" class="lq-btn lq-btn--primary" data-r-next>Leaderboard</button>
       </div>
     </section>
 
     <!-- 5. Leaderboard -->
     <section data-screen="board" class="lq-board-screen" hidden>
-      <h2 class="lq-title" data-i18n="lq.host.board">Rangliste</h2>
+      <h2 class="lq-title" data-i18n="lq.host.board">Leaderboard</h2>
       <ol class="lq-board" data-board></ol>
       <div class="lq-actions">
         <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
@@ -366,20 +366,20 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
         <ol class="lq-board lq-rest" data-podium-rest></ol>
       </div>
       <div class="lq-pod-panel lq-sum" data-pod-panel="recap" data-keep-panel hidden>
-        <h3 class="lq-sum-title" data-i18n="lq.sum.title">Rückblick</h3>
+        <h3 class="lq-sum-title" data-i18n="lq.sum.title">Recap</h3>
         <div class="lq-sum-stats" data-sum-stats></div>
         <p class="lq-sum-hint" data-sum-hint hidden></p>
         <ol class="lq-sum-list" data-sum-list></ol>
       </div>
       {/* Keep the result: on paper or as a PDF, or as an image (src/lib/liveQuiz/keep.js). */}
       <div class="lq-keep" data-keep-skip>
-        <button type="button" class="lq-btn lq-btn--ghost" data-pod-recap aria-pressed="false" hidden>Rückblick</button>
+        <button type="button" class="lq-btn lq-btn--ghost" data-pod-recap aria-pressed="false" hidden>Recap</button>
         <button type="button" class="lq-btn lq-btn--ghost" data-keep-print data-i18n="lq.keep.print">🖨 Print / PDF</button>
         <button type="button" class="lq-btn lq-btn--ghost" data-keep-image data-i18n="lq.keep.image">⬇ As an image</button>
       </div>
       <div class="lq-actions" data-keep-skip>
-        <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Musik wechseln" data-i18n-attr="aria-label:lq.music.cycle" title="Musik wechseln"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
-        <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Ton an/aus" data-i18n-attr="aria-label:lq.sound.toggle" title="Ton an/aus"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
+        <button type="button" class="lq-music" data-music-cycle data-style="lofi" aria-label="Change music" data-i18n-attr="aria-label:lq.music.cycle" title="Change music"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg><span data-m="lofi" data-i18n="lq.music.lofi">Lo-fi</span><span data-m="show" data-i18n="lq.music.show">Gameshow</span><span data-m="retro" data-i18n="lq.music.retro">Retro</span><span data-m="off" data-i18n="lq.music.off">Aus</span></button>
+        <button type="button" class="lq-sound" data-sound-toggle aria-pressed="true" aria-label="Sound on/off" data-i18n-attr="aria-label:lq.sound.toggle" title="Sound on/off"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path class="lq-sound-on" d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/><path class="lq-sound-off" d="m16 9 6 6m0-6-6 6"/></svg></button>
         <button type="button" class="lq-btn lq-btn--primary" data-again data-i18n="lq.host.again">Neues Spiel</button>
       </div>
     </section>

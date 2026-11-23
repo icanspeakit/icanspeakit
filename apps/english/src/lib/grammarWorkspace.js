@@ -29,8 +29,8 @@ import { eulerIconSvg } from "./eulerArt.js";
 // say so before the learner tries.
 function irregularHtml(item) {
   if (!item.irregular) return "";
-  const note = t("vp.irregular.note", "Unregelmäßig: Diese Form musst du dir merken.");
-  return ` <span class="vp-irregular" title="${escapeHtml(note)}">${escapeHtml(t("vp.irregular", "unregelmäßig"))}</span>`;
+  const note = t("vp.irregular.note", "Irregular: you have to learn this form by heart.");
+  return ` <span class="vp-irregular" title="${escapeHtml(note)}">${escapeHtml(t("vp.irregular", "irregular"))}</span>`;
 }
 
 function escapeHtml(s) {
@@ -144,7 +144,7 @@ const LABEL = {
   fillOpen: (n) => escapeHtml(t("vp.fill.open", "{n} offen", { n })),
   get someWrong() { return escapeHtml(t("vp.someWrong", "Noch nicht alles richtig — markierte Lücken prüfen.")); },
   // Zuordnen: one line that says what to do next, and what just went wrong.
-  get matchStart() { return escapeHtml(t("vp.match.start", "① Tippen Sie links auf einen Satz.")); },
+  get matchStart() { return escapeHtml(t("vp.match.start", "① Tap a sentence on the left.")); },
   matchNext: (n) => escapeHtml(t("vp.match.next", "② Und jetzt rechts: Was passt zu {n}?", { n })),
   matchWrong: (l, n) => escapeHtml(t("vp.match.wrong", "✗ {l} passt nicht zu {n}. Wählen Sie rechts eine andere Antwort.", { l, n })),
   get wrongOrder() { return escapeHtml(t("vp.wrongOrder", "✗ Reihenfolge nicht korrekt — versuch's nochmal.")); },

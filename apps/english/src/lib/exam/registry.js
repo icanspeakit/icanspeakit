@@ -26,6 +26,7 @@ import { qidsOfPart } from "../dtzTrainer.js";
 // Ids only, written by scripts/check-pruefungen.mjs: the full sets stay out of this bundle.
 import saetzeIndex from "../../data/pruefungen/saetze-index.json";
 import { examLabel } from "./names.js";
+import { enLabel } from "./enLabel.js";
 import { examPath } from "../routes.js";
 
 const idsOf = (part) => part.items.map((i) => i.id);
@@ -97,7 +98,7 @@ export const examRegistry = [
   {
     id: "dtz",
     title: "B1 skills mock",
-    subtitle: dtz1.label,
+    subtitle: enLabel(dtz1.label),
     level: "B1",
     href: "/trinity/ise-1/practice-set",
     overview: "/trinity/ise-1",
@@ -122,7 +123,7 @@ export const examRegistry = [
   ...saetzeIndex.map((set) => ({
     id: set.id,
     title: examLabel(set),
-    subtitle: set.title,
+    subtitle: enLabel(set.title),
     level: set.level,
     href: `${examPath(set.exam)}/${set.slug}`,
     overview: examPath(set.exam),
@@ -130,7 +131,7 @@ export const examRegistry = [
     passNote: set.scoring?.note ?? "",
     passPct: set.scoring?.passPct ?? 60,
     modules: set.modules.flatMap((m) =>
-      m.parts.map((p) => ({ key: `${m.key}-${p.teil}`, label: `${m.name} · Part ${p.teil}`, ids: p.ids, scored: p.scored })),
+      m.parts.map((p) => ({ key: `${m.key}-${p.teil}`, label: `${enLabel(m.name)} · Part ${p.teil}`, ids: p.ids, scored: p.scored })),
     ),
   })),
 ];

@@ -30,7 +30,7 @@ import { eulerIconSvg } from "./eulerArt.js";
 function irregularHtml(item) {
   if (!item.irregular) return "";
   const note = t("vp.irregular.note", "Unregelmäßig: Diese Form musst du dir merken.");
-  return ` <span class="vp-irregular" title="${escapeHtml(note)}">${escapeHtml(t("vp.irregular", "unregelmäßig"))}</span>`;
+  return ` <span class="vp-irregular" title="${escapeHtml(note)}">${escapeHtml(t("vp.irregular", "irregular"))}</span>`;
 }
 
 function escapeHtml(s) {
@@ -145,9 +145,9 @@ const LABEL = {
   fillOpen: (n) => escapeHtml(t("vp.fill.open", "{n} offen", { n })),
   get someWrong() { return escapeHtml(t("vp.someWrong", "Noch nicht alles richtig — markierte Lücken prüfen.")); },
   // Zuordnen: one line that says what to do next, and what just went wrong.
-  get matchStart() { return escapeHtml(t("vp.match.start", "① Tippen Sie links auf einen Satz.")); },
-  matchNext: (n) => escapeHtml(t("vp.match.next", "② Und jetzt rechts: Was passt zu {n}?", { n })),
-  matchWrong: (l, n) => escapeHtml(t("vp.match.wrong", "✗ {l} passt nicht zu {n}. Wählen Sie rechts eine andere Antwort.", { l, n })),
+  get matchStart() { return escapeHtml(t("vp.match.start", "① Tap a sentence on the left.")); },
+  matchNext: (n) => escapeHtml(t("vp.match.next", "② Now on the right: what goes with {n}?", { n })),
+  matchWrong: (l, n) => escapeHtml(t("vp.match.wrong", "✗ {l} doesn't go with {n}. Pick another answer on the right.", { l, n })),
   get wrongOrder() { return escapeHtml(t("vp.wrongOrder", "✗ Reihenfolge nicht korrekt — versuch's nochmal.")); },
   // Satzbau: what is right so far, and where it goes wrong.
   get buildFrom() { return escapeHtml(t("vp.build.from", "Bis hierhin stimmt's. Ab dem roten Wort tippst du einfach weiter.")); },

@@ -475,7 +475,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             <button class="akk-btn" id="akk-zurueck" type="button">${t("pw.back", "← Zurück")}</button>
             ${summary
               ? `${missed.length ? `<button class="akk-btn akk-btn-primary" id="akk-done-missed" type="button">${t("pw.done.onlyThese", "Nur diese üben ({n})", { n: missed.length })}</button>` : ""}
-                 <button class="akk-btn${missed.length ? "" : " akk-btn-primary"}" id="akk-done-more" type="button">${t("ap.continue", "Weiter üben")}</button>`
+                 <button class="akk-btn${missed.length ? "" : " akk-btn-primary"}" id="akk-done-more" type="button">${t("ap.continue", "Keep practising")}</button>`
               : `<button class="akk-btn akk-btn-primary" id="akk-focus-restart" type="button">${t("quiz.restart", "Nochmal üben")}</button>`}
           </div>
         </div>`;

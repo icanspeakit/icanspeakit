@@ -60,13 +60,28 @@ function englishRedirects() {
     if (old !== route) out[old] = r301(route);
   }
   // Worksheets and tandem sheets by their old (key) address, in the German and the English
-  // folder. A key without a sheet lands on a 404 there, as its old address did.
-  for (const key of sheetKeys()) {
+  // folder. Only for keys whose sheet is built: a topic whose exercises are all paid (src/paid/)
+  // or that has no data file (/object-pronouns is a page of its own) has no worksheet page.
+  const grammarDir = new URL('./src/data/grammatik/', import.meta.url);
+  const freeKeys = new Set(readdirSync(grammarDir).filter((f) => f.endsWith('.json'))
+    .map((f) => JSON.parse(readFileSync(new URL(f, grammarDir), 'utf8')))
+    .filter((t) => (t.exercises ?? []).some((ex) => !ex.paid))
+    .map((t) => t.slug ?? t.id));
+  const hasSheet = (key) => key.startsWith('nachschlagen-') || key === 'verbtabellen' || key === 'typische-fehler' || freeKeys.has(key);
+  for (const key of sheetKeys().filter(hasSheet)) {
     out[`/lehrkraefte/arbeitsblaetter/grammatik/${key}`] = r301(sheetPath(key));
     out[`/teachers/worksheets/grammar/${key}`] = r301(sheetPath(key));
     out[`/lehrkraefte/arbeitsblaetter/tandem/${key}`] = r301(tandemPath(key));
     out[`/teachers/worksheets/tandem/${key}`] = r301(tandemPath(key));
   }
+  // Old hubs whose English counterpart has no page of its own land on the nearest page that exists.
+  const HUB_FALLBACK = {
+    '/spiele': '/game', '/wissen/zitate/karte': '/knowledge/quotes',
+    '/lehrkraefte/arbeitsblaetter/grammatik': '/teachers/worksheets', '/lehrkraefte/arbeitsblaetter/wortschatz': '/teachers/worksheets',
+    '/lehrkraefte/quiz-kapitel': '/teachers/quiz',
+    '/wortschatz/redemittel': '/vocabulary', '/wortschatz/drucken': '/vocabulary', '/wortschatz/glossen': '/vocabulary',
+  };
+  for (const [from, to] of Object.entries(HUB_FALLBACK)) out[from] = r301(to);
   // Item pages by their German id (§1.3), under the German and the English section path.
   for (const [section, ids] of Object.entries(ITEM_SLUGS)) {
     if (section === '/english-for-work') continue;

@@ -12,6 +12,7 @@ import QRCode from "qrcode";
 import { currentUser } from "../liveQuiz/custom.js";
 import { loadText, t } from "../liveQuiz/text.js";
 import { withBase, currentPath } from "../paths.js";
+import { uiLocale } from "../i18n.js";
 import { bewertungSpeichern, ergebnisLoeschen, ergebnisse, test, testLink, testOffen } from "./daten.js";
 import { ORDER, SCHWELLE, einstufen, profil, stufenOf, teileOf } from "./niveau.js";
 
@@ -19,7 +20,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 const REFRESH_MS = 5000;
 const pct = (x, n) => (n ? Math.round((100 * x) / n) : 0);
 const stufe = (share) => Math.min(4, Math.floor(share * 5));
-const uhrzeit = (iso) => new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+const uhrzeit = (iso) => new Date(iso).toLocaleString(uiLocale(), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
 /** The topics of a test in the order its questions have them: [{ id, name, idx: [question indices] }]. */
 export function themenOf(fragen) {

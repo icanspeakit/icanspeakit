@@ -124,7 +124,7 @@ let gap = 0;
             <td class="pr-col-m">
               {langs.map((l) => <span class="ab-m" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{e[l] ?? ""}</span>)}
             </td>
-            {hasDe && <td class="pr-de">{deOf(e)}</td>}
+            {hasDe && <td class="pr-de" lang="de">{deOf(e)}</td>}
             <td class="pr-ex">{e.example ?? ""}</td>
           </tr>
         ))}
