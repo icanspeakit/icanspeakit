@@ -69,28 +69,28 @@ function resolveSchreiben(entry) {
 // folder brings its own, which is always the better text.
 const FORM_CHECK = [
   "Every field is filled in. An empty field counts as a mistake, even if the information is in the text.",
-  "Copy names, numbers and dates exactly as they are in the text, with their accents; in Spain the day comes before the month (12 de septiembre, 12/09).",
+  "Copy names, numbers and dates exactly as they are in the text, with their accents; in Portugal the day comes before the month (12 de setembro, 12/09).",
   "Nothing made up: if something is not in the text, leave the field empty or put a dash.",
 ];
 const BRIEF_CHECK = [
   "Every point in the task is covered. A missing point costs more than three grammar mistakes.",
-  "Greeting and sign-off suit each other and the person (¡Hola, Javier! … Un abrazo).",
-  "The sentences are linked (así que, porque, pero, además, aunque), not just one after the other.",
+  "Greeting and sign-off suit each other and the person (Olá, Tiago! … Um abraço; Exmo. Senhor … Com os melhores cumprimentos).",
+  "The sentences are linked (por isso, porque, mas, além disso, embora), not just one after the other.",
 ];
 const ERROR_CHECK = [
   "Read first, then compare: discuss the text only once you have marked every mistake you can find.",
-  "The text has about 20 mistakes. Look at: ser or estar, gender, “desde” or “desde hace”, irregular participles, the subjunctive after “me gustaría que”, accents, “¿…?”, capital letters in dates, the punctuation after the greeting, and two closing lines translated word for word from English.",
+  "The text has about 20 mistakes. Look at: ser or estar, gender, “desde” or “há”, irregular verb forms, where the pronoun goes after “não”, agreement with “ninguém”, “bom” or “bem”, the subjunctive after “gostava que”, a capital letter on a month, “você” in a formal letter, and two closing lines translated word for word from English.",
   "Write down the mistakes you make yourself, too. That is the point of the task.",
 ];
 
 const cardPoint = (pt) => {
-  const x = pt.replace(/^y /, "");
+  const x = pt.replace(/^e /, "");
   return x[0].toUpperCase() + x.slice(1);
 };
 
-// The rule of the listening and reading items: instructions are English at A1–A2 and Spanish
+// The rule of the listening and reading items: instructions are English at A1–A2 and Portuguese
 // from B1, where the question itself is part of the practice.
-const SPANISH_LEVELS = new Set(["B1", "B2"]);
+const PORTUGUESE_PROMPT_LEVELS = new Set(["B1", "B2"]);
 
 function resolveSprechen(entry) {
   switch (entry.from) {
@@ -103,8 +103,8 @@ function resolveSprechen(entry) {
       return {
         ...entry,
         image: pic.image,
-        prompt: SPANISH_LEVELS.has(entry.level)
-          ? "Describe la foto. Después, el examinador te hace preguntas sobre tu propia experiencia."
+        prompt: PORTUGUESE_PROMPT_LEVELS.has(entry.level)
+          ? "Descreve a fotografia. Depois, o examinador faz-te perguntas sobre a tua própria experiência."
           : "Describe the picture. After that, the examiner asks you about your own experience.",
         bullets: pic.beschreibung,
         followUps: pic.persoenlich,
@@ -118,11 +118,11 @@ function resolveSprechen(entry) {
         image: p.image,
         prompt: diskussion
           ? p.diskussion
-          : `Primero habla de la foto durante un minuto. Después tómate un minuto para preparar unas notas y habla hasta dos minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
+          : `Primeiro fala da fotografia durante um minuto. Depois tens um minuto para preparar umas notas e falas até dois minutos. ${p.kurzvortrag.topic.replace(/ Explica:$/, "")}`,
         bullets: diskussion
-          ? ["Di con claridad lo que piensas.", "Da dos razones, cada una con un ejemplo.", "Responde a la objeción de la otra persona.", "Al final, resume tu postura."]
+          ? ["Diz com clareza o que pensas.", "Dá duas razões, cada uma com um exemplo.", "Responde à objeção da outra pessoa.", "No fim, resume a tua posição."]
           // The card's points read on from "Explica:"; as bullets of their own they
-          // start with a capital and drop the "y" before the last one.
+          // start with a capital and drop the "e" before the last one.
           : [...p.beschreibung, ...p.kurzvortrag.points.map(cardPoint)],
         href: "/expressao-oral-b1-b2",
         hrefLabel: "in the long-turn trainer",

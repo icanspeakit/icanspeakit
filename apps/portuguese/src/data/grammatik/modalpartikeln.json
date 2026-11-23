@@ -1,47 +1,74 @@
 {
   "id": "modalpartikeln",
-  "name": "Discourse markers in speech: pues, bueno, o sea, es que, vamos, venga, vale",
+  "name": "Discourse markers: pois, então, olha, se calhar",
   "level": "B2",
   "status": "geprueft",
-  "variety": "es-ES",
-  "es419": { "note": "Vale and venga are typical of Spain. In Latin America: okey, está bien, dale (in many countries). O sea and bueno are used everywhere." },
-  "subtitle": "Small words like pues, bueno, o sea, es que, vamos, venga and vale keep a conversation going: they react, hesitate, explain, rephrase or close. They belong to speech and informal messages, not to a formal email.",
-  "briefMarks": ["pues", "bueno", "o sea", "es que", "vamos", "venga", "vale"],
-  "source": "icanspeak Spanish original text (grammar-b2 run, 2026-11-04)",
+  "variety": "pt-PT",
+  "ptBR": { "note": "Brazil: né? for não é?, tá or beleza for OK, cara for pá, talvez for se calhar. Pois é and então are used there too; pois não means 'at your service'." },
+  "subtitle": "Small words like então, olha, bem, pois é, pronto and se calhar keep a conversation going: they open, react, hesitate, soften or close. They belong to speech and informal messages, not to a formal email. Pá is very informal and typical of Portugal.",
+  "briefMarks": ["então", "olha", "bem", "pois é", "pronto", "se calhar", "pá"],
+  "source": "icanspeak Portuguese original text (grammar-b2 run, 2026-11-13)",
   "concept": {
+    "comic": {
+      "title": "Uma {conversa} no café",
+      "panels": [
+        {
+          "caption": "Opening",
+          "tag": "{então}: so, what's up?",
+          "left": { "name": "quaki", "expr": "thinking", "say": "{Então}, como correu a consulta?" },
+          "right": { "name": "regi", "expr": "happy", "say": "{Pois é}, demorou muito." }
+        },
+        {
+          "caption": "Maybe",
+          "tag": "{se calhar}: perhaps",
+          "left": { "name": "bruno", "expr": "thinking", "say": "Onde está o Rui?" },
+          "right": { "name": "quaki", "expr": "oops", "say": "{Se calhar} ficou no trabalho." }
+        },
+        {
+          "caption": "Closing",
+          "tag": "{pronto}: OK, that's settled",
+          "left": { "name": "regi", "expr": "celebrate", "say": "{Olha}, tenho de ir." },
+          "right": { "name": "quaki", "expr": "happy", "say": "{Pronto}, até amanhã!" }
+        }
+      ]
+    },
     "flow": [
-      { "text": "pues · bueno · es que", "variant": "verb" },
+      { "text": "então · olha · bem · pois é", "variant": "verb" },
       { "text": "what you say" },
-      { "text": "o sea · vamos · venga · vale", "variant": "prep" }
+      { "text": "portanto · pronto · se calhar · ainda bem", "variant": "prep" }
     ],
-    "exampleHtml": "<span class=\"vp-verb\">Pues</span> yo no estoy de acuerdo. · <span class=\"vp-verb\">Bueno</span>, no sé. · <span class=\"vp-verb\">Es que</span> tenía fiebre. · Dos días, <span class=\"vp-prep\">o sea</span>, muy poco. · <span class=\"vp-prep\">Venga</span>, hasta luego. · <span class=\"vp-prep\">Vale</span>, gracias.",
+    "exampleHtml": "<span class=\"vp-verb\">Então</span>, como estás? · <span class=\"vp-verb\">Olha</span>, não sei. · <span class=\"vp-verb\">Bem</span>, talvez. · Dois dias, <span class=\"vp-prep\">portanto</span>, pouco. · <span class=\"vp-prep\">Se calhar</span> chove. · <span class=\"vp-prep\">Pronto</span>, até logo.",
     "qa": [
       {
-        "html": "<strong>pues</strong> starts an answer or a reaction, often when it isn't quite what the other person expected: <em>—¿Qué tal el piso? —Pues bien. Pues yo no estoy de acuerdo.</em> <strong>bueno</strong> shows hesitation, partial agreement or a correction: <em>Bueno, no sé. Es barato… bueno, no tan barato.</em>",
-        "tag": "pues, bueno"
+        "html": "<strong>então</strong> opens a conversation or asks for more: <em>Então, como estás? Então e a tua mãe?</em> It also means <em>so, in that case</em>: <em>Então não vens?</em> <strong>olha</strong> gets attention before you say something (<em>olhe</em> to a stranger or an older person): <em>Olha, tens um minuto? Olhe, desculpe, a fila é aqui?</em>",
+        "tag": "então, olha"
       },
       {
-        "html": "<strong>es que</strong> gives an excuse or an explanation. It's a very common way to soften a “no”: <em>—¿Vienes? —Es que tengo que trabajar.</em>",
-        "tag": "es que"
+        "html": "<strong>pois</strong> on its own tells the speaker you follow: <em>—Trabalho aos sábados. —Pois.</em> <strong>pois é</strong> means <em>yes, that's how it is</em>, often with a sigh: <em>—A renda subiu outra vez. —Pois é.</em> <strong>pois não</strong> means <em>of course, certainly</em>. None of them means <em>no</em>.",
+        "tag": "pois, pois é, pois não"
       },
       {
-        "html": "<strong>o sea</strong> rephrases or draws a conclusion, like <em>I mean</em> or <em>so</em>: <em>Trabajo los lunes y los martes, o sea, dos días. O sea que no tienes cita.</em> <strong>vamos</strong> sums up what you think, like <em>basically</em>: <em>Es caro y está lejos. Vamos, un desastre.</em>",
-        "tag": "o sea, vamos"
+        "html": "<strong>bem</strong> shows hesitation or a correction: <em>Bem… não sei. É barato… bem, nem tanto.</em> <strong>ora</strong> brushes something aside or says it is obvious: <em>Ora, isso não é verdade.</em> <strong>ora bolas</strong> is a mild <em>oh dear</em>: <em>Ora bolas, perdi o comboio!</em> And <em>Ora essa!</em> answers a thank-you: <em>—Obrigada pela ajuda. —Ora essa, não tem de quê.</em>",
+        "tag": "bem, ora, ora bolas"
       },
       {
-        "html": "<strong>vale</strong> agrees, like <em>OK</em>: <em>—A las ocho. —Vale.</em> <strong>venga</strong> encourages or closes a conversation: <em>¡Venga, tú puedes! Venga, hasta luego.</em> As an answer, it can also mean <em>OK, let's do it</em>: <em>—¿Tomamos algo? —Venga.</em>",
-        "tag": "vale, venga"
+        "html": "<strong>portanto</strong> rephrases or draws a conclusion, like <em>so</em> or <em>in other words</em>: <em>Trabalho à segunda e à terça, portanto, dois dias.</em> <strong>é assim</strong> starts an explanation or a firm opinion: <em>É assim: primeiro vais às Finanças, depois ao banco.</em>",
+        "tag": "portanto, é assim"
       },
       {
-        "html": "A few more. <strong>oye</strong> and <strong>mira</strong> get attention (<em>Oye, ¿tienes un momento?</em>; <em>Mira, yo creo que no</em>). <strong>a ver</strong> means you're about to think or check (<em>A ver, ¿dónde están las llaves?</em>). <strong>hombre</strong> softens an answer or shows surprise, and is said to women too (<em>Hombre, claro que sí</em>).",
-        "tag": "oye, mira, a ver, hombre"
+        "html": "<strong>se calhar</strong> means <em>perhaps, maybe</em>: <em>Se calhar chove amanhã. Se calhar foi ao banco.</em> It has nothing to do with <em>if it falls</em>. <strong>claro</strong> means <em>of course</em> (<em>Claro que sim</em>). <strong>ainda bem</strong> shows relief, like <em>thank goodness</em>: <em>Ainda bem que chegaste.</em>",
+        "tag": "se calhar, claro, ainda bem"
       },
       {
-        "html": "<strong>Register:</strong> these words are for speech and for messages to friends. In a formal email or a letter to an office, use <em>es decir</em> (not <em>o sea</em>), <em>de acuerdo</em> (not <em>vale</em>), <em>el motivo es que</em> (not <em>es que</em>). Their meanings overlap, and often two of them fit.",
+        "html": "<strong>pronto</strong> accepts, calms down or closes: <em>Pronto, está bem. Pronto, não chores. Pronto, até amanhã.</em> <strong>não é?</strong> at the end of a sentence asks for agreement, like <em>isn't it?</em>: <em>O contrato acaba em dezembro, não é?</em> <strong>pá</strong> is a very informal address between friends: <em>Ó pá, ajuda-me! Não sei, pá.</em>",
+        "tag": "pronto, não é?, pá"
+      },
+      {
+        "html": "<strong>Register:</strong> these words are for speech and for messages to friends. Never use <em>pá</em> with an official, a boss or a landlord you don't know. In a formal email or a letter to an office use <em>de acordo</em> (not <em>pronto</em>), <em>talvez</em> (not <em>se calhar</em>), <em>com certeza</em> (not <em>claro</em>), <em>nesse caso</em> (not <em>então</em>).",
         "tag": "Register"
       }
     ],
-    "noteHtml": "Common mistakes: ✗ <em>Vale</em> in a letter to Extranjería → ✓ <em>De acuerdo</em>. ✗ <em>O sea</em> in a formal email → ✓ <em>Es decir</em>. ✗ <em>Porque tengo que trabajar</em> as a soft “no” → ✓ <em>Es que tengo que trabajar</em>. Don't overuse them: one or two in a sentence is natural, more sounds nervous.",
+    "noteHtml": "Common mistakes: ✗ <em>se calhar</em> read as <em>if it falls</em> → ✓ <em>perhaps</em>. ✗ <em>Pois não</em> meaning <em>no</em> → ✓ <em>of course</em>. ✗ <em>Pá</em> to the funcionário at the Junta de Freguesia → ✓ <em>Desculpe, …</em>. ✗ <em>Pronto</em> in a formal email → ✓ <em>De acordo</em>. Don't overuse them: one or two in a sentence is natural, more sounds nervous. Tone of voice matters as much as the word.",
     "reference": {
       "showLabel": "Show overview ▼",
       "hideLabel": "Hide overview ▲",
@@ -50,23 +77,40 @@
           "caption": "What each word does",
           "head": ["Word", "Job", "Example"],
           "rows": [
-            ["pues", "starts an answer or reaction", "Pues yo creo que no."],
-            ["bueno", "hesitates, corrects", "Bueno, no sé."],
-            ["es que", "gives an excuse or reason", "Es que tenía fiebre."],
-            ["o sea", "rephrases, concludes", "Dos días, o sea, muy poco."],
-            ["vamos", "sums up", "Vamos, un desastre."],
-            ["vale", "agrees", "Vale, hasta mañana."],
-            ["venga", "encourages, closes", "Venga, te dejo."]
+            ["então", "opens, asks for more, 'so'", "Então, como correu?"],
+            ["olha", "gets attention", "Olha, tens um minuto?"],
+            ["pois é", "yes, that's how it is", "—Está caro. —Pois é."],
+            ["bem", "hesitates, corrects", "Bem… não sei."],
+            ["ora", "brushes aside, 'come on'", "Ora, isso não é verdade."],
+            ["portanto", "rephrases, concludes", "Dois dias, portanto, pouco."],
+            ["é assim", "starts an explanation", "É assim: primeiro vais lá."],
+            ["se calhar", "perhaps", "Se calhar chove."],
+            ["ainda bem", "relief", "Ainda bem que vieste."],
+            ["claro", "of course", "Claro que sim."],
+            ["pronto", "accepts, closes, calms", "Pronto, até logo."],
+            ["não é?", "asks for agreement", "Fica longe, não é?"],
+            ["pá", "very informal address", "Ó pá, ajuda-me!"]
           ]
         },
         {
           "caption": "Speech and formal writing",
           "head": ["In speech", "In a formal email"],
           "rows": [
-            ["o sea", "es decir"],
-            ["vale", "de acuerdo"],
-            ["es que", "el motivo es que"],
-            ["vamos", "en resumen"]
+            ["pronto", "de acordo"],
+            ["se calhar", "talvez"],
+            ["claro que sim", "com certeza"],
+            ["então (so)", "nesse caso"]
+          ]
+        },
+        {
+          "caption": "Portugal and Brazil",
+          "head": ["Portugal", "Brazil"],
+          "rows": [
+            ["Pronto, está bem.", "Beleza. / Tá bom."],
+            ["Fica longe, não é?", "Fica longe, né?"],
+            ["Ó pá, ajuda-me!", "Ô cara, me ajuda!"],
+            ["Se calhar chove.", "Talvez chova."],
+            ["Pois é.", "Pois é. (same)"]
           ]
         }
       ],
@@ -75,8 +119,8 @@
           "badge": "Tone",
           "variant": "akk",
           "items": [
-            "es que softens a no.",
-            "bueno buys you time.",
+            "bem buys you time.",
+            "pois é agrees without committing.",
             "Tone of voice matters as much as the word."
           ]
         },
@@ -85,8 +129,8 @@
           "variant": "dat",
           "items": [
             "Not in formal letters or emails.",
-            "Vale and venga are typical of Spain.",
-            "Often two markers fit one place."
+            "se calhar = perhaps, not 'if it falls'.",
+            "pá is very informal: friends only."
           ]
         }
       ]
@@ -94,43 +138,43 @@
   },
   "aktiv": {
     "listen": [
-      { "text": "Es que he perdido el autobús.", "note": "es que: an excuse." },
-      { "text": "Bueno, no sé si puedo ir.", "note": "bueno: hesitating." },
-      { "text": "Trabajo de lunes a viernes, o sea, cinco días.", "note": "o sea: saying it another way." },
-      { "text": "Venga, te llamo luego.", "note": "venga: closing the conversation." },
-      { "text": "Vale, nos vemos a las ocho.", "note": "vale: agreeing." }
+      { "text": "Então, como correu a entrevista?", "note": "então: opening the conversation." },
+      { "text": "Pois é, a renda subiu outra vez.", "note": "pois é: yes, that's how it is." },
+      { "text": "Se calhar vai chover amanhã.", "note": "se calhar: perhaps." },
+      { "text": "Olha, tens um minuto?", "note": "olha: getting attention." },
+      { "text": "Pronto, fica combinado.", "note": "pronto: accepting, closing." }
     ],
     "hoeren": {
       "instruction": "Listen and choose the sentence you heard. You can listen twice.",
       "items": [
-        { "text": "Pues yo creo que no.", "choices": ["Pues yo creo que no.", "Bueno, yo creo que no.", "Es que creo que no."], "correct": 0 },
-        { "text": "Es que no tengo tiempo.", "choices": ["Vale, no tengo tiempo.", "Es que no tengo tiempo.", "O sea, no tengo tiempo."], "correct": 1 },
-        { "text": "O sea que no tienes cita.", "choices": ["Vale, no tienes cita.", "Es que no tengo cita.", "O sea que no tienes cita."], "correct": 2 },
-        { "text": "Venga, hasta luego.", "choices": ["Venga, hasta luego.", "Vale, hasta luego.", "Bueno, hasta luego."], "correct": 0 }
+        { "text": "Pois é, tens razão.", "choices": ["Pois é, tens razão.", "Bem, tens razão.", "Claro, tens razão."], "correct": 0 },
+        { "text": "Se calhar não vou.", "choices": ["Claro que não vou.", "Se calhar não vou.", "Pronto, não vou."], "correct": 1 },
+        { "text": "Portanto, não tens consulta.", "choices": ["Olha, não tens consulta.", "Ainda bem, não tens consulta.", "Portanto, não tens consulta."], "correct": 2 },
+        { "text": "Pronto, até logo.", "choices": ["Pronto, até logo.", "Então, até logo.", "Bem, até logo."], "correct": 0 }
       ]
     },
     "sprechen": {
       "rounds": [
         {
-          "label": "1 · The excuse",
-          "instruction": "You hear a question and a reason. Answer with es que.",
-          "example": { "prompt": "¿Por qué llegas tarde? · perder el autobús", "answer": "Es que he perdido el autobús." },
+          "label": "1 · Perhaps",
+          "instruction": "You hear a question and a guess. Answer with se calhar.",
+          "example": { "prompt": "Onde está o Rui? · estar no trabalho", "answer": "Se calhar está no trabalho." },
           "items": [
-            { "prompt": "¿Por qué no vienes? · tener que trabajar", "answer": "Es que tengo que trabajar." },
-            { "prompt": "¿No comes nada? · no tener hambre", "answer": "Es que no tengo hambre." },
-            { "prompt": "¿Por qué no contestas? · estar en una reunión", "answer": "Es que estoy en una reunión." },
-            { "prompt": "¿No me ayudas? · no poder", "answer": "Es que no puedo." }
+            { "prompt": "Onde está o senhorio? · estar no banco", "answer": "Se calhar está no banco." },
+            { "prompt": "Porque é que a Ana não atende? · estar numa reunião", "answer": "Se calhar está numa reunião." },
+            { "prompt": "Porque é que a loja está fechada? · ser feriado", "answer": "Se calhar é feriado." },
+            { "prompt": "O que se passa com o Rui? · estar doente", "answer": "Se calhar está doente." }
           ]
         },
         {
           "label": "2 · Say it another way",
-          "instruction": "You hear a sentence and another way to say part of it. Join them with o sea.",
-          "example": { "prompt": "Trabajo de lunes a viernes. · cinco días", "answer": "Trabajo de lunes a viernes, o sea, cinco días." },
+          "instruction": "You hear a sentence and another way to say part of it. Join them with portanto.",
+          "example": { "prompt": "Trabalho de segunda a sexta. · cinco dias", "answer": "Trabalho de segunda a sexta, portanto, cinco dias." },
           "items": [
-            { "prompt": "Cobro la mitad. · 600 euros", "answer": "Cobro la mitad, o sea, 600 euros." },
-            { "prompt": "Tengo cita pasado mañana. · el jueves", "answer": "Tengo cita pasado mañana, o sea, el jueves." },
-            { "prompt": "Estamos a cinco minutos. · muy cerca", "answer": "Estamos a cinco minutos, o sea, muy cerca." },
-            { "prompt": "Llega el día 1 de enero. · el primer día del año", "answer": "Llega el día 1 de enero, o sea, el primer día del año." }
+            { "prompt": "Recebo metade. · seiscentos euros", "answer": "Recebo metade, portanto, seiscentos euros." },
+            { "prompt": "Tenho consulta depois de amanhã. · na quinta-feira", "answer": "Tenho consulta depois de amanhã, portanto, na quinta-feira." },
+            { "prompt": "Moramos a cinco minutos. · muito perto", "answer": "Moramos a cinco minutos, portanto, muito perto." },
+            { "prompt": "Chega no dia 1 de janeiro. · no primeiro dia do ano", "answer": "Chega no dia 1 de janeiro, portanto, no primeiro dia do ano." }
           ]
         }
       ]
@@ -140,29 +184,29 @@
     {
       "type": "fill",
       "title": "Which word does the job?",
-      "hint": "Excuse: es que. Agreeing: vale. Rephrasing: o sea. Hesitating: bueno. Reacting: pues. Encouraging: venga. Summing up: vamos.",
+      "hint": "Yes, that's how it is: pois é. Conclusion: portanto. Opening: então. Relief: ainda bem. Accepting, closing: pronto. Annoyance: ora bolas. Of course: claro.",
       "placeholder": "Word",
       "items": [
-        { "prompt": "—¿Por qué no viniste ayer? —___ tenía fiebre.", "answer": "Es que", "choices": ["Vale", "Es que", "Venga"], "why": "An excuse: es que. Vale agrees and venga closes or encourages." },
-        { "prompt": "—¿Quedamos a las ocho? —___, a las ocho en el bar.", "answer": ["Vale", "Venga"], "choices": ["Vale", "O sea", "Es que"], "why": "The answer agrees: vale.", "es419": { "note": "Vale is typical of Spain. In Latin America: Okey or Está bien." } },
-        { "prompt": "El contrato es temporal, ___, que en seis meses se acaba.", "answer": ["o sea", "vamos"], "choices": ["venga", "vale", "o sea"], "why": "The second part says the first in another way: o sea." },
-        { "prompt": "—¿Te gusta el piso? —___… no está mal, pero es un poco oscuro.", "answer": ["Bueno", "Pues"], "choices": ["Venga", "Bueno", "O sea"], "why": "Hesitating, partly agreeing: bueno.", "es419": { "note": "In Latin America: departamento for piso." } },
-        { "prompt": "—¿Ya tienes el NIE? —___ no, todavía no.", "answer": "Pues", "choices": ["Pues", "Venga", "Vale"], "why": "pues starts an answer, here not the one the other person hoped for." },
-        { "prompt": "___, que llegamos tarde. ¡Date prisa!", "answer": ["Venga", "Vamos"], "choices": ["Bueno", "O sea", "Venga"], "why": "Pushing someone to hurry: venga or vamos.", "es419": { "note": "In Latin America: ¡Apúrate! for ¡Date prisa!, and vamos rather than venga." } },
-        { "prompt": "No me llama, no me escribe, no contesta… ___, que no le interesa nada el puesto.", "answer": ["vamos", "o sea"], "choices": ["vamos", "vale", "venga"], "why": "You sum up what you think: vamos, que…" }
+        { "prompt": "—Estás cansada, não estás? —___, trabalhei catorze horas.", "answer": ["Pois é", "Pois"], "choices": ["Pois é", "Então", "Pronto"], "why": "You agree: yes, that's how it is. Então opens a conversation and pronto closes it." },
+        { "prompt": "Tenho consulta às nove e o trabalho começa às oito. ___, tenho de pedir para sair mais tarde.", "answer": "Portanto", "choices": ["Portanto", "Pois é", "Claro"], "why": "A conclusion from the first sentence: portanto." },
+        { "prompt": "___, o que é que se passa? Estás com ar de quem não dormiu.", "answer": "Então", "choices": ["Então", "Pronto", "Ainda bem"], "why": "Opening and asking for more: então." },
+        { "prompt": "—O meu pai já saiu do hospital. —___! Estava tão preocupada.", "answer": "Ainda bem", "choices": ["Ainda bem", "Ora bolas", "Se calhar"], "why": "Relief: ainda bem." },
+        { "prompt": "—Já te disse três vezes que não posso. —___, não insisto.", "answer": "Pronto", "choices": ["Pronto", "Ora bolas", "Então"], "why": "You accept and drop it: pronto.", "ptBR": { "note": "In Brazil: Tá bom or Beleza.", "form": "Tá bom" } },
+        { "prompt": "___, perdi o comprovativo de morada! E agora?", "answer": "Ora bolas", "choices": ["Ora bolas", "Ainda bem", "Claro"], "why": "A mild exclamation of annoyance: ora bolas." },
+        { "prompt": "—Vens jantar? —___ que sim! Já estou a caminho.", "answer": "Claro", "choices": ["Claro", "Bem", "Portanto"], "why": "Claro que sim: of course." }
       ]
     },
     {
       "type": "fill",
-      "title": "Getting attention, softening and thinking aloud.",
-      "hint": "oye and mira get attention, a ver means you're checking or thinking, hombre softens.",
+      "title": "Getting attention, doubt and tags.",
+      "hint": "olha gets attention, se calhar means perhaps, pá is a very informal address, não é? asks for agreement, bem hesitates.",
       "placeholder": "Word",
       "items": [
-        { "prompt": "—¿Te molesta si abro la ventana? —___, claro que no.", "answer": "Hombre", "choices": ["Es que", "O sea", "Hombre"], "why": "hombre softens the answer, and is said to women too." },
-        { "prompt": "___, ¿sabes a qué hora abre el centro de salud?", "answer": ["Oye", "Mira"], "choices": ["Oye", "Vale", "Es que"], "why": "You get someone's attention before a question." },
-        { "prompt": "___, ¿dónde he puesto las llaves?", "answer": "A ver", "choices": ["Vale", "A ver", "Hombre"], "why": "You are thinking aloud and checking: a ver." },
-        { "prompt": "—No sé qué decirle al casero. —___, yo le diría la verdad.", "answer": ["Mira", "Pues", "Hombre", "Bueno"], "choices": ["Mira", "Vale", "Es que"], "why": "mira introduces your opinion or advice." },
-        { "prompt": "—¿Puedes venir a las siete? —___… a las siete no puedo, pero a las ocho sí.", "answer": ["Bueno", "Pues", "Es que"], "choices": ["Venga", "Vale", "Bueno"], "why": "You hesitate and then correct the plan. Venga and vale would say yes." }
+        { "prompt": "___, tens um minuto? Queria falar contigo sobre a renda.", "answer": "Olha", "choices": ["Olha", "Pronto", "Ainda bem"], "why": "You get someone's attention before you speak." },
+        { "prompt": "—Onde está o Rui? —___ foi ao banco; não sei.", "answer": "Se calhar", "choices": ["Se calhar", "Ora bolas", "Pois é"], "why": "A guess: se calhar means perhaps." },
+        { "prompt": "Ó ___, ajuda-me aqui com a mala!", "answer": "pá", "choices": ["pá", "pois", "bem"], "why": "Very informal address between friends.", "ptBR": { "note": "pá is not used in Brazil: Ô cara, me ajuda aqui com a mala!", "form": "cara" } },
+        { "prompt": "O contrato acaba em dezembro, ___?", "answer": "não é", "choices": ["não é", "pois é", "ainda bem"], "why": "A tag at the end of a sentence asks for agreement.", "ptBR": { "note": "In Brazil: né?", "form": "né" } },
+        { "prompt": "—Gostas do apartamento? —___… é bonito, mas a renda é cara.", "answer": ["Bem", "Pois"], "choices": ["Bem", "Claro", "Pronto"], "why": "You hesitate and then qualify: bem." }
       ]
     },
     {
@@ -172,12 +216,12 @@
       "columns": ["Sentence", "Job"],
       "placeholder": "Job",
       "rows": [
-        { "term": "—¿Por qué llegas tarde? —Es que he perdido el autobús.", "answer": "gives an excuse", "choices": ["agrees", "gives an excuse", "closes"] },
-        { "term": "Trabaja lunes y martes, o sea, dos días.", "answer": "says it another way", "choices": ["says it another way", "encourages", "hesitates"] },
-        { "term": "Bueno, no sé, quizá sí.", "answer": "hesitates", "choices": ["gives an excuse", "closes", "hesitates"] },
-        { "term": "—Te llamo mañana. —Vale, hasta mañana.", "answer": "agrees", "choices": ["agrees", "hesitates", "says it another way"], "es419": { "note": "Vale is typical of Spain. In Latin America: Okey or Está bien." } },
-        { "term": "Venga, te dejo, que tengo prisa.", "answer": "closes", "choices": ["hesitates", "closes", "gives an excuse"], "es419": { "note": "Venga as a goodbye is typical of Spain. In Latin America: Bueno or Dale." } },
-        { "term": "Es caro, lento y feo. Vamos, un desastre.", "answer": "sums up", "choices": ["agrees", "gives an excuse", "sums up"] }
+        { "term": "Se calhar chove amanhã.", "answer": "says maybe", "choices": ["says maybe", "agrees", "closes"] },
+        { "term": "Trabalha à segunda e à terça, portanto, dois dias.", "answer": "says it another way", "choices": ["says it another way", "opens", "hesitates"] },
+        { "term": "Bem… não sei, talvez.", "answer": "hesitates", "choices": ["hesitates", "closes", "opens"] },
+        { "term": "—A renda subiu outra vez. —Pois é.", "answer": "agrees", "choices": ["agrees", "hesitates", "says it another way"] },
+        { "term": "Pronto, está combinado. Até amanhã.", "answer": "closes", "choices": ["hesitates", "closes", "shows relief"], "ptBR": { "note": "In Brazil: Beleza or Tá bom." } },
+        { "term": "Ainda bem que chegaste a tempo.", "answer": "shows relief", "choices": ["agrees", "shows relief", "opens"] }
       ]
     },
     {
@@ -185,30 +229,30 @@
       "title": "From speech to a formal email.",
       "hint": "Tap the spoken word, then what you'd write to an office or a company.",
       "pairs": [
-        { "q": "o sea", "a": "es decir" },
-        { "q": "vale", "a": "de acuerdo" },
-        { "q": "es que", "a": "el motivo es que" },
-        { "q": "vamos, que…", "a": "en resumen" },
-        { "q": "venga, hasta luego", "a": "un cordial saludo" }
+        { "q": "pronto", "a": "de acordo" },
+        { "q": "se calhar", "a": "talvez" },
+        { "q": "claro que sim", "a": "com certeza" },
+        { "q": "então (so)", "a": "nesse caso" },
+        { "q": "pá, ajuda-me", "a": "peço-lhe a sua ajuda" }
       ]
     },
     {
       "type": "story",
       "title": "Fill the gaps: noisy neighbours.",
-      "hint": "Who reacts, who explains, who says it another way, who agrees and who closes?",
-      "choices": ["pues", "es que", "o sea", "vale", "venga"],
+      "hint": "Who opens, who agrees, who concludes, who gets attention, who closes?",
+      "choices": ["então", "pois é", "portanto", "olha", "pronto"],
       "segments": [
-        { "text": "—Hola, Yusuf. ¿Qué tal el piso nuevo?\n—" },
-        { "blank": 0, "answer": "Pues" },
-        { "text": " muy bien, pero esta semana casi no he dormido.\n—¿Y eso?\n—" },
-        { "blank": 1, "answer": ["Es que", "Pues"] },
-        { "text": " los vecinos de arriba hacen mucho ruido por la noche.\n—¿Todas las noches?\n—Sí, de lunes a domingo, " },
-        { "blank": 2, "answer": "o sea" },
-        { "text": ", siempre.\n—Habla con el presidente de la comunidad. ¿Te doy su número?\n—" },
-        { "blank": 3, "answer": ["Vale", "Venga"] },
-        { "text": ", gracias. Te llamo mañana y te cuento.\n—" },
-        { "blank": 4, "answer": ["Venga", "Vale"] },
-        { "text": ", hasta mañana." }
+        { "text": "—Olá, Yusuf. " },
+        { "blank": 0, "answer": "Então" },
+        { "text": ", como vai o apartamento novo?\n—Bem, mas quase não durmo: os vizinhos de cima fazem barulho à noite.\n—" },
+        { "blank": 1, "answer": "Pois é" },
+        { "text": ", nos prédios antigos é assim. Todas as noites?\n—Sim, de segunda a domingo, " },
+        { "blank": 2, "answer": "portanto" },
+        { "text": ", sempre.\n—" },
+        { "blank": 3, "answer": ["Olha", "Então"] },
+        { "text": ", fala com o administrador do condomínio. Dou-te o número?\n—" },
+        { "blank": 4, "answer": "Pronto" },
+        { "text": ", obrigado. Ligo-lhe amanhã." }
       ]
     },
     {
@@ -216,11 +260,11 @@
       "title": "Build the sentences.",
       "hint": "The marker comes first.",
       "sentences": [
-        { "id": "dmk1", "hint": "Explain: the letter hasn't reached me", "correct": ["Es", "que", "no", "me", "ha", "llegado", "la", "carta", "."], "shuffled": ["llegado", "Es", "la", ".", "me", "que", "carta", "no", "ha"], "alt": [["Es", "que", "la", "carta", "no", "me", "ha", "llegado", "."]] },
-        { "id": "dmk2", "hint": "Hesitate: well, I don't know if I can go", "correct": ["Bueno", ",", "no", "sé", "si", "puedo", "ir", "."], "shuffled": ["sé", "Bueno", "ir", ".", "si", ",", "puedo", "no"] },
-        { "id": "dmk3", "hint": "Conclude: so you don't have an appointment", "correct": ["O", "sea", "que", "no", "tienes", "cita", "."], "shuffled": ["cita", "que", "O", ".", "tienes", "sea", "no"] },
-        { "id": "dmk4", "hint": "React: well, I think you're right", "correct": ["Pues", "yo", "creo", "que", "tienes", "razón", "."], "shuffled": ["razón", "creo", "Pues", ".", "que", "yo", "tienes"] },
-        { "id": "dmk5", "hint": "Close: OK then, I'll call you later", "correct": ["Venga", ",", "te", "llamo", "luego", "."], "shuffled": ["llamo", "Venga", ".", "luego", ",", "te"], "alt": [["Venga", ",", "luego", "te", "llamo", "."]], "es419": { "note": "Venga as a goodbye is typical of Spain. In Latin America: Bueno or Dale." } }
+        { "id": "dmk1", "hint": "Open: so, how was the appointment?", "correct": ["Então", ",", "como", "correu", "a", "consulta", "?"], "shuffled": ["consulta", "Então", "?", "correu", "a", ",", "como"] },
+        { "id": "dmk2", "hint": "Maybe: perhaps he is at work", "correct": ["Se", "calhar", "está", "no", "trabalho", "."], "shuffled": ["trabalho", "está", "Se", ".", "no", "calhar"] },
+        { "id": "dmk3", "hint": "Conclude: so you don't have an appointment", "correct": ["Portanto", ",", "não", "tens", "consulta", "."], "shuffled": ["consulta", "Portanto", ".", "tens", ",", "não"] },
+        { "id": "dmk4", "hint": "Agree: yes, that's how it is, you're right", "correct": ["Pois", "é", ",", "tens", "razão", "."], "shuffled": ["razão", "é", "Pois", ".", "tens", ","] },
+        { "id": "dmk5", "hint": "Close: OK, I'll call you later", "correct": ["Pronto", ",", "ligo-te", "logo", "."], "shuffled": ["logo", "Pronto", ".", ",", "ligo-te"], "alt": [["Pronto", ",", "logo", "ligo-te", "."]], "ptBR": { "note": "In Brazil: Tá bom, te ligo mais tarde.", "form": "Tá bom, te ligo mais tarde." } }
       ]
     }
   ]

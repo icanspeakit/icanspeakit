@@ -1,6 +1,6 @@
 ---
 // The printable sheet of one word set — a Lernset (/vocabulario/imprimir/<set>) or a Berufe
-// group (/spanish-for-work/<beruf>/<gruppe>/drucken). Three parts on paper:
+// group (/portuguese-for-work/<beruf>/<gruppe>/drucken). Three parts on paper:
 //
 //   1  Wortliste      every word with its article and plural, the meaning in the language the
 //                     learner picked (English, or German from deHint) and the example sentence;
@@ -54,9 +54,13 @@ const bruno = mascotSvg({ name: "bruno", size: 64, label: "" });
 const hamsti = mascotSvg({ name: "hamsti", size: 56, label: "" });
 const regi = mascotSvg({ name: "regi", size: 52, label: "" });
 let gap = 0;
-// Part B asks for the article the nouns carry (docs/content-plan.md §1.4).
-const artQuestion = "el or la?";
-const artInstr = "Write el or la.";
+// Part B asks for the article the nouns carry (docs/content-plan.md §1.4): o/a once a level is
+// Portuguese; el/la only while a lexicon level still holds the Spanish course's words.
+const legacyArticles = words.some((x: any) => x.gender === "el" || x.gender === "la");
+const artPair = legacyArticles ? "el or la" : "o or a";
+const artQuestion = `${artPair}?`;
+const artInstr = `Write ${artPair}.`;
+const artLabel = legacyArticles ? "el / la" : "o / a";
 ---
 <SiteNav active={active} />
 
@@ -89,9 +93,9 @@ const artInstr = "Write el or la.";
   <article class="ab-sheet pr-sheet" lang="en">
     <header class="ab-head pr-head">
       <div>
-        <p class="ab-eyebrow">icanspeak Spanish · Vocabulary · {level}</p>
+        <p class="ab-eyebrow">icanspeak Portuguese · Vocabulary · {level}</p>
         <h1 class="ab-title">{title}</h1>
-        <p class="pr-sub">{words.length} words · el / la, meaning and example sentence</p>
+        <p class="pr-sub">{words.length} words · {artLabel}, meaning and example sentence</p>
       </div>
       <span class="pr-mascot" aria-hidden="true" set:html={hamsti}></span>
     </header>
@@ -134,14 +138,14 @@ const artInstr = "Write el or la.";
       </aside>
     )}
 
-    <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{footPath} · flashcards with audio online</footer>
+    <footer class="ab-foot">icanspeak Portuguese · icanspeak.it/portugues{footPath} · flashcards with audio online</footer>
   </article>
 
   <!-- 2 · Kleiner Test -->
   <article class="ab-sheet pr-sheet pr-test" lang="en">
     <header class="ab-head pr-head">
       <div>
-        <p class="ab-eyebrow">icanspeak Spanish · Short test · {level}</p>
+        <p class="ab-eyebrow">icanspeak Portuguese · Short test · {level}</p>
         <h2 class="ab-title">{title}</h2>
         <p class="ab-namerow"><span>Name: <i></i></span><span>Date: <i></i></span></p>
       </div>
@@ -207,13 +211,13 @@ const artInstr = "Write el or la.";
       </section>
     )}
 
-    <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{footPath}</footer>
+    <footer class="ab-foot">icanspeak Portuguese · icanspeak.it/portugues{footPath}</footer>
   </article>
 
   <!-- 3 · Lösungen -->
   <article class="ab-sheet ab-key" lang="en" aria-label="Answers">
     <header class="ab-head">
-      <p class="ab-eyebrow">icanspeak Spanish · Answers · {level}</p>
+      <p class="ab-eyebrow">icanspeak Portuguese · Answers · {level}</p>
       <h2 class="ab-title ab-title--key">{title}</h2>
     </header>
     {sheet.match.left.length > 0 && (
@@ -240,7 +244,7 @@ const artInstr = "Write el or la.";
         </ol>
       </section>
     )}
-    <footer class="ab-foot">icanspeak Spanish · icanspeak.it/spanish{footPath}</footer>
+    <footer class="ab-foot">icanspeak Portuguese · icanspeak.it/portugues{footPath}</footer>
   </article>
 </main>
 

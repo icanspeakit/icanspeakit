@@ -1,6 +1,6 @@
 ---
 // /jogos/sprint-dos-generos — an endless runner where every few seconds a word gate asks for the
-// article (el, la, los, las), the plural or a verb form, and the learner answers by riding through
+// article (o, a, os, as), the plural or a verb form, and the learner answers by riding through
 // a lane. Phone-first: swipe controls, the stage fills the screen below the nav.
 // Logic: src/lib/artikelSprint/ (game loop, renderer, input, questions, storage, sound).
 // Words: src/data/artikel-sprint/words.json (the verbs and hand-picked nouns); Artikel and Plural also draw
@@ -14,9 +14,9 @@ import { enrich, nounCount } from "../../lib/artikelSprint/lexWords.js";
 
 const words = enrich(rawWords);
 const modes = [
-  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "el · la · los · las" },
-  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "las mesas" },
-  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "yo voy" },
+  { id: "artikel", label: "Articles", key: "sprint.mode.artikel", sub: "o · a · os · as" },
+  { id: "plural", label: "Plural", key: "sprint.mode.plural", sub: "as mesas" },
+  { id: "verb", label: "Verbs", key: "sprint.mode.verb", sub: "eu vou" },
 ];
 const levels = ["A1", "A2", "B1"];
 // Schwierigkeit: speed and lives (src/lib/artikelSprint/game.js, DIFFICULTIES). Separate from the word level.
@@ -31,8 +31,8 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
 }]));
 ---
 <Layout
-  title="Bruno Kart: el or la in a kart race – icanspeak Spanish"
-  description="A racing game for learning Spanish: drive through the right gate – el or la, the plural or the verb form. A1 to B1, free in the browser, on your phone too."
+  title="Bruno Kart: o or a in a kart race – icanspeak Portuguese"
+  description="A racing game for learning Portuguese: drive through the right gate – o or a, the plural or the verb form. A1 to B1, free in the browser, on your phone too."
 >
   <SiteNav active="ueben" />
   <main class="asp-page">
@@ -100,11 +100,11 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
             <div class="asp-seg asp-seg--modes" data-switch role="group" aria-labelledby="asp-mode-l">
               {modes.map((m) => (
                 <button type="button" class="asp-seg-btn" data-mode={m.id} aria-pressed={m.id === "artikel" ? "true" : "false"}>
-                  <span data-i18n={m.key}>{m.label}</span><small lang="es">{m.sub}</small>
+                  <span data-i18n={m.key}>{m.label}</span><small lang="pt-PT">{m.sub}</small>
                 </button>
               ))}
             </div>
-            <p class="asp-mode-hint" data-mode-hint data-i18n="sprint.hint.artikel">el, la, los or las?</p>
+            <p class="asp-mode-hint" data-mode-hint data-i18n="sprint.hint.artikel">o, a, os or as?</p>
 
             <p class="asp-label" id="asp-level-l" data-i18n="sprint.level">Niveau</p>
             <div class="asp-seg" data-switch role="group" aria-labelledby="asp-level-l">
@@ -189,7 +189,7 @@ const counts = Object.fromEntries(levels.map((l) => [l, {
                 <div class="asp-seg asp-seg--modes" data-switch role="group" aria-labelledby="asp-room-mode-l">
                   {modes.map((m) => (
                     <button type="button" class="asp-seg-btn" data-mode={m.id} aria-pressed={m.id === "artikel" ? "true" : "false"}>
-                      <span data-i18n={m.key}>{m.label}</span><small lang="es">{m.sub}</small>
+                      <span data-i18n={m.key}>{m.label}</span><small lang="pt-PT">{m.sub}</small>
                     </button>
                   ))}
                 </div>

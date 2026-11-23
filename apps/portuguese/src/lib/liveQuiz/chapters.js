@@ -132,9 +132,9 @@ function verbGroups() {
 /* ---- The Nachschlagewerk lists (/gramatica/<ref>, src/data/nachschlagen/*.json) ------
    Chapter g-nachschlagen-<file>, one group per section of the list. Rows are
    [verb, forms, example, level]; a "# …" string is a sub-heading and is skipped.
-     starke-schwache-verben     él indefinido and participle of each verb; wrong: the other
-                                forms, the regular pattern (tenió, hacido)
-     trennbare-verben           yo present of the pronominal verb; wrong: no pronoun, another pronoun
+     starke-schwache-verben     ele perfeito and participle of each verb; wrong: the other
+                                forms, the regular pattern (teu, fazido)
+     trennbare-verben           eu present of the pronominal verb with its enclitic pronoun; wrong: no pronoun, another pronoun, proclisis (me levanto)
      verben-mit-praepositionen  the preposition in the example sentence; wrong: the others */
 const REF_PREFIX = "nachschlagen-";
 const refMods = import.meta.glob("../../data/nachschlagen/*.json", { eager: true });
@@ -144,7 +144,7 @@ const REF_LEVEL = { "starke-schwache-verben": "A1", "trennbare-verben": "A1", "v
 const rowsOf = (sec) => (sec.items ?? []).filter((it) => Array.isArray(it));
 const bareVerb = (v) => String(v).replace(/[[\]|]/g, "");
 // The form a learner guesses from the regular pattern: wrong for an irregular verb.
-const regularEl = (inf) => inf.replace(/ar$/, "ó").replace(/(er|ir|ír)$/, "ió");
+const regularEl = (inf) => inf.replace(/ar$/, "ou").replace(/er$/, "eu").replace(/(ir|ír)$/, "iu");
 const regularPart = (inf) => inf.replace(/ar$/, "ado").replace(/(er|ir|ír)$/, "ido");
 const mcq = (prompt, right, wrong, kind, src) => {
   const seen = new Set([right.toLowerCase()]);
@@ -162,17 +162,17 @@ function refGroups(file) {
       const [v, forms, example] = row;
       const inf = bareVerb(v);
       if (file === "starke-schwache-verben") {
-        // "tengo · tuvo · tenido": yo presente · él indefinido · participio
+        // "tenho · teve · tido": eu presente · ele perfeito simples · particípio
         const [yo, past, p2] = String(forms).split(" · ").map((f) => f.trim());
         if (!past || !p2) return;
-        items.push(mcq(`Ayer ella ___ (${inf}) · indefinido`, past, [regularEl(inf), yo, p2, inf], sec.name, src(sec, i, "praet")));
-        items.push(mcq(`Ella ha ___ (${inf}) · perfecto`, p2, [regularPart(inf), past, inf, yo], sec.name, src(sec, i, "perf")));
+        items.push(mcq(`Ontem ela ___ (${inf}) · perfeito`, past, [regularEl(inf), yo, p2, inf], sec.name, src(sec, i, "praet")));
+        items.push(mcq(`Ela já tinha ___ (${inf}) · particípio`, p2, [regularPart(inf), past, inf, yo], sec.name, src(sec, i, "perf")));
       } else if (file === "trennbare-verben") {
-        // The yo form with its pronoun; wrong: no pronoun, or the pronoun of another person.
+        // The eu form with its enclitic pronoun; wrong: no pronoun, another person's pronoun, proclisis.
         const yo = String(forms).split(" · ")[0].trim();
-        if (!yo.startsWith("me ")) return;
-        const bare = yo.slice(3);
-        items.push(mcq(`Yo ___ (${inf}) · presente`, yo, [bare, `se ${bare}`, `te ${bare}`], sec.name, src(sec, i)));
+        if (!yo.endsWith("-me")) return;
+        const bare = yo.slice(0, -3);
+        items.push(mcq(`Eu ___ (${inf}) · presente`, yo, [bare, `${bare}-se`, `${bare}-te`, `me ${bare}`], sec.name, src(sec, i)));
       } else if (file === "verben-mit-praepositionen") {
         const prep = sec.name;
         const verb = String(v).endsWith(` ${prep}`) ? String(v).slice(0, -prep.length - 1) : String(v);

@@ -43,7 +43,7 @@ import praepTrainer from "../data/praepositionen-trainer.json";
 // shadows the quiz entry with the same id.
 const workspaceModules = import.meta.glob("../data/grammatik/*.json", { eager: true });
 // Deutsch für den Beruf (FACHVOKABULAR-TIERED-PROMPT.md, Tier 3): the word count over every
-// profession deck, refs included — the number the /spanish-for-work hub shows.
+// profession deck, refs included — the number the /portuguese-for-work hub shows.
 const berufeDecks = Object.values(import.meta.glob("../data/berufe/*.json", { eager: true, import: "default" }));
 const berufeWordCount = berufeDecks.reduce((n, d) => n + (d.groups ?? []).reduce((m, g) => m + (g.words ?? []).length, 0), 0);
 const workspaces = Object.values(workspaceModules).map((m) => m.default ?? m).filter(isReviewed);
@@ -135,11 +135,11 @@ export const tools = [
     titleKey: "tool.aussprache.title", title: "Aussprache-Training", shortKey: "group.short.aussprache", short: "Aussprache",
     descKey: "tool.aussprache.desc", desc: "Wörter anhören und im Langsam-Modus üben.",
     countKey: "tool.aussprache.count", countVars: { n: wortschatz.length + artikel.length }, count: `${wortschatz.length + artikel.length} Wörter` },
-  { id: "berufe", group: "woerter", href: "/spanish-for-work", icon: "target",
-    titleKey: "tool.berufe.title", title: "Spanish for work", shortKey: "group.short.berufe", short: "Work",
-    descKey: "tool.berufe.desc", desc: "Job vocabulary for Spain: care work, bars and restaurants, cleaning, farm work, construction and more.",
+  { id: "berufe", group: "woerter", href: "/portuguese-for-work", icon: "target",
+    titleKey: "tool.berufe.title", title: "Portuguese for work", shortKey: "group.short.berufe", short: "Work",
+    descKey: "tool.berufe.desc", desc: "Job vocabulary for Portugal: care work, cafés and restaurants, cleaning, farm work, construction and more.",
     countKey: "tool.berufe.count", countVars: { n: berufeWordCount }, count: `${berufeWordCount} words`,
-    keywords: "work job jobs trabajo empleo workplace vocabulary spanish for work care carer cuidador cuidadora residencia hostelería hospitality bar restaurant kitchen camarero cocina cleaning limpieza empleada de hogar domestic farm campo agriculture invernadero temporero recogida construction obra albañil shop supermarket supermercado cajero warehouse almacén logistics carretilla delivery reparto repartidor driver camión hotel camarera de pisos recepción office oficina administrativo" },
+    keywords: "work job jobs trabalho emprego workplace vocabulary portuguese for work care carer cuidador cuidadora lar de idosos restauração hospitality café restaurant kitchen empregado de mesa cozinha cleaning limpeza empregada doméstica domestic farm campo agriculture estufa vindima apanha construction obra pedreiro servente shop supermarket supermercado operador de caixa warehouse armazém logistics empilhador delivery entregas estafeta TVDE driver motorista camião hotel empregada de andares receção alojamento local office escritório administrativo remote work teletrabalho" },
   { id: "hoeren", group: "fertigkeiten", href: "/compreensao-oral", icon: "volume",
     titleKey: "tool.hoeren.title", title: "Hörverstehen", shortKey: "group.short.hoeren", short: "Hören",
     descKey: "tool.hoeren.desc", desc: "Durchsagen, Telefonate und Gespräche — mit Transkript und Tempo-Regler.",
@@ -245,12 +245,11 @@ export const landingTools = (() => {
 
 export const exams = [
   // Exam names per docs/content-plan.md §2 (ids are the old slots; hrefs renamed by `routes`).
-  { id: "telc", group: "pruefungen", href: "/siele/levels", icon: "document", title: "SIELE by level", short: "SIELE levels", count: "A2–C1" },
-  { id: "goethe", group: "pruefungen", href: "/dele", icon: "landmark", title: "DELE", short: "DELE", count: "A1–C2" },
-  { id: "testdaf", group: "pruefungen", href: "/siele", icon: "graduation-cap", title: "SIELE", short: "SIELE", count: "A1–C1" },
-  { id: "dtz", group: "pruefungen", href: "/nationality/dele-a2", icon: "book-open", title: "DELE A2 for nationality", short: "DELE A2", count: "A2" },
-  { id: "lid", group: "pruefungen", href: "/ccse", icon: "map-pin", titleKey: "exam.lid.name", title: "CCSE nationality test", short: "CCSE",
-    keywords: "ccse nacionalidad nationality citizenship naturalisation constitución constitution spain",
+  { id: "goethe", group: "pruefungen", href: "/caple", icon: "landmark", title: "CAPLE", short: "CAPLE", count: "A1–C2" },
+  { id: "testdaf", group: "pruefungen", href: "/caple/level-check", icon: "graduation-cap", title: "Level check", short: "Level check", count: "A1–C1" },
+  { id: "dtz", group: "pruefungen", href: "/nationality/ciple-a2", icon: "book-open", title: "CIPLE A2 for residence and nationality", short: "CIPLE A2", count: "A2" },
+  { id: "lid", group: "pruefungen", href: "/civics", icon: "map-pin", titleKey: "exam.lid.name", title: "Civics: Portugal, how it works", short: "Civics",
+    keywords: "civics cidadania nationality nacionalidade citizenship naturalisation constituição constitution portugal",
     countKey: "group.count.bundeslaender", countVars: { n: lid.bundeslaender.length }, count: `${lid.bundeslaender.length} regions` },
 ];
 
@@ -259,7 +258,7 @@ export const groups = [
   { id: "woerter", icon: "folder", nameKey: "group.woerter.name", name: "Wörter & Aussprache", blurbKey: "group.woerter.blurb", blurb: "Vokabeln hören und behalten" },
   { id: "fertigkeiten", icon: "mic", nameKey: "group.fertigkeiten.name", name: "Sprechen, Lesen & Schreiben", blurbKey: "group.fertigkeiten.blurb", blurb: "Prüfungsteile am Stück üben" },
   { id: "kultur", icon: "map-pin", nameKey: "group.kultur.name", name: "Landeskunde", blurbKey: "group.kultur.blurb", blurb: "Alltag und Kultur in Deutschland" },
-  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "DELE, SIELE and the CCSE" },
+  { id: "pruefungen", icon: "graduation-cap", nameKey: "nav.exams", name: "Prüfungen", blurbKey: "group.pruefungen.blurb", blurb: "CIPLE and the CAPLE exams, civics" },
 ];
 
 export const entries = [...tools, ...exams];
@@ -445,7 +444,7 @@ export const grammarWorkspaceLevels = GRAMMAR_LEVELS
 
 const LEVEL_BLURB = {
   A1: "First sentences",
-  A2: "Everyday Spanish",
+  A2: "Everyday Portuguese",
   B1: "Speaking independently",
   B2: "Arguing with confidence",
   C1: "Saying it precisely",
@@ -566,7 +565,7 @@ const vocabLevelView = (level) => {
       countKey: "sets.rounds", countVars: { n: parts(words), size: PART_SIZE } });
   }
   if (nouns) {
-    lists.push({ ...levelRow(`el / la · ${level}`, `/articles?niveau=${level}`,
+    lists.push({ ...levelRow(`o / a · ${level}`, `/articles?niveau=${level}`,
       `${ARTIKEL_ROUND} Nomen pro Übung`),
       countKey: "tool.artikel.round", countVars: { n: ARTIKEL_ROUND } });
   }
@@ -631,9 +630,9 @@ const kulturInsiderItem = {
    The same facts serve both: a learner reading about Germany meets the exam, and one
    preparing for the exam is reading Landeskunde anyway. */
 const kulturLidFaktenItem = {
-  id: "kultur-lid-fakten", href: "/ccse/facts", icon: "graduation-cap",
-  title: "Facts about Spain", titleKey: "nav.kultur.lidFakten",
-  count: "CCSE nationality test", countKey: "nav.kultur.lidFaktenHint",
+  id: "kultur-lid-fakten", href: "/civics/facts", icon: "graduation-cap",
+  title: "Facts about Portugal", titleKey: "nav.kultur.lidFakten",
+  count: "Civics", countKey: "nav.kultur.lidFaktenHint",
 };
 const kulturFeatures = [kulturQuizItem, kulturFehlerItem, kulturInsiderItem];
 
@@ -832,8 +831,8 @@ const wortschatzItems = notSelf("/vocabulario", itemsOf("woerter"));
  *  page, so the section has no href — the desktop head is a label and the drawer pane has
  *  no "Alle …" row. */
 const spieleItems = [
-  { id: "lindenau", href: "/jogos/villabruno", icon: "landmark",
-    titleKey: "nav.spiele.lindenau", title: "The Legend of Villabruno",
+  { id: "lindenau", href: "/jogos/vila-bruno", icon: "landmark",
+    titleKey: "nav.spiele.lindenau", title: "The Legend of Vila Bruno",
     hintKey: "nav.spiele.lindenauHint", hint: "Role-play in town, A1",
     countKey: "nav.spiele.lindenauHint", count: "Role-play in town, A1" },
   { id: "hoer-safari", href: "/jogos/safari-auditivo", icon: "volume",
@@ -906,7 +905,7 @@ export const navSections = [
 
   { id: "pruefungen", icon: "graduation-cap", href: "/exames",
     nameKey: "nav.exams", name: "Prüfungen",
-    blurbKey: "group.pruefungen.blurb", blurb: "DELE, SIELE and the CCSE",
+    blurbKey: "group.pruefungen.blurb", blurb: "CIPLE and the CAPLE exams, civics",
     // The Führerschein simulation has no row of its own: it is one of the hub's actions.
     items: notSelf("/exames", itemsOf("pruefungen")) },
 ];
@@ -1040,14 +1039,14 @@ export const navUebenMenu = {
           href: `/vocabulario/${level.toLowerCase()}`,
           titleKey: "nav.vocab.listLevel", titleVars: { level }, title: `Wortliste ${level}`,
         })),
-        // Not a level: the profession decks (/spanish-for-work), A2–B1, for learners who work.
-        { href: "/spanish-for-work", titleKey: "tool.berufe.title", title: "Spanish for work",
+        // Not a level: the profession decks (/portuguese-for-work), A2–B1, for learners who work.
+        { href: "/portuguese-for-work", titleKey: "tool.berufe.title", title: "Portuguese for work",
           hintKey: "nav.wortschatz.berufeHint", hint: "Words for your job" },
-        // Not a level: phrases, model texts and exercises for office work (/business-spanish).
-        { href: "/business-spanish", titleKey: "biz.title", title: "Business Spanish",
+        // Not a level: phrases, model texts and exercises for office work (/business-portuguese).
+        { href: "/business-portuguese", titleKey: "biz.title", title: "Business Portuguese",
           hintKey: "biz.navHint", hint: "Emails, calls, CVs, interviews, meetings" },
-        // Not a level either: the driving words (/dgt-vocabulary).
-        { href: "/dgt-vocabulary", titleKey: "dgt.title", title: "DGT driving vocabulary",
+        // Not a level either: the driving words (/imt-vocabulary).
+        { href: "/imt-vocabulary", titleKey: "dgt.title", title: "IMT driving vocabulary",
           hintKey: "dgt.navHint", hint: "Car, road, signs, exam and paperwork" },
       ] },
     { id: "fertigkeiten", icon: "mic", href: "/competencias",
@@ -1082,10 +1081,10 @@ export const navUebenMenu = {
 export const navSprachen = {
   href: "/conhecimentos/linguas",
   sections: [
-    { id: "karte", titleKey: "sprachen.map.title", title: "Where Spanish is spoken" },
+    { id: "karte", titleKey: "sprachen.map.title", title: "Where Portuguese is spoken" },
     { id: "familie", titleKey: "sprachen.tree.title", title: "The language family" },
     { id: "vergleich", titleKey: "sprachen.cmp.title", title: "How close is your language?" },
-    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Spanish: the word decoder" },
+    { id: "decoder", titleKey: "sprachen.dec.title", title: "English → Portuguese: the word decoder" },
   ],
 };
 
@@ -1106,7 +1105,7 @@ export const navLernen = { href: "/conhecimentos/aprendizagem", titleKey: "nav.w
 
 // „Wortfallen" (/conhecimentos/falsos-amigos): Küche, Kuchen, Koch — words that sound alike and get
 // mixed up, with a quiz. A row in the Sprachen column and in the phone drawer.
-export const navWortfallen = { href: "/conhecimentos/falsos-amigos", titleKey: "nav.wissen.wortfallen", title: "False friends: embarazada, éxito, carpeta",
+export const navWortfallen = { href: "/conhecimentos/falsos-amigos", titleKey: "nav.wissen.wortfallen", title: "False friends: puxar, largo, esquisito",
   hintKey: "nav.wissen.wortfallenHint", hint: "Words that are easy to mix up" };
 
 // „Bildkarten" (/conhecimentos/dicionario-ilustrado): the 100 most important words as picture cards, all
@@ -1121,23 +1120,23 @@ export const navBildwoerterbuch = { href: "/conhecimentos/dicionario-ilustrado",
 export const navZitate = { href: "/conhecimentos/citacoes", titleKey: "nav.wissen.zitate", title: "Zitat des Tages",
   hintKey: "nav.wissen.zitateHint", hint: "Ein Satz, drei Wörter, ein Leben" };
 
-// /conhecimentos/acentos: the accent map of Spain. In the Sprachen column, under the sections of
-// "Spanish around the world", whose map it zooms into.
+// /conhecimentos/acentos: the accent map of Portugal. In the Sprachen column, under the sections of
+// "Portuguese around the world", whose map it zooms into.
 export const navDialekte = { href: "/conhecimentos/acentos", titleKey: "nav.wissen.dialekte", title: "Accents: the map",
-  hintKey: "nav.wissen.dialekteHint", hint: "From Andalusian to Canarian" };
+  hintKey: "nav.wissen.dialekteHint", hint: "From Porto to the Azores" };
 
 // /conhecimentos/giria: tío, mola, joder — how Spanish is spoken in Spain, with the standard
 // word beside it and where it is fine. In the Sprachen column under Dialekte and in the
 // phone drawer. No i18n keys yet: the menu shows the German title.
-export const navUmgangssprache = { href: "/conhecimentos/giria", titleKey: "nav.wissen.umgangssprache", title: "Informal Spanish & slang",
-  hintKey: "nav.wissen.umgangsspracheHint", hint: "Tío, mola, currar – and what never to say" };
+export const navUmgangssprache = { href: "/conhecimentos/giria", titleKey: "nav.wissen.umgangssprache", title: "Informal Portuguese & slang",
+  hintKey: "nav.wissen.umgangsspracheHint", hint: "Pá, fixe, bué – and what never to say" };
 
 // /conhecimentos/expressoes-idiomaticas: Redewendungen & Sprichwörter, each with its picture, meaning and
 // origin. In the Sprachen column under Umgangssprache and in the phone drawer, once released
 // (src/lib/redewendungenLive.js); null until then, like navWortgeschichte.
 export const navRedewendungen = REDEWENDUNGEN_LIVE
   ? { href: "/conhecimentos/expressoes-idiomaticas", titleKey: "nav.wissen.redewendungen", title: "Idioms & Proverbs",
-      hintKey: "nav.wissen.redewendungenHint", hint: "Puzzled by “estar en las nubes”? Look here" }
+      hintKey: "nav.wissen.redewendungenHint", hint: "Puzzled by “estar com a cabeça na lua”? Look here" }
   : null;
 
 // /merch: an interest page for shirts, mugs and caps with the crew and the Wortfallen (no
@@ -1203,14 +1202,14 @@ export const navWissenMenu = {
         { href: "/conhecimentos#oficial", titleKey: "wissen.official.title", title: "Offizielle Materialien" },
         { href: navLernen.href, titleKey: navLernen.titleKey, title: navLernen.title },
       ] },
-    // "Spanish around the world" (/conhecimentos/linguas): one page. Only its map section gets a row;
+    // "Portuguese around the world" (/conhecimentos/linguas): one page. Only its map section gets a row;
     // the other three sections sit behind the green box, so the column stays at six rows
     // (the panel ran past the foot of a laptop screen, 2026-10-23). Merch left this column
     // then too: it is in the footer and the phone drawer.
     { id: "sprachen", icon: "globe", href: navSprachen.href,
       nameKey: "nav.wissen.sprachen", name: "Languages",
       primary: { href: navSprachen.href,
-        titleKey: "nav.wissen.sprachenAll", title: "Spanish around the world",
+        titleKey: "nav.wissen.sprachenAll", title: "Portuguese around the world",
         hintKey: "nav.wissen.sprachenHint", hint: "Map, language family, comparison" },
       items: [
         ...navSprachen.sections.filter((s) => s.id === "karte").map((s) => ({ href: `${navSprachen.href}#${s.id}`, titleKey: s.titleKey, title: s.title })),

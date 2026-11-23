@@ -5,7 +5,7 @@ import { withBase, rebaseHtml } from "./paths.js";
 
 /** The interface languages, from the registry (src/lib/languages.js), in menu order. */
 // `htmlLang` is what <html lang> says: the code, or its hreflang where the registry has one
-// (pt → pt-BR, so screen readers and hyphenation pick Brazilian Portuguese).
+// (a regional tag such as pt-BR, so screen readers and hyphenation pick the right variety).
 export const LANGUAGES = languagesFor("ui").map((l) => ({ code: l.code, label: l.native, dir: l.dir, htmlLang: htmlLang(l.code) }));
 
 const STORAGE_KEY = "da_lang";

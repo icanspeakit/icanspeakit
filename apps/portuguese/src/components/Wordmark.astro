@@ -1,16 +1,19 @@
 ---
-// The course wordmark from the icanspeak.it kit (public/logos, docs/brand/BRAND.md): the
-// light and the dark SVG, one of which global.css hides by theme (.wordmark-img--*).
-// `onDark` is for a band that is dark in both themes (the footer): always the dark one.
-// The wrapper is display: contents, so a parent's `… img { height }` rule sizes it as before.
+// The course lockup from the icanspeak kit (docs/brand/BRAND.md §1): the "i canspeak!" wordmark
+// plus the yellow "português" course pill, as in the header (SiteNav .isk-lockup). The wordmark
+// comes as a light and a dark SVG (white letters), one of which global.css hides by theme
+// (.wordmark-img--*); the logo is never recoloured. `onDark` is for a band that is dark in both
+// themes (the footer): always the dark one. A parent's `… img { height }` rule sizes the
+// wordmark as before; the pill follows that height (.wordmark-lockup in global.css).
 interface Props {
   alt?: string;
   onDark?: boolean;
   class?: string;
 }
-const { alt = "icanspeak Spanish", onDark = false, class: cls } = Astro.props;
+const { alt = "icanspeak Portuguese", onDark = false, class: cls } = Astro.props;
 ---
-<span class:list={["wordmark", { "wordmark--on-dark": onDark }]}>
-  <img class:list={["wordmark-img--light", cls]} src="/logos/icanspeak-spanish-wordmark.svg" alt={alt} width="933" height="161" />
-  <img class:list={["wordmark-img--dark", cls]} src="/logos/icanspeak-spanish-wordmark-dark.svg" alt={alt} width="933" height="161" />
+<span class:list={["wordmark", "wordmark-lockup", { "wordmark--on-dark": onDark }]}>
+  <img class:list={["wordmark-img--light", cls]} src="/logos/icanspeak-wordmark.svg" alt={alt} width="1094" height="227" />
+  <img class:list={["wordmark-img--dark", cls]} src="/logos/icanspeak-wordmark-dark.svg" alt={alt} width="1094" height="227" />
+  <span class="isk-pill wordmark-pill" lang="pt-PT" aria-hidden="true">português</span>
 </span>

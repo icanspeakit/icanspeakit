@@ -1,5 +1,5 @@
-// check:lindenau — the dialogues of The Legend of Villabruno (src/lib/lindenau/quests.js) hold
-// together: every turn has a Spanish line and its English help, every `choose` has exactly
+// check:lindenau — the dialogues of The Legend of Vila Bruno (src/lib/lindenau/quests.js) hold
+// together: every turn has a European Portuguese line and its English help, every `choose` has exactly
 // one right reply and a why for each wrong one, every `build`/`say` is a sentence the tiles can
 // actually make (alts too), distractor tiles are not part of the sentence, and every icon
 // exists in public/img/openmoji/. Runs in prebuild; exit 1 on any error.
@@ -17,13 +17,16 @@ const icon = (where, hex) => {
 };
 const sorted = (a) => [...a].sort().join("\u0000");
 const STRAIGHT = /"/;
-// Spanish opens what it closes; the English `en` line is not checked.
+// Portuguese has no opening marks, and no Spanish may be left; the English `en` line is not checked.
+const SPANISH = /[¿¡ñ]|\b(usted|gracias|vosotros|señor|señora|perdona|vaya|cuenta|qué|tú|Villabruno)\b/i;
 const marks = (where, s) => {
-  if (/\?/.test(s) && !s.includes("¿")) err(where, `„${s}“: ¿ fehlt`);
-  if (/!/.test(s) && !s.includes("¡")) err(where, `„${s}“: ¡ fehlt`);
+  if (SPANISH.test(s)) err(where, `„${s}“: Spanisch im Portugiesischen`);
 };
-// The player's gender is unknown: nothing to or from the player is gendered.
-const GENDERED = /(?<!la )\bbienvenid[oa]s?\b|\bencantad[oa]\b|\b(estoy|soy|eres|estás)\s+(muy\s+)?(nuev|cansad|reventad|list|segur|maj|sincer|despiert|llen|tranquil)[oa]\b|\bqué\s+maj[oa]\b/i;
+// The player's gender is unknown: nothing to the player is gendered …
+const GENDERED = /\bbem-vind[oa]s?\b|\bencantad[oa]\b|\b(estás|está|és|é|ficas|fica)\s+(muito\s+|tão\s+)?(nov|cansad|instalad|habituad|pront|content|ocupad|atrasad|sozinh|querid|simpátic)[oa]\b/i;
+// … and the player's own right replies don't say obrigado / obrigada or describe themselves.
+const SELF = /\bobrigad[oa]s?\b|\b(estou|sou|fico)\s+(muito\s+|tão\s+)?(nov|cansad|instalad|habituad|pront|content|ocupad|atrasad|sozinh|sincer|cheio|cheia|grat|agradecid|encantad)[oa]?\b/i;
+const ARTICLE = /^(o|a|os|as) /;
 
 function line(where, l) {
   if (!l?.npc?.trim()) err(where, "Zeile ohne `npc`");
@@ -58,8 +61,8 @@ for (const area of areas) {
     if (ids.has(q.id)) err(Q, "id doppelt");
     ids.add(q.id);
     if (/Bramble|£|British/.test(JSON.stringify(q))) err(Q, "Rest aus dem Englischkurs");
-    if (!/^(el|la) /.test(q.item?.label ?? "")) err(Q, "`item.label` ohne el / la");
-    for (const w of q.words ?? []) if (!/^(el|la) /.test(w)) err(Q, `Wort „${w}“ ohne el / la`);
+    if (!ARTICLE.test(q.item?.label ?? "")) err(Q, "`item.label` ohne o / a / os / as");
+    for (const w of q.words ?? []) if (!ARTICLE.test(w)) err(Q, `Wort „${w}“ ohne o / a`);
     for (const k of ["mascot", "name", "role"]) if (!q[k]) err(Q, `\`${k}\` fehlt`);
     if (!q.item?.label) err(Q, "`item.label` fehlt");
     icon(Q, q.item?.icon);
@@ -79,7 +82,7 @@ for (const area of areas) {
           if (!o.ok && !o.why?.trim()) err(T, `„${o.de}“: falsch, aber ohne \`why\``);
           if (STRAIGHT.test(o.de + (o.why ?? ""))) err(T, `„${o.de}“: gerade Anführungszeichen`);
           marks(T, o.de);
-          if (o.ok && GENDERED.test(o.de)) err(T, `„${o.de}“: Form mit Genus, Spieler:in ist offen`);
+          if (o.ok && (GENDERED.test(o.de) || SELF.test(o.de))) err(T, `„${o.de}“: Form mit Genus, Spieler:in ist offen`);
         }
         if (new Set(opts.map((o) => o.de)).size !== opts.length) err(T, "zwei gleiche Antworten");
       } else if (t.task.type === "build" || t.task.type === "say") {
@@ -87,9 +90,9 @@ for (const area of areas) {
         const sentence = words.join(" ");
         if (words.length < 2) err(T, "Satz mit weniger als 2 Kacheln");
         if (!/[.?!]$/.test(sentence)) err(T, `„${sentence}“ endet nicht mit . ? !`);
-        if (/\?$/.test(sentence) && !sentence.includes("¿")) err(T, `„${sentence}“: ¿ fehlt`);
-        if (/!$/.test(sentence) && !sentence.includes("¡")) err(T, `„${sentence}“: ¡ fehlt`);
-        if (!/^[¿¡]?[A-ZÁÉÍÓÚÑ]/.test(sentence)) err(T, `„${sentence}“ beginnt nicht groß`);
+        marks(T, sentence);
+        if (SELF.test(sentence)) err(T, `„${sentence}“: Form mit Genus, Spieler:in ist offen`);
+        if (!/^[A-ZÁÀÂÃÉÊÍÓÔÕÚÇ]/.test(sentence)) err(T, `„${sentence}“ beginnt nicht groß`);
         if (!why?.trim()) err(T, "build ohne `why`");
         for (const x of extra) if (words.includes(x)) err(T, `Ablenker „${x}“ steht auch im Satz`);
         for (const a of alts) {

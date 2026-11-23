@@ -64,12 +64,17 @@ export const EV = {
 };
 
 // Ending radar: last letters → article index, by radar level. A word glows only when it ends that
-// way *and* has that article (el libro and la casa glow, la flor does not at the -or level), so
-// the radar never teaches anything wrong. Level 3 adds the traps: -a with el, -o with la.
+// way *and* has that article (o livro and a casa glow, a flor does not at the -or level), so
+// the radar never teaches anything wrong. Level 2 takes the endings with a clear rule: -ção,
+// -são, -dade, -tude, -gem, -ise (a) and -or, -ume and an -ão that is not -ção/-são (o pão,
+// o avião; o coração does not glow there, it is a trap). Level 3 adds the traps: -a with o
+// (o mapa, o dia, o problema), -o and -ão with a (a foto, a mão), -or with a (a cor, a dor,
+// a flor), -ção with o (o coração). Compounds (o guarda-chuva) never glow: their first part is
+// a verb, and the ending says nothing.
 const RADAR = [
-  [[/o$/, 0], [/a$/, 1]],
-  [[/(ción|sión|dad|tad|tud|umbre)$/, 1], [/(aje|or)$/, 0]],
-  [[/a$/, 0], [/o$/, 1]],
+  [[/[^ã]o$/, 0], [/a$/, 1]], // -ão is its own ending (level 2)
+  [[/(ção|são|dade|tude|gem|ise)$/, 1], [/(or|ume|[^çs]ão)$/, 0]],
+  [[/a$/, 0], [/o$/, 1], [/ão$/, 1], [/or$/, 1], [/ção$/, 0]],
 ];
 
 // Rotation of the orbiting acorns per tick (2.4 rad/s), as literal numbers: cos and sin of
@@ -100,7 +105,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   };
   const lvlIdx = byArt(0, words.length);
   const lowIdx = byArt(words.length, W.length);
-  // Compounds from the level below count too: Spanish has few per level.
+  // Compounds from the level below count too (in Portuguese they all join at B1 for now).
   const compIdx = [];
   for (let i = 0; i < W.length; i++) if (W[i].h) compIdx.push(i);
   const plIdx = [];
@@ -108,7 +113,8 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
   // Radar: per word, the radar level that makes it glow (0 = never).
   const radarLv = new Uint8Array(W.length);
   for (let i = 0; i < W.length; i++) {
-    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: el viaje organizado ends in -e
+    if (W[i].h) continue; // a verb + noun compound: no ending rule
+    const lw = W[i].w.toLowerCase().split(/[ -]/)[0]; // the head noun: o pequeno-almoço ends in -o
     for (let l = 0; l < RADAR.length && !radarLv[i]; l++) {
       for (const [start, art] of RADAR[l]) if (start.test(lw) && W[i].g === art) { radarLv[i] = l + 1; break; }
     }
@@ -242,7 +248,7 @@ export function createSim({ seed, words, low = [], bosse = [], level = "A1", str
     c.alive = true; c.gen++;
     c.x = c.px = x; c.y = c.py = y;
     c.w = wi; c.kind = kind; c.boss = -1; c.scale = 1; c.angry = 0;
-    c.art = kind === 1 ? w.pa : w.g; // a plural takes los or las, from the noun's gender
+    c.art = kind === 1 ? w.pa : w.g; // a plural takes os or as, from the noun's gender
     c.text = kind === 1 ? w.pl : w.w;
     c.r = T.CRE_R;
     c.maxHp = c.hp = T.CRE_HP * hpMul * (kind === 2 ? 1.5 : 1);
