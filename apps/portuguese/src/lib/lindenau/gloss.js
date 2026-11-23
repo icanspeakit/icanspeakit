@@ -1,7 +1,7 @@
-// The 💡 Help line under a Spanish line in "The Legend of Villabruno", in the learner's own
+// The 💡 Help line under a Portuguese line in "The Legend of Vila Bruno", in the learner's own
 // language. The header's language menu is the only control (src/lib/textHelp.js). The English
-// meaning sits next to the Spanish line in quests.js / action.js (`en:`); other languages come
-// from the sidecar src/data/uebersetzungen/lindenau.json, keyed by the Spanish line. A language
+// meaning sits next to the Portuguese line in quests.js / action.js (`en:`); other languages come
+// from the sidecar src/data/uebersetzungen/lindenau.json, keyed by the Portuguese line. A language
 // with no entry falls back to the English.
 import sidecar from "../../data/uebersetzungen/lindenau.json";
 import { onLangChange } from "../i18n.js";
@@ -9,7 +9,7 @@ import { HELP_LANGS, helpLang } from "../textHelp.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-/** { text, lang, dir } for one Spanish line; `en` is its English meaning from the source. */
+/** { text, lang, dir } for one Portuguese line; `en` is its English meaning from the source. */
 export function glossOf(de, en, code = helpLang()) {
   const lang = code ?? "en";
   const own = lang === "en" ? en : sidecar.lines[de]?.[lang];

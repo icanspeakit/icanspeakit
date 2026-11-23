@@ -1,20 +1,20 @@
 ---
-// The way from a lexicon word set about work to Spanish for work. One line in the trainer's hero
+// The way from a lexicon word set about work to Portuguese for work (route slug renamed by `routes`). One line in the trainer's hero
 // slot. The hospital and care set goes straight to the care work deck.
 interface Props { setId: string }
 const { setId } = Astro.props;
 const LINKS: Record<string, string> = {
-  "a1-12": "/spanish-for-work",
-  "a2-10": "/spanish-for-work",
-  "b1-32": "/spanish-for-work",
-  "b1-33": "/spanish-for-work/care-work",
+  "a1-12": "/portuguese-for-work",
+  "a2-10": "/portuguese-for-work",
+  "b1-32": "/portuguese-for-work",
+  "b1-33": "/portuguese-for-work/care-work",
 };
 const href = LINKS[setId];
 ---
 {href && (
   <div class="bv-xlink">
     <a href={href}>
-      <span data-i18n="berufe.xlink">More words for your job: Spanish for work</span>&nbsp;→
+      <span data-i18n="berufe.xlink">More words for your job: Portuguese for work</span>&nbsp;→
     </a>
   </div>
 )}

@@ -13,10 +13,9 @@ const ROOT = path.join(__dirname, "..");
 
 const LEVELS = ["a1", "a2", "b1", "b2", "c1", "c2"];
 const POS = ["noun", "verb", "adj", "adv", "prep", "conj", "pron", "num", "phrase"];
-// el / la, and el/la for common-gender person nouns (docs/content-plan.md §1.4).
-const GENDERS = ["el", "la", "el/la"];
-// genus (§1.4): only "f", only where the article hides the gender (el agua, el aula).
-const GENUS = ["f"];
+// o / a, and o/a for common-gender person nouns (docs/content-plan.md §1.4). The Spanish el / la /
+// el/la were removed by `cleanup` once every level was Portuguese.
+const GENDERS = ["o", "a", "o/a"];
 const CASES = ["akk", "dat", "gen", "akk/dat"];
 const AUX = ["haben", "sein"];
 
@@ -103,15 +102,14 @@ for (const level of LEVELS) {
           err(where, `separable verb but present form "${w.forms[0]}" has no split prefix`);
         }
       }
-      if (w.genus != null) {
-        if (!GENUS.includes(w.genus)) err(where, `bad genus "${w.genus}" — only "f" (el agua, el aula)`);
-        else if (w.pos !== "noun" || w.gender !== "el") err(where, `genus "f" only on nouns with gender "el" (stressed a-/ha-)`);
-      }
+      // genus: the Spanish course's "el agua" marker; Portuguese has no such case (content-plan §1.4).
+      if (w.genus != null) err(where, `genus is not used in Portuguese (the article always shows the gender): drop it`);
+      // fem: feminine form of adjectives, and of nouns whose feminine differs (professor → professora, §1.4).
       if (w.fem != null) {
-        if (w.pos !== "adj") err(where, "fem (feminine form) only on adjectives");
+        if (w.pos !== "adj" && w.pos !== "noun") err(where, "fem (feminine form) only on adjectives and nouns");
         else if (typeof w.fem !== "string" || !w.fem.trim()) err(where, "empty fem — omit the field instead");
       }
-      // variety / es419 (§1.5); scripts/check-variety.mjs checks coverage.
+      // variety / ptBR (legacy es419) (§1.5); scripts/check-variety.mjs checks coverage.
       for (const p of varietyProblems(w, { noun: w.pos === "noun" })) err(where, p);
       if (w.case && !CASES.includes(w.case)) err(where, `bad case "${w.case}"`);
       if (w.en == null) err(where, "missing English gloss");

@@ -1,7 +1,10 @@
-// Spanish letters first (docs/content-plan.md §1.2): ñ is ny, so año is anyo and never ano. The
-// German ones stay for leftovers; ü is u because Spanish has it (pingüino).
+// Portuguese letters first (docs/content-plan.md §1.2): á à â ã → a, é ê → e, í → i, ó ô õ → o,
+// ú → u, ç → c, so coração is coracao and pão is pao. ñ → ny stays only for the Spanish levels not yet
+// converted (año is anyo; no Portuguese word has ñ; `cleanup` drops it). German ones stay for leftovers; ü stays u (
+// pingüino).
 const LETTER_MAP = {
-  á: "a", é: "e", í: "i", ó: "o", ú: "u", ü: "u", ñ: "ny", Á: "A", É: "E", Í: "I", Ó: "O", Ú: "U", Ü: "U", Ñ: "Ny",
+  á: "a", à: "a", â: "a", ã: "a", é: "e", ê: "e", í: "i", ó: "o", ô: "o", õ: "o", ú: "u", ü: "u", ç: "c", ñ: "ny",
+  Á: "A", À: "A", Â: "A", Ã: "A", É: "E", Ê: "E", Í: "I", Ó: "O", Ô: "O", Õ: "O", Ú: "U", Ü: "U", Ç: "C", Ñ: "Ny",
   ä: "ae", ö: "oe", Ä: "Ae", Ö: "Oe", ß: "ss",
 };
 
@@ -15,7 +18,7 @@ export function satzSlug(text) {
 }
 
 export function slugify(text) {
-  const transliterated = text.replace(/[áéíóúüñÁÉÍÓÚÜÑäöÄÖß]/g, (ch) => LETTER_MAP[ch]);
+  const transliterated = text.replace(/[áàâãéêíóôõúüçñÁÀÂÃÉÊÍÓÔÕÚÜÇÑäöÄÖß]/g, (ch) => LETTER_MAP[ch]);
   return transliterated
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")

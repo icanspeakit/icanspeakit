@@ -1,35 +1,35 @@
 {
-  "note": "Listening, A1–B2. Every script here is written for this site, in Castilian Spanish with settings in Spain, and will be voiced with generated es-ES TTS once a provider is wired (BACKEND.speech); nothing is taken from a coursebook CD or an exam paper. Speakers map to a voice in `voices` below; a generator renders one clip per turn and joins them, so a dialogue really has two people in it. Towns, firms and people (Valdelora, Montealbar, Envíos Albar, Seguros Albar, Radio Valdelora …) are made up; large real cities only appear as destinations and in the weather. Questions and options are in English at A1 and A2 (the check is about listening, not about reading the question) and in Spanish at B1 and B2 (as exams do); `explain` is always English. Administrative details in the scripts (padrón papers, the baja, homologación, insurance complaints, fianza) are general orientation inside a story, not advice; see the listening report for what to verify.",
+  "note": "Listening, A1–B2. Every script here is written for this site, in European Portuguese with settings in Portugal, and will be voiced with generated pt-PT TTS once a provider is wired (BACKEND.speech); nothing is taken from a coursebook CD or an exam paper. Speakers map to a voice in `voices` below; a generator renders one clip per turn and joins them, so a dialogue really has two people in it. Browser speech voices are often pt-BR, so a page that speaks with a browser voice can sound Brazilian: the course standard is pt-PT. Towns, firms and people (Vale Alto, Rio Seco, Envios Montalto, Vale Seguro, Rádio Vale Alto …) are made up; large real cities only appear as destinations. Questions and options are in English at A1 and A2 (the check is about listening, not about reading the question) and in Portuguese at B1 and B2 (as exams do); `explain` is always English. Administrative details in the scripts (atestado de residência, baixa médica, reconhecimento de graus, insurance complaints, caução) are general orientation inside a story, not advice; see the listening report for what to verify.",
   "voices": {
     "ansage": {
       "label": "Announcement",
       "id": "",
-      "azure": "es-ES-ElviraNeural",
-      "note": "A calm, clear Castilian female voice for station announcements. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "pt-PT-RaquelNeural",
+      "note": "A calm, clear European Portuguese female voice for station announcements. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "frau": {
       "label": "Speaker (f)",
       "id": "",
-      "azure": "es-ES-EstrellaNeural",
-      "note": "Warm Castilian female voice for most female roles. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "pt-PT-FernandaNeural",
+      "note": "Warm European Portuguese female voice for most female roles. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "frau2": {
       "label": "Second speaker (f)",
       "id": "",
-      "azure": "es-ES-AbrilNeural",
-      "note": "A second Castilian female voice, so a two-woman dialogue is still two people. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "pt-PT-RaquelNeural",
+      "note": "Second female voice, so a two-woman dialogue is still two people. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "mann": {
       "label": "Speaker (m)",
       "id": "",
-      "azure": "es-ES-AlvaroNeural",
-      "note": "Castilian male voice. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "pt-PT-DuarteNeural",
+      "note": "European Portuguese male voice. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     },
     "mann2": {
       "label": "Second speaker (m)",
       "id": "",
-      "azure": "es-ES-ArnauNeural",
-      "note": "A second Castilian male voice for the second male role. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
+      "azure": "pt-PT-DuarteNeural",
+      "note": "Only one pt-PT male Azure voice is known, so mann2 shares it for now: pick another voice before rendering the voicemails and the B2 discussion, where the two men must sound different. Azure name to verify before the first render; no ElevenLabs voice chosen yet."
     }
   },
   "types": {
@@ -45,1308 +45,1323 @@
     {
       "id": "a1-ansage-bahnhof",
       "level": "A1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In much of Latin America: el atraso or la demora for el retraso."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: o trem, not o comboio. The platform is usually a plataforma or a linha, depending on the station."
       },
       "type": "ansage",
       "title": "Announcement at the station",
-      "blurb": "Vía, retraso, minutos: the words you really hear at a Spanish train station.",
+      "blurb": "Linha, comboio, atraso: the words you really hear at a Portuguese railway station.",
       "seconds": 25,
       "script": [
         {
           "speaker": "ansage",
-          "text": "Atención, por favor. Información para los viajeros de la vía cuatro. El tren con destino a Zaragoza, de las doce y veinte, tiene hoy un retraso de unos diez minutos."
+          "text": "Atenção, por favor. Informação para os passageiros da linha quatro. O comboio com destino ao Porto, das doze e vinte, tem hoje um atraso de cerca de dez minutos."
         },
         {
           "speaker": "ansage",
-          "text": "Hoy este tren sale de la vía siete, no de la vía cuatro. Repito: vía siete. Disculpen las molestias."
+          "text": "Hoje este comboio parte da linha sete, não da linha quatro. Repito: linha sete. Pedimos desculpa pelo incómodo."
         }
       ],
       "questions": [
         {
           "prompt": "Where is the train going?",
           "options": [
-            "To Valencia",
-            "To Zaragoza",
-            "To Sevilla"
+            "To Faro",
+            "To Porto",
+            "To Braga"
           ],
-          "answer": "To Zaragoza"
-        },
-        {
-          "prompt": "Which platform does the train leave from today?",
-          "options": [
-            "Platform 4",
-            "Platform 12",
-            "Platform 7"
-          ],
-          "answer": "Platform 7",
-          "explain": "“De la vía siete, no de la vía cuatro”: the new platform comes first, the old one comes after “no”. La vía is the platform number you look for at a Spanish station."
+          "answer": "To Porto"
         },
         {
           "prompt": "How late is the train?",
           "options": [
-            "About 10 minutes",
-            "About 20 minutes",
-            "About 4 minutes"
+            "About ten minutes",
+            "About twenty minutes",
+            "It is on time"
           ],
-          "answer": "About 10 minutes",
-          "explain": "“Las doce y veinte” is the time the train leaves, not the delay."
+          "answer": "About ten minutes"
+        },
+        {
+          "prompt": "Which line does the train leave from today?",
+          "options": [
+            "Line four",
+            "Line twelve",
+            "Line seven"
+          ],
+          "answer": "Line seven"
         }
       ]
     },
     {
       "id": "a1-anruf-arzt",
       "level": "A1",
-      "variety": "es-ES",
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: a UBS or posto de saúde, and the cartão do SUS instead of the cartão de utente."
+      },
       "type": "anrufbeantworter",
-      "title": "Voicemail: your appointment at the health centre",
-      "blurb": "The centro de salud cancels an appointment and offers a new one. Write down the day and the time.",
+      "title": "Voicemail from the health centre",
+      "blurb": "A message from the centro de saúde: your appointment has moved. Day, time and what to bring.",
       "seconds": 35,
       "script": [
         {
           "speaker": "frau",
-          "text": "Hola, buenos días. Este mensaje es para la señora Nowak. Soy Marta, del centro de salud Las Acacias."
+          "text": "Bom dia, fala do Centro de Saúde de Vale Alto. Esta mensagem é para o senhor Karim Haddad."
         },
         {
           "speaker": "frau",
-          "text": "Usted tiene cita con la doctora Ruiz el miércoles a las dos. Lo siento, pero el miércoles la doctora está enferma."
+          "text": "A sua consulta com a doutora Marta Lopes, marcada para quinta-feira, às nove e meia, passou para sexta-feira, às dez e um quarto. Peço desculpa pela alteração."
         },
         {
           "speaker": "frau",
-          "text": "¿Puede venir el viernes a las nueve? Por favor, llámenos. Nuestro teléfono es el nueve cinco cinco, cuatro nueve seis, cero tres dos. Gracias. Adiós."
+          "text": "Se esta hora não lhe der jeito, ligue para o centro de saúde, de segunda a sexta-feira, entre as oito e as dezasseis horas. Não se esqueça de trazer o cartão de utente. Obrigada e até sexta-feira."
         }
       ],
       "questions": [
         {
           "prompt": "Who is calling?",
           "options": [
-            "The pharmacy",
-            "The hospital",
+            "A pharmacy",
+            "A hospital",
             "The health centre"
           ],
           "answer": "The health centre"
         },
         {
-          "prompt": "Why is there a new appointment?",
+          "prompt": "On which day is the new appointment?",
           "options": [
-            "The doctor is ill",
-            "The centre is closed",
-            "Mrs Nowak is ill"
+            "Thursday",
+            "Friday",
+            "Monday"
           ],
-          "answer": "The doctor is ill"
+          "answer": "Friday"
         },
         {
-          "prompt": "When is the new appointment?",
+          "prompt": "At what time is the new appointment?",
           "options": [
-            "Wednesday at 2:00",
-            "Friday at 9:00",
-            "Friday at 2:00"
+            "9:30",
+            "10:15",
+            "4:00 p.m."
           ],
-          "answer": "Friday at 9:00",
-          "explain": "Wednesday at two (“el miércoles a las dos”) was the old appointment. The new offer is “el viernes a las nueve”."
+          "answer": "10:15"
         },
         {
-          "prompt": "What must Mrs Nowak do?",
+          "prompt": "What should Mr Haddad bring?",
           "options": [
-            "Send an email",
-            "Just come on Friday",
-            "Call the health centre"
+            "His cartão de utente",
+            "His passport",
+            "His old test results"
           ],
-          "answer": "Call the health centre"
+          "answer": "His cartão de utente"
         }
       ]
     },
     {
       "id": "a1-supermarkt",
       "level": "A1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: ¿tienen…? for ¿tenéis…? (ustedes, never vosotros), and often sigue derecho for sigue todo recto."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: biscoito is the usual word for a sweet biscuit; bolacha leans towards a cracker or is regional."
       },
       "type": "gespraech",
-      "title": "In the supermarket: ¿Dónde está…?",
-      "blurb": "Asking the way in a shop. Left, right, at the back, and what they haven't got today.",
+      "title": "At the supermarket",
+      "blurb": "Onde fica…? Asking an assistant where things are, and understanding a price.",
       "seconds": 30,
       "script": [
         {
           "speaker": "mann",
-          "text": "Perdona, ¿dónde está la leche?"
+          "text": "Boa tarde. Desculpe, onde ficam as bolachas?"
         },
         {
           "speaker": "frau",
-          "text": "La leche está al fondo, a la derecha, al lado del queso. Sigue todo recto hasta el final."
+          "text": "Boa tarde. As bolachas ficam no corredor três, ao lado do café."
         },
         {
           "speaker": "mann",
-          "text": "Gracias. ¿Y tenéis pan fresco?"
+          "text": "E o leite?"
         },
         {
           "speaker": "frau",
-          "text": "Sí, el pan está aquí delante, a la izquierda. Pero hoy no tenemos pan integral, lo siento."
+          "text": "O leite fica ao fundo, à direita, ao pé dos iogurtes. Hoje está em promoção: um euro e vinte."
         },
         {
           "speaker": "mann",
-          "text": "No pasa nada. ¡Muchas gracias!"
+          "text": "Muito obrigado."
         }
       ],
       "questions": [
         {
+          "prompt": "Where are the biscuits?",
+          "options": [
+            "Next to the yoghurts",
+            "In aisle three",
+            "At the back, on the right"
+          ],
+          "answer": "In aisle three"
+        },
+        {
           "prompt": "Where is the milk?",
           "options": [
-            "At the front on the left",
-            "At the back on the right",
-            "At the back on the left"
+            "In aisle three",
+            "Next to the coffee",
+            "At the back, on the right"
           ],
-          "answer": "At the back on the right"
+          "answer": "At the back, on the right"
         },
         {
-          "prompt": "What haven't they got today?",
+          "prompt": "How much is the milk today?",
           "options": [
-            "Fresh bread",
-            "Cheese",
-            "Wholemeal bread"
+            "€2.10",
+            "€1.02",
+            "€1.20"
           ],
-          "answer": "Wholemeal bread",
-          "explain": "They have fresh bread. Only el pan integral (wholemeal bread) is missing today."
-        },
-        {
-          "prompt": "Where is the bread?",
-          "options": [
-            "At the front on the left",
-            "At the back on the right",
-            "Next to the milk"
-          ],
-          "answer": "At the front on the left"
+          "answer": "€1.20"
         }
       ]
     },
     {
       "id": "a1-verabredung",
       "level": "A1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: ¿Nos vemos? for ¿Quedamos?, and está bien (in some countries dale) for vale."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: padaria or cafeteria for pastelaria, você for most friends (tu is regional), and ‘estou trabalhando’ for ‘estou a trabalhar’."
       },
       "type": "telefonat",
-      "title": "Phone call: ¿Quedamos?",
-      "blurb": "Two friends make a plan. A time, a place and a small change at the last minute.",
+      "title": "Let's have a coffee?",
+      "blurb": "Two friends arrange to meet. Tu, the days of the week and times of day.",
       "seconds": 30,
       "script": [
         {
           "speaker": "frau",
-          "text": "Hola, Amira, soy Mei. ¿Tienes un minuto?"
+          "text": "Olá, Inês! Sou eu, a Sofia. Estás livre amanhã?"
         },
         {
           "speaker": "frau2",
-          "text": "¡Hola, Mei! Sí, claro. ¿Qué pasa?"
+          "text": "Olá, Sofia! Amanhã de manhã tenho aulas de português, mas à tarde estou livre."
         },
         {
           "speaker": "frau",
-          "text": "¿Quedamos mañana? ¿Tomamos un café a las cinco en la cafetería de la plaza?"
+          "text": "Então vamos tomar um café? Há uma pastelaria nova na rua da Igreja."
         },
         {
           "speaker": "frau2",
-          "text": "A las cinco no puedo. Trabajo hasta las cinco y media. ¿A las seis?"
+          "text": "Boa ideia! A que horas?"
         },
         {
           "speaker": "frau",
-          "text": "Vale, a las seis en la cafetería."
+          "text": "Estou a trabalhar até às três e meia, mas às quatro já posso lá estar."
         },
         {
           "speaker": "frau2",
-          "text": "Perfecto. ¡Hasta mañana!"
+          "text": "Perfeito. Às quatro, na pastelaria. Até amanhã!"
         }
       ],
       "questions": [
         {
-          "prompt": "When do they meet?",
+          "prompt": "What does Inês do tomorrow morning?",
           "options": [
-            "Today at 5:00",
-            "Tomorrow at 5:00",
-            "Tomorrow at 6:00"
+            "She works",
+            "She goes to the doctor",
+            "She has a Portuguese class"
           ],
-          "answer": "Tomorrow at 6:00",
-          "explain": "Mei first says five, but Amira can't. They agree on “a las seis”."
-        },
-        {
-          "prompt": "Why can't Amira come at five?",
-          "options": [
-            "She is working",
-            "She is ill",
-            "She is at the café"
-          ],
-          "answer": "She is working"
+          "answer": "She has a Portuguese class",
+          "explain": "“Tenho aulas de português”: aulas are classes, and the morning is “de manhã”."
         },
         {
           "prompt": "Where do they meet?",
           "options": [
-            "At Mei's flat",
-            "At the café in the square",
-            "At Amira's work"
+            "At Inês's home",
+            "At a new pastelaria",
+            "At Sofia's office"
           ],
-          "answer": "At the café in the square"
+          "answer": "At a new pastelaria",
+          "explain": "“Estás livre?” is the tu form between friends. With a stranger you would say “Está livre?”."
+        },
+        {
+          "prompt": "At what time do they meet?",
+          "options": [
+            "At 3:30",
+            "At 5:00",
+            "At 4:00"
+          ],
+          "answer": "At 4:00",
+          "explain": "“Estou a trabalhar” is estar a + infinitive, the usual way to say “I am working (now)” in Portugal."
         }
       ]
     },
     {
       "id": "a2-amt-termin",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In parts of Latin America (Argentina, for example): el turno for la cita. The padrón itself is a Spanish procedure."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: there is no Junta de Freguesia; the usual proof of address is a comprovante de residência, often a utility bill."
       },
       "type": "telefonat",
-      "title": "At the town hall: changing a cita",
-      "blurb": "Your appointment for the padrón doesn't work any more. What to say on the phone, and what to bring.",
+      "title": "Changing an appointment at the Junta",
+      "blurb": "Phoning the Junta de Freguesia to move an appointment for an atestado de residência.",
       "seconds": 50,
       "script": [
         {
-          "speaker": "mann",
-          "text": "Buenos días, Ayuntamiento de Valdelora, Atención a la Ciudadanía. Le atiende David. ¿En qué puedo ayudarle?"
-        },
-        {
           "speaker": "frau",
-          "text": "Buenos días. Me llamo Amina Khalil. Tengo cita el jueves para empadronarme, pero no puedo ir. Necesito cambiarla."
+          "text": "Junta de Freguesia de Vale Alto, bom dia. Fala a Cláudia."
         },
         {
           "speaker": "mann",
-          "text": "No hay problema. ¿Me da su número de cita?"
+          "text": "Bom dia. Chamo-me Samuel Okoye. Tenho uma marcação para o atestado de residência na terça-feira, mas não posso ir. Posso mudar a data?"
         },
         {
           "speaker": "frau",
-          "text": "Sí, un momento… Es el cuatro ocho nueve dos."
+          "text": "Com certeza. Pode dizer-me o apelido letra a letra?"
         },
         {
           "speaker": "mann",
-          "text": "Gracias. Sí, aquí la veo. La próxima cita libre es el dieciocho de marzo a las diez y media. ¿Le viene bien?"
+          "text": "O, K, O, Y, E."
         },
         {
           "speaker": "frau",
-          "text": "Sí, me viene bien. ¿Tengo que llevar algo?"
+          "text": "Obrigada. Tenho uma vaga na quinta-feira às onze e dez, ou na segunda-feira da próxima semana, às nove."
         },
         {
           "speaker": "mann",
-          "text": "Traiga su pasaporte o su tarjeta de residencia y el contrato de alquiler. Sin un documento de la vivienda no podemos hacer el empadronamiento."
+          "text": "Quinta-feira não dá, estou a trabalhar. Fica para segunda-feira, às nove, por favor."
         },
         {
           "speaker": "frau",
-          "text": "De acuerdo. ¡Muchas gracias!"
+          "text": "Fica marcado. Não se esqueça de trazer o passaporte e o contrato de arrendamento, ou uma fatura da luz em seu nome."
+        },
+        {
+          "speaker": "mann",
+          "text": "Muito obrigado. Até segunda-feira."
         }
       ],
       "questions": [
         {
-          "prompt": "Why does Ms Khalil call?",
+          "prompt": "Why is Samuel calling?",
           "options": [
-            "To cancel the padrón",
-            "To change her appointment",
-            "She missed her appointment"
+            "To ask for a document by post",
+            "To change his appointment",
+            "To pay a fee"
           ],
-          "answer": "To change her appointment"
+          "answer": "To change his appointment"
         },
         {
-          "prompt": "When is the new appointment?",
+          "prompt": "Why can't he come on Thursday?",
           "options": [
-            "18 March at 10:30",
-            "Thursday at 10:30",
-            "18 May at 10:30"
+            "He is ill",
+            "He is working",
+            "He is travelling"
           ],
-          "answer": "18 March at 10:30"
+          "answer": "He is working"
         },
         {
-          "prompt": "Which document does the man say is essential?",
+          "prompt": "What is his new appointment?",
           "options": [
-            "A passport photo",
-            "A birth certificate",
-            "A document for the home"
+            "Thursday at 11:10",
+            "Tuesday at 9:00",
+            "Monday at 9:00"
           ],
-          "answer": "A document for the home",
-          "explain": "“Sin un documento de la vivienda no podemos…”: that is the one condition he stresses. Each town hall sets its own list, so check yours."
+          "answer": "Monday at 9:00"
         },
         {
-          "prompt": "What does Ms Khalil give on the phone?",
+          "prompt": "What should he bring?",
           "options": [
-            "Her appointment number",
-            "Her phone number",
-            "Her address"
+            "His NIF and a photo",
+            "His passport and a rental contract or electricity bill",
+            "His work contract and a bank statement"
           ],
-          "answer": "Her appointment number"
+          "answer": "His passport and a rental contract or electricity bill"
         }
       ]
     },
     {
       "id": "a2-wohnungsbesichtigung",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el departamento or el apartamento for el piso, often el depósito for la fianza, and la sala for el salón."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: aluguel, not renda; a T2 is an ‘apartamento de dois quartos’; the deposit is a caução or a fiador."
       },
       "type": "gespraech",
-      "title": "Viewing a flat (el piso)",
-      "blurb": "Alquiler, gastos, fianza: the numbers you have to understand in a short viewing.",
+      "title": "Viewing a flat",
+      "blurb": "A T2 with a balcony: rent, condominium and what is not included.",
       "seconds": 45,
       "script": [
         {
+          "speaker": "frau",
+          "text": "Boa tarde, o senhor Duarte? Sou a Helena, da imobiliária."
+        },
+        {
           "speaker": "mann",
-          "text": "Buenas tardes. Pase, pase. Este es el piso. Tiene dos habitaciones, un salón y una cocina bastante grande."
+          "text": "Boa tarde. Obrigado por me receber. É este o apartamento T2?"
         },
         {
           "speaker": "frau",
-          "text": "Es muy luminoso. ¿Cuánto es el alquiler?"
+          "text": "É. Fica no terceiro andar, com elevador. Tem dois quartos, uma sala, cozinha equipada e uma varanda."
         },
         {
           "speaker": "mann",
-          "text": "Setecientos cincuenta euros al mes, con los gastos de comunidad incluidos. La luz, el agua y el gas van aparte."
+          "text": "É muito bonito. Quanto é a renda?"
         },
         {
           "speaker": "frau",
-          "text": "¿Y cuánto se paga de luz, agua y gas, más o menos?"
+          "text": "São setecentos e cinquenta euros por mês. O condomínio são trinta e cinco euros, e a água e a luz são à parte."
         },
         {
           "speaker": "mann",
-          "text": "Unos cien euros al mes."
+          "text": "E é preciso pagar caução?"
         },
         {
           "speaker": "frau",
-          "text": "¿Hay que pagar fianza?"
+          "text": "Sim, são duas rendas de caução."
         },
         {
           "speaker": "mann",
-          "text": "Sí, un mes de fianza, o sea, setecientos cincuenta euros, cuando firmamos el contrato."
+          "text": "Tenho um gato. Posso ficar com ele no apartamento?"
         },
         {
           "speaker": "frau",
-          "text": "Vale. ¿Y cuándo está libre?"
+          "text": "Isso tem de falar com o senhorio, mas acho que não há problema com um gato."
         },
         {
           "speaker": "mann",
-          "text": "Desde el uno de mayo. Si le interesa, llámeme antes del viernes, porque hay otra persona interesada."
+          "text": "Ótimo. Vou pensar e ligo-lhe amanhã."
         }
       ],
       "questions": [
         {
-          "prompt": "How much is the rent?",
+          "prompt": "On which floor is the flat?",
           "options": [
-            "€650 a month",
-            "€750 a month",
-            "€850 a month"
+            "On the first floor",
+            "On the third floor",
+            "On the ground floor"
           ],
-          "answer": "€750 a month",
-          "explain": "€750 is the rent. The €100 is his estimate for electricity, water and gas, which are extra (“van aparte”)."
+          "answer": "On the third floor"
         },
         {
-          "prompt": "What is included in the rent?",
+          "prompt": "How much is the rent per month?",
           "options": [
-            "Electricity",
-            "Water and gas",
-            "Community fees"
+            "€570",
+            "€700",
+            "€750"
           ],
-          "answer": "Community fees",
-          "explain": "Los gastos de comunidad pay for the shared parts of the building, such as the lift and the stairs."
+          "answer": "€750",
+          "explain": "“Setecentos e cinquenta”: 700 + 50. The condominium (€35) is a separate monthly charge for the building."
         },
         {
-          "prompt": "How much is the deposit (la fianza)?",
+          "prompt": "What is NOT included in the rent?",
           "options": [
-            "One month's rent",
-            "Two months' rent",
-            "€100"
+            "Water and electricity",
+            "The elevator",
+            "The balcony"
           ],
-          "answer": "One month's rent"
+          "answer": "Water and electricity",
+          "explain": "“À parte” means separately: the tenant pays these on top of the rent."
         },
         {
-          "prompt": "Why should she call before Friday?",
+          "prompt": "Who decides about the cat?",
           "options": [
-            "The flat is free from Friday",
-            "Someone else is interested",
-            "The man is away after Friday"
+            "The estate agent",
+            "The neighbours",
+            "The landlord"
           ],
-          "answer": "Someone else is interested"
+          "answer": "The landlord",
+          "explain": "“O senhorio” is the landlord. The agent only passes the question on."
         }
       ]
     },
     {
       "id": "a2-radio-wetter-verkehr",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America you often hear el embotellamiento (in Colombia el trancón) for el atasco."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: ônibus, not autocarro, and rodovia for autoestrada."
       },
       "type": "radio",
       "title": "Radio: weather and traffic",
-      "blurb": "Two short reports, one after the other. Temperatures, roads and a warning.",
+      "blurb": "The morning weather and the traffic report: o tempo, o trânsito, as obras.",
       "seconds": 60,
       "script": [
         {
           "speaker": "frau",
-          "text": "Y ahora, el tiempo para hoy. Por la mañana va a llover en el norte, sobre todo en Galicia y Asturias. En el centro y en el sur va a hacer sol y bastante calor: treinta y un grados en Madrid y treinta y cuatro en Sevilla."
+          "text": "Bom dia, estão a ouvir a Rádio Vale Alto. São sete e meia. Vamos ao tempo: hoje a manhã começa com nevoeiro no litoral, mas a partir das dez horas fica de sol, com vinte graus. À tarde, vento fraco e céu pouco nublado."
         },
         {
           "speaker": "frau",
-          "text": "Por la tarde va a hacer mucho viento en la costa de Cádiz. Hay aviso amarillo, así que tengan cuidado en la playa."
+          "text": "Para amanhã, chuva em todo o norte e temperaturas entre os doze e os dezasseis graus. Fim de semana com melhor tempo."
         },
         {
           "speaker": "mann",
-          "text": "Y vamos con el tráfico. Hay un atasco de ocho kilómetros en la autovía, en dirección a Madrid, por un accidente. Si va hacia Madrid, salga de la autovía en la salida treinta y siga por la carretera nacional."
+          "text": "Passamos ao trânsito. Na autoestrada, perto da saída para Vale Alto, há uma fila de três quilómetros por causa de um acidente. No acesso à cidade, pela estrada nacional, há obras: só uma faixa aberta até às dezoito horas."
         },
         {
           "speaker": "mann",
-          "text": "En Valdelora, la calle Mayor está cortada por obras hasta las dos de la tarde."
+          "text": "Para quem vai de autocarro: a linha doze circula com atrasos de quinze minutos. Mais notícias daqui a meia hora."
         }
       ],
       "questions": [
         {
-          "prompt": "Where is it going to rain this morning?",
+          "prompt": "What is the weather like this morning?",
           "options": [
-            "In the south",
-            "In the north",
-            "In the centre"
+            "Rain all morning",
+            "Sunny from the start",
+            "Fog first, then sun"
           ],
-          "answer": "In the north"
+          "answer": "Fog first, then sun"
         },
         {
-          "prompt": "Where is it hottest today?",
+          "prompt": "What is the weather forecast for tomorrow?",
           "options": [
-            "In Sevilla",
-            "In Madrid",
-            "In Cádiz"
+            "Sunny and 20 degrees",
+            "Rain in the north, 12 to 16 degrees",
+            "Strong wind in the south"
           ],
-          "answer": "In Sevilla",
-          "explain": "Thirty-four degrees in Sevilla, thirty-one in Madrid. Cádiz gets a warning about the wind, not a temperature."
+          "answer": "Rain in the north, 12 to 16 degrees"
         },
         {
-          "prompt": "What is the warning about?",
+          "prompt": "Why is there a queue on the motorway?",
           "options": [
-            "Rain in Galicia",
-            "Heat in Madrid",
-            "Wind on the coast"
+            "Roadworks",
+            "An accident",
+            "A broken-down bus"
           ],
-          "answer": "Wind on the coast"
+          "answer": "An accident"
         },
         {
-          "prompt": "What should drivers going to Madrid do?",
+          "prompt": "What is the problem with the number 12 bus?",
           "options": [
-            "Wait for the road to open",
-            "Leave the motorway at exit 30",
-            "Go through Valdelora"
+            "It does not run today",
+            "It goes a different way",
+            "It is running 15 minutes late"
           ],
-          "answer": "Leave the motorway at exit 30"
+          "answer": "It is running 15 minutes late"
         }
       ]
     },
     {
       "id": "a2-paketdienst",
       "level": "A2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el plomero for el fontanero, el celular for el móvil, and la llave or la canilla for el grifo."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: encanador for canalizador, and banheiro for casa de banho."
       },
       "type": "anrufbeantworter",
-      "title": "Voicemails: a parcel and the plumber",
-      "blurb": "Two messages on your phone. Who called, what should you do, and by when?",
+      "title": "A parcel and the plumber",
+      "blurb": "Two voicemails on the same phone: the courier and the canalizador.",
       "seconds": 55,
       "script": [
         {
           "speaker": "mann",
-          "text": "Buenos días, este mensaje es para Daniel Popescu. Le llamo de Envíos Albar, la empresa de mensajería. Esta mañana hemos ido a su casa con un paquete, pero no había nadie."
+          "text": "Bom dia, é da transportadora Envios Montalto. Tenho uma encomenda para o senhor Pedro Matos, mas não estava ninguém em casa. Volto a passar amanhã, entre as nove e as doze."
         },
         {
           "speaker": "mann",
-          "text": "Hemos dejado el paquete en la papelería de la calle Mayor, número doce. Puede recogerlo hasta el viernes a las ocho de la tarde. Lleve su pasaporte o su tarjeta de residencia."
+          "text": "Se preferir, pode levantar a encomenda no nosso ponto de recolha, na rua do Mercado, até sexta-feira. Leve um documento de identificação."
         },
         {
           "speaker": "mann2",
-          "text": "Hola, Daniel, soy Paco, el fontanero. Mañana no puedo ir a arreglar el grifo de la cocina porque tengo una urgencia. ¿Te va bien el martes a las cuatro?"
+          "text": "Boa tarde, senhor Matos, fala o Rui, o canalizador. Já vi o seu pedido: a reparação da torneira da casa de banho fica por oitenta e cinco euros, com IVA incluído."
         },
         {
           "speaker": "mann2",
-          "text": "Si no te va bien, mándame un mensaje al móvil antes de esta noche. Y mientras tanto, cierra la llave de paso de la cocina. Hasta luego."
+          "text": "Posso ir na quarta-feira de manhã. Ligue-me para confirmar, por favor."
         }
       ],
       "questions": [
         {
-          "prompt": "Where is the parcel now?",
+          "prompt": "Why did the courier not deliver the parcel?",
           "options": [
-            "In a stationery shop",
-            "At the post office",
-            "With a neighbour"
+            "The address was wrong",
+            "Nobody was at home",
+            "The parcel was too big"
           ],
-          "answer": "In a stationery shop",
-          "explain": "Una papelería sells paper and pens. Small shops like this are often collection points."
+          "answer": "Nobody was at home"
         },
         {
-          "prompt": "When can Daniel collect it until?",
+          "prompt": "When will the courier come back?",
           "options": [
-            "Friday at 8:00 in the morning",
-            "Friday at 8:00 in the evening",
-            "Tuesday at 4:00 in the afternoon"
+            "Tomorrow between 9 and 12",
+            "On Friday",
+            "Tomorrow afternoon"
           ],
-          "answer": "Friday at 8:00 in the evening"
+          "answer": "Tomorrow between 9 and 12",
+          "explain": "“Entre as nove e as doze” = between nine and twelve (o’clock)."
         },
         {
-          "prompt": "What must he take with him?",
+          "prompt": "How much will the repair cost?",
           "options": [
-            "A letter from the firm",
-            "Money for the parcel",
-            "A passport or residence card"
+            "€58",
+            "€80",
+            "€85"
           ],
-          "answer": "A passport or residence card"
+          "answer": "€85",
+          "explain": "“Com IVA incluído” means VAT is already in the price, so there is nothing to add."
         },
         {
-          "prompt": "What should Daniel do if Tuesday is bad for him?",
+          "prompt": "When can the plumber come?",
           "options": [
-            "Text the plumber by tonight",
-            "Call the plumber on Tuesday",
-            "Fix the tap himself"
+            "Tomorrow morning",
+            "On Friday",
+            "On Wednesday morning"
           ],
-          "answer": "Text the plumber by tonight",
-          "explain": "“Mándame un mensaje al móvil antes de esta noche”: a text message before tonight."
+          "answer": "On Wednesday morning",
+          "explain": "“Na quarta-feira de manhã”: Wednesday morning. Rui asks Mr Matos to call back to confirm."
         }
       ]
     },
     {
       "id": "b1-krankmeldung",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: la incapacidad or la licencia médica for la baja, and in some countries el médico de familia for el médico de cabecera."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: atestado médico (or licença médica) for baixa médica, and você instead of the formal o senhor/a senhora."
       },
       "type": "telefonat",
-      "title": "Calling in sick at work (la baja)",
-      "blurb": "Calling in sick without over-apologising, and knowing how the baja reaches your company.",
+      "title": "Calling in sick at work (a baixa)",
+      "blurb": "Calling in sick without over-apologising, and knowing how the baixa reaches your company.",
       "seconds": 70,
       "script": [
         {
           "speaker": "frau2",
-          "text": "Recursos Humanos, le atiende Elena Gil. Buenos días."
+          "text": "Recursos Humanos, fala a Elena Gil. Bom dia."
         },
         {
           "speaker": "mann",
-          "text": "Buenos días, Elena. Soy Tarek Mansour, del almacén. Mira, te llamo porque hoy no voy a poder ir a trabajar. Tengo una gripe muy fuerte."
+          "text": "Bom dia, Elena. É o Tarek Mansour, do armazém. Estou a ligar porque hoje não vou conseguir ir trabalhar. Apanhei uma gripe muito forte."
         },
         {
           "speaker": "frau2",
-          "text": "Vaya, lo siento. ¿Has ido ya al médico?"
+          "text": "Ai, lamento. Já foi ao médico?"
         },
         {
           "speaker": "mann",
-          "text": "Todavía no. Tengo cita con mi médica de cabecera a las once. Creo que estaré en casa hasta el viernes, pero depende de lo que me diga."
+          "text": "Ainda não. Tenho consulta com a minha médica de família às onze. Acho que vou ficar em casa até sexta-feira, mas depende do que ela disser."
         },
         {
           "speaker": "frau2",
-          "text": "De acuerdo. Si te da la baja, nos lo dices en cuanto salgas de la consulta. El parte nos llega directamente de la Seguridad Social, así que no tienes que traernos ningún papel."
+          "text": "Está bem. Se lhe passar a baixa, avise-nos assim que sair do centro de saúde. A baixa fica registada na Segurança Social e nós conseguimos vê-la, por isso não tem de trazer nenhum papel."
         },
         {
           "speaker": "mann",
-          "text": "Ah, muy bien. ¿Y la próxima vez puedo avisar con un correo?"
+          "text": "Ah, muito bem. Da próxima vez posso avisar por email?"
         },
         {
           "speaker": "frau2",
-          "text": "Mejor no. En esta empresa hay que llamar por teléfono a tu encargado o a nosotros el primer día, antes de empezar el turno. Pero tranquilo, hoy has llamado, así que no hay problema."
+          "text": "É melhor não. Nesta empresa, no primeiro dia, tem de telefonar ao seu chefe ou a nós antes de começar o turno. Mas hoje ligou a tempo, por isso não há problema."
         },
         {
           "speaker": "mann",
-          "text": "Vale. ¿Y el turno del jueves? Me tocaba con Iván."
+          "text": "Certo. E o turno de quinta-feira? Era com o Ivo."
         },
         {
           "speaker": "frau2",
-          "text": "De eso me encargo yo. Tú descansa y que te mejores, Tarek."
+          "text": "Disso trato eu. Descanse e as melhoras, Tarek."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Hasta cuándo cree Tarek que estará en casa?",
+          "prompt": "Até quando acha o Tarek que vai ficar em casa?",
           "options": [
-            "Hasta el jueves",
-            "Hasta el viernes",
-            "Más de una semana"
+            "Até quinta-feira",
+            "Até sexta-feira",
+            "Mais de uma semana"
           ],
-          "answer": "Hasta el viernes"
+          "answer": "Até sexta-feira"
         },
         {
-          "prompt": "¿Cómo llega el parte de baja a la empresa?",
+          "prompt": "Como chega a baixa à empresa?",
           "options": [
-            "Tarek lo lleva en papel",
-            "Lo envía Iván",
-            "Lo envía la Seguridad Social"
+            "O Tarek leva-a em papel",
+            "Fica registada na Segurança Social",
+            "O Ivo entrega-a"
           ],
-          "answer": "Lo envía la Seguridad Social",
-          "explain": "“El parte nos llega directamente de la Seguridad Social”, so Elena asks for no paper. She still wants a call as soon as he knows."
+          "answer": "Fica registada na Segurança Social",
+          "explain": "“Nós conseguimos vê-la” (in the Segurança Social system): Elena asks for no paper. She still wants a call as soon as he knows."
         },
         {
-          "prompt": "¿Cómo hay que avisar en esta empresa?",
+          "prompt": "Como é que se avisa nesta empresa?",
           "options": [
-            "Por teléfono, antes del turno",
-            "Por correo, durante el día",
-            "Con un mensaje a un compañero"
+            "Por email, durante o dia",
+            "Por telefone, antes do turno",
+            "Com uma mensagem a um colega"
           ],
-          "answer": "Por teléfono, antes del turno",
+          "answer": "Por telefone, antes do turno",
           "explain": "This is the rule of Tarek's company. Other employers may ask for something else."
         },
         {
-          "prompt": "¿Quién se ocupa del turno del jueves?",
+          "prompt": "Quem trata do turno de quinta-feira?",
           "options": [
-            "Tarek",
-            "Elena",
-            "Iván"
+            "O Tarek",
+            "A Elena",
+            "O Ivo"
           ],
-          "answer": "Elena",
-          "explain": "“De eso me encargo yo”: encargarse de algo means to take care of it, and yo is Elena."
+          "answer": "A Elena",
+          "explain": "“Disso trato eu”: tratar de algo means to take care of it, and eu is Elena."
         },
         {
-          "prompt": "¿Qué tiene que hacer Tarek si la médica le da la baja?",
+          "prompt": "O que tem o Tarek de fazer se a médica lhe passar a baixa?",
           "options": [
-            "Pasar por la oficina",
-            "Llamar a Iván",
-            "Avisar a la empresa"
+            "Passar pelo escritório",
+            "Telefonar ao Ivo",
+            "Avisar a empresa"
           ],
-          "answer": "Avisar a la empresa"
+          "answer": "Avisar a empresa"
         }
       ]
     },
     {
       "id": "b1-elterngespraech",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In most of Latin America: las tareas for los deberes. Upper secondary school has other names and structures there."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: diretor de turma has no exact equivalent (a coordenador pedagógico serves the whole school), and the year is split into bimestres."
       },
       "type": "gespraech",
-      "title": "Meeting with the class tutor (tutoría)",
-      "blurb": "A tutora and a father talk about marks, homework and what comes next.",
+      "title": "Meeting with the class tutor",
+      "blurb": "A parent and the diretor de turma: grades, extra help and what to do at home.",
       "seconds": 70,
       "script": [
         {
+          "speaker": "mann",
+          "text": "Boa tarde, senhora Rocha. Obrigado por ter vindo. Sou o Paulo Freitas, o diretor de turma do Tomás."
+        },
+        {
           "speaker": "frau",
-          "text": "Buenas tardes, señor Benali. Gracias por venir. Quería hablar con usted sobre Yassin."
+          "text": "Boa tarde. Então, como está a correr? Ele diz que a escola está bem, mas as notas do primeiro período não foram muito boas."
         },
         {
           "speaker": "mann",
-          "text": "Buenas tardes. Dígame, ¿hay algún problema?"
+          "text": "O Tomás é um aluno simpático e participa nas aulas. Tem boas notas a Educação Física e a Matemática, mas a Português teve negativa. Precisa de ler mais."
         },
         {
           "speaker": "frau",
-          "text": "En general, no. Yassin es muy trabajador y se lleva bien con sus compañeros. Ha sacado un nueve en Matemáticas y un ocho en Física, pero la Lengua le está costando: en la última evaluación tuvo un cuatro."
+          "text": "Eu sei que ele lê pouco. Em casa falamos sobretudo árabe, e eu própria ainda estou a aprender português."
         },
         {
           "speaker": "mann",
-          "text": "Ya. En casa hablamos árabe, y por eso le cuesta escribir. Además, los deberes de Lengua los deja siempre para el final."
+          "text": "Compreendo. A escola tem apoio de português como língua não materna, às quartas-feiras à tarde. Posso inscrevê-lo, se quiser."
         },
         {
           "speaker": "frau",
-          "text": "Lo entiendo. El instituto tiene clases de refuerzo de Lengua los martes y los jueves por la tarde, y son gratuitas. Creo que le vendrían muy bien."
+          "text": "Sim, por favor. E há alguma maneira de o ajudarmos em casa?"
         },
         {
           "speaker": "mann",
-          "text": "Me parece bien. ¿Hay que apuntarlo?"
+          "text": "Ler vinte minutos por dia, mesmo em voz alta, ajuda muito. A biblioteca da escola empresta livros sem custo. E voltamos a falar no fim do segundo período."
         },
         {
           "speaker": "frau",
-          "text": "Sí. Necesito que firme esta autorización y que me la devuelva antes del viernes."
+          "text": "Muito obrigada. Vou falar com ele hoje."
         },
         {
           "speaker": "mann",
-          "text": "De acuerdo. Y para el curso que viene, ¿qué nos recomienda? A él le gustaría hacer el Bachillerato de Ciencias."
-        },
-        {
-          "speaker": "frau",
-          "text": "Con esas notas, me parece una buena opción, siempre que apruebe Lengua. Volvemos a hablar en junio, ¿le parece?"
+          "text": "Obrigado eu. Qualquer dúvida, escreva-me na caderneta."
         }
       ],
       "questions": [
         {
-          "prompt": "¿En qué asignatura tiene problemas Yassin?",
+          "prompt": "Em que disciplina tem o Tomás dificuldades?",
           "options": [
-            "En Lengua",
-            "En Matemáticas",
-            "En Física"
+            "Em Matemática",
+            "Em Português",
+            "Em Educação Física"
           ],
-          "answer": "En Lengua",
-          "explain": "Secondary schools in Spain mark from 0 to 10 and a 5 is a pass, so un cuatro is a fail. Lengua here is the Spanish language subject."
+          "answer": "Em Português"
         },
         {
-          "prompt": "Según su padre, ¿por qué le cuesta escribir?",
+          "prompt": "Que apoio oferece a escola?",
           "options": [
-            "Porque falta mucho a clase",
-            "Porque en casa hablan árabe",
-            "Porque no se lleva bien con nadie"
+            "Aulas de Matemática",
+            "Um explicador",
+            "Apoio de português língua não materna"
           ],
-          "answer": "Porque en casa hablan árabe"
+          "answer": "Apoio de português língua não materna",
+          "explain": "“Língua não materna”: the support is for pupils whose first language is not Portuguese."
         },
         {
-          "prompt": "¿Qué ofrece el instituto?",
+          "prompt": "Quando é o apoio?",
           "options": [
-            "Un profesor particular en casa",
-            "Clases gratuitas por la tarde",
-            "Un cambio de grupo"
+            "Às segundas de manhã",
+            "Às quartas à tarde",
+            "Às sextas à noite"
           ],
-          "answer": "Clases gratuitas por la tarde"
+          "answer": "Às quartas à tarde"
         },
         {
-          "prompt": "¿Qué tiene que hacer el padre antes del viernes?",
+          "prompt": "O que sugere o professor para casa?",
           "options": [
-            "Pagar las clases",
-            "Hablar con Yassin",
-            "Firmar una autorización"
+            "Ler vinte minutos por dia",
+            "Ver televisão em português",
+            "Fazer mais exercícios de Matemática"
           ],
-          "answer": "Firmar una autorización"
+          "answer": "Ler vinte minutos por dia",
+          "explain": "“Mesmo em voz alta”: even out loud. Reading aloud counts."
         },
         {
-          "prompt": "¿Qué condición pone la tutora para el Bachillerato de Ciencias?",
+          "prompt": "Quando voltam a falar?",
           "options": [
-            "Aprobar Lengua",
-            "Sacar un nueve en Física",
-            "Hablar con ella en junio"
+            "Amanhã",
+            "No fim do ano",
+            "No fim do segundo período"
           ],
-          "answer": "Aprobar Lengua",
-          "explain": "“Siempre que apruebe Lengua”: siempre que + subjunctive sets a condition. The talk in June is only the next meeting."
+          "answer": "No fim do segundo período"
         }
       ]
     },
     {
       "id": "b1-radio-muelltrennung",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "Recycling colours and rules change by country in Latin America, and a bucket is often el balde or la cubeta, not el cubo."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: coleta seletiva, with a different colour code (red for plastic, yellow for metal), and few ecopontos or óleões."
       },
       "type": "radio",
-      "title": "Radio feature: recycling and the coloured containers",
-      "blurb": "Which container for what, and why plastic causes the most mistakes.",
+      "title": "Radio: recycling and the ecopontos",
+      "blurb": "Which ecoponto for what, the cooking oil, and why a greasy pizza box is not paper.",
       "seconds": 85,
       "script": [
         {
           "speaker": "mann",
-          "text": "Buenos días. Hoy en Radio Valdelora hablamos de reciclaje con Laura Campos, técnica de Medio Ambiente del ayuntamiento. Laura, mucha gente sigue dudando delante de los contenedores. ¿Qué es lo más importante?"
+          "text": "Bem-vindos ao programa Vizinhos. Hoje falamos de reciclagem, um tema que ainda levanta dúvidas a muita gente. Está connosco a engenheira Beatriz Neves, da empresa municipal de resíduos."
         },
         {
           "speaker": "frau",
-          "text": "Recordar los colores. El azul es para papel y cartón. El verde, para el vidrio, es decir, botellas y tarros. El amarillo, para los envases: plástico, latas y briks. El marrón, para los restos de comida. Y lo demás va al gris."
+          "text": "Bom dia. Em Portugal há três ecopontos principais: o azul é para papel e cartão, o amarelo para plástico e metal, e o verde para vidro."
         },
         {
           "speaker": "mann",
-          "text": "¿Y dónde se cometen más errores?"
+          "text": "E o óleo de cozinha? Muita gente deita-o no lava-loiça."
         },
         {
           "speaker": "frau",
-          "text": "En el amarillo, sin duda. Mucha gente cree que es el contenedor del plástico, pero en realidad es el de los envases. Un juguete de plástico o un cubo viejo no son envases, así que no deben ir ahí."
+          "text": "Isso é um erro, porque entope os canos e polui. O óleo usado deve ser guardado numa garrafa de plástico e levado a um óleão, que existe em muitos bairros."
         },
         {
           "speaker": "mann",
-          "text": "¿Y un vaso roto? Es de vidrio, ¿no?"
+          "text": "Há outro erro frequente: as caixas de pizza."
         },
         {
           "speaker": "frau",
-          "text": "Ese es otro error típico. Los vasos, los espejos y la cerámica no se reciclan como las botellas, así que no van al verde. Un vaso roto va al gris. Y las pilas, el aceite usado o un electrodoméstico viejo se llevan al punto limpio."
+          "text": "Se estiverem sujas de gordura, não vão para o ecoponto azul, mas para o lixo comum. Só o papel limpo é reciclável."
         },
         {
           "speaker": "mann",
-          "text": "Para terminar, ¿un consejo?"
+          "text": "E as embalagens? É preciso lavá-las?"
         },
         {
           "speaker": "frau",
-          "text": "Si tiene dudas, consulte la web de su ayuntamiento, porque en algunos municipios el sistema es un poco distinto. Y si no está seguro, mejor al gris que al contenedor equivocado."
+          "text": "Não é preciso lavá-las com detergente, basta esvaziá-las bem. E convém achatar as caixas e as garrafas, para ocuparem menos espaço."
+        },
+        {
+          "speaker": "mann",
+          "text": "Obrigado, Beatriz. Voltamos já a seguir, com a música."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Para qué es el contenedor amarillo?",
+          "prompt": "Que ecoponto é para o vidro?",
           "options": [
-            "Para todo el plástico",
-            "Para los envases",
-            "Para los restos de comida"
+            "O azul",
+            "O amarelo",
+            "O verde"
           ],
-          "answer": "Para los envases"
+          "answer": "O verde"
         },
         {
-          "prompt": "¿Por qué un juguete de plástico no va al amarillo?",
+          "prompt": "Onde se deve levar o óleo de cozinha usado?",
           "options": [
-            "Porque no es un envase",
-            "Porque es demasiado grande",
-            "Porque va al marrón"
+            "Ao ecoponto amarelo",
+            "A um óleão",
+            "Ao lixo comum"
           ],
-          "answer": "Porque no es un envase",
-          "explain": "The material isn't what counts. A yellow container takes packaging, and a toy is not packaging."
+          "answer": "A um óleão"
         },
         {
-          "prompt": "¿Dónde se tira un vaso roto?",
+          "prompt": "Para onde vai uma caixa de pizza suja de gordura?",
           "options": [
-            "En el verde",
-            "En el amarillo",
-            "En el gris"
+            "Para o ecoponto azul",
+            "Para o lixo comum",
+            "Para o ecoponto verde"
           ],
-          "answer": "En el gris",
-          "explain": "Drinking glasses are not recycled like bottles, so they don't go in the green container."
+          "answer": "Para o lixo comum",
+          "explain": "Grease spoils paper recycling, so only clean paper goes into the blue ecoponto."
         },
         {
-          "prompt": "¿Adónde hay que llevar las pilas y el aceite usado?",
+          "prompt": "O que se deve fazer às embalagens antes de as deitar fora?",
           "options": [
-            "Al ayuntamiento",
-            "Al punto limpio",
-            "Al contenedor marrón"
+            "Lavá-las com detergente",
+            "Esvaziá-las bem",
+            "Tirar-lhes o rótulo"
           ],
-          "answer": "Al punto limpio"
+          "answer": "Esvaziá-las bem"
         },
         {
-          "prompt": "¿Qué recomienda Laura si hay dudas sobre el sistema?",
+          "prompt": "Quem é a convidada do programa?",
           "options": [
-            "Consultar la web del ayuntamiento",
-            "Llamar a la radio",
-            "Guardar el residuo en casa"
+            "Uma vizinha",
+            "Uma engenheira da empresa de resíduos",
+            "Uma professora"
           ],
-          "answer": "Consultar la web del ayuntamiento"
+          "answer": "Uma engenheira da empresa de resíduos"
         }
       ]
     },
     {
       "id": "b1-durchsage-ersatzverkehr",
       "level": "B1",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el boleto for el billete, and the word for a bus changes by country (camión, colectivo, micro…)."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: trem and ônibus for comboio and autocarro, and ‘ônibus de substituição’ is also used."
       },
       "type": "ansage",
-      "title": "Announcement: line closure and replacement bus",
-      "blurb": "There are no trains on part of the line. If you need to get somewhere, listen carefully now.",
+      "title": "Announcement: line closure and replacement buses",
+      "blurb": "Planned works on the line: dates, replacement buses and what applies to your ticket.",
       "seconds": 50,
       "script": [
         {
           "speaker": "ansage",
-          "text": "Atención, por favor. Información para los viajeros de la línea tres de cercanías. Debido a unas obras en la vía, desde hoy hasta el domingo no circularán trenes entre Valdelora y Montealbar."
+          "text": "Atenção, passageiros com destino a Vale Alto. Devido a obras na via, não há circulação de comboios entre Rio Seco e Vale Alto a partir de sábado, às vinte e duas horas, até segunda-feira, às seis."
         },
         {
           "speaker": "ansage",
-          "text": "Para hacer este trayecto, hemos organizado un servicio de autobuses. Los autobuses salen cada veinte minutos de la plaza de la estación, junto a la parada de taxis, y tardan unos cuarenta minutos más que el tren."
+          "text": "Durante este período, haverá autocarros de substituição. Os autocarros partem em frente à estação, e a viagem demora cerca de quarenta minutos, mais vinte do que de comboio."
         },
         {
           "speaker": "ansage",
-          "text": "Los viajeros que vayan al aeropuerto deben cambiar en Valdelora a la línea uno, ya que el autobús no para en el aeropuerto."
+          "text": "Os bilhetes e os passes são válidos nos autocarros. Os passageiros com mobilidade reduzida devem avisar o pessoal da estação com antecedência, para garantir transporte adaptado."
         },
         {
           "speaker": "ansage",
-          "text": "Los billetes y abonos de cercanías son válidos en estos autobuses. Tengan en cuenta que no se admiten bicicletas. Les pedimos disculpas por las molestias."
+          "text": "Pode consultar os horários nos painéis da estação ou no site do operador. Pedimos desculpa pelo incómodo."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Hasta cuándo no hay trenes en este tramo?",
+          "prompt": "Quando começa o corte da linha?",
           "options": [
-            "Hasta el sábado",
-            "Hasta el domingo",
-            "Hasta el lunes"
+            "Na sexta-feira, às seis",
+            "No sábado, às vinte e duas horas",
+            "Na segunda-feira, às seis"
           ],
-          "answer": "Hasta el domingo"
+          "answer": "No sábado, às vinte e duas horas"
         },
         {
-          "prompt": "¿De dónde salen los autobuses?",
+          "prompt": "Como se viaja durante as obras?",
           "options": [
-            "De la plaza de la estación",
-            "Del andén de la línea tres",
-            "Del aeropuerto"
+            "De comboio, mas mais devagar",
+            "De autocarro de substituição",
+            "De táxi pago pelo operador"
           ],
-          "answer": "De la plaza de la estación"
+          "answer": "De autocarro de substituição"
         },
         {
-          "prompt": "¿Cuánto tiempo más se tarda en autobús?",
+          "prompt": "Onde partem os autocarros?",
           "options": [
-            "Unos veinte minutos",
-            "Una hora",
-            "Unos cuarenta minutos"
+            "No parque de estacionamento",
+            "Em frente à estação",
+            "Na paragem da vila"
           ],
-          "answer": "Unos cuarenta minutos",
-          "explain": "“Cada veinte minutos” is how often the buses leave, not the extra time."
+          "answer": "Em frente à estação"
         },
         {
-          "prompt": "¿Qué deben hacer los viajeros que van al aeropuerto?",
+          "prompt": "Quanto tempo mais demora a viagem de autocarro?",
           "options": [
-            "Tomar el autobús",
-            "Cambiar a la línea uno",
-            "Comprar otro billete"
+            "Dez minutos",
+            "Vinte minutos",
+            "Quarenta minutos"
           ],
-          "answer": "Cambiar a la línea uno",
-          "explain": "Los viajeros que vayan: que + subjunctive, because it refers to whoever is going there."
+          "answer": "Vinte minutos",
+          "explain": "“Mais vinte do que de comboio”: the bus takes 40 minutes, the train 20."
         },
         {
-          "prompt": "¿Qué no se puede llevar en el autobús?",
+          "prompt": "O que devem fazer os passageiros com mobilidade reduzida?",
           "options": [
-            "Maletas",
-            "Una bicicleta",
-            "Un abono"
+            "Comprar um bilhete especial",
+            "Avisar o pessoal da estação com antecedência",
+            "Esperar pelo último autocarro"
           ],
-          "answer": "Una bicicleta"
+          "answer": "Avisar o pessoal da estação com antecedência"
         }
       ]
     },
     {
       "id": "b2-diskussion-homeoffice",
       "level": "B2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: ustedes and les for vosotros and os (¿Qué les parece?). You also hear home office for el teletrabajo."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: home office or trabalho remoto is more usual in speech than teletrabalho, and the legal rules (CLT) differ from Portugal's Código do Trabalho."
       },
       "type": "diskussion",
-      "title": "Team meeting: teletrabajo",
-      "blurb": "Three positions, one compromise. Follow the arguments, and notice who gives way on what.",
+      "title": "Team meeting: teletrabalho",
+      "blurb": "Three colleagues argue about working from home: fixed days, costs and the right to disconnect.",
       "seconds": 90,
       "script": [
         {
           "speaker": "frau",
-          "text": "Tenemos que acordar una política de teletrabajo antes de fin de mes. Ahora mismo cada departamento va por libre y eso está generando bastantes roces. ¿Qué os parece?"
-        },
-        {
-          "speaker": "mann2",
-          "text": "A mi modo de ver, lo mejor sería dejarlo como está. Los equipos son muy distintos: atención al cliente tiene que estar localizable, mientras que los desarrolladores necesitan tranquilidad. Una norma única no haría justicia a ninguno de los dos."
+          "text": "Bom dia a todos. O objetivo desta reunião é decidir como vamos organizar o teletrabalho a partir de janeiro. A administração propõe dois dias por semana em casa. Ana, começas tu?"
         },
         {
           "speaker": "frau2",
-          "text": "Entiendo lo que dices, pero se te escapa algo. Si decide cada departamento, en la práctica decide el jefe. Es decir, todo depende de quién te haya tocado como responsable, y esa es precisamente la injusticia de la que se queja la gente."
+          "text": "Obrigada, Marta. Eu acho que dois dias é pouco. Perco quase duas horas por dia no comboio e, em casa, concentro-me melhor nos relatórios. Mas reconheço que as reuniões correm melhor presencialmente."
         },
         {
           "speaker": "mann2",
-          "text": "Ahí te doy la razón. A mí, más que la libertad de los departamentos, lo que me preocupaba era que el trabajo saliera adelante."
+          "text": "Eu tenho uma opinião diferente. Em casa acabo por trabalhar mais horas, porque ninguém me diz que o dia acabou. E os colegas mais novos precisam de nos ver no escritório para aprender. Sou a favor dos dois dias, desde que sejam sempre os mesmos para toda a equipa."
         },
         {
           "speaker": "frau",
-          "text": "Entonces os propongo un marco en lugar de una cifra fija. Cada uno podrá teletrabajar hasta tres días a la semana, pero cada equipo acordará un día común en la oficina. Así atención al cliente queda cubierta y los desarrolladores tienen sus días tranquilos."
+          "text": "Percebo, Rui, mas nem todos estão na mesma situação. A Ana, por exemplo, vive fora da cidade."
         },
         {
           "speaker": "frau2",
-          "text": "Yo podría aceptarlo, siempre y cuando ese día quede por escrito y no se renegocie cada semana."
+          "text": "Exato. Proponho dois dias fixos e um terceiro flexível, combinado com uma semana de antecedência."
         },
         {
           "speaker": "mann2",
-          "text": "De acuerdo. Solo añadiría que lo revisemos dentro de seis meses para ver si funciona."
+          "text": "Nesse caso, quem paga a internet e a eletricidade em casa? Ouvi dizer que a empresa tem de compensar essas despesas."
         },
         {
           "speaker": "frau",
-          "text": "Perfecto. Resumiendo: hasta tres días en casa, un día fijo de oficina por equipo, todo por escrito y una revisión a los seis meses."
+          "text": "A lei prevê que a empresa pague os custos adicionais, e vamos acordar um valor mensal fixo. Vou pedir ao departamento jurídico que confirme os pormenores e traga uma proposta à próxima reunião."
+        },
+        {
+          "speaker": "frau2",
+          "text": "Ótimo. E o direito a desligar? Não quero receber chamadas à noite."
+        },
+        {
+          "speaker": "frau",
+          "text": "Fica anotado. Ficam combinados dois dias fixos e um flexível, e voltamos a falar na reunião do dia quinze."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Cuál es el problema de la situación actual?",
+          "prompt": "Qual é a proposta inicial da administração?",
           "options": [
-            "Nadie puede teletrabajar",
-            "Cada departamento va por libre",
-            "Atención al cliente no responde"
+            "Um dia por semana em casa",
+            "Três dias por semana em casa",
+            "Dois dias por semana em casa"
           ],
-          "answer": "Cada departamento va por libre",
-          "explain": "Ir por libre means each one does things its own way, without agreeing with the others."
+          "answer": "Dois dias por semana em casa"
         },
         {
-          "prompt": "¿Qué objeción plantea la segunda mujer?",
+          "prompt": "Porque quer a Ana mais teletrabalho?",
           "options": [
-            "Que en casa se trabaja menos",
-            "Que los desarrolladores no necesitan tranquilidad",
-            "Que en la práctica decide el jefe"
+            "Porque não gosta dos colegas",
+            "Porque perde muito tempo em viagem e concentra-se melhor em casa",
+            "Porque a empresa paga a internet"
           ],
-          "answer": "Que en la práctica decide el jefe",
-          "explain": "She doesn't deny that the teams are different; she shows what that leads to in practice."
+          "answer": "Porque perde muito tempo em viagem e concentra-se melhor em casa",
+          "explain": "She says she loses almost two hours a day on the train and works better at home on reports."
         },
         {
-          "prompt": "¿Cómo reacciona el hombre a su argumento?",
+          "prompt": "Qual é a objeção do Rui?",
           "options": [
-            "Lo acepta",
-            "Mantiene su postura",
-            "Cambia de tema"
+            "Em casa trabalha mais horas e os novos colegas precisam de presença",
+            "Não tem internet em casa",
+            "Não gosta de reuniões presenciais"
           ],
-          "answer": "Lo acepta",
-          "explain": "“Ahí te doy la razón”, and then he explains what he really cared about."
+          "answer": "Em casa trabalha mais horas e os novos colegas precisam de presença",
+          "explain": "Rui does not reject home working outright: he supports two days, as long as they are the same for everyone."
         },
         {
-          "prompt": "¿A qué acuerdo llega el equipo?",
+          "prompt": "Quem vai verificar a questão das despesas?",
           "options": [
-            "Tres días fijos de oficina para todos",
-            "Hasta tres días en casa y un día fijo de oficina",
-            "Que cada departamento siga decidiendo"
+            "A Ana",
+            "O Rui",
+            "O departamento jurídico"
           ],
-          "answer": "Hasta tres días en casa y un día fijo de oficina"
+          "answer": "O departamento jurídico",
+          "explain": "“Que confirme os pormenores”: Marta asks the legal department to confirm the details."
         },
         {
-          "prompt": "¿Qué añade el hombre al final?",
+          "prompt": "O que ficou decidido no fim?",
           "options": [
-            "Una votación en toda la empresa",
-            "Una excepción para atención al cliente",
-            "Una revisión a los seis meses"
+            "Nada, a decisão é adiada para janeiro",
+            "Dois dias fixos e um flexível, com nova conversa no dia quinze",
+            "Três dias fixos para todos"
           ],
-          "answer": "Una revisión a los seis meses"
+          "answer": "Dois dias fixos e um flexível, com nova conversa no dia quinze"
         }
       ]
     },
     {
       "id": "b2-interview-anerkennung",
       "level": "B2",
-      "variety": "es-ES",
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: revalidação de diploma is the term for foreign degrees, and apostilha (Hague apostille) is spelled apostila."
+      },
       "type": "radio",
-      "title": "Interview: getting a foreign degree recognised (homologación)",
-      "blurb": "An adviser explains homologación and equivalencia, and the most common mistake people make in the process.",
+      "title": "Interview: getting a foreign degree recognised",
+      "blurb": "A radio guest explains the reconhecimento de graus estrangeiros: first step, documents, timing and costs.",
       "seconds": 95,
       "script": [
         {
           "speaker": "mann",
-          "text": "Muchas personas llegan a España con un título extranjero y no saben si les sirve. Hoy nos acompaña Sofía Márquez, orientadora de un servicio de empleo de Valdelora. Sofía, ¿qué significa exactamente homologar un título?"
+          "text": "No espaço de hoje, falamos de uma questão que preocupa muitos imigrantes qualificados: ver o diploma estrangeiro reconhecido em Portugal. Está connosco a Luísa Barbosa, que trabalha num gabinete de apoio a migrantes. Luísa, por onde se começa?"
         },
         {
           "speaker": "frau",
-          "text": "Significa que la Administración reconoce que tu título tiene el mismo valor que el título español correspondiente. Es imprescindible si quieres ejercer una profesión regulada, como enfermería o medicina."
+          "text": "Por perceber que tipo de reconhecimento se pretende. Em Portugal há o reconhecimento automático, o de nível e o específico. E, para uma profissão regulada, como médico ou enfermeiro, também é preciso falar com a respetiva ordem profissional."
         },
         {
           "speaker": "mann",
-          "text": "¿Y si mi profesión no está regulada?"
+          "text": "E que documentos são necessários?"
         },
         {
           "speaker": "frau",
-          "text": "Entonces a menudo no hace falta. Un informático o una diseñadora pueden buscar trabajo con el título que tienen, porque quien decide es la empresa. Aun así, puede ser útil pedir la equivalencia, que reconoce el nivel de estudios y el campo, pero no un título concreto."
+          "text": "Em geral, o diploma e o certificado de disciplinas, com tradução certificada e apostilha de Haia, se o país a emitir. Convém pedir tudo ainda no país de origem, porque pode demorar meses."
         },
         {
           "speaker": "mann",
-          "text": "¿Cuál es el error más frecuente?"
+          "text": "E quanto tempo demora o processo?"
         },
         {
           "speaker": "frau",
-          "text": "Empezar por el final. Mucha gente manda traducir los documentos antes de legalizarlos. Primero hay que legalizar el título y el expediente en el país de origen, por ejemplo con la apostilla de La Haya. Después viene la traducción jurada; si se hace al revés, a veces toca pagarla dos veces."
+          "text": "A lei fixa prazos, mas na prática atrasa-se, sobretudo quando faltam documentos. Por isso, conte com alguns meses e não marque já uma entrevista de emprego para a semana seguinte."
         },
         {
           "speaker": "mann",
-          "text": "¿Y cuánto se tarda?"
+          "text": "Há custos?"
         },
         {
           "speaker": "frau",
-          "text": "Depende mucho del caso, pero pueden ser bastantes meses, así que yo no esperaría a tener una oferta de trabajo. Además, la respuesta no siempre es un sí directo: a veces piden una formación complementaria o una prueba. Y un último consejo: antes de pagar nada, mira la información oficial, porque los requisitos cambian, y desconfía de quien te prometa una homologación rápida."
+          "text": "Há taxas, que variam conforme o tipo de processo, e o custo das traduções. Aconselho a pedir primeiro um orçamento das traduções. E, acima de tudo, a começar cedo, guardar cópias de tudo e perguntar sempre à instituição qual é o documento que falta. Não desistam: muita gente consegue, só demora mais do que se pensa."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Cuándo es imprescindible homologar un título?",
+          "prompt": "Quem é a Luísa Barbosa?",
           "options": [
-            "Siempre que se busca trabajo",
-            "Para ejercer una profesión regulada",
-            "Solo para trabajar en la Administración"
+            "Uma funcionária de uma universidade",
+            "Uma técnica de um gabinete de apoio a migrantes",
+            "Uma enfermeira"
           ],
-          "answer": "Para ejercer una profesión regulada"
+          "answer": "Uma técnica de um gabinete de apoio a migrantes"
         },
         {
-          "prompt": "¿Qué reconoce la equivalencia?",
+          "prompt": "Qual é o primeiro passo, segundo a Luísa?",
           "options": [
-            "El nivel de estudios y el campo",
-            "Un título español concreto",
-            "La experiencia laboral"
+            "Traduzir o diploma",
+            "Perceber que tipo de reconhecimento se pretende",
+            "Marcar uma entrevista de emprego"
           ],
-          "answer": "El nivel de estudios y el campo",
-          "explain": "Homologación compares you to one specific Spanish degree; equivalencia only to a level and a field. This is general orientation: check the official rules for your case."
+          "answer": "Perceber que tipo de reconhecimento se pretende"
         },
         {
-          "prompt": "¿Cuál es el error más frecuente, según Sofía?",
+          "prompt": "Que documentos são precisos em geral?",
           "options": [
-            "Pedir la equivalencia sin necesitarla",
-            "Esperar a tener una oferta de trabajo",
-            "Traducir antes de legalizar"
+            "Só o passaporte",
+            "O diploma e o certificado de disciplinas, traduzidos e com apostilha",
+            "Uma carta de recomendação"
           ],
-          "answer": "Traducir antes de legalizar",
-          "explain": "The order is legalise first, then translate. Waiting for a job offer is something she also advises against, but it isn't the mistake she names as most frequent."
+          "answer": "O diploma e o certificado de disciplinas, traduzidos e com apostilha"
         },
         {
-          "prompt": "¿Qué puede pasar aunque se presente todo bien?",
+          "prompt": "Porque convém pedir os documentos cedo?",
           "options": [
-            "Que pidan una formación o una prueba",
-            "Que haya que volver al país de origen",
-            "Que el título deje de ser válido"
+            "Porque são gratuitos",
+            "Porque a lei o obriga",
+            "Porque podem demorar meses a chegar"
           ],
-          "answer": "Que pidan una formación o una prueba"
+          "answer": "Porque podem demorar meses a chegar"
         },
         {
-          "prompt": "¿De qué advierte al final?",
+          "prompt": "O que diz a Luísa sobre a duração do processo?",
           "options": [
-            "De las traducciones demasiado baratas",
-            "De las promesas de homologación rápida",
-            "De las ofertas de trabajo en el extranjero"
+            "É sempre muito rápido",
+            "Atrasa-se muitas vezes, sobretudo se faltarem documentos",
+            "Demora exatamente dois meses"
           ],
-          "answer": "De las promesas de homologación rápida"
+          "answer": "Atrasa-se muitas vezes, sobretudo se faltarem documentos"
         }
       ]
     },
     {
       "id": "b2-beschwerde-versicherung",
       "level": "B2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America: el departamento for el piso and el plomero for el fontanero. The complaint bodies differ in each country."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: mofo, not bolor, for mould; the insurance regulator is the SUSEP, and Procon handles consumer complaints."
       },
       "type": "telefonat",
       "title": "Complaint to an insurance company",
-      "blurb": "A claim has been turned down. How to stay polite and still not back down.",
+      "blurb": "A damage claim that has stood still for six weeks: staying firm and polite, and getting it in writing.",
       "seconds": 90,
       "script": [
         {
-          "speaker": "mann",
-          "text": "Seguros Albar, le atiende Javier. ¿En qué puedo ayudarle?"
-        },
-        {
           "speaker": "frau",
-          "text": "Buenos días. Soy Irina Petrova, con número de póliza siete cuatro uno nueve. Les llamo porque han rechazado mi parte y no estoy conforme."
+          "text": "Vale Seguro, fala a Teresa Antunes. Em que posso ajudar?"
         },
         {
           "speaker": "mann",
-          "text": "Déjeme que lo mire. Sí, aquí lo tengo: daños por agua en su piso de la calle Olmo. Según el perito, la fuga se debió a la falta de mantenimiento de una tubería, y eso está excluido de la póliza."
+          "text": "Boa tarde. Chamo-me Henrique Pires. Ligo por causa de um sinistro de há seis semanas e ainda não recebi nenhuma resposta."
         },
         {
           "speaker": "frau",
-          "text": "Eso es precisamente lo que no entiendo. La tubería se revisó hace un año y tengo la factura del fontanero. Además, el perito estuvo diez minutos en casa y ni siquiera abrió el armario donde está la tubería."
+          "text": "Peço desculpa. Pode dar-me o número da apólice?"
         },
         {
           "speaker": "mann",
-          "text": "Comprendo su malestar, pero yo no puedo modificar esa decisión."
+          "text": "Tenho-o aqui: quatro, sete, dois, nove, um, oito."
         },
         {
           "speaker": "frau",
-          "text": "Lo entiendo, y no le estoy culpando a usted. Lo que le pido es, primero, que me envíen por escrito los motivos del rechazo junto con el informe del perito y, segundo, que me indiquen cómo presentar una reclamación formal."
+          "text": "Obrigada. Vejo aqui o processo: um dano por água, causado por uma rutura num cano do vizinho de cima. Está registado, mas o perito ainda não visitou a casa."
         },
         {
           "speaker": "mann",
-          "text": "Por supuesto. Puede dirigirla a nuestro Servicio de Atención al Cliente a través de la web. Ahora mismo le mando el enlace y el informe. Le aconsejo que adjunte la factura y unas fotos de los daños."
+          "text": "Já devia ter visitado. Quando participei o sinistro, disseram-me que seria em duas semanas. Entretanto o teto está a ficar com bolor, e tenho duas crianças em casa."
         },
         {
           "speaker": "frau",
-          "text": "¿Y si la desestiman o no me contestan?"
+          "text": "Compreendo, e tem toda a razão em estar preocupado. O perito está atrasado porque temos muitos processos depois das chuvas. Posso marcar uma visita para quinta-feira de manhã?"
         },
         {
           "speaker": "mann",
-          "text": "En ese caso, puede acudir al servicio de reclamaciones de la Dirección General de Seguros y Fondos de Pensiones, pero antes tiene que haber reclamado ante nosotros."
+          "text": "Quinta-feira de manhã posso. Mas quero isso por escrito, por email, e quero saber quando é que a seguradora paga a reparação."
         },
         {
           "speaker": "frau",
-          "text": "Muy bien. Pues espero el correo hoy mismo. Gracias, Javier."
+          "text": "Envio-lhe hoje a confirmação por email. A decisão sobre o pagamento só é tomada depois do relatório do perito, que costuma demorar quinze dias úteis. Não lhe posso prometer uma data exata."
+        },
+        {
+          "speaker": "mann",
+          "text": "Se não houver novidades, vou apresentar uma reclamação por escrito, e sei que também posso queixar-me à entidade que supervisiona os seguros."
+        },
+        {
+          "speaker": "frau",
+          "text": "Está no seu direito, senhor Pires. Vou registar a sua reclamação ainda hoje e pedir ao meu responsável que o contacte esta semana."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Por qué rechazó la compañía el parte?",
+          "prompt": "Porque liga o senhor Pires?",
           "options": [
-            "Por falta de mantenimiento",
-            "Porque la póliza había caducado",
-            "Porque Irina avisó tarde"
+            "Quer cancelar o seguro",
+            "Quer pagar uma fatura",
+            "O sinistro de há seis semanas ainda não teve resposta"
           ],
-          "answer": "Por falta de mantenimiento"
+          "answer": "O sinistro de há seis semanas ainda não teve resposta"
         },
         {
-          "prompt": "¿Qué argumento da Irina en contra?",
+          "prompt": "Qual foi a causa do dano?",
           "options": [
-            "Que el vecino causó la fuga",
-            "Que la tubería se revisó hace un año",
-            "Que la póliza cubre todo"
+            "Um incêndio na cozinha",
+            "Um roubo",
+            "Uma rutura num cano do vizinho de cima"
           ],
-          "answer": "Que la tubería se revisó hace un año",
-          "explain": "She has la factura del fontanero as proof, and she also questions the expert's short visit."
+          "answer": "Uma rutura num cano do vizinho de cima"
         },
         {
-          "prompt": "¿Cómo reacciona Irina cuando Javier dice que no puede cambiar la decisión?",
+          "prompt": "Quando propõe a Teresa a visita do perito?",
           "options": [
-            "Lo culpa a él",
-            "Cuelga y busca otra compañía",
-            "Pide los motivos por escrito"
+            "Na quinta-feira de manhã",
+            "Hoje à tarde",
+            "Na semana seguinte"
           ],
-          "answer": "Pide los motivos por escrito",
-          "explain": "“No le estoy culpando a usted. Lo que le pido es…”: polite to the person, firm on the matter. A useful pattern for complaints."
+          "answer": "Na quinta-feira de manhã"
         },
         {
-          "prompt": "¿Dónde debe presentar primero la reclamación?",
+          "prompt": "O que exige o senhor Pires por escrito?",
           "options": [
-            "En el Servicio de Atención al Cliente",
-            "En la Dirección General de Seguros",
-            "En el juzgado"
+            "Um pedido de desculpa",
+            "A confirmação da visita, por email",
+            "O valor exato da reparação"
           ],
-          "answer": "En el Servicio de Atención al Cliente"
+          "answer": "A confirmação da visita, por email"
         },
         {
-          "prompt": "¿Qué le aconseja Javier que adjunte?",
+          "prompt": "O que diz o senhor Pires que fará se não houver novidades?",
           "options": [
-            "Una copia de la póliza",
-            "La factura y unas fotos",
-            "Una carta del vecino"
+            "Mudar de seguradora",
+            "Apresentar uma reclamação por escrito",
+            "Ir ao escritório da seguradora"
           ],
-          "answer": "La factura y unas fotos"
+          "answer": "Apresentar uma reclamação por escrito"
         }
       ]
     },
     {
       "id": "b2-vortrag-ehrenamt",
       "level": "B2",
-      "variety": "es-ES",
-      "es419": {
-        "note": "In Latin America a speaker says ustedes, not vosotros: han colaborado, sus hijos, hablarles, les pongo un ejemplo."
+      "variety": "pt-PT",
+      "ptBR": {
+        "note": "In Brazil: aposentados for reformados, and ‘tempo integral’ for ‘tempo inteiro’."
       },
       "type": "vortrag",
       "title": "Short talk: volunteering",
-      "blurb": "A trend, a problem and a proposal. Tell the main point from the examples.",
+      "blurb": "A coordinator speaks at an information evening about voluntariado: who does it, what it gives, what it asks.",
       "seconds": 90,
       "script": [
         {
           "speaker": "frau",
-          "text": "Buenas tardes a todos y gracias por venir. Seguro que muchos de vosotros habéis colaborado alguna vez como voluntarios: en un banco de alimentos, en la asociación de vecinos o en el club de fútbol de vuestros hijos. Hoy quiero hablaros de un cambio que llevamos años viendo en nuestra asociación de Valdelora."
+          "text": "Boa noite a todos e obrigada por terem vindo. Chamo-me Carla Mendes e coordeno há seis anos o grupo de voluntários da associação Mãos Abertas."
         },
         {
           "speaker": "frau",
-          "text": "La gente no ha dejado de ayudar, pero ayuda de otra manera. Antes, una persona se comprometía durante años con la misma entidad. Hoy muchos prefieren colaborar en proyectos concretos y breves: una recogida de alimentos en Navidad o la limpieza del barrio después de una inundación."
+          "text": "Muitas pessoas pensam que o voluntariado é só para reformados ou para quem tem tempo de sobra. Na nossa associação, os voluntários têm entre dezoito e oitenta anos, e a maioria trabalha a tempo inteiro. Dão-nos duas ou três horas por semana."
         },
         {
           "speaker": "frau",
-          "text": "En principio, esto es positivo, pero tiene un problema: las tareas de siempre se quedan sin manos. Me refiero a llevar las cuentas, solicitar subvenciones o acompañar cada semana a una persona mayor. Son trabajos poco vistosos y, sin embargo, sin ellos ninguna asociación puede funcionar."
+          "text": "Fazer voluntariado não é só dar; também se recebe. Quem chegou há pouco ao país, por exemplo, conhece vizinhos, pratica o português e ganha uma referência que conta no currículo. Já vimos pessoas arranjar emprego através de contactos feitos aqui."
         },
         {
           "speaker": "frau",
-          "text": "Os pongo un ejemplo. El año pasado organizamos una recogida de ropa y se apuntaron sesenta personas en dos días. Ese mismo mes buscábamos a alguien que llevara la contabilidad dos horas a la semana, y tardamos cinco meses en encontrarlo."
+          "text": "Mas também há desafios. É preciso ser fiável: se prometem aparecer à terça-feira, as pessoas contam convosco. Por isso pedimos um compromisso mínimo de três meses e uma pequena formação inicial. Quando alguém não pode continuar, pedimos apenas que avise."
         },
         {
           "speaker": "frau",
-          "text": "¿Qué proponemos? Dividir esas tareas largas en bloques pequeños, con un principio y un final claros: por ejemplo, tres meses de contabilidad compartidos entre dos personas. Que nadie sienta que firma para toda la vida. No se trata de pedir más, sino de pedirlo de otra manera. Muchas gracias."
+          "text": "No fim desta sessão, quem quiser pode inscrever-se na mesa à saída ou no nosso site. Não é preciso experiência, só vontade. E, se tiver dúvidas, pode vir connosco a um turno de experiência, sem compromisso. Obrigada."
         }
       ],
       "questions": [
         {
-          "prompt": "¿Cuál es el cambio que describe la ponente?",
+          "prompt": "Há quanto tempo coordena a Carla o grupo de voluntários?",
           "options": [
-            "Cada vez menos gente ayuda",
-            "La gente prefiere proyectos breves",
-            "Las asociaciones piden más dinero"
+            "Há três anos",
+            "Há seis anos",
+            "Há dezoito anos"
           ],
-          "answer": "La gente prefiere proyectos breves",
-          "explain": "“La gente no ha dejado de ayudar”: dejar de means to stop, so people have not stopped helping. They help differently."
+          "answer": "Há seis anos"
         },
         {
-          "prompt": "¿Qué problema trae este cambio?",
+          "prompt": "Que idades têm os voluntários da associação?",
           "options": [
-            "Los proyectos breves salen muy caros",
-            "Faltan personas para las tareas de siempre",
-            "Hay demasiados voluntarios en Navidad"
+            "Só reformados",
+            "Só jovens",
+            "Entre dezoito e oitenta anos"
           ],
-          "answer": "Faltan personas para las tareas de siempre"
+          "answer": "Entre dezoito e oitenta anos",
+          "explain": "“Entre dezoito e oitenta anos”: the speaker wants to correct the idea that volunteering is only for retired people."
         },
         {
-          "prompt": "¿Qué quiere demostrar con la recogida de ropa?",
+          "prompt": "O que ganha, segundo a Carla, quem chegou há pouco ao país?",
           "options": [
-            "Que la gente responde a lo puntual, no a lo regular",
-            "Que la asociación necesita más ropa que antes",
-            "Que sesenta voluntarios son demasiados para dos días"
+            "Conhece vizinhos, pratica o português e ganha uma referência para o currículo",
+            "Recebe um pequeno salário",
+            "Obtém logo uma autorização de residência"
           ],
-          "answer": "Que la gente responde a lo puntual, no a lo regular",
-          "explain": "Sixty people in two days, against five months to find one bookkeeper. The example supports the main point; it isn't the main point itself."
+          "answer": "Conhece vizinhos, pratica o português e ganha uma referência para o currículo",
+          "explain": "She lists contacts, practice of Portuguese and a reference for the CV, not money or papers."
         },
         {
-          "prompt": "¿Qué propone la ponente?",
+          "prompt": "Que compromisso mínimo pede a associação?",
           "options": [
-            "Pagar a quien lleve las cuentas",
-            "Dejar de organizar recogidas",
-            "Dividir las tareas en bloques pequeños"
+            "Um mês",
+            "Três meses",
+            "Um ano"
           ],
-          "answer": "Dividir las tareas en bloques pequeños"
+          "answer": "Três meses"
         },
         {
-          "prompt": "¿Qué significa «No se trata de pedir más, sino de pedirlo de otra manera»?",
+          "prompt": "Como se pode inscrever quem estiver interessado?",
           "options": [
-            "Que la manera de pedir es la clave",
-            "Que hay que pedir menos a la gente",
-            "Que no hay que pedir nada a nadie"
+            "Só por carta",
+            "Na mesa à saída ou no site",
+            "Por telefone, na segunda-feira"
           ],
-          "answer": "Que la manera de pedir es la clave"
+          "answer": "Na mesa à saída ou no site",
+          "explain": "“Um turno de experiência, sem compromisso”: a trial shift with no obligation."
         }
       ]
     }

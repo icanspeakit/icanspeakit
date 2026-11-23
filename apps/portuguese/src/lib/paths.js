@@ -1,19 +1,19 @@
 // @ts-check
-/* The one place that knows where the site lives: https://icanspeak.it/spanish/.
+/* The one place that knows where the site lives: https://icanspeak.it/portugues/.
  *
- * icanspeak Spanish is served under a base path (`base: '/spanish'` in astro.config.mjs);
+ * icanspeak Portuguese is served under a base path (`base: '/portugues'` in astro.config.mjs);
  * the domain root belongs to another site. So no URL in this repo may be root-absolute on
  * its own: every link, asset, fetch, canonical, hreflang, sitemap and llms.txt URL goes
  * through this file. Plain JS with no Astro or Vite imports, so astro.config.mjs, the build
  * integrations, node scripts and browser modules can all import it.
  *
- *   withBase("/gramatica")        → "/spanish/grammar"
- *   withBase("/")               → "/spanish/"
- *   withBase("/spanish/x")      → "/spanish/x"        (idempotent)
- *   stripBase("/spanish/grammar") → "/gramatica"        (for comparing location.pathname)
+ *   withBase("/gramatica")        → "/portugues/grammar"
+ *   withBase("/")               → "/portugues/"
+ *   withBase("/portugues/x")      → "/portugues/x"        (idempotent)
+ *   stripBase("/portugues/grammar") → "/gramatica"        (for comparing location.pathname)
  *   currentPath()               → location.pathname without the base
- *   absoluteUrl("/gramatica")     → "https://icanspeak.it/spanish/grammar"
- *   langPath("de", "/gramatica")  → "/spanish/de/grammar" (UI-language prefix after the base)
+ *   absoluteUrl("/gramatica")     → "https://icanspeak.it/portugues/grammar"
+ *   langPath("de", "/gramatica")  → "/portugues/de/grammar" (UI-language prefix after the base)
  *   rebaseHtml(html)            → every root-absolute href/src/action/srcset/url()/refresh
  *                                 in an HTML string moved under the base
  *
@@ -47,8 +47,8 @@ export function withBase(path) {
   return /** @type {T} */ (/** @type {unknown} */ (BASE_PATH + p));
 }
 
-/** The site path of a pathname that may carry the base: "/spanish/grammar" → "/gramatica",
- *  "/spanish" and "/spanish/" → "/". Anything else comes back unchanged. @param {string} pathname */
+/** The site path of a pathname that may carry the base: "/portugues/grammar" → "/gramatica",
+ *  "/portugues" and "/portugues/" → "/". Anything else comes back unchanged. @param {string} pathname */
 export function stripBase(pathname) {
   if (typeof pathname !== 'string') return pathname;
   if (pathname === BASE_PATH || pathname === BASE_PATH + '/') return '/';

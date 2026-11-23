@@ -7,6 +7,7 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
 import data from "../data/redewendungen.json";
+import { withBase } from "./paths.js";
 
 import { REDEWENDUNGEN_LIVE } from "./redewendungenLive.js";
 
@@ -69,5 +70,5 @@ export const itemsOf = (list) =>
  *  (scripts/generate-redewendungen-audio.mjs); null = the play button uses the browser's voice. */
 export function audioOf(slug) {
   const src = `/audio/redewendungen/${slug}.mp3`;
-  return existsSync(path.join(process.cwd(), "public", src)) ? src : null;
+  return existsSync(path.join(process.cwd(), "public", src)) ? withBase(src) : null;
 }

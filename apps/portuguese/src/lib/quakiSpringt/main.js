@@ -297,7 +297,7 @@ export function mountQuakiSpringt(root) {
     $("[data-o-answers]").textContent = `${run.richtig} / ${run.richtig + run.falsch}`;
     $("[data-o-height]").textContent = `${Math.round(s.maxHeight / P.METER)} m · ${LEVEL_IDS[run.levelReached]}`;
     const list = $("[data-o-missed]");
-    list.innerHTML = run.missed.map((m) => `<li><span lang="en">${esc(m.q).replace("___", `<b>${esc(m.right)}</b>`)}</span><br><small>${esc(TXT.ruleLabel)}: ${esc(m.rule)} · <s>${esc(m.picked)}</s></small></li>`).join("");
+    list.innerHTML = run.missed.map((m) => `<li><span lang="pt-PT">${esc(m.q).replace("___", `<b>${esc(m.right)}</b>`)}</span><br><small>${esc(TXT.ruleLabel)}: ${esc(m.rule)} · <s>${esc(m.picked)}</s></small></li>`).join("");
     $("[data-o-missed-wrap]").hidden = !run.missed.length;
     setTimeout(() => setPhase("over"), won ? 900 : 0);
   }

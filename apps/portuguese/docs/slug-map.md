@@ -106,3 +106,5 @@ The course-level addresses are Portuguese (see the end for what is not). Old Eng
 Fragments: `/competencias#compreensao-oral|leitura|escrita|expressao-oral` (old #hoeren, #lesen, #schreiben, #sprechen still work), `#nivel-a1`, `#grupo-<id>`, `#classificacao`, `#oficial`.
 
 Not renamed (Spanish-specific content, this app is still a copy of the Spanish course): /dele, /siele, /ccse, /nationality, /business-spanish, /spanish-for-work, /dgt-vocabulary, /exams/dele-or-siele, /games/extranjeria, /games/villabruno, all item and topic slugs (routes.js).
+
+After the merge into the Portuguese course (`sync-monorepo`, 2026-11-22): the course's own slugs are /caple (acesso-a1, ciple-a2, language-use, level-check), /civics, /nationality, /imt-vocabulary, /portuguese-for-work, /business-portuguese, /exames/ciple-deple-celpe-bras, /jogos/aima, /jogos/vila-bruno. `src/data/legacy-redirects.json` now maps this course's English addresses (not the Spanish course's) to the table above; see docs/content-plan.md §13, `sync-monorepo`.
