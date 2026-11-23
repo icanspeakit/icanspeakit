@@ -1,0 +1,31 @@
+# Store text with LF, whatever the editor on Windows writes.
+* text=auto eol=lf
+
+# Binary files: never touch line endings or diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.mp3 binary
+*.wav binary
+*.ogg binary
+*.m4a binary
+*.mp4 binary
+*.webm binary
+*.mov binary
+*.pdf binary
+
+# PowerShell scripts keep CRLF in the working tree (stored as LF in the index).
+*.ps1 text eol=crlf
+
+# Windows batch files: cmd.exe can misparse labels in LF files, keep CRLF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
