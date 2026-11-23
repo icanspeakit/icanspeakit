@@ -315,6 +315,9 @@ const comparison = [
   </script>
 
   <style>
+    /* A grid item with auto margins sizes to its content, so a wide format table pushed the
+       section past the screen at 390 px; full width lets .format-table-wrap scroll inside itself. */
+    .pr-hub > section > :global(.exam-section) { width: 100%; }
     /* The switch is a segmented control here: one pill behind the chosen option that slides,
        instead of two buttons swapping their colours. Before the script has placed it, the
        active button keeps its own gradient, so nothing is missing without JavaScript. */
