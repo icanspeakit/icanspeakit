@@ -1,23 +1,20 @@
-// Map geometry for /conhecimentos/acentos (varieties of Spanish in Spain) — run once, output committed.
+// Map geometry for /conhecimentos/acentos (varieties of Portuguese in Portugal) — run once, output committed.
 //
 //   node scripts/generate-dialekte-karte.mjs
 //
 // No packages and no network: the coast comes from the Natural Earth outlines committed in the
-// old Europe view (see karte-geo.mjs). It writes src/data/dialekte-karte.json: land around Spain,
-// Spain's outline as `mask`, one <path d> per accent area, the Canary Islands in an inset box,
-// the two sound lines and the label and marker positions from src/data/dialekte.json.
+// old Europe view (see karte-geo.mjs). It writes src/data/dialekte-karte.json: land around Portugal,
+// Portugal's outline as `mask`, one <path d> per accent area, the Azores and Madeira in inset
+// boxes, the two sound lines and the label and marker positions from src/data/dialekte.json.
 //
-// The areas are hand-drawn on purpose. Each one follows the borders of its autonomous communities
-// only roughly and runs generously past the coast and the frontier; the page clips them to `mask`
-// with an SVG clipPath, so only the inner borders matter. Neighbouring areas share the vertices
-// below, so they fit without gaps. The Natural Earth Canary Islands are not in the old file
-// (its Europe view stops at 35.6° N and the 1:110 m world view has no such small islands), so
-// CANARIES is drawn by hand too, from their real coordinates.
+// The areas are hand-drawn on purpose. Each one follows the old provinces only roughly (the Douro,
+// the Tagus, the hills above the Algarve) and runs generously past the coast and the frontier; the
+// page clips them to `mask` with an SVG clipPath, so only the inner borders matter. Neighbouring
+// areas share the vertices below, so they fit without gaps. The Azores and Madeira are not in the
+// old file (its Europe view stops at about 11° W), so AZORES and MADEIRA are drawn by hand too,
+// from their real coordinates, roughly.
 //
-// If Natural Earth subunits can be installed one day (world-atlas, or the admin-1 file for the
-// real province borders), replace SHAPES and CANARIES; dialekte.json need not change.
-//
-// The English version (UK and Ireland, with polygon clipping): git show edf6596:scripts/generate-dialekte-karte.mjs
+// The Spanish version (Spain with the Canary Islands): git log -- scripts/generate-dialekte-karte.mjs
 import fs from "node:fs";
 import { loadSource, parseRings, contains, europeProjection, smooth, ringPath, linePath, r1 } from "./karte-geo.mjs";
 
@@ -27,103 +24,99 @@ const base = europeProjection(source.w, source.h);
 
 // ── rings ─────────────────────────────────────────────────────────────
 const allRings = [...parseRings(source.land), ...Object.values(source.countries).flatMap(parseRings)];
-const SPAIN_SEEDS = [[-3.7, 40.4], [3, 39.6], [4.1, 40], [1.4, 39], [1.45, 38.7]];
-const spain = allRings.filter((r) => SPAIN_SEEDS.some((s) => contains(r, base(s))));
-if (spain.length !== SPAIN_SEEDS.length) throw new Error(`Spain: ${spain.length} rings, expected ${SPAIN_SEEDS.length}`);
-const others = allRings.filter((r) => !spain.includes(r));
+const PORTUGAL_SEEDS = [[-8, 39.5]];
+const portugal = allRings.filter((r) => PORTUGAL_SEEDS.some((s) => contains(r, base(s))));
+if (portugal.length !== PORTUGAL_SEEDS.length) throw new Error(`Portugal: ${portugal.length} rings, expected ${PORTUGAL_SEEDS.length}`);
+const others = allRings.filter((r) => !portugal.includes(r));
 
-// ── the Canary Islands, moved into a box in the Atlantic ──────────────
-const CANARIES = [
-  [[-18.16, 27.76], [-17.98, 27.82], [-17.88, 27.8], [-17.98, 27.64], [-18.12, 27.7]],
-  [[-17.97, 28.85], [-17.78, 28.84], [-17.72, 28.7], [-17.77, 28.55], [-17.84, 28.46], [-17.93, 28.62]],
-  [[-17.34, 28.14], [-17.2, 28.2], [-17.1, 28.1], [-17.2, 28.02], [-17.32, 28.06]],
-  [[-16.92, 28.36], [-16.6, 28.4], [-16.32, 28.57], [-16.13, 28.57], [-16.38, 28.35], [-16.52, 28.05], [-16.7, 28.01], [-16.84, 28.22]],
-  [[-15.7, 28.16], [-15.4, 28.18], [-15.36, 27.95], [-15.58, 27.74], [-15.8, 27.83], [-15.83, 28]],
-  [[-14.01, 28.72], [-13.85, 28.75], [-13.83, 28.42], [-14.02, 28.2], [-14.33, 28.05], [-14.5, 28.09], [-14.22, 28.22], [-14, 28.42]],
-  [[-13.86, 28.87], [-13.55, 28.95], [-13.42, 29.15], [-13.5, 29.24], [-13.73, 29.1]],
+// ── the islands, moved into boxes in the Atlantic ─────────────────────
+const AZORES = [
+  [[-31.13, 39.73], [-31.09, 39.73], [-31.08, 39.67], [-31.12, 39.67]], // Corvo
+  [[-31.27, 39.52], [-31.13, 39.52], [-31.12, 39.4], [-31.2, 39.37], [-31.26, 39.43]], // Flores
+  [[-28.84, 38.6], [-28.7, 38.64], [-28.6, 38.55], [-28.7, 38.52], [-28.8, 38.53]], // Faial
+  [[-28.55, 38.55], [-28.3, 38.52], [-28.03, 38.42], [-28.1, 38.39], [-28.35, 38.41], [-28.53, 38.45]], // Pico
+  [[-28.33, 38.72], [-28.05, 38.66], [-27.76, 38.58], [-27.75, 38.54], [-28.05, 38.6], [-28.32, 38.67]], // São Jorge
+  [[-28.07, 39.09], [-27.95, 39.09], [-27.94, 39.01], [-28.03, 39.01]], // Graciosa
+  [[-27.38, 38.75], [-27.2, 38.8], [-27.05, 38.75], [-27.06, 38.66], [-27.22, 38.64], [-27.37, 38.68]], // Terceira
+  [[-25.86, 37.86], [-25.6, 37.83], [-25.45, 37.84], [-25.2, 37.86], [-25.13, 37.8], [-25.2, 37.73], [-25.45, 37.71], [-25.7, 37.74], [-25.85, 37.8]], // São Miguel
+  [[-25.17, 37.01], [-25.03, 37.01], [-25.01, 36.93], [-25.15, 36.93]], // Santa Maria
 ];
-// Same scale as the mainland, so the islands are not drawn larger than they are.
-const pxPerDeg = base([-5, 40])[1] - base([-5, 41])[1];
-const INSET_AT = [30, 548]; // source pixels of lon -18.3, lat 29.5
-const insetPx = ([lon, lat]) => [
-  INSET_AT[0] + (lon + 18.3) * Math.cos((28.5 * Math.PI) / 180) * pxPerDeg,
-  INSET_AT[1] + (29.5 - lat) * pxPerDeg,
+const MADEIRA = [
+  [[-17.27, 32.8], [-17.1, 32.87], [-16.9, 32.86], [-16.7, 32.75], [-16.68, 32.72], [-16.9, 32.64], [-17.1, 32.66], [-17.25, 32.72]], // Madeira
+  [[-16.42, 33.07], [-16.3, 33.1], [-16.28, 33.04], [-16.38, 33.02]], // Porto Santo
 ];
-const INSET_BOX = [[-18.45, 29.65], [-13.2, 29.65], [-13.2, 27.5], [-18.45, 27.5], [-18.45, 29.65]];
+// Madeira at the mainland's scale; the Azores spread over 600 km, so they are drawn smaller.
+const pxPerDeg = base([-8, 39])[1] - base([-8, 40])[1];
+const INSETS = {
+  acores: { at: [50, 438], lon0: -31.45, lat0: 39.85, latc: 38.5, k: 0.7, box: [[-31.6, 39.97], [-24.85, 39.97], [-24.85, 36.8], [-31.6, 36.8], [-31.6, 39.97]] },
+  madeira: { at: [96, 528], lon0: -17.4, lat0: 33.3, latc: 33, k: 1, box: [[-17.4, 33.3], [-16.15, 33.3], [-16.15, 32.52], [-17.4, 32.52], [-17.4, 33.3]] },
+};
+const insetOf = ([lon, lat]) => (lon < -20 ? INSETS.acores : lon < -13 ? INSETS.madeira : null);
+const insetPx = (ins, [lon, lat]) => [
+  ins.at[0] + (lon - ins.lon0) * Math.cos((ins.latc * Math.PI) / 180) * pxPerDeg * ins.k,
+  ins.at[1] + (ins.lat0 - lat) * pxPerDeg * ins.k,
+];
 
 // ── frame ─────────────────────────────────────────────────────────────
-// The bottom edge is the old view's own (600), where Morocco is cut off anyway.
-const frame = { x0: INSET_AT[0] - 10, x1: 402, y0: 372, y1: source.h };
-const WIDTH = 760;
+const frame = { x0: 38, x1: 244, y0: 428, y1: 578 };
+const WIDTH = 600;
 const scale = WIDTH / (frame.x1 - frame.x0);
 const HEIGHT = Math.ceil((frame.y1 - frame.y0) * scale);
 const toOut = ([x, y]) => [(x - frame.x0) * scale, (y - frame.y0) * scale];
-// Latitudes south of 31° are the islands.
-const P = (ll) => toOut(ll[1] < 31 ? insetPx(ll) : base(ll));
+// West of 13° W is an island.
+const P = (ll) => {
+  const ins = insetOf(ll);
+  return toOut(ins ? insetPx(ins, ll) : base(ll));
+};
 const Pr = (ll) => P(ll).map(r1);
 
 const inFrame = (ring) => ring.some(([x, y]) => x >= frame.x0 && x <= frame.x1 && y >= frame.y0 && y <= frame.y1);
 const soft = (ring) => smooth(smooth(ring));
 const landPath = others.filter(inFrame).map((r) => ringPath(soft(r).map(toOut))).join("");
-const spainPaths = spain.map((r) => ringPath(soft(r).map(toOut))).join("");
-const canaryPaths = CANARIES.map((r) => ringPath(soft(r).map(P))).join("");
+const portugalPaths = portugal.map((r) => ringPath(soft(r).map(toOut))).join("");
+const islandPaths = (list) => list.map((r) => ringPath(soft(r).map(P))).join("");
+const azoresPaths = islandPaths(AZORES);
+const madeiraPaths = islandPaths(MADEIRA);
 
 // ── the areas (lon, lat): shared borders first ────────────────────────
-const COAST_N = 44.6; // north of every north coast
-const SOUTH = 35; // south of every south coast
-const galiciaEast = [[-7.05, 43.55], [-6.9, 43.1], [-6.85, 42.6], [-6.85, 42.1], [-6.75, 41.7]];
-const asturiasSouth = [[-6.9, 43.1], [-6.2, 43], [-5.5, 43.05], [-4.85, 43.15], [-4.5, 43], [-4.2, 42.85], [-3.9, 42.8], [-3.75, 43], [-3.4, 43.15]];
-const basqueWest = [[-3.4, 43.15], [-3.3, 43.1], [-3.25, 42.9], [-3, 42.6], [-2.85, 42.55], [-2.45, 42.5], [-2, 42.35], [-1.9, 41.95]];
-const navarreEast = [[-1.9, 41.95], [-1.4, 41.95], [-1.1, 42.15], [-1, 42.45], [-1.05, 42.7], [-0.8, 42.95], [-0.75, 43.6]];
-const aragonWest = [[-1.9, 41.95], [-2.05, 41.5], [-2, 41.15]];
-const aragonSouth = [[-2, 41.15], [-1.8, 40.7], [-1.7, 40.35], [-1.35, 40.1], [-1.1, 40], [-0.85, 40.05], [-0.55, 40.25], [-0.2, 40.35], [-0.2, 40.75], [0.15, 40.8]];
-const catalanWest = [[0.15, 40.8], [0.25, 41], [0.2, 41.3], [0.3, 41.6], [0.4, 42], [0.7, 42.4], [0.7, 42.85], [0.7, 43.6]];
-const catalanSouth = [[0.15, 40.8], [0.4, 40.6], [0.52, 40.52], [1, 40.52]];
-const manchaNorth = [[-2, 41.15], [-3.05, 41.2], [-3.05, 40.95], [-3.2, 40.6], [-3.05, 40.25], [-3.4, 40.05], [-3.75, 40.2], [-4.2, 40.2], [-4.55, 40.2], [-5, 40.15], [-5.35, 40.1]];
-const extremaduraNorth = [[-5.35, 40.1], [-5.75, 40.25], [-6.1, 40.35], [-6.8, 40.25], [-7.6, 40.25]];
-const extremaduraEast = [[-5.35, 40.1], [-5.35, 39.9], [-5.2, 39.45], [-5.05, 39.3], [-5.1, 38.85], [-4.9, 38.65]];
-const extremaduraSouth = [[-4.9, 38.65], [-5.5, 38.4], [-5.85, 38.15], [-6.4, 38], [-7, 38.1], [-7.6, 38.1]];
-const manchaSouth = [[-4.9, 38.65], [-4.25, 38.4], [-4, 38.4], [-3.3, 38.4], [-2.75, 38.35], [-2.35, 38.02]];
-const manchaEast = [[-1.35, 40.1], [-1.15, 39.95], [-1.25, 39.6], [-1.4, 39.35], [-1.2, 39], [-1.03, 38.85], [-1, 38.65]];
-const murciaNorth = [[-2.35, 38.02], [-2, 38.35], [-1.65, 38.45], [-1.4, 38.6], [-1, 38.65]];
-const murciaEast = [[-1, 38.65], [-1, 38.3], [-1.05, 38], [-0.75, 37.85], [-0.2, 37.85]];
-const murciaWest = [[-2.35, 38.02], [-2.15, 37.6], [-1.95, 37.4], [-1.65, 37.35], [-1.6, SOUTH]];
-const andaluciaSplit = [[-4.25, 38.4], [-4.25, 37.9], [-4, 37.4], [-4.25, 37.2], [-4.15, 37.05], [-3.95, 36.75], [-3.8, SOUTH]];
+const N = 42.7; // north of the Minho river
+const S = 36.5; // south of the Algarve coast
+const W = -10.3; // west of every coast
+const E = -5.8; // east of the frontier
+// Minho | Trás-os-Montes: roughly the Gerês and Marão hills, down to the Douro.
+const montes = [[-8.05, N], [-8.05, 42.1], [-7.95, 41.8], [-7.85, 41.5], [-7.9, 41.15]];
+// The Douro, west to east.
+const douro = [[W, 41.05], [-8.6, 41.08], [-8.2, 41.1], [-7.9, 41.15], [-7.5, 41.15], [-7, 41.05], [-6.6, 41], [E, 41]];
+// The Beiras | Lisbon and the Alentejo: from the coast near Leiria to the Tagus, then up the Tagus.
+const beiraSouth = [[W, 39.85], [-8.9, 39.85], [-8.5, 39.65], [-8.2, 39.46], [-7.95, 39.5], [-7.67, 39.65], [-7.5, 39.66], [E, 39.66]];
+// Lisbon and the Ribatejo | the Alentejo: from the Tagus at Abrantes to the coast south of Setúbal.
+const lisboaEast = [[-8.2, 39.46], [-8.35, 39.1], [-8.5, 38.8], [-8.65, 38.55], [-8.85, 38.46], [W, 38.42]];
+// The Alentejo | the Algarve: the hills of Monchique and Caldeirão.
+const algarveNorth = [[W, 37.38], [-8.8, 37.38], [-8.3, 37.35], [-7.9, 37.38], [-7.5, 37.5], [E, 37.55]];
 const rev = (a) => [...a].reverse();
 
 const SHAPES = {
-  galicia: [[-10.5, COAST_N], [-7.05, COAST_N], ...galiciaEast, [-10.5, 41.7]],
-  asturias: [[-7.05, COAST_N], [-3.15, COAST_N], [-3.15, 43.35], ...rev(asturiasSouth), [-7.05, 43.55]],
-  euskadi: [[-3.15, COAST_N], [-0.75, COAST_N], ...rev(navarreEast), ...rev(basqueWest), [-3.15, 43.35]],
-  aragon: [...navarreEast, ...rev(catalanWest), ...rev(aragonSouth), ...rev(aragonWest)],
-  catalunya: [...catalanWest, [5, 43.6], [5, 37.5], [1, 37.5], [1, 40.52], ...rev(catalanSouth)],
-  centro: [
-    ...galiciaEast.slice(1), [-7.6, 41.7], ...rev(extremaduraNorth),
-    ...rev(manchaNorth).slice(1), ...rev(aragonWest).slice(1), ...rev(basqueWest).slice(1), ...rev(asturiasSouth).slice(1),
-  ],
-  mancha: [...manchaNorth, ...extremaduraEast.slice(1), ...manchaSouth.slice(1), ...murciaNorth.slice(1), ...rev(manchaEast).slice(1), ...rev(aragonSouth.slice(1, 3))],
-  extremadura: [...extremaduraNorth, [-7.6, 38.1], ...rev(extremaduraSouth).slice(1), ...rev(extremaduraEast).slice(1)],
-  valencia: [...catalanSouth, [1, 37.85], ...rev(murciaEast), ...rev(manchaEast).slice(1), ...aragonSouth.slice(4)],
-  murcia: [...murciaNorth, ...murciaEast.slice(1), [-0.2, SOUTH], [-1.6, SOUTH], ...rev(murciaWest).slice(1)],
-  andaluciaoc: [...extremaduraSouth, [-7.6, SOUTH], [-3.8, SOUTH], ...rev(andaluciaSplit).slice(1, -1), [-4.25, 38.4]],
-  andaluciaor: [[-4.25, 38.4], [-4, 38.4], [-3.3, 38.4], [-2.75, 38.35], ...murciaWest, ...rev(andaluciaSplit).slice(0, -1)],
+  minho: [[W, N], ...montes, ...rev(douro.slice(0, 3))],
+  transmontano: [...montes, ...douro.slice(4), [E, N]],
+  beiras: [...douro, ...rev(beiraSouth)],
+  lisboa: [...beiraSouth.slice(0, 4), ...lisboaEast.slice(1)],
+  alentejo: [...beiraSouth.slice(3), ...rev(algarveNorth), ...rev(lisboaEast).slice(0, -1)],
+  algarve: [...algarveNorth, [E, S], [W, S]],
 };
-for (const r of data.regions) if (r.id !== "canarias" && !SHAPES[r.id]) throw new Error("no shape for " + r.id);
-const dialects = Object.fromEntries(data.regions.map((r) => [
-  r.id,
-  r.id === "canarias" ? canaryPaths : ringPath(SHAPES[r.id].map(P)),
-]));
+const ISLANDS = { acores: azoresPaths, madeira: madeiraPaths };
+for (const r of data.regions) if (!SHAPES[r.id] && !ISLANDS[r.id]) throw new Error("no shape for " + r.id);
+const dialects = Object.fromEntries(data.regions.map((r) => [r.id, ISLANDS[r.id] ?? ringPath(SHAPES[r.id].map(P))]));
 
 const out = {
-  _comment: "Generated by scripts/generate-dialekte-karte.mjs from the Natural Earth outlines (public domain) of the old Europe view; inner borders and the Canary Islands are hand-drawn and rough. Do not edit by hand. The Canary Islands are drawn in an inset box. `swiss` is empty (no other language area is hatched on this map); `benrath` is the line of weak final s, `speyer` the line of seseo and ceceo.",
+  _comment: "Generated by scripts/generate-dialekte-karte.mjs from the Natural Earth outlines (public domain) of the old Europe view; inner borders, the Azores and Madeira are hand-drawn and rough. Do not edit by hand. The Azores (reduced) and Madeira are drawn in inset boxes. `swiss` is empty (no other language area is hatched on this map); `benrath` is the line of the b/v merger, `speyer` the line where ei becomes ê.",
   w: WIDTH,
   h: HEIGHT,
   land: landPath,
-  mask: spainPaths + canaryPaths,
+  mask: portugalPaths + azoresPaths + madeiraPaths,
   swiss: "",
-  states: linePath(INSET_BOX.map(P)),
+  states: linePath(INSETS.acores.box.map(P)) + linePath(INSETS.madeira.box.map(P)),
   borders: "",
-  coast: spainPaths + canaryPaths,
+  coast: portugalPaths + azoresPaths + madeiraPaths,
   dialects,
   labels: Object.fromEntries(data.regions.map((r) => [r.id, Pr(r.label)])),
   markers: Object.fromEntries(data.markers.map((m) => [m.id, Pr(m.at)])),
@@ -136,17 +129,19 @@ const out = {
 fs.writeFileSync("src/data/dialekte-karte.json", JSON.stringify(out));
 console.log("size", (Buffer.byteLength(JSON.stringify(out)) / 1024).toFixed(0) + " KB", WIDTH + "x" + HEIGHT, "land rings", others.filter(inFrame).length);
 for (const [k, v] of Object.entries(out.dialects)) if (!v) console.log("EMPTY", k);
+for (const [k, [x, y]] of Object.entries({ ...out.labels, ...out.markers, ...out.others })) {
+  if (x < 0 || y < 0 || x > WIDTH || y > HEIGHT) console.log("OUTSIDE", k, x, y);
+}
 
-// Self-check: every point of Spain's mainland and islands falls in exactly one area.
-const inside = (ring, [x, y]) => contains(ring, [x, y]);
+// Self-check: every point of the mainland falls in exactly one area.
 let bad = 0, n = 0;
 const rings = Object.fromEntries(Object.entries(SHAPES).map(([id, sh]) => [id, sh.map(P)]));
-for (let x = 0; x < WIDTH; x += 4) for (let y = 0; y < HEIGHT; y += 4) {
+for (let x = 0; x < WIDTH; x += 3) for (let y = 0; y < HEIGHT; y += 3) {
   const src = [x / scale + frame.x0, y / scale + frame.y0];
-  if (!spain.some((r) => contains(r, src))) continue;
+  if (!portugal.some((r) => contains(r, src))) continue;
   n++;
-  const hits = Object.keys(rings).filter((id) => inside(rings[id], [x, y]));
+  const hits = Object.keys(rings).filter((id) => contains(rings[id], [x, y]));
   if (hits.length !== 1) { bad++; if (bad < 12) console.log("partition", x, y, hits.join(",") || "none"); }
 }
 console.log("partition check:", n, "points,", bad, "bad");
-if (bad > n * 0.002) throw new Error("areas do not partition Spain");
+if (bad > n * 0.002) throw new Error("areas do not partition Portugal");

@@ -28,10 +28,11 @@ const WIN = 2048;            // ~43 ms at 48 kHz: long enough for a low male voi
 const MIN_HZ = 60;
 const MAX_HZ = 500;
 const MIN_CLARITY = 0.85;
-// Spanish question words carry a written accent, which tells them from que, como, cuando.
-const W_WORDS = /^(qué|quién|quiénes|cuál|cuáles|cómo|cuándo|dónde|adónde|cuánto|cuánta|cuántos|cuántas)$/i;
-// A question word often comes after a preposition: ¿De dónde eres? ¿A qué hora? ¿Por qué?
-const W_PREPOSITIONS = /^(a|de|desde|en|con|para|por|hasta|sobre|sin|hacia)$/i;
+// Portuguese question words (no written accent tells them from the same words in a statement,
+// but the text only gets here when it ends in a question mark).
+const W_WORDS = /^(que|quem|qual|quais|como|quando|onde|aonde|porquê|porque|quanto|quanta|quantos|quantas)$/i;
+// A question word often comes after a preposition or the article o: De onde és? A que horas? O que é?
+const W_PREPOSITIONS = /^(a|de|desde|em|com|para|por|até|sobre|sem|o)$/i;
 
 /** "ja-nein" (voice goes up), "w-frage" and "aussage" (voice goes down). */
 export function melodyType(text) {

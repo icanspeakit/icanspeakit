@@ -1,0 +1,92 @@
+---
+// Easter egg on the course home: click a tile in the hero grid and the hero's background takes
+// that tile's colour (dotted and striped tiles bring their pattern along). Click the same tile
+// again or press Esc to go back. Nothing is stored and the URL never changes, so a reload resets it.
+// Only the hero band changes; the logo, nav and the rest of the page stay as they are.
+// Usage: wrap the hero in <div class="egg-stage">…</div> and render <HeroEgg /> once on the page.
+// The tiles are found as .egg-stage .isk-tile; their colours are read from the computed --bg / --a.
+---
+<style is:global>
+  .egg-stage { transition: background-color 0.45s ease; }
+  .egg-stage .isk-tile { cursor: pointer; }
+  .egg-stage.is-egg { background-color: var(--egg-bg); }
+  .egg-stage.is-egg--dots {
+    background-image: radial-gradient(var(--egg-a) 22%, transparent 24%);
+    background-size: 25px 25px; background-position: 12.5px 12.5px;
+  }
+  .egg-stage.is-egg--stripes {
+    background-image: repeating-linear-gradient(to bottom, var(--egg-a) 0 25px, var(--egg-b) 25px 50px);
+  }
+  /* Keep the copy readable: navy ink on light backgrounds, white ink on dark ones. */
+  .egg-stage.is-egg .h4-eyebrow, .egg-stage.is-egg .h4-h1, .egg-stage.is-egg .h4-lead,
+  .egg-stage.is-egg .h4-free { color: var(--egg-ink); transition: color 0.45s ease; }
+  .egg-stage.is-egg .h4-h1__mark { color: var(--isk-navy); }
+  .egg-stage.is-egg--dark .h4-h1__mark { color: var(--isk-white);
+    background: linear-gradient(transparent 84%, var(--isk-yellow) 84%, var(--isk-yellow) 96%, transparent 96%); }
+  /* The pattern stays around the copy, not behind it: the copy column sits on the plain colour. */
+  .egg-stage.is-egg--dots .h4-hero__copy, .egg-stage.is-egg--stripes .h4-hero__copy {
+    background: var(--egg-bg); box-shadow: 0 0 0 28px var(--egg-bg); border-radius: 4px; }
+  .egg-stage.is-egg--dark .h4-btn--primary { background: var(--isk-white); color: var(--isk-navy); }
+  .egg-stage.is-egg--dark .h4-btn--outline { border-color: var(--isk-white); color: var(--isk-white); }
+  .egg-stage.is-egg:not(.is-egg--dark) .h4-btn--primary { background: var(--isk-navy); color: var(--isk-white); }
+  .egg-stage.is-egg:not(.is-egg--dark) .h4-btn--outline { border-color: var(--isk-navy); color: var(--isk-navy); }
+  @media (prefers-reduced-motion: reduce) {
+    .egg-stage, .egg-stage.is-egg .h4-h1 { transition: none; }
+  }
+</style>
+
+<script>
+  const PATTERNS = ["dots", "stripes"];
+  const CLASSES = ["is-egg", "is-egg--dark", ...PATTERNS.map((p) => `is-egg--${p}`)];
+
+  // Relative luminance of a computed colour ("rgb(…)" or "#rrggbb"); 1 if it cannot be read.
+  function luminance(colour: string): number {
+    const probe = document.createElement("span");
+    probe.style.color = colour;
+    document.body.appendChild(probe);
+    const rgb = getComputedStyle(probe).color.match(/\d+(\.\d+)?/g)?.slice(0, 3).map(Number);
+    probe.remove();
+    if (!rgb || rgb.length < 3) return 1;
+    const [r, g, b] = rgb.map((v) => {
+      const c = v / 255;
+      return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  for (const stage of document.querySelectorAll<HTMLElement>(".egg-stage")) {
+    let active: Element | null = null;
+
+    const reset = () => {
+      stage.classList.remove(...CLASSES);
+      active = null;
+    };
+
+    stage.addEventListener("click", (e) => {
+      const tile = (e.target as Element).closest(".isk-tile");
+      if (!tile || !stage.contains(tile)) return;
+      if (tile === active) return reset();
+
+      const cs = getComputedStyle(tile);
+      const bg = cs.getPropertyValue("--bg").trim();
+      const a = cs.getPropertyValue("--a").trim();
+      const b = cs.getPropertyValue("--b").trim();
+      const dark = luminance(bg) < 0.2;
+
+      stage.classList.remove(...CLASSES);
+      stage.style.setProperty("--egg-bg", bg);
+      stage.style.setProperty("--egg-a", a);
+      stage.style.setProperty("--egg-b", b);
+      stage.style.setProperty("--egg-ink", dark ? "var(--isk-white)" : "var(--isk-navy)");
+      stage.classList.add("is-egg");
+      if (dark) stage.classList.add("is-egg--dark");
+      const pattern = PATTERNS.find((p) => tile.classList.contains(`isk-tile--${p}`));
+      if (pattern) stage.classList.add(`is-egg--${pattern}`);
+      active = tile;
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && active) reset();
+    });
+  }
+</script>

@@ -1,0 +1,77 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import ExamShell from "../../../components/ExamShell.astro";
+import ExamPractice from "../../../components/ExamPractice.astro";
+import ExamFormat from "../../../components/ExamFormat.astro";
+import formate from "../../../data/pruefungen/testdaf-formate.json";
+
+// Level check (content-plan §2: the testdaf slot): our own reading and writing rehearsal,
+// not an official exam, at /caple/level-check (content-plan §8). Figures come from
+// testdaf-formate.json (our own set).
+---
+<Layout
+  title="Level check: reading and writing practice – icanspeak Portuguese"
+  description="A short Portuguese level check from about B1 to C1: three reading tasks and an opinion text. Our own practice, not an official exam."
+>
+  <ExamShell
+    bild="testdaf"
+    header="Level check"
+    title="Level check"
+    lead="A short Portuguese reading and writing rehearsal from about B1 to C1. It is our own practice set: no pass mark, no certificate, not an official exam."
+    leadKey="testdaf.lead"
+    badges={["B1–C1"]}
+    practiceHeading="Take the level check"
+    practiceHeadingKey="testdaf.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.who.title">Who is the level check for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.result">Result: rough feedback, no level</span>
+          <span class="exam-meta-badge" data-i18n="testdaf.who.badge.oneFormat">One set, about B1 to C1</span>
+        </div>
+        <p data-i18n="testdaf.who.text">
+          The level check is for learners who want to see how they cope with longer Portuguese texts before
+          they choose a CAPLE exam such as DEPLE B1, DIPLE B2 or DAPLE C1. It is not a CAPLE paper and does
+          not tell you your CEFR level: it is a rehearsal of reading and writing, written by us.
+        </p>
+        <p><a class="plan-link" href="/exames/ciple-deple-celpe-bras" data-i18n="testdaf.whichExam">Which exam do you need? Compare them by purpose →</a></p>
+      </section>
+
+      {formate.formate.map((f) => <ExamFormat format={f} />)}
+
+      <section class="exam-section">
+        <h2 data-i18n="testdaf.day.title">How to use it</h2>
+        <ul class="task-points">
+          <li data-i18n="testdaf.day.1">Read each text once for the gist before you look at the questions, then go back for the details.</li>
+          <li data-i18n="testdaf.day.2">The reading tasks are marked automatically, so you can see at once which kind of question you miss.</li>
+          <li data-i18n="testdaf.day.3">The opinion text is not marked: write it, then compare it with the checklist, or ask a teacher or a Portuguese friend to read it.</li>
+          <li data-i18n="testdaf.day.4">The texts are in European Portuguese. Writing tasks in this variety expect enclisis by default and the spelling of the 1990 Agreement as used in Portugal.</li>
+          <li data-i18n="testdaf.day.5">For listening and speaking, and for the tasks of a real CAPLE paper, use the CAPLE practice sets by level.</li>
+        </ul>
+        <p class="format-note" data-i18n="testdaf.format.note">
+          We aren't connected with CAPLE or any exam provider, and all our practice material is our own. For
+          the real structure, timings and scoring of the CAPLE exams, see caple.letras.ulisboa.pt: we have not
+          checked every official detail ("to verify").
+        </p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="testdaf.set.title">Practise reading and writing</h2>
+      <p data-i18n-html="testdaf.set.text">
+        Three reading tasks from about B1 to C1, plus an opinion text with structure, useful phrases and a
+        checklist. All texts and tasks are written by us, not official exam material.
+      </p>
+      <a class="quiz-btn quiz-btn--primary" href="/caple/level-check/practice-set" data-i18n="exam.startSet">Start the practice set</a>
+    </div>
+
+    <ExamPractice
+      heading="Train the basics"
+      headingKey="exam.practice.heading"
+      intro="Besides the practice sets above, these three tools help at every level and for every exam. They test general articles, grammar and vocabulary, not anything exam-specific."
+      introKey="testdaf.practice.intro"
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

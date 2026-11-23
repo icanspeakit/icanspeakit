@@ -1,6 +1,6 @@
 // Domino: a closed ring of tiles to cut out. Where two tiles touch, the right half of one
-// and the left half of the next belong together: "la | casa", "el libro | los libros",
-// "la casa | house, home", and the last tile leads back to the first.
+// and the left half of the next belong together: "a | casa", "o livro | os livros",
+// "a casa | house, home", and the last tile leads back to the first.
 //
 // Tile i is [A of item i | B of item i+1], so each joint reads B then A of the same item.
 // The tiles print in shuffled order (a ring printed in order is already solved); the
@@ -9,7 +9,7 @@ import { chunk, esc, MEANING_LANGS, rng, sheet, shuffle, tx } from "./common.js"
 import { isDrillNoun, pluralArticle } from "../generoDrill.js";
 
 export const DOMINO_TYPES = {
-  artikel: { label: "el / la" },
+  artikel: { label: "o / a" },
   plural: { label: "Plural" },
   bedeutung: { label: "Word ↔ meaning" },
 };
@@ -35,7 +35,7 @@ function itemsFor(words, type, lang) {
       a = w.display;
       b = w[lang];
     }
-    // Articles repeat by nature (el, la); every other B must be unique, or two
+    // Articles repeat by nature (o, a); every other B must be unique, or two
     // tiles would fit the same joint for a reason the game does not intend.
     if (seenA.has(a) || (type !== "artikel" && seenB.has(b))) continue;
     seenA.add(a);

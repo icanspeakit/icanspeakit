@@ -1,16 +1,14 @@
 # Translations of the lexicon
 
-> **Spanish levels (since 2026-11-04, `vocab-a1`).** A level whose nouns carry `el` / `la` is
-> Spanish (`SPANISH_LEVELS` in `src/lib/lexicon.js`; all six since `vocab-c1-c2`). For those words every sidecar is
-> **Spanish → that language**, written with the Spanish word in front of the writer, never from
-> the English gloss: `de.json` (nouns with their article, „das Haus“), `fr.json`, `pt.json`
-> (Brazilian Portuguese since `ui-lang-pt`: *trem, ônibus, celular*, the same variety as the
-> interface; written as European Portuguese first and converted) and `it.json`. Status: machine draft, no native speaker has reviewed them.
-> `scripts/lexicon-import.mjs` writes them. `de` is a normal card language since `ui-lang-de`
-> (`cards` with `fetch: true`), and is joined as `deHint` as well for the print sheets and the decks
-> built from rows; `fr` is a card language since `ui-lang-fr` (`cards` with `fetch: true`,
-> `src/lib/glossen.js` reads the file by name), so is `pt` since `ui-lang-pt` and `it` since `ui-lang-it`. `es.json` and the other empty
-> sidecars are deleted (`cleanup`); `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
+> **Portuguese levels (icanspeak Portuguese, all six since `vocab-c1-c2`).** Every level's nouns
+> carry `o` / `a` (`PORTUGUESE_LEVELS` in `src/lib/lexicon.js`). Every sidecar is
+> **European Portuguese → that language**, written with the Portuguese word in front of the
+> writer, never from the English gloss: `de.json` (nouns with their article, „das Haus“),
+> `es.json`, `fr.json` and `it.json` (content-plan §1.4). Status: machine draft, no native speaker
+> has reviewed them. The level files are built by `scripts/build-*-pt.mjs`; the Spanish course's
+> `lexicon-import.mjs` and `es-ipa.mjs` were removed by `cleanup`, and so was `pt.json`
+> (Portuguese → Portuguese makes no sense). `src/lib/glossen.js` reads a fetched card language's
+> file by name; `ar`, `ru`, `uk`, `tr` stay as empty files because `lexicon.js` imports them.
 > A language comes back as a new file once someone can write it reliably.
 >
 > The rest of this file describes the German-course setup; no level uses it any more.

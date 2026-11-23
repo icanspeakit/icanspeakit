@@ -1,35 +1,70 @@
-// Short tips for the Aussprache-Check: one rule per Spanish sound that learners most often get
+// Short tips for the Aussprache-Check: one rule per Portuguese sound that learners most often get
 // wrong. No API: the tip is picked from the spelling of the word the learner scored worst on.
-// Spanish spelling is regular, so the tests are reliable: z and ce/ci are /θ/, rr is the trill.
+// Portuguese spelling is fairly regular, so the tests are reliable for the sounds below. They
+// cannot see stress, so the tip for weak vowels talks about "an unstressed vowel" in general.
 //
 // Each sound has a `test` on the lower-cased word and a `tip` written in English for A1–B1
 // readers: short main clauses, the mouth position first, one example they already know.
-// Castilian Spanish (the site's standard, docs/content-plan.md §1.1), with distinción.
+// European Portuguese (the site's standard, docs/content-plan.md §1.1). What Brazil does
+// differently is noted in the data files (`ptBR`), not here.
 
 /** @typedef {{ id: string, label: string, test: (w: string) => boolean, tip: (w: string, shown: string) => string }} Sound */
 
-const V = "aeiouáéíóúü";
+const V = "aeiouáàâãéêíóôõú";
 const STRONG_R = /rr|^r|[nls]r/;
 
 /** @type {Sound[]} */
 export const SOUNDS = [
   {
-    id: "enye",
-    label: "ñ",
-    test: (w) => w.includes("ñ"),
-    tip: () => "ñ is one sound, like ny in “canyon”. Press the middle of your tongue against the roof of your mouth. Like “año”, “mañana”.",
+    id: "ao",
+    label: "ão · ãe · õe",
+    test: (w) => /ão|ãe|õe/.test(w),
+    tip: (w, shown) => `In “${shown}” the nasal vowel glides into a short w or y. Start with the vowel, let the air go through your nose, and don't close it with a clear n. Like “pão”, “mãe”.`,
   },
   {
-    id: "ce-zi",
-    label: "c · z",
-    test: (w) => /z|c[eiéí]/.test(w),
-    tip: (w, shown) => `In “${shown}”, z or c before e, i is /θ/ in Spain, like th in “think”: tongue tip between your teeth, only air. Not ts, not ch. (Southern Spain and Latin America say s here, and that is fine too.)`,
+    id: "nasal",
+    label: "nasal",
+    test: (w) => new RegExp(`ã|õ|[${V}][nm]($|[^${V}])`).test(w),
+    tip: (w, shown) => `In “${shown}” the vowel is nasal: air goes through your nose and the n or m is not said as a separate sound. Like “bem”, “um”, “muito”.`,
+  },
+  {
+    id: "lh-nh",
+    label: "lh · nh",
+    test: (w) => /lh|nh/.test(w),
+    tip: (w, shown) => `In “${shown}”, lh and nh are one sound each: the middle of your tongue presses against the roof of your mouth. lh is like “million”, nh like “canyon”. Like “filho”, “vinho”.`,
+  },
+  {
+    id: "ch",
+    label: "ch",
+    test: (w) => w.includes("ch"),
+    tip: () => "ch is sh, as in “shop”. It is not the ch of “church”, and not a k. Like “chave”, “chá”.",
   },
   {
     id: "j-g",
     label: "j · g",
-    test: (w) => /j|g[eiéí]/.test(w),
-    tip: (w, shown) => `In “${shown}”, j or g before e, i is a rasp at the back of your mouth, like ch in Scottish “loch”. Not the j in “jam”. Like “trabajo”, “gente”.`,
+    test: (w) => /j|g[eiéíê]/.test(w),
+    tip: (w, shown) => `In “${shown}”, j or g before e, i is like the s in “measure”: a soft, buzzing sh. Not the j of “jam”, and not a rasp. Like “já”, “gente”.`,
+  },
+  {
+    id: "s-sh",
+    label: "s · z = sh",
+    test: (w) => new RegExp(`s($|[^${V}s])|z$`).test(w),
+    tip: (w, shown) => `In “${shown}”, s before a consonant or at the end of a word sounds like sh (like the s in “measure” before b, d, g, m, n, l, r, v). Like “mas”, “português”, “luz”.`,
+  },
+  {
+    id: "s-z",
+    label: "s · ss · ç",
+    test: (w) => new RegExp(`[${V}]s[${V}]|ss|ç|c[eiéíê]|^s|^z|z[${V}]`).test(w),
+    tip: (w, shown) =>
+      new RegExp(`[${V}]s[${V}]|^z|z[${V}]`).test(w)
+        ? `In “${shown}”, s between vowels and z buzz, like z in “zoo”. Keep ss, ç and c before e, i sharp, like s in “sun”: casa is not caça.`
+        : `In “${shown}”, ss, ç, c before e, i and s at the start of a word are a sharp s, like s in “sun”. Between vowels a single s buzzes: casa is not caça.`,
+  },
+  {
+    id: "x",
+    label: "x",
+    test: (w) => w.includes("x"),
+    tip: (w, shown) => `The x in “${shown}” can be sh (caixa, xadrez), ks (táxi), z (exame, exemplo) or s (próximo). It is not always the same: learn it word by word.`,
   },
   {
     id: "r",
@@ -37,62 +72,50 @@ export const SOUNDS = [
     test: (w) => w.includes("r"),
     tip: (w, shown) =>
       STRONG_R.test(w)
-        ? `“${shown}” has a strong r: several quick taps of the tongue tip behind your top teeth. Not in the throat. Like “perro”, “rojo”.`
-        : `The r in “${shown}” is one quick tap of the tongue tip behind your top teeth. Don't curl your tongue back. Like “pero”, “caro”.`,
+        ? `“${shown}” has a strong r: made at the back of your mouth, close to French r. Not the English r, not a tap. Like “carro”, “rua”.`
+        : `The r in “${shown}” is one quick tap of the tongue tip behind your top teeth. Don't curl your tongue back. Like “caro”, “para”.`,
   },
   {
-    id: "ll-y",
-    label: "ll · y",
-    test: (w) => new RegExp(`ll|y[${V}]`).test(w),
-    tip: () => "In most of Spain, ll and y are the same sound: y in “yes”, a little stronger. It is never an l. Like “calle”, “yo”.",
-  },
-  {
-    id: "ch",
-    label: "ch",
-    test: (w) => w.includes("ch"),
-    tip: () => "ch is one sound, as in “church”: first the tongue touches the roof of your mouth, then lets go. Not sh, not k. Like “ocho”, “noche”.",
+    id: "l-final",
+    label: "l",
+    test: (w) => new RegExp(`l($|[^${V}h])`).test(w),
+    tip: (w, shown) => `The l at the end of a syllable in “${shown}” is dark: the back of your tongue is raised, and it sounds almost like a short “w”, as in “full”. Like “azul”, “alto”.`,
   },
   {
     id: "qu-gu",
     label: "qu · gu",
-    test: (w) => /qu|gu[eiéí]|gü/.test(w),
-    tip: (w, shown) =>
-      w.includes("gü")
-        ? `In “${shown}” you say the u: the two dots tell you to. Like “pingüino”, “vergüenza”.`
-        : `In “${shown}” the u is silent: que sounds like “ke”, gue like “ge” with the g of “go”.`,
+    test: (w) => /qu|gu/.test(w),
+    tip: (w, shown) => `In “${shown}”, qu and gu before e, i have a silent u (que is “ke”, guitarra has g as in “go”). Before a, o the u is said: quando, água.`,
   },
   {
     id: "h",
     label: "h",
-    test: (w) => /(^|[^c])h/.test(w),
-    tip: (w, shown) => `The h in “${shown}” is silent. Don't breathe out first: start straight on the next vowel. hola sounds just like ola.`,
+    test: (w) => /(^|[^cnl])h/.test(w),
+    tip: (w, shown) => `The h in “${shown}” is silent. Don't breathe out first: start straight on the next vowel. hoje starts with the vowel o.`,
   },
   {
-    id: "b-v",
-    label: "b · v",
-    test: (w) => /[bv]/.test(w),
-    tip: (w) =>
-      new RegExp(`[${V}][bv][${V}]`).test(w)
-        ? "b and v are the same sound. Between vowels it is soft: your lips almost touch, and your teeth stay away from your lip. Like “abuela”, “nuevo”."
-        : "b and v are the same sound: close both lips. Your top teeth never touch your lip. Like “vino”, “bien”.",
-  },
-  {
-    id: "d",
-    label: "d",
-    test: (w) => /[^nl]d/.test(w),
-    tip: (w, shown) => `The d in “${shown}” is soft, like th in “this”: the tongue only just touches your teeth, and the air keeps flowing. Like “nada”, “Madrid”.`,
+    id: "aberta",
+    label: "é · ê · ó · ô",
+    test: (w) => /[éêóô]/.test(w),
+    tip: (w, shown) => `In “${shown}” the accent shows how open the vowel is. é and ó are open (the mouth is wide), ê and ô are closed (lips rounder, tongue higher). It can change the word: avó (grandmother), avô (grandfather).`,
   },
   {
     id: "acento",
     label: "stress",
-    test: (w) => /[áéíóú]/.test(w),
-    tip: (w, shown) => `The written accent shows the strong syllable of “${shown}”. Keep the stress there, because moving it can change the word: hablo (I speak), habló (she spoke).`,
+    test: (w) => /[áéíóúâêô]/.test(w),
+    tip: (w, shown) => `The written accent shows the strong syllable of “${shown}”. Keep the stress there, because moving it can change the word: falamos (we speak), falámos (we spoke).`,
   },
   {
-    id: "vocal",
-    label: "vowels",
-    test: (w) => new RegExp(`[${V}][^${V}]+[${V}]`).test(w),
-    tip: (w, shown) => `Keep every vowel of “${shown}” short and clear, stressed or not. Spanish vowels don't glide and don't get weak.`,
+    id: "ditongo",
+    label: "ei · ou · ai",
+    test: (w) => /ei|ou|ai|oi|eu|ui|au/.test(w),
+    tip: (w, shown) => `In “${shown}” the two vowels are one syllable. ei is like “ay” with a short, central start, ou is just o (pouco is “poco”), and the second vowel is short. Don't say two syllables.`,
+  },
+  {
+    id: "reducao",
+    label: "weak vowels",
+    test: (w) => w.length >= 4 && /[eao]/.test(w) && new RegExp(`[${V}][^${V}]+[${V}]`).test(w),
+    tip: (w, shown) => `In “${shown}”, unstressed vowels are weak and short. An unstressed e is nearly gone (pequeno ≈ “p'keno”), a final e is hardly heard, and a final o sounds like u. Put the stress on one syllable and let the others fall away.`,
   },
 ];
 
@@ -100,7 +123,7 @@ const GENERIC = "Listen to the word again and repeat it slowly, one syllable at 
 
 /**
  * The tip for one word. Sounds the sentence was chosen to practise come first, so a
- * learner on the r sentence hears about r even if the word also has a b. Without a focus the
+ * learner on the r sentence hears about r even if the word also has an s. Without a focus the
  * order of SOUNDS decides: the narrowest and most-often-wrong sounds come first.
  * @param {string} word as shown in the sentence (punctuation is ignored)
  * @param {string[]} [focus] the sentence's focus sound ids

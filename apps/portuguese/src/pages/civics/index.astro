@@ -1,0 +1,80 @@
+---
+// Civics: Portugal, how it works (content-plan §5.11). Our own practice set, not an exam: Portugal
+// has no official civics test for nationality as far as we know (to verify; see meta.realTestNote).
+import Layout from "../../layouts/Layout.astro";
+import ExamShell from "../../components/ExamShell.astro";
+import ExamPractice from "../../components/ExamPractice.astro";
+import lid from "../../data/leben-in-deutschland.json";
+
+const { meta, questions, bundeslaender } = lid;
+const vars = JSON.stringify({ t: meta.totalQuestions, m: meta.minutes, pass: meta.passScore, fed: questions.length, st: meta.stateQuestions, bl: bundeslaender.length });
+---
+<Layout
+  title="Civics: Portugal, how it works – practice questions – icanspeak Portuguese"
+  description="Know the country you live in: the Constitution, institutions, rights, geography, history and daily life in Portugal. Our own practice questions in Portuguese; general orientation, not legal advice."
+>
+  <ExamShell
+    bild="leben-in-deutschland"
+    header="Civics"
+    title="Civics: Portugal, how it works"
+    titleKey="exam.lid.name"
+    lead="Know the country you live in: the Constitution, the institutions, rights and duties, territory, history and daily life in Portugal, practised in Portuguese. Our own questions, not an official test."
+    leadKey="lid.lead"
+    badges={["Knowledge practice"]}
+    badgeKeys={["lid.badge.knowledgeTest"]}
+    practiceHeading="Practise with the questions"
+    practiceHeadingKey="lid.practiceHeading"
+  >
+    <Fragment slot="info">
+      <section class="exam-section">
+        <h2 data-i18n="lid.who.title">Who is this for?</h2>
+        <div class="exam-meta-row">
+          <span class="exam-meta-badge" data-i18n="lid.who.badge.noCefr">No CEFR level: a knowledge module</span>
+          <span class="exam-meta-badge" data-i18n="lid.who.badge.course">For residents and future citizens</span>
+        </div>
+        <p><a href="/nationality" data-i18n="nat.link.more">How nationality by residence works, step by step</a></p>
+        <p data-i18n="lid.who.text">This module is for anyone who lives in Portugal or plans to, and wants to understand how the country works while practising reading Portuguese at A2–B1 level. As far as we know, nationality by residence asks for proof of Portuguese (usually A2), not for a separate civics test, but a knowledge requirement was discussed in 2025 and the rules change often. This is general orientation, not legal advice: check the official pages (IRN, gov.pt, AIMA) for the current requirements.</p>
+      </section>
+
+      <section class="exam-section">
+        <h2 data-i18n="exam.format.title">Format</h2>
+        <div class="format-table-wrap">
+          <table class="format-table">
+            <thead><tr><th data-i18n="format.th.part">Part</th><th data-i18n="format.th.what">What is tested</th><th data-i18n="format.th.scope">Scope</th></tr></thead>
+            <tbody>
+              {meta.tareas.map((t) => (
+                <tr><td lang="pt-PT">{t.title}</td><td data-i18n={`lid.tarea.${t.n}.what`}>{t.title}</td><td data-i18n={`lid.tarea.${t.options === 2 ? "tf" : "mc"}`} data-i18n-vars={JSON.stringify({ n: t.realCount })}>{t.realCount}</td></tr>
+              ))}
+              <tr><td data-i18n="lid.fmt.state.part">Our extra: districts and regions</td><td data-i18n="lid.fmt.state.what">Practice questions on a district or on the Azores and Madeira (they do not count towards the result)</td><td data-i18n="lid.fmt.state.scope" data-i18n-vars={JSON.stringify({ st: meta.stateQuestions })}>{meta.stateQuestions}</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="format-note" data-i18n-html="lid.format.note" data-i18n-vars={vars}>
+          {questions.length} questions in five areas. Aim for about {meta.passScore} correct answers (60%): this is our own benchmark, not an official pass mark.
+        </p>
+        <p class="format-note" data-i18n="lid.format.more">The questions are in Portuguese. You can take them at your own pace; the suggested time is about 40 minutes for the whole set.</p>
+        <p class="format-note" data-i18n="lid.nationalityNote">{meta.realTestNote}</p>
+        <p class="format-note">{meta.sourceNote}</p>
+      </section>
+    </Fragment>
+
+    <div class="mock-cta mock-cta--lead">
+      <h2 data-i18n="lid.cta.title" data-i18n-vars={vars}>{questions.length} questions on Portugal, in five areas</h2>
+      <p data-i18n="lid.cta.text" data-i18n-vars={vars}>
+        Our own questions on government, rights, territory, culture and daily life, each with a short explanation in English. There is also extra practice on districts and regions ({bundeslaender.length} to choose from).
+      </p>
+      <div class="exam-meta-row">
+        <a class="quiz-btn quiz-btn--primary" href="/civics/test" data-i18n="lid.cta.test">To the practice questions</a>
+        <a class="quiz-btn quiz-btn--primary" href="/civics/facts" data-i18n="lid.cta.facts">Learn the facts</a>
+      </div>
+    </div>
+
+    <ExamPractice
+      heading="Prepare the language side"
+      headingKey="lid.practice.heading"
+      introKey="lid.practice.intro"
+      intro="The questions are in Portuguese, so you have to understand the questions and the answer options. These tools help with that side."
+      tools={["artikel", "grammatik", "wortschatz"]}
+    />
+  </ExamShell>
+</Layout>

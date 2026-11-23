@@ -1,5 +1,5 @@
 {
-  "_comment": "Useful phrases (Redemittel) by speech act: agreeing, disagreeing, doubting, comforting … Each set is a flashcard deck (/vocabulario/expressoes/<id>) and a row under the phrases on /pronuncia. The key `de` holds the Spanish phrase that is practised (the key name is history, see docs/content-plan.md §1.4); `en` is the English meaning, with a short usage note where it helps. Every phrase has `variety`, and `es419` where Latin American usage differs. Phrase order matters: the beginner path refers to phrases as redemittel:<set>#<index>. Translations live in src/data/redemittel-i18n/<lang>.json, keyed by the Spanish phrase: machine drafts until a native speaker has read them (reviewed: false). Audio: scripts/generate-satz-audio.mjs → public/audio/redemittel/<slug>.mp3 (none yet for the Spanish phrases).",
+  "_comment": "Useful phrases (Redemittel) by speech act: agreeing, disagreeing, doubting, comforting … Each set is a flashcard deck (/vocabulario/expressoes/<id>) and a row under the phrases on /pronuncia. The key `de` holds the Portuguese phrase that is practised (the key name is history, see docs/content-plan.md §1.4); `en` is the English meaning, with a short usage note where it helps. Every phrase has `variety` (pt-PT), and `ptBR` where Brazilian usage differs (nothing is shown for it until a Brazil mode exists). Forms of address follow Portugal: tu between friends and in the informal sets, o senhor / a senhora (verb in the 3rd person) with strangers, in services and at work; você is avoided. Phrase order matters: the beginner path refers to phrases as redemittel:<set>#<index>. Translations live in src/data/redemittel-i18n/<lang>.json, keyed by the Portuguese phrase: machine drafts until a native speaker has read them (reviewed: false). Audio: scripts/generate-satz-audio.mjs → public/audio/redemittel/<slug>.mp3 (none yet for the Portuguese phrases).",
   "reviewed": false,
   "sets": [
     {
@@ -7,14 +7,14 @@
       "name": "Agreeing",
       "icon": "👍",
       "phrases": [
-        { "de": "Tienes razón.", "en": "You're right. (To someone you call usted: Tiene razón.)", "variety": "es-ES" },
-        { "de": "Estoy totalmente de acuerdo.", "en": "I completely agree.", "variety": "es-ES" },
-        { "de": "¡Exacto!", "en": "Exactly!", "variety": "es-ES" },
-        { "de": "Estoy de acuerdo contigo.", "en": "I agree with you.", "variety": "es-ES" },
-        { "de": "Yo también lo creo.", "en": "I think so too.", "variety": "es-ES" },
-        { "de": "Eso es justo lo que pienso.", "en": "That's exactly what I think.", "variety": "es-ES" },
-        { "de": "Me parece buena idea.", "en": "That sounds like a good idea.", "variety": "es-ES" },
-        { "de": "Vale, de acuerdo.", "en": "OK, agreed. Vale is the everyday “OK” in Spain.", "variety": "es-ES", "es419": { "note": "Vale is typical of Spain. In Latin America: Bueno, de acuerdo, or regional forms such as Dale.", "form": "Bueno, de acuerdo." }}
+        { "de": "Tens razão.", "en": "You're right. (To someone you call o senhor / a senhora: Tem razão.)", "variety": "pt-PT" },
+        { "de": "Concordo totalmente.", "en": "I completely agree.", "variety": "pt-PT" },
+        { "de": "Exatamente!", "en": "Exactly!", "variety": "pt-PT" },
+        { "de": "Estou de acordo contigo.", "en": "I agree with you.", "variety": "pt-PT" },
+        { "de": "Também acho.", "en": "I think so too.", "variety": "pt-PT" },
+        { "de": "É exatamente o que penso.", "en": "That's exactly what I think.", "variety": "pt-PT" },
+        { "de": "Parece-me uma boa ideia.", "en": "That sounds like a good idea. (The pronoun comes after the verb in Portugal: parece-me.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil the pronoun usually comes before the verb in speech: Me parece uma boa ideia.", "form": "Me parece uma boa ideia." } },
+        { "de": "Está bem, combinado.", "en": "OK, agreed. Está bem is the everyday “OK” in Portugal.", "variety": "pt-PT", "ptBR": { "note": "In Brazil people say Tá bom, combinado, or Beleza in informal speech.", "form": "Tá bom, combinado." } }
       ]
     },
     {
@@ -22,14 +22,14 @@
       "name": "Disagreeing",
       "icon": "✋",
       "phrases": [
-        { "de": "Yo lo veo de otra manera.", "en": "I see it differently.", "variety": "es-ES" },
-        { "de": "No estoy de acuerdo.", "en": "I don't agree.", "variety": "es-ES" },
-        { "de": "Eso no es del todo cierto.", "en": "That's not quite right.", "variety": "es-ES" },
-        { "de": "Lo siento, pero no estoy de acuerdo.", "en": "I'm sorry, but I disagree. A polite way to say no.", "variety": "es-ES" },
-        { "de": "No creo que sea verdad.", "en": "I don't think that's true. (After no creo que comes the subjunctive: sea.)", "variety": "es-ES" },
-        { "de": "Yo creo que no.", "en": "I don't think so.", "variety": "es-ES" },
-        { "de": "Sí, pero …", "en": "Yes, but … You agree a little, then add your point.", "variety": "es-ES" },
-        { "de": "¡Ni hablar!", "en": "No way! (informal)", "variety": "es-ES" }
+        { "de": "Eu vejo isso de outra maneira.", "en": "I see it differently.", "variety": "pt-PT" },
+        { "de": "Não concordo.", "en": "I don't agree.", "variety": "pt-PT" },
+        { "de": "Isso não é bem assim.", "en": "That's not quite right.", "variety": "pt-PT" },
+        { "de": "Desculpa, mas não concordo.", "en": "I'm sorry, but I disagree. A polite way to say no. (With o senhor: Desculpe.)", "variety": "pt-PT" },
+        { "de": "Não acho que seja verdade.", "en": "I don't think that's true. (After não acho que comes the subjunctive: seja.)", "variety": "pt-PT" },
+        { "de": "Acho que não.", "en": "I don't think so.", "variety": "pt-PT" },
+        { "de": "Sim, mas …", "en": "Yes, but … You agree a little, then add your point.", "variety": "pt-PT" },
+        { "de": "Nem pensar!", "en": "No way! (informal)", "variety": "pt-PT" }
       ]
     },
     {
@@ -37,14 +37,14 @@
       "name": "Expressing doubt",
       "icon": "🤔",
       "phrases": [
-        { "de": "No lo tengo tan claro.", "en": "I'm not so sure about that.", "variety": "es-ES" },
-        { "de": "¿De verdad lo crees?", "en": "Do you really think so?", "variety": "es-ES" },
-        { "de": "No sé, no estoy seguro.", "en": "I don't know, I'm not sure. (A woman says: segura.)", "variety": "es-ES" },
-        { "de": "¿Seguro que es así?", "en": "Is that really so?", "variety": "es-ES" },
-        { "de": "Me cuesta creerlo.", "en": "I find that hard to believe.", "variety": "es-ES" },
-        { "de": "Mmm, tengo mis dudas.", "en": "Hmm, I have my doubts.", "variety": "es-ES" },
-        { "de": "¿Estás seguro?", "en": "Are you sure? (To a woman: ¿Estás segura?)", "variety": "es-ES" },
-        { "de": "Lo dudo.", "en": "I doubt it.", "variety": "es-ES" }
+        { "de": "Não estou assim tão certo.", "en": "I'm not so sure about that. (A woman says: certa.)", "variety": "pt-PT" },
+        { "de": "Achas mesmo?", "en": "Do you really think so?", "variety": "pt-PT" },
+        { "de": "Não sei, não tenho a certeza.", "en": "I don't know, I'm not sure. In Portugal you “have” certainty: ter a certeza.", "variety": "pt-PT", "ptBR": { "note": "In Brazil you hear Não sei, não tenho certeza, usually without the article.", "form": "Não sei, não tenho certeza." } },
+        { "de": "Tens a certeza de que é assim?", "en": "Are you sure it's like that?", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Você tem certeza de que é assim? (no article, and você).", "form": "Você tem certeza de que é assim?" } },
+        { "de": "Custa-me a acreditar.", "en": "I find that hard to believe.", "variety": "pt-PT", "ptBR": { "note": "In Brazil the pronoun comes first: Me custa acreditar, or more often É difícil acreditar.", "form": "É difícil acreditar." } },
+        { "de": "Hum, tenho as minhas dúvidas.", "en": "Hmm, I have my doubts.", "variety": "pt-PT" },
+        { "de": "Tens a certeza?", "en": "Are you sure? (To o senhor / a senhora: Tem a certeza?)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Você tem certeza? (no article).", "form": "Você tem certeza?" } },
+        { "de": "Duvido.", "en": "I doubt it.", "variety": "pt-PT" }
       ]
     },
     {
@@ -52,14 +52,14 @@
       "name": "Comforting",
       "icon": "🤗",
       "phrases": [
-        { "de": "Lo siento mucho.", "en": "I'm so sorry.", "variety": "es-ES" },
-        { "de": "¡Ánimo!", "en": "Cheer up! Keep going!", "variety": "es-ES" },
-        { "de": "Todo va a salir bien.", "en": "It'll be all right.", "variety": "es-ES" },
-        { "de": "No te preocupes.", "en": "Don't worry.", "variety": "es-ES" },
-        { "de": "Aquí me tienes para lo que necesites.", "en": "I'm here for whatever you need.", "variety": "es-ES" },
-        { "de": "No es para tanto.", "en": "It's not that bad. Careful: with a real problem it can sound dismissive.", "variety": "es-ES" },
-        { "de": "¡Tú puedes!", "en": "You can do it!", "variety": "es-ES" },
-        { "de": "¿Puedo hacer algo por ti?", "en": "Is there anything I can do for you?", "variety": "es-ES" }
+        { "de": "Lamento muito.", "en": "I'm so sorry. Used for bad news; Sinto muito is also common.", "variety": "pt-PT" },
+        { "de": "Força!", "en": "Hang in there! Keep going!", "variety": "pt-PT" },
+        { "de": "Vai correr tudo bem.", "en": "It'll all go well. (Literally: everything will run well.)", "variety": "pt-PT" },
+        { "de": "Não te preocupes.", "en": "Don't worry. (With o senhor: Não se preocupe.)", "variety": "pt-PT" },
+        { "de": "Estou aqui para o que precisares.", "en": "I'm here for whatever you need.", "variety": "pt-PT" },
+        { "de": "Não é caso para tanto.", "en": "It's not that bad. Careful: with a real problem it can sound dismissive.", "variety": "pt-PT" },
+        { "de": "Tu consegues!", "en": "You can do it!", "variety": "pt-PT", "ptBR": { "note": "In Brazil you usually say Você consegue!, with você.", "form": "Você consegue!" } },
+        { "de": "Posso fazer alguma coisa por ti?", "en": "Is there anything I can do for you? (With o senhor: por si.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Posso fazer alguma coisa por você? (por ti is rare).", "form": "Posso fazer alguma coisa por você?" } }
       ]
     },
     {
@@ -67,14 +67,14 @@
       "name": "Giving your opinion",
       "icon": "💭",
       "phrases": [
-        { "de": "Mi opinión es que …", "en": "My view is that …", "variety": "es-ES" },
-        { "de": "Creo que …", "en": "I think that … The easiest way to give your opinion.", "variety": "es-ES" },
-        { "de": "En mi opinión, …", "en": "In my opinion, …", "variety": "es-ES" },
-        { "de": "Me parece que …", "en": "It seems to me that …", "variety": "es-ES" },
-        { "de": "Para mí lo importante es que …", "en": "What matters to me is that … (Often followed by the subjunctive.)", "variety": "es-ES" },
-        { "de": "Para ser sincero, …", "en": "To be honest, … (A woman says: sincera.)", "variety": "es-ES" },
-        { "de": "Me parece bien.", "en": "That seems fine to me.", "variety": "es-ES" },
-        { "de": "¿Tú qué opinas?", "en": "What do you think? (To someone you call usted: ¿Usted qué opina?)", "variety": "es-ES" }
+        { "de": "A minha opinião é que …", "en": "My view is that …", "variety": "pt-PT", "ptBR": { "note": "Brazilian speech often drops the article: Minha opinião é que …", "form": "Minha opinião é que …" } },
+        { "de": "Acho que …", "en": "I think that … The easiest way to give your opinion.", "variety": "pt-PT" },
+        { "de": "Na minha opinião, …", "en": "In my opinion, …", "variety": "pt-PT" },
+        { "de": "Parece-me que …", "en": "It seems to me that …", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Me parece que … (pronoun before the verb).", "form": "Me parece que …" } },
+        { "de": "Para mim, o importante é que …", "en": "What matters to me is that … (Often followed by the subjunctive.)", "variety": "pt-PT" },
+        { "de": "Para ser sincero, …", "en": "To be honest, … (A woman says: sincera.)", "variety": "pt-PT" },
+        { "de": "Parece-me bem.", "en": "That seems fine to me.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Me parece bom, or Acho bom.", "form": "Me parece bom." } },
+        { "de": "E tu, o que achas?", "en": "And what do you think? (To o senhor / a senhora: E o senhor, o que acha?)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: E você, o que acha? (você, and the 3rd person).", "form": "E você, o que acha?" } }
       ]
     },
     {
@@ -82,14 +82,14 @@
       "name": "Checking you understand",
       "icon": "❓",
       "phrases": [
-        { "de": "¿Perdón?", "en": "Sorry? You didn't hear what someone said.", "variety": "es-ES" },
-        { "de": "¿Puede repetir, por favor?", "en": "Could you say that again, please? (With tú: ¿Puedes repetir?)", "variety": "es-ES" },
-        { "de": "¿Puede hablar más despacio, por favor?", "en": "Could you speak more slowly, please?", "variety": "es-ES" },
-        { "de": "¿Qué significa eso?", "en": "What does that mean?", "variety": "es-ES" },
-        { "de": "Perdone, no lo he entendido.", "en": "Sorry, I didn't understand that.", "variety": "es-ES", "es419": { "note": "Many Latin American varieties (Mexico, for example) prefer the simple past here: no lo entendí.", "form": "Perdone, no lo entendí." } },
-        { "de": "¿Cómo se escribe?", "en": "How do you spell that?", "variety": "es-ES" },
-        { "de": "¿Quiere decir que …?", "en": "Do you mean that …? You check that you have understood.", "variety": "es-ES" },
-        { "de": "¿Puede darme un ejemplo?", "en": "Could you give me an example?", "variety": "es-ES" }
+        { "de": "Como?", "en": "Sorry? / Pardon? You didn't hear what someone said. Desculpe? works too.", "variety": "pt-PT" },
+        { "de": "Pode repetir, por favor?", "en": "Could you say that again, please? (With tu: Podes repetir?)", "variety": "pt-PT" },
+        { "de": "Pode falar mais devagar, por favor?", "en": "Could you speak more slowly, please?", "variety": "pt-PT" },
+        { "de": "O que quer dizer isso?", "en": "What does that mean?", "variety": "pt-PT" },
+        { "de": "Desculpe, não percebi.", "en": "Sorry, I didn't understand that. Percebi is the everyday verb in Portugal.", "variety": "pt-PT", "ptBR": { "note": "In Brazil entender is more usual: Desculpe, não entendi.", "form": "Desculpe, não entendi." } },
+        { "de": "Como se escreve?", "en": "How do you spell that?", "variety": "pt-PT" },
+        { "de": "Quer dizer que …?", "en": "Do you mean that …? You check that you have understood.", "variety": "pt-PT" },
+        { "de": "Pode dar-me um exemplo?", "en": "Could you give me an example?", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Pode me dar um exemplo? (pronoun before the infinitive).", "form": "Pode me dar um exemplo?" } }
       ]
     },
     {
@@ -97,14 +97,14 @@
       "name": "Asking for help",
       "icon": "🙏",
       "phrases": [
-        { "de": "¿Me puede ayudar, por favor?", "en": "Could you help me, please? A polite way to ask.", "variety": "es-ES" },
-        { "de": "¿Tiene un momento?", "en": "Have you got a minute? (With tú: ¿Tienes un momento?)", "variety": "es-ES" },
-        { "de": "¿Me pasas la sal, por favor?", "en": "Could you pass me the salt, please?", "variety": "es-ES" },
-        { "de": "¿Le puedo pedir un favor?", "en": "Could I ask you a favour? (With tú: ¿Te puedo pedir un favor?)", "variety": "es-ES" },
-        { "de": "Perdone que le moleste.", "en": "Sorry to bother you. Say this before you interrupt someone.", "variety": "es-ES" },
-        { "de": "¿Me lo puede enseñar?", "en": "Could you show me?", "variety": "es-ES"},
-        { "de": "Necesito ayuda.", "en": "I need some help.", "variety": "es-ES" },
-        { "de": "¿Sería posible?", "en": "Would that be possible?", "variety": "es-ES" }
+        { "de": "Pode ajudar-me, por favor?", "en": "Could you help me, please? A polite way to ask.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Pode me ajudar, por favor? (pronoun before the infinitive).", "form": "Pode me ajudar, por favor?" } },
+        { "de": "Tem um minuto?", "en": "Have you got a minute? (With tu: Tens um minuto?)", "variety": "pt-PT" },
+        { "de": "Podes passar-me o sal, por favor?", "en": "Could you pass me the salt, please?", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Pode me passar o sal, por favor? (você; pronoun first).", "form": "Pode me passar o sal, por favor?" } },
+        { "de": "Posso pedir-lhe um favor?", "en": "Could I ask you a favour? (With tu: Posso pedir-te um favor?)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Posso te pedir um favor? (pronoun before the verb).", "form": "Posso te pedir um favor?" } },
+        { "de": "Desculpe incomodar.", "en": "Sorry to bother you. Say this before you interrupt someone.", "variety": "pt-PT" },
+        { "de": "Pode mostrar-me?", "en": "Could you show me?", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Pode me mostrar? (pronoun before the infinitive).", "form": "Pode me mostrar?" } },
+        { "de": "Preciso de ajuda.", "en": "I need some help.", "variety": "pt-PT" },
+        { "de": "Seria possível?", "en": "Would that be possible?", "variety": "pt-PT" }
       ]
     },
     {
@@ -112,14 +112,14 @@
       "name": "Apologising",
       "icon": "😔",
       "phrases": [
-        { "de": "¡Perdón!", "en": "Sorry! For a small mistake, or when you bump into someone.", "variety": "es-ES" },
-        { "de": "Lo siento de verdad.", "en": "I'm really sorry.", "variety": "es-ES" },
-        { "de": "No quería decir eso.", "en": "I didn't mean it like that.", "variety": "es-ES" },
-        { "de": "Perdona por llegar tarde.", "en": "Sorry I'm late. (With usted: Perdone.)", "variety": "es-ES" },
-        { "de": "Ha sido culpa mía.", "en": "That was my fault.", "variety": "es-ES", "es419": { "note": "Many Latin American varieties (Mexico, for example) prefer the simple past here: Fue culpa mía.", "form": "Fue culpa mía." }},
-        { "de": "No pasa nada.", "en": "No problem. An answer to an apology: it's OK.", "variety": "es-ES" },
-        { "de": "No tiene importancia.", "en": "It doesn't matter. An answer to an apology: forget it.", "variety": "es-ES" },
-        { "de": "Le puede pasar a cualquiera.", "en": "It could happen to anyone. An answer to an apology.", "variety": "es-ES" }
+        { "de": "Desculpa!", "en": "Sorry! For a small mistake, or when you bump into someone. (With o senhor: Desculpe!)", "variety": "pt-PT" },
+        { "de": "Peço imensa desculpa.", "en": "I'm really sorry. A fuller, polite apology.", "variety": "pt-PT" },
+        { "de": "Não queria dizer isso.", "en": "I didn't mean it like that.", "variety": "pt-PT" },
+        { "de": "Desculpa o atraso.", "en": "Sorry I'm late. (With o senhor: Desculpe o atraso.)", "variety": "pt-PT" },
+        { "de": "A culpa foi minha.", "en": "That was my fault.", "variety": "pt-PT" },
+        { "de": "Não faz mal.", "en": "No problem. An answer to an apology: it's OK.", "variety": "pt-PT", "ptBR": { "note": "In Brazil you also hear Tudo bem or Sem problema as the answer.", "form": "Tudo bem." } },
+        { "de": "Não tem importância.", "en": "It doesn't matter. An answer to an apology: forget it.", "variety": "pt-PT" },
+        { "de": "Acontece a qualquer um.", "en": "It could happen to anyone. An answer to an apology.", "variety": "pt-PT" }
       ]
     },
     {
@@ -127,14 +127,14 @@
       "name": "Thanking",
       "icon": "💐",
       "phrases": [
-        { "de": "¡Muchas gracias!", "en": "Thank you very much!", "variety": "es-ES" },
-        { "de": "Gracias, eres muy amable.", "en": "Thanks, that's very kind of you.", "variety": "es-ES" },
-        { "de": "Muchísimas gracias por tu ayuda.", "en": "Thank you so much for your help.", "variety": "es-ES" },
-        { "de": "¡Qué detalle!", "en": "How thoughtful of you! For a small gift or a kind gesture.", "variety": "es-ES" },
-        { "de": "¡De nada!", "en": "You're welcome! An answer to thank you.", "variety": "es-ES" },
-        { "de": "Ha sido un placer.", "en": "It was my pleasure. An answer to thank you.", "variety": "es-ES", "es419": { "note": "Many Latin American varieties (Mexico, for example) prefer the simple past here: Fue un placer.", "form": "Fue un placer." }},
-        { "de": "No hay de qué.", "en": "Don't mention it. An answer to thank you.", "variety": "es-ES" },
-        { "de": "Te lo agradezco mucho.", "en": "I really appreciate it.", "variety": "es-ES" }
+        { "de": "Muito obrigado!", "en": "Thank you very much! A woman says: Muito obrigada! (obrigado/obrigada agrees with the speaker.)", "variety": "pt-PT" },
+        { "de": "Obrigado, és muito simpático.", "en": "Thanks, that's very kind of you. (To a woman: simpática; to o senhor: é muito simpático.)", "variety": "pt-PT" },
+        { "de": "Muito obrigado pela tua ajuda.", "en": "Thank you so much for your help. (With o senhor: pela sua ajuda.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil people say Obrigado pela sua ajuda (você), seldom pela tua.", "form": "Muito obrigado pela sua ajuda." } },
+        { "de": "Que simpatia!", "en": "How kind of you! For a small gift or a kind gesture.", "variety": "pt-PT" },
+        { "de": "De nada!", "en": "You're welcome! An answer to thank you.", "variety": "pt-PT" },
+        { "de": "Foi um prazer.", "en": "It was my pleasure. An answer to thank you.", "variety": "pt-PT" },
+        { "de": "Não tem de quê.", "en": "Don't mention it. An answer to thank you.", "variety": "pt-PT", "ptBR": { "note": "In Brazil the usual answer is Imagina or Por nada; Não tem de quê is rarer.", "form": "Imagina." } },
+        { "de": "Agradeço-te imenso.", "en": "I really appreciate it. (With o senhor: Agradeço-lhe imenso.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Agradeço muito, or Eu te agradeço muito (proclisis).", "form": "Eu te agradeço muito." } }
       ]
     },
     {
@@ -142,14 +142,14 @@
       "name": "Making suggestions",
       "icon": "💡",
       "phrases": [
-        { "de": "¿Qué tal si …?", "en": "How about …? (¿Qué tal si vamos en metro?)", "variety": "es-ES" },
-        { "de": "¿Salimos a comer?", "en": "Shall we go out for a meal?", "variety": "es-ES" },
-        { "de": "Propongo que …", "en": "I suggest that we … (Followed by the subjunctive: Propongo que vayamos.)", "variety": "es-ES" },
-        { "de": "¿Te apetece ir al cine?", "en": "Do you fancy going to the cinema?", "variety": "es-ES", "es419": { "note": "Te apetece is far more common in Spain. In Latin America you often hear ¿Quieres …? or ¿Tienes ganas de …?", "form": "¿Quieres ir al cine?" }},
-        { "de": "¡Buena idea, vamos!", "en": "Good idea, let's do that! A yes to a suggestion.", "variety": "es-ES" },
-        { "de": "Lo siento, ese día no puedo.", "en": "Sorry, I can't make it that day. A no to a suggestion.", "variety": "es-ES" },
-        { "de": "Quizás otro día.", "en": "Maybe another time.", "variety": "es-ES" },
-        { "de": "¿Te viene bien el sábado?", "en": "Is Saturday good for you?", "variety": "es-ES", "es419": { "note": "In Mexico and elsewhere ¿Te queda bien el sábado? is also common." }}
+        { "de": "Que tal irmos de metro?", "en": "How about going by metro? Que tal + personal infinitive (irmos, vermos, fazermos) is typical of Portugal.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Que tal a gente ir de metrô? (a gente, and metrô).", "form": "Que tal a gente ir de metrô?" } },
+        { "de": "Vamos comer fora?", "en": "Shall we go out for a meal?", "variety": "pt-PT" },
+        { "de": "Proponho que nos encontremos às oito.", "en": "I suggest that we meet at eight. (Followed by the subjunctive: encontremos.)", "variety": "pt-PT" },
+        { "de": "Apetece-te ir ao cinema?", "en": "Do you fancy going to the cinema? Apetecer takes the person as indirect object: apetece-me, apetece-te.", "variety": "pt-PT", "ptBR": { "note": "In Brazil people say Você quer ir ao cinema? or Está a fim de ir ao cinema?", "form": "Você quer ir ao cinema?" } },
+        { "de": "Boa ideia, vamos!", "en": "Good idea, let's do that! A yes to a suggestion.", "variety": "pt-PT" },
+        { "de": "Desculpa, nesse dia não posso.", "en": "Sorry, I can't make it that day. A no to a suggestion.", "variety": "pt-PT" },
+        { "de": "Talvez noutro dia.", "en": "Maybe another time.", "variety": "pt-PT" },
+        { "de": "O sábado dá-te jeito?", "en": "Does Saturday suit you? Dar jeito = to be convenient. (With o senhor: dá-lhe jeito.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: O sábado fica bom para você? or Sábado dá para você?", "form": "O sábado fica bom para você?" } }
       ]
     },
     {
@@ -157,14 +157,14 @@
       "name": "Congratulating and wishing",
       "icon": "🎉",
       "phrases": [
-        { "de": "¡Enhorabuena!", "en": "Congratulations! For an exam, a new job, a baby.", "variety": "es-ES", "es419": { "note": "Latin America more often says ¡Felicidades! or ¡Felicitaciones!", "form": "¡Felicitaciones!" }},
-        { "de": "¡Feliz cumpleaños!", "en": "Happy birthday!", "variety": "es-ES" },
-        { "de": "¡Buena suerte!", "en": "Good luck!", "variety": "es-ES" },
-        { "de": "¡Suerte con el examen!", "en": "Good luck with your exam!", "variety": "es-ES" },
-        { "de": "¡Que te mejores!", "en": "Get well soon! To someone who is ill.", "variety": "es-ES" },
-        { "de": "¡Buen fin de semana!", "en": "Have a nice weekend! Said on Friday.", "variety": "es-ES" },
-        { "de": "¡Feliz Navidad!", "en": "Merry Christmas!", "variety": "es-ES" },
-        { "de": "¡Me alegro mucho por ti!", "en": "I'm so happy for you!", "variety": "es-ES" }
+        { "de": "Parabéns!", "en": "Congratulations! For an exam, a new job, a baby, and also on a birthday.", "variety": "pt-PT" },
+        { "de": "Feliz aniversário!", "en": "Happy birthday! Parabéns! is just as common.", "variety": "pt-PT" },
+        { "de": "Boa sorte!", "en": "Good luck!", "variety": "pt-PT" },
+        { "de": "Boa sorte para o exame!", "en": "Good luck with your exam!", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Boa sorte na prova! (prova is the usual word for an exam).", "form": "Boa sorte na prova!" } },
+        { "de": "Boas melhoras!", "en": "Get well soon! To someone who is ill.", "variety": "pt-PT" },
+        { "de": "Bom fim de semana!", "en": "Have a nice weekend! Said on Friday.", "variety": "pt-PT" },
+        { "de": "Feliz Natal!", "en": "Merry Christmas! Boas Festas! covers Christmas and New Year.", "variety": "pt-PT" },
+        { "de": "Fico tão contente por ti!", "en": "I'm so happy for you!", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Fico tão feliz por você! (feliz and você).", "form": "Fico tão feliz por você!" } }
       ]
     },
     {
@@ -172,14 +172,14 @@
       "name": "Greeting and saying goodbye",
       "icon": "👋",
       "phrases": [
-        { "de": "¡Buenos días!", "en": "Good morning! Used until lunchtime, which in Spain is often around two o'clock.", "variety": "es-ES" },
-        { "de": "Encantado de conocerte.", "en": "Nice to meet you. (A woman says: Encantada.)", "variety": "es-ES", "es419": { "note": "Mucho gusto is the more usual phrase in much of Latin America.", "form": "Mucho gusto." }},
-        { "de": "¿Qué tal?", "en": "How are you? Answer: Bien, gracias. ¿Y tú?", "variety": "es-ES" },
-        { "de": "¡Cuánto tiempo!", "en": "Long time no see! (informal)", "variety": "es-ES" },
-        { "de": "¡Hasta mañana!", "en": "See you tomorrow!", "variety": "es-ES" },
-        { "de": "¡Adiós!", "en": "Goodbye!", "variety": "es-ES" },
-        { "de": "¡Cuídate!", "en": "Take care! A friendly goodbye.", "variety": "es-ES" },
-        { "de": "¡Que tengas un buen día!", "en": "Have a good day!", "variety": "es-ES" }
+        { "de": "Bom dia!", "en": "Good morning! Used until about midday or lunch; after that: Boa tarde!", "variety": "pt-PT" },
+        { "de": "Muito prazer em conhecer-te.", "en": "Nice to meet you. Muito prazer is the usual short form. (With o senhor: conhecê-lo; a woman: conhecê-la.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Prazer em te conhecer (proclisis, te).", "form": "Prazer em te conhecer." } },
+        { "de": "Tudo bem?", "en": "How are you? Answer: Tudo bem, obrigado. E tu? (A woman says: obrigada.)", "variety": "pt-PT" },
+        { "de": "Há quanto tempo!", "en": "Long time no see! (informal)", "variety": "pt-PT" },
+        { "de": "Até amanhã!", "en": "See you tomorrow!", "variety": "pt-PT" },
+        { "de": "Adeus!", "en": "Goodbye! Also Até logo! (see you later) and Até já! (see you in a moment).", "variety": "pt-PT", "ptBR": { "note": "In Brazil Tchau is the everyday goodbye; Adeus sounds final.", "form": "Tchau!" } },
+        { "de": "Cuida-te!", "en": "Take care! A friendly goodbye.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Se cuida! (pronoun before the verb).", "form": "Se cuida!" } },
+        { "de": "Que tenhas um bom dia!", "en": "Have a good day! (With o senhor: Que tenha um bom dia!)", "variety": "pt-PT" }
       ]
     },
     {
@@ -187,18 +187,18 @@
       "name": "Describing pictures",
       "icon": "🖼️",
       "phrases": [
-        { "de": "En la foto veo …", "bild": "🖼️", "en": "In the picture I can see … The easiest way to start.", "variety": "es-ES" },
-        { "de": "La foto muestra a una familia comiendo.", "bild": "👪", "en": "The picture shows a family having a meal. You say what it is about.", "variety": "es-ES" },
-        { "de": "En primer plano se ve …", "bild": "/img/bildposition/vordergrund.svg", "en": "In the foreground you can see …", "variety": "es-ES" },
-        { "de": "Al fondo hay un parque.", "bild": "/img/bildposition/hintergrund.svg", "en": "In the background there's a park.", "variety": "es-ES" },
-        { "de": "En el centro hay una mesa.", "bild": "/img/bildposition/mitte.svg", "en": "In the middle there's a table.", "variety": "es-ES" },
-        { "de": "A la izquierda hay una mujer joven sentada.", "bild": "/img/bildposition/links.svg", "en": "On the left there's a young woman sitting down.", "variety": "es-ES" },
-        { "de": "En la esquina superior derecha hay una ventana.", "bild": "/img/bildposition/rechts-oben.svg", "en": "In the top right-hand corner there's a window.", "variety": "es-ES" },
-        { "de": "Seguramente la gente está de vacaciones.", "bild": "🏖️", "en": "The people are probably on holiday. A guess about the situation.", "variety": "es-ES" },
-        { "de": "Creo que es una fiesta de cumpleaños.", "bild": "🎂", "en": "I think it's a birthday party. A guess about the situation.", "variety": "es-ES" },
-        { "de": "Parece que todos están contentos.", "bild": "😄", "en": "It looks as if everyone is happy.", "variety": "es-ES" },
-        { "de": "El ambiente es relajado.", "bild": "😌", "en": "The atmosphere is relaxed.", "variety": "es-ES" },
-        { "de": "La foto me recuerda a mi infancia.", "bild": "🧒", "en": "The picture reminds me of my childhood. You connect it with your own life.", "variety": "es-ES" }
+        { "de": "Na fotografia vejo …", "bild": "🖼️", "en": "In the picture I can see … The easiest way to start. Foto is the short form.", "variety": "pt-PT" },
+        { "de": "A fotografia mostra uma família a comer.", "bild": "👪", "en": "The picture shows a family having a meal. You say what it is about. (a comer = eating: estar a + infinitive.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil: A foto mostra uma família comendo (gerund, no a + infinitive).", "form": "A foto mostra uma família comendo." } },
+        { "de": "Em primeiro plano vê-se …", "bild": "/img/bildposition/vordergrund.svg", "en": "In the foreground you can see …", "variety": "pt-PT", "ptBR": { "note": "In Brazil: Em primeiro plano se vê … (se before the verb).", "form": "Em primeiro plano se vê …" } },
+        { "de": "Ao fundo há um parque.", "bild": "/img/bildposition/hintergrund.svg", "en": "In the background there's a park.", "variety": "pt-PT", "ptBR": { "note": "In Brazil people say Ao fundo tem um parque (tem for há in speech).", "form": "Ao fundo tem um parque." } },
+        { "de": "No centro há uma mesa.", "bild": "/img/bildposition/mitte.svg", "en": "In the middle there's a table.", "variety": "pt-PT", "ptBR": { "note": "In Brazil people say No centro tem uma mesa (tem for há in speech).", "form": "No centro tem uma mesa." } },
+        { "de": "À esquerda há uma jovem sentada.", "bild": "/img/bildposition/links.svg", "en": "On the left there's a young woman sitting down.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: À esquerda tem uma jovem sentada (tem for há in speech).", "form": "À esquerda tem uma jovem sentada." } },
+        { "de": "No canto superior direito há uma janela.", "bild": "/img/bildposition/rechts-oben.svg", "en": "In the top right-hand corner there's a window.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: No canto superior direito tem uma janela (tem for há in speech).", "form": "No canto superior direito tem uma janela." } },
+        { "de": "Provavelmente as pessoas estão de férias.", "bild": "🏖️", "en": "The people are probably on holiday. A guess about the situation.", "variety": "pt-PT" },
+        { "de": "Acho que é uma festa de anos.", "bild": "🎂", "en": "I think it's a birthday party. A guess about the situation. Festa de aniversário is the longer form.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: festa de aniversário; festa de anos is not used.", "form": "Acho que é uma festa de aniversário." } },
+        { "de": "Parece que estão todos contentes.", "bild": "😄", "en": "It looks as if everyone is happy.", "variety": "pt-PT" },
+        { "de": "O ambiente é descontraído.", "bild": "😌", "en": "The atmosphere is relaxed.", "variety": "pt-PT" },
+        { "de": "A fotografia faz-me lembrar a minha infância.", "bild": "🧒", "en": "The picture reminds me of my childhood. You connect it with your own life.", "variety": "pt-PT", "ptBR": { "note": "In Brazil: A foto me lembra a minha infância, or me faz lembrar (pronoun first).", "form": "A foto me lembra a minha infância." } }
       ]
     },
     {
@@ -208,15 +208,15 @@
       "icon": "⚽",
       "bildRaten": true,
       "phrases": [
-        { "de": "La pelota está dentro de la caja.", "bild": "/img/praeposition/in.svg", "en": "The ball is in the box.", "variety": "es-ES" },
-        { "de": "La pelota está encima de la caja.", "bild": "/img/praeposition/auf.svg", "en": "The ball is on the box.", "variety": "es-ES" },
-        { "de": "La pelota está debajo de la mesa.", "bild": "/img/praeposition/unter.svg", "en": "The ball is under the table.", "variety": "es-ES" },
-        { "de": "La lámpara cuelga sobre la mesa.", "bild": "/img/praeposition/ueber.svg", "en": "The lamp is hanging above the table. (Sobre can mean “on” or “above”.)", "variety": "es-ES" },
-        { "de": "La pelota está al lado de la caja.", "bild": "/img/praeposition/neben.svg", "en": "The ball is next to the box.", "variety": "es-ES" },
-        { "de": "La pelota está delante de la caja.", "bild": "/img/praeposition/vor.svg", "en": "The ball is in front of the box.", "variety": "es-ES" },
-        { "de": "La pelota está detrás de la caja.", "bild": "/img/praeposition/hinter.svg", "en": "The ball is behind the box.", "variety": "es-ES" },
-        { "de": "La pelota está entre las cajas.", "bild": "/img/praeposition/zwischen.svg", "en": "The ball is between the boxes.", "variety": "es-ES" },
-        { "de": "El cuadro está en la pared.", "bild": "/img/praeposition/an.svg", "en": "The picture is on the wall. (En covers “in”, “on” and “at”.)", "variety": "es-ES" }
+        { "de": "A bola está dentro da caixa.", "bild": "/img/praeposition/in.svg", "en": "The ball is in the box.", "variety": "pt-PT" },
+        { "de": "A bola está em cima da caixa.", "bild": "/img/praeposition/auf.svg", "en": "The ball is on the box.", "variety": "pt-PT" },
+        { "de": "A bola está debaixo da mesa.", "bild": "/img/praeposition/unter.svg", "en": "The ball is under the table.", "variety": "pt-PT" },
+        { "de": "O candeeiro está pendurado por cima da mesa.", "bild": "/img/praeposition/ueber.svg", "en": "The lamp is hanging above the table. (Por cima de = above; em cima de = on top of.)", "variety": "pt-PT", "ptBR": { "note": "In Brazil a hanging lamp is a luminária or lustre; candeeiro is not used.", "form": "A luminária está pendurada por cima da mesa." } },
+        { "de": "A bola está ao lado da caixa.", "bild": "/img/praeposition/neben.svg", "en": "The ball is next to the box.", "variety": "pt-PT" },
+        { "de": "A bola está à frente da caixa.", "bild": "/img/praeposition/vor.svg", "en": "The ball is in front of the box.", "variety": "pt-PT", "ptBR": { "note": "In Brazil na frente da caixa is more common than à frente da caixa.", "form": "A bola está na frente da caixa." } },
+        { "de": "A bola está atrás da caixa.", "bild": "/img/praeposition/hinter.svg", "en": "The ball is behind the box.", "variety": "pt-PT" },
+        { "de": "A bola está entre as caixas.", "bild": "/img/praeposition/zwischen.svg", "en": "The ball is between the boxes.", "variety": "pt-PT" },
+        { "de": "O quadro está na parede.", "bild": "/img/praeposition/an.svg", "en": "The picture is on the wall. (Em covers “in”, “on” and “at”: na = em + a.)", "variety": "pt-PT" }
       ]
     }
   ]
