@@ -1,43 +1,49 @@
-// Bruno at the desk (Extranjería sim): the rules of the counter and the mistakes papers can have.
+// Bruno at the desk (AIMA and Finanças sim): the rules of the counter and the mistakes papers can have.
 //
-// Bruno works window 3 in the invented town of Villabruno: two days at the town hall (padrón),
-// then three days at the foreigners' office (NIE, TIE, questions). The player checks that the
-// PAPERWORK IS COMPLETE, nothing else: no stamp in this game decides anybody's right to stay.
+// Bruno works window 3 in the invented town of Vilabruno, five days in five offices: the Junta de
+// Freguesia (atestado de residência), the centro de saúde (número de utente), Finanças and
+// Segurança Social (NIF, NISS), then two days at AIMA (autorização de residência, renewal, questions).
+// The player checks that the PAPERWORK IS COMPLETE, nothing else: no stamp in this game decides
+// anybody's right to stay.
 //
 // TAGE: the five days, each with the rules on Regi's memo that day (`regeln`) and today's date.
 //
 // REGELN: one entry per rule. `tag` is the first day it appears (it is highlighted as new then).
-// `art` says whether it is how it usually works in Spain ("echt", with a source type) or an openly
-// made-up Villabruno rule ("lindenau"; the key value is kept so the code keeps working). `memo` is
-// the line on the memo, the key word in **bold**; `wirklich` is the "How it really works" text,
-// general orientation and never legal advice. Facts were last checked in November 2026, and the
-// ones still open are listed under "to verify" in the run report.
+// `art` says whether it is how it usually works in Portugal ("echt", with a source type) or an
+// openly made-up Vilabruno rule ("lindenau"; the key value is kept so the code keeps working).
+// `memo` is the line on the memo, the key word in **bold**; `wirklich` is the "How it really works"
+// text, general orientation and never legal advice. Facts were last checked in November 2026 and
+// the ones still open are listed under "to verify" in the run report (aima-sim).
 //
 // FEHLER: every mistake a case can carry. `regel` is the rule that makes it a mistake, `notiz` is
 // what the notes say once the player has found it, `fragen` are the three questions offered,
 // `passt` the one that fits; `loest` is the customer's answer when the right question fixes the
 // case, `nicht` when it can't be fixed today.
 //
-// Key `de` holds the Spanish being learnt (A2–B1, Castilian, usted at the counter; the key name is
-// kept from the German original); `en` is the English meaning.
+// Key `de` holds the European Portuguese being learnt (A2–B1, "o senhor/a senhora" and "pode…?"
+// at the counter, variety pt-PT; the key name is kept from the German original); `en` is the
+// English meaning. pt-BR note: in Brazil you would hear "o senhor" too, but "você" more widely,
+// "boleto" for the payment slip and "CPF" instead of NIF; none of that is taught here.
 
 const q = (de, en) => ({ de, en });
 
-const FUENTE_PADRON = "BOE: instructions to town halls on the padrón (Resolution of 17 February 2020)";
-const URL_PADRON = "https://www.boe.es/buscar/act.php?id=BOE-A-2020-4784";
-const FUENTE_EXT = "Official source type: the Spanish government’s immigration pages and your Oficina de Extranjería";
-const URL_EXT = "https://www.inclusion.gob.es/web/migraciones";
-const FUENTE_CITA = "Official source type: the public administrations’ e-office (sede electrónica), cita previa";
-const URL_CITA = "https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus";
-const FUENTE_POLICIA = "Official source type: Policía Nacional, foreign nationals’ pages";
-const URL_POLICIA = "https://www.policia.es/_es/extranjeria_extranjeros.php";
+const FUENTE_PORTAL = "Official source type: ePortugal, the Portuguese government’s service portal";
+const URL_PORTAL = "https://eportugal.gov.pt/";
+const FUENTE_SNS = "Official source type: Serviço Nacional de Saúde (SNS), pages for users";
+const URL_SNS = "https://www.sns.gov.pt/";
+const FUENTE_AIMA = "Official source type: AIMA – Agência para a Integração, Migrações e Asilo";
+const URL_AIMA = "https://aima.gov.pt/";
+const FUENTE_FIN = "Official source type: Portal das Finanças (Autoridade Tributária e Aduaneira)";
+const URL_FIN = "https://www.portaldasfinancas.gov.pt/";
+const FUENTE_NAC = "Official source type: IRN – Instituto dos Registos e do Notariado, and AIMA";
+const URL_NAC = "https://irn.justica.gov.pt/";
 
 export const TAGE = {
-  1: { heute: "2027-03-15", ort: "padron", titel: "Día 1 · Padrón", regeln: ["name", "wgb", "sinpermiso"] },
-  2: { heute: "2027-03-16", ort: "padron", titel: "Día 2 · Padrón", regeln: ["name", "gueltig", "formular", "unterschrift", "meldesachen"] },
-  3: { heute: "2027-03-17", ort: "extranjeria", titel: "Día 3 · NIE", regeln: ["name", "gueltig", "frist", "tasa", "solicitud"] },
-  4: { heute: "2027-03-18", ort: "extranjeria", titel: "Día 4 · TIE", regeln: ["name", "schreibweise", "foto", "original", "kuli"] },
-  5: { heute: "2027-03-19", ort: "extranjeria", titel: "Día 5 · Consultas", regeln: ["name", "frist", "tasa", "derivar"] },
+  1: { heute: "2027-03-15", ort: "junta", titel: "Dia 1 · Junta de Freguesia", regeln: ["name", "wgb", "sinpermiso"] },
+  2: { heute: "2027-03-16", ort: "saude", titel: "Dia 2 · Centro de saúde", regeln: ["name", "gueltig", "formular", "unterschrift", "meldesachen"] },
+  3: { heute: "2027-03-17", ort: "financas", titel: "Dia 3 · Finanças e Segurança Social", regeln: ["name", "gueltig", "frist", "solicitud"] },
+  4: { heute: "2027-03-18", ort: "aima", titel: "Dia 4 · AIMA", regeln: ["name", "tasa", "schreibweise", "foto", "original", "kuli"] },
+  5: { heute: "2027-03-19", ort: "aima", titel: "Dia 5 · AIMA e dúvidas", regeln: ["name", "frist", "tasa", "derivar"] },
 };
 export const LETZTER_TAG = 5;
 
@@ -45,116 +51,116 @@ export const REGELN = {
   name: {
     tag: 1,
     art: "echt",
-    memo: q("El **nombre** y la **fecha de nacimiento** deben ser iguales en todos los papeles y en el **documento de identidad**.", "Name and date of birth must be the same on every paper and on the ID."),
-    wirklich: q("En el padrón y en Extranjería comprueban tus datos con un documento de identidad: DNI, pasaporte o tarjeta de extranjero.", "At the padrón and at Extranjería, your details are checked against an identity document: a Spanish DNI, a passport or a foreigner’s card."),
-    quelle: FUENTE_PADRON,
-    url: URL_PADRON,
+    memo: q("O **nome** e a **data de nascimento** têm de ser iguais em todos os papéis e no **documento de identificação**.", "Name and date of birth must be the same on every paper and on the ID."),
+    wirklich: q("Na Junta, no centro de saúde, nas Finanças e na AIMA confirmam os seus dados com um documento de identificação: Cartão de Cidadão, passaporte ou título de residência.", "At the Junta, the health centre, Finanças and AIMA, your details are checked against an identity document: a Cartão de Cidadão, a passport or a residence permit card."),
+    quelle: FUENTE_PORTAL,
+    url: URL_PORTAL,
   },
   wgb: {
     tag: 1,
     art: "echt",
-    memo: q("Para comprobar la dirección, pide el **contrato de alquiler** u otro papel parecido. La **dirección** debe coincidir.", "To check the address, ask for the rental contract or a similar paper. The address must match."),
-    wirklich: q("El ayuntamiento puede pedir un contrato de alquiler, una escritura u otro documento parecido. Si no tienes contrato, a veces sirve otra prueba, como una autorización de quien vive allí. Cada ayuntamiento explica qué acepta.", "The town hall may ask for a rental contract, property deeds or a similar paper. With no contract, other proof can sometimes work, such as written consent from the person who holds the home, and the town hall can check in other ways. A refusal has to be a reasoned decision. Ask your own town hall what it accepts."),
-    quelle: FUENTE_PADRON,
-    url: URL_PADRON,
+    memo: q("Para confirmar a morada, peça o **contrato de arrendamento** ou outro comprovativo parecido. A **morada** tem de coincidir.", "To check the address, ask for the rental contract or a similar paper. The address must match."),
+    wirklich: q("A Junta de Freguesia pode pedir um contrato de arrendamento, uma escritura, uma fatura da água, da luz ou da internet em seu nome, ou uma declaração de quem lhe cede a casa. Algumas Juntas aceitam também duas testemunhas. Cada Junta explica o que aceita e quanto custa o atestado.", "A Junta de Freguesia may ask for a rental contract, property deeds, a water, electricity or internet bill in your name, or a statement from the person who lets you the home. Some Juntas also accept two witnesses. Each Junta explains what it accepts and what the certificate costs."),
+    quelle: FUENTE_PORTAL,
+    url: URL_PORTAL,
   },
   sinpermiso: {
     tag: 1,
     art: "echt",
-    memo: q("Para el padrón **no hace falta** permiso de residencia.", "You don’t need a residence permit for the padrón."),
-    wirklich: q("El ayuntamiento no controla si tu estancia en España es legal o no: el padrón solo dice dónde vives. Si eres de fuera de la UE y no tienes residencia de larga duración, normalmente debes renovarlo cada dos años.", "The town hall does not check whether your stay in Spain is legal: the padrón only records where you live. If you are from outside the EU and have no long-term residence, you usually have to renew your entry every two years, or it lapses."),
-    quelle: FUENTE_PADRON,
-    url: URL_PADRON,
+    memo: q("Neste balcão, o atestado **não depende** de ter título de residência.", "At this window the certificate doesn’t depend on having a residence permit."),
+    wirklich: q("O atestado de residência diz apenas onde mora: não é um título de residência e não regulariza a estadia. Muitas Juntas passam-no a estrangeiros com passaporte e comprovativo de morada, mas as regras variam de Junta para Junta: pergunte na sua.", "The atestado de residência only says where you live: it is not a residence permit and does not make a stay legal. Many Juntas issue it to foreign nationals with a passport and proof of address, but the rules differ from one Junta to another, so ask at yours."),
+    quelle: FUENTE_PORTAL,
+    url: URL_PORTAL,
   },
   gueltig: {
     tag: 2,
     art: "echt",
-    memo: q("El documento debe estar **en vigor**. Mira la fecha de **caducidad** y el calendario.", "The document must be valid. Check the expiry date and the calendar."),
-    wirklich: q("Para el padrón, un documento caducado normalmente no vale, salvo que lleves también la solicitud de renovación. En Extranjería también suelen pedir un pasaporte en vigor.", "For the padrón an expired document normally doesn’t count, unless you also bring your renewal application. Extranjería usually asks for a valid passport too."),
-    quelle: FUENTE_PADRON,
-    url: URL_PADRON,
+    memo: q("O documento tem de estar **válido**. Veja a data de **validade** e o calendário.", "The document must be valid. Check the expiry date and the calendar."),
+    wirklich: q("Um documento caducado normalmente não serve como identificação. Se está a renovar, leve também o comprovativo do pedido, mas confirme antes com o serviço. Na AIMA, o passaporte tem de estar válido.", "An expired document normally doesn’t count as identification. If you are renewing, also bring proof of your application, but check with the office first. At AIMA, your passport has to be valid."),
+    quelle: FUENTE_AIMA,
+    url: URL_AIMA,
   },
   formular: {
     tag: 2,
     art: "echt",
-    memo: q("Marca la **casilla** correcta: nuevo en Villabruno → **Alta**. Mudanza dentro de Villabruno → **Cambio de domicilio**.", "Tick the right box: new in Villabruno → Alta (new registration). Moving inside Villabruno → Cambio de domicilio (change of address)."),
-    wirklich: q("Si te mudas a otro municipio, te das de alta en el nuevo. Si te mudas dentro del mismo municipio, pides un cambio de domicilio. Los impresos cambian de un ayuntamiento a otro.", "If you move to another municipality, you register in the new one. If you move inside the same municipality, you ask for a change of address. The paper forms differ from one town hall to another."),
-    quelle: FUENTE_PADRON,
-    url: URL_PADRON,
+    memo: q("Marque a **caixa** certa: utente novo → **Inscrição**. Mudou de casa em Vilabruno → **Alteração de morada**.", "Tick the right box: new patient → Inscrição (registration). Moved house in Vilabruno → Alteração de morada (change of address)."),
+    wirklich: q("Quem não tem médico de família inscreve-se no centro de saúde da sua área e recebe o número de utente do SNS. Quem muda de casa altera a morada na inscrição, e, se muda de área, pode ter de pedir a transferência. Os impressos e o processo online mudam de unidade para unidade.", "If you have no family doctor, you register at the health centre for your area and get your SNS utente number. If you move house you update the address on your registration, and if you move to another area you may have to ask for a transfer. Forms and the online process differ from one health unit to another."),
+    quelle: FUENTE_SNS,
+    url: URL_SNS,
   },
   unterschrift: {
     tag: 2,
     art: "echt",
-    memo: q("Sin **firma**, no hay sello.", "No signature, no stamp."),
-    wirklich: q("Las solicitudes en papel llevan tu firma. Por internet se firma de otra forma, por ejemplo con certificado digital o Cl@ve.", "Paper applications carry your signature. Online you sign another way, for example with a digital certificate or Cl@ve."),
-    quelle: FUENTE_EXT,
-    url: URL_EXT,
+    memo: q("Sem **assinatura**, não há carimbo.", "No signature, no stamp."),
+    wirklich: q("Os pedidos em papel levam a sua assinatura. Online assina-se de outra forma, por exemplo com a Chave Móvel Digital.", "Paper applications carry your signature. Online you sign another way, for example with the Chave Móvel Digital."),
+    quelle: FUENTE_PORTAL,
+    url: URL_PORTAL,
   },
   meldesachen: {
     tag: 2,
     art: "lindenau",
-    memo: q("La ventanilla 3 solo atiende el **padrón**. La **biblioteca** está en la sala 12.", "Window 3 only deals with the padrón. The library is in room 12."),
+    memo: q("O balcão 3 só atende o **centro de saúde**. A **biblioteca** fica na sala 12.", "Window 3 only deals with the health centre. The library is in room 12."),
     wirklich: null,
   },
   frist: {
     tag: 3,
     art: "echt",
-    memo: q("La **cita** debe ser para **hoy**. Mira la fecha de la cita y el calendario.", "The appointment must be for today. Check its date and the calendar."),
-    wirklich: q("Muchos trámites de extranjería necesitan cita previa, y hay que ir el día, a la hora y a la oficina de la cita. Se pide en la sede electrónica de las administraciones públicas. La cita es gratis: no hace falta pagar a nadie por ella.", "Many immigration procedures need an appointment (cita previa), and you go on its day, at its time, to its office. You book on the public administrations’ e-office. The appointment itself is free, so you don’t have to pay anybody for one."),
-    quelle: FUENTE_CITA,
-    url: URL_CITA,
+    memo: q("A **marcação** tem de ser para **hoje**. Veja a data da marcação e o calendário.", "The appointment must be for today. Check its date and the calendar."),
+    wirklich: q("Muitos serviços (Finanças, Segurança Social, AIMA) atendem com marcação, e é preciso ir no dia, à hora e ao balcão marcados. A marcação faz-se nos portais oficiais ou por telefone, e é gratuita: não pague a ninguém por ela.", "Many offices (Finanças, Segurança Social, AIMA) serve people by appointment, and you go on its day, at its time, to its office. You book on the official portals or by phone, and booking is free: don’t pay anybody for it."),
+    quelle: FUENTE_PORTAL,
+    url: URL_PORTAL,
   },
   tasa: {
-    tag: 3,
+    tag: 4,
     art: "echt",
-    memo: q("Hace falta el **justificante de la tasa** (modelo 790, código 012), a nombre de quien hace el trámite.", "You need the fee receipt (form 790, code 012), in the name of the person doing the procedure."),
-    wirklich: q("Los trámites de NIE y TIE ante la policía suelen pagarse con el modelo 790, código 012, en el banco o por internet. El importe cambia: míralo en la web oficial.", "NIE and TIE procedures at the police are usually paid with form 790, code 012, at a bank or online. The amount changes, so look it up on the official site."),
-    quelle: FUENTE_POLICIA,
-    url: URL_POLICIA,
+    memo: q("É preciso o **comprovativo de pagamento da taxa** (referência Multibanco), em nome de quem faz o pedido.", "You need the fee receipt (Multibanco reference), in the name of the person making the application."),
+    wirklich: q("Os pedidos à AIMA têm taxas, normalmente pagas com uma referência Multibanco ou no portal. Os valores mudam: consulte o site oficial e confirme quando e a quem se paga.", "Applications to AIMA carry fees, usually paid with a Multibanco reference or on the portal. The amounts change, so look them up on the official site and check when and to whom you pay."),
+    quelle: FUENTE_AIMA,
+    url: URL_AIMA,
   },
   solicitud: {
     tag: 3,
     art: "echt",
-    memo: q("El **NIE** es un **número**: impreso EX-15. La **TIE** es una **tarjeta**: impreso EX-17. La casilla debe coincidir con lo que pide la persona.", "The NIE is a number: form EX-15. The TIE is a card: form EX-17. The box must match what the person is asking for."),
-    wirklich: q("El NIE es tu número de identidad de extranjero. La TIE es la tarjeta física que suelen necesitar quienes tienen autorización para más de seis meses. Son dos impresos separados: aquí van juntos solo para simplificar el juego.", "The NIE is your foreigner’s identity number. The TIE is the physical card, usually needed by people authorised to stay for more than six months. They are two separate forms; the game puts them on one sheet to keep things simple."),
-    quelle: FUENTE_EXT,
-    url: URL_EXT,
+    memo: q("O **NIF** pede-se nas **Finanças**; o **NISS** na **Segurança Social**. A caixa tem de coincidir com o que a pessoa pede.", "The NIF is requested at Finanças; the NISS at Segurança Social. The box must match what the person is asking for."),
+    wirklich: q("O NIF é o número de identificação fiscal, atribuído pelas Finanças. O NISS é o número de identificação da Segurança Social, preciso para trabalhar e descontar. São dois pedidos separados, em serviços diferentes: aqui aparecem na mesma folha só para simplificar o jogo. Quem não é residente pode precisar de um representante fiscal para o NIF.", "The NIF is the tax identification number, issued by Finanças. The NISS is the Social Security number, needed to work and pay contributions. They are two separate requests at different offices; the game puts them on one sheet to keep things simple. Someone who is not resident may need a tax representative for the NIF."),
+    quelle: FUENTE_FIN,
+    url: URL_FIN,
   },
   schreibweise: {
     tag: 4,
     art: "lindenau",
-    memo: q("No confundas **nombre** y **apellidos**. Cuenta **cada letra**. Las mayúsculas del pasaporte pueden ir sin tilde: GARCIA y García valen.", "Don’t mix up first name and surnames. Every letter counts. Capitals in a passport may have no accent: GARCIA and García are both fine."),
+    memo: q("Não confunda **nome próprio** e **apelidos**. Conte **cada letra**. As maiúsculas do passaporte podem não ter acento: GONCALVES e Gonçalves valem.", "Don’t mix up first name and surnames. Every letter counts. Capitals in a passport may have no accent: GONCALVES and Gonçalves are both fine."),
     wirklich: null,
   },
   foto: {
     tag: 4,
     art: "echt",
-    memo: q("Para la TIE hace falta una **foto** reciente con **fondo blanco**.", "For the TIE you need a recent photo with a white background."),
-    wirklich: q("Para la TIE suelen pedir una foto reciente en color, tamaño carné y con fondo blanco. Normalmente también toman las huellas. Consulta cuántas fotos y qué papeles pide tu oficina.", "For the TIE you are usually asked for a recent colour photo, passport size, on a white background, and your fingerprints are usually taken too. Check how many photos and which papers your office asks for."),
-    quelle: FUENTE_POLICIA,
-    url: URL_POLICIA,
+    memo: q("Para o título de residência é preciso uma **fotografia** recente com **fundo claro**.", "For the residence card you need a recent photo with a light background."),
+    wirklich: q("Para o título de residência pedem uma fotografia recente, tipo passe, de fundo claro e liso, e recolhem as impressões digitais. Confirme as medidas e quantas fotografias pede o seu serviço.", "For the residence card you are asked for a recent passport-type photo on a plain light background, and your fingerprints are taken. Check the size and how many photos your office asks for."),
+    quelle: FUENTE_AIMA,
+    url: URL_AIMA,
   },
   original: {
     tag: 4,
     art: "echt",
-    memo: q("El pasaporte debe ser el **original**. Un **fax** no vale.", "The passport must be the original. A fax doesn’t count."),
-    wirklich: q("Las oficinas suelen querer ver el pasaporte original, y muchas piden también una copia. Lleva los dos.", "Offices usually want to see your original passport, and many ask for a copy as well. Bring both."),
-    quelle: FUENTE_EXT,
-    url: URL_EXT,
+    memo: q("O passaporte tem de ser o **original**. Um **fax** não serve.", "The passport must be the original. A fax doesn’t count."),
+    wirklich: q("Os serviços costumam querer ver o passaporte original, e muitos pedem também uma cópia. Leve os dois.", "Offices usually want to see your original passport, and many ask for a copy as well. Bring both."),
+    quelle: FUENTE_AIMA,
+    url: URL_AIMA,
   },
   kuli: {
     tag: 4,
     art: "lindenau",
-    memo: q("Hoy, solo **bolígrafo negro**.", "Today, black pen only."),
+    memo: q("Hoje, só **caneta preta**.", "Today, black pen only."),
     wirklich: null,
   },
   derivar: {
     tag: 5,
     art: "echt",
-    memo: q("**Arraigo** y **regularización**: aquí no se decide. Informa a la persona y mándala a la **información oficial**.", "Arraigo and regularisation aren’t decided at this window. Inform the person and send them to the official information."),
-    wirklich: q("El arraigo es una autorización de residencia para personas que ya viven en España, con varias modalidades; muchas piden unos dos años aquí y otros requisitos. La regularización extraordinaria de 2026 aceptó solicitudes hasta el 30 de junio de 2026. Antes de actuar, consulta la información oficial, una entidad de ayuda o un abogado de extranjería.", "Arraigo is a residence authorisation for people already living in Spain. It has several types, and many ask for about two years here plus other conditions. The 2026 extraordinary regularisation (Royal Decree 316/2026) took applications from 16 April to 30 June 2026; as of November 2026 we know of no new window. Each case is different, so before you act, check the official information, an advice organisation or an immigration lawyer."),
-    quelle: "Official source type: La Moncloa, questions and answers on the 2026 regularisation; the Spanish government’s immigration pages",
-    url: "https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/inclusion/Documents/2026/160426-preguntas-frecuentes-regularizacion-extraordinaria.pdf",
+    memo: q("**Nacionalidade** e **manifestação de interesse**: aqui não se decide. Informe a pessoa e encaminhe-a para a **informação oficial**.", "Nationality and manifestação de interesse aren’t decided at this window. Inform the person and send them to the official information."),
+    wirklich: q("O pedido de nacionalidade portuguesa trata-se nos serviços de registos (IRN), não na AIMA, e as regras (anos de residência, prova de língua) estão em mudança desde 2025. A manifestação de interesse, uma via que permitia pedir residência a quem tinha trabalho em Portugal, foi extinta em 2024. Cada caso é diferente: antes de agir, consulte a informação oficial, uma associação de apoio a migrantes ou um advogado.", "Applications for Portuguese nationality are handled by the registry services (IRN), not by AIMA, and the rules (years of residence, language proof) have been changing since 2025. The manifestação de interesse, a route that let people with work in Portugal apply for residence, was ended in 2024. Each case is different, so before you act, check the official information, a migrant support organisation or a lawyer."),
+    quelle: FUENTE_NAC,
+    url: URL_NAC,
   },
 };
 
@@ -164,175 +170,175 @@ export const neueRegeln = (tag) => regelnBis(tag).filter((id) => REGELN[id].tag 
 
 // Questions that fit some mistake; mixed into each list as the two wrong ones.
 const F = {
-  name: q("¿Puede comprobar su nombre, por favor?", "Could you check your name, please?"),
-  datum: q("¿Puede comprobar su fecha de nacimiento, por favor?", "Could you check your date of birth, please?"),
-  pass: q("¿Tiene otro documento en vigor?", "Do you have another valid document?"),
-  wgb: q("¿Me enseña el contrato de alquiler, por favor?", "Could you show me the rental contract, please?"),
-  adresse: q("¿Esta dirección es correcta? El número no coincide.", "Is this address right? The number doesn’t match."),
-  wohin: q("¿Viene de otro municipio o se ha mudado dentro de Villabruno?", "Have you come from another municipality or moved inside Villabruno?"),
-  unterschreiben: q("¿Puede firmar aquí, por favor?", "Could you sign here, please?"),
-  familienname: q("¿Cuál es su nombre y cuáles son sus apellidos?", "Which is your first name and which are your surnames?"),
-  kuli: q("¿Puede firmar otra vez con bolígrafo negro?", "Could you sign again in black pen?"),
-  original: q("¿Tiene el pasaporte original?", "Do you have the original passport?"),
-  zimmer: q("¿Viene por un carné de biblioteca?", "Are you here for a library card?"),
-  cita: q("¿Puede mirar la fecha de su cita?", "Could you look at the date of your appointment?"),
-  tasa: q("¿Tiene el justificante de la tasa?", "Do you have the fee receipt?"),
-  tasaName: q("¿A nombre de quién está pagada la tasa?", "In whose name was the fee paid?"),
-  foto: q("¿Tiene otra foto con fondo blanco?", "Do you have another photo with a white background?"),
-  tramite: q("¿Viene a pedir el NIE o la TIE?", "Have you come for the NIE or the TIE?"),
-  sabe: q("¿Ha mirado la información oficial sobre su caso?", "Have you looked at the official information about your case?"),
+  name: q("Pode confirmar o seu nome, por favor?", "Could you check your name, please?"),
+  datum: q("Pode confirmar a sua data de nascimento, por favor?", "Could you check your date of birth, please?"),
+  pass: q("Tem outro documento válido?", "Do you have another valid document?"),
+  wgb: q("Pode mostrar-me o contrato de arrendamento, por favor?", "Could you show me the rental contract, please?"),
+  adresse: q("Esta morada está certa? O número não coincide.", "Is this address right? The number doesn’t match."),
+  wohin: q("É a primeira inscrição ou mudou de casa dentro de Vilabruno?", "Is this your first registration, or have you moved house inside Vilabruno?"),
+  unterschreiben: q("Pode assinar aqui, por favor?", "Could you sign here, please?"),
+  familienname: q("Qual é o seu nome próprio e quais são os seus apelidos?", "Which is your first name and which are your surnames?"),
+  kuli: q("Pode assinar outra vez com caneta preta?", "Could you sign again in black pen?"),
+  original: q("Tem o passaporte original?", "Do you have the original passport?"),
+  zimmer: q("Vem por causa de um cartão de biblioteca?", "Are you here for a library card?"),
+  cita: q("Pode ver a data da sua marcação?", "Could you look at the date of your appointment?"),
+  tasa: q("Tem o comprovativo de pagamento da taxa?", "Do you have the fee receipt?"),
+  tasaName: q("Em nome de quem foi paga a taxa?", "In whose name was the fee paid?"),
+  foto: q("Tem outra fotografia com fundo claro?", "Do you have another photo with a light background?"),
+  tramite: q("Vem pedir o NIF ou o NISS?", "Have you come to ask for the NIF or the NISS?"),
+  sabe: q("Já consultou a informação oficial sobre o seu caso?", "Have you looked at the official information about your case?"),
 };
 
-const VUELVO = q("Mmm, no estoy seguro de cómo arreglarlo. Vuelvo otro día.", "Hmm, I’m not sure how to fix it. I’ll come back another day.");
+const VUELVO = q("Hum, não sei bem como resolver isto. Volto noutro dia.", "Hmm, I’m not sure how to fix it. I’ll come back another day.");
 
 export const FEHLER = {
   familienname: {
     regel: "name",
-    notiz: q("Los apellidos no coinciden", "The surnames don’t match"),
+    notiz: q("Os apelidos não coincidem", "The surnames don’t match"),
     fragen: [F.name, F.wgb, F.unterschreiben], passt: 0,
-    loest: q("¡Ay, una errata! Lo corrijo ahora mismo.", "Oh, a typo! I’ll correct it right now."),
+    loest: q("Ai, um erro de escrita! Corrijo já.", "Oh, a typo! I’ll correct it right now."),
     nicht: VUELVO,
   },
   vorname: {
     regel: "name",
-    notiz: q("El nombre no coincide", "The first name doesn’t match"),
+    notiz: q("O nome próprio não coincide", "The first name doesn’t match"),
     fragen: [F.pass, F.name, F.unterschreiben], passt: 1,
-    loest: q("¡Es verdad! Falta una letra. Ya lo corrijo.", "You’re right! A letter is missing. I’ll correct it."),
+    loest: q("É verdade! Falta uma letra. Já corrijo.", "You’re right! A letter is missing. I’ll correct it."),
     nicht: VUELVO,
   },
   geburtsdatum: {
     regel: "name",
-    notiz: q("La fecha de nacimiento no coincide", "The date of birth doesn’t match"),
+    notiz: q("A data de nascimento não coincide", "The date of birth doesn’t match"),
     fragen: [F.adresse, F.wohin, F.datum], passt: 2,
-    loest: q("¡Vaya, me he equivocado de número! Espere, que lo escribo bien.", "Oh, I got a number wrong! Just a moment, I’ll write it properly."),
+    loest: q("Ui, enganei-me num número! Um momento, escrevo-o bem.", "Oh, I got a number wrong! Just a moment, I’ll write it properly."),
     nicht: VUELVO,
   },
   abgelaufen: {
     regel: "gueltig",
-    notiz: q("El documento está caducado", "The document has expired"),
+    notiz: q("O documento está caducado", "The document has expired"),
     fragen: [F.pass, F.unterschreiben, F.name], passt: 0,
-    loest: q("Sí, aquí tengo el pasaporte nuevo. Este está en vigor.", "Yes, I have my new passport here. This one is valid."),
-    nicht: q("No, no tengo otro. Lo renuevo y vuelvo.", "No, I don’t have another one. I’ll renew it and come back."),
+    loest: q("Sim, aqui tenho o passaporte novo. Este está válido.", "Yes, I have my new passport here. This one is valid."),
+    nicht: q("Não, não tenho outro. Renovo-o e volto.", "No, I don’t have another one. I’ll renew it and come back."),
   },
   wgb_fehlt: {
     regel: "wgb",
-    notiz: q("Falta el papel de la dirección", "The paper for the address is missing"),
+    notiz: q("Falta o comprovativo da morada", "The proof of address is missing"),
     fragen: [F.name, F.wgb, F.pass], passt: 1,
-    loest: q("¡Ah, sí, lo tengo en la mochila! Aquí tiene.", "Oh yes, it’s in my rucksack! Here you are."),
-    nicht: q("Vivo con un amigo y no tengo contrato. Vuelvo con una autorización suya.", "I live with a friend and have no contract. I’ll come back with written consent from them."),
+    loest: q("Ah, sim, tenho-o na mochila! Aqui está.", "Oh yes, it’s in my rucksack! Here you are."),
+    nicht: q("Vivo com um amigo e não tenho contrato. Volto com uma declaração dele.", "I live with a friend and have no contract. I’ll come back with a statement from them."),
   },
   wgb_adresse: {
     regel: "wgb",
-    notiz: q("La dirección no coincide con el contrato", "The address doesn’t match the contract"),
+    notiz: q("A morada não coincide com o contrato", "The address doesn’t match the contract"),
     fragen: [F.adresse, F.datum, F.zimmer], passt: 0,
-    loest: q("Tiene razón, he cambiado los números. Lo corrijo.", "You’re right, I swapped the numbers. I’ll correct it."),
-    nicht: q("El contrato está mal: el casero se ha equivocado. Vuelvo con uno corregido.", "The contract is wrong: the landlord made a mistake. I’ll come back with a corrected one."),
+    loest: q("Tem razão, troquei os números. Corrijo.", "You’re right, I swapped the numbers. I’ll correct it."),
+    nicht: q("O contrato está errado: o senhorio enganou-se. Volto com um corrigido.", "The contract is wrong: the landlord made a mistake. I’ll come back with a corrected one."),
   },
   formular: {
     regel: "formular",
-    notiz: q("La casilla marcada no es la correcta", "The wrong box is ticked"),
+    notiz: q("A caixa marcada não é a certa", "The wrong box is ticked"),
     fragen: [F.wgb, F.unterschreiben, F.wohin], passt: 2,
-    loest: q("Me he mudado dentro de Villabruno. Entonces marco la otra casilla. Ya está.", "I’ve moved inside Villabruno. So I’ll tick the other box. There you go."),
+    loest: q("Mudei de casa dentro de Vilabruno. Então marco a outra caixa. Pronto.", "I’ve moved house inside Vilabruno. So I’ll tick the other box. There you go."),
     nicht: VUELVO,
   },
   unterschrift: {
     regel: "unterschrift",
-    notiz: q("Falta la firma", "The signature is missing"),
+    notiz: q("Falta a assinatura", "The signature is missing"),
     fragen: [F.datum, F.unterschreiben, F.adresse], passt: 1,
-    loest: q("¡Huy, se me ha olvidado! Ya está.", "Oops, I forgot! There you go."),
-    nicht: q("Se me ha acabado el bolígrafo … Ahora vuelvo.", "My pen has run out … I’ll be right back."),
+    loest: q("Ui, esqueci-me! Pronto.", "Oops, I forgot! There you go."),
+    nicht: q("Acabou-se-me a tinta da caneta … Já volto.", "My pen has run out … I’ll be right back."),
   },
   zimmer: {
     regel: "meldesachen",
-    notiz: q("Ventanilla equivocada: la biblioteca está en la sala 12", "Wrong window: the library is in room 12"),
+    notiz: q("Balcão errado: a biblioteca fica na sala 12", "Wrong window: the library is in room 12"),
     fragen: [F.zimmer, F.wgb, F.name], passt: 0,
     loest: null,
-    nicht: q("¡Guau! ¡Sí, por favor! … ¿Sala 12? ¡Guau, gracias!", "Woof! Yes, please! … Room 12? Woof, thank you!"),
+    nicht: q("Au! Sim, por favor! … Sala 12? Au, obrigado!", "Woof! Yes, please! … Room 12? Woof, thank you!"),
   },
   frist: {
     regel: "frist",
-    notiz: q("La cita no es para hoy", "The appointment isn’t for today"),
+    notiz: q("A marcação não é para hoje", "The appointment isn’t for today"),
     fragen: [F.cita, F.kuli, F.name], passt: 0,
     loest: null,
-    nicht: q("¡Es verdad, no es hoy! Vuelvo el día de mi cita.", "You’re right, it isn’t today! I’ll come back on the day of my appointment."),
+    nicht: q("É verdade, não é hoje! Volto no dia da minha marcação.", "You’re right, it isn’t today! I’ll come back on the day of my appointment."),
   },
   tasa_fehlt: {
     regel: "tasa",
-    notiz: q("Falta el justificante de la tasa", "The fee receipt is missing"),
+    notiz: q("Falta o comprovativo de pagamento da taxa", "The fee receipt is missing"),
     fragen: [F.original, F.tasa, F.name], passt: 1,
-    loest: q("¡Ah, sí! Lo pagué ayer en el banco. Aquí lo tiene.", "Oh yes! I paid it at the bank yesterday. Here it is."),
-    nicht: q("Todavía no la he pagado. Voy al banco y pido otra cita si hace falta.", "I haven’t paid it yet. I’ll go to the bank and book another appointment if I need to."),
+    loest: q("Ah, sim! Paguei ontem no Multibanco. Aqui está.", "Oh yes! I paid it at the ATM yesterday. Here it is."),
+    nicht: q("Ainda não paguei. Vou ao Multibanco e marco outra vez, se for preciso.", "I haven’t paid yet. I’ll go to the ATM and book again if I need to."),
   },
   tasa_name: {
     regel: "tasa",
-    notiz: q("La tasa está a nombre de otra persona", "The fee is in someone else’s name"),
+    notiz: q("A taxa está em nome de outra pessoa", "The fee is in someone else’s name"),
     fragen: [F.foto, F.cita, F.tasaName], passt: 2,
     loest: null,
-    nicht: q("Mi hermano rellenó el impreso con su nombre. Pago otra tasa con el mío y vuelvo.", "My brother filled in the form with his name. I’ll pay another fee in mine and come back."),
+    nicht: q("O meu irmão fez a referência com o nome dele. Pago outra taxa com o meu e volto.", "My brother made the reference in his name. I’ll pay another fee in mine and come back."),
   },
   solicitud: {
     regel: "solicitud",
-    notiz: q("La casilla no coincide con lo que pide", "The box doesn’t match what the person is asking for"),
+    notiz: q("A caixa não coincide com o que a pessoa pede", "The box doesn’t match what the person is asking for"),
     fragen: [F.tramite, F.datum, F.foto], passt: 0,
-    loest: q("¡Ah, me he confundido de casilla! Ya la cambio.", "Oh, I ticked the wrong box! I’ll change it now."),
+    loest: q("Ah, enganei-me na caixa! Já a troco.", "Oh, I ticked the wrong box! I’ll change it now."),
     nicht: VUELVO,
   },
   foto_fondo: {
     regel: "foto",
-    notiz: q("La foto no tiene fondo blanco", "The photo doesn’t have a white background"),
+    notiz: q("A fotografia não tem fundo claro", "The photo doesn’t have a light background"),
     fragen: [F.foto, F.kuli, F.tasa], passt: 0,
-    loest: q("Sí, me hice varias. Tenga, esta tiene el fondo blanco.", "Yes, I had several taken. Here, this one has a white background."),
-    nicht: q("No tengo otra. Me hago una en el fotomatón y vuelvo.", "I don’t have another one. I’ll get one in the photo booth and come back."),
+    loest: q("Sim, tirei várias. Tenha, esta tem fundo claro.", "Yes, I had several taken. Here, this one has a light background."),
+    nicht: q("Não tenho outra. Tiro uma na cabine de fotografias e volto.", "I don’t have another one. I’ll get one in the photo booth and come back."),
   },
   vertauscht: {
     regel: "schreibweise",
-    notiz: q("Nombre y apellidos están cambiados", "First name and surname are swapped"),
+    notiz: q("Nome próprio e apelidos estão trocados", "First name and surname are swapped"),
     fragen: [F.familienname, F.pass, F.cita], passt: 0,
-    loest: q("¡Ah! Mi apellido va en la otra línea. Ya lo corrijo.", "Oh! My surname goes on the other line. I’ll correct it."),
+    loest: q("Ah! O meu apelido vai na outra linha. Já corrijo.", "Oh! My surname goes on the other line. I’ll correct it."),
     nicht: VUELVO,
   },
-  // code kept from the German umlaut mistake; in Spanish it is any spelling slip
+  // code kept from the German umlaut mistake; here it is any spelling slip
   umlaut: {
     regel: "schreibweise",
-    notiz: q("El apellido está mal escrito", "The surname is spelt wrong"),
+    notiz: q("O apelido está mal escrito", "The surname is spelt wrong"),
     fragen: [F.tramite, F.name, F.kuli], passt: 1,
-    loest: q("Tiene razón, falta una erre. Ahora está bien.", "You’re right, there’s an r missing. Now it’s right."),
+    loest: q("Tem razão, falta um erre. Agora está certo.", "You’re right, there’s an r missing. Now it’s right."),
     nicht: VUELVO,
   },
   kuli: {
     regel: "kuli",
-    notiz: q("La firma no está en bolígrafo negro", "The signature isn’t in black pen"),
+    notiz: q("A assinatura não está a caneta preta", "The signature isn’t in black pen"),
     fragen: [F.kuli, F.original, F.datum], passt: 0,
-    loest: q("¿Negro? Vale. Ya está, ahora es negra.", "Black? OK. There, now it’s black."),
-    nicht: q("Solo tengo uno rojo … Salgo a comprar uno negro.", "I’ve only got a red one … I’ll pop out and buy a black one."),
+    loest: q("Preta? Está bem. Pronto, agora é preta.", "Black? OK. There, now it’s black."),
+    nicht: q("Só tenho uma vermelha … Vou lá fora comprar uma preta.", "I’ve only got a red one … I’ll pop out and buy a black one."),
   },
   fax: {
     regel: "original",
-    notiz: q("El pasaporte es un fax, no el original", "The passport is a fax, not the original"),
+    notiz: q("O passaporte é um fax, não o original", "The passport is a fax, not the original"),
     fragen: [F.unterschreiben, F.original, F.tramite], passt: 1,
-    loest: q("¿Quiere el original? Aquí lo tiene.", "You want the original? Here it is."),
-    nicht: q("El original está en casa. ¡Pero el fax es nuevecito!", "The original’s at home. But the fax is brand new!"),
+    loest: q("Quer o original? Aqui está.", "You want the original? Here it is."),
+    nicht: q("O original está em casa. Mas o fax é novinho em folha!", "The original’s at home. But the fax is brand new!"),
   },
-  derivar_arraigo: {
+  derivar_nacionalidade: {
     regel: "derivar",
-    notiz: q("El arraigo no se decide en esta ventanilla", "Arraigo isn’t decided at this window"),
+    notiz: q("A nacionalidade não se decide neste balcão", "Nationality isn’t decided at this window"),
     fragen: [F.foto, F.sabe, F.cita], passt: 1,
     loest: null,
-    nicht: q("Todavía no. Entonces lo miro en la web oficial y pregunto en una entidad de ayuda. Gracias.", "Not yet. Then I’ll look at the official website and ask at an advice organisation. Thank you."),
+    nicht: q("Ainda não. Então vejo o site oficial e pergunto numa associação de apoio. Obrigado.", "Not yet. Then I’ll look at the official website and ask at a support organisation. Thank you."),
   },
-  derivar_regularizacion: {
+  derivar_manifestacao: {
     regel: "derivar",
-    notiz: q("La regularización no se decide en esta ventanilla", "Regularisation isn’t decided at this window"),
+    notiz: q("A manifestação de interesse não se decide neste balcão", "Manifestação de interesse isn’t decided at this window"),
     fragen: [F.sabe, F.kuli, F.tasa], passt: 0,
     loest: null,
-    nicht: q("No, solo lo he oído en la radio. ¿Ya terminó el plazo? Lo miro en la web oficial y pido consejo.", "No, I only heard about it on the radio. Has the deadline passed? I’ll look at the official website and get advice."),
+    nicht: q("Não, só ouvi falar disso. Ainda se pode? Vejo o site oficial e peço conselho.", "No, I only heard about it. Is it still possible? I’ll look at the official website and get advice."),
   },
 };
 
 // What a customer says to a question that doesn't fit their case.
 export const WIRR = [
-  q("¿Perdón? No le entiendo.", "Sorry? I don’t understand."),
-  q("Eh … ¿por qué me pregunta eso?", "Erm … why are you asking me that?"),
-  q("Pero si está todo ahí, ¿no?", "But it’s all there, isn’t it?"),
-  q("¿Cómo? Creo que ese no es el problema.", "What? I don’t think that’s the problem."),
+  q("Desculpe? Não percebo.", "Sorry? I don’t understand."),
+  q("Hã … porque é que me pergunta isso?", "Erm … why are you asking me that?"),
+  q("Mas está tudo aí, não está?", "But it’s all there, isn’t it?"),
+  q("Como? Acho que esse não é o problema.", "What? I don’t think that’s the problem."),
 ];

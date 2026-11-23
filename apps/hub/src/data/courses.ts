@@ -41,7 +41,7 @@ export const COURSES: Course[] = [
     name: 'Português',
     english: 'Portuguese',
     meta: 'European Portuguese · CIPLE · life in Portugal',
-    live: false,
+    live: true, // flipped by the Portuguese queue (deploy-readme); redeploy the hub only after the Portuguese Worker is up
   },
   {
     slug: 'italiano',

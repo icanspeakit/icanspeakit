@@ -54,25 +54,14 @@ const english: Translate = (_k, fallback, vars) =>
 
 /* ------------------------------------------------------------ word shape ---- */
 
-// Spanish letters stay as they are: an accent or ñ is part of the word.
-const VOWELS = "aeiouáéíóúü";
-const norm = (w: string) => w.toLowerCase().replace(/[^a-záéíóúüñ]/g, "");
-// Letters to sounds, roughly: ch, ll, rr and qu count as one consonant each.
-const skeleton = (w: string) => norm(w).replace(/ch/g, "C").replace(/ll/g, "L").replace(/rr/g, "R").replace(/qu/g, "Q");
-const isCons = (c: string) => !!c && !VOWELS.includes(c);
-// A final y belongs to the vowel (hoy, muy): it isn't an ending that can get lost.
-const endsInConsonant = (w: string) => {
-  const s = skeleton(w);
-  const last = s[s.length - 1];
-  return s.length > 1 && isCons(last) && last !== "y";
-};
-const startCluster = (w: string) => /^(pl|pr|bl|br|fl|fr|gl|gr|cl|cr|tr|dr)/.test(norm(w));
-const innerCluster = (w: string) => /(pl|pr|bl|br|fl|fr|gl|gr|cl|cr|tr|dr)/.test(norm(w).slice(1));
-const syllables = (w: string) => (norm(w).match(/[aeiouáéíóúü]+/g) || []).length;
+// Portuguese letters stay as they are: an accent, tilde or ç is part of the word.
+const V = "aeiouáàâãéêíóôõú";
+const norm = (w: string) => w.toLowerCase().replace(/[^a-záàâãçéêíóôõú]/g, "");
+const syllables = (w: string) => (norm(w).match(new RegExp(`[${V}]+`, "g")) || []).length;
 // Small words said fast and unstressed: a low score there says little about one sound, so
 // only the `specific` rules look at them.
 const FUNCTION_WORDS = new Set(
-  "a al de del el la los las lo un una unos unas y e o u en con por para sin que si no me te se le les nos os mi mis tu tus su sus es son yo tú él ella hay ya muy más".split(" "),
+  "a o as os e é de do da dos das um uma uns umas em no na nos nas com por para sem que se me te lhe vos mas ou eu tu ele ela já não mais ao aos à às".split(" "),
 );
 
 /* ----------------------------------------------------------- went wrong? ---- */
@@ -101,30 +90,11 @@ interface Ctx {
   insertedBefore: string | null;
 }
 
-/** Heard "habla" where "hablar" was expected: the reference minus its final consonants. */
-const lostEnding = (ref: string, heard: string | null) => {
-  if (!heard) return false;
-  const r = norm(ref), h = norm(heard);
-  return h.length >= 2 && h.length < r.length && r.startsWith(h) && [...r.slice(h.length)].every((c) => isCons(c));
-};
-/** Heard "teren" for "tren": the reference with a vowel pushed into its consonants. */
-const vowelInserted = (ref: string, heard: string | null) => {
-  if (!heard) return false;
-  const r = norm(ref), h = norm(heard);
-  if (h.length !== r.length + 1 && h.length !== r.length + 2) return false;
-  for (let k = 0; k < h.length; k++) {
-    if (!VOWELS.includes(h[k])) continue;
-    const without = h.slice(0, k) + h.slice(k + 1);
-    if (without === r || without.slice(1) === r) return true;
-  }
-  return false;
-};
-
 /* ----------------------------------------------------------------- rules ---- */
 
 export interface DrillPattern {
-  /** Tried before the language's own order: a narrower rule (a stop before a vowel)
-      should win over a broad one that also matches the word. */
+  /** Tried before the language's own order: a narrower rule should win over a broad one
+      that also matches the word. */
   specific?: boolean;
   /** Does the word contain what this drill practises? */
   applies(word: string, ctx: Ctx): boolean;
@@ -135,23 +105,6 @@ export interface DrillPattern {
   message: string;
 }
 
-const finalConsonant = (key: string, message: string): DrillPattern => ({
-  applies: (word) => endsInConsonant(word),
-  wrong: (w, ctx) => lostEnding(w.word, ctx.heardInstead) || weak(w, "end"),
-  key,
-  message,
-});
-
-const cluster = (key: string, message: string): DrillPattern => ({
-  applies: (word) => startCluster(word) || innerCluster(word),
-  wrong: (w, ctx) =>
-    vowelInserted(w.word, ctx.heardInstead) ||
-    (!!ctx.insertedBefore && norm(ctx.insertedBefore).length <= 2) ||
-    weak(w, "any"),
-  key,
-  message,
-});
-
 const contains = (re: RegExp, part: "start" | "end" | "any", key: string, message: string): DrillPattern => ({
   applies: (word) => re.test(norm(word)),
   wrong: (w) => weak(w, part),
@@ -159,43 +112,34 @@ const contains = (re: RegExp, part: "start" | "end" | "any", key: string, messag
   message,
 });
 
+const R = contains;
+
 /** One rule per drill in src/data/aussprache-muttersprache.json (checked by pnpm check:aussprache). */
 export const DRILL_PATTERNS: Record<string, DrillPattern> = {
-  ende: finalConsonant("ac.find.final", "In “{word}” the last sound got lost. Say the ending so it can be heard."),
-  cluster: cluster("ac.find.cluster", "In “{word}” two consonants come straight after each other. No vowel between them."),
+  reducao: R(/e/, "any", "ac.find.reducao", "“{word}”: an unstressed e is very weak (a short “ɨ” or nothing at all). Don't say a full e. pequeno is nearly “p'keno”."),
+  "o-u": R(/[o]s?$/, "end", "ac.find.ou", "“{word}” ends in o: an unstressed final o sounds like u. livro is “livru”."),
+  "aberta-fechada": R(/[éêóô]/, "any", "ac.find.abertas", "“{word}”: listen to the accent. é and ó are open, ê and ô are closed. avó and avô are different people."),
+  nasal: R(/ã|õ|[aeiou][nm]($|[^aeiouáàâãéêíóôõú])/, "any", "ac.find.nasal", "“{word}”: the vowel is nasal. Let the air go through your nose, and don't finish with a clear n or m."),
+  ao: R(/ão|ãe|õe|ã/, "any", "ac.find.ao", "“{word}” has a nasal diphthong. Start with the nasal vowel and glide on to a short w or y, with no real n."),
+  "s-sh": R(/s($|[^aeiouáàâãéêíóôõús])|z$/, "any", "ac.find.ssh", "“{word}”: s before a consonant or at the end of a word sounds like sh (like the s in “measure” before b, d, g, m, n, l, r, v). luz is “loosh”."),
+  "s-z": R(/[aeiouáàâãéêíóôõú]s[aeiouáàâãéêíóôõú]|ss|ç|^z|z[aeiou]/, "any", "ac.find.sz", "“{word}”: s between vowels buzzes like z; ss and ç are a sharp s. casa is not caça."),
+  "r-rr": R(/r/, "any", "ac.find.rr", "“{word}” has r: a single r between vowels is one quick tap; rr and a first r are the strong r at the back of the mouth. caro is not carro."),
+  "lh-nh": R(/lh|nh/, "any", "ac.find.lhnh", "“{word}” has lh or nh: one sound each, made with the middle of the tongue against the roof of the mouth, like “million” or “canyon”."),
+  "j-g": R(/j|g[eiéíê]/, "any", "ac.find.jg", "“{word}”: j, and g before e or i, is like the s in “measure”. Not a rasp, and not the j of “jam”."),
+  ch: R(/ch/, "any", "ac.find.ch", "“{word}” has ch: it is sh, as in “shop”. Not ch as in “church”, and not k."),
+  doble: R(/[aeiouáàâãéêíóôõú][bcdfgmnpstz][aeiouáàâãéêíóôõú]/, "any", "ac.find.doble", "“{word}”: the consonants are short. Don't hold them; move straight on to the next vowel."),
+  "l-final": R(/l($|[^aeiouáàâãéêíóôõúh])/, "any", "ac.find.lfinal", "“{word}”: l at the end of a syllable is dark, said with the back of the tongue raised, almost like a short “w”."),
+  h: R(/^h/, "start", "ac.find.h", "The h in “{word}” is silent. Start straight on the next vowel."),
   enlace: {
     specific: true,
     applies: (word, ctx) => {
-      if (!/^h?[aeiouáéíóú]/.test(norm(word)) || ctx.i === 0) return false;
-      return /[aeiouáéíóúy]$/.test(norm(ctx.words[ctx.i - 1].word));
+      if (!/^h?[aeiouáàâãéêíóôõú]/.test(norm(word)) || ctx.i === 0) return false;
+      return /[aeiouáàâãéêíóôõúsrlz]$/.test(norm(ctx.words[ctx.i - 1].word));
     },
     wrong: (w) => weak(w, "start"),
     key: "ac.find.enlace",
     message: "“{word}” follows straight on from the word before. No small stop in your throat.",
   },
-  "r-rr": contains(/r/, "any", "ac.find.rr", "“{word}” has r: a single r is one quick tap of the tongue tip, rr and a first r are several. pero is not perro."),
-  "r-l": contains(/[rl]/, "any", "ac.find.rl", "In “{word}” listen carefully to r and l: for l your tongue stays up behind your top teeth, for r it taps once and goes."),
-  "ce-zi": contains(/z|c[eiéí]/, "any", "ac.find.cz", "“{word}”: z, and c before e or i, are like th in “think” in Spain: tongue tip between your teeth. Not ts, not ch, no buzz."),
-  "j-g": contains(/j|g[eiéí]/, "any", "ac.find.jg", "“{word}”: j, and g before e or i, are a rasp at the back of your mouth, like ch in Scottish “loch”."),
-  "b-v": contains(/[bv]/, "any", "ac.find.bv", "“{word}”: b and v are one sound. Use only your lips; your top teeth don't touch your lip."),
-  vokale: {
-    applies: (word) => syllables(word) >= 2,
-    wrong: (w) => weak(w, "any"),
-    key: "ac.find.vokale",
-    message: "“{word}”: keep every vowel short and clear, stressed or not. No glide, no weak “uh”.",
-  },
-  aspiration: contains(/^[pt]|^c[aouáóú]|^k|^qu/, "start", "ac.find.aspiration", "“{word}” has p, t or k. Say it with no puff of air."),
-  "d-suave": contains(/[^nl]d/, "any", "ac.find.dsuave", "The d in “{word}” is soft, like th in “this”. The tongue only just touches your teeth."),
-  "ll-y": contains(/ll|y[aeiouáéíóú]/, "any", "ac.find.lly", "“{word}”: ll and y sound like y in “yes” in most of Spain. Never an l."),
-  nasal: contains(/[aeiouáéíóú][nm]($|[^aeiouáéíóúnm])/, "any", "ac.find.nasal", "“{word}”: keep the vowel clean, with no air through your nose, then say a real n or m."),
-  u: contains(/(^|[^qg])[uú]/, "any", "ac.find.u", "“{word}” has u: round your lips and pull your tongue back, like the “ou” of French “vous”."),
-  ch: contains(/ch/, "any", "ac.find.ch", "“{word}” has ch, as in “church”. Not sh, not k."),
-  doble: contains(/[aeiouáéíóú][bcdfgmnpstz][aeiouáéíóú]/, "any", "ac.find.doble", "“{word}”: the consonants are short. Don't hold them; move straight on to the next vowel."),
-  s: contains(/[aeiouáéíóú]s[aeiouáéíóú]|^s[aeiouáéíóú]/, "any", "ac.find.s", "“{word}” has an s. Keep it sharp, as in “sun”, with no buzz."),
-  h: contains(/^h/, "start", "ac.find.h", "The h in “{word}” is silent. Start straight on the next vowel."),
-  g: contains(/g[aouáóúlr]|gu[eiéí]/, "any", "ac.find.g", "“{word}” has g as in “go”, made at the back of your mouth. Not h."),
-  "p-b": contains(/[pbv]/, "any", "ac.find.pb", "“{word}” has p or b: p has no puff of air and no voice; for b your voice is on from the start."),
-  "e-i-o-u": contains(/[eiouéíóú]/, "any", "ac.find.eiou", "In “{word}” listen to the vowel: e is not i, o is not u."),
   betonung: {
     applies: (word) => syllables(word) >= 2,
     wrong: (w) => weak(w, "any"),

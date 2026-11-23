@@ -10,20 +10,21 @@
 //
 // Two levels, not seven equal pills: the way up ("← Alle Prüfungen") is a quiet link above,
 // and the exams are one underlined tab row — the current one in ink with a brand underline,
-// the rest muted. The CCSE stands apart behind a divider: it is the nationality
-// knowledge test, not a language exam with a level. Names follow docs/content-plan.md §2;
-// the hrefs are the old slots until the `routes` item renames them.
+// the rest muted. Civics stands apart behind a divider: it is a knowledge module, not a
+// language exam with a level. Names follow docs/content-plan.md §2 (goethe slot = CAPLE,
+// dtz = CIPLE A2 for residence and nationality, testdaf = our level check, CCSE slot =
+// civics); the hrefs are the old slots until the `routes` item renames them. The SIELE
+// "by level" pages (telc slot) are not listed: `exams-caple` removes them.
 import "../styles/exam-rail.css";
 import { stripBase } from "../lib/paths.js";
 
 const exams = [
-  { name: "DELE A1", href: "/dele/a1", level: "A1" },
-  { name: "DELE", href: "/dele", level: "A1–C2" },
-  { name: "DELE A2 for nationality", href: "/nationality/dele-a2", level: "A2" },
-  { name: "SIELE", href: "/siele", level: "A1–C1" },
-  { name: "SIELE by level", href: "/siele/levels", level: "A2–C1" },
+  { name: "ACESSO A1", href: "/caple/acesso-a1", level: "A1" },
+  { name: "CAPLE", href: "/caple", level: "A1–C2" },
+  { name: "CIPLE A2 for residence and nationality", href: "/nationality/ciple-a2", level: "A2" },
+  { name: "Level check", href: "/caple/level-check", level: "A1–C1" },
 ];
-const lid = { name: "CCSE", href: "/ccse" };
+const lid = { name: "Civics", href: "/civics" };
 const here = stripBase(Astro.url.pathname).replace(/\/+$/, "");
 ---
 <nav class="ex-rail" aria-label="Exams" data-i18n-attr="aria-label:nav.exams">

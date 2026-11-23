@@ -14,7 +14,7 @@ import { withBase } from "./paths.js";
 const NS = "http://www.w3.org/2000/svg";
 const MID = 125, X0 = 34, XW = 236, XEND = 330;
 const MARK = { aussage: ".", echo: "?", ausruf: "!" };
-const OPEN = { aussage: "", echo: "¿", ausruf: "¡" };
+const OPEN = { aussage: "", echo: "", ausruf: "" }; // Portuguese has no opening ¿ ¡
 const said = (c) => OPEN[c.t] + c.base + MARK[c.t];
 const WHY = {
   aussage: "Statement: the voice goes down at the end ↘ – the way down.",

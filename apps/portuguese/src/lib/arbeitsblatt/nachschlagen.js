@@ -51,8 +51,7 @@ const tokens = (s) => String(s).match(/[\p{L}\p{N}’'-]+|[.,!?¿¡]/gu) ?? [];
 /* ---- /gramatica/verbos ---------------------------------------------------------------- */
 function verbTopic() {
   const pools = verbGroupList.map((g) => verbList.filter((v) => v.group === g.id));
-  // A verb with gaps in its table (haber, soler) hardly uses the indefinido, so it is asked in
-  // the present only.
+  // A verb with gaps in its table (haver, chover) is asked in the present only.
   const past = pools.map((l) => l.filter((v) => !v.defective));
   const pick = (skip, lists = past) => roundRobin(lists, ROWS, skip);
   const g = Object.fromEntries(verbGroupList.map((x) => [x.id, x]));
@@ -61,7 +60,7 @@ function verbTopic() {
     slug: "verbtabellen",
     name: "Verb tables: the most important verbs",
     level: "A1",
-    subtitle: "Presente, indefinido and pretérito perfecto of the most important verbs",
+    subtitle: "Presente, pretérito perfeito and imperfeito of the most important verbs",
     reference: "/gramatica/verbos",
     concept: {
       qa: [g.regelmaessig?.regel?.[0], g.unregelmaessig?.regel?.[0], g["stem-change"]?.regel?.[0], g.hilfsverb?.regel?.[2]]
@@ -71,9 +70,9 @@ function verbTopic() {
       {
         type: "table",
         title: "Presente: write the verb form.",
-        hint: "Careful with the yo form and with stem changes: tengo, pienso, pensamos.",
+        hint: "Careful with the eu form: faço, peço, durmo, tenho.",
         columns: ["Person + verb", "Presente"],
-        // The person whose form breaks the pattern (tengo, tienes), else él/ella.
+        // The person whose form breaks the pattern (tenho, faço), else ele/ela/você.
         rows: pick(0, pools).map((v) => {
           const x = v.rows.findIndex((r) => r.praes.x);
           const p = x === -1 ? 2 : x;
@@ -82,15 +81,17 @@ function verbTopic() {
       },
       {
         type: "table",
-        title: "Indefinido: write the yo form.",
-        columns: ["Verb", "yo (indefinido)"],
+        title: "Pretérito perfeito: write the eu form.",
+        hint: "Regular: falei, comi, parti. Irregular: fui, tive, fiz, disse.",
+        columns: ["Verb", "eu (perfeito)"],
         rows: pick(ROWS).map((v) => ({ term: v.inf, answer: v.rows[0].praet.f })),
       },
       {
         type: "table",
-        title: "Pretérito perfecto: haber + participle.",
-        columns: ["Verb", "él/ella (pretérito perfecto)"],
-        rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].perf.f })),
+        title: "Imperfeito: write the ele/ela form.",
+        hint: "Only four are irregular: era, tinha, vinha, punha.",
+        columns: ["Verb", "ele/ela (imperfeito)"],
+        rows: pick(2 * ROWS).map((v) => ({ term: v.inf, answer: v.rows[2].imperf.f })),
       },
     ],
   };
@@ -99,7 +100,7 @@ function verbTopic() {
 /* ---- /gramatica/verbos-irregulares ------------------------------------------------- */
 function starkTopic(file, data) {
   const sec = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
-  // forms: "tengo · tuvo · tenido" (yo presente · él indefinido · participio)
+  // forms: "tenho · teve · tido" (eu presente · ele perfeito simples · particípio)
   const pools = data.sections.map((sec) => rowsOf(sec).filter((r) => String(r.forms).split(" · ").length === 3));
   const form = (r, k) => String(r.forms).split(" · ")[k].trim();
   return {
@@ -107,8 +108,8 @@ function starkTopic(file, data) {
     exercises: [
       {
         type: "table",
-        title: "Indefinido: regular or irregular? Write the él/ella form.",
-        columns: ["Verb", "él/ella (indefinido)"],
+        title: "Pretérito perfeito: regular or irregular? Write the ele/ela form.",
+        columns: ["Verb", "ele/ela (perfeito)"],
         rows: roundRobin(pools, ROWS).map((r) => ({ term: bareVerb(r.verb), answer: form(r, 1) })),
       },
       {
@@ -126,7 +127,7 @@ function trennbarTopic(file, data) {
   const sec = (id) => rowsOf(data.sections.find((s) => s.id === id) ?? {});
   const trennbar = sec("trennbar");
   const untrennbar = sec("untrennbar");
-  // forms: "me levanto · se levantó · levantado"; the yo form comes first.
+  // forms: "levanto-me · levantou-se · levantado"; the eu form comes first.
   const yo = (r) => String(r.forms).split(" · ")[0].trim();
   const built = trennbar.filter((r) => r.example && tokens(r.example).length <= 9).slice(0, 8);
   const regel = (id) => data.sections.find((s) => s.id === id)?.regel ?? [];
@@ -143,8 +144,8 @@ function trennbarTopic(file, data) {
       },
       {
         type: "table",
-        title: "Present: write the yo form with its pronoun.",
-        columns: ["Verb", "yo (present)"],
+        title: "Present: write the eu form with its pronoun.",
+        columns: ["Verb", "eu (present)"],
         rows: roundRobin([trennbar.filter((r) => !built.includes(r)), untrennbar], ROWS).map((r) => ({ term: bareVerb(r.verb), answer: yo(r) })),
       },
     ],
@@ -168,7 +169,7 @@ function praepTopic(file, data) {
         type: "fill",
         title: "Which preposition is right?",
         hint: "Learn the verb and its preposition together.",
-        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "es")),
+        choices: [...new Set(fill.map((r) => r.prep))].sort((a, b) => a.localeCompare(b, "pt")),
         items: fill.map((r) => ({ prompt: r.prompt, hint: r.verb, answer: r.prep })),
       },
     ],
@@ -210,7 +211,7 @@ function fehlerTopic() {
     slug: "typische-fehler",
     name: "Common mistakes: words people mix up",
     level: "A1",
-    subtitle: "tú or tu, sé or se, por or para",
+    subtitle: "é or e, há or à, ser or estar, bom or bem",
     reference: "/gramatica/erros-comuns",
     concept: { qa: fehlerGroups.map((g) => g.pairs[0]).map((p) => ({ html: ruleHtml(`*${p.a.w}* ≠ *${p.b.w}*: ${p.why}`) })) },
     exercises: fehlerGroups.map((g) => ({

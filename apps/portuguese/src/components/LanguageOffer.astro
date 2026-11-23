@@ -25,18 +25,18 @@ import { LANGUAGES } from "../lib/i18n.js";
 // Written per language here for the same reason as the row itself; the product name stays
 // English, as it is on the page the button opens.
 const EINFACH_OFFER = {
-  en: { text: "New to Spanish? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
-  de: { text: "Neu im Spanischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
-  fr: { text: "Vous débutez en espagnol ? Commencez par « Step by step » : un petit pas à la fois.", go: "Commencer", close: "Fermer" },
-  pt: { text: "Começando no espanhol? Comece com “Step by step”: um passo pequeno de cada vez.", go: "Começar", close: "Fechar" },
-  it: { text: "Sei all’inizio con lo spagnolo? Comincia con “Passo dopo passo”: un piccolo passo alla volta.", go: "Inizia", close: "Chiudi" },
-  ar: { text: "جديد في تعلّم الإسبانية؟ ابدأ بـ «Step by step» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
-  tr: { text: "İspanyolcaya yeni mi başlıyorsun? “Step by step” ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
-  uk: { text: "Тільки починаєте вчити іспанську? Почніть з «Step by step» — крок за кроком.", go: "Почати", close: "Закрити" },
-  vi: { text: "Mới bắt đầu học tiếng Tây Ban Nha? Hãy bắt đầu với “Step by step”: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
-  hi: { text: "स्पेनिश सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
-  id: { text: "Baru mulai belajar bahasa Spanyol? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
-  tl: { text: "Bago ka pa lang sa Espanyol? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
+  en: { text: "New to Portuguese? Start with “Step by step” — one small step at a time.", go: "Start", close: "Close" },
+  de: { text: "Neu im Portugiesischen? Fang mit „Step by step“ an – ein kleiner Schritt nach dem anderen.", go: "Los", close: "Schließen" },
+  es: { text: "¿Empiezas con el portugués? Empieza por «Step by step»: un pequeño paso cada vez.", go: "Empezar", close: "Cerrar" },
+  fr: { text: "Vous débutez en portugais ? Commencez par « Step by step » : un petit pas à la fois.", go: "Commencer", close: "Fermer" },
+  it: { text: "Sei all’inizio con il portoghese? Comincia con “Step by step”: un piccolo passo alla volta.", go: "Inizia", close: "Chiudi" },
+  ar: { text: "جديد في تعلّم البرتغالية؟ ابدأ بـ «Step by step» — خطوة صغيرة في كل مرة.", go: "ابدأ", close: "إغلاق" },
+  tr: { text: "Portekizceye yeni mi başlıyorsun? “Step by step” ile başla — her seferinde küçük bir adım.", go: "Başla", close: "Kapat" },
+  uk: { text: "Тільки починаєте вчити португальську? Почніть з «Step by step» — крок за кроком.", go: "Почати", close: "Закрити" },
+  vi: { text: "Mới bắt đầu học tiếng Bồ Đào Nha? Hãy bắt đầu với “Step by step”: mỗi lần một bước nhỏ.", go: "Bắt đầu", close: "Đóng" },
+  hi: { text: "पुर्तगाली सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
+  id: { text: "Baru mulai belajar bahasa Portugis? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
+  tl: { text: "Bago ka pa lang sa Portuges? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
 };
 // „Show this page in …?" per language, beside the language's name, in that language.
 const ASK = {
@@ -48,7 +48,6 @@ const ASK = {
   tr: "Sayfa Türkçe gösterilsin mi?",
   uk: "Показати сторінку українською?",
   es: "¿Mostrar la página en español?",
-  pt: "Mostrar a página em português?",
   vi: "Hiển thị trang bằng tiếng Việt?",
   hi: "पेज हिन्दी में दिखाएँ?",
   id: "Tampilkan halaman dalam bahasa Indonesia?",
@@ -58,8 +57,8 @@ const ASK = {
 // is there on the first paint without a script.
 const showRules = LANGUAGES.map((l) => `html[data-lang-offer="${l.code}"] [data-lang-offer-for="${l.code}"]{display:flex}`).join("");
 // English plus the interface languages this course adds (docs/content-plan.md §1.1).
-const close = "Close · Schließen · Fermer · Fechar · Chiudi";
-const other = "Other · Andere · Autres · Outras · Altre …";
+const close = "Close · Schließen · Cerrar · Fermer · Chiudi";
+const other = "Other · Andere · Otros · Autres · Altre …";
 ---
 <div class="lang-offer" role="region" aria-label="Language · Sprache · Langue · Idioma · Lingua" data-lang-offer-row>
   <svg class="lang-offer-ic" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>

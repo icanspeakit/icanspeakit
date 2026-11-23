@@ -1,4 +1,4 @@
-// Spanish for work: the sector decks (docs/content-plan.md §5.12).
+// Portuguese for work: the sector decks (docs/content-plan.md §5.12).
 //
 // Plain ESM with no Vite imports, so the build check (scripts/check-berufe.mjs) and the pages
 // share one set of rules. The pages load the files through src/lib/berufeWortschatz.js.
@@ -6,13 +6,13 @@
 // One file per profession, src/data/berufe/<slug>.json, so one session per profession can fill
 // its deck without touching anyone else's file. A word is either defined in the file
 // ({ id, lemma, pos, … }) or a pointer to a word that already exists elsewhere ({ ref }):
-// the lexicon (lexicon id), the DGT deck or another sector (both bv-…).
+// the lexicon (lexicon id), the IMT deck or another sector (both bv-…).
 // Ids are learners' progress keys, so they are derived once and never renamed.
 import { slugify } from "./audioSlug.js";
 import { langsFor } from "./languages.js";
 import { varietyProblems } from "./variety.js";
 
-/** The ten sectors, in hub order: where newcomers to Spain most often start work first. The slugs
+/** The ten sectors, in hub order: where newcomers to Portugal most often start work first. The slugs
  *  are history (progress keys): kita is cleaning and domestic work, elektro-technik is farm work.
  *  `emoji` is the OpenMoji on the hub card. */
 export const BERUFE = [
@@ -29,12 +29,12 @@ export const BERUFE = [
 ];
 export const SLUGS = BERUFE.map((b) => b.slug);
 
-/** The DGT driving deck (src/data/dgt/vocabulario.json, content-plan §4.4): same format and word
- *  ids (bv-dgt-…), so sector decks can point at its words, but its own page, not a sector. */
-export const DGT = { slug: "dgt", emoji: "🚗" };
+/** The IMT driving deck (src/data/imt/vocabulario.json, content-plan §4.4): same format and word
+ *  ids (bv-imt-…), so sector decks can point at its words, but its own page, not a sector. */
+export const IMT = { slug: "imt", emoji: "🚗" };
 
-/** Business Spanish (src/data/business-spanish/<unit>.json, content-plan §4.3): each unit's words are
- *  a group of this one deck, ids bv-business-…, under its own pages. */
+/** Business Portuguese (src/data/business-portuguese/<unit>.json, content-plan §4.3): each unit's
+ *  words are a group of this one deck, ids bv-business-…, under its own pages. */
 export const BUSINESS = { slug: "business", emoji: "💼" };
 
 /** Translation languages of a deck (registry surface "berufe"); LANGS adds "de", the German
@@ -42,8 +42,9 @@ export const BUSINESS = { slug: "business", emoji: "💼" };
 export const TRANSLATIONS = langsFor("berufe");
 export const LANGS = ["de", ...TRANSLATIONS];
 export const POS = ["noun", "verb", "adj", "adverb", "phrase"];
-/** The article as the learner says it: el/la, el/la for common-gender person nouns (content-plan §1.4). */
-export const GENDERS = ["el", "la", "el/la"];
+/** The article as the learner says it: o/a, o/a for common-gender person nouns (content-plan §1.4).
+ *  Every deck (sectors, IMT, Business Portuguese) is Portuguese, so the Spanish el/la are gone. */
+export const GENDERS = ["o", "a", "o/a"];
 
 /** `bv-gastronomie-schneidebrett` */
 export const idFor = (slug, lemma) => `bv-${slug}-${slugify(lemma)}`;
@@ -60,7 +61,7 @@ export const entryCount = (deck) => (deck.groups ?? []).reduce((n, g) => n + (g.
 
 /**
  * Every rule of the data format, in one place. `files` is [{ file, deck, slug? }]; `slug` is set
- * for a deck that is not a sector and so has no file named after it (DGT). `known` holds the ids
+ * for a deck that is not a sector and so has no file named after it (IMT). `known` holds the ids
  * that exist outside the berufe files: { lexicon: Map<id, lemma> }.
  * Returns { errors, warnings }, never throws.
  */
@@ -114,12 +115,12 @@ export function validate(files, known) {
         else lemmas.set(key, `${file} ${w.id}`);
         if (!POS.includes(w.pos)) at(`${where}: pos must be one of ${POS.join(", ")}`);
         if (w.pos === "noun" && !GENDERS.includes(w.gender)) at(`${where}: a noun needs gender ${GENDERS.join("/")}`);
-        if (w.genus != null && !(w.genus === "f" && w.pos === "noun" && w.gender === "el")) at(`${where}: genus "f" only on nouns with gender "el" (el agua)`);
-        if (w.fem != null && !(w.pos === "adj" && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective`);
-        // variety / es419 (§1.5). A ref inherits both from the word it points to (rule above).
+        if (w.genus != null) at(`${where}: genus is not used in Portuguese (the article always shows the gender): drop it`);
+        if (w.fem != null && !(["adj", "noun"].includes(w.pos) && typeof w.fem === "string" && w.fem.trim())) at(`${where}: fem must be the feminine form of an adjective or noun`);
+        // variety / ptBR (legacy es419) (§1.5). A ref inherits both from the word it points to (rule above).
         for (const p of varietyProblems(w, { noun: w.pos === "noun" })) at(`${where}: ${p}`);
         if (w.pos === "noun" && w.plural === undefined && !w.pluralOnly) at(`${where}: a noun needs "plural" (null when there is none)`);
-        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [yo present, él indefinido, participio]`);
+        if (w.pos === "verb" && !(Array.isArray(w.forms) && w.forms.length === 3 && w.forms.every(Boolean))) at(`${where}: a verb needs forms [eu present, ele perfeito, particípio]`);
         if (!w.example) at(`${where}: no example sentence`);
         if (!w.deHint) at(`${where}: no deHint`);
         for (const l of TRANSLATIONS) if (!w.translations?.[l]) at(`${where}: no ${l} translation`);

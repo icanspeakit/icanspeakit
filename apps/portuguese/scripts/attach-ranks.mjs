@@ -6,9 +6,8 @@
 // after adding words, then `node scripts/validate-lexicon.mjs`.
 //
 // Source: OpenSubtitles 2018 lists (hermitdave/FrequencyWords, licence to verify before attaching;
-// data from the OPUS OpenSubtitles corpus): the Spanish list for levels already migrated to Spanish
-// (their nouns carry el / la, docs/content-plan.md §1.4), the English list for the levels still in
-// English. It is a WORDFORM list, so a lemma only matches when its citation form happens to
+// data from the OPUS OpenSubtitles corpus): the Portuguese list (pt_50k) for the Portuguese levels
+// (their nouns carry o / a, docs/content-plan.md §1.4), the English list for a level without them. It is a WORDFORM list, so a lemma only matches when its citation form happens to
 // appear — multi-word phrases ("get up", "bus stop") and rarer compounds stay null, which is
 // correct: a missing rank is honest, a guessed one is not.
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -46,9 +45,10 @@ async function frequencyList(lang) {
   return map;
 }
 
-/** Spanish once the level's nouns use el / la. */
+/** Portuguese once the level's nouns use o / a (every level since `vocab-c1-c2`). The pt list is
+ *  Brazil-heavy (content-plan §1.4): treat its ranks as a rough guide for pt-PT. */
 const langOf = (data) =>
-  (data.units ?? []).some((u) => (u.words ?? []).some((w) => ["el", "la", "el/la"].includes(w.gender))) ? "es" : "en";
+  (data.units ?? []).some((u) => (u.words ?? []).some((w) => ["o", "a", "o/a"].includes(w.gender))) ? "pt" : "en";
 
 for (const level of levels) {
   const file = path.join(ROOT, "src/content/lexicon", `${level}.json`);

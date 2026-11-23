@@ -1,14 +1,14 @@
-// The packs of the el / la trainer ("By topic" and "By rule"), worked out at build time from the
+// The packs of the o / a trainer ("By topic" and "By rule"), worked out at build time from the
 // lexicon and src/data/artikel-packs.json.
 //
 // Topic packs group the lexicon's own unit topics. A noun can carry more than one topic; it
 // belongs to the pack of its first, so every noun sits in exactly one pack and the packs of a
 // level add up to the level.
 //
-// Rule packs are gender patterns: the ending of the noun's first word (-ción → la, -aje → el), a
-// word list (-ma words from Greek) or the feminine nouns with a stressed a- (el agua). A noun joins
-// one only when it matches the pattern AND its real article is the pack's article. The ones that
-// match and break the rule (el día, la mano) are returned as exceptions: they are what a rule pack
+// Rule packs are gender patterns: the ending of the noun's first word (-ção → a, -gem → a), a
+// word list (-ma words from Greek). (The Spanish course's `genusF` case, el agua, is still
+// understood, but Portuguese has none.) A noun joins one only when it matches the pattern AND its
+// real article is the pack's article. The ones that match and break the rule (o dia, a mão) are returned as exceptions: they are what a rule pack
 // must never teach, and together they make the "Exceptions" pack (id "ausnahmen").
 //
 // Also importable from plain `node`, like lexicon.js — scripts can print the stats.
@@ -28,7 +28,7 @@ export function topicPackFor(noun) {
   return null;
 }
 
-/** The word that decides the article: la oferta de trabajo, el dolor de cabeza. */
+/** The word that decides the article: a oferta de emprego, a dor de cabeça. */
 export const headWord = (lemma) => lemma.split(" ")[0].toLowerCase();
 
 /**
@@ -36,7 +36,7 @@ export const headWord = (lemma) => lemma.split(" ")[0].toLowerCase();
  * when no pattern applies. `why` names the matched pattern, for the exception list.
  */
 export function ruleMatch(noun) {
-  // el IVA, la ESO: an acronym takes the article of the word behind it, not of its last letter.
+  // o IVA, o NIF: an acronym takes the article of the word behind it, not of its last letter.
   if (/^\p{Lu}{2,}/u.test(noun.lemma) || config.noRule?.includes(noun.lemma)) return null;
   const L = headWord(noun.lemma);
   for (const r of config.rules) {
@@ -83,14 +83,14 @@ export function buildArtikelPacks(lexNouns) {
         id: r.id, article: r.article, name: r.name, rule: r.rule, ruleLeicht: r.ruleLeicht, min: r.min,
         ids: reach.filter((n) => nounRule[n.id] === r.id).map((n) => n.id),
       }))
-      // `min` lets a small but useful rule through (el + stressed a- has few nouns).
+      // `min` lets a small but useful rule through (-gem, -ise and -ume have few nouns).
       .filter((r) => r.ids.length >= (r.min ?? config.minPack));
     const exc = exceptions.filter((e) => upTo.has(e.level));
     if (exc.length >= 5) {
       rules.push({
         id: "ausnahmen", article: null, name: "Exceptions",
-        rule: "These words look as if a rule applies, and break it: el día, el mapa, la mano, la foto. Learn them one by one.",
-        ruleLeicht: "These words do not follow the rule. Learn each word with el or la.",
+        rule: "These words look as if a rule applies, and break it: o dia, o mapa, a mão, a foto. Learn them one by one.",
+        ruleLeicht: "These words do not follow the rule. Learn each word with o or a.",
         ids: exc.map((e) => e.id),
       });
     }

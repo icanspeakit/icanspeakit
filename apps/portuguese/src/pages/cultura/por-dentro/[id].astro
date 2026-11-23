@@ -48,14 +48,14 @@ const NUM = /(?:about |around |over |almost |nearly )?\d+(?:[.,]\d+)*(?:\s|\u00a
 const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m}</b>`);
 ---
 <Layout
-  title={fitTitle(`${topic.title} – Spain from the inside`, topic.title)}
+  title={fitTitle(`${topic.title} – Portugal from the inside`, topic.title)}
   description={topic.intro.slice(0, 160)}
 >
   <SiteNav active="landeskunde" />
   <main class="practice-main">
     <div class="ku-topbar">
       <a href="/cultura/por-dentro" class="vp-back-link" data-i18n="kultur.insider.back">Deutschland von innen</a>
-      <ShareButton title={`${topic.title} – Spain from the inside`} label />
+      <ShareButton title={`${topic.title} – Portugal from the inside`} label />
     </div>
 
     <article class="ku-topic">
@@ -244,14 +244,14 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
           <ul class="in-vocab">
             {topic.vocab.map((v: { word: string; grammar: string | null; meaning: Record<string, string>; example: string }) => (
               <li>
-                <p class="in-vocab-word" lang="es"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
+                <p class="in-vocab-word" lang="pt-PT"><b>{v.word}</b>{v.grammar && <span>{v.grammar}</span>}</p>
                 <p class="in-vocab-meaning uit">
                   <span class="uit-de" lang="en">{v.meaning.de}</span>
                   {LANGS.filter((l) => v.meaning[l]).map((l) => (
                     <span class="uit-l" lang={l} dir={isRtl(l) ? "rtl" : "ltr"}>{v.meaning[l]}</span>
                   ))}
                 </p>
-                <p class="in-vocab-ex" lang="es">{v.example}</p>
+                <p class="in-vocab-ex" lang="pt-PT">{v.example}</p>
               </li>
             ))}
           </ul>

@@ -1,7 +1,7 @@
 /* Einfach lernen (/passo-a-passo) — turns the curated path (src/data/einfach-pfad.json) into the
  * task objects the view renders.
  *
- * The path never copies Spanish text. A task names a source item by ref and this file
+ * The path never copies Portuguese text. A task names a source item by ref and this file
  * looks it up in the site's own reviewed data:
  *
  *   lex:a1-15/estación           a word in src/content/lexicon/a1.json (unit id + lemma)
@@ -33,32 +33,42 @@ export function checksum(text) {
 
 const PUNCT = /^[?!.,;:]+$/;
 
-/* Spanish "article" tasks are el / la (content-plan §1.4): a lexicon noun's `gender` holds
-   which one, and `genus: "f"` marks el agua, whose plural is las aguas. The default hint points
+/* Portuguese "article" tasks are o / a: a lexicon noun's `gender` holds which one (the Spanish
+   el / la still work until vocab-a1 has converted the lexicons). The default hint points
    at the ending, or at number when the options include a plural, without giving the answer.
    Path tasks should still write their own. Short and simple, like everything Bruno says. */
 const ARTICLE_HINT = {
-  ending: "Look at the last letter. -o is often el, -a is often la.",
+  ending: "Look at the last letter. -o is often o, -a is often a.",
   other: "The ending doesn't help here. Take a guess, then learn it.",
   number: "Is it one thing or more? Then look at the ending.",
 };
 const articleHint = (noun, options) =>
-  options?.some((o) => /^(los|las|unos|unas)$/.test(o))
+  options?.some((o) => /^(os|as|uns|umas|los|las|unos|unas)$/.test(o))
     ? ARTICLE_HINT.number
     : /[oa]$/.test(noun)
       ? ARTICLE_HINT.ending
       : ARTICLE_HINT.other;
 
-/** The plural as the learner says it: los libros, las casas, los/las estudiantes, las aguas. */
+const MASC = new Set(["o", "el"]);
+const FEM = new Set(["a", "la"]);
+/** The plural as the learner says it: os livros, as casas, os/as estudantes (Spanish el/la still work). */
 const pluralWithArticle = (w) => {
   if (!w.plural || !w.gender) return null;
-  const article = w.gender === "el/la" ? "los/las" : w.gender === "la" || w.genus === "f" ? "las" : "los";
+  const es = w.gender.startsWith("el") || w.gender === "la";
+  const article = w.gender.includes("/")
+    ? es ? "los/las" : "os/as"
+    : FEM.has(w.gender) || w.genus === "f" ? (es ? "las" : "as") : es ? "los" : "os";
   return `${article} ${w.plural}`;
 };
 
 /* Table exercises whose placeholder lists articles become article tasks (same screen,
    same helper). Each entry is the placeholder as written in the grammar topic files. */
-const ARTICLE_PLACEHOLDERS = ["el / la", "el / la / los / las", "un / una", "un / una / unos / unas"];
+/* The Portuguese placeholders came with grammar-a1 (2026-11-12); the Spanish ones go when
+   beginner-path-ui rewrites the article screen for o / a. */
+const ARTICLE_PLACEHOLDERS = [
+  "o / a", "o / a / os / as", "um / uma", "um / uma / uns / umas",
+  "el / la", "el / la / los / las", "un / una", "un / una / unos / unas",
+];
 
 /* A screen has three options at most, so an item's longer `choices` list needs "options" on the task. */
 const itemChoices = (item) => (item.choices?.length >= 2 && item.choices.length <= 3 ? item.choices : undefined);
@@ -178,7 +188,7 @@ export function lookup(ref, sources) {
 
 /**
  * One path task → the object the view renders. Fields written on the path task
- * (`hint`, `options`, `why`) win over what the source offers; the Spanish the learner
+ * (`hint`, `options`, `why`) win over what the source offers; the Portuguese the learner
  * reads as the exercise itself comes from the source.
  */
 export function resolveTask(task, sources) {
@@ -199,13 +209,13 @@ export function resolveTask(task, sources) {
         plural: w.pluralOnly ? null : pluralWithArticle(w),
         back: w.en,
         hint: task.hint || w.example,
-        // The fallback hint is the lexicon's Spanish example; written hints are English.
-        ...(task.hint ? {} : { hintLang: "es" }),
+        // The fallback hint is the lexicon's Portuguese example; written hints are English.
+        ...(task.hint ? {} : { hintLang: "pt-PT" }),
         audio: w.audio ? `/audio/wortschatz/${w.audio}.mp3` : null,
       };
     }
     // el/la estudiante takes both and las gafas has no singular, so there is nothing to ask.
-    if ((w.gender !== "el" && w.gender !== "la") || w.pluralOnly) throw new Error(`${task.ref}: artikel task needs a singular noun with gender el or la`);
+    if ((!MASC.has(w.gender) && !FEM.has(w.gender)) || w.pluralOnly) throw new Error(`${task.ref}: artikel task needs a singular noun with gender o or a`);
     return {
       ...base,
       noun: w.lemma,
@@ -293,7 +303,7 @@ export function resolveTask(task, sources) {
   if (task.type === "satz") {
     if (src.kind !== "gram" || src.ex.type !== "build") throw new Error(`${task.ref}: a satz task needs a build item`);
     const { words, end } = buildTiles(src.item.correct);
-    // A second right order counts too: Spanish word order is freer than one solution suggests.
+    // A second right order counts too: Portuguese word order is freer than one solution suggests.
     const alts = (src.item.alt || []).map((a) => buildTiles(a).words);
     return {
       ...base,

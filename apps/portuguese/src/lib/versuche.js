@@ -82,7 +82,7 @@ export function pageRef(path = currentPath()) {
       const t = new URLSearchParams(location.search).get("t");
       return t ? `vs:${t}` : null;
     }
-    case "spanish-for-work": return b && c ? `w:berufe-${itemKey("/spanish-for-work", b)}-${workGroupKey(c)}` : null;
+    case "portuguese-for-work": return b && c ? `w:berufe-${itemKey("/portuguese-for-work", b)}-${workGroupKey(c)}` : null;
     case "compreensao-oral": return b ? `h:${itemKey("/compreensao-oral", b)}` : null;
     case "leitura": return b ? `l:${itemKey("/leitura", b)}` : null;
     case "leitura-e-escrita": return "l:ls";
@@ -94,12 +94,12 @@ export function pageRef(path = currentPath()) {
     case "expressao-oral-b1-b2": return "sp:b1b2";
     case "pronuncia": return "a:aussprache";
     case "nationality":
-      if (b !== "dele-a2" || !c) return null;
+      if (b !== "ciple-a2" || !c) return null;
       return `x:dtz/${c === "practice-set" ? "uebungssatz-1" : c}`;
     case "gramatica": return b === "quiz" ? "g:quiz" : b === "percurso" ? "g:lauf" : null;
     case "preposicoes": return "g:praepositionen";
   }
-  // Root-level grammar topics (/present-perfect, /pronomes-complemento, …).
+  // Root-level grammar topics (/perfeito-simples, /pronomes-complemento, …).
   const key = document.getElementById("vp-page")?.dataset.topicKey;
   return s.length === 1 ? `g:${key || topicKeyFromSlug(a)}` : null;
 }
