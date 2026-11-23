@@ -5,7 +5,9 @@
 //   redemittel  /pronunciation phrase sets      -> public/audio/redemittel/<satzSlug(text)>.mp3
 //   aussprache  /pronunciation phrase list (+ home mock words) -> public/audio/aussprache/<slugify(text)>.mp3
 //   wortfallen  /knowledge/false-friends        -> public/audio/wortfallen/<id>-falsch|richtig|q<n>.mp3 (sets "audio": true)
-//   twisters  /tongue-twisters                   -> public/audio/zungenbrecher/<id>.mp3 and <id>-langsam.mp3 (slow)
+//   grammatik   grammar pages: every audio/audioPrompt/audioAnswer path in src/data/grammatik/*.json -> public/audio/grammatik/<topic>/<slug>.mp3 (text = sibling text/prompt/answer field)
+//   redewendungen  /knowledge/idioms -> public/audio/redewendungen/<id>.mp3 and <id>-bsp-<n>.mp3
+//   twisters  /tongue-twisters                  -> public/audio/zungenbrecher/<id>.mp3 and <id>-langsam.mp3 (slow)
 // Files that already exist are skipped, so it can be stopped and rerun. For `check` and
 // `twisters` it also sets "audio": true in the data file once the files exist (the pages only
 // offer the recorded voice then; until then the browser voice reads the text).
@@ -63,6 +65,28 @@ if (part === "wortfallen" || part === "all")
     add(out("wortfallen", `${g.id}-falsch.mp3`), wfText(g.oops));
     add(out("wortfallen", `${g.id}-richtig.mp3`), wfText(g.right));
     g.quiz.forEach((q, n) => add(out("wortfallen", `${g.id}-q${n + 1}.mp3`), wfSolve(q)));
+  }
+if (part === "grammatik" || part === "all") {
+  const unresolved = [];
+  const walk = (o, rel) => {
+    if (Array.isArray(o)) return o.forEach((x) => walk(x, rel));
+    if (!o || typeof o !== "object") return;
+    for (const [k, v] of Object.entries(o)) {
+      const m = k.match(/^audio([A-Z]\w*)?$/);
+      if (m && typeof v === "string" && v.startsWith("/audio/grammatik/")) {
+        const field = m[1] ? m[1][0].toLowerCase() + m[1].slice(1) : "text";
+        const text = typeof o[field] === "string" ? o[field].replace(/\*/g, "").trim() : "";
+        if (text) add(path.join(APP, "public", v), text); else unresolved.push(`${rel}: ${v}`);
+      } else walk(v, rel);
+    }
+  };
+  for (const f of readdirSync(path.join(APP, "src/data/grammatik")).filter((f) => f.endsWith(".json")).sort()) walk(readJson(`src/data/grammatik/${f}`), f);
+  if (unresolved.length) console.warn(`grammatik: ${unresolved.length} audio paths without text, e.g. ${unresolved.slice(0, 3).join("; ")}`);
+}
+if (part === "redewendungen" || part === "all")
+  for (const e of readJson("src/data/redewendungen.json").eintraege) {
+    add(out("redewendungen", `${e.id}.mp3`), e.de);
+    e.bsp.forEach((t, n) => add(out("redewendungen", `${e.id}-bsp-${n + 1}.mp3`), t));
   }
 const sentencesOf = (data) => data.levels.flatMap((l) => l.sentences);
 if (part === "check" || part === "all")
