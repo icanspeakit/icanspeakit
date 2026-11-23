@@ -86,6 +86,13 @@ export const LANGUAGE_REGISTRY = [
     // back to English (the old pt blocks in src/data/uebersetzungen/ aren't used).
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
+  // Russian UI (ui-lang-ru): machine draft, ты-form, not yet read by a native speaker. Same gating as the
+  // others. Counts are phrased so the noun never depends on the number (docs/russian-ui-plan.md §5).
+  {
+    code: "ru", native: "Русский", de: "Russisch", en: "Russian", word: "Язык",
+    dir: "ltr", script: "Cyrl", region: "europa", fontFamily: null, hreflang: "ru", urlPrefix: "ru",
+    surfaces: { ui: draft },
+  },
   // To add a language: copy the entry above, set code/native/dir/script (and fontFamily for
   // non-Latin scripts, hreflang/urlPrefix for its own entry-page URLs), start every surface
   // as { status: "draft" }, and add public/i18n/<code>.json. RTL (dir: "rtl") is already

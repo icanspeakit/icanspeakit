@@ -41,7 +41,10 @@ export function fontFaceCss(script) {
 }
 
 /** Declares the face for this language's script, once per page. Safe to call with any code,
- *  "de", "all" or null; a Latin, Cyrillic or Greek language needs nothing and gets nothing. */
+ *  "de", "all" or null; a Latin, Cyrillic or Greek language gets nothing here. Cyrillic (ru)
+ *  comes from static unicode-range faces in public/fonts/icanspeak/fonts.css (the "BEGIN
+ *  cyrillic" block, docs/russian-ui-plan.md §3): Inter, plus Literata for Fraunces and Nunito
+ *  for Fredoka, registered under the brand family names. Greek still uses the system fallbacks. */
 export function loadScriptFont(code) {
   if (typeof document === "undefined" || !code) return;
   const script = languageOf(code)?.script;
