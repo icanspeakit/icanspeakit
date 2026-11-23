@@ -1,11 +1,16 @@
-// "The Legend of Villabruno" (/jogos/villabruno; internal id: lindenau): who
-// stands where and what they say. One quest per person, A1, everyday errands in Villabruno, an
-// invented Spanish town. The Spanish is the content (npc / de); `en` is its English meaning, the
-// 💡 Help line. (The key `de` is historical: it holds the Spanish line the learner reads and builds.)
+// "The Legend of Vila Bruno" (/jogos/vila-bruno; internal id:
+// lindenau): who stands where and what they say. One quest per person, A1, everyday errands in
+// Vila Bruno, an invented Portuguese town (no real freguesia or município has the name; checked
+// by games-dialogue, 2026-11-22). The Portuguese is the content (npc / de, European Portuguese);
+// `en` is its English meaning, the 💡 Help line. (The key `de` is historical: it holds the
+// Portuguese line the learner reads and builds.)
 //
 // The player's gender is unknown, so nothing the player says, and nothing said to the player, is
-// gendered: no nuevo/a, bienvenido/a. Shop people use tú, as many do in Spain; the ticket office
-// and the health centre use usted, and the player follows them.
+// gendered: no novo/a, bem-vindo/a, and the player never says obrigado / obrigada (they answer
+// with Igualmente, É muito amável, Fique com o troco …). Bruno uses tu with the player; the shop
+// people, the ticket office, the centro de saúde and the older neighbour use the formal third
+// person (o que vai ser?, pode vir?), as is usual with strangers in Portugal, and the player
+// follows them (Aqui tem, Fique com o troco).
 //
 // A dialogue is a list of turns. Each turn is one line from the person, optionally followed
 // by a task for the learner:
@@ -16,158 +21,164 @@
 //           scored by the pronunciation check's service, "Type instead" plays it as build.
 //           At most one per quest.
 // The line after a task is the person's reaction to it, so the talk reads as one talk.
-// `outro` closes the quest; `item` is what the learner walks away with (el / la + noun); `words`
-// are extra nouns for the monsters in the action levels, with their article, so the levels
-// practise the gender too (game.js cannot pick lowercase nouns out of the sentences).
+// `outro` closes the quest; `item` is what the learner walks away with (o / a / os / as + noun);
+// `words` are extra nouns for the monsters in the action levels, with their article, so the
+// levels practise the gender too (game.js cannot pick lowercase nouns out of the sentences).
 // No straight double quotes in any text (scripts/check-lindenau.mjs): use “ ”.
 //
 // The town comes in areas (AREAS at the end): each has its own map – streets, a square with a
 // fountain, buildings (solid; a person stands at the door side), trees – its own Bruno lines
 // and three quests. The second area opens once the first is done (game.js).
 
-/** All lines are Castilian. For a later es-419 mode: billete → boleto, vía → andén, “el primero” (floor), Quédate con el cambio. */
-export const VARIETY = "es-ES";
+/**
+ * All lines are European Portuguese (pt-PT). For a later Brazil mode (ptBR): the formal third
+ * person with strangers becomes você (Para onde você vai?), enclisis becomes proclisis (Pode me
+ * trazer a conta?), comboio → trem, linha (platform) → plataforma, pastelaria → padaria, carcaça →
+ * pãozinho, galão → café com leite, número de utente → cartão do SUS, Faltam-te → Faltam,
+ * estou a aprender → estou aprendendo, se faz favor → por favor.
+ */
+export const VARIETY = "pt-PT";
 
-// --- Villabruno – Morning -------------------------------------------------------------------
+// --- Vila Bruno – Morning -------------------------------------------------------------------
 const BRUNO_MORGEN = {
-  id: "bruno", mascot: "bruno", name: "Bruno", role: "Plaza Mayor", x: 560, y: 500, clip: "bruno",
+  id: "bruno", mascot: "bruno", name: "Bruno", role: "Praça", x: 560, y: 500, clip: "bruno",
   intro: [
-    { npc: "¡Hola! Soy Bruno. ¡Te doy la bienvenida a Villabruno!", en: "Hi! I'm Bruno. Welcome to Villabruno!" },
-    { npc: "Acabas de llegar. Hoy tienes tres tareas.", en: "You've just arrived. You have three jobs today." },
-    { npc: "Compra pan en la panadería, un billete en la estación y pide cita en el centro de salud.", en: "Buy bread at the bakery and a ticket at the station, and make an appointment at the health centre." },
-    { npc: "Busca a las personas con un signo de exclamación y habla con ellas. ¡Mucha suerte!", en: "Look for the people with an exclamation mark and talk to them. Good luck!" },
+    { npc: "Olá! Sou o Bruno. Boas-vindas a Vila Bruno!", en: "Hi! I'm Bruno. Welcome to Vila Bruno!" },
+    { npc: "Acabaste de chegar. Hoje tens três tarefas.", en: "You've just arrived. You have three jobs today." },
+    { npc: "Compra pão na pastelaria, compra um bilhete na estação de comboios e marca uma consulta no centro de saúde.", en: "Buy bread at the pastelaria, buy a ticket at the train station and book an appointment at the health centre." },
+    { npc: "Procura as pessoas com um ponto de exclamação e fala com elas. Boa sorte!", en: "Look for the people with an exclamation mark and talk to them. Good luck!" },
   ],
-  waiting: (n) => [{ npc: n === 1 ? "Te queda una tarea. ¡Tú puedes!" : `Te quedan ${n} tareas. ¡Tú puedes!`, en: n === 1 ? "You have one job left. You can do it!" : `You have ${n} jobs left. You can do it!` }],
+  waiting: (n) => [{ npc: n === 1 ? "Falta-te uma tarefa. Tu consegues!" : `Faltam-te ${n} tarefas. Tu consegues!`, en: n === 1 ? "You have one job left. You can do it!" : `You have ${n} jobs left. You can do it!` }],
   done: [
-    { npc: "Pan, billete y cita: ¡todo hecho! ¡Muy bien!", en: "Bread, ticket and appointment: all done! Very good!" },
+    { npc: "Pão, bilhete e consulta: está tudo feito! Muito bem!", en: "Bread, ticket and appointment: all done! Very good!" },
   ],
 };
 
 /** Bruno's review before a run, in every area: the sentences missed last time (game.js). */
 export const BRUNO_REVIEW = {
-  offer: { npc: "¡Qué alegría verte otra vez! ¿Repasamos un poco? Unas frases de la última vez.", en: "How nice to see you again! Shall we review a little? A few sentences from last time." },
-  done: { npc: "¡Muy bien, ahora mucho mejor! Vamos a la ciudad.", en: "Very good, much better now! Let's go into town." },
+  offer: { npc: "Que bom ver-te outra vez! Vamos rever um bocadinho? Umas frases da última vez.", en: "How nice to see you again! Shall we review a little? A few sentences from last time." },
+  done: { npc: "Muito bem, agora está muito melhor! Vamos lá para a vila.", en: "Very good, much better now! Let's go into town." },
 };
 
 const QUESTS_MORGEN = [
   {
-    id: "baeckerei", mascot: "hamsti", name: "Hamsti", role: "Panadería",
-    x: 300, y: 405, item: { label: "el pan", icon: "1F950" },
-    words: ["la barra", "el café", "el euro"],
+    id: "baeckerei", mascot: "hamsti", name: "Hamsti", role: "Pastelaria",
+    x: 300, y: 405, item: { label: "o pão", icon: "1F950" },
+    words: ["a carcaça", "o galão", "o euro"],
     turns: [
       {
-        npc: "¡Buenos días! ¿Qué te pongo?", en: "Good morning! What can I get you?",
+        npc: "Bom dia! O que vai ser?", en: "Good morning! What'll it be?",
         task: { type: "choose", options: [
-          { de: "Quería dos barras de pan, por favor.", ok: true },
-          { de: "Tengo dos barras de pan, por favor.", why: "“Tengo” means “I have”. To order politely, say “Quería …, por favor” (I'd like …, please)." },
-          { de: "¿Dónde están las barras de pan?", why: "The bread is right in front of you. Say what you want to buy: “Quería …”." },
+          { de: "Queria duas carcaças, se faz favor.", ok: true },
+          { de: "Tenho duas carcaças, se faz favor.", why: "“Tenho” means “I have”. To order politely, say “Queria …, se faz favor” (I'd like …, please)." },
+          { de: "Onde estão as carcaças?", why: "The bread is right in front of you. Say what you want to buy: “Queria …”. (A carcaça is a crusty bread roll.)" },
         ] },
       },
       {
-        npc: "Muy bien. ¿Algo más?", en: "Very good. Anything else?",
-        task: { type: "say", words: ["Un", "café", "con", "leche,", "por", "favor."], extra: ["Una"],
-          why: "“Café” is masculine, so it's “un café”, not “una café”." },
+        npc: "Muito bem. Mais alguma coisa?", en: "Very good. Anything else?",
+        task: { type: "say", words: ["Um", "galão,", "se", "faz", "favor."], extra: ["Uma"],
+          why: "“Galão” is masculine, so it's “um galão”, not “uma galão”. (A galão is milky coffee served in a glass.)" },
       },
       {
-        npc: "Son tres euros con cuarenta.", en: "That's three euros forty.",
+        npc: "São dois euros e quarenta.", en: "That's two euros forty.",
         task: { type: "choose", options: [
-          { de: "Aquí tienes: tres con cuarenta.", ok: true },
-          { de: "Aquí tienes: trece con cuarenta.", why: "Listen again: “tres” is 3, “trece” is 13. It's €3.40." },
-          { de: "Gracias, igualmente.", why: "“Igualmente” (you too) answers a good wish. Here the baker is waiting for your money." },
+          { de: "Aqui tem: dois e quarenta.", ok: true },
+          { de: "Aqui tem: doze e quarenta.", why: "Listen again: “dois” is 2, “doze” is 12. It's €2.40." },
+          { de: "Igualmente.", why: "“Igualmente” (you too) answers a good wish. Here the shop assistant is waiting for your money." },
         ] },
       },
       {
-        npc: "¡Gracias! ¡Que tengas un buen día!", en: "Thanks! Have a nice day!",
+        npc: "Aqui tem o troco. Tenha um bom dia!", en: "Here's your change. Have a nice day!",
         task: { type: "choose", options: [
-          { de: "¡Gracias, igualmente!", ok: true },
-          { de: "¡Buenas noches!", why: "It's morning. “Buenas noches” is for the evening and the night." },
-          { de: "¡Lo siento!", why: "“Lo siento” (I'm sorry) is for when something goes wrong. To answer a good wish, say “¡Gracias, igualmente!”." },
+          { de: "Igualmente! Até logo!", ok: true },
+          { de: "Boa noite!", why: "It's morning. “Boa noite” is for the evening and the night." },
+          { de: "Lamento!", why: "“Lamento” (I'm sorry) is for when something goes wrong. To answer a good wish, say “Igualmente!” (you too)." },
         ] },
       },
     ],
-    outro: { npc: "¡Hasta luego!", en: "See you later!" },
+    outro: { npc: "Até logo!", en: "See you later!" },
   },
   {
-    id: "bahnhof", mascot: "quaki", name: "Quaki", role: "Estación", x: 1000, y: 405,
-    item: { label: "el billete", icon: "1F9FE" },
-    words: ["el tren", "la vía", "la estación"],
+    id: "bahnhof", mascot: "quaki", name: "Quaki", role: "Estação de comboios", x: 1000, y: 405,
+    item: { label: "o bilhete", icon: "1F9FE" },
+    words: ["o comboio", "a linha", "a estação"],
     turns: [
       {
-        npc: "Buenos días. ¿A dónde va?", en: "Good morning. Where are you going?",
-        task: { type: "say", words: ["Quería", "un", "billete", "a", "Madrid,", "por", "favor."], extra: ["en"],
-          why: "For the place you travel to, use “a”: un billete a Madrid." },
+        npc: "Bom dia. Para onde vai?", en: "Good morning. Where are you going?",
+        task: { type: "say", words: ["Queria", "um", "bilhete", "para", "Lisboa,", "se", "faz", "favor."], extra: ["em"],
+          why: "For the place you travel to, use “para”: um bilhete para Lisboa." },
       },
       {
-        npc: "¿Solo ida, o ida y vuelta?", en: "One way, or return?",
+        npc: "Só ida, ou ida e volta?", en: "One way, or return?",
         task: { type: "choose", options: [
-          { de: "Ida y vuelta, por favor.", ok: true },
-          { de: "Me gustan los trenes.", why: "The question is which ticket you want: “solo ida” (one way) or “ida y vuelta” (return)." },
-          { de: "En tren, por favor.", why: "You're already at the station. The question is: “solo ida” or “ida y vuelta”?" },
+          { de: "Ida e volta, se faz favor.", ok: true },
+          { de: "Gosto muito de comboios.", why: "The question is which ticket you want: “só ida” (one way) or “ida e volta” (return)." },
+          { de: "De comboio, se faz favor.", why: "You're already at the station. The question is: “só ida” or “ida e volta”?" },
         ] },
       },
       {
-        npc: "¿Y cuándo quiere viajar?", en: "And when would you like to travel?",
+        npc: "E quando quer viajar?", en: "And when would you like to travel?",
         task: { type: "choose", options: [
-          { de: "Mañana a las diez.", ok: true },
-          { de: "En la estación.", why: "“¿Cuándo?” asks about time. “En la estación” answers “¿Dónde?”." },
-          { de: "Dos horas.", why: "“¿Cuándo?” asks when. “Dos horas” answers “¿Cuánto tiempo?” (how long)." },
+          { de: "Amanhã às dez.", ok: true },
+          { de: "Na estação.", why: "“Quando?” asks about time. “Na estação” answers “Onde?” (where)." },
+          { de: "Duas horas.", why: "“Quando?” asks when. “Duas horas” answers “Quanto tempo?” (how long)." },
         ] },
       },
       {
-        npc: "Son treinta y nueve euros. Su tren sale a las diez y cinco de la vía tres.", en: "That's thirty-nine euros. Your train leaves at five past ten from platform three.",
+        npc: "São vinte e dois euros. O seu comboio parte às dez e cinco da linha três.", en: "That's twenty-two euros. Your train leaves at five past ten from platform three.",
         task: { type: "choose", options: [
-          { de: "Vale: vía tres, a las diez y cinco. ¡Gracias!", ok: true },
-          { de: "Vale: vía diez, a las tres y cinco. ¡Gracias!", why: "Listen again: “la vía tres”, “a las diez y cinco”." },
-          { de: "Vale: vía cinco, a las tres y diez. ¡Gracias!", why: "Listen again: “la vía tres”, “a las diez y cinco”." },
+          { de: "Muito bem: linha três, às dez e cinco.", ok: true },
+          { de: "Muito bem: linha dez, às três e cinco.", why: "Listen again: “a linha três”, “às dez e cinco”. At a Portuguese station the platform is “a linha”." },
+          { de: "Muito bem: linha cinco, às três e dez.", why: "Listen again: “a linha três”, “às dez e cinco”." },
         ] },
       },
     ],
-    outro: { npc: "¡Buen viaje!", en: "Have a good trip!" },
+    outro: { npc: "Boa viagem!", en: "Have a good trip!" },
   },
   {
-    id: "arzt", mascot: "aerztin", moji: "1F469-200D-2695", name: "Inés", role: "Centro de salud", x: 300, y: 555,
-    item: { label: "la cita", icon: "1F4C5" },
-    words: ["el médico", "la cabeza", "el jueves"],
+    id: "arzt", mascot: "aerztin", moji: "1F469-200D-2695", name: "Sónia", role: "Centro de saúde", x: 300, y: 555,
+    item: { label: "a consulta", icon: "1F4C5" },
+    words: ["o médico", "a cabeça", "a quinta-feira"],
     turns: [
       {
-        npc: "Buenos días. ¿En qué puedo ayudarle?", en: "Good morning. How can I help you?",
-        task: { type: "say", words: ["Quería", "pedir", "cita", "con", "el", "médico,", "por", "favor."], extra: ["a"],
-          why: "The fixed phrase is “pedir cita”, without any small word, and then “con el médico” (with the doctor)." },
+        npc: "Bom dia. Em que posso ajudar?", en: "Good morning. How can I help you?",
+        task: { type: "say", words: ["Queria", "marcar", "uma", "consulta,", "se", "faz", "favor."], extra: ["fazer"],
+          why: "The fixed phrase is “marcar uma consulta” (to book an appointment)." },
       },
       {
-        npc: "¿Tiene la tarjeta sanitaria?", en: "Do you have your health card?",
+        npc: "Tem o número de utente?", en: "Do you have your health service user number?",
         task: { type: "choose", options: [
-          { de: "Sí, aquí la tengo.", ok: true },
-          { de: "Sí, soy médico.", why: "She's asking about your “tarjeta sanitaria”, the card you show at the health centre. You're not the doctor!" },
-          { de: "No, gracias.", why: "“No, gracias” answers an offer. If you don't have the card with you, say “No, no la tengo”." },
+          { de: "Tenho, está aqui.", ok: true },
+          { de: "Tenho trinta e seis anos.", why: "She's asking for your “número de utente”, your number in the National Health Service (SNS), not your age." },
+          { de: "Não, não quero.", why: "“Não quero” turns down an offer. If you don't have the number with you, say “Não o tenho aqui” (I don't have it here)." },
         ] },
       },
       {
-        npc: "¿Qué le pasa?", en: "What's wrong?",
+        npc: "O que é que tem?", en: "What's wrong?",
         task: { type: "choose", options: [
-          { de: "Me duele la cabeza.", ok: true },
-          { de: "Tengo la cabeza.", why: "That only says “I have the head”. To say what hurts, use “Me duele…”." },
-          { de: "Estoy bien, gracias.", why: "If you're fine, you don't need an appointment. Say what hurts: “Me duele…”." },
+          { de: "Dói-me a cabeça.", ok: true },
+          { de: "Tenho a cabeça.", why: "That only says “I have the head”. To say what hurts, use “Dói-me…”." },
+          { de: "Estou bem, não é nada.", why: "If you're fine, you don't need an appointment. Say what hurts: “Dói-me…”." },
         ] },
       },
       {
-        npc: "¿Su fecha de nacimiento, por favor?", en: "Your date of birth, please?",
+        npc: "A sua data de nascimento, por favor?", en: "Your date of birth, please?",
         task: { type: "choose", options: [
-          { de: "El 4 de mayo de 1990.", ok: true },
-          { de: "Tengo 36 años.", why: "She's asking for your date of birth (day, month, year), not your age." },
-          { de: "Hoy es jueves.", why: "Your date of birth is the day, month and year you were born, not a day of the week." },
+          { de: "Quatro de maio de 1990.", ok: true },
+          { de: "Tenho 36 anos.", why: "She's asking for your date of birth (day, month, year), not your age." },
+          { de: "Hoje é quinta-feira.", why: "Your date of birth is the day, month and year you were born, not a day of the week." },
         ] },
       },
       {
-        npc: "Gracias. ¿Puede venir el jueves a las diez?", en: "Thank you. Can you come on Thursday at ten?",
+        npc: "Pode vir na quinta-feira às dez?", en: "Can you come on Thursday at ten?",
         task: { type: "choose", options: [
-          { de: "Sí, me va bien. ¡Hasta el jueves!", ok: true },
-          { de: "Sí, estoy bien. ¡Hasta el jueves!", why: "“Estoy bien” says you feel OK. When a time suits you, say “Me va bien”." },
-          { de: "Sí, me va bien. ¡Hasta ayer!", why: "“Ayer” is yesterday. The appointment is on Thursday: “¡Hasta el jueves!”." },
+          { de: "Posso, sim. Até quinta!", ok: true },
+          { de: "Estou bem, sim. Até quinta!", why: "“Estou bem” says you feel OK. When a time suits you, say “Posso” (I can) or “Dá-me jeito” (that suits me)." },
+          { de: "Posso, sim. Até ontem!", why: "“Ontem” is yesterday. The appointment is on Thursday: “Até quinta!”." },
         ] },
       },
     ],
-    outro: { npc: "Muy bien. ¡Que se mejore, y hasta el jueves!", en: "Very good. Get well soon, and see you on Thursday!" },
+    outro: { npc: "Muito bem. As melhoras, e até quinta!", en: "Very good. Get well soon, and see you on Thursday!" },
   },
 ];
 
@@ -177,9 +188,9 @@ const MAP_MORGEN = {
   square: { x: 640, y: 480, r: 160, fountain: 48 },
   rails: { x: 760, y: 40, w: 520, h: 70 },
   buildings: [
-    { id: "baeckerei", x: 150, y: 150, w: 300, h: 215, roof: "#c2553d", wall: "#f3e2c7", sign: "Panadería", icon: "1F950", door: "s" },
-    { id: "bahnhof", x: 820, y: 130, w: 360, h: 235, roof: "#5f7d8c", wall: "#e7e2d8", sign: "Estación", icon: "1F689", door: "s" },
-    { id: "arzt", x: 150, y: 595, w: 300, h: 215, roof: "#7d6a5a", wall: "#eef2f4", sign: "Centro de salud", icon: "1F3E5", door: "n" },
+    { id: "baeckerei", x: 150, y: 150, w: 300, h: 215, roof: "#c2553d", wall: "#f3e2c7", sign: "Pastelaria", icon: "1F950", door: "s" },
+    { id: "bahnhof", x: 820, y: 130, w: 360, h: 235, roof: "#5f7d8c", wall: "#e7e2d8", sign: "Estação", icon: "1F689", door: "s" },
+    { id: "arzt", x: 150, y: 595, w: 300, h: 215, roof: "#7d6a5a", wall: "#eef2f4", sign: "Centro de Saúde", icon: "1F3E5", door: "n" },
     { id: "haus1", x: 830, y: 610, w: 150, h: 170, roof: "#b07a3b", wall: "#f1e6d6", door: "n" },
     { id: "haus2", x: 1025, y: 610, w: 150, h: 170, roof: "#8a5a7a", wall: "#f1e6d6", door: "n" },
   ],
@@ -189,131 +200,131 @@ const MAP_MORGEN = {
   ],
 };
 
-// --- Villabruno – Afternoon -----------------------------------------------------------------
+// --- Vila Bruno – Afternoon -----------------------------------------------------------------
 const BRUNO_NACHMITTAG = {
-  id: "bruno", mascot: "bruno", name: "Bruno", role: "Fuente", x: 860, y: 450, clip: "bruno-nachmittag",
+  id: "bruno", mascot: "bruno", name: "Bruno", role: "Fonte", x: 860, y: 450, clip: "bruno-nachmittag",
   intro: [
-    { npc: "¡Hola! Ya es por la tarde en Villabruno. Esta es la parte nueva de la ciudad.", en: "Hi! It's the afternoon in Villabruno now. This is the new part of town." },
-    { npc: "Tienes tres tareas otra vez: hacer la compra, saludar a tu vecina y merendar en la cafetería.", en: "You have three jobs again: do the shopping, say hello to your neighbour and have an afternoon snack at the café." },
-    { npc: "Las personas con el signo de exclamación ya te esperan. ¡Hasta luego!", en: "The people with the exclamation mark are already waiting for you. See you later!" },
+    { npc: "Olá! Já é de tarde em Vila Bruno. Esta é a parte nova da vila.", en: "Hi! It's the afternoon in Vila Bruno now. This is the new part of town." },
+    { npc: "Tens outra vez três tarefas: fazer compras na mercearia, cumprimentar a tua vizinha e lanchar no café.", en: "You have three jobs again: do some shopping at the grocer's, say hello to your neighbour and have an afternoon snack at the café." },
+    { npc: "As pessoas com o ponto de exclamação já estão à tua espera. Até já!", en: "The people with the exclamation mark are already waiting for you. See you soon!" },
   ],
   waiting: BRUNO_MORGEN.waiting,
   done: [
-    { npc: "Compra, vecina y cafetería: ¡todo hecho! ¡Tu español ya es muy bueno!", en: "Shopping, neighbour and café: all done! Your Spanish is really good already!" },
+    { npc: "Mercearia, vizinha e café: está tudo feito! O teu português já está muito bom!", en: "Grocer's, neighbour and café: all done! Your Portuguese is really good already!" },
   ],
 };
 
 const QUESTS_NACHMITTAG = [
   {
-    id: "supermarkt", mascot: "quaki", name: "Quaki", role: "Supermercado", x: 310, y: 410,
-    item: { label: "la compra", icon: "1F6D2" },
-    words: ["el tomate", "el agua", "la tarjeta"],
+    id: "supermarkt", mascot: "quaki", name: "Quaki", role: "Mercearia", x: 310, y: 410,
+    item: { label: "as compras", icon: "1F6D2" },
+    words: ["o tomate", "a água", "o cartão"],
     turns: [
       {
-        npc: "¡Hola! ¿Te ayudo?", en: "Hi! Can I help you?",
+        npc: "Boa tarde! Precisa de ajuda?", en: "Good afternoon! Do you need any help?",
         task: { type: "choose", options: [
-          { de: "Sí, gracias. ¿Dónde están los tomates?", ok: true },
-          { de: "Sí, gracias. ¿Eres un tomate?", why: "“¿Eres…?” asks who or what a person is. To find something in a shop, ask “¿Dónde están…?”." },
-          { de: "Sí, gracias. ¿Dónde está la estación?", why: "You're in a supermarket and you want to buy something. Ask where it is: “¿Dónde están los tomates?”." },
+          { de: "Preciso, sim. Onde estão os tomates?", ok: true },
+          { de: "Preciso, sim. É um tomate?", why: "“É…?” asks who or what someone is. To find something in a shop, ask “Onde estão…?” (where are…?)." },
+          { de: "Preciso, sim. Onde é a estação?", why: "You're in a shop and you want to buy something. Ask where it is: “Onde estão os tomates?”." },
         ] },
       },
       {
-        npc: "Ahí, al lado de las zanahorias. ¿Cuántos quieres?", en: "Over there, next to the carrots. How many would you like?",
-        task: { type: "say", words: ["Un", "kilo", "de", "tomates,", "por", "favor."], extra: ["Una", "en"],
-          why: "After a quantity, use “de”: un kilo de tomates. And “kilo” is masculine: “un kilo”." },
+        npc: "Ali, ao lado das cenouras. Quantos quer?", en: "Over there, next to the carrots. How many would you like?",
+        task: { type: "say", words: ["Um", "quilo", "de", "tomates,", "se", "faz", "favor."], extra: ["Uma", "em"],
+          why: "After a quantity, use “de”: um quilo de tomates. And “quilo” is masculine: “um quilo”." },
       },
       {
-        npc: "¿Algo más?", en: "Anything else?",
+        npc: "Mais alguma coisa?", en: "Anything else?",
         task: { type: "choose", options: [
-          { de: "Sí, dos botellas de agua, por favor.", ok: true },
-          { de: "Sí, dos botella de agua, por favor.", why: "Una botella, dos botellas: after “dos” the noun takes the plural." },
-          { de: "Sí, no quiero.", why: "“Sí” means you want something else, so say what: “Sí, dos botellas de agua”." },
+          { de: "Sim, duas garrafas de água, se faz favor.", ok: true },
+          { de: "Sim, duas garrafa de água, se faz favor.", why: "Uma garrafa, duas garrafas: after “duas” the noun takes the plural. (And it's duas, not dois, because garrafa is feminine.)" },
+          { de: "Sim, não quero.", why: "“Sim” means you want something else, so say what: “Sim, duas garrafas de água”." },
         ] },
       },
       {
-        npc: "Son cuatro euros con ochenta.", en: "That's four euros eighty.",
+        npc: "São quatro euros e oitenta.", en: "That's four euros eighty.",
         task: { type: "choose", options: [
-          { de: "¿Puedo pagar con tarjeta?", ok: true },
-          { de: "¿Puedo pagar con tarta?", why: "“Tarjeta” is a card. “Tarta” is a cake!" },
-          { de: "¿Puedo pagar en tarjeta?", why: "In Spanish you pay “con tarjeta”. The small word is “con”." },
+          { de: "Posso pagar com cartão?", ok: true },
+          { de: "Posso pagar com cartaz?", why: "“Cartão” is a card. “Cartaz” is a poster!" },
+          { de: "Posso pagar o cartão?", why: "“Pagar o cartão” means paying for the card itself. You pay “com cartão” (by card)." },
         ] },
       },
     ],
-    outro: { npc: "Sí, claro. ¡Gracias, y hasta luego!", en: "Yes, of course. Thanks, and see you later!" },
+    outro: { npc: "Pode, claro. Até logo!", en: "Of course you can. See you later!" },
   },
   {
-    id: "nachbarin", mascot: "nachbarin", moji: "1F475", name: "Carmen", role: "Vecina", x: 290, y: 620,
-    item: { label: "la vecina", icon: "1F44B" },
-    words: ["el piso", "la vecina", "el café"],
+    id: "nachbarin", mascot: "nachbarin", moji: "1F475", name: "Dona Rosa", role: "Vizinha", x: 290, y: 620,
+    item: { label: "a vizinha", icon: "1F44B" },
+    words: ["o andar", "a vizinha", "o café"],
     turns: [
       {
-        npc: "¡Hola! ¿Acabas de llegar?", en: "Hello! Have you just arrived?",
+        npc: "Olá! Chegou agora?", en: "Hello! Have you just arrived?",
         task: { type: "choose", options: [
-          { de: "Sí, vivo aquí desde ayer.", ok: true },
-          { de: "Sí, soy ayer.", why: "“Soy” says who you are, and you can't be yesterday. To say since when you live here, use “Vivo aquí desde…”." },
-          { de: "Sí, voy a la estación.", why: "Carmen wants to know if you're new in the building. Tell her since when you live here." },
+          { de: "Cheguei. Moro aqui desde ontem.", ok: true },
+          { de: "Sim, sou ontem.", why: "“Sou” says who you are, and you can't be yesterday! To say since when you live here, use “Moro aqui desde…”." },
+          { de: "Sim, vou para a estação.", why: "Dona Rosa wants to know if you're new in the building. Tell her since when you live here." },
         ] },
       },
       {
-        npc: "¡Qué bien! Yo soy Carmen. ¿De dónde eres?", en: "How nice! I'm Carmen. Where are you from?",
-        task: { type: "say", words: ["Soy", "de", "Brasil."], extra: ["en", "a"],
-          why: "For the country you come from, use “de”: Soy de Brasil." },
+        npc: "Que bom! Eu sou a Dona Rosa. De onde é?", en: "How nice! I'm Dona Rosa. Where are you from?",
+        task: { type: "say", words: ["Sou", "do", "Brasil."], extra: ["de", "em"],
+          why: "O Brasil takes the article, so de + o = do: Sou do Brasil. Countries without an article take de alone: Sou de Angola, Sou de Portugal." },
       },
       {
-        npc: "¡Qué bonito! ¿Y qué haces en Villabruno?", en: "How lovely! And what do you do in Villabruno?",
+        npc: "Que bonito! E o que é que faz em Vila Bruno?", en: "How lovely! And what do you do in Vila Bruno?",
         task: { type: "choose", options: [
-          { de: "Aprendo español aquí.", ok: true },
-          { de: "Hago Villabruno.", why: "Carmen is asking about your work or your course, for example: “Aprendo español aquí”." },
-          { de: "Soy de Villabruno.", why: "You've just said you're from Brazil, and you're new here. She's asking what you do here." },
+          { de: "Estou a aprender português aqui.", ok: true },
+          { de: "Faço Vila Bruno.", why: "Dona Rosa is asking about your work or your course, for example: “Estou a aprender português aqui” (I'm learning Portuguese here)." },
+          { de: "Sou de Vila Bruno.", why: "You've just said you're from Brazil, and you're new here. She's asking what you do here." },
         ] },
       },
       {
-        npc: "¡Muy bien! Yo vivo en el primero. ¡Ven a tomar un café cuando quieras!", en: "Very good! I live on the first floor. Come for a coffee whenever you like!",
+        npc: "Muito bem! Eu moro no primeiro andar. Venha tomar um café quando quiser!", en: "Very good! I live on the first floor. Come for a coffee whenever you like!",
         task: { type: "choose", options: [
-          { de: "¡Gracias, muy amable!", ok: true },
-          { de: "¡Gracias, muy vieja!", why: "“Vieja” means “old”, which is not a nice thing to say here! For a kind offer, say “Muy amable” (very kind)." },
-          { de: "De nada.", why: "“De nada” is what you say when someone thanks you. Here you're the one saying thanks: “¡Gracias, muy amable!”." },
+          { de: "É muito amável, Dona Rosa!", ok: true },
+          { de: "É muito velha, Dona Rosa!", why: "“Velha” means “old”, which is not a nice thing to say here! For a kind offer, say “É muito amável” (that's very kind of you)." },
+          { de: "De nada.", why: "“De nada” is what you say when someone thanks you. Here you answer a kind offer: “É muito amável!”." },
         ] },
       },
     ],
-    outro: { npc: "¡De nada! Ya somos vecinos.", en: "You're welcome! Now we're neighbours." },
+    outro: { npc: "Ora essa! Agora já nos conhecemos.", en: "Not at all! Now we know each other." },
   },
   {
-    id: "cafe", mascot: "hamsti", name: "Hamsti", role: "Cafetería", x: 1140, y: 410,
-    item: { label: "la tarta", icon: "1F370" },
-    words: ["el té", "el trozo", "la cuenta"],
+    id: "cafe", mascot: "hamsti", name: "Hamsti", role: "Café", x: 1140, y: 410,
+    item: { label: "o bolo", icon: "1F370" },
+    words: ["o chá", "a fatia", "a conta"],
     turns: [
       {
-        npc: "¡Hola! ¿Qué quieres beber?", en: "Hi! What would you like to drink?",
+        npc: "Olá! O que vai beber?", en: "Hi! What would you like to drink?",
         task: { type: "choose", options: [
-          { de: "Un té, por favor.", ok: true },
-          { de: "Junto a la ventana, por favor.", why: "Hamsti is asking what you want to drink, not where you want to sit." },
-          { de: "Un trozo de tarta, por favor.", why: "“Beber” is to drink. Cake is food: you eat it." },
+          { de: "Um chá, se faz favor.", ok: true },
+          { de: "Ao pé da janela, se faz favor.", why: "Hamsti is asking what you want to drink, not where you want to sit." },
+          { de: "Uma fatia de bolo, se faz favor.", why: "“Beber” is to drink. Cake is food: you eat it." },
         ] },
       },
       {
-        npc: "Muy bien. ¿Quieres comer algo?", en: "Very good. Would you like something to eat?",
-        task: { type: "say", words: ["Sí,", "un", "trozo", "de", "tarta,", "por", "favor."], extra: ["una", "en"],
-          why: "“Trozo” (piece) is masculine: “un trozo”, even though “tarta” is feminine." },
+        npc: "Muito bem. Quer comer alguma coisa?", en: "Very good. Would you like something to eat?",
+        task: { type: "say", words: ["Sim,", "uma", "fatia", "de", "bolo,", "se", "faz", "favor."], extra: ["um", "em"],
+          why: "“Fatia” (slice) is feminine: “uma fatia”, even though “bolo” is masculine." },
       },
       {
-        npc: "¿Qué tal la tarta?", en: "How's the cake?",
+        npc: "Então, o bolo está bom?", en: "So, is the cake good?",
         task: { type: "choose", options: [
-          { de: "Muy rica, gracias. ¿Me traes la cuenta?", ok: true },
-          { de: "No, muy rica.", why: "“No” doesn't fit here: the question is “how is it?”. Just say “Muy rica” (delicious)." },
-          { de: "Muy rica, gracias. ¿Me traes el cuento?", why: "“El cuento” is a story. The bill is “la cuenta”." },
+          { de: "Está ótimo! Pode trazer-me a conta?", ok: true },
+          { de: "Não, está ótimo.", why: "“Não” doesn't fit: the cake is good. Just say “Está ótimo!” (it's great)." },
+          { de: "Está ótimo! Pode trazer-me o conto?", why: "“O conto” is a short story. The bill is “a conta”." },
         ] },
       },
       {
-        npc: "Son cinco euros con cincuenta.", en: "That's five euros fifty.",
+        npc: "São cinco euros e cinquenta.", en: "That's five euros fifty.",
         task: { type: "choose", options: [
-          { de: "Aquí tienes seis euros. Quédate con el cambio.", ok: true },
-          { de: "Aquí tienes cinco euros. Quédate con el cambio.", why: "Five euros isn't enough. It costs five euros fifty." },
-          { de: "Aquí tienes seis euros. ¡Que te mejores!", why: "“Que te mejores” is for people who are ill. To leave a little extra, say “Quédate con el cambio”." },
+          { de: "Aqui tem seis euros. Fique com o troco.", ok: true },
+          { de: "Aqui tem cinco euros. Fique com o troco.", why: "Five euros isn't enough. It costs five euros fifty." },
+          { de: "Aqui tem seis euros. As melhoras!", why: "“As melhoras” (get well soon) is for people who are ill. To leave a little extra, say “Fique com o troco” (keep the change)." },
         ] },
       },
     ],
-    outro: { npc: "¡Muchas gracias! ¡Que vaya bien!", en: "Thank you very much! Take care!" },
+    outro: { npc: "Agradeço imenso! Até à próxima!", en: "Thank you so much! See you next time!" },
   },
 ];
 
@@ -323,9 +334,9 @@ const MAP_NACHMITTAG = {
   square: { x: 935, y: 515, r: 130, fountain: 40 },
   rails: null,
   buildings: [
-    { id: "supermarkt", x: 120, y: 140, w: 380, h: 230, roof: "#4f7a5a", wall: "#eef3ea", sign: "Supermercado", icon: "1F6D2", door: "s" },
-    { id: "cafe", x: 1030, y: 160, w: 220, h: 210, roof: "#a0522d", wall: "#f6ead8", sign: "Cafetería", icon: "2615", door: "s" },
-    { id: "wohnhaus", x: 140, y: 660, w: 300, h: 220, roof: "#6a6f8a", wall: "#f1e6d6", sign: "Pisos", icon: "1F3E0", door: "n" },
+    { id: "supermarkt", x: 120, y: 140, w: 380, h: 230, roof: "#4f7a5a", wall: "#eef3ea", sign: "Mercearia", icon: "1F6D2", door: "s" },
+    { id: "cafe", x: 1030, y: 160, w: 220, h: 210, roof: "#a0522d", wall: "#f6ead8", sign: "Café", icon: "2615", door: "s" },
+    { id: "wohnhaus", x: 140, y: 660, w: 300, h: 220, roof: "#6a6f8a", wall: "#f1e6d6", sign: "Prédio", icon: "1F3E0", door: "n" },
     { id: "haus3", x: 520, y: 680, w: 150, h: 170, roof: "#b07a3b", wall: "#f1e6d6", door: "n" },
     { id: "haus4", x: 1040, y: 670, w: 170, h: 180, roof: "#8a5a7a", wall: "#f1e6d6", door: "n" },
   ],
@@ -337,14 +348,14 @@ const MAP_NACHMITTAG = {
 
 /** The parts of town, in the order they open. */
 export const AREAS = [
-  { id: "morgen", title: "Villabruno, por la mañana", bruno: BRUNO_MORGEN, quests: QUESTS_MORGEN, ...MAP_MORGEN },
-  { id: "nachmittag", title: "Villabruno, por la tarde", bruno: BRUNO_NACHMITTAG, quests: QUESTS_NACHMITTAG, ...MAP_NACHMITTAG },
+  { id: "morgen", title: "Vila Bruno, de manhã", bruno: BRUNO_MORGEN, quests: QUESTS_MORGEN, ...MAP_MORGEN },
+  { id: "nachmittag", title: "Vila Bruno, à tarde", bruno: BRUNO_NACHMITTAG, quests: QUESTS_NACHMITTAG, ...MAP_NACHMITTAG },
 ];
 export const areaById = (id) => AREAS.find((a) => a.id === id) ?? AREAS[0];
 
 /** What the shop people say when the learner comes too early or comes back. */
-export const NOT_YET = { npc: "¡Hola! Primero habla con Bruno, en la plaza.", en: "Hi! First, go and talk to Bruno in the square." };
-export const AGAIN = { npc: "¡Qué alegría verte otra vez!", en: "How nice to see you again!" };
+export const NOT_YET = { npc: "Olá! Primeiro fala com o Bruno, na praça.", en: "Hi! First, go and talk to Bruno in the square." };
+export const AGAIN = { npc: "Que bom ver-te outra vez!", en: "How nice to see you again!" };
 
 /** Graded tasks in an area, for the result line. */
 export const taskCount = (area) => area.quests.reduce((n, q) => n + q.turns.filter((t) => t.task).length, 0);
@@ -357,17 +368,19 @@ export const taskCount = (area) => area.quests.reduce((n, q) => n + q.turns.filt
 //   <bruno>-intro-<i>-npc.mp3, <bruno>-done-<i>-npc.mp3, where <bruno> is the area's
 //   `bruno.clip` ("bruno" in the first area, "bruno-nachmittag" in the second)
 //   bruno-waiting-<n>-npc.mp3, bruno-review-offer-npc.mp3, bruno-review-done-npc.mp3
-// There are no Spanish clips yet (the folder does not exist): until they are generated,
-// spielKit's voice falls back to the browser's Spanish voice for every line.
-// One voice per mascot (Spain); the learner's replies in one more voice (`du`).
+// There are no Portuguese clips yet (the folder does not exist): until they are generated,
+// spielKit's voice falls back to the browser's Portuguese voice (pt-PT if installed, else the
+// first pt voice, often pt-BR) for every line.
+// Azure has only a few pt-PT neural voices (names to verify when the generate script is written),
+// so some mascots share one; the learner's replies in one more voice (`du`).
 export const VOICES = {
-  bruno: "es-ES-AlvaroNeural",
-  hamsti: "es-ES-ElviraNeural",
-  quaki: "es-ES-DarioNeural",
+  bruno: "pt-PT-DuarteNeural",
+  hamsti: "pt-PT-RaquelNeural",
+  quaki: "pt-PT-DuarteNeural",
   // Regi is the player now (Super-Blubb); the health centre and the neighbour have their own voices.
-  aerztin: "es-ES-IreneNeural",
-  nachbarin: "es-ES-EstrellaNeural",
-  du: "es-ES-XimenaNeural",
+  aerztin: "pt-PT-FernandaNeural",
+  nachbarin: "pt-PT-RaquelNeural",
+  du: "pt-PT-FernandaNeural",
 };
 export const clipPath = (clip) => `/audio/lindenau/${clip}.mp3`;
 

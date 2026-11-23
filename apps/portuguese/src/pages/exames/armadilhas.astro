@@ -1,11 +1,11 @@
 ---
-// Exam traps: places in the DELE, the SIELE and the CCSE that look easy and have a catch. Each
+// Exam traps: places in the CAPLE exams (and the level check and civics quiz) that look easy and have a catch. Each
 // card links to a part of our practice sets where the same kind of task comes up (fallen.json).
 // The ids are anchors the Instagram reels point to (/exames/armadilhas#<id>) — keep them.
 //
 // Look and the gap check come from /gramatica/erros-comuns (typische-fehler.css), the head
-// from /dele/language-use. Explanations are English; the Spanish examples and the task on
-// each card carry lang="es"; the frame (chips, labels, buttons) goes through data-i18n. No claims about how many people fail anything: wrong
+// from /caple/language-use. Explanations are English; the Spanish examples and the task on
+// each card carry lang="pt-PT"; the frame (chips, labels, buttons) goes through data-i18n. No claims about how many people fail anything: wrong
 // answers are only ever stored in the learner's own browser (src/lib/fehler.js).
 import Layout from "../../layouts/Layout.astro";
 import SiteNav from "../../components/SiteNav.astro";
@@ -21,10 +21,20 @@ const count = (exam: string) => fallen.filter((f) => f.exams.includes(exam)).len
 const esc = (t: string) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 const bold = (t: string) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
 const level = (f: (typeof fallen)[number]) => f.level;
+// Filter chips: the exam tags in fallen.json are still the slot tags of the Spanish course
+// (dele = the CAPLE slot, siele = level check, ccse = civics, docs/content-plan.md §2).
+// exams-caple rewrites the traps and may rename the tags: add the new id here, and a chip
+// without traps is not shown.
+const CHIPS = [
+  { id: "dele", label: "CAPLE" },
+  { id: "caple", label: "CAPLE" },
+  { id: "siele", label: "Level check" },
+  { id: "ccse", label: "Civics" },
+].filter((c) => count(c.id) > 0);
 ---
 <Layout
-  title="Exam traps: DELE, SIELE, CCSE – icanspeak Spanish"
-  description="Parts of the Spanish exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
+  title="Exam traps: CAPLE exams and CIPLE A2 – icanspeak Portuguese"
+  description="Parts of the Portuguese exams that look easy but have a catch: a short explanation, a ✗/✓ example, a task to try and a link to the practice set."
   breadcrumb={[{ name: "Exams", path: "/exames" }]}
 >
   <SiteNav active="pruefungen" />
@@ -34,9 +44,7 @@ const level = (f: (typeof fallen)[number]) => f.level;
 
     <div class="vp-hero">
       <div class="vp-hero-badges">
-        <span class="badge badge-brand">DELE</span>
-        <span class="badge badge-info">SIELE</span>
-        <span class="badge badge-info">CCSE</span>
+        {CHIPS.map((c, i) => <span class:list={["badge", i === 0 ? "badge-brand" : "badge-info"]}>{c.label}</span>)}
       </div>
       <h1 data-i18n="fallen.title">Exam traps</h1>
       <p data-i18n="fallen.lead">Diese Stellen in der Prüfung sehen leicht aus, haben aber einen Haken. Zu jeder Falle gibt es eine kurze Erklärung, ein Beispiel, eine Aufgabe zum Ausprobieren und den Weg in den Übungssatz.</p>
@@ -45,9 +53,7 @@ const level = (f: (typeof fallen)[number]) => f.level;
 
     <div class="fl-chips" role="group" aria-label="Filter by exam" data-i18n-attr="aria-label:fallen.filter.label" data-fl-chips>
       <button type="button" class="fl-chip" data-fl-filter="" aria-pressed="true"><span data-i18n="fallen.filter.all">Alle</span> <span class="fl-chip-n">{fallen.length}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="dele" aria-pressed="false"><span>DELE</span> <span class="fl-chip-n">{count("dele")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="siele" aria-pressed="false"><span>SIELE</span> <span class="fl-chip-n">{count("siele")}</span></button>
-      <button type="button" class="fl-chip" data-fl-filter="ccse" aria-pressed="false"><span>CCSE</span> <span class="fl-chip-n">{count("ccse")}</span></button>
+      {CHIPS.map((c) => <button type="button" class="fl-chip" data-fl-filter={c.id} aria-pressed="false"><span>{c.label}</span> <span class="fl-chip-n">{count(c.id)}</span></button>)}
     </div>
 
     <span hidden data-fl-msg="ok" data-i18n="fallen.ok">Richtig!</span>
@@ -64,19 +70,19 @@ const level = (f: (typeof fallen)[number]) => f.level;
             <p class="tf-why">{f.why}</p>
 
             <div class="fl-pair">
-              <p class="fl-side fl-side--wrong"><span class="fl-mark"><span aria-hidden="true">✗ </span><span data-i18n="fallen.wrong">So nicht</span></span><span lang="es" set:html={bold(f.wrong)} /></p>
-              <p class="fl-side fl-side--right"><span class="fl-mark"><span aria-hidden="true">✓ </span><span data-i18n="fallen.right">So richtig</span></span><span lang="es" set:html={bold(f.right)} /></p>
+              <p class="fl-side fl-side--wrong"><span class="fl-mark"><span aria-hidden="true">✗ </span><span data-i18n="fallen.wrong">So nicht</span></span><span lang="pt-PT" set:html={bold(f.wrong)} /></p>
+              <p class="fl-side fl-side--right"><span class="fl-mark"><span aria-hidden="true">✓ </span><span data-i18n="fallen.right">So richtig</span></span><span lang="pt-PT" set:html={bold(f.right)} /></p>
             </div>
 
             {/* Tap an answer, it says right away – like the gaps on /gramatica/erros-comuns.
                 A wrong tap goes to „Meine Fehler“ (this device only). */}
             <div class="tf-check" data-fl-check data-answer={t.answer}>
               <p class="fl-try" data-i18n="fallen.try">Probier es aus</p>
-              {t.context && <p class="fl-context" lang="es">{t.context}</p>}
+              {t.context && <p class="fl-context" lang="pt-PT">{t.context}</p>}
               {t.gap
-                ? <p class="tf-gap" lang="es" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
-                : <p class="fl-prompt" lang="es" data-fl-q={t.prompt}>{t.prompt}</p>}
-              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="es">
+                ? <p class="tf-gap" lang="pt-PT" data-fl-q={t.gap} set:html={esc(t.gap).replace("___", '<span class="tf-blank" data-tf-blank>___</span>')} />
+                : <p class="fl-prompt" lang="pt-PT" data-fl-q={t.prompt}>{t.prompt}</p>}
+              <div class:list={["tf-opts", { "fl-opts--long": long }]} lang="pt-PT">
                 {t.options.map((o) => <button type="button" class="tf-opt" data-fl-opt={o}>{o}</button>)}
               </div>
               <p class="tf-fb" data-fl-fb aria-live="polite"></p>

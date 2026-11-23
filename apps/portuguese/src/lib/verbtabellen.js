@@ -3,7 +3,7 @@
 // src/lib/verbtabellenCore.js, which has no Vite imports so the checker can run it too.
 import data from "../data/verbtabellen.json";
 import { all } from "./lexicon.js";
-import { showsVosotros } from "./variety.js";
+import { showsVos } from "./variety.js";
 import { buildAll, VOSOTROS } from "./verbtabellenCore.js";
 
 export { PERSONS, regularPraes, regularPraet, regularP2 } from "./verbtabellenCore.js";
@@ -22,7 +22,7 @@ export const verbs = buildAll(data.verbs).map((v) => {
   return { ...v, en: v.en ?? lex?.en ?? "", level: v.level ?? lex?.level ?? "", lex };
 });
 
-/** The rows to show: the vosotros row goes in a LatAm mode (content-plan §1.5). */
-export const visibleRows = (v) => v.rows.filter((r) => r.person !== VOSOTROS || showsVosotros());
+/** The rows to show: the vós row goes in a Brazil mode (content-plan §1.5, §4.1). */
+export const visibleRows = (v) => v.rows.filter((r) => r.person !== VOSOTROS || showsVos());
 
 export const verbHref = (v) => `/gramatica/verbos#${v.id}`;

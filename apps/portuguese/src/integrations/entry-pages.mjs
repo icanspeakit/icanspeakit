@@ -26,7 +26,7 @@ import { entryLanguages, BASE } from '../lib/languages.js';
 import { absoluteUrl, rebaseHtml } from '../lib/paths.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const OG_LOCALE = { de: 'de_DE', fr: 'fr_FR', pt: 'pt_BR', it: 'it_IT', ru: 'ru_RU' };
+const OG_LOCALE = { de: 'de_DE', es: 'es_ES', fr: 'fr_FR', pt: 'pt_BR', it: 'it_IT', ru: 'ru_RU' };
 
 const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const escAttr = (s) => escText(s).replace(/"/g, '&quot;');
@@ -109,7 +109,7 @@ export function translateHtml(html, dict) {
 const setMeta = (html, re, value) => html.replace(re, (tag) => tag.replace(/content="[^"]*"/, `content="${escAttr(value)}"`));
 
 /** The German URL of a page and its copy in one language: home with a trailing slash, the rest without. */
-// Under the base path (src/lib/paths.js): https://icanspeak.it/spanish/de/…. `site` stays in
+// Under the base path (src/lib/paths.js): https://icanspeak.it/portugues/de/…. `site` stays in
 // the signature for scripts/build-entry-pages.mjs; the base decides.
 const deUrl = (_site, page) => absoluteUrl(page.src);
 const langUrl = (_site, page, l) => absoluteUrl(`/${l.urlPrefix}/${page.slug}`);

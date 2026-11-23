@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/brand.css";
 import ConsentBanner from "../components/ConsentBanner.astro";
 import LanguageOffer from "../components/LanguageOffer.astro";
 import SiteFooter from "../components/SiteFooter.astro";
@@ -43,7 +44,7 @@ interface Props {
       the page itself shows; see the structured-data block below. */
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** The pages above this one in the breadcrumb trail, when the route alone does not name
-      them (a dynamic parent such as /spanish-for-work/care-work, or a top-level grammar topic that belongs
+      them (a dynamic parent such as /portuguese-for-work/care-work, or a top-level grammar topic that belongs
       under /gramatica). Start and the page itself are added. */
   breadcrumb?: Crumb[];
   /** No analytics on this page at all: no consent banner, so PostHog,
@@ -55,8 +56,8 @@ interface Props {
 }
 
 const {
-  title = "icanspeak Spanish – learn the Spanish of Spain for free: DELE, SIELE, CCSE",
-  description = "Learn Spanish as it is spoken in Spain, from A1 to C1: free grammar, vocabulary and practice for the DELE, the SIELE and the CCSE.",
+  title = "icanspeak Portuguese – learn European Portuguese for free: CIPLE and the CAPLE exams",
+  description = "Learn Portuguese as it is spoken in Portugal, from A1 to C1: free grammar, vocabulary, practice for CIPLE A2 and the other CAPLE exams, and the Portuguese you need for life in Portugal.",
   noindex = false,
   schema,
   breadcrumb,
@@ -76,7 +77,7 @@ const {
 // shares its own 1200×630 card instead of the default. Matched on the route, so no page has
 // to pass anything; read from the manifest rather than the disk, which the on-demand routes
 // on Vercel do not have.
-// The site path without the base (/spanish/grammar → /gramatica, src/lib/paths.js): routes,
+// The site path without the base (/portugues/gramatica → /gramatica, src/lib/paths.js): routes,
 // hub photos and breadcrumbs are keyed on it; every URL written out gets the base back.
 // The site footer by route (src/lib/navFooter.js), since 2026-11-16; a page may set its own.
 const footer = footerProp ?? footerFor(stripBase(Astro.url.pathname).replace(/\/+$/, "") || "/");
@@ -87,13 +88,13 @@ const hubOg = Object.values(hubBilder as Record<string, { path: string; og: stri
 // (`pnpm hubs:build --force`, which needs the original photos), every page shares the default
 // card (scripts/build-wordmark.mjs). Set HUB_CARDS to true then.
 const HUB_CARDS = false;
-const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/assets/og-default.png";
-const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Spanish – learn the Spanish of Spain for free";
+const OG_IMAGE = (HUB_CARDS && hubOg?.og) || "/og/og-default.png";
+const OG_ALT = (HUB_CARDS && hubOg?.alt) || "icanspeak Portuguese – learn European Portuguese for free";
 const abs = (path) => (Astro.site ? absoluteUrl(path) : withBase(path));
 // One address per page for search engines: no trailing slash (the form every internal link
 // uses and the one in /sitemap.xml), no query string — ?voll, ?lang=…, tracking parameters all
 // collapse onto the clean URL. Not emitted on noindex pages: a draft has nothing to point at.
-// The home page is https://icanspeak.it/spanish/ (with the slash: it is a folder of the domain).
+// The home page is https://icanspeak.it/portugues/ (with the slash: it is a folder of the domain).
 const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 
 // Structured data (schema.org JSON-LD), built in src/lib/seo/jsonld.ts: Organization and
@@ -101,7 +102,7 @@ const canonical = Astro.site && route !== "/404" ? absoluteUrl(route) : null;
 // own titles; a page may name its parents with the `breadcrumb` prop), and whatever the page
 // adds with `schema` (grammar topics, exam sets), which points at the organisation by @id.
 const SITE_URL = Astro.site ? SITE_ORIGIN + BASE_PATH : "";
-const pageName = title.replace(/\s+[–|-]\s+(icanspeak Spanish|icanspeak)$/, "");
+const pageName = title.replace(/\s+[–|-]\s+(icanspeak Portuguese|icanspeak)$/, "");
 const trail = trailFor(route, pageName, breadcrumb);
 const pageSchema = [schema ?? []].flat().map((o) => ({ provider: { "@id": orgId(SITE_URL) }, inLanguage: BASE, ...o }));
 const graph = SITE_URL && !noindex
@@ -141,7 +142,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          example sentences and exercises stay German. -->
     <meta name="google" content="notranslate" />
     <!-- translate="no" on <html> (above) is the standard attribute for the same thing. Chrome
-         on iOS ignores the meta tag but honours the attribute; it translated /spanish-for-work and
+         on iOS ignores the meta tag but honours the attribute; it translated /portuguese-for-work and
          /anmelden anyway, and the translated text nodes crashed the React sign-in island
          (NotFoundError on insertBefore; the same translation also loaded its CSS from
          www.gstatic.com). -->
@@ -311,11 +312,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
     <link rel="manifest" href={withBase("/site.webmanifest?v=5")} />
     <!-- The warm paper of the page (--page-bg in global.css), so the browser chrome runs
          into the page as on icanspeak.it. -->
-    <meta name="theme-color" content="#fbf7ef" />
+    <meta name="theme-color" content="#172a6e" />
     <script is:inline>
       (function () {
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#16130f");
+        if (m && document.documentElement.dataset.theme === "dark") m.setAttribute("content", "#0f141b");
       })();
     </script>
     <!-- Brand fonts, self-hosted: Fraunces (headings) and Inter (body/UI) from
@@ -323,10 +324,10 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
          Nothing is fetched from fonts.googleapis.com. Preload the two faces that paint
          above the fold on almost every page. -->
     <link rel="preload" href={withBase("/fonts/icanspeak/inter-latin-400-normal.woff2")} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-500-normal.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/icanspeak/fraunces-latin-900-normal.woff2")} as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href={withBase("/fonts/icanspeak/fonts.css")} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="icanspeak Spanish" />
+    <meta property="og:site_name" content="icanspeak Portuguese" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -381,7 +382,7 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
         Inside the quiz pages themselves (builder, /jogo) links keep the same tab. */}
     {(
       <script is:inline define:vars={{ BASE_PATH }}>
-        // Paths compared without the base (/spanish, src/lib/paths.js).
+        // Paths compared without the base (/portugues, src/lib/paths.js).
         const strip = (p) => (p === BASE_PATH || p.startsWith(BASE_PATH + "/") ? p.slice(BASE_PATH.length) || "/" : p);
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
@@ -413,7 +414,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
       import { currentPath } from "../lib/paths.js";
       import "../styles/mascot-celebrate.css";
       import "../styles/touchpoints.css";
+      import { initAnalytics } from "../lib/analytics.js";
       initI18n();
+      // PostHog for this course. ConsentBanner starts it too (same app name, and initAnalytics
+      // runs only once per page); pages with noTracking have no banner and stay untracked.
+      if (document.querySelector("[data-consent]")) initAnalytics("portuguese");
       // Which language entry page (/es/, /pt-br/ …, src/integrations/entry-pages.mjs) brought
       // the visitor: one event per view, sent like every other (consent in analytics.js).
       const entryLang = document.documentElement.dataset.entryLang;

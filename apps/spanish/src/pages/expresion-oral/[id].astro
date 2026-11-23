@@ -14,8 +14,8 @@ import { fitTitle } from "../../lib/seo/title.js";
 // The task and its talking points can also come in the learner's language
 // (src/data/uebersetzungen/sprechen.json, empty while English is the only help language):
 // not understanding the instruction is no reason to fail a speaking task. The useful
-// phrases and the model answer stay Spanish — they are what is being practised. The task
-// and its points are English at A1–A2 and Spanish from B1 (see src/lib/fertigkeiten.js).
+// phrases and the model answer stay Portuguese — they are what is being practised. The task
+// and its points are English at A1–A2 and Portuguese from B1 (see src/lib/fertigkeiten.js).
 import Layout from "../../layouts/Layout.astro";
 import { itemPath, itemSlug } from "../../lib/routes.js";
 import SiteNav from "../../components/SiteNav.astro";
@@ -52,13 +52,14 @@ const back = set
 // a sentence with no key yet simply stays as written in the data.
 const EXAM_KEYS: Record<string, string> = {
   "In the style of a beginners' speaking exam, which often starts with introducing yourself. Not an official exam task.": "sprechen.exam.vorstellen",
-  "A photo task in the style of speaking exams such as DELE and SIELE. Not an official exam task.": "sprechen.exam.dtz",
-  "A long turn in the style of DELE and SIELE speaking tasks at B1 and B2. Not an official exam task.": "sprechen.exam.telcB1B2",
-  "A discussion in the style of DELE and SIELE speaking tasks at B2. Not an official exam task.": "sprechen.exam.telcB2",
-  "A conversation in the style of DELE and SIELE role plays, here with a partner. Not an official exam task.": "sprechen.exam.telcPair",
+  "A photo task in the style of the oral parts of the CAPLE exams, such as CIPLE A2. Not an official exam task.": "sprechen.exam.dtz",
+  "A photo task in the style of the oral parts of the CAPLE exams, such as DEPLE B1. Not an official exam task.": "sprechen.exam.dtz",
+  "A long turn in the style of the oral parts of the CAPLE exams at B1 and B2. Not an official exam task.": "sprechen.exam.telcB1B2",
+  "A discussion in the style of the oral part of the CAPLE exam at B2. Not an official exam task.": "sprechen.exam.telcB2",
+  "A conversation in the style of CAPLE role plays, here with a partner. Not an official exam task.": "sprechen.exam.telcPair",
 };
-// Instructions: English at A1–A2, Spanish from B1. Marked so a screen reader uses the right voice.
-const taskLang = ["B1", "B2"].includes(task.level) ? "es" : undefined;
+// Instructions: English at A1–A2, Portuguese from B1. Marked so a screen reader uses the right voice.
+const taskLang = ["B1", "B2"].includes(task.level) ? "pt-PT" : undefined;
 const ALSO_KEYS: Record<string, string> = {
   "/expresion-oral-b1-b2": "sprechen.alsoIn.telc",
 };
@@ -149,14 +150,14 @@ const ALSO_KEYS: Record<string, string> = {
       {task.phrases?.length > 0 && (
         <section class="sk-block">
           <h2 data-i18n="skills.h2.phrases">Redemittel</h2>
-          <div class="sk-phrases" lang="es">{task.phrases.map((p) => <span class="sk-phrase">{p}</span>)}</div>
+          <div class="sk-phrases" lang="pt-PT">{task.phrases.map((p) => <span class="sk-phrase">{p}</span>)}</div>
         </section>
       )}
 
       {task.model && (
         <details class="sk-reveal">
           <summary data-i18n="sprechen.model">Modellantwort — erst öffnen, wenn du gesprochen hast</summary>
-          <div class="sk-reveal-body"><div class="sk-model" lang="es">{task.model}</div></div>
+          <div class="sk-reveal-body"><div class="sk-model" lang="pt-PT">{task.model}</div></div>
         </details>
       )}
 

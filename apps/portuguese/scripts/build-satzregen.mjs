@@ -58,7 +58,7 @@ export function parseLine(raw, mode, level, lineNo) {
     else if (k === "alt") (flags.a ??= []).push(rest.map(Number));
     else if (k === "rule") flags.rule = rest.join(" ");
     else if (k === "free") flags.free = rest;
-    else if (k === "es419") flags.es419 = { note: rest.join(" ") };
+    else if (k === "ptBR") flags.ptBR = { note: rest.join(" ") };
     else err(lineNo, `unbekanntes Flag {${f}}`);
     return "";
   });
@@ -85,7 +85,7 @@ export function parseLine(raw, mode, level, lineNo) {
   if (flags.free) flags.a = [...(flags.a ?? []), ...freeOrders(parts.length, flags.free)];
   if (flags.a) s.a = flags.a;
   if (flags.rule) s.rule = flags.rule;
-  if (flags.es419) s.es419 = flags.es419;
+  if (flags.ptBR) s.ptBR = flags.ptBR;
   return s;
 }
 
@@ -93,14 +93,16 @@ function validate(s, lineNo) {
   const n = s.c.length;
   if (n < 3 || n > 6) err(lineNo, `${n} Chunks (erlaubt 3–6)`);
   if (s.v < 0) err(lineNo, "kein konjugiertes Verb (*)");
-  if (s.mode === "janein" && s.v !== 0) err(lineNo, "Ja/Nein-Frage: Verb nicht auf Platz 1");
+  // A Portuguese yes/no question is built like a statement: verb first, or subject + verb.
+  if (s.mode === "janein" && s.v !== 0 && !(s.s === 0 && s.v === 1)) err(lineNo, "yes/no question: verb neither first nor right after the subject");
   if (s.mode === "v2" && s.v !== 1) err(lineNo, "verb not in slot 2");
-  // A2 mode: the object pronoun stands right before the verb (me lo ha dado).
-  if (s.mode === "klammer" && !/^(me|te|lo|la|le|nos|os|los|las|les|se|se lo|se la)$/.test(s.c[s.v - 1] ?? ""))
-    err(lineNo, "object pronoun not right before the verb");
-  // B1 mode: indirect questions (¿Puedes decirme / dónde / está / la estación?): an accented
-  // question word or si, and the verb behind it.
-  if (s.mode === "nebensatz" && !s.c.some((c) => /^(dónde|adónde|cuándo|cómo|qué|quién|cuánto|por qué|a qué hora|de qué( \S+)?|si)$/.test(c)))
+  // A2 mode: where the object pronoun goes. Right before the verb after não, já, nunca … (não me
+  // deu), or joined to the verb with a hyphen (deu-me).
+  if (s.mode === "klammer" && !/^(me|te|o|a|lhe|nos|vos|os|as|lhes|se|mo|to|lho|lha)$/.test(s.c[s.v - 1] ?? "") && !/-(me|te|o|a|lhe|nos|vos|os|as|lhes|se|lo|la|los|las|no|na)$/.test(s.c[s.v]))
+    err(lineNo, "object pronoun neither right before the verb nor joined to it");
+  // B1 mode: indirect questions (Pode dizer-me / onde / fica / a estação?): a question word or
+  // se, and the verb behind it.
+  if (s.mode === "nebensatz" && !s.c.some((c) => /^(onde|para onde|aonde|quando|como|que|o que|do que|quem|quanto|porque|a que horas|de que( \S+)?|se|qual)$/.test(c)))
     err(lineNo, "indirect question without question word / si chunk");
   if (s.mode === "nebensatz" && s.v < 2) err(lineNo, "indirect question: verb before the question word");
   for (const a of s.a || []) {
@@ -151,7 +153,7 @@ lines.forEach((raw, i) => {
 });
 
 // Compact keys, empty fields dropped: the list is inlined into the page.
-const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, es419 }) => {
+const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src, rule, lv, ptBR }) => {
   const o = { id, mode, level, c, v, s, e, en };
   if (vp.length) o.vp = vp;
   if (f.length) o.f = f;
@@ -159,7 +161,7 @@ const clean = out.map(({ id, mode, level, c, v, s, vp, f, a, e, nv, en, au, src,
   if (nv) o.nv = true;
   if (au) o.au = au;
   if (rule) o.rule = rule;
-  if (es419) o.es419 = es419;
+  if (ptBR) o.ptBR = ptBR;
   o.src = src;
   if (lv) o.lv = lv;
   return o;

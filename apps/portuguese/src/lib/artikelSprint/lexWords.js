@@ -10,12 +10,12 @@ import { isDrillNoun } from "../generoDrill.js";
 
 export const LEVELS = ["A1", "A2", "B1"];
 /** Languages with a meaning in the lexicon (inline or as a sidecar) and a UI. English ships with the word. */
-export const GLOSS_LANGS = ["de", "fr", "pt", "it"];
+export const GLOSS_LANGS = ["de", "es", "fr", "it"];
 
-// el / la nouns with one right article (generoDrill.js); short single words, accents allowed. A noun
+// o / a nouns with one right article (generoDrill.js); short single words, accents allowed. A noun
 // with no plural in the lexicon only joins the article gates (questions.js).
-const WORD = /^[a-záéíóúüñ]{2,12}$/;
-const PLURAL = /^[a-záéíóúüñ]{2,14}$/;
+const WORD = /^[a-záàâãéêíóôõúç]{2,12}$/;
+const PLURAL = /^[a-záàâãéêíóôõúç]{2,14}$/;
 const fits = (e) => isDrillNoun(e) && e.en && WORD.test(e.lemma) && (!e.plural || PLURAL.test(e.plural));
 
 export function lexNouns(level) {

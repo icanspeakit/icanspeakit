@@ -22,12 +22,12 @@ export const themen = data.themen;
 export const themaById = Object.fromEntries(themen.map((t) => [t.id, t]));
 
 const sortKey = (de) =>
-  de.toLowerCase().replace(/^[“"¿¡]/, "").replace(/^(el|la|los|las|un|una|estar|ser|tener|no|a|al)\s+/, "");
+  de.toLowerCase().replace(/^[“"]/, "").replace(/^(o|a|os|as|um|uma|estar|ser|ter|não|ao|à)\s+/, "");
 
 const order = Object.fromEntries(themen.map((t, i) => [t.id, i]));
 export const eintraege = data.eintraege
   .map((e) => ({ ...e, themaInfo: themaById[e.thema] }))
-  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "es"));
+  .sort((a, b) => order[a.thema] - order[b.thema] || sortKey(a.de).localeCompare(sortKey(b.de), "pt"));
 
 export const byId = Object.fromEntries(eintraege.map((e) => [e.id, e]));
 

@@ -2,11 +2,13 @@
   "_note": [
     "Reading A1–B2, in the shape src/data/hoeren.json already proved: one entry per exercise,",
     "each with its own level, so the skill can be offered level by level instead of as one B1",
-    "page. Every text is written for this site in Castilian Spanish; places and firms are made up",
-    "(Valdelora, Montealbar, Envíos Albar), so no real local rule is misquoted.",
+    "page. Every text is written for this site in European Portuguese (variety pt-PT: Portugal",
+    "vocabulary, tu/você/o senhor as used in Portugal, 1990 Orthographic Agreement as written in",
+    "Portugal); places, people and firms are made up (Valdelora, Albar, Envios Albar), so no real",
+    "local rule is misquoted. Where a text imitates an official notice it says so in its blurb.",
     "",
     "Question language: prompts and options are English at A1–A2 (the check is about the text, not",
-    "about reading the question) and Spanish at B1–B2. `title`, `blurb` and `explain` are English",
+    "about reading the question) and Portuguese at B1–B2. `title`, `blurb` and `explain` are English",
     "at every level. Same rule as src/data/hoeren.json.",
     "",
     "`type` names the TEXT TYPE, not the topic, because that is what exam tasks actually vary",
@@ -15,7 +17,11 @@
     "",
     "The five B1 entries below borrow the B1 simulation from src/data/lesen.json (`from`), so",
     "each part is reachable on its own. That file and /leitura-e-escrita stay: doing the five",
-    "parts one after the other under time is a different exercise from practising one."
+    "parts one after the other under time is a different exercise from practising one.",
+    "",
+    "Brazilian usage is not taught here. Where it differs and matters (autocarro/ônibus,",
+    "telemóvel/celular, pequeno-almoço/café da manhã, enclisis/proclisis) the explanations may",
+    "mention it in passing; a Brazil mode can be added later without rewriting these texts."
   ],
   "types": {
     "schild": "Signs & notices",
@@ -34,7 +40,7 @@
       "title": "Notices in a block of flats",
       "blurb": "Six notices in the entrance hall – what can you do where?",
       "minutes": 4,
-      "text": "**Aviso 1 – Puerta del portal**\nPor favor, cierren siempre la puerta. ¡Gracias!\n\n**Aviso 2 – Piscina**\nAbierta de lunes a sábado, de 11:00 a 20:00. Los domingos, cerrada.\n\n**Aviso 3 – Bicicletas**\nLas bicicletas, solo en el cuarto de las bicicletas. En el portal, no.\n\n**Aviso 4 – Buzones**\nEl cartero viene de lunes a viernes, de 9:00 a 11:00.\n\n**Aviso 5 – Basura**\nContenedor amarillo: plástico y latas. Contenedor azul: papel y cartón. Contenedor verde: vidrio.\n\n**Aviso 6 – Escalera**\nViernes, 14:00: el portero arregla las luces. Por favor, usen el ascensor.",
+      "text": "**Aviso 1 – Porta do prédio**\nPor favor, feche sempre a porta. Obrigado!\n\n**Aviso 2 – Piscina**\nAberta de segunda a sábado, das 11:00 às 20:00. Aos domingos, fechada.\n\n**Aviso 3 – Bicicletas**\nAs bicicletas só na sala das bicicletas. Na entrada, não.\n\n**Aviso 4 – Caixas do correio**\nO carteiro vem de segunda a sexta, das 9:00 às 11:00.\n\n**Aviso 5 – Lixo**\nEcoponto amarelo: plástico e metal. Ecoponto azul: papel e cartão. Ecoponto verde: vidro.\n\n**Aviso 6 – Escadas**\nSexta-feira, 14:00: o porteiro arranja as luzes. Por favor, use o elevador.",
       "questions": [
         {
           "prompt": "You want to go to the pool on Sunday at 12:00. Can you?",
@@ -44,7 +50,7 @@
             "Yes, but only until 12:00"
           ],
           "answer": "No, it is closed on Sundays",
-          "explain": "“Los domingos, cerrada”: the times 11:00 to 20:00 are only for Monday to Saturday (“de lunes a sábado”)."
+          "explain": "“Aos domingos, fechada”: the times 11:00 to 20:00 are only for Monday to Saturday (“de segunda a sábado”). “Aos domingos” means “on Sundays”, every Sunday."
         },
         {
           "prompt": "Where should your bike go?",
@@ -54,7 +60,7 @@
             "On the stairs"
           ],
           "answer": "In the bike room",
-          "explain": "“En el portal, no”: the “portal” is the entrance hall of the building."
+          "explain": "“Na entrada, não”: the “entrada” is the entrance hall of the building."
         },
         {
           "prompt": "Which container is for old newspapers?",
@@ -63,7 +69,8 @@
             "The blue one",
             "The green one"
           ],
-          "answer": "The blue one"
+          "answer": "The blue one",
+          "explain": "In Portugal the recycling bins are called “ecopontos”, and the colours are standard: yellow for plastic and metal, blue for paper and cardboard, green for glass."
         },
         {
           "prompt": "When does the postman come?",
@@ -73,7 +80,7 @@
             "From 11:00 to 20:00"
           ],
           "answer": "From 9:00 to 11:00",
-          "explain": "Friday at 14:00 is the caretaker (“el portero”), not the postman (“el cartero”). The number alone is not enough: you have to read which notice it is on."
+          "explain": "Friday at 14:00 is the caretaker (“o porteiro”), not the postman (“o carteiro”). The number alone is not enough: you have to read which notice it is on."
         }
       ]
     },
@@ -84,16 +91,17 @@
       "title": "An invitation by text message",
       "blurb": "Who, when, where – and what should you bring?",
       "minutes": 3,
-      "text": "**Lucía, 18:42**\n¡Hola, Kevin! El sábado es mi cumpleaños. Hago una fiesta pequeña en mi piso. ¿Puedes venir?\n\n**Lucía, 18:43**\nEmpezamos a las nueve de la noche. Vivo en la calle Mayor, 8, 2.º izquierda. El timbre no funciona: llámame por teléfono y bajo.\n\n**Lucía, 18:44**\nTengo mucha comida y bebida. No tienes que traer nada. Bueno… ¿puedes traer música? ¡Siempre tienes buena música! 🙂",
+      "text": "**Inês, 18:42**\nOlá, Kevin! No sábado faço anos. Vou fazer uma festa pequena no meu apartamento. Podes vir?\n\n**Inês, 18:43**\nComeçamos às nove da noite. Moro na Rua Direita, 8, 2.º esquerdo. A campainha não funciona: liga-me e eu desço.\n\n**Inês, 18:44**\nTenho muita comida e bebida. Não precisas de trazer nada. Bom… podes trazer música? Tens sempre boa música! 🙂",
       "questions": [
         {
-          "prompt": "Why is Lucía having a party?",
+          "prompt": "Why is Inês having a party?",
           "options": [
             "She has a new flat",
             "It's her birthday",
             "She has a new job"
           ],
-          "answer": "It's her birthday"
+          "answer": "It's her birthday",
+          "explain": "“Faço anos” literally means “I make years”: it is how Portuguese says “it's my birthday”."
         },
         {
           "prompt": "When does the party start?",
@@ -103,17 +111,17 @@
             "At 21:00"
           ],
           "answer": "At 21:00",
-          "explain": "“A las nueve de la noche” is 21:00. 18:42 is the time of the message: phones show it next to every message, and it is not part of the text."
+          "explain": "“Às nove da noite” is 21:00. 18:42 is the time of the message: phones show it next to every message, and it is not part of the text."
         },
         {
           "prompt": "What should Kevin do when he arrives?",
           "options": [
             "Ring the doorbell",
-            "Phone Lucía",
+            "Phone Inês",
             "Go up to the second floor"
           ],
-          "answer": "Phone Lucía",
-          "explain": "“El timbre no funciona: llámame por teléfono y bajo.” The doorbell doesn't work, so he calls and she comes down."
+          "answer": "Phone Inês",
+          "explain": "“A campainha não funciona: liga-me e eu desço.” The doorbell doesn't work, so he calls and she comes down. In European Portuguese the pronoun comes after the verb, joined with a hyphen: “liga-me”."
         },
         {
           "prompt": "What should Kevin bring?",
@@ -133,7 +141,7 @@
       "title": "Messages on your phone",
       "blurb": "Four short messages: who wrote, and what do they want?",
       "minutes": 3,
-      "text": "**Centro de salud Las Acacias**\nCita con la doctora Pardo: martes 10, a las 9:30. Para cancelar, llame al 600 000 021.\n\n**Envíos Albar**\nSu paquete llega mañana, de 10:00 a 14:00. Si no está en casa, puede recogerlo en la tienda de la calle Mayor.\n\n**Colegio Los Almendros**\nEl viernes no hay clase. Los niños vuelven al colegio el lunes.\n\n**Ana (trabajo)**\nHola. Mañana por la mañana no puedo trabajar. ¿Puedes trabajar tú? Yo trabajo por ti el sábado. ¡Gracias!",
+      "text": "**Centro de Saúde das Acácias**\nConsulta com a Dra. Pardo: terça-feira, dia 10, às 9:30. Para cancelar, ligue para o 9X0 000 021.\n\n**Envios Albar**\nA sua encomenda chega amanhã, entre as 10:00 e as 14:00. Se não estiver em casa, pode levantá-la na loja da Rua Direita.\n\n**Escola dos Amendoais**\nSexta-feira não há aulas. As crianças voltam à escola na segunda-feira.\n\n**Ana (trabalho)**\nOlá. Amanhã de manhã não posso trabalhar. Podes trabalhar tu? Eu trabalho por ti no sábado. Obrigada!",
       "questions": [
         {
           "prompt": "When is the doctor's appointment?",
@@ -143,7 +151,7 @@
             "Thursday the 10th at 9:30"
           ],
           "answer": "Tuesday the 10th at 9:30",
-          "explain": "“Martes” is Tuesday; “jueves” is Thursday. Spanish puts the day first and then its number: “martes 10”."
+          "explain": "“Terça-feira” is Tuesday; “quinta-feira” is Thursday. Portuguese gives the weekday and then “dia” plus the number: “terça-feira, dia 10”."
         },
         {
           "prompt": "You are not at home when the parcel comes. What can you do?",
@@ -153,7 +161,7 @@
             "Wait until Monday"
           ],
           "answer": "Collect it from a shop",
-          "explain": "“Puede recogerlo en la tienda”: “recoger” means to collect."
+          "explain": "“Pode levantá-la na loja”: “levantar” also means to collect something you have to pick up. The pronoun “-la” stands for “a encomenda”."
         },
         {
           "prompt": "What happens on Friday?",
@@ -172,7 +180,7 @@
             "You phone the doctor"
           ],
           "answer": "You work tomorrow morning",
-          "explain": "Ana can't work “mañana por la mañana”, and she offers to do your Saturday in return. Note the two meanings of “mañana”: “tomorrow” and “morning”."
+          "explain": "Ana can't work “amanhã de manhã” (tomorrow morning), and she offers to do your Saturday in return. Do not mix up “amanhã” (tomorrow) and “manhã” (morning)."
         }
       ]
     },
@@ -183,10 +191,10 @@
       "title": "Reading adverts for flats",
       "blurb": "Four adverts, four people looking – who matches which home?",
       "minutes": 6,
-      "text": "**Anuncio A**\nPiso de un dormitorio, tercera planta, sin ascensor. 780 € al mes. Disponible ya. No se admiten mascotas.\n\n**Anuncio B**\nHabitación en piso compartido con tres estudiantes. 350 € al mes, gastos incluidos. Cocina y baño compartidos. Nos gusta cocinar y comer juntos.\n\n**Anuncio C**\nPiso de dos dormitorios en planta baja, con un patio pequeño. 1.150 € al mes. Se admiten perros y gatos. Disponible desde el 1 de octubre.\n\n**Anuncio D**\nEstudio amueblado. 850 € al mes, internet incluido. Solo seis meses.",
+      "text": "**Anúncio A**\nT1, terceiro andar, sem elevador. 780 € por mês. Disponível de imediato. Não se aceitam animais de estimação.\n\n**Anúncio B**\nQuarto em apartamento partilhado com três estudantes. 350 € por mês, despesas incluídas. Cozinha e casa de banho partilhadas. Gostamos de cozinhar e comer juntos.\n\n**Anúncio C**\nT2 no rés-do-chão, com um pequeno logradouro. 1150 € por mês. Aceitam-se cães e gatos. Disponível a partir de 1 de outubro.\n\n**Anúncio D**\nEstúdio mobilado. 850 € por mês, internet incluída. Apenas seis meses.",
       "questions": [
         {
-          "prompt": "Mr Adeyemi is coming to Spain for a six-month job. He has no furniture.",
+          "prompt": "Mr Adeyemi is coming to Portugal for a six-month job. He has no furniture.",
           "options": [
             "Advert A",
             "Advert B",
@@ -194,7 +202,7 @@
             "Advert D"
           ],
           "answer": "Advert D",
-          "explain": "Two things must be right: furnished (“amueblado”) AND six months. Only D has both."
+          "explain": "Two things must be right: furnished (“mobilado”) AND six months. Only D has both."
         },
         {
           "prompt": "The Novak family have a dog and two children.",
@@ -205,7 +213,7 @@
             "Advert D"
           ],
           "answer": "Advert C",
-          "explain": "“Se admiten perros y gatos”, and A says the opposite: “No se admiten mascotas”."
+          "explain": "“Aceitam-se cães e gatos”, and A says the opposite: “Não se aceitam animais de estimação”. In ads, “T2” means two bedrooms: T0 is a studio, T1 has one bedroom, and so on."
         },
         {
           "prompt": "Lena is a student. She doesn't have much money, and she likes cooking for other people.",
@@ -225,7 +233,7 @@
             "Advert D"
           ],
           "answer": "Advert C",
-          "explain": "“Planta baja” is the ground floor. A is on the third floor with no lift (“sin ascensor”), and D doesn't say which floor it is on, so C is the safe answer."
+          "explain": "“Rés-do-chão” is the ground floor. A is on the third floor with no lift (“sem elevador”), and D doesn't say which floor it is on, so C is the safe answer."
         }
       ]
     },
@@ -236,7 +244,7 @@
       "title": "An email from the language school",
       "blurb": "The class is cancelled. What does that mean for you?",
       "minutes": 5,
-      "text": "Asunto: Cambio en vuestra clase de español A2. Por favor, leed este correo.\n\nHola a todos:\n\nVuestra profesora, Marta Berrocal, está enferma. Por eso, esta semana no hay clase ni el martes ni el jueves.\n\nA partir de la semana que viene, vuestro profesor será Óscar Prieto. Las clases serán a la hora de siempre, pero en el aula 2.14 en lugar del aula 1.03, porque ahora hace demasiado frío en el aula grande de la primera planta.\n\nRecuperaremos las dos clases el sábado 18, de 10:00 a 13:00. Si no podéis venir ese sábado, enviadnos un correo corto antes del viernes. El examen sigue siendo a final de mes.\n\nUn saludo,\nLa secretaría de la academia",
+      "text": "Assunto: Alteração na vossa aula de português A2. Por favor, leiam este email.\n\nOlá a todos:\n\nA vossa professora, Marta Barroso, está doente. Por isso, esta semana não há aula nem na terça-feira nem na quinta-feira.\n\nA partir da próxima semana, o vosso professor será o Óscar Pires. As aulas serão à hora do costume, mas na sala 2.14 em vez da sala 1.03, porque agora está demasiado frio na sala grande do primeiro andar.\n\nVamos repor as duas aulas no sábado, dia 18, das 10:00 às 13:00. Se não puderem vir nesse sábado, enviem-nos um email curto até sexta-feira. O exame continua marcado para o final do mês.\n\nCom os melhores cumprimentos,\nA secretaria da escola",
       "questions": [
         {
           "prompt": "Why are the classes cancelled?",
@@ -255,14 +263,14 @@
             "The big room on the first floor"
           ],
           "answer": "Room 2.14",
-          "explain": "“En el aula 2.14 en lugar del aula 1.03”: “en lugar de” (“instead of”) always points to the old thing, not the new one."
+          "explain": "“Na sala 2.14 em vez da sala 1.03”: “em vez de” (“instead of”) always points to the old thing, not the new one."
         },
         {
           "prompt": "What must you do if you are not free on the Saturday?",
           "options": [
             "Nothing",
             "Send an email before Friday",
-            "Phone Óscar Prieto"
+            "Phone Óscar Pires"
           ],
           "answer": "Send an email before Friday"
         },
@@ -274,28 +282,28 @@
             "On Tuesday"
           ],
           "answer": "At the end of the month",
-          "explain": "“El examen sigue siendo a final de mes”: “seguir siendo” means “to still be”, so the date does not change."
+          "explain": "“O exame continua marcado para o final do mês”: “continuar” + adjective means “still”, so the date does not change."
         }
       ]
     },
     {
-      "id": "a2-padron-notice",
+      "id": "a2-junta-notice",
       "level": "A2",
       "type": "schild",
-      "title": "A town hall notice: the padrón",
-      "blurb": "An invented town's notice for practice. Every town hall has its own list, so check yours.",
+      "title": "A Junta de Freguesia notice: atestado de residência",
+      "blurb": "An invented parish council's notice, for practice. Every Junta has its own rules and prices, so check yours.",
       "minutes": 5,
-      "text": "**Ayuntamiento de Valdelora · Cómo empadronarse**\n\nSi vives en Valdelora, tienes que inscribirte en el padrón municipal. El trámite es gratis.\n\n**Dónde:** Oficina de Atención a la Ciudadanía, plaza Mayor, 1. De lunes a viernes, de 9:00 a 14:00. Antes de venir, hay que pedir cita por teléfono (600 000 052) o en la página web del Ayuntamiento.\n\n**Qué tienes que traer:**\n– el impreso de empadronamiento, rellenado y firmado (lo tenemos en la oficina);\n– tu pasaporte o tu tarjeta de residencia;\n– tu contrato de alquiler o las escrituras del piso.\n\n**Si vives en casa de otra persona:** esa persona también tiene que firmar el impreso y darte una copia de su DNI o NIE.\n\n**El certificado de empadronamiento:** te lo damos en la oficina el mismo día.",
+      "text": "**Junta de Freguesia de Valdelora · Como pedir o atestado de residência**\n\nSe vive na freguesia de Valdelora, pode pedir à Junta um atestado de residência. O atestado custa 5 €.\n\n**Onde:** Balcão de atendimento da Junta, Praça Principal, 1. De segunda a sexta, das 9:00 às 13:00. Antes de vir, é preciso marcar atendimento por telefone (9X0 000 052) ou no site da Junta.\n\n**O que tem de trazer:**\n– o requerimento, preenchido e assinado (está disponível no balcão);\n– o passaporte ou o título de residência;\n– o contrato de arrendamento ou uma fatura recente de água, luz ou internet em seu nome.\n\n**Se vive em casa de outra pessoa:** essa pessoa também tem de assinar o requerimento e entregar-lhe uma cópia do seu cartão de cidadão ou título de residência.\n\n**O atestado:** é entregue no próprio dia, no balcão.",
       "questions": [
         {
-          "prompt": "How much does it cost to register?",
+          "prompt": "How much does the certificate cost?",
           "options": [
             "Nothing",
-            "A small fee",
+            "5 €",
             "It depends on the flat"
           ],
-          "answer": "Nothing",
-          "explain": "“El trámite es gratis.” “Trámite” is a word you will meet everywhere: an official procedure. This notice is invented, so for the rules where you live, ask your own town hall."
+          "answer": "5 €",
+          "explain": "“O atestado custa 5 €.” This notice is invented, so the price is too: for the real rules and fee, ask your own Junta de Freguesia."
         },
         {
           "prompt": "What must you do before you go to the office?",
@@ -305,7 +313,7 @@
             "Pay at the bank"
           ],
           "answer": "Make an appointment",
-          "explain": "“Antes de venir, hay que pedir cita.” “Pedir cita” means to make an appointment."
+          "explain": "“Antes de vir, é preciso marcar atendimento.” “Marcar atendimento” (or “marcar uma consulta/hora”) means to make an appointment. “Marcar” is the verb for booking a time in Portugal."
         },
         {
           "prompt": "You rent a room in a friend's flat, and your name is not on any contract. What else do you need?",
@@ -315,7 +323,7 @@
             "Your friend comes with you to the office and pays the fee"
           ],
           "answer": "Your friend signs the form and gives you a copy of their ID",
-          "explain": "“Esa persona también tiene que firmar el impreso y darte una copia de su DNI o NIE.”"
+          "explain": "“Essa pessoa também tem de assinar o requerimento e entregar-lhe uma cópia do seu cartão de cidadão ou título de residência.” Notices like this speak to you in the formal third person (“pode”, “tem de”, “seu”)."
         },
         {
           "prompt": "When do you get the certificate?",
@@ -380,55 +388,55 @@
       "title": "Newspaper article: the teleworking debate",
       "blurb": "Two studies, two results – and what the article really says about them.",
       "minutes": 9,
-      "text": "**¿Más productivos en casa o simplemente más solos?**\n\nVarios años después del gran cambio que vivió el mundo laboral, el debate sobre el teletrabajo está lejos de cerrarse. Un estudio universitario publicado esta primavera concluye que quienes trabajan desde casa completan, de media, alrededor de un ocho por ciento más de tareas que en la oficina. Los investigadores lo atribuyen sobre todo a la falta de interrupciones: si nadie te para cada veinte minutos para charlar, te concentras mejor.\n\nUna segunda encuesta, realizada por un instituto de investigación económica, matiza este panorama. Aunque también detecta un aumento de la productividad en las tareas individuales bien definidas, sostiene que el trabajo creativo en equipo se resiente cuando los compañeros están separados. Los empleados nuevos, en particular, tardan bastante más en adaptarse a su puesto, señalan los autores, porque se pierden el aprendizaje informal que surge cuando hay compañeros con experiencia cerca.\n\nLas empresas están reaccionando de maneras distintas. Algunas grandes compañías quieren que su plantilla vuelva a la oficina cuatro días a la semana; otras fijan días de oficina para todo el equipo y dejan el resto de la semana a elección de cada persona. En cuanto al marco legal en España, el teletrabajo regular es, como norma general, voluntario para ambas partes y se recoge en un acuerdo por escrito. Lo que se aplica en la práctica depende de ese acuerdo y del convenio colectivo.\n\nLos expertos solo coinciden en una cosa: «¿oficina o casa?» es la pregunta equivocada. Lo que importa, dicen, no es el lugar, sino si una tarea exige debate o silencio.",
+      "text": "**Mais produtivos em casa ou simplesmente mais sozinhos?**\n\nVários anos depois da grande mudança que o mundo do trabalho viveu, o debate sobre o teletrabalho está longe de se encerrar. Um estudo universitário publicado esta primavera conclui que quem trabalha a partir de casa despacha, em média, cerca de oito por cento mais tarefas do que no escritório. Os investigadores atribuem isso sobretudo à falta de interrupções: se ninguém te pára de vinte em vinte minutos para conversar, concentras-te melhor.\n\nUm segundo inquérito, realizado por um instituto de investigação económica, matiza este panorama. Embora também detete um aumento da produtividade nas tarefas individuais bem definidas, sustenta que o trabalho criativo em equipa se ressente quando os colegas estão separados. Os trabalhadores recém-contratados, em particular, demoram bastante mais a adaptar-se ao posto, assinalam os autores, porque perdem a aprendizagem informal que surge quando há colegas experientes por perto.\n\nAs empresas estão a reagir de maneiras diferentes. Algumas grandes companhias querem que os trabalhadores voltem ao escritório quatro dias por semana; outras fixam dias de escritório para toda a equipa e deixam o resto da semana à escolha de cada pessoa. Quanto ao enquadramento legal em Portugal, o teletrabalho regular depende, em regra, de acordo escrito entre as partes, embora a lei preveja alguns casos em que o trabalhador pode exigi-lo. O que se aplica na prática depende desse acordo e do contrato ou da convenção coletiva.\n\nOs especialistas só concordam numa coisa: «escritório ou casa?» é a pergunta errada. O que importa, dizem, não é o local, mas se uma tarefa pede debate ou silêncio.",
       "questions": [
         {
-          "prompt": "Según el estudio universitario, el aumento de la productividad se debe sobre todo a que…",
+          "prompt": "Segundo o estudo universitário, o aumento da produtividade deve-se sobretudo ao facto de…",
           "options": [
-            "… en casa se trabajan más horas.",
-            "… en casa hay menos interrupciones.",
-            "… las tareas en casa son más fáciles."
+            "… em casa se trabalharem mais horas.",
+            "… em casa haver menos interrupções.",
+            "… as tarefas em casa serem mais fáceis."
           ],
-          "answer": "… en casa hay menos interrupciones.",
-          "explain": "“Lo atribuyen sobre todo a la falta de interrupciones.” The text says nothing about longer working hours."
+          "answer": "… em casa haver menos interrupções.",
+          "explain": "“Atribuem isso sobretudo à falta de interrupções.” The text says nothing about longer working hours. The question uses the personal infinitive after “ao facto de” (“haver”, “trabalharem”), a typical B2 structure."
         },
         {
-          "prompt": "¿Qué dice la segunda encuesta sobre los empleados nuevos?",
+          "prompt": "O que diz o segundo inquérito sobre os trabalhadores recém-contratados?",
           "options": [
-            "Rinden más en casa que los veteranos.",
-            "Necesitan más tiempo para adaptarse.",
-            "La mayoría rechaza el teletrabajo."
+            "Rendem mais em casa do que os veteranos.",
+            "Precisam de mais tempo para se adaptar.",
+            "A maioria rejeita o teletrabalho."
           ],
-          "answer": "Necesitan más tiempo para adaptarse."
+          "answer": "Precisam de mais tempo para se adaptar."
         },
         {
-          "prompt": "¿Qué relación hay entre los dos estudios?",
+          "prompt": "Que relação há entre os dois estudos?",
           "options": [
-            "El segundo demuestra que el primero está equivocado.",
-            "El segundo confirma una parte y limita otra.",
-            "Los dos llegan exactamente a la misma conclusión."
+            "O segundo prova que o primeiro está errado.",
+            "O segundo confirma uma parte e limita outra.",
+            "Os dois chegam exatamente à mesma conclusão."
           ],
-          "answer": "El segundo confirma una parte y limita otra.",
-          "explain": "“Matiza este panorama” + “Aunque también detecta…, sostiene que…”: that is a limitation, not a contradiction. At B2, “matizar” and “aunque…, …” are typical signals for this."
+          "answer": "O segundo confirma uma parte e limita outra.",
+          "explain": "“Matiza este panorama” + “Embora também detete…, sustenta que…”: that is a limitation, not a contradiction. At B2, “matizar” and “embora…, …” (with the subjunctive) are typical signals for this."
         },
         {
-          "prompt": "¿Cuál es la situación legal en España, según el artículo?",
+          "prompt": "Qual é a situação legal em Portugal, segundo o artigo?",
           "options": [
-            "Toda persona tiene derecho a teletrabajar cuando quiera.",
-            "El teletrabajo se permite cuatro días a la semana.",
-            "Como norma general, se pacta por escrito con la empresa."
+            "Qualquer pessoa tem direito a teletrabalhar quando quiser.",
+            "O teletrabalho só é permitido quatro dias por semana.",
+            "Em regra, acorda-se por escrito com a empresa."
           ],
-          "answer": "Como norma general, se pacta por escrito con la empresa.",
-          "explain": "“Voluntario para ambas partes” and “se recoge en un acuerdo por escrito”. This is a reading text, not legal advice: your contract and your “convenio” say what applies to you."
+          "answer": "Em regra, acorda-se por escrito com a empresa.",
+          "explain": "“Depende, em regra, de acordo escrito entre as partes.” This is a reading text, not legal advice, and the rules on teleworking have changed in recent years: your contract and the current law say what applies to you."
         },
         {
-          "prompt": "¿En qué coinciden los expertos, según el artículo?",
+          "prompt": "Em que é que os especialistas concordam, segundo o artigo?",
           "options": [
-            "En que la oficina es la mejor solución a largo plazo.",
-            "En que el tipo de tarea importa más que el lugar.",
-            "En que los días fijos de oficina son la única regla sensata."
+            "Em que o escritório é a melhor solução a longo prazo.",
+            "Em que o tipo de tarefa importa mais do que o local.",
+            "Em que os dias fixos de escritório são a única regra sensata."
           ],
-          "answer": "En que el tipo de tarea importa más que el lugar."
+          "answer": "Em que o tipo de tarefa importa mais do que o local."
         }
       ]
     },
@@ -439,57 +447,57 @@
       "title": "Readers' comments: a car-free town centre",
       "blurb": "Five comments, five positions – who argues how?",
       "minutes": 8,
-      "text": "**Tema: ¿Debe ser peatonal el centro de Valdelora?**\n\n**Comentario A – Dario_87**\nLlevo doce años haciendo este recorrido en bici y ya me he acostumbrado al peligro diario. Pero nadie debería tener que acostumbrarse. Quien tenga hijos sabe de lo que hablo.\n\n**Comentario B – M. Quiroga**\nNadie niega que con menos coches se viviría mejor. Pero mientras el tren se suprima dos veces por semana y el último autobús salga a las ocho y media, no es una elección justa. Lo pagarán quienes menos dinero tienen.\n\n**Comentario C – Irene V.**\nMi tienda vive de los clientes que paran un minuto, compran algo y siguen su camino. Eso funciona desde hace treinta años. No nos quitan los coches: nos quitan a los clientes.\n\n**Comentario D – pedalea_valdelora**\nPontevedra, Gante, Groninga: en todas partes pasa lo mismo. Los comerciantes protestan el primer año y, unos años después, nadie quiere que vuelvan los coches. Estamos discutiendo algo que otras ciudades resolvieron hace tiempo.\n\n**Comentario E – Enrique R.**\nLo que me molesta no es la idea, sino el procedimiento. La decisión ya estaba tomada antes de que empezara la consulta pública. Se puede discutir el resultado; lo que no se puede aceptar es cómo se ha llegado a él.",
+      "text": "**Tema: O centro de Valdelora deve ser pedonal?**\n\n**Comentário A – Dario_87**\nFaço este percurso de bicicleta há doze anos e já me habituei ao perigo diário. Mas ninguém devia ter de se habituar. Quem tem filhos sabe do que falo.\n\n**Comentário B – M. Quintela**\nNinguém nega que, com menos carros, se viveria melhor. Mas enquanto o comboio for suprimido duas vezes por semana e o último autocarro sair às oito e meia, não é uma escolha justa. Quem vai pagar são os que têm menos dinheiro.\n\n**Comentário C – Irene V.**\nA minha loja vive dos clientes que param um minuto, compram qualquer coisa e seguem caminho. Isto funciona há trinta anos. Não nos tiram os carros: tiram-nos os clientes.\n\n**Comentário D – pedalar_valdelora**\nPontevedra, Gante, Groninga: em todo o lado acontece o mesmo. Os comerciantes protestam no primeiro ano e, uns anos depois, ninguém quer que os carros voltem. Estamos a discutir algo que outras cidades resolveram há muito tempo.\n\n**Comentário E – Henrique R.**\nO que me incomoda não é a ideia, mas o procedimento. A decisão já estava tomada antes de começar a consulta pública. Pode discutir-se o resultado; o que não se pode aceitar é a forma como se chegou a ele.",
       "questions": [
         {
-          "prompt": "¿Quién está de acuerdo con la idea en principio, pero cree que el plan es injusto con la gente con menos dinero?",
+          "prompt": "Quem concorda com a ideia em princípio, mas acha que o plano é injusto para quem tem menos dinheiro?",
           "options": [
-            "Comentario A",
-            "Comentario B",
-            "Comentario C",
-            "Comentario D",
-            "Comentario E"
+            "Comentário A",
+            "Comentário B",
+            "Comentário C",
+            "Comentário D",
+            "Comentário E"
           ],
-          "answer": "Comentario B",
-          "explain": "“Nadie niega que…” is agreement; “Pero mientras…” (with the subjunctive) brings in the objection. The objection is about public transport, not about the idea itself."
+          "answer": "Comentário B",
+          "explain": "“Ninguém nega que…” is agreement; “Mas enquanto…” (with the future subjunctive: “for suprimido”, “sair”) brings in the objection. The objection is about public transport, not about the idea itself."
         },
         {
-          "prompt": "¿Quién no critica el plan en sí, sino cómo se tomó la decisión?",
+          "prompt": "Quem não critica o plano em si, mas a forma como a decisão foi tomada?",
           "options": [
-            "Comentario A",
-            "Comentario B",
-            "Comentario D",
-            "Comentario E"
+            "Comentário A",
+            "Comentário B",
+            "Comentário D",
+            "Comentário E"
           ],
-          "answer": "Comentario E"
+          "answer": "Comentário E"
         },
         {
-          "prompt": "¿Quién usa como argumento la experiencia de otras ciudades?",
+          "prompt": "Quem usa como argumento a experiência de outras cidades?",
           "options": [
-            "Comentario B",
-            "Comentario C",
-            "Comentario D",
-            "Comentario E"
+            "Comentário B",
+            "Comentário C",
+            "Comentário D",
+            "Comentário E"
           ],
-          "answer": "Comentario D"
+          "answer": "Comentário D"
         },
         {
-          "prompt": "¿A quién le preocupa perder dinero personalmente?",
+          "prompt": "Quem está preocupado com perder dinheiro pessoalmente?",
           "options": [
-            "Comentario A",
-            "Comentario C",
-            "Comentario D"
+            "Comentário A",
+            "Comentário C",
+            "Comentário D"
           ],
-          "answer": "Comentario C"
+          "answer": "Comentário C"
         },
         {
-          "prompt": "¿Quién basa su postura en el peligro que vive a diario?",
+          "prompt": "Quem baseia a sua posição no perigo que vive todos os dias?",
           "options": [
-            "Comentario A",
-            "Comentario B",
-            "Comentario E"
+            "Comentário A",
+            "Comentário B",
+            "Comentário E"
           ],
-          "answer": "Comentario A"
+          "answer": "Comentário A"
         }
       ]
     }

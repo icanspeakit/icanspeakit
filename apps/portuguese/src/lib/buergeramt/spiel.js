@@ -1,8 +1,9 @@
-// Bruno at the desk (/jogos/extranjeria): Bruno, our dachshund, works
-// window 3 in the invented town of Villabruno: two days at the padrón, then the foreigners' office
-// (NIE, TIE, questions about arraigo and the 2026 regularisation). The number display dings, a
-// customer slides papers across the desk, and the player checks them against Regi's rule memo:
-// find what contradicts (Check), ask a question in Spanish, then stamp COMPLETO or DEVUELTO.
+// Bruno at the desk (/jogos/aima): Bruno, our dachshund, works
+// window 3 in the invented town of Vilabruno: the Junta de Freguesia, the centro de saúde, Finanças
+// and Segurança Social, then two days at AIMA (residence permit, renewal, questions it doesn't
+// decide). The number display dings, a customer slides papers across the desk, and the player
+// checks them against Regi's rule memo: find what contradicts (Check), ask a question in
+// Portuguese, then stamp COMPLETO or DEVOLVIDO.
 // The player only ever checks that paperwork is complete; nothing here decides anyone's status.
 // Code ids keep the names of the German original (the Bürgeramt sim from deutschacademy).
 //
@@ -21,9 +22,9 @@ import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spie
 
 export const UI = {
   eyebrow: "Game · A2–B1 · Prototype",
-  titel: "Bruno at the desk: padrón and Extranjería",
-  lead: "Bruno works at window 3 in the invented town of Villabruno: first at the town hall (padrón), then at the foreigners’ office (NIE and TIE). Check the papers, find the mistakes, ask in Spanish and stamp: COMPLETO (complete) or DEVUELTO (sent back).",
-  orientacion: "General orientation, not legal advice. Villabruno and its office are invented, and the papers are simplified. A stamp here only says whether paperwork is complete. Rules and deadlines change, so check your town hall, the sede electrónica, your Oficina de Extranjería or your consulate. Facts as of November 2026.",
+  titel: "Bruno at the desk: AIMA and Finanças",
+  lead: "Bruno works at window 3 in the invented town of Vilabruno: first at the Junta de Freguesia and the centro de saúde, then at Finanças and Segurança Social, then at AIMA. Check the papers, find the mistakes, ask in Portuguese and stamp: COMPLETO (complete) or DEVOLVIDO (sent back).",
+  orientacion: "General orientation, not legal advice. Vilabruno and its offices are invented, and the papers are simplified. A stamp here only says whether paperwork is complete. Rules, forms and fees change often, so check the official sites (ePortugal, AIMA, Portal das Finanças, Segurança Social, SNS), your Junta de Freguesia or a lawyer. Facts as of November 2026, several still to verify.",
   comoJugar: "How to play",
   pasos: [
     "Tap 🔍 Check (or press P), then two things that don’t match: two fields, a field and the calendar, a field and a rule, or what the customer says and a rule.",
@@ -31,18 +32,18 @@ export const UI = {
     "Papers in order: stamp COMPLETO. Still a problem: stamp DEVUELTO.",
     "Tap a word on a paper to see what it means. The EN button shows or hides all the English.",
   ],
-  verdad: "How it really works in Spain",
+  verdad: "How it really works in Portugal",
   fuente: "Source",
   verdadHoy: "Today’s real rules",
-  inventada: "Rules marked “Villabruno rule” are made up for the game.",
+  inventada: "Rules marked “Vilabruno rule” are made up for the game.",
   los: "Start day 1",
   wartende: "Waiting",
   punkte: "Points",
   verwarnungen: "Warnings",
   ton: "Sound on/off",
   enTitel: "Show or hide the English",
-  nummer: "Turno",
-  schalter: "Ventanilla 3",
+  nummer: "Senha",
+  schalter: "Balcão 3",
   pruefen: "Check",
   pruefenTitel: "Check: tap two fields that don’t match (key P, or hold Shift)",
   notizzettel: "Notes",
@@ -53,23 +54,24 @@ export const UI = {
   abbrechen: "Cancel",
   geklaert: "sorted ✓",
   genehmigt: "COMPLETO",
-  abgelehnt: "DEVUELTO",
+  abgelehnt: "DEVOLVIDO",
   ablehnenWarum: "Find a mistake first: tap 🔍 Check, then two fields that don’t match.",
   erstPruefen: "To compare, tap 🔍 Check first (or hold Shift).",
   passt: "That matches.",
   egal: "You can’t compare those.",
   schonNotiert: "That’s already in your notes.",
   schonGeklaert: "That’s already sorted.",
-  memoTitel: "Normas de hoy",
+  memoTitel: "Regras de hoje",
   memoVon: "– Regi",
-  tabMemo: "📌 Normas",
-  echt: "Usual in Spain",
-  lindenau: "Villabruno rule",
+  tabMemo: "📌 Regras",
+  echt: "Usual in Portugal",
+  lindenau: "Vilabruno rule",
   verwarnung: "Warning",
   richtigGenehmigt: "Correct! The papers were complete.",
   richtigAbgelehnt: "Correctly sent back.",
   falschGenehmigt: (notiz) => `You missed this: ${notiz}`,
   falschAbgelehnt: "The papers were complete: you should have stamped COMPLETO.",
+  // (kept: `derivar` codes below decide the customer's mood)
   plus: (n) => `+${n}`,
   endeTitel: (tag) => `End of day ${tag}!`,
   endeWoche: "You’ve finished the week!",
@@ -88,7 +90,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<
 function verdadHtml(ids) {
   return ids.filter((id) => REGELN[id].wirklich).map((id) => {
     const r = REGELN[id];
-    return `<li><p lang="es">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
+    return `<li><p lang="pt-PT">${esc(r.wirklich.de)}</p><p class="ba-verdad-en" lang="en">${esc(r.wirklich.en)}</p>
       <small>${UI.fuente}: <a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.quelle)}</a></small></li>`;
   }).join("");
 }

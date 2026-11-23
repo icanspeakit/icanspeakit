@@ -2,131 +2,133 @@
 # scripts/build-satzregen.mjs turns this into src/data/satzregen/saetze.json.
 #
 # One line = one sentence:   chunk / chunk / chunk .  = note shown under the solved line  {flags}
-#   Chunks are written as they stand inside the sentence ("yo", "los sábados", "en un bar").
-#   The first letter of slot 1 is capitalised in the display only, and a question gets its ¿ there.
+#   Chunks are written as they stand inside the sentence ("eu", "ao sábado", "num café").
+#   The first letter of slot 1 is capitalised in the display only. Portuguese has no opening ¿.
 #   *  finite verb (or auxiliary)      ^  subject
-#   ~  other verb part (participle or infinitive after the auxiliary)
+#   ~  other verb part (infinitive after poder, querer …)
+#   A pronoun after the verb is part of the verb chunk, with its hyphen (*visitam-me).
 #   End: " ." or " ?" after the last chunk.
 #   {alt 3 0 1 2}   another correct order, as chunk indices (several allowed)
 #   {free 1<2 3-4}  every order of the chunks with these conditions, built into alts:
 #                   1<2 = chunk 1 somewhere before chunk 2; 3-4 = chunk 3 right before chunk 4
 #   {rule …}        own rule line for "These sentences were tricky"
-#   {es419 …}       note for a future Latin American mode (content-plan §1.5)
+#   {ptBR …}        note for a future Brazil mode (content-plan §1.5); not shown yet
 #
-# Spanish word order is freer than English, and the game must never reject a good sentence. What
-# counts as correct:
-#   statements  the neutral order and what speakers really say: time or place at the front, the
-#               subject after the verb. A verb at the very end ("Yo café tomo") is not accepted,
-#               and neither is an object before its verb. Those can be heard for emphasis, but
-#               they are not what a learner should build.
-#   questions   the question word stays right before the verb; everything else may move
-#               (¿Dónde vives tú?, ¿Tú dónde vives?).
-#   pronouns    me, te, lo, la, le, nos, os, se stay right before the verb, as do no and haber.
+# European Portuguese (pt-PT). The game must never reject a good sentence, but it only accepts
+# what speakers in Portugal really say. What counts as correct:
+#   statements  subject, verb, object; time or place may go to the front. A verb at the very end
+#               is not accepted, and neither is an object before its verb.
+#   questions   the question word comes first and the verb follows it straight away (Onde moras
+#               tu?); the subject may also stand in front of the question word (Tu onde moras?).
+#               "Onde tu moras?" is Brazilian and is not accepted.
+#   yes/no      built like a statement (Tu falas inglês?); the verb may also come first.
+#   pronouns    after the verb with a hyphen (ligo-te, deu-me); before the verb after não, já,
+#               nunca, também, sempre, ainda and question words (não me deu, já te disse).
+#   indirect    after onde, quando, como, se … the verb and the subject may come in either order
+#               (não sei onde fica a estação / onde a estação fica).
 # Modes keep their German ids: v2 = statements and wh-questions (A1), janein = yes/no questions
-# (A1), klammer = object pronouns before the verb (A2), nebensatz = indirect questions (B1).
-# Source: all sentences written for the game by the games run (2026-11-06), Castilian Spanish.
+# (A1), klammer = where the object pronoun goes (A2), nebensatz = indirect questions (B1).
+# Source: all sentences written for the game by the games run of the Portuguese course
+# (2026-11-22), European Portuguese.
 
 @v2 A1
-^yo / *vivo / en Madrid . = subject + verb + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^yo / *hablo / tres idiomas . = subject + verb + object {alt 1 2 0} {alt 1 0 2}
-^nosotros / *tenemos / un piso pequeño . = subject + verb + object {alt 1 2 0} {alt 1 0 2} {es419 In much of Latin America: un departamento or un apartamento.}
-^mi hermana / *trabaja / en un hospital . = subject + verb + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^Javier / *juega / al fútbol / los sábados . = subject + verb + object + time {free 1<2}
-^yo / *tomo / café / por las mañanas . = subject + verb + object + time {free 1<2}
-^mis padres / *me visitan / en verano . = subject + pronoun and verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^la tienda / *abre / a las nueve . = subject + verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^ella / *va / al colegio / a pie . = subject + verb + place + how {free 1<2}
-^nosotros / *cenamos / a las nueve . = subject + verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^mi hermano / *es / enfermero . = subject + ser + job {alt 1 2 0}
-^los niños / *están / en el jardín . = subject + estar + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^yo / *quedo / con mis amigos / en un bar / los viernes . = subject + verb + with whom + place + time {free 1<2 1<3}
-^Amina / *estudia / español / en una academia . = subject + verb + object + place {free 1<2}
-^yo / *me levanto / a las siete . = subject + verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^Aitana / *tiene / dos hermanos . = subject + verb + object {alt 1 2 0} {alt 1 0 2}
-^mi piso / *tiene / una cocina grande . = subject + verb + object {alt 1 2 0} {alt 1 0 2} {es419 In much of Latin America: mi departamento or mi apartamento.}
-^yo / *no como / carne . = subject + no and verb + object {alt 1 2 0} {alt 1 0 2}
-^él / *no trabaja / los domingos . = subject + no and verb + time {alt 2 1 0} {alt 2 0 1} {alt 1 2 0} {alt 1 0 2}
-^ellos / *viven / cerca de la estación . = subject + verb + place {alt 2 1 0} {alt 1 2 0} {alt 1 0 2}
-^Youssef / *hace / la cena / para su familia . = subject + verb + object + for whom {free 1<2}
-^mi amiga / *da / clases / en un colegio . = subject + verb + object + place {free 1<2}
-^yo / *compro / pan / en el mercado / los sábados . = subject + verb + object + place + time {free 1<2 1<3}
-dónde / *vives / ^tú ? = question word + verb + subject {alt 2 0 1}
-qué / *haces / ^tú / el fin de semana ? = question word + verb + subject + time {free 0-1}
-a qué hora / *abre / ^la tienda ? = question word + verb + subject {alt 2 0 1}
-cómo / *te llamas / ^tú ? = question word + verb + subject {alt 2 0 1}
-cuál / *es / ^tu número de teléfono ? = question word + ser + subject {alt 2 0 1}
-dónde / *están / ^mis llaves ? = question word + estar + subject {alt 2 0 1}
-por qué / *llegas / ^tú / tarde ? = question word + verb + subject + time {free 0-1}
-cuánto / *cuesta / ^esta chaqueta ? = question word + verb + subject {alt 2 0 1}
-dónde / *trabaja / ^tu hermana ? = question word + verb + subject {alt 2 0 1}
-a qué hora / *empieza / ^la película ? = question word + verb + subject {alt 2 0 1}
-cuántos años / *tienen / ^tus hijos ? = question word + verb + subject {alt 2 0 1}
-qué / *desayunas / ^tú ? = question word + verb + subject {alt 2 0 1}
-quién / *es / ^tu profesora ? = question word + ser + subject {alt 2 0 1}
-^qué autobús / *va / a la estación ? = question word with its noun + verb + place {alt 2 0 1} {rule Qué autobús is the subject here, and the verb follows it straight away: ¿Qué autobús va …?}
+^eu / *moro / em Lisboa . = subject + verb + place
+^eu / *falo / três línguas . = subject + verb + object
+^nós / *temos / um apartamento pequeno . = subject + verb + object
+^a minha irmã / *trabalha / num hospital . = subject + verb + place
+^o Tiago / *joga / futebol / ao sábado . = subject + verb + object + time {alt 3 0 1 2}
+^eu / *bebo / café / de manhã . = subject + verb + object + time {alt 3 0 1 2} {alt 0 3 1 2}
+^os meus pais / *visitam-me / no verão . = subject + verb with its pronoun + time {alt 2 0 1} {ptBR In Brazil the pronoun goes before the verb: meus pais me visitam.}
+^a loja / *abre / às nove . = subject + verb + time {alt 2 0 1}
+^ela / *vai / para a escola / a pé . = subject + verb + place + how {alt 0 1 3 2}
+^nós / *jantamos / às oito . = subject + verb + time {alt 2 0 1}
+^o meu irmão / *é / enfermeiro . = subject + ser + job
+^as crianças / *estão / no jardim . = subject + estar + place {alt 2 1 0}
+^eu / *encontro-me / com amigos / num café / à sexta . = subject + verb + with whom + place + time {alt 4 0 1 2 3}
+^a Amina / *estuda / português / numa escola de línguas . = subject + verb + object + place
+^eu / *levanto-me / às sete . = subject + verb with its pronoun + time {alt 2 0 1}
+^a Beatriz / *tem / dois irmãos . = subject + verb + object
+^o meu apartamento / *tem / uma cozinha grande . = subject + verb + object
+^eu / *não como / carne . = subject + não and verb + object
+^ele / *não trabalha / ao domingo . = subject + não and verb + time {alt 2 0 1}
+^eles / *moram / perto da estação . = subject + verb + place
+^o Wei / *faz / o jantar / para a família . = subject + verb + object + for whom
+^a minha amiga / *dá / aulas / numa escola . = subject + verb + object + place
+^eu / *compro / pão / na padaria / todos os dias . = subject + verb + object + place + time {alt 4 0 1 2 3}
+onde / *moras / ^tu ? = question word + verb + subject {alt 2 0 1} {ptBR In Brazil the subject often comes before the verb: onde você mora?}
+o que / *fazes / ^tu / ao fim de semana ? = question word + verb + subject + time {alt 3 0 1 2} {alt 2 0 1 3}
+a que horas / *abre / ^a loja ? = question word + verb + subject {alt 2 0 1}
+como / *te chamas / ^tu ? = question word + pronoun and verb + subject {alt 2 0 1} {rule After a question word the pronoun goes before the verb: como te chamas?}
+qual / *é / ^o teu número de telefone ? = question word + ser + subject
+onde / *estão / ^as minhas chaves ? = question word + estar + subject {alt 2 0 1}
+quanto / *custa / ^este casaco ? = question word + verb + subject {alt 2 0 1}
+onde / *trabalha / ^a tua irmã ? = question word + verb + subject {alt 2 0 1}
+a que horas / *começa / ^o filme ? = question word + verb + subject {alt 2 0 1}
+quantos anos / *têm / ^os teus filhos ? = question word + verb + subject {alt 2 0 1}
+o que / *comes / ^tu / ao pequeno-almoço ? = question word + verb + subject + time {alt 3 0 1 2} {alt 2 0 1 3} {ptBR In Brazil: no café da manhã.}
+quem / *é / ^a tua professora ? = question word + ser + subject
+^que autocarro / *vai / para a estação ? = question word with its noun + verb + place {rule Que autocarro is the subject here, and the verb follows it straight away: Que autocarro vai …?} {ptBR In Brazil: que ônibus.}
 
 @janein A1
-*hablas / ^tú / inglés ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*estás / ^tú / casado ? = estar + subject + adjective {alt 1 0 2} {alt 0 2 1}
-*está / ^este asiento / libre ? = estar + subject + adjective {alt 1 0 2} {alt 0 2 1}
-*vive / ^tu hermano / en Londres ? = verb + subject + place {alt 1 0 2} {alt 0 2 1}
-*tienes / ^tú / un bolígrafo ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*puedo / ~pagar / con tarjeta ? = poder + infinitive + how
-*está / ^el banco / abierto / hoy ? = estar + subject + adjective + time {alt 1 0 2 3} {alt 0 2 1 3} {alt 3 1 0 2} {alt 3 0 1 2} {alt 3 0 2 1}
-*te gusta / ^el café / con leche ? = pronoun and verb + subject + how {alt 1 0 2} {alt 0 2 1}
-*están / ^tus padres / en casa ? = estar + subject + place {alt 1 0 2} {alt 0 2 1}
-*para / ^este autobús / aquí ? = verb + subject + place {alt 1 0 2} {alt 0 2 1}
-*puedes / ~ayudarme / con esto ? = poder + infinitive + with what
-*hace / frío / fuera ? = hacer + weather + place {alt 2 0 1} {alt 0 2 1}
-*trabajan / ^ellos / los domingos ? = verb + subject + time {alt 1 0 2} {alt 0 2 1} {alt 2 0 1} {alt 2 1 0}
-*es / ^tu piso / grande ? = ser + subject + adjective {alt 1 0 2} {alt 0 2 1} {es419 In much of Latin America: tu departamento or tu apartamento.}
-*toca / ^Wei / la guitarra ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*llegamos / ^nosotros / tarde ? = verb + subject + time {alt 1 0 2} {alt 0 2 1}
-*hay / un banco / cerca de aquí ? = hay + noun + place {alt 2 0 1} {alt 0 2 1}
-*hay / huevos / en la nevera ? = hay + noun + place {alt 2 0 1} {alt 0 2 1}
-*necesito / ^yo / un billete ? = verb + subject + object {alt 1 0 2} {alt 0 2 1}
-*va / ^este tren / a Zaragoza ? = verb + subject + place {alt 1 0 2} {alt 0 2 1}
-*eres / ^tú / de Valencia ? = ser + subject + from where {alt 1 0 2} {alt 0 2 1}
+^tu / *falas / inglês ? = subject + verb + object {alt 1 0 2}
+^tu / *és / casado ? = subject + ser + adjective {alt 1 0 2}
+^este lugar / *está / livre ? = subject + estar + adjective {alt 1 0 2} {alt 1 2 0}
+^o teu irmão / *mora / em Londres ? = subject + verb + place {alt 1 0 2}
+*posso / ~pagar / com cartão ? = poder + infinitive + how
+^o banco / *está / aberto / hoje ? = subject + estar + adjective + time {alt 3 0 1 2}
+^tu / *gostas / de bacalhau ? = subject + verb + object {alt 1 0 2}
+^os teus pais / *estão / em casa ? = subject + estar + place {alt 1 0 2}
+*há / um multibanco / perto daqui ? = há + noun + place {alt 2 0 1} {ptBR In Brazil: tem um caixa eletrônico perto daqui?}
+*podes / ~ajudar-me / com isto ? = poder + infinitive with its pronoun + with what
+*está / frio / lá fora ? = estar + weather + place {alt 2 0 1}
+^eles / *trabalham / ao domingo ? = subject + verb + time {alt 2 0 1}
+^o teu apartamento / *é / grande ? = subject + ser + adjective
+^o Wei / *toca / guitarra ? = subject + verb + object {alt 1 0 2}
+*há / ovos / no frigorífico ? = há + noun + place {alt 2 0 1} {ptBR In Brazil: tem ovos na geladeira?}
+*preciso de / ~marcar / uma consulta ? = precisar de + infinitive + object
+^este comboio / *vai / para o Porto ? = subject + verb + place {alt 1 0 2} {ptBR In Brazil: este trem.}
+^tu / *és / de Braga ? = subject + ser + from where {alt 1 0 2}
 
 @klammer A2
-^yo / te / *llamo / mañana . = subject + pronoun + verb + time {free 1-2}
-^Ana / me / *ha / ~dado / las llaves . = subject + pronoun + haber + participle + object {free 1-2 2-3 3<4}
-^nosotros / os / *esperamos / en la estación . = subject + pronoun + verb + place {free 1-2} {es419 Latin America has no vosotros: los esperamos.}
-^el médico / me / *ha / ~dicho / que descanse . = subject + pronoun + haber + participle + what {free 1-2 2-3 3<4}
-^yo / lo / *compro / en el mercado . = subject + pronoun + verb + place {free 1-2}
-^mi madre / nos / *hace / la comida . = subject + pronoun + verb + object {free 1-2 2<3}
-^yo / no / la / *veo / desde el lunes . = subject + no + pronoun + verb + time {free 1-2 2-3}
-^ella / se lo / *da / a Pablo . = subject + se lo + verb + to whom {free 1-2}
-^ellos / nos / *invitan / a cenar . = subject + pronoun + verb + to what {free 1-2 2<3}
-^tú / me / *debes / diez euros . = subject + pronoun + verb + object {free 1-2 2<3}
-^Lucía / te / *ha / ~enviado / un mensaje . = subject + pronoun + haber + participle + object {free 1-2 2-3 3<4}
-^yo / le / *escribo / una carta . = subject + pronoun + verb + object {free 1-2 2<3}
-^el casero / nos / *ha / ~subido / el alquiler . = subject + pronoun + haber + participle + object {free 1-2 2-3 3<4}
-^la médica / me / *receta / unas pastillas . = subject + pronoun + verb + object {free 1-2 2<3}
-^Carmen / no / me / *ha / ~llamado . = subject + no + pronoun + haber + participle {free 1-2 2-3 3-4}
-^mis vecinos / me / *saludan / siempre . = subject + pronoun + verb + how often {free 1-2}
-^yo / se la / *mando / esta tarde . = subject + se la + verb + time {free 1-2}
-^Iker / lo / *ha / ~arreglado / esta mañana . = subject + pronoun + haber + participle + time {free 1-2 2-3 3<4}
-^yo / las / *he / ~dejado / en casa . = subject + pronoun + haber + participle + place {free 1-2 2-3 3<4}
+^a Ana / não / me / *deu / as chaves . = subject + não + pronoun + verb + object
+^eu / já / te / *disse / isso . = subject + já + pronoun + verb + object
+^o médico / também / me / *disse / para descansar . = subject + também + pronoun + verb + what
+^nós / nunca / lhe / *escrevemos . = subject + nunca + pronoun + verb
+^eu / ainda não / o / *vi . = subject + ainda não + pronoun + verb
+^o senhorio / não / nos / *devolveu / a caução . = subject + não + pronoun + verb + object
+^eles / sempre / nos / *convidam / para jantar . = subject + sempre + pronoun + verb + to what
+^a minha vizinha / nunca / me / *cumprimenta . = subject + nunca + pronoun + verb
+^ela / já / se / *deitou . = subject + já + pronoun + verb
+^o Duarte / não / se / *lembra / do meu nome . = subject + não + pronoun + verb + of what
+^eu / *ligo-te / amanhã . = subject + verb-pronoun + time {alt 2 0 1} {ptBR In Brazil the pronoun goes before the verb: eu te ligo amanhã.}
+^a médica / *receitou-me / uns comprimidos . = subject + verb-pronoun + object {ptBR In Brazil: a médica me receitou.}
+^a minha mãe / *faz-nos / o jantar . = subject + verb-pronoun + object
+^o Rui / *deu-lhe / um livro . = subject + verb-pronoun + object
+^eu / *vi-o / ontem / no café . = subject + verb-pronoun + time + place {alt 2 0 1 3} {alt 0 1 3 2}
+^os meus vizinhos / *cumprimentam-me / sempre . = subject + verb-pronoun + how often
+^o senhorio / *aumentou-nos / a renda . = subject + verb-pronoun + object
+^eu / *mando-lhe / um e-mail / hoje . = subject + verb-pronoun + object + time {alt 3 0 1 2}
+^a Rita / *enviou-te / uma mensagem . = subject + verb-pronoun + object
+^eu / *deixei-as / em casa . = subject + verb-pronoun + place
 
 @nebensatz B1
-puedes decirme / dónde / *está / ^la estación ? = polite question + question word + verb + subject
-no sé / cómo / *se llama / ^él . = main clause + question word + verb + subject
-sabes / cuándo / *empieza / ^la película ? = main clause + question word + verb + subject
-me pregunto / si / *va a llover / mañana . = main clause + si + verb + time
-puede decirme / cuánto / *cuesta / ^esto ? = polite question + question word + verb + subject
-no recuerdo / dónde / *he dejado / las llaves . = main clause + question word + verb + object
-sabes / quién / *es / ^ese hombre ? = main clause + question word + ser + subject
-no me acuerdo / a qué hora / *sale / ^el autobús . = main clause + question word + verb + subject
-me preguntó / dónde / *vivía / ^yo . = main clause + question word + verb + subject
-puedes decirme / por qué / *llega / ^el tren / tarde ? = polite question + question word + verb + subject + time {alt 0 1 2 4 3}
-quiero saber / cómo / *funciona / ^esta máquina . = main clause + question word + verb + subject
-sabes / si / ^el banco / *está abierto ? = main clause + si + subject + verb {alt 0 1 3 2}
-quiere saber / cuándo / *venís / ^vosotros . = main clause + question word + verb + subject {es419 Latin America has no vosotros: cuándo vienen ustedes.}
-no tengo ni idea / de qué / *habla / ^ella . = main clause + question word + verb + subject
-puede decirme / de qué andén / *sale / ^el tren ? = polite question + question word + verb + subject
-no entiendo / por qué / *está enfadado / ^él . = main clause + question word + verb + subject {alt 0 1 3 2}
-dime / qué / *piensas / ^tú . = main clause + question word + verb + subject
-nadie sabe / adónde / *ha ido / ^el gato . = main clause + question word + verb + subject
-pregunté / si / ^la tienda / *estaba abierta . = main clause + si + subject + verb {alt 0 1 3 2}
-te acuerdas de / dónde / *aparcamos / el coche ? = main clause + question word + verb + object {es419 In much of Latin America: dónde estacionamos el carro.}
+pode dizer-me / onde / *fica / ^a estação ? = polite question + question word + verb + subject {alt 0 1 3 2}
+não sei / como / ^ele / *se chama . = main clause + question word + subject + verb {alt 0 1 3 2}
+sabes / quando / *começa / ^o filme ? = main clause + question word + verb + subject {alt 0 1 3 2}
+pergunto-me / se / *vai chover / amanhã . = main clause + se + verb + time
+pode dizer-me / quanto / *custa / ^isto ? = polite question + question word + verb + subject {alt 0 1 3 2}
+não me lembro de / onde / *deixei / as chaves . = main clause + question word + verb + object
+sabes / quem / *é / ^aquele homem ? = main clause + question word + ser + subject
+não sei / a que horas / *sai / ^o autocarro . = main clause + question word + verb + subject {alt 0 1 3 2}
+ela perguntou-me / onde / ^eu / *morava . = main clause + question word + subject + verb {alt 0 1 3 2}
+pode dizer-me / porque / ^o comboio / *está atrasado ? = polite question + porque + subject + verb {alt 0 1 3 2}
+quero saber / como / *funciona / ^esta máquina . = main clause + question word + verb + subject {alt 0 1 3 2}
+sabes / se / ^o banco / *está aberto ? = main clause + se + subject + verb {alt 0 1 3 2}
+ele quer saber / quando / *vêm / ^vocês . = main clause + question word + verb + subject {alt 0 1 3 2}
+não faço ideia / do que / ^ela / *está a falar . = main clause + question word + subject + verb {alt 0 1 3 2} {ptBR In Brazil: do que ela está falando.}
+pode dizer-me / de que linha / *sai / ^o comboio ? = polite question + question word + verb + subject {alt 0 1 3 2}
+não percebo / porque / ^ele / *está zangado . = main clause + porque + subject + verb {alt 0 1 3 2} {ptBR In Brazil: não entendo por que ele está bravo.}
+diz-me / o que / ^tu / *pensas . = main clause + question word + subject + verb {alt 0 1 3 2}
+ninguém sabe / para onde / *foi / ^o gato . = main clause + question word + verb + subject {alt 0 1 3 2}
+perguntei / se / ^a loja / *estava aberta . = main clause + se + subject + verb {alt 0 1 3 2}
+lembras-te de / onde / *estacionámos / o carro ? = main clause + question word + verb + object {ptBR In Brazil: você lembra onde estacionamos o carro?}

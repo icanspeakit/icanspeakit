@@ -60,7 +60,18 @@ export const LANGUAGE_REGISTRY = [
     // Named only where German text exists (docs/content-plan.md §10.4). Help texts and the
     // profession decks fall back to English; the legal pages are German already.
     // `fetch` keeps `de` out of the surfaces that inline glosses (live quiz, printable games):
-    // there, `de` on a question or option still means the Spanish being learnt.
+    // there, `de` on a question or option still means the Portuguese being learnt.
+    // ui-lang-de (2026-11-22): public/i18n/de.json brought up to the Portuguese course's en.json.
+    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
+  },
+  {
+    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
+    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
+    // ui-lang-es (2026-11-22): replaces the Spanish course's Portuguese (pt-BR) UI, since a
+    // course in Portuguese offers no Portuguese interface (docs/content-plan.md §10.4).
+    // Neutral Spanish, hreflang "es" (no region). Same shape as German: the flashcard glosses
+    // (src/content/lexicon/i18n/es.json) load on demand; help texts, the legal pages and the
+    // profession decks fall back to English.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
@@ -71,25 +82,9 @@ export const LANGUAGE_REGISTRY = [
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
   {
-    code: "es", native: "Español", de: "Spanisch", en: "Spanish", word: "Idioma",
-    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "es", urlPrefix: "es",
-    // Spanish of Spain, tú, interface only (2026-11-16): public/i18n/es.json reuses the Spanish the
-    // French, English and Spanish courses carry for the same English strings. No Spanish card
-    // sidecars yet, so `cards` stays off; help, legal and profession decks fall back to English.
-    surfaces: { ui: draft },
-  },
-  {
-    code: "pt", native: "Português", de: "Portugiesisch", en: "Portuguese", word: "Idioma",
-    dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "pt-BR", urlPrefix: "pt",
-    // Brazilian Portuguese: the code and URL say pt, <html lang> and hreflang say pt-BR. Same
-    // shape as German and French. Help texts, the legal pages and the profession decks fall
-    // back to English (the old pt blocks in src/data/uebersetzungen/ aren't used).
-    surfaces: { ui: draft, cards: { ...draft, fetch: true } },
-  },
-  {
     code: "it", native: "Italiano", de: "Italienisch", en: "Italian", word: "Lingua",
     dir: "ltr", script: "Latn", region: "europa", fontFamily: null, hreflang: "it", urlPrefix: "it",
-    // Same shape as German, French and Portuguese. Help texts, the legal pages and the profession
+    // Same shape as German, Spanish and French. Help texts, the legal pages and the profession
     // decks fall back to English.
     surfaces: { ui: draft, cards: { ...draft, fetch: true } },
   },
@@ -144,7 +139,7 @@ export function languagesFor(surface, { gated = true, fetched = false } = {}) {
 /** The languages with their own entry-page URLs (hreflang + urlPrefix), in registry order. */
 export const entryLanguages = () => LANGUAGE_REGISTRY.filter((l) => l.urlPrefix);
 
-/** The `lang` attribute for a code: its hreflang where it has one (pt → pt-BR), else the code. */
+/** The `lang` attribute for a code: its hreflang where it has one, else the code. */
 export const htmlLang = (code) => BY_CODE.get(code)?.hreflang ?? code;
 
 /** The codes offered on `surface`, in that surface's order: `langsFor("cards")`. */

@@ -34,7 +34,7 @@ export function choiceCard({ qLabel, questionText, context, options, correctKey,
   if (context) card.appendChild(el("p", "qcontext", escapeHtml(context)));
   if (questionText) {
     const q = el("p", "qtext", escapeHtml(questionText));
-    // `contentLang`: the exam text is Spanish whatever the UI language (screen readers, hyphenation).
+    // `contentLang`: the exam text is Portuguese (pt-PT) whatever the UI language (screen readers, hyphenation).
     if (contentLang) q.lang = contentLang;
     card.appendChild(q);
   }

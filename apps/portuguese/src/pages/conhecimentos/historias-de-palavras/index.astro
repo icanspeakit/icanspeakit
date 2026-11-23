@@ -20,19 +20,19 @@ const day = today();
 const entry = wordOfTheDay(day);
 const list = archive(day);
 const title = entry
-  ? `Word of the day: ${headword(entry)} – word stories – icanspeak Spanish`
-  : "Word stories – word of the day – icanspeak Spanish";
+  ? `Word of the day: ${headword(entry)} – word stories – icanspeak Portuguese`
+  : "Word stories – word of the day – icanspeak Portuguese";
 ---
 <Layout
   title={title}
-  description="A Spanish word every day: where it comes from, how it has changed and which words in other languages it is related to – with sources."
+  description="A Portuguese word every day: where it comes from, how it has changed and which words in other languages it is related to – with sources."
   noindex={!entry || PREVIEW}
 >
   <div class="uv">
     <SiteNav active="wissen" />
     <main class="uv-main">
       <div class="wg">
-        <a href="/conhecimentos/linguas" class="vp-back-link" data-i18n="wg.back">Spanish around the world</a>
+        <a href="/conhecimentos/linguas" class="vp-back-link" data-i18n="wg.back">Portuguese around the world</a>
         <SectionMascot name="regi" expr="happy" say="Every word has a story." align="center" class="hub-mascot uv-hub-mascot" />
         {entry ? (
           <WortEntry entry={entry} mode="today" preview={PREVIEW} today={day} />

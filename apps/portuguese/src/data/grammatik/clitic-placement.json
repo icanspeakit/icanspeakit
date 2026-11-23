@@ -1,0 +1,240 @@
+{
+  "id": "clitic-placement",
+  "name": "Clitic placement: where me, te, o, lhe go",
+  "level": "B1",
+  "status": "entwurf",
+  "variety": "pt-PT",
+  "ptBR": { "note": "Brazil puts the pronoun before the verb almost always (Eu te vejo, Vou te dizer) and has no mesoclisis. Portugal: Vejo-te, Vou dizer-te, dar-lhe-ei." },
+  "subtitle": "Object pronouns (me, te, o, a, lhe, nos, os, as, lhes, se) are small words that lean on the verb. In Portugal they go after the verb by default: Disse-me a verdade. Vejo-o. Certain words pull them in front: Não me disse nada. Já o vi. Quem te disse? One rule set covers every case.",
+  "briefMarks": ["disse-me", "vejo-o", "não me", "já o", "que te", "quem te", "vou dizer-lhe"],
+  "source": "icanspeak Portuguese original text (grammar-b1 run, 2026-11-13)",
+  "concept": {
+    "comic": {
+      "title": "Antes ou {depois}?",
+      "panels": [
+        {
+          "caption": "After the verb",
+          "tag": "{enclisis}: verb-pronoun",
+          "left": { "name": "quaki", "expr": "thinking", "say": "O Bruno telefonou-te?" },
+          "right": { "name": "regi", "expr": "happy", "say": "Telefonou-{me} ontem." }
+        },
+        {
+          "caption": "A trigger word",
+          "tag": "{não} pulls it forward",
+          "left": { "name": "quaki", "expr": "oops", "say": "E disse-te a hora?" },
+          "right": { "name": "regi", "expr": "thinking", "say": "Não! {Não me} disse nada." }
+        },
+        {
+          "caption": "A question word",
+          "tag": "{quem} pulls it forward",
+          "left": { "name": "bruno", "expr": "thinking", "say": "{Quem te} disse isso?" },
+          "right": { "name": "quaki", "expr": "celebrate", "say": "Disse-{me} a Hamsti." }
+        }
+      ]
+    },
+    "flow": [
+      { "text": "normally: verb + -pronoun", "variant": "verb" },
+      { "text": "não · já · que · quem + pronoun + verb", "variant": "prep" }
+    ],
+    "qa": [
+      {
+        "html": "<strong>By default the pronoun goes after the verb</strong>, joined with a hyphen (enclisis): <em>Chamo-me Rui. Vejo-o todos os dias. Disse-lhe a verdade. Dá-me o contrato.</em> A sentence in Portugal doesn't start with an unstressed <em>me, te, lhe, o, a</em>. The same holds in a yes/no question: <em>Viste-o? Disseste-lhe?</em>",
+        "tag": "Default: after"
+      },
+      {
+        "html": "<strong>Negative words</strong> pull the pronoun in front of the verb (proclisis): <em>Não me disse nada. Nunca o vi. Ninguém me avisou. Nem lhe respondeu.</em> This is the rule you will use most.",
+        "tag": "não, nunca, ninguém, nada"
+      },
+      {
+        "html": "<strong>Some adverbs and quantifiers</strong> do the same: <em>já, também, sempre, só, ainda, talvez, apenas</em> and the words <em>todos, muitos, alguns, tudo, alguém, ninguém</em> when they come before the verb. <em>Já o vi. Também me disseram. Só te peço isto. Talvez te ligue. Todos me ajudaram. Alguém lhe contou.</em>",
+        "tag": "já, também, sempre, só; todos, muitos"
+      },
+      {
+        "html": "<strong>After conjunctions that start a clause</strong>: <em>que, se, quando, porque, embora, enquanto, como, onde</em>. And in relative clauses with <em>que</em>. <em>Disse que me ligava. Se lhe disseres, ele ajuda. Quando te vir, digo-lhe. A casa que lhe mostrei é a melhor.</em> Note the main clause often goes back to the default: <em>Quando te vir, digo-lhe.</em>",
+        "tag": "que, se, quando, porque"
+      },
+      {
+        "html": "<strong>Question words</strong> also pull it in front: <em>Quem te disse? O que lhe apetece? Onde me inscrevo? Como se escreve? Porque não nos avisaste?</em> A question without a question word follows the default: <em>Apetece-te um café?</em>",
+        "tag": "quem, o que, onde, como"
+      },
+      {
+        "html": "<strong>With two verbs</strong> (<em>ir, querer, poder, ter de, estar a</em> + infinitive) the safe choice is to attach the pronoun to the <strong>infinitive</strong>: <em>Vou dizer-lhe. Quero ver-te. Tenho de ligar-lhe. Estou a ver-te.</em> A trigger moves it in front of the first verb: <em>Não lhe vou dizer. Não te quero ver.</em> After <em>sem</em> and <em>para</em> it goes in front of the infinitive: <em>sem me dizer nada, para te ver</em>.",
+        "tag": "ir + infinitive"
+      },
+      {
+        "html": "<strong>Mesoclisis</strong>: in the future and the conditional of formal writing the pronoun goes <em>inside</em> the verb: <em>Enviar-lhe-ei o documento. Dar-lhe-ia uma resposta.</em> In speech people say <em>Vou enviar-lhe</em> or <em>Envio-lhe</em>. With a trigger it goes in front again: <em>Não lhe enviarei nada.</em> You need to recognise it, not use it yet.",
+        "tag": "Mesoclisis"
+      },
+      {
+        "html": "<strong>Brazilian Portuguese</strong> puts the pronoun in front in nearly every case: <em>Eu te vejo. Vou te dizer. Ele me disse.</em> Both are correct in their own country. In Portugal such sentences sound foreign, and a sentence starting with <em>me</em> (like <em>Me chamo…</em>) is a typical Brazilian sign.",
+        "tag": "Brazil"
+      }
+    ],
+    "noteHtml": "Common mistakes: ✗ <em>Não disse-me nada</em> → ✓ <em>Não me disse nada</em>. ✗ <em>Já vi-o</em> → ✓ <em>Já o vi</em>. ✗ <em>Quem disse-te isso?</em> → ✓ <em>Quem te disse isso?</em>. ✗ <em>Ele disse que ligou-me</em> → ✓ <em>Ele disse que me ligou</em>. ✗ <em>Todos ajudaram-me</em> → ✓ <em>Todos me ajudaram</em>. Plain statements in Portugal: <em>Ele disse-me a verdade</em>, not <em>Ele me disse a verdade</em>. Quick test: look at the word right before the verb. Is it a trigger? Pronoun in front. If not: after.",
+    "reference": {
+      "showLabel": "Show overview ▼",
+      "hideLabel": "Hide overview ▲",
+      "tables": [
+        {
+          "caption": "Where does it go?",
+          "head": ["Situation", "Position", "Example"],
+          "rows": [
+            ["Plain statement", "after the verb", "Disse-me a verdade."],
+            ["Yes/no question", "after the verb", "Viste-o ontem?"],
+            ["não, nunca, ninguém, nada, nem", "in front of the verb", "Não me disse nada."],
+            ["já, também, sempre, só, ainda, talvez", "in front of the verb", "Já o vi."],
+            ["todos, muitos, alguns, alguém (before the verb)", "in front of the verb", "Todos me ajudaram."],
+            ["que, se, quando, porque (a clause)", "in front of the verb", "Disse que me ligava."],
+            ["quem, o que, onde, como", "in front of the verb", "Quem te disse?"],
+            ["ir, querer, poder, ter de + infinitive", "after the infinitive", "Vou dizer-lhe."],
+            ["Future, conditional (formal writing)", "inside the verb", "Enviar-lhe-ei o documento."]
+          ]
+        },
+        {
+          "caption": "Portugal and Brazil",
+          "head": ["Portugal", "Brazil"],
+          "rows": [
+            ["Chamo-me Rui.", "Eu me chamo Rui."],
+            ["Disse-me a verdade.", "Ele me disse a verdade."],
+            ["Vejo-te amanhã.", "Eu te vejo amanhã."],
+            ["Vou dizer-lhe.", "Vou lhe dizer. / Vou te dizer."],
+            ["Não me disse nada.", "Não me disse nada. (same)"]
+          ]
+        }
+      ],
+      "boxes": [
+        {
+          "badge": "Two checks",
+          "variant": "dat",
+          "items": [
+            "Never begin a sentence with me, te, lhe, o, a: Diz-me!, Chamo-me Rui.",
+            "Look at the word before the verb: não, já, que, quem, todos…? Pronoun in front. Otherwise after, with a hyphen."
+          ]
+        }
+      ]
+    }
+  },
+  "aktiv": {
+    "listen": [
+      { "text": "Chamo-me Rui.", "note": "Default: after the verb." },
+      { "text": "Não me disse nada.", "note": "não: in front." },
+      { "text": "Já o vi.", "note": "já: in front." },
+      { "text": "Quem te disse isso?", "note": "Question word: in front." },
+      { "text": "Vou dizer-lhe amanhã.", "note": "ir + infinitive: after the infinitive." }
+    ],
+    "hoeren": {
+      "instruction": "Listen and choose the sentence you heard. You can listen twice.",
+      "items": [
+        { "text": "Não me disse nada.", "choices": ["Não me disse nada.", "Não lhe disse nada.", "Não te disse nada."], "correct": 0 },
+        { "text": "Já o vi.", "choices": ["Já o vi.", "Já a vi.", "Já os vi."], "correct": 0 },
+        { "text": "Quem te ligou?", "choices": ["Quem me ligou?", "Quem te ligou?", "Quem lhe ligou?"], "correct": 1 },
+        { "text": "Vou dizer-lhe.", "choices": ["Vou dizer-te.", "Vou dizer-lhe.", "Vou dizer-lhes."], "correct": 1 }
+      ]
+    },
+    "sprechen": {
+      "rounds": [
+        {
+          "label": "1 · After the verb",
+          "instruction": "You hear what to say in English. Say it with the pronoun after the verb.",
+          "example": { "prompt": "I call you tomorrow", "answer": "Ligo-te amanhã." },
+          "items": [
+            { "prompt": "I see him now", "answer": "Vejo-o agora." },
+            { "prompt": "I tell you the truth", "answer": "Digo-te a verdade." },
+            { "prompt": "I help her", "answer": "Ajudo-a." },
+            { "prompt": "I send them the document", "answer": "Envio-lhes o documento." }
+          ]
+        },
+        {
+          "label": "2 · After não",
+          "instruction": "You hear a sentence. Make it negative: the pronoun goes in front.",
+          "example": { "prompt": "Ligo-te amanhã.", "answer": "Não te ligo amanhã." },
+          "items": [
+            { "prompt": "Vejo-o agora.", "answer": "Não o vejo agora." },
+            { "prompt": "Digo-te a verdade.", "answer": "Não te digo a verdade." },
+            { "prompt": "Ajudo-a.", "answer": "Não a ajudo." },
+            { "prompt": "Envio-lhes o documento.", "answer": "Não lhes envio o documento." }
+          ]
+        }
+      ]
+    }
+  },
+  "exercises": [
+    {
+      "type": "fill",
+      "title": "Where does the pronoun go?",
+      "hint": "A trigger word before the verb: pronoun in front. Otherwise after the verb, with a hyphen.",
+      "placeholder": "Form",
+      "items": [
+        { "prompt": "Ele ___ a verdade.", "answer": "disse-me", "choices": ["disse-me", "me disse", "disse me"], "why": "Plain statement: after the verb.", "ptBR": { "note": "In Brazil: Ele me disse a verdade.", "form": "me disse" } },
+        { "prompt": "Ela não ___ nada.", "answer": "me disse", "choices": ["me disse", "disse-me", "disse me"], "why": "não pulls the pronoun in front." },
+        { "prompt": "Já ___ no centro.", "answer": "o vi", "choices": ["o vi", "vi-o", "vi o"], "why": "já pulls the pronoun in front." },
+        { "prompt": "Quem ___ isso?", "answer": "te disse", "choices": ["te disse", "disse-te", "disse te"], "why": "Question word: in front." },
+        { "prompt": "Ele diz que ___ amanhã.", "answer": "me liga", "choices": ["me liga", "liga-me", "liga me"], "why": "que starts a clause: in front." },
+        { "prompt": "Todos ___ ontem.", "answer": "me ajudaram", "choices": ["me ajudaram", "ajudaram-me", "ajudaram me"], "why": "todos before the verb: in front." },
+        { "prompt": "___ a verdade?", "answer": "Disseste-lhe", "choices": ["Disseste-lhe", "Lhe disseste", "Disseste lhe"], "why": "A yes/no question without a question word: after the verb." },
+        { "prompt": "Vou ___ amanhã.", "answer": "dizer-lhe", "choices": ["dizer-lhe", "lhe dizer", "dizer lhe"], "why": "ir + infinitive: after the infinitive.", "ptBR": { "note": "In Brazil: Vou lhe dizer amanhã.", "form": "lhe dizer" } },
+        { "prompt": "Ninguém ___ avisou.", "answer": "me avisou", "choices": ["me avisou", "avisou-me", "avisou me"], "why": "ninguém before the verb: in front." },
+        { "prompt": "Talvez ___ amanhã.", "answer": "te ligue", "choices": ["te ligue", "ligue-te", "ligue te"], "why": "talvez pulls the pronoun in front." }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Add the trigger word.",
+      "hint": "The pronoun moves in front of the verb.",
+      "columns": ["Sentence + trigger", "New sentence"],
+      "placeholder": "Sentence",
+      "rows": [
+        { "term": "Vi-o. (já)", "answer": "Já o vi.", "choices": ["Já o vi.", "Já vi-o.", "Já vi o."] },
+        { "term": "Disse-me. (não)", "answer": "Não me disse.", "choices": ["Não disse-me.", "Não me disse.", "Não disse me."] },
+        { "term": "Ligou-me. (ninguém)", "answer": "Ninguém me ligou.", "choices": ["Ninguém me ligou.", "Ninguém ligou-me.", "Ligou-me ninguém."] },
+        { "term": "Ligam-te. (quem?)", "answer": "Quem te liga?", "choices": ["Quem te liga?", "Quem liga-te?", "Quem ligam-te?"] },
+        { "term": "Ajudaram-me. (todos)", "answer": "Todos me ajudaram.", "choices": ["Todos ajudaram-me.", "Todos me ajudaram.", "Todos ajudaram me."] },
+        { "term": "Escrevi-lhe. (já)", "answer": "Já lhe escrevi.", "choices": ["Já lhe escrevi.", "Já escrevi-lhe.", "Já escrevi lhe."] }
+      ]
+    },
+    {
+      "type": "match",
+      "title": "What does it mean?",
+      "hint": "The position doesn't change the meaning, only the style and the rule.",
+      "pairs": [
+        { "q": "Chamo-me Rui.", "a": "My name is Rui." },
+        { "q": "Não me chamo Rui.", "a": "My name isn't Rui." },
+        { "q": "Quem te disse?", "a": "Who told you?" },
+        { "q": "Vou dizer-lhe.", "a": "I'm going to tell him or her." },
+        { "q": "Já o vi.", "a": "I have already seen him or it." },
+        { "q": "Todos me ajudaram.", "a": "Everyone helped me." }
+      ]
+    },
+    {
+      "type": "story",
+      "title": "Fill the gaps: at the centro de saúde.",
+      "hint": "Trigger word before the verb? Pronoun in front. Otherwise after.",
+      "choices": ["lhe disse", "disse-me", "não lhe", "marcar-lhe", "ajudou-me"],
+      "segments": [
+        { "text": "A Sofia está no centro de saúde. O funcionário pergunta: “Quem " },
+        { "blank": 0, "answer": "lhe disse" },
+        { "text": " para vir hoje?” A Sofia responde: “A minha vizinha " },
+        { "blank": 1, "answer": "disse-me" },
+        { "text": " ontem.” O funcionário explica: “Hoje " },
+        { "blank": 2, "answer": "não lhe" },
+        { "text": " posso dar consulta, mas posso " },
+        { "blank": 3, "answer": "marcar-lhe" },
+        { "text": " uma para amanhã.” A Sofia agradece: “Obrigada, " },
+        { "blank": 4, "answer": "ajudou-me" },
+        { "text": " muito.”" }
+      ]
+    },
+    {
+      "type": "build",
+      "title": "Build the sentences.",
+      "hint": "Verb and pronoun together when after (with a hyphen). A trigger word first: pronoun in front.",
+      "sentences": [
+        { "id": "cl1", "hint": "My name is Rui", "correct": ["Chamo-me", "Rui", "."], "shuffled": ["Rui", ".", "Chamo-me"], "ptBR": { "note": "In Brazil: Eu me chamo Rui.", "form": "Eu me chamo Rui." } },
+        { "id": "cl2", "hint": "He didn't tell me anything", "correct": ["Não", "me", "disse", "nada", "."], "shuffled": ["nada", "disse", ".", "Não", "me"] },
+        { "id": "cl3", "hint": "I have already seen it", "correct": ["Já", "o", "vi", "."], "shuffled": ["vi", ".", "o", "Já"] },
+        { "id": "cl4", "hint": "Who told you that?", "correct": ["Quem", "te", "disse", "isso", "?"], "shuffled": ["isso", "?", "disse", "Quem", "te"] },
+        { "id": "cl5", "hint": "I'm going to tell him tomorrow", "correct": ["Vou", "dizer-lhe", "amanhã", "."], "shuffled": ["amanhã", ".", "dizer-lhe", "Vou"], "alt": [["Amanhã", "vou", "dizer-lhe", "."]], "ptBR": { "note": "In Brazil: Vou lhe dizer amanhã.", "form": "Vou lhe dizer amanhã." } }
+      ]
+    }
+  ]
+}

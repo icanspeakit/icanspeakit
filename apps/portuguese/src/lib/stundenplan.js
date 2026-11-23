@@ -17,26 +17,28 @@ const GRAMMAR_RULES = [
   // C1
   [/Sequence of tenses|subjunctive and sequence/, ["konjunktiv-1"]],
   [/Emphasis and cleft/, ["es-korrelat"]],
-  [/Conditions without si/, ["passiversatz"]],
+  [/Conditions without se/, ["passiversatz"]],
   [/Non-finite clauses/, ["futur-2"]],
-  [/^como si/, ["irreale-vergleiche"]],
+  [/^como se/, ["irreale-vergleiche"]],
   [/Modal periphrases/, ["subjektive-modalverben"]],
   [/Formal connectors/, ["nominale-praepositionen"]],
   [/Nominalisation/, ["nominalisierung"]],
   [/Formal relatives/, ["partizipialattribute"]],
   [/Cohesion/, ["textkohaerenz"]],
   [/Prefixes and derivation/, ["verbpraefixe"]],
+  [/^Mesoclisis/, ["mesoclise"]],
+  [/^Simple pluperfect/, ["mais-que-perfeito-simples"]],
   [/Review: formal style/, ["nominalisierung", "nominale-praepositionen"]],
   // B2
   [/Imperfect subjunctive/, ["konjunktiv2"]],
   [/Unreal conditions/, ["modalsaetze"]],
-  [/Passive and se/, ["passiv"]],
-  [/Relative clauses with (subjunctive|prepositions)/, ["relativsaetze-was-wo"]],
+  [/Passive and -?se/, ["passiv"]],
+  [/Relative clauses: que saiba|Relative clauses with (subjunctive|prepositions)/, ["relativsaetze-was-wo"]],
   [/[Rr]eported speech/, ["zumal-wohingegen"]],
   [/Subjunctive in opinion/, ["zweiteilige-konnektoren"]],
   [/Concession and consequence/, ["konsekutivsaetze"]],
-  [/Probability/, ["negationswoerter"]],
-  [/Accidental se/, ["irgend"]],
+  [/Personal infinitive/, ["negationswoerter"]],
+  [/Accidental dative/, ["irgend"]],
   [/Verbs of change/, ["fokuspartikeln"]],
   [/Discourse markers/, ["modalpartikeln"]],
   [/Adjectives \+ prepositions/, ["adjektive-mit-praepositionen"]],
@@ -44,11 +46,11 @@ const GRAMMAR_RULES = [
   [/Review: subjunctive and conditions/, ["infinitiv-mit-zu", "konditionalsaetze", "modalsaetze"]],
   [/linkers$/, ["konnektoren-grund-gegengrund"]],
   // B1
-  [/Perfecto or indefinido/, ["zustandspassiv"]],
-  [/Indefinido or imperfecto|Review: past tenses/, ["praeteritum-plusquamperfekt"]],
-  [/Pluscuamperfecto/, ["passiv-b1"]],
-  [/Futuro simple/, ["futur"]],
-  [/Condicional simple/, ["funktionen-von-werden"]],
+  [/Perfeito composto/, ["zustandspassiv"]],
+  [/Perfeito or imperfeito|Review: past tenses/, ["praeteritum-plusquamperfekt"]],
+  [/Mais-que-perfeito composto/, ["passiv-b1"]],
+  [/^The future/, ["futur"]],
+  [/^Condicional/, ["funktionen-von-werden"]],
   [/^Imperative/, ["imperativ"]],
   [/Present subjunctive/, ["infinitiv-mit-zu"]],
   [/Subjunctive after wishes/, ["verben-als-nomen"]],
@@ -56,40 +58,41 @@ const GRAMMAR_RULES = [
   [/^Purpose/, ["finalsaetze"]],
   [/Time clauses|time clauses/, ["temporale-nebensaetze"]],
   [/Real conditions/, ["konditionalsaetze"]],
-  [/por or para/, ["als-oder-wenn"]],
-  [/^Time: desde/, ["temporale-praepositionen-b1"]],
-  [/^Relative clauses:/, ["relativpronomen"]],
+  [/^por or para/, ["als-oder-wenn"]],
+  [/^há… que|^Time: desde/, ["temporale-praepositionen-b1"]],
+  [/^Relative clauses:(?! que saiba)/, ["relativpronomen"]],
   [/Indirect questions/, ["indirekte-fragen"]],
+  [/^Clitic placement/, ["clitic-placement"]],
   [/Verbal periphrases/, ["lassen"]],
   [/^Linkers/, ["konnektoren-grund-gegengrund"]],
   [/Possessive pronouns/, ["genitiv"]],
   [/Adjective position and short forms/, ["adjektivdeklination"]],
-  [/estar \+ participle/, ["partizip-als-adjektiv"]],
+  [/^estar \+ participle/, ["partizip-als-adjektiv"]],
   [/Verbs \+ prepositions/, ["verben-praepositionen"]],
   [/Pronouns after prepositions/, ["da-wo-woerter"]],
   [/ser and estar: when the meaning/, ["nutzen-benutzen"]],
-  [/Verbs like gustar/, ["positionsverben"]],
+  [/Verbs like apetecer/, ["positionsverben"]],
   [/Word formation/, ["wortbildung-nomen"]],
-  [/lo \+ adjective/, ["adjektive-als-nomen"]],
+  [/^O \+ adjective/, ["adjektive-als-nomen"]],
   // A2
-  [/Pretérito perfecto/, ["perfekt"]],
-  [/[Pp]retérito indefinido/, ["zusammengesetzte-verben"]],
-  [/Pretérito imperfecto/, ["n-deklination"]],
-  [/^ir a \+ infinitive/, ["trennbare-verben"]],
-  [/^estar \+ gerund/, ["komposita"]],
+  [/Pretérito perfeito simples/, ["perfekt"]],
+  [/Pretérito perfeito, irregular/, ["zusammengesetzte-verben"]],
+  [/Pretérito imperfeito/, ["n-deklination"]],
+  [/^ir \+ infinitive/, ["trennbare-verben"]],
+  [/^estar a \+ infinitive/, ["komposita"]],
   [/^Reflexive verbs/, ["reflexive-verben"]],
   [/^Direct object pronouns/, ["akkusativ"]],
   [/^Indirect object pronouns/, ["dativ"]],
-  [/^tener que|^deber/, ["modalverben"]],
+  [/^Verb \+ infinitive/, ["modalverben"]],
   [/^Comparatives/, ["komparativ-superlativ"]],
   [/^Saying where/, ["lokale-praepositionen"]],
-  [/^a or en/, ["wechselpraepositionen"]],
-  [/^Indefinites/, ["indefinitpronomen"]],
-  [/^muy, mucho/, ["satzstellung"]],
+  [/^a, para or em/, ["wechselpraepositionen"]],
+  [/^algo, nada/, ["indefinitpronomen"]],
+  [/^muito, pouco/, ["satzstellung"]],
   [/^Negation/, ["negation"]],
   [/^porque, como/, ["nebensaetze-weil-dass"]],
   [/^Polite requests/, ["konjunktiv2-hoeflich"]],
-  [/^Frequency|^Saying how often/, ["positionsadverbien"]],
+  [/^How often|^Frequency|^Saying how often/, ["positionsadverbien"]],
   [/^Adverbs/, ["adjektivdeklination-a2"]],
   [/^Article or no article/, ["artikel-oder-nicht"]],
   [/^Ordinal numbers/, ["ordinalzahlen"]],
@@ -104,11 +107,11 @@ const GRAMMAR_RULES = [
   [/^Question words/, ["w-fragen"]],
   [/^Present tense/, ["praesens"]],
   [/^Key irregular verbs/, ["konjugation"]],
-  [/^Stem-changing/, ["praeteritum-sein-haben"]],
-  [/^hay or está/, ["berufe-mit-in"]],
+  [/^Verbs that change in the eu form/, ["praeteritum-sein-haben"]],
+  [/^há or está/, ["berufe-mit-in"]],
   [/^Possessives/, ["possessivartikel"]],
   [/^Demonstratives/, ["welcher-dieser"]],
-  [/^gustar/, ["gern"]],
+  [/^gostar de/, ["gern"]],
   [/^Telling the time/, ["temporale-praepositionen"]],
   [/^Linking words/, ["aduso"]],
   [/^Adjectives:/, ["adjektive-nach-sein"]],
@@ -134,21 +137,21 @@ export function grammarKeys(text, level, lookup) {
 }
 
 /**
- * A YouTube search for explainer videos on one grammar line, e.g. "Spanish grammar A1
+ * A YouTube search for explainer videos on one grammar line, e.g. "European Portuguese grammar A1
  * Subject pronouns". A search, not a fixed video: it never goes dead and always offers
  * several explanations to pick from.
  */
 export function videoSearch(name, level) {
-  const q = `Spanish grammar ${level} ${name} explained`;
+  const q = `European Portuguese grammar ${level} ${name} explained`;
   return { name: `Video: ${name}`, href: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`, ext: true };
 }
 
 /** An exam line of the plan → the page with that exam's practice sets. */
 export function examHref(text) {
   // The exam pages keep their old slots until the routes run (docs/content-plan.md §2):
-  // SIELE = /siele/levels, DELE = /dele.
-  if (/SIELE/.test(text)) return "/siele/levels";
-  if (/DELE/.test(text)) return "/dele";
+  // The level check = /caple/level-check, the CAPLE exams = /caple.
+  if (/SIELE|[Ll]evel check/.test(text)) return "/caple/level-check";
+  if (/CAPLE|ACESSO|CIPLE|DEPLE|DIPLE|DAPLE|DUPLE|DELE/.test(text)) return "/caple";
   return null;
 }
 
@@ -269,7 +272,7 @@ export function build({ level, block, n, minutes, links }) {
               ["einstieg.bildimpuls", `Photo prompt: show a photo on the topic ${quote(thema)}. Learners describe in pairs what they see.`],
             ], thema.length),
       wortschatz: i === 0
-        ? ["wortschatz.einfuehren", `Introduce the new words: ${block.wortschatz.join(", ")}. Explain with pictures or gestures; write el or la and the plural on the board.`]
+        ? ["wortschatz.einfuehren", `Introduce the new words: ${block.wortschatz.join(", ")}. Explain with pictures or gestures; write o or a and the plural on the board.`]
         : v([
             ["wortschatz.erklaeren", `Review the words (${block.wortschatz.join(", ")}): explain words in pairs – one person explains without saying the word.`],
             ["wortschatz.kette", `Word chain: in turn, each person says a sentence with a word from ${block.wortschatz.slice(0, 3).join(", ")} …; anyone who gets stuck is helped by the group.`],

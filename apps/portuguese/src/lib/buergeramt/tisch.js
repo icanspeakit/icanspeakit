@@ -1,7 +1,7 @@
 // Bruno at the desk: the counter and the desk, all DOM (decision 1: crisp text, tappable
 // words, screen readers). The window at the top shows the number display, the customer and the
 // queue; the desk below holds Regi's memo (with the calendar), the papers, the notes and
-// the two stamps. Spanish on the papers and in the customers' mouths, with the English in a
+// the two stamps. Portuguese on the papers and in the customers' mouths, with the English in a
 // `.ba-en` line that the EN button shows or hides.
 //
 // - Desktop: papers are cards you drag around and lay over each other; the memo stays pinned.
@@ -11,7 +11,7 @@
 //   A real contradiction gets red frames and a line and goes on the notes; agreeing fields
 //   say "That matches.", unrelated ones "You can’t compare those." — never a penalty.
 // - Notes: each noted mistake has one question round (three questions, one fits).
-// - Stamps: tap or drag onto the form. DEVUELTO needs a noted mistake as the reason.
+// - Stamps: tap or drag onto the form. DEVOLVIDO needs a noted mistake as the reason.
 //
 // The game flow (who comes next, points, warnings) lives in spiel.js; this module reports
 // what the player did through the callbacks passed to makeTisch().
@@ -24,8 +24,8 @@ import { setWaiting } from "../notReady.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const bold = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-// A Spanish line with its English meaning underneath.
-const zwei = (line, fmt = esc) => `<span lang="es">${fmt(line.de)}</span>${line.en ? `<small class="ba-en" lang="en">${esc(line.en).replace(/\*\*/g, "")}</small>` : ""}`;
+// A Portuguese line with its English meaning underneath.
+const zwei = (line, fmt = esc) => `<span lang="pt-PT">${fmt(line.de)}</span>${line.en ? `<small class="ba-en" lang="en">${esc(line.en).replace(/\*\*/g, "")}</small>` : ""}`;
 export const WAPPEN = `<svg viewBox="0 0 40 40" width="26" height="26" aria-hidden="true" class="ba-wappen"><path d="M6 4 H34 V20 Q34 32 20 37 Q6 32 6 20 Z" fill="#0d9488" stroke="#1a2230" stroke-width="2.5"/><path d="M20 10 Q29 15 26 25 Q23 30 20 31 Q17 30 14 25 Q11 15 20 10 Z" fill="#a7f3d0" stroke="#1a2230" stroke-width="2"/><path d="M20 13 V32" stroke="#1a2230" stroke-width="2"/></svg>`;
 
 export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst, onWort, onHilfe }) {
@@ -328,7 +328,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (isStack() && form) { front = form.dataset.doc; layout(); }
     const slot = form?.querySelector("[data-stamp-slot]");
     if (slot) {
-      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="es">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
+      slot.innerHTML = `<span class="ba-stamp-mark ba-stamp-mark--${entscheid}">${entscheid === "genehmigt" ? ui.genehmigt : ui.abgelehnt}${grund ? `<small lang="pt-PT">${esc(fehlerInfo(grund).notiz.de)}</small>` : ""}</span>`;
     }
     ton.stempel();
     root.classList.add("is-thunk");
@@ -461,7 +461,7 @@ export function makeTisch(root, { ui, ton, onStempel, onFrage, onNotiz, onPasst,
     if (t.closest("[data-hilfe]")) { onHilfe?.(); return; }
   });
 
-  // keyboard: P = check, C / D = stamps (COMPLETO, DEVUELTO), Shift held = Check while held, Esc = drop selection
+  // keyboard: P = check, C / D = stamps (COMPLETO, DEVOLVIDO), Shift held = Check while held, Esc = drop selection
   function onKey(e) {
     if (root.closest("[hidden]") || root.querySelector(".ba-amt")?.hidden) return;
     if (e.key === "Shift") { if (!shiftHeld) { shiftHeld = true; paintPruefen(); } return; }

@@ -24,7 +24,7 @@ function legacyRedirects() {
 
 /* A grammar topic lives at /<slug>, but /gramatica/<slug> is the address people guess. Pages and
  * reference tables under /gramatica win over a guessed topic address. Keys are the workspaces'
- * `slug ?? id`. The site at /spanish is new, so this is the only redirect it has: nothing was
+ * `slug ?? id`. Apart from the legacy map above this is the only redirect: no topic address was
  * ever public under an earlier address (docs/content-plan.md §7, §8). */
 function grammarTopicRedirects() {
   const dir = new URL('./src/data/grammatik/', import.meta.url);
@@ -42,7 +42,7 @@ function grammarTopicRedirects() {
   return out;
 }
 
-/* The live address: https://icanspeak.it/spanish/ (src/lib/paths.js owns both values; the
+/* The live address: https://icanspeak.it/portugues/ (src/lib/paths.js owns both values; the
  * domain root is a separate site). Canonical URLs, og:url, hreflang, /sitemap.xml and
  * llms.txt are built from them. Redirect sources and destinations stay site paths: Astro
  * writes the stubs under the base, and the destinations are moved under it by the base-path

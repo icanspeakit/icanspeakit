@@ -8,8 +8,13 @@
 // and markHtml() refuses a copy that no longer matches its text once the braces are gone —
 // an edit to one without the other fails the build instead of showing the old sentence.
 
-/** Which chip a marked word gets: tú and its forms one colour, usted and its forms the other. The class names keep their old du/sie. */
-const KIND = { "tú": "du", te: "du", ti: "du", vosotros: "du", usted: "sie", ustedes: "sie", le: "sie" };
+/** Which chip a marked word gets: tu and its forms one colour, the formal forms (o senhor,
+ *  a senhora, você) the other. vocês is the plural of both, so it takes the informal colour.
+ *  The class names keep their old du/sie. Portugal forms since the culture run (2026-11-21). */
+const KIND = {
+  tu: "du", te: "du", ti: "du", contigo: "du", "vocês": "du",
+  "você": "sie", "o senhor": "sie", "a senhora": "sie", "os senhores": "sie", "as senhoras": "sie",
+};
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
