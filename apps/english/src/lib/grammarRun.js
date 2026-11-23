@@ -323,7 +323,7 @@ export function mountGrammarRun(root, topics) {
   }
 
   function nextLabel() {
-    return cursor === stations.length - 1 ? t("run.finish", "Lauf beenden") : t("quiz.next", "Weiter");
+    return cursor === stations.length - 1 ? t("run.finish", "Finish the run") : t("quiz.next", "Next");
   }
 
   function go(next) {

@@ -73,7 +73,7 @@ const schema = Astro.site ? {
             <a href={sheetPath(topicSlug(t))}>
               <span class="abi-badge">{t.level}</span>
               <span class="abi-name">{t.name}</span>
-              <span class="abi-meta">{t.exercises.length} <span data-i18n="ab.index.parts">Teile</span></span>
+              <span class="abi-meta">{t.exercises.length} <span data-i18n="ab.index.parts">parts</span></span>
             </a>
           </li>
         ))}
@@ -88,7 +88,7 @@ const schema = Astro.site ? {
             <a href={`/teachers/worksheets/vocabulary/${u.id}`}>
               <span class="abi-badge">{u.level}</span>
               <span class="abi-name">{u.title ?? u.id}</span>
-              <span class="abi-meta">{u.words} <span data-i18n="ab.index.words">Wörter</span></span>
+              <span class="abi-meta">{u.words} <span data-i18n="ab.index.words">words</span></span>
             </a>
           </li>
         ))}

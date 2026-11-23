@@ -53,8 +53,8 @@ const levels = LEVELS.filter((l) => partner.some((s) => s.niveau === l) || tande
                 <span class="abi-name">{s.titel}{!s.quelle.geprueft && <span class="pu-draft-tag" data-i18n="ab.partner.draftShort">Entwurf</span>}<small class="abi-sub">{FORMAT_NAMES[s.format]} · {skills(s).join(", ")}</small></span>
                 <span class="abi-meta">
                   {s.modus === "gruppe"
-                    ? <span data-i18n="ab.partner.group" data-i18n-vars={JSON.stringify({ n: s.personen })}>Gruppe ({s.personen})</span>
-                    : <span data-i18n="ab.partner.pair">Paar</span>}
+                    ? <span data-i18n="ab.partner.group" data-i18n-vars={JSON.stringify({ n: s.personen })}>Group ({s.personen})</span>
+                    : <span data-i18n="ab.partner.pairOne">Pair</span>}
                   {" · "}<span data-i18n="ab.partner.minutes" data-i18n-vars={JSON.stringify({ n: s.dauerMin })}>{s.dauerMin} Min.</span>
                 </span>
               </a>

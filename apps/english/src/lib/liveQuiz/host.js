@@ -966,7 +966,7 @@ export function mountHost(root) {
           <span class="lq-dist-label"><span class="lq-shape" aria-hidden="true">${SHAPES[i]}</span><span dir="auto" lang="${optionLang(o)}">${esc(optionText(o))}</span>${i === q.correct ? " ✓" : ""}</span>
         </div>`)
       .join("");
-    $("[data-r-next]").textContent = t("lq.host.toBoard", "Rangliste");
+    $("[data-r-next]").textContent = t("lq.host.toBoard", "Leaderboard");
     show("reveal");
     $("[data-r-dist]").querySelectorAll("[data-dist-n]").forEach((b) => countUp(b, 0, Number(b.dataset.distN), 800));
     autoNext($("[data-r-next]"), renderBoard, autoSeconds().reveal);
@@ -1103,7 +1103,7 @@ export function mountHost(root) {
     root.querySelectorAll("[data-pod-panel]").forEach((p) => (p.hidden = p.dataset.podPanel !== name));
     const open = name === "recap";
     recapBtn.setAttribute("aria-pressed", String(open));
-    recapBtn.textContent = open ? t("lq.sum.back", "Zur Siegerehrung") : t("lq.sum.tab", "Rückblick ({n})", { n: recapN });
+    recapBtn.textContent = open ? t("lq.sum.back", "Back to the podium") : t("lq.sum.tab", "Recap ({n})", { n: recapN });
   }
   recapBtn.addEventListener("click", () => podTab(recapBtn.getAttribute("aria-pressed") === "true" ? "ceremony" : "recap"));
   mountKeep($("[data-screen=podium]"), { name: "live-quiz" });

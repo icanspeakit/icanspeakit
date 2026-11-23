@@ -215,7 +215,7 @@ const bridgeLangs = fehler.languages
             <div class="nvb-panelhead">
               <h3 data-i18n="aussprache.set.phrases">Sätze & Redemittel</h3>
             </div>
-            {rmSets.length > 0 && <h4 class="pr-pane-sub">Redemittel</h4>}
+            {rmSets.length > 0 && <h4 class="pr-pane-sub" data-i18n="sets.redemittel">Useful phrases</h4>}
             {rmSets.map((s) => (
               <button type="button" class="nvb-item pr-pack" data-set-btn={s.key} aria-selected="false">
                 <span class="pr-pack-ic" aria-hidden="true">{s.icon}</span>
@@ -265,7 +265,7 @@ const bridgeLangs = fehler.languages
         </div>
 
         <div class="pr-player">
-          <button type="button" class="pr-play" data-play aria-label="Abspielen" data-i18n-attr="aria-label:aussprache.play">
+          <button type="button" class="pr-play" data-play aria-label="Play" data-i18n-attr="aria-label:aussprache.play">
             <svg viewBox="0 0 24 24" aria-hidden="true" data-play-icon><path d="M8 5v14l11-7z"/></svg>
           </button>
           <div class="pr-wave" data-wave>
@@ -284,7 +284,7 @@ const bridgeLangs = fehler.languages
             <span data-i18n="aussprache.loop">Schleife</span>
           </button>
           <button type="button" class="pr-tool pr-tool--rec" data-rec data-recording="false">
-            <span class="pr-dot"></span><span data-i18n="aussprache.record">Aufnehmen</span>
+            <span class="pr-dot"></span><span data-i18n="aussprache.record">Record</span>
           </button>
           <button type="button" class="pr-tool" data-play-mine disabled>
             <span data-i18n="aussprache.playMine">Meine Aufnahme</span>

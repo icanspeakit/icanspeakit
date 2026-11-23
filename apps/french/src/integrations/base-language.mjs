@@ -41,30 +41,18 @@ export function legalToBase(html, lang) {
   for (const [key, langs] of Object.entries(blob)) {
     if (!langs[lang] || langs.de) continue;
     const esc = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const re = new RegExp(`(<([a-z0-9]+)(?:\\s[^>]*?)?\\sdata-lx="${esc}"[^>]*>)([\\s\\S]*?)(</\\2>)`);
-    const hit = re.exec(out);
-    if (!hit) continue;
-    langs.de = hit[3];
-    out = out.replace(re, (_all, open, _tag, _inner, close) => open + langs[lang] + close);
+    const re = new RegExp(`(<([a-z0-9]+)(?:\\s[^>]*?)?\\sdata-lx="${esc}"[^>]*>)([\\s\\S]*?)(</\\2>)`, 'g');
+    // A key may sit on several elements (a repeated table cell): every one is replaced.
+    out = out.replace(re, (_all, open, _tag, inner, close) => {
+      langs.de ??= inner;
+      return open + langs[lang] + close;
+    });
   }
   const json = JSON.stringify(blob).replace(/</g, '\\u003c');
   return out
     .replace(BLOB, (_all, a, _b, c) => a + json + c)
     .replace(/(<div class="legal-lang" data-legal-note)\s+hidden/, '$1')
     .replace('<main class="legal-main"', `<main class="legal-main" lang="${lang}"`);
-}
-
-/** @param {string} root the built site')}"[^>]*>)([\s\S]*?)(</\2>)`);
-    const hit = re.exec(out);
-    if (!hit) continue;
-    langs.de = hit[3];
-    out = out.replace(re, (_, open, _t, _inner, close) => open + langs[lang] + close);
-  }
-  const json = JSON.stringify(blob).replace(/</g, '\u003c');
-  out = out.replace(/(<script type="application/json" data-legal-tx>)[sS]*?(</script>)/, (_, a, b) => a + json + b)
-    .replace(/(<div class="legal-lang" data-legal-note)s+hidden/, '$1')
-    .replace(/<main class="legal-main"/, `<main class="legal-main" lang="${lang}"`);
-  return out;
 }
 
 /** @param {string} root the built site @param {{ info?: Function }} [logger] */

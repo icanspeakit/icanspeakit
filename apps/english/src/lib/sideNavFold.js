@@ -58,7 +58,7 @@ export function mountSideNavFold(root, { page = null, foldOnAnyClick = false } =
     if (page) page.dataset.fold = on ? "1" : "";
     for (const b of btns()) {
       b.setAttribute("aria-expanded", on ? "false" : "true");
-      b.setAttribute("aria-label", on ? t("ap.list.expand", "Liste ausklappen") : t("ap.list.collapse", "Liste einklappen"));
+      b.setAttribute("aria-label", on ? t("ap.list.expand", "Expand the list") : t("ap.list.collapse", "Collapse the list"));
     }
   }
 

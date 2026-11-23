@@ -99,7 +99,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
                   <input type="checkbox" data-abm-item={`w:${u.id}`} data-name={u.title ?? u.id} data-lvl={u.level} data-path={`/teachers/worksheets/vocabulary/${u.id}`} />
                   <span class="abi-badge">{u.level}</span>
                   <span class="abi-name">{u.title ?? u.id}</span>
-                  <span class="abi-meta">{u.words} <span data-i18n="ab.index.words">Wörter</span></span>
+                  <span class="abi-meta">{u.words} <span data-i18n="ab.index.words">words</span></span>
                 </label>
               </li>
             ))}
@@ -114,7 +114,7 @@ const partner = allSheets().filter((s) => LEVELS.includes(s.niveau));
                   <input type="checkbox" data-abm-item={`p:${s.id}`} data-name={s.titel} data-lvl={s.niveau} data-path={`/teachers/worksheets/partner/${s.id}`} />
                   <span class="abi-badge">{s.niveau}</span>
                   <span class="abi-name">{s.titel}</span>
-                  <span class="abi-meta">{s.modus === "gruppe" ? `Gruppe (${s.personen})` : "Paar"}</span>
+                  <span class="abi-meta">{s.modus === "gruppe" ? `Group (${s.personen})` : "Pair"}</span>
                 </label>
               </li>
             ))}

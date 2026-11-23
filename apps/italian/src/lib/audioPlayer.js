@@ -33,7 +33,7 @@ function enhance(audio) {
   const box = document.createElement("div");
   box.className = "ap";
   box.innerHTML = `
-    <button type="button" class="ap-play" aria-pressed="false" aria-label="Abspielen" data-i18n-attr="aria-label:player.play">${ICON_PLAY}${ICON_PAUSE}</button>
+    <button type="button" class="ap-play" aria-pressed="false" aria-label="Play" data-i18n-attr="aria-label:player.play">${ICON_PLAY}${ICON_PAUSE}</button>
     <input type="range" class="ap-bar" min="0" max="1000" step="1" value="0" aria-label="Position im Audio" data-i18n-attr="aria-label:player.seek" />
     <span class="ap-time"><span class="ap-cur">0:00</span> / <span class="ap-dur">0:00</span></span>`;
   audio.after(box);

@@ -19,12 +19,12 @@ const norm = (p) => (String(p || "").split(/[?#]/)[0].replace(/\/+$/, "") || "/"
 export function fallbackStep(path) {
   // The button never links to the page it is on: on the test itself, point onward.
   if (norm(path) === PLACEMENT) {
-    return { state: "placement", labelKey: "nav.next.toExercises", label: "Zu den Übungen", href: "/exercises" };
+    return { state: "placement", labelKey: "nav.next.toExercises", label: "Go to exercises", href: "/exercises" };
   }
   return {
     state: "placement",
-    labelKey: "nav.next.placement", label: "Wo stehe ich?",
-    subKey: "nav.next.placementSub", sub: "Einstufungstest",
+    labelKey: "nav.next.placement", label: "Where do I stand?",
+    subKey: "nav.next.placementSub", sub: "Placement test",
     href: PLACEMENT,
   };
 }
@@ -52,7 +52,7 @@ export function getNextStep(path = typeof location !== "undefined" ? currentPath
       if (next) {
         return {
           state: "resume",
-          labelKey: "nav.next.resume", label: "Weiter üben",
+          labelKey: "nav.next.resume", label: "Keep practising",
           sub: next.title || "", href: next.path,
         };
       }
@@ -65,7 +65,7 @@ export function getNextStep(path = typeof location !== "undefined" ? currentPath
   if (level) {
     const href = `/grammar#level-${level.toLowerCase()}`;
     if (norm(href) !== here) {
-      return { state: "level", labelKey: "nav.next.level", label: `Mit ${level} starten`, vars: { level }, href };
+      return { state: "level", labelKey: "nav.next.level", label: `Start with ${level}`, vars: { level }, href };
     }
   }
 

@@ -160,7 +160,7 @@ const bridgeLangs = fehler.languages
                 aria-disabled={live ? undefined : "true"}
                 aria-selected={level === firstLevel ? "true" : "false"}
                 aria-controls={live ? `pr-pane-${level}` : undefined}
-                aria-label={`Stufe ${level}`}
+                aria-label={`Level ${level}`}
                 data-i18n-attr={`aria-label:kb.level.${level}`}
               >
                 <span class="nvb-railbadge">{level}</span>
@@ -214,7 +214,7 @@ const bridgeLangs = fehler.languages
             <div class="nvb-panelhead">
               <h3 data-i18n="aussprache.set.phrases">Sätze & Redemittel</h3>
             </div>
-            {rmSets.length > 0 && <h4 class="pr-pane-sub">Redemittel</h4>}
+            {rmSets.length > 0 && <h4 class="pr-pane-sub">Useful phrases</h4>}
             {rmSets.map((s) => (
               <button type="button" class="nvb-item pr-pack" data-set-btn={s.key} aria-selected="false">
                 <span class="pr-pack-ic" aria-hidden="true">{s.icon}</span>
@@ -283,7 +283,7 @@ const bridgeLangs = fehler.languages
             <span data-i18n="aussprache.loop">Schleife</span>
           </button>
           <button type="button" class="pr-tool pr-tool--rec" data-rec data-recording="false">
-            <span class="pr-dot"></span><span data-i18n="aussprache.record">Aufnehmen</span>
+            <span class="pr-dot"></span><span data-i18n="aussprache.record">Record</span>
           </button>
           <button type="button" class="pr-tool" data-play-mine disabled>
             <span data-i18n="aussprache.playMine">Meine Aufnahme</span>

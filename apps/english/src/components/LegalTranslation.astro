@@ -66,17 +66,20 @@ const payload = JSON.stringify(legalPayload(page)).replace(/</g, "\\u003c");
       const translate = code !== "de" && !showGerman;
       note.hidden = code === "de";
       for (const el of nodes) {
-        const html = translate ? tx[el.dataset.lx!]?.[code] : undefined;
-        el.innerHTML = html ?? original.get(el)!;
+        // No translation in this language (es, fr, it, pt): the English one, never the German.
+        const html = translate ? (tx[el.dataset.lx!]?.[code] ?? tx[el.dataset.lx!]?.en) : undefined;
+        // `de` is the German original that src/integrations/base-language.mjs moves into the blob
+        // when it renders the page in English; in `astro dev` the page itself still holds it.
+        el.innerHTML = html ?? tx[el.dataset.lx!]?.de ?? original.get(el)!;
       }
       relabel();
       // The German original inside an Arabic page still reads left to right, and says it is German.
-      main.lang = translate ? code : "de";
+      main.lang = translate ? (tx.title?.[code] ? code : "en") : "de";
       main.dir = translate && isRtl(code) ? "rtl" : isRtl(code) ? "ltr" : "";
       if (!main.dir) main.removeAttribute("dir");
       note.dir = isRtl(code) ? "rtl" : "ltr";
       note.lang = code;
-      const title = translate ? tx.title?.[code] : undefined;
+      const title = translate ? (tx.title?.[code] ?? tx.title?.en) : undefined;
       document.title = title ? `${title.replace(/<[^>]+>/g, "")} – icanspeak English` : originalTitle;
       toggle.setAttribute("aria-pressed", String(showGerman));
       toggle.textContent =

@@ -72,7 +72,7 @@ const levels = LEVELS.filter((l) => partner.some((s) => s.niveau === l) || tande
             <a href={tandemPath(t.slug)}>
               <span class="abi-badge">{t.level}</span>
               <span class="abi-name">{t.name}{!t.reviewed && <span class="pu-draft-tag" data-i18n="ab.partner.draftShort">Entwurf</span>}<small class="abi-sub" data-i18n="ab.pg.tandemSub">Tandembogen · Paar</small></span>
-              <span class="abi-meta">{t.spec.loesungen.length} <span data-i18n="ab.tandem.items">Aufgaben</span></span>
+              <span class="abi-meta">{t.spec.loesungen.length} <span data-i18n="ab.tandem.items">tasks</span></span>
             </a>
           </li>
         ))}
