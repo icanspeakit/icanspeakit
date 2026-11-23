@@ -60,5 +60,12 @@ for (const c of COURSES) {
   const [lastDate, lastSubject] = git(["log", "-1", "--format=%cs%x09%s", "--", `apps/${c.id}`]).split("\t");
   out.courses.push({ ...c, audio: have, audioTotal: Object.values(have).reduce((a, b) => a + b, 0), missing, words, lastDate: lastDate ?? "", lastSubject: lastSubject ?? "" });
 }
+// Marketing files in docs/marketing (name, first heading, last commit date).
+const MK = path.resolve(APPS, "..", "docs", "marketing");
+out.marketing = (existsSync(MK) ? readdirSync(MK).filter((f) => f.endsWith(".md") && f !== "README.md") : []).map((f) => {
+  const txt = readFileSync(path.join(MK, f), "utf8");
+  const title = (txt.match(/^#\s+(.+)$/m) ?? [, f])[1];
+  return { file: f, title, date: git(["log", "-1", "--format=%cs", "--", `docs/marketing/${f}`]) };
+});
 writeFileSync(path.join(ADMIN, "src", "data", "status.json"), JSON.stringify(out, null, 2) + "\n");
 console.log(`collect: ${out.courses.length} courses`);

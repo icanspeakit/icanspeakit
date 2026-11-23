@@ -1,0 +1,7 @@
+---
+import Admin from "../layouts/Admin.astro";
+import ux from "../data/ux.json";
+---
+<Admin active="ux" sub="What a page must show, what can go. List: src/data/ux.json">
+  <div class="grid"><section class="card"><h2>Must show</h2><ul>{ux.must.map((m) => <li>{m}</li>)}</ul></section><section class="card"><h2>Can go</h2><ul>{ux.cut.map((m) => <li>{m}</li>)}</ul></section></div>
+</Admin>
