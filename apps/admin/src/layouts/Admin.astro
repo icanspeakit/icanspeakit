@@ -1,0 +1,105 @@
+---
+// Shell for every /intern page: sidebar with the groups (collapsible, searchable with Ctrl+K), noindex.
+import "../styles/tokens.css";
+import { GROUPS, PAGES, href } from "../lib/menu";
+interface Props { active: string; title?: string; sub?: string }
+const { active, title, sub } = Astro.props;
+const here = PAGES.find((p) => p.id === active);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>{(title ?? here?.name ?? "Admin")} · icanspeak admin</title>
+    <link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.svg`} type="image/svg+xml" />
+    <style is:global>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--isk-cream); color: var(--isk-text); font-family: var(--isk-font-body); line-height: 1.5; }
+      .side { position: fixed; inset: 0 auto 0 0; width: 240px; background: var(--isk-white); border-right: 1px solid var(--isk-line); overflow-y: auto; padding: 14px 10px 24px; z-index: 20; }
+      .side .brand { display: flex; justify-content: space-between; align-items: center; padding: 0 6px 10px; }
+      .side .brand b { font-family: var(--isk-font-display); font-weight: 900; color: var(--isk-navy); font-size: 1.15rem; }
+      .side button { border: 1px solid var(--isk-line); background: var(--isk-white); border-radius: 8px; cursor: pointer; padding: 2px 8px; color: var(--isk-navy); }
+      .side input { width: 100%; padding: 7px 10px; border: 1px solid var(--isk-line); border-radius: 10px; font: inherit; font-size: .9rem; margin-bottom: 8px; }
+      .grp { margin-top: 10px; }
+      .grp > p { margin: 0 6px 2px; font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--g); }
+      .grp ul { list-style: none; margin: 0; padding: 0; }
+      .grp a { display: flex; gap: 8px; align-items: center; padding: 6px 8px; border-radius: 8px; color: var(--isk-navy); text-decoration: none; font-size: .92rem; }
+      .grp a:hover { background: var(--isk-yellow-soft); }
+      .grp a[aria-current] { background: var(--isk-navy); color: var(--isk-white); }
+      .grp .tag { margin-left: auto; font-size: .65rem; background: var(--isk-line); color: var(--isk-muted); border-radius: 999px; padding: 0 6px; }
+      .none-found { color: var(--isk-muted); padding: 6px; }
+      .top { display: none; }
+      main { margin-left: 240px; max-width: 1180px; padding: 32px 24px 64px; }
+      body.narrow .side { width: 56px; } body.narrow .side .t, body.narrow .side input, body.narrow .side .grp > p, body.narrow .side .tag { display: none; } body.narrow main { margin-left: 56px; }
+      h1, h2 { font-family: var(--isk-font-display); font-weight: 900; color: var(--isk-navy); margin: 0; }
+      h1 { font-size: 2rem; } h2 { font-size: 1.25rem; margin-bottom: 12px; }
+      .sub { color: var(--isk-muted); margin: 4px 0 28px; }
+      .card { background: var(--isk-white); border: 1px solid var(--isk-line); border-radius: var(--isk-radius-card); padding: 20px; margin-bottom: 20px; }
+      .pill { display: inline-block; font-size: .8rem; font-weight: 700; padding: 2px 10px; border-radius: var(--isk-radius-pill); background: var(--isk-green-soft); color: var(--isk-navy); }
+      .pill.soon { background: var(--isk-yellow-soft); } .pill.late { background: var(--isk-coral-soft); } .pill.grey { background: var(--isk-line); }
+      table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+      th, td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--isk-line); vertical-align: top; }
+      th { color: var(--isk-muted); font-weight: 600; border-top: 0; }
+      td.n { font-variant-numeric: tabular-nums; text-align: right; } th.n { text-align: right; }
+      .bar { height: 8px; border-radius: 4px; background: var(--isk-line); overflow: hidden; min-width: 80px; }
+      .bar > i { display: block; height: 100%; background: var(--isk-green); }
+      .miss { display: flex; flex-wrap: wrap; gap: 4px; }
+      .miss code { background: var(--isk-coral-soft); color: var(--isk-navy); padding: 0 6px; border-radius: 6px; font-size: .8rem; }
+      .none { color: var(--isk-muted); font-style: italic; }
+      .links { display: flex; flex-wrap: wrap; gap: 8px; }
+      .links a { color: var(--isk-navy); font-weight: 600; border: 1px solid var(--isk-line); border-radius: var(--isk-radius-pill); padding: 4px 14px; text-decoration: none; background: var(--isk-white); }
+      .links a:hover { background: var(--isk-yellow-soft); }
+      .scroll { overflow-x: auto; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+      .grid .card { margin: 0; }
+      .grid h3 { margin: 0 0 4px; color: var(--isk-navy); font-size: 1.05rem; }
+      @media (max-width: 800px) {
+        .side { transform: translateX(-100%); transition: transform .2s; width: 260px !important; } body.open .side { transform: none; }
+        main, body.narrow main { margin-left: 0; padding: 70px 14px 40px; }
+        .top { display: flex; position: fixed; inset: 0 0 auto 0; height: 52px; background: var(--isk-white); border-bottom: 1px solid var(--isk-line); align-items: center; gap: 12px; padding: 0 12px; z-index: 10; }
+        .top button { border: 1px solid var(--isk-line); background: var(--isk-white); border-radius: 8px; padding: 4px 10px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="top"><button type="button" data-open>☰ Menu</button><b>{here?.name ?? "Admin"}</b></div>
+    <nav class="side" aria-label="Admin">
+      <div class="brand"><b class="t">Admin</b><button type="button" data-collapse aria-label="Narrow or wide menu">⇤</button></div>
+      <input type="search" data-filter placeholder="Search … (Ctrl K)" aria-label="Find a page" autocomplete="off" />
+      {GROUPS.map((g) => (
+        <div class="grp" style={`--g:${g.color}`}>
+          <p>{g.icon} {g.name}</p>
+          <ul>
+            {PAGES.filter((p) => p.group === g.id).map((p) => (
+              <li data-s={`${p.name} ${p.info} ${g.name}`.toLowerCase()}>
+                <a href={href(p)} aria-current={active === p.id ? "page" : undefined} title={p.name}>
+                  <span aria-hidden="true">{p.icon}</span><span class="t">{p.name}</span>{p.db && <span class="tag t">needs DB</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <p class="none-found" data-none hidden>No page found.</p>
+    </nav>
+    <main>
+      <h1>{title ?? here?.name}</h1>
+      {sub && <p class="sub">{sub}</p>}
+      <slot />
+    </main>
+    <script is:inline>
+      const b = document.body;
+      if (localStorage.getItem("adm-narrow") === "1") b.classList.add("narrow");
+      document.querySelector("[data-collapse]").onclick = () => { b.classList.toggle("narrow"); localStorage.setItem("adm-narrow", b.classList.contains("narrow") ? "1" : "0"); };
+      document.querySelector("[data-open]").onclick = () => b.classList.toggle("open");
+      const f = document.querySelector("[data-filter]");
+      f.oninput = () => { const q = f.value.trim().toLowerCase(); let n = 0;
+        document.querySelectorAll("[data-s]").forEach((li) => { const hit = !q || li.dataset.s.includes(q); li.hidden = !hit; if (hit) n++; });
+        document.querySelectorAll(".grp").forEach((g) => { g.hidden = ![...g.querySelectorAll("[data-s]")].some((li) => !li.hidden); });
+        document.querySelector("[data-none]").hidden = n > 0; };
+      addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); b.classList.remove("narrow"); f.focus(); } });
+    </script>
+  </body>
+</html>
