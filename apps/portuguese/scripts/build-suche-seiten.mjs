@@ -17,7 +17,7 @@ const DIST = "dist";
 const OUT = "src/data/suche-seiten.json";
 
 const SKIP = [
-  /^\/(es|hi|id|tl|vi|pt-br)(\/|$)/,
+  /^\/(de|es|fr|it|hi|id|tl|vi|pt-br)(\/|$)/,
   /^\/vocabulario\/imprimir\//,
   /^\/professores\/fichas\//,
   /\/(drucken|print)$/,

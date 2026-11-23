@@ -7,12 +7,13 @@
 //   node scripts/check-parity.mjs                 all course apps that exist
 //   node scripts/check-parity.mjs french italian  only these
 //
-// Exit 1 on any error. Warnings (audio, UI languages) don't fail.
+// Exit 1 on any error. Warnings (audio, UI languages, check:i18n findings) don't fail.
 // Reference: brand/kit (MANIFEST.md says where each kit file goes), apps/hub/src/lib/analytics.js,
 // apps/hub/src/data/courses.ts (which courses are live).
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const KIT = join(ROOT, "brand/kit");
@@ -173,6 +174,11 @@ for (const slug of apps) {
   const missingUi = wantUi.filter((l) => !ui.includes(l));
   if (missingUi.length) warn.push(`UI languages missing: ${missingUi.join(", ")}`);
   if (lang !== "en" && ui.includes(lang)) warn.push(`public/i18n/${lang}.json: the course's own language is also a UI language`);
+  // Dictionary check (scripts/check-i18n.mjs): findings are only warnings here; details: pnpm check:i18n --app <slug>
+  const i18n = spawnSync(process.execPath, [join(ROOT, "scripts/check-i18n.mjs"), "--app", slug, "--warn"], { encoding: "utf8" });
+  const found = (i18n.stdout ?? "").match(/total findings:\s*(\d+)/);
+  if (!found) warn.push(`check:i18n did not run (${(i18n.stderr ?? "").trim().split("\n")[0] || "no output"})`);
+  else if (+found[1] > 0) warn.push(`check:i18n: ${found[1]} finding(s) (pnpm check:i18n --app ${slug})`);
   if (!live.includes(slug)) warn.push("not live on the hub yet (apps/hub/src/data/courses.ts)");
 
   console.log(`\n${slug}: ${err.length ? `${err.length} error(s)` : "ok"}${warn.length ? `, ${warn.length} warning(s)` : ""}`);
