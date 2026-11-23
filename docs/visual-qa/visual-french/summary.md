@@ -1,0 +1,41 @@
+# Visual pass: french
+
+Base `/francais`, 195 routes x 2 viewports = 390 checks, 33 with problems.
+
+| Route | Viewport | Problems |
+|---|---|---|
+| `/de/exams` | 390x844 | horizontal overflow 226px section.exam-section -> 616 \| h2. -> 616 \| div.format-table-wrap -> 616<br>raw keys: public.gouv.fr (de_exams-390.png) |
+| `/de/exams` | 1440x900 | raw keys: public.gouv.fr (de_exams-1440.png) |
+| `/de/civic-exam` | 390x844 | raw keys: public.gouv.fr, legifrance.gouv.fr (de_civic-exam-390.png) |
+| `/de/civic-exam` | 1440x900 | raw keys: public.gouv.fr, legifrance.gouv.fr (de_civic-exam-1440.png) |
+| `/es/exams` | 390x844 | horizontal overflow 114px section.exam-section -> 503 \| h2. -> 503 \| div.format-table-wrap -> 503<br>raw keys: public.gouv.fr (es_exams-390.png) |
+| `/es/exams` | 1440x900 | raw keys: public.gouv.fr (es_exams-1440.png) |
+| `/es/civic-exam` | 390x844 | raw keys: public.gouv.fr, legifrance.gouv.fr (es_civic-exam-390.png) |
+| `/es/civic-exam` | 1440x900 | raw keys: public.gouv.fr, legifrance.gouv.fr (es_civic-exam-1440.png) |
+| `/it/exams` | 390x844 | horizontal overflow 103px section.exam-section -> 493 \| h2. -> 493 \| div.format-table-wrap -> 493<br>raw keys: public.gouv.fr (it_exams-390.png) |
+| `/it/exams` | 1440x900 | raw keys: public.gouv.fr (it_exams-1440.png) |
+| `/it/civic-exam` | 390x844 | raw keys: public.gouv.fr, legifrance.gouv.fr (it_civic-exam-390.png) |
+| `/it/civic-exam` | 1440x900 | raw keys: public.gouv.fr, legifrance.gouv.fr (it_civic-exam-1440.png) |
+| `/pt/exams` | 390x844 | horizontal overflow 125px section.exam-section -> 515 \| h2. -> 515 \| div.format-table-wrap -> 515<br>raw keys: public.gouv.fr (pt_exams-390.png) |
+| `/pt/exams` | 1440x900 | raw keys: public.gouv.fr (pt_exams-1440.png) |
+| `/pt/civic-exam` | 390x844 | raw keys: public.gouv.fr, legifrance.gouv.fr (pt_civic-exam-390.png) |
+| `/pt/civic-exam` | 1440x900 | raw keys: public.gouv.fr, legifrance.gouv.fr (pt_civic-exam-1440.png) |
+| `/ru/exams` | 390x844 | horizontal overflow 122px section.exam-section -> 512 \| h2. -> 512 \| div.format-table-wrap -> 512<br>raw keys: public.gouv.fr (ru_exams-390.png) |
+| `/ru/exams` | 1440x900 | raw keys: public.gouv.fr (ru_exams-1440.png) |
+| `/ru/civic-exam` | 390x844 | raw keys: public.gouv.fr, legifrance.gouv.fr (ru_civic-exam-390.png) |
+| `/ru/civic-exam` | 1440x900 | raw keys: public.gouv.fr, legifrance.gouv.fr (ru_civic-exam-1440.png) |
+| `/ecoute/a2-rendez-vous-mairie` | 390x844 | failed requests: /francais/audio/hoeren/a2-amt-termin.mp3 net::ERR_ABORTED (ecoute_a2-rendez-vous-mairie-390.png) |
+| `/ecoute/a2-rendez-vous-mairie` | 1440x900 | failed requests: /francais/audio/hoeren/a2-amt-termin.mp3 net::ERR_ABORTED (ecoute_a2-rendez-vous-mairie-1440.png) |
+| `/ecoute/b2-conference-benevolat` | 390x844 | failed requests: /francais/audio/hoeren/b2-vortrag-ehrenamt.mp3 net::ERR_ABORTED (ecoute_b2-conference-benevolat-390.png) |
+| `/ecoute/b2-conference-benevolat` | 1440x900 | failed requests: /francais/audio/hoeren/b2-vortrag-ehrenamt.mp3 net::ERR_ABORTED (ecoute_b2-conference-benevolat-1440.png) |
+| `/examens` | 390x844 | horizontal overflow 226px section.exam-section -> 616 \| h2. -> 616 \| div.format-table-wrap -> 616<br>raw keys: public.gouv.fr (examens-390.png) |
+| `/examens` | 1440x900 | raw keys: public.gouv.fr (examens-1440.png) |
+| `/plan-d-examen` | 390x844 | horizontal overflow 35px select. -> 424 (plan-d-examen-390.png) |
+| `/examen-civique` | 390x844 | raw keys: public.gouv.fr, legifrance.gouv.fr (examen-civique-390.png) |
+| `/examen-civique` | 1440x900 | raw keys: public.gouv.fr, legifrance.gouv.fr (examen-civique-1440.png) |
+| `/examen-civique/test` | 390x844 | raw keys: public.gouv.fr (examen-civique_test-390.png) |
+| `/examen-civique/test` | 1440x900 | raw keys: public.gouv.fr (examen-civique_test-1440.png) |
+| `/examen-civique/faits` | 390x844 | raw keys: public.gouv.fr (examen-civique_faits-390.png) |
+| `/examen-civique/faits` | 1440x900 | raw keys: public.gouv.fr (examen-civique_faits-1440.png) |
+
+Routes: `/index.html`, `/de`, `/de/exams`, `/de/downloads`, `/de/civic-exam`, `/de/french-for-work`, `/de/french-for-work/care-work`, `/es`, `/es/exams`, `/es/downloads`, `/es/civic-exam`, `/es/french-for-work`, `/es/french-for-work/care-work`, `/it`, `/it/exams`, `/it/downloads`, `/it/civic-exam`, `/it/french-for-work`, `/it/french-for-work/care-work`, `/pt`, `/pt/exams`, `/pt/downloads`, `/pt/civic-exam`, `/pt/french-for-work`, `/pt/french-for-work/care-work`, `/ru`, `/ru/exams`, `/ru/downloads`, `/ru/civic-exam`, `/ru/french-for-work`, `/ru/french-for-work/care-work`, `/jeu`, `/tcf`, `/tcf/a2`, `/tcf/b1`, `/tcf/b2`, `/tcf/c1`, `/tef`, `/tef/langue-en-situation`, `/tef/serie-d-entrainement`, `/ecoute`, `/ecoute/a2-rendez-vous-mairie`, `/ecoute/b2-conference-benevolat`, `/ne-pas`, `/culture`, `/culture/systeme-de-sante`, `/culture/traditions-francophones`, `/examens`, `/examens/pieges`, `/examens/delf-tcf-ou-tef`, `/lecture`, `/lecture/b1-messages-de-forum`, `/lecture/b1-associer-les-annonces`, `/savoirs`, `/savoirs/citations/dubellay-ulysse`, `/savoirs/citations/carte/lamartine-etre`, `/y-et-en`, `/a-propos`, `/articles`, `/comme-si`, `/ecriture`, `/ecriture/a2-courriel-au-voisin`, `/ecriture/b1-remplir-un-formulaire`, `/explorer`, `/explorer/films`, `/gerondif`, `/pluriels`, `/pour-que`, `/delf-dalf`, `/delf-dalf/a1`, `/delf-dalf/a2`, `/delf-dalf/b1`, `/delf-dalf/b2`, `/delf-dalf/c1`, `/exercices`, `/grammaire`, `/grammaire/parcours`, `/grammaire/erreurs-frequentes`, `/imparfait`, `/imperatif`, `/mascottes`, `/n-importe`, `/pas-a-pas`, `/programme`, `/programme/a1-2`, `/programme/b1-1`, `/reference`, `/et-ou-mais`, `/intonation`, `/possessifs`, `/comparatifs`, `/competences`, `/connecteurs`, `/enseignants`, `/enseignants/fiches/vocabulaire/b1-24`, `/enseignants/fiches/grammaire/connecteurs`, `/progression`, `/quand-ou-si`, `/virelangues`, `/vocabulaire`, `/vocabulaire/a1-teil-01`, `/vocabulaire/impression/a1-07`, `/collocations`, `/conditionnel`, `/futur-simple`, `/passe-simple`, `/prepositions`, `/voix-passive`, `/ce-qui-ce-que`, `/demonstratifs`, `/depuis-il-y-a`, `/faire-laisser`, `/plan-d-examen`, `/prononciation`, `/a-en-au-places`, `/article-ou-pas`, `/examen-civique`, `/examen-civique/test`, `/examen-civique/faits`, `/genre-des-noms`, `/jeux/montbruno`, `/jeux/safari-d-ecoute`, `/jeux/sprint-des-genres`, `/nominalisation`, `/parce-que-donc`, `/pronoms-sujets`, `/temps-et-jours`, `/test-de-niveau`, `/confidentialite`, `/doubles-pronoms`, `/futur-anterieur`, `/nuances-modales`, `/phrases-avec-si`, `/phrases-clivees`, `/relatifs-lequel`, `/adverbes-en-ment`, `/expression-orale`, `/expression-orale/b1-image-accueil`, `/expression-orale/b2-image-dechetterie`, `/lecture-ecriture`, `/mentions-legales`, `/natures-des-mots`, `/negation-avancee`, `/pronoms-relatifs`, `/savoir-connaitre`, `/subjonctif-passe`, `/ordinaux-et-dates`, `/present-verbes-er`, `/questions-oui-non`, `/articles-partitifs`, `/conditions-sans-si`, `/formation-des-mots`, `/mots-interrogatifs`, `/passe-compose-etre`, `/pronoms-possessifs`, `/subjonctif-opinion`, `/subjonctif-present`, `/verbes-pronominaux`, `/accord-du-participe`, `/connecteurs-formels`, `/francais-au-travail`, `/francais-au-travail/bureau/clients-et-equipe`, `/francais-au-travail/securite/deroulement/impression`, `/passe-compose-avoir`, `/place-des-adjectifs`, `/present-irreguliers`, `/pronoms-complements`, `/subjonctif-souhaits`, `/verbes-comme-plaire`, `/conditions-generales`, `/en-train-de-venir-de`, `/prepositions-de-lieu`, `/questions-indirectes`, `/adverbes-de-frequence`, `/francais-des-affaires`, `/francais-des-affaires/negociation/mots`, `/francais-des-affaires/cv-et-lettre-de-motivation`, `/marqueurs-du-discours`, `/pronoms-demonstratifs`, `/subordonnees-de-temps`, `/expression-orale-b1-b2`, `/pouvoir-vouloir-devoir`, `/verbes-et-prepositions`, `/infinitif-ou-subjonctif`, `/residence-et-nationalite`, `/residence-et-nationalite/tcf-irn`, `/residence-et-nationalite/tcf-irn/examen-blanc`, `/residence-et-nationalite/tcf-irn/serie-d-entrainement`, `/adjectifs-et-prepositions`, `/passe-compose-vs-imparfait`, `/propositions-participiales`, `/verification-prononciation`, `/vocabulaire-code-de-la-route`, `/vocabulaire-code-de-la-route/commandes`, `/vocabulaire-code-de-la-route/usagers/impression`
