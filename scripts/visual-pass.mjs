@@ -34,6 +34,9 @@ function detectBase() {
     const p = join(root, "apps", app, f);
     if (existsSync(p)) { const m = readFileSync(p, "utf8").match(/\bbase:\s*['"]([^'"]*)['"]/); if (m) return m[1]; }
   }
+  // base may come from an imported constant (src/lib/paths.js: export const BASE_PATH = '/x')
+  const lp = join(root, "apps", app, "src", "lib", "paths.js");
+  if (existsSync(lp)) { const m = readFileSync(lp, "utf8").match(/export const BASE_PATH\s*=\s*['"]([^'"]*)['"]/); if (m) return m[1]; }
   return "/";
 }
 let base = opt("base") ?? detectBase();
