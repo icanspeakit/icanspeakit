@@ -1,0 +1,8 @@
+---
+import Admin from "../layouts/Admin.astro";
+import data from "../data/ideen.json";
+---
+<Admin active="ideen" sub="Ideas tested on one page that could fit many. List: src/data/ideen.json">
+  {data.ideen.length === 0 && <section class="card"><p class="none">The bucket is empty. Add entries to src/data/ideen.json with title, what and status.</p></section>}
+  <div class="grid">{data.ideen.map((i: any) => <div class="card"><span class="pill grey">{i.status}</span><h3>{i.title}</h3><p>{i.what}</p></div>)}</div>
+</Admin>

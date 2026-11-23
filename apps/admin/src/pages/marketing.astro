@@ -1,0 +1,11 @@
+---
+import Admin from "../layouts/Admin.astro";
+import status from "../data/status.json";
+const files = (status as any).marketing ?? [];
+---
+<Admin active="marketing" sub="Everything in docs/marketing, read at deploy time. New texts go there as topic-v1.md.">
+  <section class="card"><table><thead><tr><th>File</th><th>Title</th><th>Last change</th></tr></thead><tbody>
+    {files.length === 0 && <tr><td colspan="3" class="none">No files.</td></tr>}
+    {files.map((f: any) => <tr><td><code>{f.file}</code></td><td>{f.title}</td><td>{f.date}</td></tr>)}
+  </tbody></table></section>
+</Admin>

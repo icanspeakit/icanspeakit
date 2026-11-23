@@ -1,0 +1,7 @@
+---
+import Admin from "../layouts/Admin.astro";
+const links = [["Cloudflare dashboard", "https://dash.cloudflare.com/"], ["Cloudflare Zero Trust (Access)", "https://one.dash.cloudflare.com/"], ["PostHog (EU)", "https://eu.posthog.com/"], ["Live site", "https://icanspeak.it/"]];
+---
+<Admin active="daten" sub="Services behind the sites.">
+  <section class="card"><div class="links">{links.map(([n, h]) => <a href={h} rel="noopener">{n}</a>)}</div></section>
+</Admin>

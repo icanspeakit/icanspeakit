@@ -1,0 +1,19 @@
+---
+// One template for the pages that need a database or account system.
+import Admin from "../layouts/Admin.astro";
+import NeedsDb from "../components/NeedsDb.astro";
+import { PAGES } from "../lib/menu";
+export function getStaticPaths() { return PAGES.filter((p) => p.db).map((p) => ({ params: { db: p.id }, props: { p } })); }
+const { p } = Astro.props;
+const needs: Record<string, string[]> = {
+  fehler: ["A Sentry project per site (or one for all) and its DSN in each app", "A read token so this page can list open issues"],
+  nutzer: ["Sign-up and login on the sites (Supabase Auth, as on deutschacademy)", "A profiles table and a service key for the admin"],
+  crm: ["A database for organisations, contacts, mail log and suppression list", "A mail provider and the Reoon key for address checks (REOON_API_KEY)"],
+  lehrkraefte: ["Teacher accounts (needs the accounts above)", "A role flag on profiles"],
+  abos: ["A payment provider (Stripe) and a subscriptions table", "Webhook to keep plans in sync"],
+  meldungen: ["A report-a-mistake button on the sites writing to a table", "The accounts or an anonymous insert policy"],
+};
+---
+<Admin active={p.id} title={p.name} sub={p.info}>
+  <NeedsDb what={p.name} needs={needs[p.id] ?? ["A database"]} />
+</Admin>

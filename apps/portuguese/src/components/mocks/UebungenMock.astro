@@ -76,10 +76,10 @@ const CULTURE = lid.questions.slice(0, 4).map((q) => ({
 }));
 
 const PANELS = [
-  { key: "grammatik", url: "icanspeak.it/portugues/grammar" },
-  { key: "aussprache", url: "icanspeak.it/portugues/pronunciation" },
-  { key: "bild", url: "icanspeak.it/portugues/speaking" },
-  { key: "kultur", url: "icanspeak.it/portugues/culture" },
+  { key: "grammatik", url: "icanspeak.it/portugues/gramatica" },
+  { key: "aussprache", url: "icanspeak.it/portugues/pronuncia" },
+  { key: "bild", url: "icanspeak.it/portugues/expressao-oral" },
+  { key: "kultur", url: "icanspeak.it/portugues/cultura" },
 ];
 
 const firstQ = ROUND[0];
@@ -180,7 +180,7 @@ const firstC = CULTURE[0];
               <button type="button" class="lp-pron-step" data-pron-step="1" aria-label="Weiter" data-i18n-attr="aria-label:aussprache.next">›</button>
             </span>
           </div>
-          <audio data-pron-audio preload="none" src={firstP.audio}></audio>
+          <audio data-pron-audio preload="none"></audio>
         </div>
       </section>
 
