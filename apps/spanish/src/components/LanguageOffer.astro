@@ -37,6 +37,7 @@ const EINFACH_OFFER = {
   hi: { text: "स्पेनिश सीखना अभी शुरू कर रहे हैं? “Step by step” से शुरू करें: हर बार एक छोटा कदम।", go: "शुरू करें", close: "बंद करें" },
   id: { text: "Baru mulai belajar bahasa Spanyol? Mulai dengan “Step by step”: satu langkah kecil setiap kali.", go: "Mulai", close: "Tutup" },
   tl: { text: "Bago ka pa lang sa Espanyol? Magsimula sa “Step by step”: isang maliit na hakbang bawat beses.", go: "Simulan", close: "Isara" },
+  ru: { text: "Только начинаешь учить испанский? Начни со «Step by step» — маленькими шагами.", go: "Начать", close: "Закрыть" },
 };
 // „Show this page in …?" per language, beside the language's name, in that language.
 const ASK = {
@@ -53,12 +54,13 @@ const ASK = {
   hi: "पेज हिन्दी में दिखाएँ?",
   id: "Tampilkan halaman dalam bahasa Indonesia?",
   tl: "Ipakita ang page sa Filipino?",
+  ru: "Показать страницу на русском?",
 };
 // Only the suggested language's row part shows: one CSS rule per language, so the right one
 // is there on the first paint without a script.
 const showRules = LANGUAGES.map((l) => `html[data-lang-offer="${l.code}"] [data-lang-offer-for="${l.code}"]{display:flex}`).join("");
 // English plus the interface languages this course adds (docs/content-plan.md §1.1).
-const close = "Close · Schließen · Fermer · Fechar · Chiudi";
+const close = "Close · Schließen · Fermer · Fechar · Chiudi · Закрыть";
 const other = "Other · Andere · Autres · Outras · Altre …";
 ---
 <div class="lang-offer" role="region" aria-label="Language · Sprache · Langue · Idioma · Lingua" data-lang-offer-row>

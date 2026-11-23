@@ -7,12 +7,15 @@
 //   node scripts/check-parity.mjs                 all course apps that exist
 //   node scripts/check-parity.mjs french italian  only these
 //
-// Exit 1 on any error. Warnings (audio, UI languages) don't fail.
+// Exit 1 on any error. Warnings (audio, UI languages, check:i18n findings) don't fail. Every
+// course must have a ru.json that matches en.json key for key, with the same placeholders and
+// tags (check 10). German left in ru.json is scripts/scan-german-ui.mjs's job (--dicts-only).
 // Reference: brand/kit (MANIFEST.md says where each kit file goes), apps/hub/src/lib/analytics.js,
 // apps/hub/src/data/courses.ts (which courses are live).
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const KIT = join(ROOT, "brand/kit");
@@ -25,7 +28,13 @@ const COURSES = {
   portuguese: { name: "Portuguese", lang: "pt", path: "portugues" },
   italian: { name: "Italian", lang: "it", path: "italiano" },
 };
-const UI_LANGS = ["en", "de", "es", "fr", "pt", "it"];
+const UI_LANGS = ["en", "de", "es", "fr", "pt", "it", "ru"];
+// UI dictionaries held to en.json key for key (errors): every key of en.json, no extra keys, the
+// same {placeholders} and HTML tags. Russian since 2026-11-22 (russian-ui queue); the older
+// dictionaries have their own checks in each app (check-i18n-keys, validate-i18n).
+const STRICT_UI = ["ru"];
+const tokens = (v) => (String(v).match(/\{\w+\}|%[sd]/g) ?? []).sort().join(" ");
+const tags = (v) => (String(v).match(/<\/?[a-z][a-z0-9]*/gi) ?? []).map((t) => t.toLowerCase()).sort().join(" ");
 
 const read = (p) => readFileSync(p);
 const text = (p) => readFileSync(p, "utf8");
@@ -116,7 +125,7 @@ for (const slug of apps) {
   // 5. Shared analytics, wired with this course's name.
   if (!same(join(ROOT, "apps/hub/src/lib/analytics.js"), join(app, "src/lib/analytics.js"))) err.push("src/lib/analytics.js differs from apps/hub/src/lib/analytics.js");
   const layout = existsSync(join(app, "src/layouts/Layout.astro")) ? text(join(app, "src/layouts/Layout.astro")) : "";
-  if (!layout.includes(`initAnalytics("${slug}")`)) err.push(`Layout.astro does not call initAnalytics("${slug}")`);
+  if (!layout.includes(`initAnalytics("${slug}")`) && !layout.includes(`<ConsentBanner app="${slug}"`)) err.push(`Layout.astro does not call initAnalytics("${slug}")`);
   const backend = existsSync(join(app, "src/lib/backend.js")) ? text(join(app, "src/lib/backend.js")) : "";
   if (!/analytics:\s*true/.test(backend)) err.push("src/lib/backend.js does not switch analytics on");
 
@@ -165,6 +174,28 @@ for (const slug of apps) {
     }
   }
 
+  // 10. Strict UI dictionaries (ru): key parity and identical placeholders/tags against en.json.
+  const enDictPath = join(app, "public/i18n/en.json");
+  const enDict = existsSync(enDictPath) ? JSON.parse(text(enDictPath)) : null;
+  for (const l of STRICT_UI) {
+    const p = join(app, `public/i18n/${l}.json`);
+    if (!enDict) continue;
+    if (!existsSync(p)) { err.push(`public/i18n/${l}.json missing (every course offers ${l})`); continue; }
+    let d;
+    try { d = JSON.parse(text(p)); } catch (e) { err.push(`public/i18n/${l}.json unreadable: ${e.message}`); continue; }
+    const missing = Object.keys(enDict).filter((k) => !(k in d));
+    const extra = Object.keys(d).filter((k) => !(k in enDict));
+    const badPh = Object.keys(enDict).filter((k) => k in d && tokens(enDict[k]) !== tokens(d[k]));
+    const badTag = Object.keys(enDict).filter((k) => k in d && tags(enDict[k]) !== tags(d[k]));
+    const empty = Object.keys(enDict).filter((k) => k in d && String(enDict[k]).trim() && !String(d[k]).trim());
+    const show = (list) => list.slice(0, 5).join(", ") + (list.length > 5 ? ` … (+${list.length - 5})` : "");
+    if (missing.length) err.push(`public/i18n/${l}.json lacks ${missing.length} key(s) of en.json: ${show(missing)}`);
+    if (extra.length) err.push(`public/i18n/${l}.json has ${extra.length} key(s) en.json lacks: ${show(extra)}`);
+    if (badPh.length) err.push(`public/i18n/${l}.json: ${badPh.length} value(s) with other {placeholders} than en.json: ${show(badPh)}`);
+    if (badTag.length) err.push(`public/i18n/${l}.json: ${badTag.length} value(s) with other HTML tags than en.json: ${show(badTag)}`);
+    if (empty.length) err.push(`public/i18n/${l}.json: ${empty.length} empty value(s): ${show(empty)}`);
+  }
+
   // Warnings: things a course may legitimately lack for a while.
   const audio = walk(join(app, "public/audio")).length;
   if (audio === 0) warn.push("no spoken audio in public/audio (listening games fall back to text)");
@@ -173,6 +204,11 @@ for (const slug of apps) {
   const missingUi = wantUi.filter((l) => !ui.includes(l));
   if (missingUi.length) warn.push(`UI languages missing: ${missingUi.join(", ")}`);
   if (lang !== "en" && ui.includes(lang)) warn.push(`public/i18n/${lang}.json: the course's own language is also a UI language`);
+  // Dictionary check (scripts/check-i18n.mjs): findings are only warnings here; details: pnpm check:i18n --app <slug>
+  const i18n = spawnSync(process.execPath, [join(ROOT, "scripts/check-i18n.mjs"), "--app", slug, "--warn"], { encoding: "utf8" });
+  const found = (i18n.stdout ?? "").match(/total findings:\s*(\d+)/);
+  if (!found) warn.push(`check:i18n did not run (${(i18n.stderr ?? "").trim().split("\n")[0] || "no output"})`);
+  else if (+found[1] > 0) warn.push(`check:i18n: ${found[1]} finding(s) (pnpm check:i18n --app ${slug})`);
   if (!live.includes(slug)) warn.push("not live on the hub yet (apps/hub/src/data/courses.ts)");
 
   console.log(`\n${slug}: ${err.length ? `${err.length} error(s)` : "ok"}${warn.length ? `, ${warn.length} warning(s)` : ""}`);

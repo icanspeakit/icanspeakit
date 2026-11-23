@@ -14,6 +14,7 @@ import { enhanceSwitch } from "./segSwitch.js";
 import { keyFromRef, stundeRef, stundenStand } from "./unterricht/lernen.js";
 import { keyOf } from "./unterricht/speichern.js";
 import { track } from "./track.js";
+import { uiLocale } from "./i18n.js";
 import { withBase, BASE_PATH } from "./paths.js";
 import { currentPath } from "./paths.js";
 
@@ -63,8 +64,8 @@ export async function mountKlassenDashboard(root, names) {
 
   /* --------------------------------------------------------- helpers ---- */
   const pct = (x) => (x == null ? "–" : `${Math.round(x * 100)} %`);
-  const fmtDate = (iso) => new Date(iso).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "numeric" });
-  const fmtTime = (iso) => new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  const fmtDate = (iso) => new Date(iso).toLocaleDateString(uiLocale(), { weekday: "short", day: "numeric", month: "numeric" });
+  const fmtTime = (iso) => new Date(iso).toLocaleTimeString(uiLocale(), { hour: "2-digit", minute: "2-digit" });
   function relDay(iso) {
     if (!iso) return t("kl.d.never", "nicht in 4 Wochen");
     // Calendar days in the teacher's time zone, not 24-hour blocks.

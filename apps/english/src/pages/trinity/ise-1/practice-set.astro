@@ -13,6 +13,7 @@ import "../../../styles/dtz.css";
 import { examClip } from "../../../lib/examHoeren.js";
 import paidManifest from "../../../data/pruefungen/paid-manifest.json";
 import PremiumLock from "../../../components/PremiumLock.astro";
+import { enLabel } from "../../../lib/exam/enLabel.js";
 import ExamFacts from "../../../components/ExamFacts.astro";
 import LevelGrammar from "../../../components/LevelGrammar.astro";
 
@@ -83,9 +84,9 @@ const first = saetze[0];
         { key: "dtzSet.facts.certificate", html: "Der DTZ ist die Abschlussprüfung des Integrationskurses. Mit B1 im DTZ und bestandenem Test „Leben in Deutschland“ gibt es das „Zertifikat Integrationskurs“." },
       ]}
       sources={[
-        { label: "BAMF: Abschlussprüfung", url: "https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/Abschlusspruefung/abschlusspruefung-node.html" },
+        { label: "BAMF: final exam (in German)", url: "https://www.bamf.de/DE/Themen/Integration/ZugewanderteTeilnehmende/Integrationskurse/Abschlusspruefung/abschlusspruefung-node.html" },
         { label: "§ 17 IntV", url: "https://www.gesetze-im-internet.de/intv/__17.html" },
-        { label: "telc: Übungstests DTZ", url: "https://shop.telc.net/de_DE/integration/ubungstests.html" },
+        { label: "telc: DTZ practice tests (in German)", url: "https://shop.telc.net/de_DE/integration/ubungstests.html" },
       ]}
       checked="04.10.2026"
     />
@@ -93,11 +94,11 @@ const first = saetze[0];
     {saetze.length + paidSets.length > 1 && (
       <div class="dtz-setpicker" data-dtz-setpicker>
         {saetze.map((s, i) => (
-          <button type="button" class={`dtz-tab ${i === 0 ? "is-active" : ""}`} data-set={s.id}>{s.label}</button>
+          <button type="button" class={`dtz-tab ${i === 0 ? "is-active" : ""}`} data-set={s.id}>{enLabel(s.label)}</button>
         ))}
         {paidSets.map((s) => (
           <button type="button" class="dtz-tab dtz-tab--paid" data-set={s.id} data-paid>
-            {s.label}
+            {enLabel(s.label)}
             <span class="dtz-tab-lock" aria-hidden="true">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
             </span>

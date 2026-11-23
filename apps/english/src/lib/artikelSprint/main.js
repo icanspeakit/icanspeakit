@@ -657,7 +657,7 @@ export function mountArtikelSprint(root, data) {
   function enterRoom(pin) {
     const name = cleanName(rm.name.value);
     if (!name) {
-      rm.msg.textContent = t("sprint.room.needName", "Wie heißt du? Der Name steht in der Rangliste.");
+      rm.msg.textContent = t("sprint.room.needName", "What's your name? It goes on the leaderboard.");
       rm.name.focus();
       return;
     }

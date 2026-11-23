@@ -28,7 +28,7 @@ const openLevel = rail.find((l) => byLevel[l].length) ?? "A1";
 const total = (level) => byLevel[level].reduce((n, c) => n + c.count, 0);
 ---
 <div class="nvb gp-nvb snav" data-gp>
-  <button type="button" class="gp-foldtab" data-gp-fold aria-label="Liste einklappen" data-i18n-attr="aria-label:fortschritt.fold.collapse" aria-controls="gp-pane">
+  <button type="button" class="gp-foldtab" data-gp-fold aria-label="Collapse the list" data-i18n-attr="aria-label:fortschritt.fold.collapse" aria-controls="gp-pane">
     <span class="gp-foldtab-txt" data-i18n="lq.host.grammar">Grammatik</span>
     <svg class="gp-foldtab-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
   </button>

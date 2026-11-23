@@ -20,7 +20,7 @@ interface Props {
 const { variant } = Astro.props;
 // The hero's own second line for state C; nextStep.js keeps one return shape for all three.
 const HERO_SUB: Record<string, [string, string]> = {
-  "nav.next.placementSub": ["nav.next.placementSubHero", "Einstufungstest · 2 Minuten"],
+  "nav.next.placementSub": ["nav.next.placementSubHero", "Placement test · 2 minutes"],
 };
 const base = fallbackStep(Astro.url.pathname);
 const step = variant === "hero" && base.subKey && HERO_SUB[base.subKey]
@@ -53,7 +53,7 @@ import { currentPath } from "../lib/paths.js";
   const step = getNextStep(currentPath());
   // Mirrors HERO_SUB in the frontmatter: the hero's longer state-C line.
   const HERO_SUB: Record<string, [string, string]> = {
-    "nav.next.placementSub": ["nav.next.placementSubHero", "Einstufungstest · 2 Minuten"],
+    "nav.next.placementSub": ["nav.next.placementSubHero", "Placement test · 2 minutes"],
   };
 
   // Keys and vars go on the elements first, so the i18n pass — now or on a later language

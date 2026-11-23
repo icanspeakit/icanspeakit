@@ -30,6 +30,14 @@ export function getLang() {
   return BASE_LANG;
 }
 
+/** The BCP 47 locale for Intl date and number display in the current interface language
+ *  (ru → «20 ноября»). English stays en-GB, the course's own convention. Machine formats
+ *  (sv-SE / en-CA for YYYY-MM-DD keys) must not use this. */
+export const uiLocale = () => {
+  const code = getLang();
+  return code === "en" ? "en-GB" : htmlLang(code);
+};
+
 async function loadDict(code) {
   if (dictCache[code]) return dictCache[code];
   try {

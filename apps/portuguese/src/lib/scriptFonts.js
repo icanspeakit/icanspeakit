@@ -42,7 +42,9 @@ export function fontFaceCss(script) {
 }
 
 /** Declares the face for this language's script, once per page. Safe to call with any code,
- *  "de", "all" or null; a Latin, Cyrillic or Greek language needs nothing and gets nothing. */
+ *  "de", "all" or null; a Latin or Greek language needs nothing and gets nothing. Cyrillic (ru)
+ *  needs nothing here either: public/fonts/icanspeak/fonts.css carries static Cyrillic faces under
+ *  the brand family names (the BEGIN cyrillic block), loaded by unicode-range. */
 export function loadScriptFont(code) {
   if (typeof document === "undefined" || !code) return;
   const script = languageOf(code)?.script;

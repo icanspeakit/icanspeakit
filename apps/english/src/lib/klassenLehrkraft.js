@@ -11,9 +11,10 @@ import {
   meineKlassen, mitgliedEntfernen, mitglieder,
 } from "./klassen.js";
 import { currentPath, BASE_PATH } from "./paths.js";
+import { uiLocale } from "./i18n.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-const datum = (iso) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const datum = (iso) => new Date(iso).toLocaleDateString(uiLocale(), { day: "numeric", month: "short", year: "numeric" });
 
 export async function mountKlassen(root) {
   const $ = (s) => root.querySelector(s);

@@ -21,7 +21,14 @@ pnpm build                                  # all apps
 pnpm --filter @icanspeak/hub dev            # one app; also englishacademy, @icanspeak/linguistics
 pnpm check:base                             # no built link escapes its app's base path
 pnpm deploy                                 # all apps to Cloudflare (DEPLOY.md first)
+node scripts/check-parity.mjs               # course shell parity; check:i18n findings show up as warnings
+pnpm check:i18n [--app french] [--show 20]  # every public/i18n/<lang>.json against en.json
 ```
+
+`check:i18n` reports missing, extra, empty, same-as-key, still-German and placeholder-mismatched
+values, plus keys used in `src` that no dictionary has. Exceptions (parked keys waiting for
+de.json, files with an inline dictionary) live in `scripts/check-i18n.allow.json`. It is clean
+when it prints `total findings: 0`; `check-parity` only warns, the build's key gate is separate.
 
 ## Conventions
 

@@ -120,6 +120,7 @@ const freeLimit = premiumFeatures.find((f) => f.id === "fehler")!.free.limit;
 <script>
 import { withBase } from "../lib/paths.js";
   import { readFehler } from "../lib/fehler.js";
+  import { uiLocale } from "../lib/i18n.js";
   import { can } from "../lib/access.js";
   import { wouldLock } from "../lib/intent.js";
   import { mountWorksheet } from "../lib/arbeitsblatt/client.js";
@@ -129,7 +130,7 @@ import { withBase } from "../lib/paths.js";
   const esc = (s: string) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
   const FREE = Number(main.dataset.freeLimit) || 20;
   const full = can("fehler");
-  const date = (ms: number) => new Date(ms).toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+  const date = (ms: number) => new Date(ms).toLocaleDateString(uiLocale(), { day: "2-digit", month: "2-digit", year: "numeric" });
 
   const all = readFehler();
 

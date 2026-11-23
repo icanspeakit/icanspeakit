@@ -99,7 +99,7 @@ const overview = {
                   <span class="nvb-tip" data-i18n="sets.prog.title">Dein Fortschritt</span>
                 </button>
                 {LEVELS.map((level, i) => (
-                  <button type="button" role="tab" class:list={["nvb-railbtn", i === 0 && "active"]} data-rail={level} aria-selected={i === 0 ? "true" : "false"} aria-controls={`ap-pane-${level}`} aria-label={`Stufe ${level}`}>
+                  <button type="button" role="tab" class:list={["nvb-railbtn", i === 0 && "active"]} data-rail={level} aria-selected={i === 0 ? "true" : "false"} aria-controls={`ap-pane-${level}`} aria-label={`Level ${level}`}>
                     <span class="nvb-railbadge">{level}</span>
                     <span class="nvb-tip"><span data-i18n="ap.levelName" data-i18n-vars={JSON.stringify({ level })}>Stufe {level}</span> · <span data-i18n={`level.name.${level}`}>{LEVEL_NAMES[level]}</span></span>
                   </button>

@@ -30,7 +30,7 @@ export const TOPIC_SLUGS = {
   // A2
   perfekt: "preterito-perfecto", "zusammengesetzte-verben": "preterito-indefinido", "n-deklination": "preterito-imperfecto",
   "trennbare-verben": "ir-a-infinitivo", komposita: "estar-gerundio",
-  "reflexive-verben": "verbos-reflexivos", akkusativ: "pronombres-de-complemento-directo",
+  "reflexive-verben": "verbos-reflexivos", akkusativ: "pronombres-de-objeto",
   dativ: "pronombres-de-complemento-indirecto", modalverben: "tener-que-poder",
   "komparativ-superlativ": "comparativos", "lokale-praepositionen": "preposiciones-de-lugar",
   wechselpraepositionen: "a-or-en", indefinitpronomen: "indefinidos", satzstellung: "muy-mucho",

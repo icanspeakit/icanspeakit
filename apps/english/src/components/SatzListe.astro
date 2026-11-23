@@ -4,6 +4,7 @@
 // src/data/pruefungen/saetze/ through src/lib/exam/saetze.js, so a new file shows up here.
 import { saetzeOf, hrefOf } from "../lib/exam/saetze.js";
 import { examMinutes } from "../lib/exam/minutes.js";
+import { enLabel } from "../lib/exam/enLabel.js";
 import "../styles/pruefung-satz.css";
 
 interface Props { exam: "goethe" | "telc" }
@@ -13,8 +14,8 @@ const rows = [
   ...saetzeOf(exam).map((s) => ({
     level: s.level,
     href: hrefOf(s),
-    title: s.title,
-    meta: `${s.modules.map((m: any) => m.name).join(" · ")} · ${examMinutes(s.modules)} min`,
+    title: enLabel(s.title),
+    meta: `${s.modules.map((m: any) => enLabel(m.name)).join(" · ")} · ${examMinutes(s.modules)} min`,
   })),
 ];
 ---
