@@ -1,0 +1,12 @@
+---
+// Placeholder for pages that need an account system or a database. Says what is missing, so nothing looks broken.
+interface Props { what: string; needs: string[]; meanwhile?: { label: string; href: string }[] }
+const { what, needs, meanwhile = [] } = Astro.props;
+---
+<section class="card">
+  <span class="pill soon">Not connected yet</span>
+  <h2 style="margin-top:10px">{what}</h2>
+  <p>The icanspeak sites have no accounts and no database yet, so there is nothing to list here. To switch this page on:</p>
+  <ul>{needs.map((n) => <li>{n}</li>)}</ul>
+  {meanwhile.length > 0 && <><p><b>Until then:</b></p><div class="links">{meanwhile.map((m) => <a href={m.href} rel="noopener">{m.label}</a>)}</div></>}
+</section>

@@ -1,0 +1,28 @@
+---
+import Admin from "../layouts/Admin.astro";
+import status from "../data/status.json";
+import { todos } from "../data/todos.json";
+const today = Date.parse(new Date().toISOString().slice(0, 10));
+const d = (x: string) => Math.round((Date.parse(x) - today) / 86400000);
+const open = todos.filter((t) => !t.done).sort((a, b) => a.due.localeCompare(b.due));
+const done = todos.filter((t) => t.done);
+// Gaps found by the build: audio folders the pages expect but that have no files.
+const gaps = status.courses.flatMap((c: any) => c.missing.map((m: string) => ({ course: c.name, folder: m })));
+const col = (t: any) => (d(t.due) < 0 ? "late" : d(t.due) <= 3 ? "soon" : "");
+---
+<Admin active="offen" sub="Not done yet, from not-yet to done. Items: src/data/todos.json; gaps are found at build time.">
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start">
+    <section class="card"><h2>To do ({open.length})</h2>
+      {open.length === 0 && <p class="none">Nothing open.</p>}
+      {open.map((t) => <p><span class={`pill ${col(t)}`}>{t.due}</span> <b>{t.title}</b>{t.course && <span class="none"> · {t.course}</span>}<br /><span class="none">{t.detail}</span></p>)}
+    </section>
+    <section class="card"><h2>Gaps found ({gaps.length})</h2>
+      {gaps.length === 0 && <p class="none">No missing audio folders.</p>}
+      <div class="miss">{gaps.map((g) => <code>{g.course}: {g.folder}</code>)}</div>
+    </section>
+    <section class="card"><h2>Done ({done.length})</h2>
+      {done.length === 0 && <p class="none">Nothing yet.</p>}
+      {done.map((t) => <p><span class="pill grey">done</span> {t.title}</p>)}
+    </section>
+  </div>
+</Admin>

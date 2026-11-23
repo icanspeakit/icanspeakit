@@ -1,0 +1,13 @@
+---
+import Admin from "../layouts/Admin.astro";
+import status from "../data/status.json";
+const pct = (c: any) => (c.words ? Math.min(100, Math.round(((c.audio.wortschatz ?? 0) / c.words) * 100)) : 0);
+---
+<Admin active="audits" sub="Checks of what the sites show, computed from the repo at deploy time.">
+  <section class="card"><h2>Audio coverage</h2>
+    <table><thead><tr><th>Course</th><th class="n">Words</th><th class="n">Audio files</th><th>Vocab voiced</th><th>Missing folders</th></tr></thead><tbody>
+      {status.courses.map((c: any) => <tr><td><b>{c.name}</b></td><td class="n">{c.words}</td><td class="n">{c.audioTotal}</td><td><div class="bar"><i style={`width:${pct(c)}%`}></i></div>{pct(c)}%</td><td>{c.missing.length ? <span class="pill late">{c.missing.length}</span> : <span class="pill">0</span>}</td></tr>)}
+    </tbody></table>
+  </section>
+  <section class="card"><h2>More audits</h2><p class="none">Next candidates (not built): interface-language coverage per course (missing i18n keys), broken internal links, pages without a title or description. Add them to scripts/collect.mjs.</p></section>
+</Admin>
