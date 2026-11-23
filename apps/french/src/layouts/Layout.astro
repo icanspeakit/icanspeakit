@@ -434,7 +434,11 @@ const structuredData = graph.length ? { "@context": "https://schema.org", "@grap
       import { currentPath } from "../lib/paths.js";
       import "../styles/mascot-celebrate.css";
       import "../styles/touchpoints.css";
+      import { initAnalytics } from "../lib/analytics.js";
       initI18n();
+      // PostHog for this course. ConsentBanner starts it too (same app name, and initAnalytics
+      // runs only once per page); pages with noTracking have no banner and stay untracked.
+      if (document.querySelector("[data-consent]")) initAnalytics("french");
       // Which language entry page (/es/, /pt-br/ …, src/integrations/entry-pages.mjs) brought
       // the visitor: one event per view, sent like every other (consent in analytics.js).
       const entryLang = document.documentElement.dataset.entryLang;
