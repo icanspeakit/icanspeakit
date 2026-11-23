@@ -38,17 +38,16 @@ const MOODS = [
   { key: "indicativo", name: "Indicative" },
   { key: "subjuntivo", name: "Subjunctive" },
   { key: "imperativo", name: "Imperative" },
-  { key: "infinitivo", name: "Personal infinitive" },
   { key: "compuestos", name: "Compound tenses" },
   { key: "compuestosSubj", name: "Compound subjunctive" },
 ];
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
-// Rule texts mark Portuguese examples with *…*, as the verb tables do.
-const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</b>');
+// Rule texts mark Spanish examples with *…*, as the verb tables do.
+const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="es">$1</b>');
 ---
 <Layout
-  title="Portuguese verb conjugation trainer: tenses, moods and verb groups – icanspeak Portuguese"
-  description="Practise European Portuguese verb forms by tense, mood and verb group: regular and irregular verbs, the subjunctive, the future subjunctive, the personal infinitive and the imperative."
+  title="Spanish verb conjugation trainer: tenses, ser and estar, por and para – icanspeak Spanish"
+  description="Practise Spanish verb forms by tense, mood and verb group: regular and irregular verbs, the subjunctive and the imperative, vosotros included. With ser/estar and por/para sets."
 >
   <SiteNav active="grammatik" />
   <TopicBar topic="conjugation" kind="Grammar" title="Conjugation trainer" level="A1–B2" tasks={total} showKind={false} scoped heading />
@@ -114,7 +113,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
                         <button type="button" class="nvb-item akp-pack cj-pack" data-item={`drill:${p.id}`}>
                           <span class="cj-pack-body">
                             <span class="akp-pack-name" data-i18n={`conj.drill.${p.id}`}>{p.name}</span>
-                            <span class="cj-pack-sample" lang="pt-PT">{p.sample}</span>
+                            <span class="cj-pack-sample" lang="es">{p.sample}</span>
                           </span>
                           <span class="akp-pack-state" data-pack-state></span>
                         </button>
@@ -145,7 +144,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
                       <h4 class="ap-phase-head"><span data-i18n={`verben.mood.${m.key}`}>{m.name}</span></h4>
                       <div class="cj-chips">
                         {tenses.filter((t) => t.mood === m.key).map((t) => (
-                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="pt-PT">{t.name}</button>
+                          <button type="button" class="cj-chip" aria-pressed="false" data-tense={t.key} lang="es">{t.name}</button>
                         ))}
                       </div>
                     </section>
@@ -184,7 +183,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
               <span class="akk-mode-sep">·</span>
               <button class="akk-mode-btn" data-mode="test" type="button" data-i18n="akk.mode.test">Test mode</button>
             </div>
-            <label class="cj-vos" id="cj-vos-wrap"><input type="checkbox" id="cj-vos" /> <span data-i18n="conj.withVosotros">with vós</span></label>
+            <label class="cj-vos" id="cj-vos-wrap"><input type="checkbox" id="cj-vos" checked /> <span data-i18n="conj.withVosotros">with vosotros</span></label>
             <button type="button" class="akk-regel-btn" data-regel-open data-i18n="ak.rule">Rule</button>
           </div>
           <p class="ak-now" data-now aria-live="polite"></p>
@@ -222,7 +221,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
       <div class="ap-drawer-body ap-regel">
         {tenses.map((t) => (
           <section class="cj-rule" data-rule-tense={t.key} hidden>
-            <p class="cj-rule-kicker" lang="pt-PT">{t.name}</p>
+            <p class="cj-rule-kicker" lang="es">{t.name}</p>
             <p class="cj-rule-text" lang="en" set:html={rule(t.rule.text)} />
             {t.rule.table && <RefTable table={t.rule.table} />}
           </section>
@@ -252,13 +251,13 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
     import { recordAttempt } from "../../lib/progress.js";
     import { createVerlauf } from "../../lib/artikelVerlauf.js";
     import { setWaiting } from "../../lib/notReady.js";
-    import { showsVosotros as showsVos } from "../../lib/variety.js";
+    import { showsVosotros } from "../../lib/variety.js";
     import { t as uiT, onUiText } from "../../lib/uiText.js";
 
     const SESSION_SIZE = 20;
     const BUILD_KEY = "da-conj-build-v1";
     const MODE_KEY = "da-conj-mode-v1";
-    const VOS_KEY = "da-conj-vos-v2";
+    const VOS_KEY = "da-conj-vosotros-v1";
     const load = (k: string, fb: any) => { try { return JSON.parse(localStorage.getItem(k) ?? "null") ?? fb; } catch { return fb; } };
     const save = (k: string, v: any) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
 
@@ -276,14 +275,14 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
     type Current = { kind: "drill" | "set" | "build"; id: string | null };
     const compact = matchMedia("(max-width: 720px)");
     let mode: string = load(MODE_KEY, compact.matches ? "fokus" : "type");
-    let vosotros: boolean = load(VOS_KEY, false) && showsVos();
+    let vosotros: boolean = load(VOS_KEY, true) && showsVosotros();
     let build = load(BUILD_KEY, { tenses: ["praes"], groups: ["reg-ar", "reg-er", "reg-ir"] });
     let current: Current = { kind: "drill", id: trainer.presets[0].id };
     let questions: any[] = [];
     let practice: any = null;
     let typed: any = null;
     vosBox.checked = vosotros;
-    if (!showsVos()) vosWrap.hidden = true;
+    if (!showsVosotros()) vosWrap.hidden = true;
 
     // --- the session stats, shared by both engines --------------------------------------------
     const ringFill = document.getElementById("akk-ring-fill")!;
@@ -377,7 +376,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
       });
       // One way to answer leaves nothing to choose between.
       modes.hidden = allowed.length < 2;
-      vosWrap.hidden = current.kind === "set" || !showsVos();
+      vosWrap.hidden = current.kind === "set" || !showsVosotros();
     }
 
     function nowText() {
@@ -419,7 +418,7 @@ const rule = (s: string) => esc(s).replace(/\*([^*]+)\*/g, '<b lang="pt-PT">$1</
       const box = document.querySelector<HTMLElement>(".ap-nvb [data-snav-overview]");
       if (!box) return;
       const rows = LEVELS.map((lv: string) => ({ lv, s: verlauf.stats(trainer.sets.filter((x: any) => x.level === lv).flatMap(idsOfSet)) }));
-      const forms = verlauf.stats(trainer.poolFor({ vosotros }).map((x: any) => x.id));
+      const forms = verlauf.stats(trainer.poolFor({ vosotros: true }).map((x: any) => x.id));
       if (!rows.some((r) => r.s.gesehen) && !forms.gesehen) {
         box.innerHTML = `<p class="snav-empty"></p>`;
         box.firstElementChild!.textContent = uiT("conj.prog.empty", "Nothing practised yet. Once you answer, this shows what you know securely at each level.");
