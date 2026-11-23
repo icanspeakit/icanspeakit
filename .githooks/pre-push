@@ -64,5 +64,8 @@ done
 echo "pre-push: check-parity"
 node "$ROOT/scripts/check-parity.mjs" || fail "check-parity"
 
+echo "pre-push: check-untranslated"
+node "$ROOT/scripts/check-untranslated.mjs" >/dev/null || fail "check-untranslated (run: pnpm check:untranslated)"
+
 echo "pre-push: ok (built: $(printf '%s ' $apps))"
 exit 0
