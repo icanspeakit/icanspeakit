@@ -51,7 +51,7 @@ pnpm --filter @icanspeak/french run deploy
 pnpm --filter @icanspeak/italian run deploy
 ```
 
-or `pnpm run deploy` for all live apps (it names them; Portuguese is left out until it launches, so a
+or `pnpm run deploy` for all live apps (it names them; Portuguese is included since its launch on 2026-11-23; before that it was left out, so a
 half-converted copy never takes over its routes) (`pnpm deploy` without `run` is pnpm's own built-in command and fails with ERR_PNPM_INVALID_DEPLOY_TARGET). Each app's `deploy` script builds, then runs
 `wrangler deploy` with that app's `wrangler.jsonc` (routes included).
 
