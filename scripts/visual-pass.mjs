@@ -78,7 +78,10 @@ function sample(list, max) {
   if (list.length <= max) return list;
   const picked = new Set(list.includes("/") ? ["/"] : []);
   const step = list.length / (max - picked.size);
-  for (let i = 0; picked.size < max && i < list.length; i++) picked.add(list[Math.floor(i * step)]);
+  for (let i = 0; picked.size < max && i < list.length; i++) {
+    const r = list[Math.min(list.length - 1, Math.floor(i * step))];
+    if (r !== undefined) picked.add(r);
+  }
   return [...picked].sort();
 }
 const routeArg = opt("routes");

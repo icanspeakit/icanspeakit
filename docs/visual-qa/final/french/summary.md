@@ -1,0 +1,7 @@
+# Visual pass: french
+
+Base `/francais`, 40 routes x 2 viewports = 80 checks, 0 with problems.
+
+No problems found.
+
+Routes: `/`, `/culture/codes-sociaux/se-faire-des-amis`, `/delf-dalf/a1`, `/ecriture/b2-texte-d-opinion`, `/enseignants/fiches/grammaire/negation-avancee`, `/enseignants/fiches/tandem/a-en-au-places`, `/enseignants/fiches/tandem/phrases-avec-si`, `/enseignants/fiches/vocabulaire/a1-06`, `/enseignants/fiches/vocabulaire/a2-17`, `/enseignants/fiches/vocabulaire/b1-26`, `/enseignants/fiches/vocabulaire/b2-16`, `/enseignants/fiches/vocabulaire/b2-54`, `/expression-orale/a2-image-tramway`, `/francais-au-travail/bureau/protection-des-donnees`, `/francais-au-travail/logistique/deroulement`, `/francais-au-travail/securite/equipements/impression`, `/gerondif`, `/lecture/b2-article-teletravail`, `/programme/b2-1`, `/savoirs/citations/apollinaire-pont`, `/savoirs/citations/carte/proust-voyage`, `/savoirs/citations/proust-paradis`, `/virelangues`, `/vocabulaire/a1-15`, `/vocabulaire/a2`, `/vocabulaire/a2-teil-10`, `/vocabulaire/b1-19`, `/vocabulaire/b1-teil-11`, `/vocabulaire/b2-02`, `/vocabulaire/b2-40`, `/vocabulaire/b2-teil-17`, `/vocabulaire/b2-teil-55`, `/vocabulaire/c1-teil-08`, `/vocabulaire/c2-teil-05`, `/vocabulaire/impression/a1-13`, `/vocabulaire/impression/a2-25`, `/vocabulaire/impression/b1-35`, `/vocabulaire/impression/b2-27`, `/vocabulaire/impression/c1-05`, `/y-et-en`

@@ -1,0 +1,7 @@
+# Visual pass: italian
+
+Base `/italiano`, 40 routes x 2 viewports = 80 checks, 0 with problems.
+
+No problems found.
+
+Routes: `/`, `/cils/a1`, `/conoscenze/citazioni/dannunzio-pioggia`, `/conoscenze/citazioni/scheda/boccaccio-compassione`, `/conoscenze/citazioni/scheda/petrarca-pace`, `/cultura/dietro-le-quinte/saying-hello`, `/de/conoscenze`, `/giochi/safari-d-ascolto`, `/insegnanti/schede/grammatica/ci-ne`, `/insegnanti/schede/grammatica/passive-and-si`, `/insegnanti/schede/tandem/adjective-as-noun`, `/insegnanti/schede/tandem/noun-gender`, `/insegnanti/schede/tandem/verb-tables`, `/insegnanti/schede/vocabolario/a1-26`, `/insegnanti/schede/vocabolario/b1-04`, `/insegnanti/schede/vocabolario/b1-37`, `/insegnanti/schede/vocabolario/b2-24`, `/italiano-per-il-lavoro`, `/italiano-per-il-lavoro/cleaning-domestic-work/working-day`, `/italiano-per-il-lavoro/hospitality/ruoli`, `/italiano-per-il-lavoro/shops/tasks/stampa`, `/linkers`, `/parlato/serie/b2-society`, `/programma/c1`, `/scrittura/b1-reply-to-javier`, `/vocabolario-patente/manoeuvres/stampa`, `/vocabolario/a1-teil-01`, `/vocabolario/a2-12`, `/vocabolario/a2-teil-18`, `/vocabolario/b1-30`, `/vocabolario/b1-teil-18`, `/vocabolario/b2-31`, `/vocabolario/c1-13`, `/vocabolario/c2-13`, `/vocabolario/stampa/a1-11`, `/vocabolario/stampa/a2-18`, `/vocabolario/stampa/b1-24`, `/vocabolario/stampa/b2-11`, `/vocabolario/stampa/c1-09`, `/yes-no-questions`
