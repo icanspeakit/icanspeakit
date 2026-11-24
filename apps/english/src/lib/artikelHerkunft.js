@@ -23,9 +23,10 @@
 
 import { getLang, onLangChange } from "./i18n.js";
 import { isRtl } from "./languages.js";
+import { withBase } from "./paths.js";
 
-const SRC = "/data/artikel-herkunft.json";
-const TR_SRC = (lang) => `/data/herkunft/${lang}.json`;
+const SRC = withBase("/data/artikel-herkunft.json");
+const TR_SRC = (lang) => withBase(`/data/herkunft/${lang}.json`);
 
 // Every `lang` the chains use (scripts/artikel-herkunft.mjs), plus today's German.
 const LANG_LABELS = {

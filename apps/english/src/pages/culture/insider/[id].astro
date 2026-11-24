@@ -311,6 +311,7 @@ const numHtml = (s: string) => esc(s).replace(NUM, (m) => `<b class="in-num">${m
   <script type="application/json" id="in-quiz-data" set:html={JSON.stringify(topic.quiz ?? [])}></script>
   <script type="module">
 import { currentPath } from "../../../lib/paths.js";
+    import { itemKey } from "../../../lib/routes.js";
     import { mountQuiz } from "../../../lib/quiz.js";
     import { recordAttempt } from "../../../lib/progress.js";
 

@@ -333,6 +333,9 @@ const comparison = [
       transition: transform 0.38s cubic-bezier(0.3, 1.3, 0.5, 1), width 0.38s cubic-bezier(0.3, 1.3, 0.5, 1);
     }
     .hub-switch.is-ready .hub-switch-pill { opacity: 1; }
+    /* A grid item with auto margins sizes to its content, so a wide format table pushed the
+       section past the screen at 390 px; full width lets .format-table-wrap scroll inside itself. */
+    .pr-hub > section > :global(.exam-section) { width: 100%; }
     .level-card-soon { color: var(--muted); font-size: var(--text-sm); }
     @media (prefers-reduced-motion: reduce) {
       .hub-switch-pill, .hub-switch .topic-tab { transition: none; }

@@ -17,6 +17,7 @@ import premiumFeatures from "../data/premium-features.json";
 import Mascot from "../components/mascots/Mascot.astro";
 import SectionMascot from "../components/mascots/SectionMascot.astro";
 import { mascotSvg } from "../lib/mascots.js";
+import { withBase } from "../lib/paths.js";
 
 const PAYWALL = import.meta.env.PUBLIC_PAYWALL === "on";
 const freeSessions = premiumFeatures.find((f) => f.id === "aussprache")!.free.limit;
@@ -27,11 +28,11 @@ const levels = data.levels.map((l) => ({
   ...l,
   sentences: l.sentences.map(({ dialect, ...s }: any) => ({
     ...s,
-    src: `/audio/zungenbrecher/${s.id}.mp3`,
-    srcSlow: `/audio/zungenbrecher/${s.id}-langsam.mp3`,
+    src: withBase(`/audio/zungenbrecher/${s.id}.mp3`),
+    srcSlow: withBase(`/audio/zungenbrecher/${s.id}-langsam.mp3`),
     // Only once the file exists (scripts/generate-zungenbrecher-audio.mjs stamps dialect.audio).
     ...(dialect?.audio && {
-      srcDialect: `/audio/zungenbrecher/${s.id}-${slug(dialect.name)}.mp3`,
+      srcDialect: withBase(`/audio/zungenbrecher/${s.id}-${slug(dialect.name)}.mp3`),
       dialect: { name: dialect.name, text: dialect.text, speaker: dialect.speaker },
     }),
   })),
