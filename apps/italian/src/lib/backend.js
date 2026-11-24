@@ -10,7 +10,8 @@
 // To add a real backend later: flip the switch below for that service and replace the
 // stand-in module's body. Nothing else should need to know.
 export const BACKEND = {
-  auth: false, // accounts + cloud sync (was Supabase)
+  auth: false, // the old Supabase features: classes, live rooms, cloud SRS (tables not in the new project)
+  accounts: true, // icanspeak.it sign-in (Google + email link) + per-course progress sync: src/lib/account/
   payments: false, // checkout + entitlements (was Stripe)
   email: false, // newsletters + transactional mail (was Brevo)
   analytics: true, // PostHog EU, cookieless, no banner (src/lib/analytics.js)

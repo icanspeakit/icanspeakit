@@ -27,6 +27,7 @@ import { COURSE, COURSES, SHARED_KEYS, SHARED_PREFIXES } from "../lib/courseStor
     P.setItem = function (k, v) { return set.call(this, ns(k), v); };
     P.removeItem = function (k) { return del.call(this, ns(k)); };
     P.__course = COURSE;
+    P.__raw = { get: get, set: set, del: del, key: key }; // for src/lib/account/sync.js
     try {
       var ls = window.localStorage, mark = "__course_migrated:" + COURSE;
       if (get.call(ls, mark)) return;
