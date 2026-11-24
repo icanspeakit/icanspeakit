@@ -1,0 +1,44 @@
+---
+// Per-course localStorage keys (rules and why: src/lib/courseStorage.js). Must be the FIRST
+// script in <head>: every later script, inline first-paint ones included, then reads and
+// writes this course's own copy of each learning-state key.
+//
+// Once per course and browser, keys saved before the split (no suffix) are copied to this
+// course's suffix. The old keys stay, so every course starts from what was there once.
+import { COURSE, COURSES, SHARED_KEYS, SHARED_PREFIXES } from "../lib/courseStorage.js";
+---
+
+<script is:inline define:vars={{ COURSE, COURSES, SHARED_KEYS, SHARED_PREFIXES }}>
+  (function () {
+    var P = window.Storage && Storage.prototype;
+    if (!P || P.__course || COURSES.indexOf(COURSE) < 0) return;
+    var get = P.getItem, set = P.setItem, del = P.removeItem, key = P.key;
+    var suffix = new RegExp(":(" + COURSES.join("|") + ")$");
+    var shared = function (k) {
+      if (SHARED_KEYS.indexOf(k) >= 0) return true;
+      for (var i = 0; i < SHARED_PREFIXES.length; i++) if (k.indexOf(SHARED_PREFIXES[i]) === 0) return true;
+      return false;
+    };
+    var ns = function (k) {
+      k = String(k);
+      return shared(k) || suffix.test(k) ? k : k + ":" + COURSE;
+    };
+    P.getItem = function (k) { return get.call(this, ns(k)); };
+    P.setItem = function (k, v) { return set.call(this, ns(k), v); };
+    P.removeItem = function (k) { return del.call(this, ns(k)); };
+    P.__course = COURSE;
+    try {
+      var ls = window.localStorage, mark = "__course_migrated:" + COURSE;
+      if (get.call(ls, mark)) return;
+      var legacy = [];
+      for (var i = 0; i < ls.length; i++) {
+        var k = key.call(ls, i);
+        if (k && !shared(k) && !suffix.test(k)) legacy.push(k);
+      }
+      legacy.forEach(function (k) {
+        if (get.call(ls, k + ":" + COURSE) === null) set.call(ls, k + ":" + COURSE, get.call(ls, k));
+      });
+      set.call(ls, mark, "1");
+    } catch (e) {}
+  })();
+</script>

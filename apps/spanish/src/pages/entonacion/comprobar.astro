@@ -45,11 +45,13 @@ const sections = [
 ];
 const all = sections.flatMap((s) => s.groups.flatMap((g) => g.lines));
 const missing = all.filter((l) => !l.rec).length;
+import CourseStorage from "../../components/CourseStorage.astro";
 ---
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<CourseStorage />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
 <title>Intonation – checklist</title>

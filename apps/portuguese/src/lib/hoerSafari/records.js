@@ -32,7 +32,8 @@ export function migrate() {
     const old = [];
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith(OLD_PREFIX)) old.push(k);
+      // Only the unsuffixed names (src/lib/courseStorage.js); getItem adds this course itself.
+      if (k && k.startsWith(OLD_PREFIX) && !k.includes(":")) old.push(k);
     }
     for (const k of old) {
       const [level, mode] = k.slice(OLD_PREFIX.length).split(".");

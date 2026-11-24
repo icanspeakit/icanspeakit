@@ -11,6 +11,7 @@
 //   - Never in the Android app (it loads no analytics; nothing is stored for it either).
 //   - Never blocks or changes anything the learner sees.
 import { track } from "./track.js";
+import { isOtherCourseKey, plainKey } from "./courseStorage.js";
 import { APP, PAYWALL, can, feature } from "./access.js";
 import { today } from "./srs.js";
 
@@ -57,7 +58,8 @@ function writeMeter(id, value) {
     const key = meterKey(id);
     const prefix = `da_meter_${id}_`;
     Object.keys(localStorage)
-      .filter((k) => k.startsWith(prefix) && k !== key)
+      .map(plainKey)
+      .filter((k) => k.startsWith(prefix) && k !== key && !isOtherCourseKey(k))
       .forEach((k) => localStorage.removeItem(k));
     localStorage.setItem(key, JSON.stringify(value));
   } catch {}
