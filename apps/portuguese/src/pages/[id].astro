@@ -768,7 +768,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           {/* A stable name next to the number (#zimmer): uebung-N moves when exercises are added. */}
           {ex.anchor && <span id={ex.anchor} class="vp-anchor" aria-hidden="true"></span>}
           <div class="vp-ex-head">
-            <span class="badge badge-neutral">{i + 1}</span>
+            <span class="badge badge-neutral vp-ex-no"><span data-i18n="vp.exNo">Exercise</span> {i + 1}</span>
             <h3><UiText de={ex.title} /></h3>
 
             {/* Same control as the column's "Regel einblenden", at this exercise's
@@ -846,7 +846,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
     ) : (
       <div class="vp-card">
         <div class="vp-ex-head">
-          <span class="badge badge-neutral">1</span>
+          <span class="badge badge-neutral vp-ex-no"><span data-i18n="vp.exNo">Exercise</span> 1</span>
           <h3 data-i18n="vp.quiz.title">Lückentext: Ergänzen Sie.</h3>
         </div>
         <div id="quiz-root"></div>

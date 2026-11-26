@@ -108,6 +108,7 @@ html[data-mascots="off"] .vp-scene-mascot { display: none; }
 
 .vp-ex-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
 .vp-ex-head h3 { font-weight: var(--fw-regular); letter-spacing: -.02em; font-size: 1.0625rem; color: var(--ink); margin: 0; text-align: left; }
+.vp-ex-no { flex-shrink: 0; white-space: nowrap; }
 .vp-ex-hint { font-size: .8125rem; color: var(--muted); margin: 0 0 18px; }
 /* Regi, the grammar hedgehog, says the exercise's hint: a speech bubble in the mascot
    voice. With the mascots switched off the hedgehog goes (data-mascot-part) and the hint
@@ -254,6 +255,20 @@ html:not([data-mascots="off"]) .vp-ex-tip > .vp-ex-hint::before {
   .vp-fill-item--side .vp-fill-why { grid-column: 1 / -1; }
   .vp-fill-item--side .vp-fill-row { grid-column: 2; grid-row: 1 / span 2; justify-content: flex-end; max-width: 340px; gap: 8px; }
 }
+
+/* Sentence numbers (itemNum in grammarWorkspace.js): they hang in the left margin, so the
+   sentence, its hint and its pills stay aligned with each other. */
+.vp-numbered { padding-inline-start: 1.75rem; }
+.vp-item-num {
+  display: inline-block; min-width: 1.75rem; margin-inline-start: -1.75rem;
+  font-size: .875rem; font-weight: var(--fw-bold); color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+/* Sentence building: the number sits level with the item's first line (its hint, or the strip). */
+.vp-build-item.vp-numbered { position: relative; padding-inline-start: 1.75rem; }
+.vp-build-item > .vp-item-num { position: absolute; inset-inline-start: 0; top: 18px; margin: 0; line-height: 1.25; }
+.vp-build-item:first-child > .vp-item-num { top: 0; }
+.vp-table-verb > .vp-item-num { min-width: 1.5rem; margin-inline-start: 0; }
 
 /* Exercise 2: Zuordnen */
 .vp-match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }

@@ -168,6 +168,11 @@ function demoPick(opts, answer, wrong) {
   return opts.find((o) => accepts(answer, o) !== wrong) ?? (wrong ? "–" : modelAnswer(answer));
 }
 
+/* 1, 2, 3 … before each sentence, so a teacher can say "number 4" (live practice, video calls;
+   upstream 74acf507). Only when an exercise has more than one; gap texts and multiple choice
+   number their gaps themselves. */
+const itemNum = (idx, count) => (count > 1 && idx >= 0 ? `<span class="vp-item-num">${idx + 1}</span>` : "");
+
 /* ---------------------------------------------------------------- fill ----
  * Choose everything first, check once at the end (Edgar, 2026-10-15): one „Prüfen" under
  * the list instead of one per sentence. Items left open are fine — they are neither marked
@@ -203,13 +208,14 @@ function mountFill(root, ex, notify) {
         const others = ok && item.also ? [modelAnswer(item.answer), ...[].concat(item.also)].filter((a) => !accepts(a, val)) : [];
         // Few options: on a wide card they sit beside the sentence, not under it (CSS).
         const side = opts.length <= 4 ? " vp-fill-item--side" : "";
+        const num = itemNum(idx, ex.items.length);
         return `
-          <div class="vp-fill-item${side}${checked ? (ok ? " is-correct" : " is-wrong") : ""}${state.fresh.has(idx) ? " is-fresh" : ""}" data-mitem="${idx}">
-            <p class="vp-fill-prompt">${escapeHtml(item.prompt)}</p>
+          <div class="vp-fill-item${side}${num ? " vp-numbered" : ""}${checked ? (ok ? " is-correct" : " is-wrong") : ""}${state.fresh.has(idx) ? " is-fresh" : ""}" data-mitem="${idx}">
+            <p class="vp-fill-prompt">${num}${escapeHtml(item.prompt)}</p>
             ${item.hint ? `<p class="vp-fill-hint">${escapeHtml(item.hint)}${irregularHtml(item)}</p>` : ""}
             <div class="vp-fill-row">${control}${feedback}</div>
             ${others.length ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillAlso", "Also right:"))}</b> ${others.map((a) => `<span lang="fr">« ${escapeHtml(a)} »</span>`).join(", ")}</p>` : ""}
-            ${checked && !ok && item.why ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
+            ${checked && item.why ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
           </div>`;
       })
       .join("");
@@ -447,7 +453,7 @@ function mountTable(root, ex, notify) {
         const control = pillsHtml(rowOptions[idx] ?? options, idx, val, state.checked, row.answer, ex.choiceArt);
         return `
           <div class="vp-table-row" data-mitem="${idx}">
-            <span class="vp-table-verb">${markedHtml(row.term)}${irregularHtml(row)}</span>
+            <span class="vp-table-verb">${itemNum(idx, ex.rows.length)}${markedHtml(row.term)}${irregularHtml(row)}</span>
             ${control}
           </div>`;
       })
@@ -822,7 +828,8 @@ function mountBuild(root, ex, notify) {
       : `<button type="button" class="vp-chip" data-sentence="${sentence.id}" data-pick="${i}" ${done ? "disabled" : ""}>${escapeHtml(w)}</button>`).join("");
     const solution = sentence.correct.join(" ").replace(/ ([,.?!])/g, "$1");
     return `
-          <div class="vp-build-item" data-mitem="${sentence.id}">
+          <div class="vp-build-item${ex.sentences.length > 1 ? " vp-numbered" : ""}" data-mitem="${sentence.id}">
+            ${itemNum(ex.sentences.indexOf(sentence), ex.sentences.length)}
             ${sentence.hint ? `<p class="vp-fill-hint">${escapeHtml(sentence.hint)}</p>` : ""}
             <div class="vp-build-strip" style="animation:${stripAnim}">${chosen}</div>
             <div class="vp-build-pool">${pool}</div>
