@@ -12,6 +12,8 @@ runner, so the commit list came from the upstream reflog `.git/logs/refs/heads/m
 entry, so their individual messages are missing (e.g. the base of Verbinden + Schreibtafel came in via
 `merge integration/schreibtafel-verbinden` → `177aed5e`); (2) a handful of very long messages were cut.
 Each port run must read the real upstream files, not just the listed commits.
+(3) port runs: `git show` / `git log -1` on upstream are refused too. Find the subjects in the reflog, then
+Grep/Read the upstream working-tree files for the matching code and comments.
 
 Classes: PORT = shared engine/fix, ADAPT = engine useful but content German, SKIP = German-only/internal,
 ALREADY = icanspeakit has it. status: open | done | blocked | needs-edgar | -
@@ -20,7 +22,7 @@ ALREADY = icanspeakit has it. status: open | done | blocked | needs-edgar | -
 
 | id | feature | upstream commits | class | status | icanspeakit commit | note |
 |----|---------|------------------|-------|--------|--------------------|------|
-| port-fix-exercise-ux | exercise/grammar UI fixes from session replays | 8590aa7f, 0721f245, 34a791bc, db0a219d, 86a334f5, e6c65480, f419e070, b262c5b8, bb2a01b3, feee5657, c7ab8122, 6c8c5c33, d56c029b, add5e261 | PORT | open | | picker crash, dead taps, iOS 16px inputs, notReady in dialogs, pills jump, table re-render, empty rows show solution, "show solution" orders tiles, print hint |
+| port-fix-exercise-ux | exercise/grammar UI fixes from session replays | 8590aa7f, 0721f245, 34a791bc, db0a219d, 86a334f5, e6c65480, f419e070, b262c5b8, bb2a01b3, feee5657, c7ab8122, 6c8c5c33, d56c029b, add5e261 | PORT | done | 82beaf08 | all 5 courses; 8590aa7f (picker crash) was already here; ported from upstream working-tree files (git diffs refused), quick check only, not built |
 | port-fix-cards-audio-ux | vocab cards / audio / RTL fixes | 42a5c6d5, 6336f706, dc34fd53, e69cc3d3, 0f32cdd7, 9fb35020, 0532d0d3, bfad7330, 9701db2d, 90c37ee2, 8b50ea31, 0467e2e0 | PORT | open | | card flip, tap gap sentence, list tap reads, playing state on 🔊, RTL target sentences LTR, pronunciation check locked when logged out, PDF in in-app browsers |
 | port-fix-layout-compat | layout, nav and old-browser fixes | 946e9eda, 2a33e644, 9cbcb735, d2907904, 29f6221e, 646e54fe, e2f896fd, cf0b7629, 57474b75, 11e1b924, 244b8331, 26eb0d32, c2db835d | PORT | open | | level page duration "ca. 0 weeks" regex (if the same code is here), breakpoints for Chrome<104/Safari<16.4, menus without :has(), old-browser hint, rule column overflow, i18n loaded once, compact consent on mobile, page-change loading bar, no analytics in iframes |
 | port-fix-progress | progress page fixes | b0dfc3e9, 03ec72c3, 4bf707ae, 0fddfcf0, f5433be8, 0c522ffd, 42e425fe, ca6b5b06, 71ab61c9 | PORT | open | | streak stops after a missed day, local-calendar days, round down %, tab jump, sticky level bar, empty-state card, class median |
