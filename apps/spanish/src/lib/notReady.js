@@ -52,8 +52,11 @@ function placeBubble(btn, text) {
     bubble.className = "nr-bubble";
     bubble.setAttribute("role", "status");
     bubble.setAttribute("aria-live", "polite");
-    document.body.append(bubble);
   }
+  // Inside an open modal <dialog> (the vocabulary app's deck sheet, the language picker in it)
+  // the bubble has to join that top layer, or it shows behind the dialog.
+  const host = btn.closest("dialog[open]") ?? document.body;
+  if (bubble.parentNode !== host) host.append(bubble);
   bubble.textContent = text;
   bubble.hidden = false;
   bubble.classList.remove("is-in");

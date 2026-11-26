@@ -177,6 +177,11 @@
 }
 .ab-in--line { display: block; width: 100%; margin: 6px 0 0; min-height: 2em; }
 .ab-in--cell { width: 100%; }
+/* iOS Safari zooms into a focused field under 16px and the zoomed page then pans sideways.
+   On touch screens the fields get 16px; paper and desktop keep the sheet's own size. */
+@media screen and (pointer: coarse) {
+  .ab-in { font-size: max(16px, 1em); }
+}
 #ab-root[data-mode="online"] .ab-in { background: #f3f6f9; border-radius: 4px 4px 0 0; }
 #ab-root[data-mode="online"] .ab-in--letter { border-radius: 4px; }
 .ab-in.is-right { border-color: var(--success); background: var(--success-soft) !important; }

@@ -80,22 +80,31 @@ const HELPER = {
 
 /* One clip at a time: a new play stops the last one. */
 let clip = null;
-function play(src, text) {
+let playTap = 0;
+function play(src, text, onEnd) {
   clip?.pause?.();
   window.speechSynthesis?.cancel();
   clip = null;
   if (src) {
     clip = new Audio(withBase(src));
-    return clip.play().catch(() => text && say(text));
+    clip.onended = onEnd;
+    return clip.play().catch(() => (text ? say(text, onEnd) : onEnd?.()));
   }
-  return text ? say(text) : Promise.resolve();
+  if (text) return say(text, onEnd);
+  onEnd?.();
+  return Promise.resolve();
 }
-function say(text) {
+function say(text, onEnd) {
   const synth = window.speechSynthesis;
-  if (!synth) return Promise.resolve();
+  if (!synth) {
+    onEnd?.();
+    return Promise.resolve();
+  }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "it-IT";
   u.rate = 0.9;
+  u.onend = onEnd;
+  u.onerror = onEnd;
   synth.speak(u);
   return Promise.resolve();
 }
@@ -748,10 +757,18 @@ export function mountEinfach(root) {
       again();
     };
 
-    on("[data-play]", () => {
+    on("[data-play]", (el) => {
       run.played = true;
-      play(task.audio, task.type === "sprechen" ? task.text : null);
+      // A listening task redraws (the button then says "listen again"), so mark the new button.
       if (task.type === "hoeren") again();
+      const btn = el.isConnected ? el : root.querySelector("[data-play]");
+      // "Listen" looked the same while it played, so learners tapped it over and over. The
+      // newest tap owns the state; a voice that never ends runs out after 15 s.
+      const mine = ++playTap;
+      const done = () => { if (mine === playTap) btn?.classList.remove("is-playing"); };
+      btn?.classList.add("is-playing");
+      setTimeout(done, 15000);
+      play(task.audio, task.type === "sprechen" ? task.text : null, done);
     });
     on("[data-skip]", () => {
       run.answer = "skip";

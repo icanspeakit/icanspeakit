@@ -12,6 +12,7 @@
 // necessity — the printed key needs them — but never shown on screen in online mode until
 // the learner asks for them to be checked.
 import { intent } from "../intent.js";
+import { printWithHint } from "../printHint.js";
 import { currentPath } from "../paths.js";
 
 const norm = (s) =>
@@ -76,7 +77,8 @@ export function mountWorksheet(root) {
     // traffic-baseline: teacher_tool_use — only the teachers' sheets, not "Meine Fehler".
     const kind = { grammaire: "grammar", vocabulaire: "vocabulary", binomes: "partner" }[currentPath().match(/^\/enseignants\/fiches\/(grammaire|vocabulaire|binomes)\//)?.[1]];
     if (kind) intent("teacher_tool_use", { tool: `worksheet_${kind}` });
-    window.print();
+    // In-app browsers ignore window.print() without a word; printWithHint says what to do then.
+    printWithHint(root.querySelector("[data-ab-print]"));
   });
   root.querySelector("[data-ab-check]")?.addEventListener("click", check);
   root.querySelector("[data-ab-reset]")?.addEventListener("click", () => {
