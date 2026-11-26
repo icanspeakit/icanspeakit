@@ -215,7 +215,7 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
   </div>
 
   <script type="module">
-    import { getProgress, getWeeklyCount, getWeeklyGoal, setWeeklyGoal, getDisplayName, setDisplayName, activeToday } from "../../lib/progress.js";
+    import { getProgress, getWeeklyCount, getWeeklyGoal, setWeeklyGoal, getDisplayName, setDisplayName, activeToday, dayStr as todayStr } from "../../lib/progress.js";
     import { getLang, loadDict, onLangChange } from "../../lib/i18n.js";
     import { mountPracticePicker } from "../../lib/practicePicker.js";
     import { withBase } from "../../lib/paths.js";
@@ -273,10 +273,6 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
       return tr("dash.greeting.evening");
     }
 
-    function todayStr(d = new Date()) {
-      return d.toISOString().slice(0, 10);
-    }
-
     function daysAgoStr(n) {
       const d = new Date();
       d.setDate(d.getDate() - n);
@@ -285,7 +281,7 @@ const workspaceCount = grammarWorkspaceLevels.reduce((n, row) => n + row.topics.
 
     function relativeDate(dateStr) {
       if (!dateStr) return tr("dash.date.never");
-      if (dateStr === todayStr()) return tr("dash.date.today");
+      if (dateStr >= todayStr()) return tr("dash.date.today");
       if (dateStr === daysAgoStr(1)) return tr("dash.date.yesterday");
       const days = Math.round((new Date(todayStr()) - new Date(dateStr)) / 86400000);
       if (days > 0 && days < 60) return tr("dash.date.daysAgo", { n: days });

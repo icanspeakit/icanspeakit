@@ -86,6 +86,7 @@ export const examRegistry = [
     overview: "/cultura-civica",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Our own practice target: ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions. Not an official pass mark.`,
+    passVars: { n: lid.meta.passScore, total: lid.meta.totalQuestions },
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
       { key: "bund", label: "Questions on Italy", ids: lidFederalIds },

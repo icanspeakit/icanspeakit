@@ -86,6 +86,7 @@ export const examRegistry = [
     overview: "/examen-civique",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Real exam (to verify): pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
+    passVars: { n: lid.meta.passScore, total: lid.meta.totalQuestions },
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
       { key: "bund", label: "Questions on France", ids: lidFederalIds },

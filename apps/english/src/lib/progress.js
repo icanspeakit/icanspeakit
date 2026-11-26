@@ -16,14 +16,17 @@ import { NOT_RESUMABLE, englishPath } from "./routes.js";
 import { logAttempt, logSession } from "./versuche.js";
 import { currentPath } from "./paths.js";
 
-function todayStr(d = new Date()) {
-  return d.toISOString().slice(0, 10);
+// The learner's own calendar day ("2026-11-26"), not UTC: with toISOString() an answer in the
+// evening in Lima (or after midnight in Berlin) counted for another day, and the streak broke
+// on the wrong night. Every reader of this store keys days with this.
+export function dayStr(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
 function daysAgoStr(n) {
   const d = new Date();
   d.setDate(d.getDate() - n);
-  return todayStr(d);
+  return dayStr(d);
 }
 
 function load() {
@@ -31,8 +34,11 @@ function load() {
     const raw = localStorage.getItem(STORE_KEY);
     if (raw) {
       const data = JSON.parse(raw);
+      // The stored streak only changes on the next answer, so a learner who stopped ten days
+      // ago would still read "6 days in a row". Past yesterday the run is over: it reads as 0.
+      const live = data.lastActiveDate >= daysAgoStr(1);
       return {
-        streak: data.streak || 0,
+        streak: live ? data.streak || 0 : 0,
         lastActiveDate: data.lastActiveDate || null,
         lastSkill: data.lastSkill || null,
         skills: data.skills || {},
@@ -66,7 +72,7 @@ function remember(data) {
   const title = (typeof document === "undefined" ? "" : document.title).split(/\s[–—-]\s/)[0].trim();
   const list = data.recents.filter((r) => r.path !== path);
   const prev = data.recents.find((r) => r.path === path);
-  list.unshift({ path, title: title || path, n: (prev?.n || 0) + 1, at: todayStr() });
+  list.unshift({ path, title: title || path, n: (prev?.n || 0) + 1, at: dayStr() });
   data.recents = list.slice(0, RECENTS_MAX);
 }
 
@@ -81,9 +87,11 @@ function milestone(detail) {
 }
 
 function touch(data, skill) {
-  const t = todayStr();
+  const t = dayStr();
   const weekBefore = getWeeklyCount(data);
-  if (data.lastActiveDate !== t) {
+  // A last day of "tomorrow" comes from the old UTC keys (or a flight west): that day is
+  // already counted, so the streak stays as it is instead of starting again.
+  if (data.lastActiveDate !== t && data.lastActiveDate !== daysAgoStr(-1)) {
     data.streak = data.lastActiveDate === daysAgoStr(1) ? data.streak + 1 : 1;
     data.lastActiveDate = t;
     const s = data.streak;
@@ -125,7 +133,7 @@ export function recordAttempt({ skill, correct, id, trackVocab, topic, ref, item
   const s = ensureSkill(data, skill);
   s.attempts += 1;
   if (correct) s.correct += 1;
-  s.lastActiveDate = todayStr();
+  s.lastActiveDate = dayStr();
   if (topic) {
     if (!data.topics[topic]) data.topics[topic] = { done: 0, attempts: 0 };
     data.topics[topic].attempts += 1;
@@ -153,7 +161,7 @@ export function recordSession(skill, { ref } = {}) {
   touch(data, skill);
   const s = ensureSkill(data, skill);
   s.sessions += 1;
-  s.lastActiveDate = todayStr();
+  s.lastActiveDate = dayStr();
   save(data);
 }
 
@@ -173,7 +181,7 @@ export function recordDrill({ topic, sure } = {}) {
   const data = load();
   touch(data, "grammatik");
   const s = ensureSkill(data, "grammatik");
-  s.lastActiveDate = todayStr();
+  s.lastActiveDate = dayStr();
   const key = topic || "_";
   if (!data.drills[key]) data.drills[key] = { said: 0, sure: 0 };
   data.drills[key].said += 1;
@@ -228,7 +236,7 @@ export function getWeeklyCount(data = load()) {
 }
 
 export function activeToday(skill, data = load()) {
-  return data.skills[skill]?.lastActiveDate === todayStr();
+  return data.skills[skill]?.lastActiveDate === dayStr();
 }
 
 export function getWeeklyGoal() {

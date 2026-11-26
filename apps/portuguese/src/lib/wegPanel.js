@@ -56,7 +56,7 @@ function lastSevenDays(today = new Date()) {
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-const pct = (done, total) => (total ? Math.round((done / total) * 100) : 0);
+const pct = (done, total) => (total ? Math.floor((done * 100) / total) : 0);
 
 /**
  * Paints the pane. Called once on mount and again from LearnShell's repaint(), so the

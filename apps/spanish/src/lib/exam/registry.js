@@ -86,6 +86,7 @@ export const examRegistry = [
     overview: "/ccse",
     store: { kind: "exam", key: "leben-in-deutschland" },
     passNote: `Real test: pass with ${lid.meta.passScore} of ${lid.meta.totalQuestions} questions.`,
+    passVars: { n: lid.meta.passScore, total: lid.meta.totalQuestions },
     passPct: Math.round((lid.meta.passScore / lid.meta.totalQuestions) * 100),
     modules: [
       { key: "bund", label: "Questions on Spain", ids: lidFederalIds },

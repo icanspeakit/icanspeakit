@@ -23,6 +23,7 @@ import Layout from "../layouts/Layout.astro";
 import SiteNav from "../components/SiteNav.astro";
 import LearnShell from "../components/LearnShell.astro";
 import NaechsteStunde from "../components/NaechsteStunde.astro";
+import Mascot from "../components/mascots/Mascot.astro";
 import { examRegistry } from "../lib/exam/registry.js";
 import "../styles/practice.css";
 import "../styles/exam-dashboard.css";
@@ -55,6 +56,19 @@ import "../styles/exam-dashboard.css";
   </div>
 
   <div id="fs-view-uebungen" role="tabpanel" data-view-panel="uebungen">
+    {/* Shown by the script below when this browser has no record at all, so an empty page says
+        where the progress is kept and what to do first. */}
+    <section class="fs-leer" data-fs-leer hidden aria-labelledby="fs-leer-h">
+      <div class="fs-leer-head">
+        <Mascot name="bruno" expr="thinking" size={56} class="fs-leer-mascot" />
+        <h2 id="fs-leer-h" class="fs-leer-h" data-i18n="fortschritt.leer.title">Hier ist noch nichts.</h2>
+      </div>
+      <p class="fs-leer-text" data-i18n="fortschritt.leer.text">Dein Fortschritt wird in dem Browser gespeichert, in dem du übst.</p>
+      <a class="fs-leer-card" href="/test-di-livello">
+        <span class="fs-leer-card-q" data-i18n="fortschritt.leer.ctaHint">Noch nicht angefangen?</span>
+        <span class="fs-leer-card-go" data-i18n="fortschritt.leer.cta">Einstufungstest machen</span>
+      </a>
+    </section>
     {/* One card: the Stunde to do next on /lezione (SCHUELER-STUNDE Tier 4). */}
     <NaechsteStunde />
     {/* LearnShell reads and writes only `location.search`, never a fixed path, so it
@@ -139,6 +153,16 @@ import "../styles/exam-dashboard.css";
   <script>
     import { nameLocalOnlyNotices } from "../lib/browserName.js";
     nameLocalOnlyNotices();
+
+    import { getProgress } from "../lib/progress.js";
+    // Empty = no graded answer, no spoken drill and no visited exercise in this browser.
+    const d = getProgress();
+    const empty = !d.recents.length
+      && !Object.values(d.skills as Record<string, { attempts?: number; sessions?: number }>).some((s) => s.attempts || s.sessions)
+      && !Object.keys(d.topics).length
+      && !Object.keys(d.drills).length;
+    const card = document.querySelector<HTMLElement>("[data-fs-leer]");
+    if (card) card.hidden = !empty;
   </script>
   <script type="module">
     import { mountExamDashboard } from "../lib/examDashboard.js";
@@ -213,7 +237,34 @@ import "../styles/exam-dashboard.css";
   /* Same segmented-pill treatment as the Karten/Liste switch inside the dashboard
      (.fs-viewtabs in exam-dashboard.css) — one control, used at two altitudes. */
   .fs-fehler-link { margin: 0; font-size: var(--text-sm); }
-  .fs-fehler-link a { color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+  /* A 40px tap target; the negative margin keeps the row as low as the text. */
+  .fs-fehler-link a { display: inline-block; padding: 10px 0; margin: -10px 0; color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
+
+  /* "Nothing here yet." Same column as the tabs above it. */
+  .fs-leer {
+    display: grid; gap: 8px; justify-items: start;
+    width: min(1232px, calc(100% - 48px)); box-sizing: border-box; margin: 12px auto 6px;
+    padding: 16px 18px;
+    border: 1px solid color-mix(in srgb, var(--brand-blue) 35%, var(--border));
+    border-radius: var(--radius-lg, 16px);
+    background: var(--surface-card);
+  }
+  .fs-leer[hidden] { display: none; }
+  @media (max-width: 900px) { .fs-leer { width: calc(100% - 32px); } }
+  .fs-leer-head { display: flex; gap: 12px; align-items: center; }
+  .fs-leer :global(.fs-leer-mascot) { flex: none; }
+  .fs-leer-h { margin: 0; font-size: 1.15rem; color: var(--ink); }
+  .fs-leer-text { margin: 0; color: var(--ink); line-height: 1.5; }
+  .fs-leer-card {
+    display: grid; gap: 2px; margin-top: 6px; padding: 10px 16px;
+    border-radius: var(--radius-md, 12px);
+    background: color-mix(in srgb, var(--brand-blue) 10%, var(--surface-card));
+    border: 1px solid color-mix(in srgb, var(--brand-blue) 30%, var(--border));
+    text-decoration: none; color: var(--ink);
+  }
+  .fs-leer-card:hover { border-color: var(--brand-blue); }
+  .fs-leer-card-q { font-size: .8rem; color: var(--muted); }
+  .fs-leer-card-go { font-weight: var(--fw-semibold); color: var(--brand-blue-dark); }
   .fs-tabs {
     display: inline-flex;
     gap: 2px;

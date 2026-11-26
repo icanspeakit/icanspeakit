@@ -10,7 +10,7 @@
  * before. Everything in it is read back from this browser's own record (src/lib/progress.js);
  * a first visit renders no card at all.
  */
-import { getResume } from "./progress.js";
+import { getResume, dayStr } from "./progress.js";
 import { getLang, loadDict, translate, onLangChange } from "./i18n.js";
 
 const calm = matchMedia("(prefers-reduced-motion: reduce)");
@@ -45,13 +45,9 @@ function flip(el, first, { scale = false } = {}) {
   ], { duration: MORPH });
 }
 
-function todayStr(d = new Date()) {
-  return d.toISOString().slice(0, 10);
-}
-
 function relativeDate(dateStr, t) {
   if (!dateStr) return t("dash.date.never");
-  const days = Math.round((new Date(todayStr()) - new Date(dateStr)) / 86400000);
+  const days = Math.round((new Date(dayStr()) - new Date(dateStr)) / 86400000);
   if (days <= 0) return t("dash.date.today");
   if (days === 1) return t("dash.date.yesterday");
   if (days < 60) return t("dash.date.daysAgo", { n: days });

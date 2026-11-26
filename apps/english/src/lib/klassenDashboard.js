@@ -84,10 +84,12 @@ export async function mountKlassenDashboard(root, names) {
   /* -------------------------------------------------------- overview ---- */
   const COLS = [
     { key: "name", label: () => t("kl.d.col.name", "Name"), cmp: (a, b) => a.name.localeCompare(b.name, "de") },
+    // Right after the name: the score is what a teacher scans for, and on a phone only the
+    // first columns are on screen before the table scrolls.
+    { key: "median", label: () => t("kl.d.col.median", "Median richtig"), sub: () => TRUST.client(), num: true, cmp: (a, b) => (a.median ?? -1) - (b.median ?? -1) },
     { key: "zuletzt", label: () => t("kl.d.col.last", "Zuletzt aktiv"), cmp: (a, b) => (Date.parse(a.zuletzt ?? 0) || 0) - (Date.parse(b.zuletzt ?? 0) || 0) },
     { key: "saetze", label: () => t("kl.d.col.sets", "Übungen"), num: true, cmp: (a, b) => a.saetze - b.saetze },
     { key: "minuten", label: () => t("kl.d.col.minutes", "Minuten"), num: true, cmp: (a, b) => a.minuten - b.minuten },
-    { key: "median", label: () => t("kl.d.col.median", "Median richtig"), sub: () => TRUST.client(), num: true, cmp: (a, b) => (a.median ?? -1) - (b.median ?? -1) },
     ...(hasLive ? [{ key: "live", label: () => t("kl.d.col.live", "Klassen-Check"), sub: () => TRUST.live(), num: true, cmp: (a, b) => (a.live ?? -1) - (b.live ?? -1) }] : []),
   ];
 

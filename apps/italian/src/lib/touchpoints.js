@@ -15,7 +15,7 @@
 // NEW_DAYS days, and the progress hints stop for good once /progressi has been opened —
 // at that point the learner knows. Everything lives in this browser (like progress.js).
 // Layout.astro loads this module on the first da:round / da:attempt, not on every page.
-import { getProgress } from "./progress.js";
+import { getProgress, dayStr } from "./progress.js";
 import { getLang, loadDict, translate } from "./i18n.js";
 import { track } from "./track.js";
 import { withBase, currentPath } from "./paths.js";
@@ -25,7 +25,7 @@ const NEW_DAYS = 21;
 const ATTEMPTS_AT = 10;
 const LIMIT = { "karten-progress": 2, "uebung-karten": 1, "attempts-progress": 1 };
 
-const today = () => new Date().toISOString().slice(0, 10);
+const today = () => dayStr();
 
 function read() {
   try {
