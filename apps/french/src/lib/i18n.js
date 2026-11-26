@@ -38,14 +38,11 @@ export const uiLocale = () => {
   return code === "en" ? "en-GB" : htmlLang(code);
 };
 
-async function loadDict(code) {
-  if (dictCache[code]) return dictCache[code];
-  try {
-    const res = await fetch(withBase(`/i18n/${code}.json`));
-    dictCache[code] = await res.json();
-  } catch {
-    dictCache[code] = {};
-  }
+// The promise is what is cached, not the result: several scripts ask for the same language
+// while the page loads, and each of them used to download its own copy of the file
+// (port of deutschacademy 57474b75).
+function loadDict(code) {
+  dictCache[code] ??= fetch(withBase(`/i18n/${code}.json`)).then((res) => res.json()).catch(() => ({}));
   return dictCache[code];
 }
 

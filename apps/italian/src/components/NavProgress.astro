@@ -1,0 +1,54 @@
+---
+// A thin bar at the top as soon as a link is tapped, until the next page is there.
+// Port of deutschacademy 244b8331. There, session replays showed that on a weak phone
+// connection the cross-document view transition (global.css, @view-transition) keeps the old
+// page on screen, untouched, for 10–20 s: visitors saw nothing happen and tapped again and
+// again. The bar says "it's loading". Shown only after 150 ms, so a fast page change never
+// flashes it. Plain inline script: it must work before (and without) the bundled modules.
+// The same file lives in every course app.
+---
+<script is:inline>
+  (function () {
+    var bar = null, showT = 0, hideT = 0;
+    function start() {
+      if (!document.body) return;
+      if (!bar) {
+        bar = document.createElement("div");
+        bar.id = "ics-navprogress";
+        bar.setAttribute("aria-hidden", "true");
+        // Brand navy (brand/kit/BRAND.md).
+        bar.style.cssText = "position:fixed;top:0;left:0;height:3px;width:0;opacity:0;z-index:2147483646;pointer-events:none;background:#172A6E;box-shadow:0 0 8px rgba(23,42,110,.45)";
+        document.body.appendChild(bar);
+      }
+      bar.style.transition = "none";
+      bar.style.width = "0";
+      bar.style.opacity = "1";
+      void bar.offsetWidth;
+      // Fast at first, then crawling towards 90 %: it keeps moving on a slow line.
+      bar.style.transition = "width 12s cubic-bezier(.08,.75,.2,1), opacity .3s";
+      bar.style.width = "90%";
+      clearTimeout(hideT);
+      // The browser may give up on the navigation without telling the page.
+      hideT = setTimeout(stop, 25000);
+    }
+    function stop() {
+      clearTimeout(showT);
+      clearTimeout(hideT);
+      if (bar) { bar.style.transition = "opacity .2s"; bar.style.opacity = "0"; }
+    }
+    document.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target && e.target.closest && e.target.closest("a[href]");
+      if (!a || (a.target && a.target !== "_self") || a.hasAttribute("download")) return;
+      var u;
+      try { u = new URL(a.href, location.href); } catch (err) { return; }
+      if (u.origin !== location.origin) return;
+      if (u.pathname === location.pathname && u.search === location.search) return; // same page, #anchor
+      if (/\.(pdf|zip|mp3|mp4|png|jpe?g|webp|svg)$/i.test(u.pathname)) return;
+      clearTimeout(showT);
+      showT = setTimeout(start, 150);
+    });
+    // Back to this page from the cache, or the navigation came back: no bar.
+    window.addEventListener("pageshow", stop);
+  })();
+</script>

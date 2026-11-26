@@ -114,6 +114,8 @@ const graph = SITE_URL && !noindex
   : [];
 const structuredData = graph.length ? { "@context": "https://schema.org", "@graph": graph } : null;
 import CourseStorage from "../components/CourseStorage.astro";
+import OldBrowserNote from "../components/OldBrowserNote.astro";
+import NavProgress from "../components/NavProgress.astro";
 ---
 <!doctype html>
 <html lang="en" translate="no" data-i18n-globals={JSON.stringify(i18nGlobals)} data-paywall={PAYWALL ? "on" : undefined}>
@@ -368,6 +370,8 @@ import CourseStorage from "../components/CourseStorage.astro";
     <title>{title}</title>
   </head>
   <body>
+    <OldBrowserNote />
+    <NavProgress />
     <LanguageOffer />
     <slot />
     {footer !== "none" && <SiteFooter size={footer} paywall={PAYWALL} />}

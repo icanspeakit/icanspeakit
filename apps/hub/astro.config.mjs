@@ -16,6 +16,10 @@ export default defineConfig({
   // (`pnpm --filter @icanspeak/linguistics dev`, pinned to port 4310). A path proxy can't work:
   // that dev page loads its modules from root paths (/src/…, /@vite/…) the hub would answer.
   vite: {
+    // The minifier rewrites @media (max-width: …) to the range form (width<=…) for browsers it
+    // assumes are new. Chrome before 104 and Safari before 16.4 drop those rules, so every
+    // breakpoint was gone there (port of deutschacademy 946e9eda: replays, Chrome 103).
+    build: { cssTarget: ['chrome90', 'safari15', 'firefox90', 'edge90'] },
     plugins: [{
       name: 'dev-linguistics-redirect',
       apply: 'serve',

@@ -724,9 +724,13 @@ html:not([data-mascots="off"]) .vp-ex-tip > .vp-ex-hint::before {
   .vp-col--ex .vp-ex-toolbar { margin-bottom: var(--space-6); }
 
   /* Rule collapsed: the column shrinks to nothing and the panel slides out past
-     its own (now clipped) edge. */
+     its own (now clipped) edge. Without its padding the column really has no width: 4px of
+     it, pushed 28px to the right, made the page 8px too wide at around 1180px and it could be
+     scrolled sideways. It slides 20px, not 28px: the page's right padding is 24px, and while the
+     page shrinks from full width (rule hidden straight after the focus view, 1366px laptop)
+     28px poked 4px past the screen (port of deutschacademy e2f896fd, cf0b7629). */
   .vp-page--split[data-rule="hidden"] { --rule-w: 0px; --rule-gap: 0px; }
-  .vp-page--split[data-rule="hidden"] .vp-col--rule { transform: translateX(28px); opacity: 0; }
+  .vp-page--split[data-rule="hidden"] .vp-col--rule { transform: translateX(20px); opacity: 0; padding-right: 0; }
 
   /* Focus view (ruleColumn.js, `expandable`): the column lifts out of the page into a
      panel over 80% of the screen, and everything behind it dims and blurs, so a long rule
