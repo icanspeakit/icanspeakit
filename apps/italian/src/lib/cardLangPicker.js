@@ -20,7 +20,7 @@
 import "../styles/card-lang-picker.css";
 import { languageOf } from "./languages.js";
 import { recentLangs, rememberLang } from "./languagePicker.js";
-import { setWaiting } from "./notReady.js";
+import { setWaiting, waitAttrs } from "./notReady.js";
 
 const SURFACE = "cards";
 const SHEET_BELOW = 768;
@@ -115,7 +115,7 @@ export function openCardLangPicker({ anchor, items, soon = [], current = null, t
     const on = !disabled && isOn(l.code);
     const sub = l.special ? l.sub ?? "" : l.de && l.de !== l.native ? l.de : "";
     return `<div role="option" class="clp-opt${disabled ? " is-soon" : ""}" id="${id}-${group}-${n}" data-clp-code="${esc(l.code)}"
-        aria-selected="${on}"${disabled ? ' aria-disabled="true"' : ""}>
+        aria-selected="${on}"${disabled ? waitAttrs(t("vt.cl.soonWhy")) : ""}>
       <span class="clp-check" aria-hidden="true">${on ? "✓" : ""}</span>
       <span class="clp-names"><span class="clp-native"${l.special ? "" : ` lang="${esc(l.code)}"`} dir="${l.dir === "rtl" ? "rtl" : "auto"}">${esc(l.native)}</span>${sub ? `<span class="clp-sub" lang="en">${esc(sub)}</span>` : ""}</span>
       ${disabled ? `<span class="clp-tag">${esc(t("vt.cl.soonTag"))}</span>` : ""}

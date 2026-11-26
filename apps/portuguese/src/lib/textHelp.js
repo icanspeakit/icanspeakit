@@ -105,13 +105,34 @@ export function mountVocabList(root, vocab) {
     root.querySelectorAll(".vl-row").forEach((r) => r.classList.remove("is-open"));
   });
   root.querySelectorAll(".vl-row").forEach((row) => {
-    const flip = () => { if (root.dataset.cover === "on") row.classList.toggle("is-open"); };
+    // Covered: a tap checks the row. Uncovered, a tap used to do nothing, and learners tapped
+    // a word again and again, so it reads the word aloud.
+    const flip = () => {
+      if (root.dataset.cover === "on") return row.classList.toggle("is-open");
+      sayRow(row);
+    };
     row.addEventListener("click", flip);
     row.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); }
     });
   });
 
+}
+
+function sayRow(row) {
+  const text = row.querySelector(".vl-de")?.textContent?.trim();
+  if (!text || !("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  document.querySelectorAll(".vl-row.is-saying").forEach((r) => r.classList.remove("is-saying"));
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "pt-PT";
+  u.rate = 0.9;
+  const off = () => row.classList.remove("is-saying");
+  u.onend = u.onerror = off;
+  row.classList.add("is-saying");
+  speechSynthesis.speak(u);
+  // Some voices never fire onend: don't leave the row marked for good.
+  setTimeout(off, Math.max(1500, text.length * 120));
 }
 
 /**

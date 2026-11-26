@@ -424,7 +424,8 @@
 .vl-tr { color: var(--muted); }
 .vl-tr[dir="rtl"] { text-align: right; }
 /* Abgedeckt: the meaning is there, just not readable until the row is tapped. */
-.vl[data-cover="on"] .vl-row { cursor: pointer; }
+.vl-row { cursor: pointer; }
+.vl-row.is-saying .vl-de { color: var(--brand-blue-dark); text-decoration: underline 2px color-mix(in srgb, var(--brand-blue) 50%, transparent); text-underline-offset: 4px; }
 .vl[data-cover="on"] .vl-tr { color: transparent; background: var(--surface); border-radius: 6px; user-select: none; }
 .vl[data-cover="on"] .vl-row.is-open .vl-tr { color: var(--muted); background: none; user-select: auto; }
 @media (max-width: 480px) {

@@ -42,7 +42,9 @@ function articleHtml(q) {
 }
 
 function sentenceHtml(prompt) {
-  return prompt.replace("___", '<span class="akk-blank">___</span>');
+  // One left-to-right span: the sentence is a flex row, which a right-to-left interface
+  // language would otherwise reorder.
+  return `<span dir="ltr" lang="fr">${prompt.replace("___", '<span class="akk-blank">___</span>')}</span>`;
 }
 
 const SPEAKER_SVG =

@@ -375,7 +375,7 @@ export function mountEinfach(root) {
         ${walkPlain(items.length, check.i)}
         <div class="el-task" tabindex="-1">
           <p class="el-kind">What fits?</p>
-          <p class="el-sentence" lang="pt-PT">${gapLine(gap.before, `<span class="el-blank">___</span>`, gap.after)}</p>
+          <p dir="ltr" lang="pt-PT" class="el-sentence">${gapLine(gap.before, `<span class="el-blank">___</span>`, gap.after)}</p>
           <p class="el-gloss">Just guess. Nothing is wrong here.</p>
         </div>
       `,
@@ -582,17 +582,17 @@ export function mountEinfach(root) {
     const open = run.flipped || run.answer !== null;
 
     if (task.type === "wort") {
-      const plural = task.plural ? `<span class="el-card-plural" lang="pt-PT">${esc(task.plural)}</span>` : "";
+      const plural = task.plural ? `<span class="el-card-plural" dir="ltr" lang="pt-PT">${esc(task.plural)}</span>` : "";
       return `
         ${kind(task, "Word")}
-        <button class="el-card" type="button" data-flip>
+        <button class="el-card" type="button" data-card>
           <span class="el-card-inner ${open && !run.flipAnim ? "is-flipped" : ""}">
             <span class="el-face" ${open ? `aria-hidden="true"` : ""}>
-              <b lang="pt-PT">${esc(task.front)}</b>${plural}
+              <b dir="ltr" lang="pt-PT">${esc(task.front)}</b>${plural}
               <span class="el-card-tap">tap</span>
             </span>
             <span class="el-face el-face--back" ${open ? "" : `aria-hidden="true"`}>
-              <b lang="pt-PT">${esc(task.front)}</b>${plural}
+              <b dir="ltr" lang="pt-PT">${esc(task.front)}</b>${plural}
               <span class="el-card-back">${esc(task.back)}<i${task.hintLang ? ` lang="${task.hintLang}"` : ""}>${esc(task.hint || "")}</i></span>
             </span>
           </span>
@@ -605,7 +605,7 @@ export function mountEinfach(root) {
     if (task.type === "artikel") {
       return `
         ${kind(task, articleQuestion(task))}
-        <p class="el-sentence" lang="pt-PT"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
+        <p dir="ltr" lang="pt-PT" class="el-sentence"><span class="el-blank ${blankState}">${esc(run.answer || "___")}</span> ${esc(task.noun)}</p>
         ${task.back ? `<p class="el-gloss">${esc(task.back)}</p>` : ""}
       `;
     }
@@ -613,7 +613,7 @@ export function mountEinfach(root) {
     if (task.type === "luecke") {
       return `
         ${kind(task, "Sentence")}
-        <p class="el-sentence" lang="pt-PT">${gapLine(task.before, `<span class="el-blank ${blankState}">${esc(run.answer || "___")}</span>`, task.after)}</p>
+        <p dir="ltr" lang="pt-PT" class="el-sentence">${gapLine(task.before, `<span class="el-blank ${blankState}">${esc(run.answer || "___")}</span>`, task.after)}</p>
       `;
     }
 
@@ -640,7 +640,7 @@ export function mountEinfach(root) {
       return `
         ${kind(task, "What do you say?")}
         <p class="el-situation">${esc(task.situation)}</p>
-        ${run.answer ? `<p class="el-sentence el-sentence--sm" lang="pt-PT"><span class="el-blank ${blankState}">${esc(run.answer)}</span></p>` : ""}
+        ${run.answer ? `<p dir="ltr" lang="pt-PT" class="el-sentence el-sentence--sm"><span class="el-blank ${blankState}">${esc(run.answer)}</span></p>` : ""}
       `;
     }
 
@@ -651,7 +651,7 @@ export function mountEinfach(root) {
         : esc(task.text);
       return `
         ${kind(task, "Speak")}
-        <p class="el-sentence el-sentence--speak" lang="pt-PT">${words}</p>
+        <p dir="ltr" lang="pt-PT" class="el-sentence el-sentence--speak">${words}</p>
         <button class="el-play" type="button" data-play>
           <span aria-hidden="true">▶</span> Listen
         </button>
@@ -734,7 +734,7 @@ export function mountEinfach(root) {
       task.type === "wort"
         ? ok
           ? "Got it."
-          : `This one comes back — <b lang="pt-PT">${esc(task.front)}</b>: ${esc(task.back)}${/[.!?…]$/.test(task.back) ? "" : "."}`
+          : `This one comes back — <b dir="ltr" lang="pt-PT">${esc(task.front)}</b>: ${esc(task.back)}${/[.!?…]$/.test(task.back) ? "" : "."}`
         : ok
           ? "Right."
           : `Almost. The answer is <b lang="pt-PT">${esc(solution)}</b>${/[.!?…]$/.test(solution) ? "" : "."}`;
@@ -787,6 +787,21 @@ export function mountEinfach(root) {
       run.flipped = true;
       run.flipAnim = true;
       again();
+    });
+    // The card itself: the first tap turns it like "Turn over"; after that every tap turns it
+    // back and forth in place (a turned card that ignored taps looked broken).
+    on("[data-card]", (el) => {
+      if (!run.flipped) {
+        run.flipped = true;
+        run.flipAnim = true;
+        again();
+        return;
+      }
+      const inner = el.querySelector(".el-card-inner");
+      const back = inner?.classList.toggle("is-flipped");
+      const [front, rear] = el.querySelectorAll(".el-face");
+      front?.setAttribute("aria-hidden", String(!!back));
+      rear?.setAttribute("aria-hidden", String(!back));
     });
     on("[data-know]", (el) => {
       run.answer = el.dataset.know;

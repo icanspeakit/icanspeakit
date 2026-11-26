@@ -39,7 +39,9 @@ function articleHtml(q) {
 }
 
 function sentenceHtml(prompt) {
-  return prompt.replace("___", '<span class="akk-blank">___</span>');
+  // One left-to-right span: the sentence is a flex row, which a right-to-left interface
+  // language would otherwise reorder.
+  return `<span dir="ltr" lang="en-GB">${prompt.replace("___", '<span class="akk-blank">___</span>')}</span>`;
 }
 
 const SPEAKER_SVG =
@@ -359,7 +361,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
     return `
           <tr class="akk-done-row${wrong ? " akk-done-row--wrong" : ""}">
             <td class="akk-done-art" dir="ltr">${articleHtml(q)}</td>
-            <td class="akk-done-word" dir="ltr" lang="de"><span class="akk-done-noun">${doneNoun(q)}</span>${plural}</td>
+            <td class="akk-done-word" dir="ltr" lang="en-GB"><span class="akk-done-noun">${doneNoun(q)}</span>${plural}</td>
             <td class="akk-done-ans">${answer}</td>
           </tr>`;
   }
@@ -479,7 +481,7 @@ export function mountPracticeWorkspace(root, allQuestions, { onSessionUpdate, on
             // The noun in full once the answer is out, its article in colour: „die Dividende".
             // One LTR span: the sentence is a flex row, which an Arabic UI would reverse
             // into „Dividende die".
-            ? `<span dir="ltr" lang="de">${q.prompt.replace("___", articleHtml(q))}</span>`
+            ? `<span dir="ltr" lang="en-GB">${q.prompt.replace("___", articleHtml(q))}</span>`
             : sentenceHtml(q.prompt)}${hearHtml(q, { slow: true })}</p>
           <div class="akk-pills">
             ${q.options

@@ -1405,7 +1405,12 @@ export function mountWortschatzApp(els, cards, langList, { onAnswer, onSessionSt
     });
     attachSwipe(flipEl);
     contentEl.querySelector("#vt-flip-btn").addEventListener("click", flip);
-    contentEl.querySelector("#vt-info")?.addEventListener("click", handleAudioClick);
+    contentEl.querySelector("#vt-info")?.addEventListener("click", (e) => {
+      if (handleAudioClick(e)) return;
+      // The gapped sentence looks like something to fill in, and learners tap the gap:
+      // a tap on it turns the card, which fills the gap in.
+      if (!state.flipped && e.target.closest("#vt-info-ex-text")?.querySelector(".vt-gap")) flip();
+    });
     contentEl.querySelector("#vt-judge-ok").addEventListener("click", () => judge(true));
     contentEl.querySelector("#vt-judge-no").addEventListener("click", () => judge(false));
     contentEl.querySelector("#vt-prev").addEventListener("click", () => go(-1));

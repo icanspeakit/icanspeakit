@@ -10,6 +10,8 @@ import { pronunciationProvider as provider, PronunciationError } from "./pronunc
 import { referenceMelody, learnerMelody, compareMelody, melodyChart } from "./satzmelodie.js";
 import { wouldLock } from "./intent.js";
 import { setWaiting } from "./notReady.js";
+import { BACKEND } from "./backend.js";
+import { hasSession } from "./account/client.js";
 import { withBase } from "./paths.js";
 
 const LANG = "pt-PT";
@@ -21,6 +23,7 @@ const POS_KEY = "ac.pos";
 // practice stay simple.
 export const MSG = {
   ready: "Tap “Record” and read the sentence aloud.",
+  readySignedOut: "You can listen straight away. Sign in to record and get a score.",
   preparing: "Getting the microphone ready …",
   listening: "I'm listening … Read the sentence now.",
   analysing: "Checking …",
@@ -72,6 +75,16 @@ function writeJSON(key, value) {
 }
 
 /* ------------------------------------------------------------- microphone ---- */
+// Signed out while scoring needs an account: say so before the browser asks for the
+// microphone. Never while scoring is switched off (src/lib/backend.js), where signing in
+// would not help. This only decides what the page shows; the server still decides.
+export function signedOut() {
+  return BACKEND.speech && BACKEND.accounts && !hasSession();
+}
+
+/** Why "Record" waits when signed out (the not-ready bubble, src/lib/notReady.js). */
+export const AUTH_WHY = "Sign in first to record. Free twice a day with an account.";
+
 // Ask for the microphone ourselves before the provider does: its own failure is usually a
 // generic cancellation, and a learner who clicked "Blockieren" needs to be told where to
 // undo it. The stream is kept, not closed: the Satzmelodie records from it while the
@@ -233,6 +246,18 @@ export function mountAusspracheCheck(root, data) {
     return `Listen to the sentence first – tap ${names.length ? names.join(" or ") : "▶"}.`;
   };
 
+  // Signed out, the record button is locked from the start and the sign-in box stands under
+  // it, before any tap: a tap brings the bubble and makes "Sign in" pulse, instead of a
+  // microphone prompt and an error. Otherwise listen-first, if set.
+  function gateRecord() {
+    const out = signedOut();
+    setWaiting(els.record, out ? AUTH_WHY : heard ? null : listenFirstWhy(), out ? "[data-login] a" : "[data-listen]");
+    els.record.toggleAttribute("data-locked", out);
+    if (out) els.login.hidden = false;
+    return out;
+  }
+  const readyText = () => (signedOut() ? MSG.readySignedOut : heard ? MSG.ready : ready);
+
   function setStatus(text, kind = "") {
     els.status.textContent = text;
     els.status.dataset.kind = kind;
@@ -287,14 +312,14 @@ export function mountAusspracheCheck(root, data) {
     }
     els.results.hidden = true;
     els.melody.hidden = true;
-    els.login.hidden = true;
+    els.login.hidden = !signedOut();
     // Warm the reference contour while the learner reads, so the score is quick later.
     referenceMelody(s);
     els.prev.disabled = si === 0 && li === 0;
     els.next.disabled = si === levels[li].sentences.length - 1 && li === levels.length - 1;
-    setStatus(ready);
     heard = !listenFirst;
-    setWaiting(els.record, heard ? null : listenFirstWhy(), "[data-listen]");
+    gateRecord();
+    setStatus(readyText());
     writeJSON(POS, { level: levels[li].level, index: si });
     data.onChange?.(li, si);
     slideIn(dir);
@@ -457,6 +482,11 @@ export function mountAusspracheCheck(root, data) {
 
   async function record() {
     if (busy) return;
+    if (signedOut()) {
+      showError(new PronunciationError("auth"));
+      els.login.querySelector("a")?.focus();
+      return;
+    }
     busy = true;
     stopAudio();
     els.record.dataset.state = "prep";
@@ -548,21 +578,36 @@ export function mountAusspracheCheck(root, data) {
     els.listen.forEach((b) => b.dataset.listen && b.setAttribute("aria-pressed", String((b.dataset.listen === "slow") === preferSlow)));
   }
   markSpeed();
-  function listen(slow = false) {
+  // The tapped listen button shows that it plays until the take ends or is stopped, so the
+  // tap is visibly answered even with the sound off.
+  function showPlaying(btn, p) {
+    if (!btn) return;
+    els.listen.forEach((b) => delete b.dataset.playing);
+    btn.dataset.playing = "true";
+    const clear = () => delete btn.dataset.playing;
+    p.then(() => {
+      const a = currentAudio;
+      if (!a || a.ended || a.paused) return clear();
+      a.addEventListener("ended", clear, { once: true });
+      a.addEventListener("pause", clear, { once: true });
+    }, clear);
+  }
+  function listen(slow = false, btn = null) {
     if (els.listen.some((b) => b.dataset.listen)) {
       preferSlow = slow;
       writeJSON(`${POS}.speed`, slow ? "slow" : "fast");
       markSpeed();
     }
     const p = playSentence(sentence(), { slow });
+    showPlaying(btn, p);
     if (!heard) {
       heard = true;
-      setWaiting(els.record, null);
-      setStatus(MSG.ready);
+      gateRecord();
+      setStatus(readyText());
     }
     return p.catch(() => setStatus(MSG.listenFailed, "error"));
   }
-  els.listen.forEach((b) => b.addEventListener("click", () => listen(b.dataset.listen === "slow")));
+  els.listen.forEach((b) => b.addEventListener("click", () => listen(b.dataset.listen === "slow", b)));
   els.sentence.addEventListener("click", (e) => {
     const b = e.target.closest("[data-word]");
     if (!b || !words) return;
