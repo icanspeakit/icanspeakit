@@ -2,6 +2,7 @@
 // sound.js): the number display's ding-dong, paper sliding, the stamp's thunk, a low murmur of
 // the queue. No files. One mute switch for all games (src/lib/spieleEinstellungen.js).
 
+import { volumeOut } from "../spieleEinstellungen.js";
 export function makeTon() {
   let ac = null;
   let muted = false;
@@ -38,7 +39,7 @@ export function makeTon() {
     g.gain.setValueAtTime(0.0001, t);
     g.gain.exponentialRampToValueAtTime(gain, t + Math.min(0.03, dur / 3));
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    src.connect(f).connect(g).connect(c.destination);
+    src.connect(f).connect(g).connect(volumeOut(c));
     src.start(t);
     src.stop(t + dur + 0.02);
   }
@@ -54,7 +55,7 @@ export function makeTon() {
     if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + dur);
     g.gain.setValueAtTime(gain, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-    o.connect(g).connect(c.destination);
+    o.connect(g).connect(volumeOut(c));
     o.start(t);
     o.stop(t + dur + 0.02);
   }
@@ -91,7 +92,7 @@ export function makeTon() {
         f.frequency.value = 380;
         const g = c.createGain();
         g.gain.value = 0.0001;
-        src.connect(f).connect(g).connect(c.destination);
+        src.connect(f).connect(g).connect(volumeOut(c));
         src.start();
         murmel = { c, src, g };
       }

@@ -8,6 +8,7 @@
 //
 // All texts the learner sees are in STR, one object, so the release can move them to
 // i18n keys (sr.*). The sentences are content (src/data/satzregen/).
+import { applyVolume } from "../spieleEinstellungen.js";
 import { mascotSvg } from "../mascots.js";
 import { chunkLabel, sentenceText } from "./check.js";
 import * as E from "./engine.js";
@@ -54,6 +55,7 @@ export const STR = {
   yours: "Yours:",
   right: "Right:",
   listen: "Listen",
+  volume: "Volume",
   canvas: "Game area: word tiles fall onto a sentence line",
   slot: (i, n) => `Slot ${i} of ${n}`,
   slotEmpty: "empty",
@@ -122,6 +124,7 @@ function markup() {
     <p class="sr-label">${STR.modeLabel}</p>
     <div class="sr-seg" role="group" aria-label="${STR.modeLabel}">${modes}</div>
     <button type="button" class="sr-go" data-go>${STR.go}</button>
+    <label class="da-vol-row" data-vol-slot><span data-i18n="spiel.volume">${STR.volume}</span></label>
     <details class="sr-how">
       <summary>${STR.how}</summary>
       <ul><li>${STR.howPc}</li><li>${STR.howPhone}</li><li>${STR.howHold}</li><li>${STR.howStone}</li></ul>
@@ -131,6 +134,7 @@ function markup() {
   <section class="sr-card sr-card--pause" data-pause-card hidden role="dialog" aria-modal="true" aria-label="${STR.pause}">
     <h2>${STR.pause}</h2>
     <button type="button" class="sr-go" data-resume>${STR.resume}</button>
+    <label class="da-vol-row" data-vol-slot><span data-i18n="spiel.volume">${STR.volume}</span></label>
     <button type="button" class="sr-quiet" data-restart>${STR.restart}</button>
     <button type="button" class="sr-quiet" data-quit>${STR.quit}</button>
   </section>
@@ -151,7 +155,7 @@ function playAudio(slug) {
   if (!slug) return;
   try {
     audioEl?.pause();
-    audioEl = new Audio(withBase(`/audio/saetze/${slug}.mp3`));
+    audioEl = applyVolume(new Audio(withBase(`/audio/saetze/${slug}.mp3`)));
     audioEl.play().catch(() => {});
   } catch {}
 }

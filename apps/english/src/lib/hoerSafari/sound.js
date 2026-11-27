@@ -2,6 +2,7 @@
 // a film wind-on, right/wrong chimes, the birds' peeps, a level fanfare. Muting turns these off; the word voices stay on,
 // they are the game.
 
+import { volumeOut } from "../spieleEinstellungen.js";
 export function makeSfx() {
   let ac = null;
   let muted = false;
@@ -37,7 +38,7 @@ export function makeSfx() {
     const t = c.currentTime + at;
     g.gain.setValueAtTime(gain, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-    src.connect(f).connect(g).connect(c.destination);
+    src.connect(f).connect(g).connect(volumeOut(c));
     src.start(t);
     src.stop(t + dur + 0.02);
   }
@@ -53,7 +54,7 @@ export function makeSfx() {
     if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + dur);
     g.gain.setValueAtTime(gain, t);
     g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-    o.connect(g).connect(c.destination);
+    o.connect(g).connect(volumeOut(c));
     o.start(t);
     o.stop(t + dur + 0.02);
   }

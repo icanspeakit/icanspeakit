@@ -8,6 +8,7 @@
 //
 // createMusic(track) plays another tune on the same engine (Vorfahrt-Flitzer has its own).
 
+import { volumeOut } from "../spieleEinstellungen.js";
 import { audio, isMuted } from "./sound.js";
 
 const LOOK = 0.12; // seconds scheduled ahead
@@ -58,7 +59,7 @@ export function createMusic(track) {
     if (master) return;
     master = c.createGain();
     master.gain.value = 0;
-    master.connect(c.destination);
+    master.connect(volumeOut(c));
     noise = c.createBuffer(1, c.sampleRate * 0.5, c.sampleRate);
     const d = noise.getChannelData(0);
     for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;

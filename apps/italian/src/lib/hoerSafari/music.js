@@ -3,6 +3,7 @@
 // stabs over Dm9 – G13 – Cmaj9 – A7. It stays far below the word voices, which are the game,
 // and ducks further while a word is spoken. The sound switch turns it off with the effects.
 
+import { volumeOut } from "../spieleEinstellungen.js";
 const BPM = 100;
 const STEP = 60 / BPM / 4; // one 16th
 const VOL = 0.07; // the whole groove, against the voice at full volume
@@ -48,7 +49,7 @@ export function makeMusic() {
       const soften = ac.createBiquadFilter();
       soften.type = "lowpass";
       soften.frequency.value = 5000;
-      master.connect(soften).connect(ac.destination);
+      master.connect(soften).connect(volumeOut(ac));
       noiseBuf = ac.createBuffer(1, ac.sampleRate * 0.12, ac.sampleRate);
       const d = noiseBuf.getChannelData(0);
       for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;

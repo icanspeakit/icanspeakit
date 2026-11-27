@@ -3,6 +3,7 @@
 // clip at the moment, a clip that does not load) the browser's British English voice reads the
 // text. Silent while the game is muted.
 
+import { applyVolume, speechVolume } from "../spieleEinstellungen.js";
 import { isMuted } from "./sound.js";
 import { BASE_PATH } from "../paths.js";
 
@@ -16,6 +17,7 @@ function voice(text) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "en-GB";
     u.rate = 0.9;
+    u.volume = speechVolume();
     const v = synth.getVoices().find((x) => /^en(-|_)GB/i.test(x.lang)) ?? synth.getVoices().find((x) => /^en(-|_)/i.test(x.lang));
     if (v) u.voice = v;
     synth.speak(u);
@@ -36,7 +38,7 @@ export function speak({ audio, say } = {}, { force = false } = {}) {
   if (!audio) return voice(say);
   let fell = false;
   const fallback = () => { if (!fell) { fell = true; voice(say); } };
-  const a = new Audio(`${BASE_PATH}/audio/wortschatz/${audio}.mp3`);
+  const a = applyVolume(new Audio(`${BASE_PATH}/audio/wortschatz/${audio}.mp3`));
   clip = a;
   a.addEventListener("error", fallback);
   a.play().catch(fallback);

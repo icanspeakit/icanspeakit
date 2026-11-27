@@ -2,6 +2,7 @@
 // (artikelSprint/sound.js) – no files. The charge is one tone that rises while the button is
 // held and stops on release; the rest are one-shots.
 
+import { volumeOut } from "../spieleEinstellungen.js";
 import { audio, isMuted } from "../artikelSprint/sound.js";
 
 function tone(freq, start, dur, { type = "sine", gain = 0.1, to = null, curve = "exp" } = {}) {
@@ -16,7 +17,7 @@ function tone(freq, start, dur, { type = "sine", gain = 0.1, to = null, curve = 
   g.gain.setValueAtTime(0.0001, t);
   g.gain.exponentialRampToValueAtTime(gain, t + 0.012);
   g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g).connect(c.destination);
+  o.connect(g).connect(volumeOut(c));
   o.start(t);
   o.stop(t + dur + 0.03);
 }
@@ -38,7 +39,7 @@ function noise(start, dur, { gain = 0.08, freq = 800, q = 1, type = "lowpass" } 
   const g = c.createGain();
   g.gain.setValueAtTime(gain, t);
   g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  s.connect(f).connect(g).connect(c.destination);
+  s.connect(f).connect(g).connect(volumeOut(c));
   s.start(t);
   s.stop(t + dur + 0.02);
 }
@@ -58,7 +59,7 @@ export const qsfx = {
     o.frequency.exponentialRampToValueAtTime(720, t + 0.9);
     g.gain.setValueAtTime(0.0001, t);
     g.gain.exponentialRampToValueAtTime(0.045, t + 0.05);
-    o.connect(g).connect(c.destination);
+    o.connect(g).connect(volumeOut(c));
     o.start(t);
     charge = { o, g };
   },
@@ -119,7 +120,7 @@ export const qsfx = {
     g.gain.exponentialRampToValueAtTime(0.12, t + 0.04);
     g.gain.setValueAtTime(0.12, t + 0.8);
     g.gain.exponentialRampToValueAtTime(0.0001, t + 1.15);
-    o.connect(f).connect(g).connect(c.destination);
+    o.connect(f).connect(g).connect(volumeOut(c));
     o.start(t); lfo.start(t);
     o.stop(t + 1.2); lfo.stop(t + 1.2);
   },
