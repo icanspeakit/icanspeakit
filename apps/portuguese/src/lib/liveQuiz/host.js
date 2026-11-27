@@ -19,7 +19,7 @@ import { countUp, flipCards, reduced, slideRanks, wait } from "./anim.js";
 import { createRuleIntro } from "../ruleIntro.js";
 import { enhanceSwitch } from "../segSwitch.js";
 import { mountMusicPickers, mountSoundToggles, music, preloadMusic, sfx, stopVictory, unlock, victory } from "./sound.js";
-import { animalOf, avatarSrc, randomAnimal } from "./names.js";
+import { animalOf, avatarSrc, freshAnimal, randomAnimal } from "./names.js";
 import { confetti, confettiShow } from "./confetti.js";
 import { mountKeep } from "./keep.js";
 import { intent } from "../intent.js";
@@ -703,11 +703,13 @@ export function mountHost(root) {
       if (known) {
         known.online = true;
         known.lang = m.lang;
-        if (m.avatar) known.avatar = m.avatar;
+        // A name the host gave (renameInLobby, a doubled animal) keeps its animal.
+        if (m.avatar && !known.hostNamed) known.avatar = m.avatar;
       } else {
         // A phone from before the name step sends no animal: one from its name, or any.
-        const avatar = avatarSrc(m.avatar) ? m.avatar : animalOf(m.name) ?? randomAnimal();
-        players.set(m.id, { name: uniqueName(m.name), avatar, lang: m.lang, score: 0, online: true });
+        const seat = uniqueName(m.name);
+        const avatar = seat.animal ?? (avatarSrc(m.avatar) ? m.avatar : animalOf(m.name) ?? randomAnimal());
+        players.set(m.id, { name: seat.name, avatar, lang: m.lang, score: 0, online: true, ...(seat.animal ? { hostNamed: true } : {}) });
         if (phase === "lobby") { sfx("join"); greet(players.get(m.id).name); }
       }
     }
@@ -722,22 +724,50 @@ export function mountHost(root) {
     save();
   }
 
-  /** Two "Ali"s become "Ali" and "Ali 2" — each phone learns its name from the roster. */
+  const takenNames = () => new Set([...players.values()].map((p) => p.name.toLowerCase()));
+
+  /** Two "Ali"s become "Ali" and "Ali 2"; a second animal name quietly becomes another
+   *  animal (`animal` set). Each phone learns its name and animal from the roster. */
   function uniqueName(name) {
     const base = name || "Gast";
-    const taken = new Set([...players.values()].map((p) => p.name.toLowerCase()));
-    if (!taken.has(base.toLowerCase())) return base;
+    const taken = takenNames();
+    if (!taken.has(base.toLowerCase())) return { name: base };
+    if (animalOf(base)) { const pick = freshAnimal(taken); return { name: pick.name, animal: pick.animal }; }
     for (let i = 2; ; i++) {
       const next = `${base.slice(0, 13)} ${i}`;
-      if (!taken.has(next.toLowerCase())) return next;
+      if (!taken.has(next.toLowerCase())) return { name: next };
     }
+  }
+
+  /** The teacher taps a name in the lobby → "Another name": a fresh animal name in its place
+   *  (a joke name on the projector, a typo). The phone shows it with a short note. */
+  function renameInLobby(id) {
+    const p = players.get(id);
+    if (!p) return;
+    const pick = freshAnimal(takenNames());
+    p.name = pick.name;
+    p.avatar = pick.animal;
+    p.hostNamed = true;
+    p.renamed = (p.renamed ?? 0) + 1;
+    sfx("click");
+    renderLobby();
+    sendRoster();
+    save();
   }
 
   /** Whether any question shows a meaning: only then do the phones ask for a language. */
   const translates = () => questions.some((q) => q.prompt.de == null || q.options.some((o) => o.de == null));
 
+  /** The projector's translation language where the questions carry it: phones that never
+   *  chose a language follow it, and the test phone switches to it. */
+  const screenLang = () => {
+    const l = shownLang();
+    const has = (o) => o?.de == null && o?.[l] != null;
+    return l && l !== "de" && questions.some((q) => has(q.prompt) || q.options.some(has)) ? l : null;
+  };
+
   function sendRoster() {
-    send("roster", { phase, translate: translates(), players: [...players].map(([id, p]) => ({ id, name: p.name })) });
+    send("roster", { phase, translate: translates(), screenLang: screenLang(), players: [...players].map(([id, p]) => ({ id, name: p.name, ...(p.hostNamed ? { avatar: p.avatar } : {}), ...(p.renamed ? { renamed: p.renamed } : {}) })) });
   }
 
   // Bruno hosts the lobby: he asks the class to join and says hello to each newcomer.
@@ -759,11 +789,29 @@ export function mountHost(root) {
 
   // Who is already on screen: only a newcomer pops in, the others stay still.
   const inLobby = new Set();
+  // A tap on a name opens "Another name" for it, nothing more: no visible button until then,
+  // so the lobby looks as it always did. The list is redrawn on every join, hence the id.
+  let renameOpen = null;
+  $("[data-lobby-list]").addEventListener("click", (e) => {
+    const li = e.target.closest("li[data-id]");
+    if (!li) return;
+    if (e.target.closest("[data-rename]")) return renameInLobby(li.dataset.id);
+    renameOpen = renameOpen === li.dataset.id ? null : li.dataset.id;
+    renderLobby();
+  });
   function renderLobby() {
     const online = [...players].filter(([, p]) => p.online);
+    if (renameOpen && !online.some(([id]) => id === renameOpen)) renameOpen = null;
     $("[data-lobby-count]").textContent = t("lq.host.players", "{n} Mitspieler", { n: online.length });
+    const renameLabel = esc(t("lq.host.rename", "Another name"));
     $("[data-lobby-list]").innerHTML = online.length
-      ? online.map(([id, p]) => `<li${inLobby.has(id) ? "" : ' class="is-new"'}>${avatarImg(p.avatar)}${esc(p.name)}</li>`).join("")
+      ? online.map(([id, p]) => {
+          const open = id === renameOpen;
+          return `<li data-id="${esc(id)}" class="${inLobby.has(id) ? "" : "is-new"}${open ? " is-open" : ""}">`
+            + `<button type="button" class="lq-roster-name" aria-expanded="${open}">${avatarImg(p.avatar)}${esc(p.name)}</button>`
+            + (open ? `<button type="button" class="lq-rename" data-rename><span aria-hidden="true">🎲</span> ${renameLabel}</button>` : "")
+            + `</li>`;
+        }).join("")
       : `<li class="lq-empty">${esc(t("lq.host.waiting", "Warte auf die ersten Mitspieler …"))}</li>`;
     online.forEach(([id]) => inLobby.add(id));
     $("[data-test]").hidden = testing();
@@ -867,10 +915,14 @@ export function mountHost(root) {
 
   function onAnswer({ id, n, choice } = {}) {
     if (!current || current.done || n !== current.n) return;
-    if (!players.has(id) || current.answers.has(id)) return;
+    if (!players.has(id)) return;
     if (!Number.isInteger(choice) || choice < 0 || choice > 3) return;
+    // A player may change their answer while the clock runs; the latest one counts. The
+    // same choice again is a resend after a reconnect and keeps its first time.
+    if (current.answers.get(id)?.choice === choice) return;
     // Time used, against the clock as it stands: a question the teacher gave more time
-    // scores against its longer clock, and a pause is not counted.
+    // scores against its longer clock, and a pause is not counted. A changed answer is
+    // timed when it came, so changing costs speed points but never being right.
     current.answers.set(id, { choice, ms: current.total - leftMs(), total: current.total });
     // A late joiner who answers anyway is counted: they saw the question, so it is theirs.
     current.eligible.add(id);

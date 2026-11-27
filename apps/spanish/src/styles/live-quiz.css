@@ -107,6 +107,14 @@
 .lq-roster li { padding: 8px 14px; border-radius: var(--radius-pill, 999px); background: var(--surface); font-weight: var(--fw-semibold, 600); }
 .lq-roster li.is-new { animation: lq-pop .4s cubic-bezier(.3, 1.6, .5, 1); }
 .lq-roster li.lq-empty { background: none; color: var(--muted); font-weight: 400; }
+/* A name is a quiet button: a tap opens "Another name" (renameInLobby in host.js). */
+.lq-roster-name { display: inline-flex; align-items: center; gap: 8px; padding: 0; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+.lq-roster li.is-open { outline: 2px solid var(--border-strong); }
+.lq-rename {
+  margin-left: 4px; padding: 4px 10px; border: 0; border-radius: var(--radius-pill, 999px);
+  background: var(--surface-card, #fff); color: var(--ink); font: inherit; font-size: var(--text-sm, .875rem); cursor: pointer;
+}
+.lq-rename:hover { box-shadow: inset 0 0 0 2px var(--border-strong); }
 @keyframes lq-pop { from { transform: scale(.7); opacity: 0; } }
 
 /* ---- Question ------------------------------------------------------------------- */
@@ -146,6 +154,7 @@
 .lq-options--phone .lq-opt:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
 .lq-opt.is-picked { outline: 4px solid var(--ink); outline-offset: 2px; }
 .lq-opt.is-dim { opacity: .35; }
+.lq-opt.is-dim.is-open { opacity: .6; }
 .lq-opt:disabled { cursor: default; }
 .lq-sent { margin: 16px 0 0; text-align: center; color: var(--muted); }
 

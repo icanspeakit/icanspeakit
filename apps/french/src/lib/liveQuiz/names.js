@@ -44,6 +44,14 @@ export function drawAnimal(not) {
   return pick;
 }
 
+/** A random name nobody in the room has yet (`taken`: lower-case names), with its animal:
+ *  a second "Brave Fox" becomes another animal, not "Brave Fox 2". */
+export function freshAnimal(taken) {
+  const free = NAMES.filter(({ name }) => !taken.has(name.toLowerCase()));
+  const pool = free.length ? free : NAMES;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
 /** A random name, never the one passed in. */
 export const animalName = (not) => drawAnimal(not).name;
 

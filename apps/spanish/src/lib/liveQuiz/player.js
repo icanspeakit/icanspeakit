@@ -385,12 +385,15 @@ export function mountPlayer(root) {
       if (status === "SUBSCRIBED") {
         stuckJoins = 0;
         subscribed = true;
+        if (lostAt) { logConn("lq_reconnected", { seconds: Math.round((Date.now() - lostAt) / 1000) }); lostAt = 0; }
         hideBanner();
         // Tracked again after every reconnect: presence is what keeps a seat. Not before
         // the name is confirmed: until then the phone only looks for the room.
         if (me.name) { await c.track(presence()); requestSync(); resendAnswer(); }
       } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
         subscribed = false;
+        if (!lostAt) lostAt = Date.now();
+        logConn("lq_channel_error", { status, visible: document.visibilityState });
         if (failed()) return;
         // The client rejoins on its own; say so meanwhile.
         showBanner(lostText());
@@ -430,8 +433,13 @@ export function mountPlayer(root) {
   // in a row that never got through (or when the socket is already down), the socket itself
   // is replaced first.
   let resetting = false;
-  async function reconnect() {
+  let lostAt = 0; // when the connection was first noticed lost (0 = fine)
+  // Connection health for analytics: no PIN, no names. Dynamic import: ad blockers (see track.js).
+  const logConn = (event, props = {}) => import("../track.js").then((m) => m.track(event, props)).catch(() => {});
+  async function reconnect(reason = "silent", { jitter = false } = {}) {
     if (solo || !me?.pin || finished || resetting) return;
+    if (!lostAt) lostAt = Date.now();
+    logConn("lq_reconnect", { reason, tries: stuckJoins + 1, online: navigator.onLine, visible: document.visibilityState });
     if (ch) supabase.removeChannel(ch);
     ch = null;
     showBanner(lostText());
@@ -442,6 +450,12 @@ export function mountPlayer(root) {
       resetting = false;
       if (finished) return;
     }
+    // A whole class reconnecting after one Wi-Fi blip would hit Realtime's join-rate limit
+    // together: spread the joins over 0.5-3 s.
+    if (jitter) {
+      await wait(500 + Math.random() * 2500);
+      if (finished || ch) return;
+    }
     openChannel();
   }
 
@@ -450,7 +464,7 @@ export function mountPlayer(root) {
     // Before the first beat (the lobby) silence is normal: there only a channel that
     // never got through counts as dead.
     if (!gameOn && subscribed) return;
-    if (Date.now() - lastHeard > SILENT_MS) reconnect();
+    if (Date.now() - lastHeard > SILENT_MS) reconnect("silent", { jitter: true });
   }
   setInterval(checkAlive, 5000);
 
@@ -479,7 +493,7 @@ export function mountPlayer(root) {
   bannerRetry.addEventListener("click", () => {
     // A fresh socket, not one more channel on the old one (see reconnect).
     stuckJoins = Math.max(stuckJoins, 1);
-    reconnect();
+    reconnect("button");
     bannerMsg.textContent = lostText();
     offerRetry();
   });
@@ -490,7 +504,7 @@ export function mountPlayer(root) {
   addEventListener("online", () => {
     if (solo || !me?.name || finished) return;
     stuckJoins = Math.max(stuckJoins, 1);
-    reconnect();
+    reconnect("online", { jitter: true });
   });
 
   function cleanup() {
@@ -518,15 +532,41 @@ export function mountPlayer(root) {
     show("stopped");
   }
 
-  function onRoster({ players = [], phase, translate } = {}) {
+  function onRoster({ players = [], phase, translate, screenLang = null } = {}) {
     roomSize = players.length;
     // A host from before the flag sends none: ask, as every phone used to.
     $("[data-wait-langs]").hidden = translate === false;
+    // The projector's translation language. A phone that never chose one and only fell back
+    // to English (its UI language is not one of the meaning languages) follows it, and so
+    // does the teacher's test phone, so it shows what the teacher picked.
+    let wanted = null;
+    try { wanted = localStorage.getItem("lq.lang"); } catch {}
+    const fellBack = !wanted && !MEANING_LANGS.includes(ui);
+    const pick = testMode ? screenLang : (screenLang && (wanted === screenLang || fellBack) ? screenLang : null);
+    if (pick && me && me.lang !== pick && translate !== false) {
+      const input = root.querySelector(`[name=waitLang][value="${pick}"]`);
+      if (input) {
+        input.checked = true;
+        if (testMode) { lang = pick; me.lang = pick; } else keepLang(pick);
+        if (me.name) ch?.track(presence());
+      }
+    }
     const mine = players.find((p) => p.id === me.id);
-    if (mine && mine.name !== me.name) {
+    const newAnimal = mine?.avatar && avatarSrc(mine.avatar) && mine.avatar !== me.avatar ? mine.avatar : null;
+    if (mine && (mine.name !== me.name || newAnimal)) {
+      // The teacher gave this phone another name (renamed counts the times): say so, and
+      // remember it, so the next game does not start with the old one again.
+      const byTeacher = mine.renamed && mine.name !== me.name;
       me.name = mine.name;
-      if (!testMode) keepSeat(me.pin, { name: me.name });
+      if (newAnimal) { me.avatar = avatar = newAnimal; showAvatar(); }
+      if (!testMode) {
+        keepSeat(me.pin, { name: me.name, avatar: me.avatar });
+        if (byTeacher) try { sessionStorage.setItem("lq.me", JSON.stringify({ name: me.name, avatar: me.avatar })); } catch {}
+      }
       root.querySelectorAll("[data-me-name]").forEach((el) => (el.textContent = me.name));
+      // Presence carries the animal: the host would otherwise take the old one back.
+      if (newAnimal && me.name) ch?.track(presence());
+      if (byTeacher && !q && screen === "wait") setWaiting(t("lq.wait.renamed", "Your teacher gave you a new name: {name}", { name: me.name }));
     }
     // Joined while a question is running: it is not ours, the next one is.
     if (!q && (phase === "question" || phase === "reveal" || phase === "board")) {
@@ -616,7 +656,9 @@ export function mountPlayer(root) {
       bar.style.width = `${(ms / q.total) * 100}%`;
       if (ms <= 0) {
         clearInterval(q.tick);
-        if (!q.answered) lockOptions(null);
+        // Time is up: the answer as it stands is final (or there is none).
+        q.closed = true;
+        lockOptions(q.answered ? q.choice : null);
       }
     }, 100);
   }
@@ -632,8 +674,11 @@ export function mountPlayer(root) {
 
   $("[data-q-options]").addEventListener("click", (e) => {
     const b = e.target.closest("[data-choice]");
-    if (!b || !q || q.answered) return;
+    if (!b || !q || q.closed || q.revealed) return;
     const choice = Number(b.dataset.choice);
+    // While the clock runs, a player may change their mind: the host keeps the latest
+    // answer and scores it by the time it came. Solo checks at once, so it stays first-tap.
+    if (q.answered && (solo || choice === q.choice)) return;
     q.answered = true;
     q.choice = choice;
     sfx("click");
@@ -648,14 +693,17 @@ export function mountPlayer(root) {
     else answerMac(me.secret, n, choice).then((mac) => ch?.send({ type: "broadcast", event: "answer", payload: { id: me.id, n, choice, mac } }));
   }
   /** Back from a gap (new connection, the host's tab reloaded): the answer may not have
-   *  arrived, so it goes again. The host counts only the first per question. */
+   *  arrived, so it goes again. The host ignores the same choice twice and keeps a changed one. */
   function resendAnswer() {
     if (!solo && q?.answered && q.choice != null && !q.revealed) sendAnswer(q.n, q.choice);
   }
 
   function lockOptions(choice) {
+    // Answered in a room with time left: the other options stay tappable to change it.
+    const open = !solo && choice != null && !q?.closed;
     root.querySelectorAll("[data-choice]").forEach((b) => {
-      b.disabled = true;
+      b.disabled = !open;
+      b.classList.toggle("is-open", open);
       b.classList.toggle("is-picked", Number(b.dataset.choice) === choice);
       b.classList.toggle("is-dim", choice != null && Number(b.dataset.choice) !== choice);
     });
@@ -667,6 +715,7 @@ export function mountPlayer(root) {
       : testMode ? t("lq.q.sentTest", "Antwort gesendet – die Test-Bots antworten gleich.")
       : roomSize > 1 ? t("lq.q.sent", "Antwort gesendet – warte auf die anderen …")
       : t("lq.q.sentAlone", "Antwort gesendet – gleich kommt die Auflösung.");
+    if (open) sent.textContent += " " + t("lq.q.canChange", "You can still change it while the time runs.");
     sent.hidden = false;
   }
 
