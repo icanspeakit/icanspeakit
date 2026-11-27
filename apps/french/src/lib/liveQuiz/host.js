@@ -26,6 +26,8 @@ import { intent } from "../intent.js";
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
 import { withBase } from "../paths.js";
+import { flagItems, meldenLink, meldenLinkHtml, onMeldenClick } from "../meldung.js";
+import { cleanRef, fingerprint } from "../meldungRef.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 /** Shows `src` in an <img>, or hides it. */
@@ -486,7 +488,7 @@ export function mountHost(root) {
     btns.forEach((b) => (b.disabled = true));
     try {
       const { resolveQuestions, hasWords } = await loadCustom();
-      questions = resolveQuestions(quiz.questions, hasWords(quiz.questions) ? await loadQuestions() : null);
+      questions = resolveQuestions(quiz.questions, hasWords(quiz.questions) ? await loadQuestions() : null, (_q, i) => `lq:quiz/${quiz.id}/q${i + 1}`);
       if (questions.length === 0) throw new Error("empty");
       await openRoom();
       phase = "lobby";
@@ -524,7 +526,7 @@ export function mountHost(root) {
       const count = pick(fd, "count", 10);
       const words = async (n) => {
         const own = (await quizQuestionsFor(set, MEANING_LANGS, 50)).sort(() => Math.random() - 0.5).slice(0, n);
-        return resolveQuestions(own, hasWords(own) ? await loadQuestions() : null);
+        return resolveQuestions(own, hasWords(own) ? await loadQuestions() : null, (q) => `lq:set/${id}/${q.prompt}`);
       };
       if (grammar) {
         const { mixedQuestions } = await import("./mix.js");
@@ -833,6 +835,30 @@ export function mountHost(root) {
   // hyphens in live-quiz.css), and the page's own lang follows the UI, not the word.
   const optionLang = (o) => (o.de != null ? "de" : o[shownLang()] != null ? shownLang() : "en");
 
+  /* "Report a problem" (src/lib/meldung.js) during the question, on the reveal and in the
+     look back: a question's `ref` says where it came from — w:<lexicon id>, a chapter item's
+     src (g:…), lq:syn/… for a synonym group, lq:quiz/<id>/q<n> or lq:set/<id>/… for a
+     teacher's own question. Teachers report their own questions too; the snapshot says so
+     (`eigeneFrage`). */
+  const meldTarget = (q) => {
+    const ref = cleanRef(q?.ref);
+    if (!ref) return null;
+    const plain = (o) => (o ? o.de ?? o.en ?? "" : "");
+    return {
+      ref,
+      fingerprint: fingerprint(plain(q.prompt), plain(q.options[q.correct])),
+      snapshot: () => ({
+        quelle: "live-quiz",
+        aufgabe: kindOf(q),
+        frage: optionText(q.prompt),
+        optionen: q.options.map(optionText),
+        loesung: optionText(q.options[q.correct]),
+        sprache: shownLang(),
+        ...(q.own ? { eigeneFrage: true, quiz: q.quiz ?? null } : {}),
+      }),
+    };
+  };
+
   /** Each player's place and score before this question: where the ranking animates from. */
   let before = new Map();
 
@@ -867,6 +893,20 @@ export function mountHost(root) {
     $("[data-q-options]").innerHTML = q.options
       .map((o, i) => `<div class="lq-opt lq-opt--${OPTION_STYLES[i]}"><span class="lq-shape" aria-hidden="true">${SHAPES[i]}</span><span dir="auto" lang="${optionLang(o)}">${esc(optionText(o))}</span></div>`)
       .join("");
+    // "Report a problem" during the question too: the clock pauses while the sheet is open
+    // (unless the teacher had paused already) and runs on when it closes.
+    const qMelden = $("[data-q-melden]");
+    qMelden.replaceChildren(...(meldTarget(q) ? [meldenLink(() => {
+      const pause = document.querySelector("[data-tempo-pause]");
+      if (phase === "question" && current && !current.done && current.pausedLeft == null && pause) {
+        pause.click();
+        setTimeout(() => document.querySelector("dialog.mf-sheet")?.addEventListener("close", () => {
+          if (phase === "question" && current && !current.done && current.pausedLeft != null) pause.click();
+        }, { once: true }));
+      }
+      return meldTarget(q);
+    }, { className: "lq-melden" })] : []));
+    qMelden.hidden = !meldTarget(q);
     renderCount();
     show("question");
     if (!resumed) botsAnswer(q);
@@ -970,7 +1010,9 @@ export function mountHost(root) {
       dist: [...dist],
       seen: [...current.eligible].filter((id) => players.has(id)).length,
     });
-    const revealed = { n: current.n, correct: q.correct, img: q.img ?? null, dist, results };
+    // `ref`: where the question came from, so a phone can report it (player.js).
+    // Only now, with the answer out: it never tells anything before the reveal.
+    const revealed = { n: current.n, correct: q.correct, img: q.img ?? null, dist, results, ref: cleanRef(q.ref) ?? null };
     send("reveal", revealed);
     remember("reveal", revealed);
     phase = "reveal";
@@ -1018,6 +1060,11 @@ export function mountHost(root) {
         </div>`)
       .join("");
     $("[data-r-next]").textContent = t("lq.host.toBoard", "Rangliste");
+    // Reporting stops "move on automatically": the sheet would otherwise sit over the ranking.
+    const melden = $("[data-r-melden]");
+    melden.dataset.qi = String(qi);
+    melden.replaceChildren(...(meldTarget(q) ? [meldenLink(() => { stopAuto(); return meldTarget(q); }, { className: "lq-melden" })] : []));
+    melden.hidden = !meldTarget(q);
     show("reveal");
     $("[data-r-dist]").querySelectorAll("[data-dist-n]").forEach((b) => countUp(b, 0, Number(b.dataset.distN), 800));
     autoNext($("[data-r-next]"), renderBoard, autoSeconds().reveal);
@@ -1159,6 +1206,13 @@ export function mountHost(root) {
   recapBtn.addEventListener("click", () => podTab(recapBtn.getAttribute("aria-pressed") === "true" ? "ceremony" : "recap"));
   mountKeep($("[data-screen=podium]"), { name: "live-quiz" });
 
+  // The recap: the report sheet for everyone, the dev flag (one tap) on each row. Not on
+  // the reveal: its one element is reused for every question, so a flag would stay on it.
+  const sumList = $("[data-sum-list]");
+  const playedTarget = (i) => meldTarget(played[Number(i)]?.q);
+  onMeldenClick(sumList, (b) => playedTarget(b.dataset.mfQi));
+  flagItems(sumList, ".lq-sum-item[data-qi]", (el) => playedTarget(el.dataset.qi));
+
   function renderRecap(playerCount) {
     const rows = played.map(({ q, dist, seen }, i) => {
       const ok = dist[q.correct] ?? 0;
@@ -1191,7 +1245,7 @@ export function mountHost(root) {
       const answer = r.q.options[r.q.correct];
       const wrong = r.miss >= 0 ? r.q.options[r.miss] : null;
       return `
-        <li class="lq-sum-item is-${level}">
+        <li class="lq-sum-item is-${level}" data-qi="${r.i}">
           <span class="lq-sum-n">${r.i + 1}</span>
           <div class="lq-sum-body">
             <p class="lq-sum-kind">${esc(kindOf(r.q))}</p>
@@ -1199,6 +1253,7 @@ export function mountHost(root) {
             <p class="lq-sum-q" data-sum-q="${r.i}" dir="auto" lang="${optionLang(r.q.prompt)}"></p>
             <p class="lq-sum-a"><span class="lq-sum-chip lq-opt--${OPTION_STYLES[r.q.correct]}"><span aria-hidden="true">✓</span> <span dir="auto" lang="${optionLang(answer)}">${esc(optionText(answer))}</span></span></p>
             ${wrong ? `<p class="lq-sum-miss">${esc(t("lq.sum.miss", "Häufigste falsche Antwort:"))} <b dir="auto" lang="${optionLang(wrong)}">${esc(optionText(wrong))}</b> <span>(${r.missN}×)</span></p>` : ""}
+            ${meldTarget(r.q) ? meldenLinkHtml(`data-mf-qi="${r.i}"`).replace('class="mf-row"', 'class="mf-row lq-sum-melden"') : ""}
           </div>
           <div class="lq-sum-score">
             <b>${r.pct == null ? "–" : `${r.pct} %`}</b>

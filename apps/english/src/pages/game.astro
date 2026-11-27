@@ -100,6 +100,8 @@ const LANGS = [
       <p class="lq-prompt lq-prompt--phone" data-q-prompt></p>
       <div class="lq-options lq-options--phone" data-q-options></div>
       <p class="lq-sent" data-q-sent role="status" hidden></p>
+      {/* Report while the question is on screen. Solo: the clock stops while the sheet is open; class: sent with the reveal (player.js). */}
+      <div class="lq-q-melden" data-q-melden hidden></div>
     </section>
 
     <!-- Result of one question -->
@@ -108,6 +110,8 @@ const LANGS = [
         <p class="lq-res-title" data-res-title></p>
         <p class="lq-res-points" data-res-points></p>
       </div>
+      {/* Solo: "Report a problem" for the question just answered (in a class the projector has it). */}
+      <div class="lq-r-melden" data-r-melden hidden></div>
       <div class="lq-recap">
         <img class="lq-img lq-img--recap" data-recap-img alt="" hidden />
         <p class="lq-recap-q" data-recap-q></p>

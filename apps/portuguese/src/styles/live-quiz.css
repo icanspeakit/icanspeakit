@@ -353,6 +353,13 @@
 .lq-r-kind { margin-bottom: 6px; }
 .lq-r-prompt { color: var(--ink); font-size: clamp(1.3rem, 2.4vw, 1.9rem); line-height: 1.3; }
 .lq-r-prompt .q-mark { color: var(--success); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 5px; }
+/* "Report a problem": quiet, top right, so the class reads the answer, not the link. */
+.lq-r-melden { display: flex; justify-content: flex-end; min-height: 32px; margin-bottom: -8px; }
+.lq-r-melden[hidden] { display: none; }
+.lq-q-melden { display: flex; justify-content: center; margin-top: 14px; }
+.lq-q-melden[hidden] { display: none; }
+.lq-r-melden .mf-link-melden { margin: 0; }
+.lq-sum-melden .mf-link-melden { margin: 0; padding-block: 2px; }
 
 /* ---- Leaderboard and podium: centred on the projector ------------------------------- */
 .lq-board-screen, .lq-podium-screen { display: grid; justify-items: center; text-align: center; }

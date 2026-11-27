@@ -80,6 +80,9 @@ function related(w) {
   return out;
 }
 
+/** "Report a problem" ref of a synonym group (src/data/synonyme.json has no ids): its words. */
+const synRef = (g) => `lq:syn/${g.level}/${g.words.join("+")}`;
+
 function synonymQuestions(level, count) {
   const asked = shuffle(groups.filter((g) => g.level === level)).slice(0, count);
   return asked.map((g) => {
@@ -102,7 +105,7 @@ function synonymQuestions(level, count) {
     }
     const options = shuffle([answer, ...out]);
     // The group's picture shows the meaning both words share, never one of the words.
-    return { prompt: { de: prompt }, options: options.map((de) => ({ de })), correct: options.indexOf(answer), img: emojiSrc(g.emoji) };
+    return { prompt: { de: prompt }, options: options.map((de) => ({ de })), correct: options.indexOf(answer), img: emojiSrc(g.emoji), ref: synRef(g) };
   });
 }
 
@@ -147,7 +150,7 @@ function unitGermanQuestions(unit, count) {
     const wrong = others(label);
     if (wrong.length < 2) continue;
     const options = shuffle([answer, ...wrong]);
-    out.push({ syn: !!word.syn?.length, q: { prompt: { de: prompt }, options: options.map((de) => ({ de })), correct: options.indexOf(answer), img: wortBild(word.id) } });
+    out.push({ syn: !!word.syn?.length, q: { prompt: { de: prompt }, options: options.map((de) => ({ de })), correct: options.indexOf(answer), img: wortBild(word.id), ref: `w:${word.id}` } });
   }
   // Synonym questions first: they are the ones the mode is named for.
   const ranked = [...out.filter((x) => x.syn), ...out.filter((x) => !x.syn)];
@@ -160,7 +163,9 @@ export function unitGermanSize(unit) {
 }
 
 /**
- * @param {{ level: string, unit: string | null, mode: "meaning-de" | "de-meaning" | "synonym", count: number }} opts
+ * @param {{ level: string, unit: string | null, mode: "meaning-de" | "de-meaning" | "synonym" | "both", count: number }} opts
+ *   "both" ("Mixed"): half the words word → meaning, half meaning → word, in random
+ *   order; each question carries its own `mode`, which host and phone already read per question.
  * @returns {{ prompt: object, options: object[], correct: number }[]} with `correct` the
  *   index into `options` — kept on the host, never sent before the reveal.
  */
@@ -179,13 +184,16 @@ export function buildQuestions({ level, unit, mode, count }) {
   const all = ownRows(unit) ? unitWords(unit).filter((e) => MEANING_LANGS.every((l) => e[l])) : pool(level);
   const asked = shuffle(unit && !ownRows(unit) ? all.filter((e) => e.unit === unit) : all).slice(0, count);
   const everyone = pool(null);
-  return asked.map((word) => {
+  const dirs = mode === "both" ? shuffle(asked.map((_, i) => (i % 2 ? "meaning-de" : "de-meaning"))) : null;
+  return asked.map((word, i) => {
     const options = shuffle([word, ...distractors(word, everyone.filter((e) => e.id !== word.id))]);
     const correct = options.indexOf(word);
     const img = wortBild(word.id);
-    return mode === "meaning-de"
-      ? { prompt: meaning(word), options: options.map((e) => ({ de: spokenForm(e) })), correct, img }
-      : { prompt: { de: spokenForm(word) }, options: options.map(meaning), correct, img };
+    const dir = dirs ? dirs[i] : mode;
+    const q = dir === "meaning-de"
+      ? { prompt: meaning(word), options: options.map((e) => ({ de: spokenForm(e) })), correct, img, ref: `w:${word.id}` }
+      : { prompt: { de: spokenForm(word) }, options: options.map(meaning), correct, img, ref: `w:${word.id}` };
+    return dirs ? { ...q, mode: dir } : q;
   });
 }
 
@@ -208,6 +216,6 @@ export function wordQuestion(id, dir) {
   const correct = options.indexOf(word);
   const img = wortBild(word.id);
   return dir === "meaning-de"
-    ? { prompt: meaning(word), options: options.map((e) => ({ de: spokenForm(e) })), correct, img }
-    : { prompt: { de: spokenForm(word) }, options: options.map(meaning), correct, img };
+    ? { prompt: meaning(word), options: options.map((e) => ({ de: spokenForm(e) })), correct, img, ref: `w:${word.id}` }
+    : { prompt: { de: spokenForm(word) }, options: options.map(meaning), correct, img, ref: `w:${word.id}` };
 }

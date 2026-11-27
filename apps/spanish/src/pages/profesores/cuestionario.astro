@@ -163,6 +163,8 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
           <label><input type="radio" name="mode" value="synonym" checked /> <span data-i18n="lq.mode.synonymLabel">Synonyms (Spanish → Spanish)</span></label>
           <label class="lq-choice-2l"><input type="radio" name="mode" value="de-meaning" /> <span><span data-i18n="lq.mode.deMeaningLabel">Spanish → translation</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
           <label class="lq-choice-2l"><input type="radio" name="mode" value="meaning-de" /> <span><span data-i18n="lq.mode.meaningDeLabel">Translation → Spanish</span><small class="lq-choice-note" data-i18n="lq.mode.langNote">Sprache wählt jede Person am Handy</small></span></label>
+          {/* Wish from a teacher (upstream, 2026-11-10): both directions in one game. */}
+          <label class="lq-choice-2l"><input type="radio" name="mode" value="both" /> <span><span data-i18n="lq.mode.bothLabel">Mixed (Spanish ↔ translation)</span><small class="lq-choice-note" data-i18n="lq.mode.bothNote">Sometimes the Spanish word, sometimes the translation</small></span></label>
         </fieldset>
 
         <fieldset class="lq-field lq-choice" data-vocab-only>
@@ -318,6 +320,8 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
       <img class="lq-img" data-q-img alt="" hidden />
       <p class="lq-prompt" data-q-prompt></p>
       <div class="lq-options lq-options--host" data-q-options></div>
+      {/* "Report a problem" already during the question; the clock pauses while the sheet is open (host.js). */}
+      <div class="lq-q-melden" data-q-melden hidden></div>
       <div class="lq-actions">
         <button type="button" class="lq-btn lq-btn--quiet" data-end data-i18n="lq.host.endGame">Spiel beenden</button>
         <button type="button" class="lq-btn lq-btn--ghost" data-q-skip data-i18n="lq.host.skip">Auflösen</button>
@@ -326,6 +330,8 @@ const chaptersOf = (level) => grammarChapters.filter((c) => c.level === level).m
 
     <!-- 4. Reveal -->
     <section data-screen="reveal" class="lq-reveal" hidden>
+      {/* "Report a problem" for this question (host.js, src/lib/meldung.js). */}
+      <div class="lq-r-melden" data-r-melden hidden></div>
       <img class="lq-img" data-r-img alt="" hidden />
       {/* What was asked, then the sentence with the answer in its gap (host.js). */}
       <p class="lq-q-kind lq-r-kind" data-r-kind></p>

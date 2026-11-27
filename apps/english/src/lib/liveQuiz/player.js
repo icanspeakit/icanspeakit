@@ -19,6 +19,8 @@ import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
 import { enhanceSwitch } from "../segSwitch.js";
 import { withBase, stripBase, BASE_PATH } from "../paths.js";
+import { meldenLink, meldenLinkHtml, onMeldenClick } from "../meldung.js";
+import { cleanRef, fingerprint } from "../meldungRef.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 const HOST_WAIT_MS = 6000; // how long "is there a host?" gets before the PIN is called wrong
@@ -107,7 +109,7 @@ export function mountPlayer(root) {
     ? {
         level: params.get("level") || "A1",
         unit: params.get("set")?.startsWith("unit:") ? params.get("set").slice(5) : null,
-        mode: ["synonym", "de-meaning", "meaning-de"].includes(params.get("mode")) ? params.get("mode") : "synonym",
+        mode: ["synonym", "de-meaning", "meaning-de", "both"].includes(params.get("mode")) ? params.get("mode") : "synonym",
         count: Math.min(Math.max(Number(params.get("count")) || 10, 1), 50),
         seconds: Math.min(Math.max(Number(params.get("seconds")) || 20, 5), 300),
         grammar: /^g-[a-z0-9-]+(,g-[a-z0-9-]+)*$/.test(params.get("grammar") ?? "") ? params.get("grammar") : "",
@@ -642,6 +644,25 @@ export function mountPlayer(root) {
       .map((o, i) => `<button type="button" class="lq-opt lq-opt--${OPTION_STYLES[i]}" data-choice="${i}" lang="${o.de != null ? "de" : me.lang}"><span class="lq-shape" aria-hidden="true">${SHAPES[i]}</span><span dir="${dirOf(o)}">${escapeHtml(text(o))}</span></button>`)
       .join("");
     $("[data-q-sent]").hidden = true;
+    // "Report a problem" during a class question too. The phone learns where the question
+    // comes from (ref) only with the reveal – earlier it could give the answer away – so a
+    // report written now is thanked at once and sent when the reveal arrives (meldung.js
+    // resolve). Solo sets its own link below (playSolo), with the clock stopped.
+    if (!solo) {
+      const asked = q;
+      const qMelden = $("[data-q-melden]");
+      qMelden.replaceChildren(meldenLink(() => ({
+        ref: "lq:frage",
+        snapshot: () => ({ quelle: "live-quiz-handy", aufgabe: asked.kind, frage: text(asked.prompt), optionen: asked.options.map(text), sprache: me?.lang ?? null, waehrendFrage: true }),
+        resolve: () => new Promise((done) => {
+          const prev = asked.meldWait;
+          asked.meldWait = { done: (full) => { prev?.done(full); done(full); } };
+          // No reveal (game ended, host gone): send what the phone has.
+          setTimeout(() => done(null), 5 * 60 * 1000);
+        }),
+      }), { className: "lq-melden" }));
+      qMelden.hidden = false;
+    }
     show("question");
 
     // The phone's own countdown, started when the question arrived: close enough to the
@@ -719,7 +740,7 @@ export function mountPlayer(root) {
     sent.hidden = false;
   }
 
-  async function onReveal({ n, correct, img, results }) {
+  async function onReveal({ n, correct, img, results, ref = null }) {
     if (!q || q.n !== n || q.revealed) return;
     q.revealed = true;
     clearInterval(q.tick);
@@ -739,9 +760,17 @@ export function mountPlayer(root) {
     renderRecap(correct);
     setImg($("[data-recap-img]"), img);
     const r = results?.[me.id];
+    // The question as a report target: solo's own question, or the ref the projector sent.
+    const asked = { kind: q.kind, prompt: q.prompt, options: q.options, correct, ref: soloQ?.ref ?? ref, own: !!soloQ?.own };
     if (!mine.some((m) => m.n === n)) {
-      mine.push({ n, kind: q.kind, prompt: q.prompt, options: q.options, img: img ?? q.img ?? null, choice: q.choice, correct, ok: !!r?.ok, points: r?.points ?? 0 });
+      mine.push({ n, kind: q.kind, prompt: q.prompt, options: q.options, img: img ?? q.img ?? null, choice: q.choice, correct, ok: !!r?.ok, points: r?.points ?? 0, ref: asked.ref, own: asked.own });
     }
+    // Reports written while this question was on screen go out now, with its ref.
+    if (q.meldWait) { q.meldWait.done(meldTarget(asked)); q.meldWait = null; }
+    $("[data-q-melden]").hidden = true;
+    const melden = $("[data-r-melden]");
+    melden.replaceChildren(...(meldTarget(asked) ? [meldenLink(() => meldTarget(asked), { className: "lq-melden" })] : []));
+    melden.hidden = !meldTarget(asked);
     const card = $("[data-result]");
     if (!r) {
       card.dataset.kind = "missed";
@@ -856,6 +885,9 @@ export function mountPlayer(root) {
 
   /** Every question this phone played: the task, the player's answer and, where that was
    *  wrong or missing, the right one — so the list reads as a correction sheet. */
+  // "Report a problem" under each answer in "Your answers".
+  onMeldenClick($("[data-mine-list]"), (b) => meldTarget(mine[Number(b.dataset.mineMelden)]));
+
   function renderMine() {
     endTabs.hidden = mine.length === 0;
     const right = mine.filter((m) => m.ok).length;
@@ -884,6 +916,7 @@ export function mountPlayer(root) {
             <p class="lq-sum-q" data-mine-q="${k}"></p>
             <p class="lq-mine-row"><span>${escapeHtml(t("lq.recap.mine", "Deine Antwort"))}</span> ${yours}</p>
             ${fix}
+            ${meldTarget(m) ? meldenLinkHtml(`data-mine-melden="${k}"`) : ""}
           </div>
           <b class="lq-mine-pts">${m.ok ? `+${m.points}` : "0"}</b>
         </li>`;
@@ -906,6 +939,29 @@ export function mountPlayer(root) {
     root.addEventListener("pointerdown", () => unlock(), { once: true });
     nameInput.focus({ preventScroll: true });
   }
+
+  /* "Report a problem" (src/lib/meldung.js), as on the projector (host.js meldTarget): the
+     question's ref (w:<id>, g:…, lq:syn/…, lq:set/…), in the language shown here. Solo has
+     it from the start; in a class the projector sends it with the reveal. */
+  let soloQ = null;
+  let soloPause = null; // (true|false) stops / restarts the solo clock of the question on screen
+  const meldTarget = (Q) => {
+    const ref = cleanRef(Q?.ref);
+    if (!ref) return null;
+    return {
+      ref,
+      fingerprint: fingerprint(Q.prompt.de ?? Q.prompt.en ?? "", Q.options[Q.correct]?.de ?? Q.options[Q.correct]?.en ?? ""),
+      snapshot: () => ({
+        quelle: solo ? "live-quiz-solo" : "live-quiz-handy",
+        aufgabe: Q.kind ?? modeQuestion(Q.mode ?? solo?.mode, t),
+        frage: text(Q.prompt),
+        optionen: Q.options.map(text),
+        loesung: text(Q.options[Q.correct]),
+        sprache: me?.lang ?? null,
+        ...(Q.own ? { eigeneFrage: true } : {}),
+      }),
+    };
+  };
 
   async function playSolo() {
     const btn = form.querySelector("[type=submit]");
@@ -949,20 +1005,52 @@ export function mountPlayer(root) {
     let right = 0;
     for (let i = 0; i < qs.length; i++) {
       const Q = qs[i];
+      soloQ = Q;
       const n = i + 1;
+      $("[data-r-melden]").hidden = true;
+      // "Report a problem" under the options: the clock stops until the sheet closes.
+      const qMelden = $("[data-q-melden]");
+      qMelden.replaceChildren(...(meldTarget(Q) ? [meldenLink(() => {
+        soloPause?.(true);
+        setTimeout(() => document.querySelector("dialog.mf-sheet")?.addEventListener("close", () => soloPause?.(false), { once: true }));
+        return meldTarget(Q);
+      }, { className: "lq-melden" })] : []));
+      qMelden.hidden = !meldTarget(Q);
       music("question");
       // A mixed-in grammar question carries its own mode ("custom") and task line.
       const mode = Q.mode ?? solo.mode;
       onQuestion({ n, total: qs.length, mode, kind: Q.kind ?? null, prompt: Q.prompt, options: Q.options, seconds: solo.seconds, img: mode === "de-meaning" ? null : Q.img ?? null });
       const sentAt = performance.now();
+      const total = solo.seconds * 1000;
+      let pausedMs = 0;
       const choice = await new Promise((resolve) => {
-        const timer = setTimeout(() => resolve(null), solo.seconds * 1000);
+        let left = total;
+        let armedAt = 0;
+        let pausedAt = null;
+        let timer = 0;
+        const arm = () => { armedAt = performance.now(); timer = setTimeout(() => resolve(null), left); };
+        arm();
+        soloPause = (on) => {
+          if (on && pausedAt == null) {
+            clearTimeout(timer);
+            left = Math.max(0, left - (performance.now() - armedAt));
+            pausedAt = performance.now();
+            onTime({ n, left, total, paused: true });
+          } else if (!on && pausedAt != null) {
+            pausedMs += performance.now() - pausedAt;
+            pausedAt = null;
+            onTime({ n, left, total, paused: false });
+            arm();
+          }
+        };
         soloAnswer = (c) => { clearTimeout(timer); resolve(c); };
       });
       soloAnswer = null;
+      soloPause = null;
       music(null);
       const ok = choice === Q.correct;
-      const pts = ok ? points(performance.now() - sentAt, solo.seconds) : 0;
+      // Time with the report sheet open does not count against the points.
+      const pts = ok ? points(performance.now() - sentAt - pausedMs, solo.seconds) : 0;
       score += pts;
       if (ok) right++;
       await onReveal({ n, correct: Q.correct, img: Q.img ?? null, results: { solo: { ok, points: pts, score, rank: 1, missed: choice == null, right, n } } });
