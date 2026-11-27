@@ -50,7 +50,7 @@ const JINGLES = {
   win: { bpm: 200, lead: { wave: "square", vol: 0.09, notes: "C5 E5 G5 C6 - . G5 C6 - - -" }, bass: { wave: "triangle", vol: 0.22, notes: "C3 . . C3 - . G2 C3 - - -" } },
 };
 
-import { GAME_MUTE_EVENT, gameMuted, setGameMuted } from "../spieleEinstellungen.js";
+import { GAME_MUTE_EVENT, gameMuted, setGameMuted, volumeOut } from "../spieleEinstellungen.js";
 
 const KEY = "da-lindenau-sound"; // the old, Lindenau-only switch
 let on = !gameMuted((() => { try { return localStorage.getItem(KEY) === "off"; } catch { return false; } })());
@@ -88,7 +88,7 @@ function ensure() {
   const AC = window.AudioContext || window.webkitAudioContext;
   if (!AC) return false;
   ac = new AC();
-  master = ac.createGain(); master.gain.value = on ? 1 : 0; master.connect(ac.destination);
+  master = ac.createGain(); master.gain.value = on ? 1 : 0; master.connect(volumeOut(ac));
   musicBus = ac.createGain(); musicBus.gain.value = 0.55; musicBus.connect(master);
   sfxBus = ac.createGain(); sfxBus.gain.value = 0.7; sfxBus.connect(master);
   noise = ac.createBuffer(1, ac.sampleRate * 0.5, ac.sampleRate);

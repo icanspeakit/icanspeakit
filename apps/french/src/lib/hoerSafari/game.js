@@ -38,7 +38,7 @@ import { getLang } from "../i18n.js";
 import { isRtl } from "../languages.js";
 import { recordAttempt } from "../progress.js";
 import { celebrate } from "../mascotCelebrate.js";
-import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT } from "../spieleEinstellungen.js";
+import { gameMuted, setGameMuted, reducedMotion, GAME_MUTE_EVENT, speechVolume } from "../spieleEinstellungen.js";
 import { spielMelden } from "../spielMelden.js";
 import { withBase } from "../paths.js";
 
@@ -357,6 +357,7 @@ export function mountHoerSafari(root, allWords) {
         const u = new SpeechSynthesisUtterance(spoken(w));
         u.lang = frVoice?.lang?.replace("_", "-") || "fr-FR";
         u.rate = 0.9;
+        u.volume = speechVolume();
         if (frVoice) u.voice = frVoice;
         u.onend = finish;
         u.onerror = (e) => {

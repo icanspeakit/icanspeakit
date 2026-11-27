@@ -1,3 +1,4 @@
+import { volumeOut } from "../spieleEinstellungen.js";
 import { withBase } from "../paths.js";
 // The live quiz's sound: game-show music on the projector and short effects on both
 // screens. The music is CC0 loops from OpenGameArt in public/audio/quiz/ (see
@@ -40,7 +41,7 @@ function ensure() {
   const comp = ctx.createDynamicsCompressor();
   comp.threshold.value = -14;
   comp.ratio.value = 6;
-  master.connect(comp).connect(ctx.destination);
+  master.connect(comp).connect(volumeOut(ctx));
   musicBus = ctx.createGain();
   musicBus.gain.value = 0.55;
   musicBus.connect(master);

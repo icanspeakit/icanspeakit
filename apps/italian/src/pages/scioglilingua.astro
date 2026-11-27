@@ -157,8 +157,10 @@ const LOOK = [
 
       <p class="ac-status" data-status role="status"></p>
       <p class="ac-login" data-login hidden>
+        <svg class="ac-lock" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+        <span class="ac-login-text"><strong data-i18n="ac.login.title">Sign in to record</strong>
+          <span data-i18n="ac.login.note" data-i18n-vars={JSON.stringify({ n: freeSessions })}>Mit Konto {freeSessions}× täglich kostenlos. Anhören geht auch ohne Konto.</span></span>
         <a class="ac-btn ac-btn--primary" href="/account?next=/scioglilingua" data-i18n="auth.nav.signIn">Sign in</a>
-        <span data-i18n="ac.login.note" data-i18n-vars={JSON.stringify({ n: freeSessions })}>Mit Konto {freeSessions}× täglich kostenlos. Anhören geht auch ohne Konto.</span>
       </p>
       <div class="ac-limit" data-ac-limit hidden>
         {PAYWALL

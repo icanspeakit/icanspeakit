@@ -270,8 +270,12 @@
 .quiz-choice:hover:not(:disabled) { border-color: var(--brand-blue); }
 .quiz-choice:disabled { opacity: .6; cursor: default; }
 .quiz-choice--pending { opacity: .7; }
-.quiz-choice--correct { border-color: var(--brand-blue); background: #e8f6fb; font-weight: 700; opacity: 1; }
-.quiz-choice--incorrect { border-color: #c1462f; background: #fdeeea; opacity: 1; }
+/* After an answer: green with a tick, red with a cross, not a pale blue that looks switched off. */
+.quiz-choice--correct { border-color: var(--success); background: var(--success-soft, #e6f6ec); color: var(--success); font-weight: 700; opacity: 1; }
+.quiz-choice--incorrect { border-color: #c1462f; background: #fdeeea; color: #c1462f; opacity: 1; }
+.quiz-choice--correct:disabled, .quiz-choice--incorrect:disabled { opacity: 1; }
+.quiz-choice--correct::before { content: "✓ "; }
+.quiz-choice--incorrect::before { content: "✕ "; }
 .quiz-btn {
   display: inline-block;
   border: 1px solid var(--border);

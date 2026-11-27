@@ -493,7 +493,7 @@
    starten", the drawer carries its own copy, and the ≤430px rule below has always dropped
    it for the same reason. */
 @media (max-width: 1479px) and (min-width: 1081px) {
-  .lp-nav-row { gap: 12px; padding-inline: 16px; }
+  .lp-nav-row { gap: 12px; padding-inline: 16px; max-width: none; }
   .lp-nav-left { gap: 16px; }
   .lp-menubar { gap: 0; }
   .lp-menu-btn { padding-inline: 8px; font-size: 13.5px; }
@@ -1055,7 +1055,11 @@
    Landeskunde moved to the Wissen panel. Between 1080px and ~1180px, where it would not
    fit beside the left edge, the columns drop to three and wrap. */
 /* Five since „Spiele" (Stadtfahrt, Artikel-Flitzer) joined them. */
-.lp-panel--mega5 { min-width: 0; width: min(1080px, calc(100vw - 48px)); }
+/* Hung under the practice button (~200px in), a panel of 100vw - 48px ran up to 22px past the
+   right edge on 1280–1540px laptops (port of deutschacademy d2907904). Like Wissen „lean“ it
+   hangs from the whole bar now (.lp-nav, full width), centred; % so the scrollbar is not counted. */
+.lp-menu[data-menu="ueben"] { position: static; }
+.lp-panel--mega5 { min-width: 0; left: 0; right: 0; margin-inline: auto; width: min(1080px, calc(100% - 32px)); }
 .lp-panel--mega5 .lp-mega-cols { grid-template-columns: 1.05fr 1.25fr 1fr 1fr 1fr; gap: 10px 24px; }
 
 /* --- The Wissen panel (see navWissenMenu in catalog.js) ---------------------------
@@ -1089,6 +1093,11 @@
    right and went 2x2 below 1400px, which ran past the foot of a laptop screen; so it hangs
    from the whole bar instead (the menu stops being the positioned box), centred. */
 .lp-menu[data-menu="wissen"]:has(.lp-panel--wissen-lean) { position: static; }
+/* Browsers without :has() (Chrome before 105): the panel would hang from the button and run
+   past the right edge. „lean“ is the only menu the site serves (port of deutschacademy 2a33e644). */
+@supports not selector(:has(a)) {
+  .lp-menu[data-menu="wissen"] { position: static; }
+}
 .lp-panel--wissen.lp-panel--wissen-lean {
   left: 0;
   right: 0;

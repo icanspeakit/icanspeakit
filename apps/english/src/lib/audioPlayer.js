@@ -93,7 +93,12 @@ function enhance(audio) {
   });
   for (const ev of ["timeupdate", "durationchange", "seeked", "emptied"]) audio.addEventListener(ev, paint);
   for (const ev of ["play", "playing", "pause", "ended", "emptied"]) audio.addEventListener(ev, paintState);
-  audio.addEventListener("error", () => box.classList.add("is-error"));
+  audio.addEventListener("error", () => { box.classList.add("is-error"); box.classList.remove("is-loading"); });
+  // Slow network: after the tap the file is still coming. A turning ring on the button says so,
+  // until the sound starts.
+  audio.addEventListener("play", () => { if (audio.readyState < 3) box.classList.add("is-loading"); });
+  audio.addEventListener("waiting", () => box.classList.add("is-loading"));
+  for (const ev of ["playing", "canplay", "pause", "ended", "emptied"]) audio.addEventListener(ev, () => box.classList.remove("is-loading"));
   paint();
   paintState();
   translateSoon();

@@ -5,7 +5,7 @@
 //
 // Where it leads: the page's own quiz if it has one (a chapter page's LiveQuizLink goes to the
 // builder with that chapter, a Lernset's DeckActions to the quiz with the set chosen), otherwise
-// the quiz start. Always a new tab: the quiz goes on the projector, this page stays open.
+// the quiz start. A new tab on a laptop: the quiz goes on the projector, this page stays open.
 // Not on the quiz pages themselves.
 import { withBase, currentPath } from "./paths.js";
 
@@ -20,8 +20,11 @@ function show(buttons) {
   const href = contextHref();
   buttons.forEach((b) => {
     b.href = href;
-    b.target = "_blank";
-    b.rel = "noopener";
+    // New tab only on a laptop (projector); on a phone it would look like a link that led nowhere.
+    if (matchMedia("(min-width: 821px)").matches) {
+      b.target = "_blank";
+      b.rel = "noopener";
+    }
     b.hidden = false;
   });
 }

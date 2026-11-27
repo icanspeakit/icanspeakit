@@ -74,6 +74,8 @@ export const topicSlug = (key) => TOPIC_SLUGS[key] ?? key;
 export const topicKeyFromSlug = (slug) => TOPIC_KEYS[slug] ?? slug;
 /** The page of a grammar topic. */
 export const topicPath = (key) => `/${topicSlug(key)}`;
+/** The page where a student types the PIN of a live practice round (src/pages/dal-vivo.astro). */
+export const LIVE_JOIN_PATH = "/dal-vivo";
 
 // The reference tables under /grammatica/<ref> (src/data/nachschlagen/<file>.json). The file
 // names stayed; the URL is English.

@@ -122,8 +122,8 @@ export function examStats(exam) {
     answered,
     started,
     moduleCount: modules.length,
-    pct: maxPoints ? Math.round((points / maxPoints) * 100) : 0,
-    donePct: maxPoints ? Math.round((answered / maxPoints) * 100) : 0,
+    pct: maxPoints ? Math.floor((points * 100) / maxPoints) : 0,
+    donePct: maxPoints ? Math.floor((answered * 100) / maxPoints) : 0,
     next,
   };
 }
@@ -262,7 +262,7 @@ function headHtml(s) {
         <p class="fs-points">${t("fs.points", { points: `<b>${s.points}</b>`, max: s.maxPoints })}</p>
         ${bar(s.answered, s.maxPoints, "fs-bar--wide")}
         <p class="fs-sub">${esc(t("fs.sub", { pct: s.donePct, started: s.started, total: s.moduleCount }))}</p>
-        <p class="fs-note">${esc(s.exam.passNote)}</p>
+        <p class="fs-note">${esc(tOr(`fs.passNote.${s.exam.id}`, s.exam.passNote, s.exam.passVars))}</p>
       </div>
       <div class="fs-head-side">
         <div class="fs-ringcard">

@@ -30,6 +30,14 @@
   cursor: pointer;
   transition: transform .12s ease, filter .12s ease;
 }
+.ap-play { position: relative; }
+.ap.is-loading .ap-play::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  border: 3px solid color-mix(in srgb, var(--ap-c) 25%, transparent); border-top-color: var(--ap-c);
+  animation: ap-spin .9s linear infinite;
+}
+@keyframes ap-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ap.is-loading .ap-play::after { animation: none; border-color: var(--ap-c); } }
 .ap-play:hover { filter: brightness(1.08); }
 .ap-play:active { transform: scale(.94); }
 .ap-play:focus-visible { outline: 3px solid color-mix(in srgb, var(--ap-c) 40%, transparent); outline-offset: 2px; }

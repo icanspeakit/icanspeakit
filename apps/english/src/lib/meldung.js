@@ -107,6 +107,13 @@ async function post(path, body) {
 
 /** Sends one report; on a network failure it waits in the queue. Never throws. */
 export async function sendMeldung(target, grund, text) {
+  // A target that only knows its item later (the live quiz on a phone during a question:
+  // the ref would give the answer away): thank now, send once resolve() brings the item.
+  if (typeof target.resolve === "function") {
+    Promise.resolve().then(target.resolve).catch(() => null)
+      .then((full) => sendMeldung({ ...target, ...(full ?? {}), resolve: undefined }, grund, text));
+    return { ok: true, queued: true };
+  }
   const body = payload(target, grund, text);
   try {
     const r = await post("/api/meldung", body);

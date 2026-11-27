@@ -53,6 +53,8 @@
 }
 .asp-x2[hidden] { display: none; }
 .asp-hud-tools { margin-left: auto; display: inline-flex; gap: 4px; }
+/* No room for the volume slider in a phone's HUD: the start and pause cards have it. */
+@media (max-width: 700px) { .asp-hud-tools .da-vol { display: none; } }
 .asp-icon-btn {
   display: grid; place-items: center;
   width: 40px; height: 40px;

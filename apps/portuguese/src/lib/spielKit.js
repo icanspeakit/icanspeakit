@@ -3,6 +3,7 @@
 // Speech: a line's own clip (Azure, made by a scripts/generate-*-audio.mjs); the browser voice
 // when the clip is missing or cannot play; quiet if there is neither. `npc`: a person's line –
 // the game's onTalk(true/false) lets their head talk along.
+import { applyVolume, speechVolume } from "./spieleEinstellungen.js";
 import { audioUrl } from "./audioSource.js";
 import { withBase } from "./paths.js";
 
@@ -27,6 +28,7 @@ export function createVoice(clipPath) {
     u.lang = "pt-PT";
     if (deVoice) u.voice = deVoice;
     u.rate = 0.9;
+    u.volume = speechVolume();
     if (npc) {
       u.onstart = () => onTalk(true);
       u.onend = u.onerror = () => onTalk(false);
@@ -40,7 +42,7 @@ export function createVoice(clipPath) {
     window.speechSynthesis?.cancel();
     onTalk(false);
     if (!clip) return speak(text, npc);
-    const a = new Audio(withBase(audioUrl(clipPath(clip))));
+    const a = applyVolume(new Audio(withBase(audioUrl(clipPath(clip)))));
     current = a;
     let fell = false;
     const fallback = () => {

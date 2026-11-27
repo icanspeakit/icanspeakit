@@ -14,7 +14,7 @@
 //   host   → all    roster   { players: [{ id, name }] }     names as the host settled them
 //   host   → all    question { n, total, mode, kind?, prompt, options, seconds, img? }
 //   host   → all    time     { n, left, total, paused }       the teacher changed the clock
-//   player → host   answer   { id, n, choice }
+//   player → host   answer   { id, n, choice }                again while the clock runs = a changed answer
 //   host   → all    reveal   { n, correct, img?, dist, results: { [id]: { ok, points, score, rank } } }
 //
 // `img` is the asked word's picture (src/lib/wortBild.js), or a synonym group's, where it

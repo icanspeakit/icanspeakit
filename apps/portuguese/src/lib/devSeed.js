@@ -20,7 +20,7 @@ import { topicPath } from "./routes.js";
 const STORE_KEY = "da_progress_v1";
 const NAME_KEY = "da_display_name";
 
-const todayStr = (d = new Date()) => d.toISOString().slice(0, 10);
+const todayStr = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; // local day, as progress.js
 
 function daysAgoStr(n) {
   const d = new Date();

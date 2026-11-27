@@ -137,15 +137,18 @@ function shuffleOptions(q) {
  * A saved quiz → the projector's questions ({ prompt, options, correct, mode, kind, img? },
  * the shape buildQuestions() returns plus a per-question mode and line above the prompt).
  * `questionsModule` is ./questions.js, loaded by the host only when a quiz has words.
+ * `ownRef(q, i)` names a question the teacher wrote, for "Report a problem" (a chapter item
+ * keeps its `src`, a word its lexicon ref); without it own questions get no ref.
  */
-export function resolveQuestions(saved, questionsModule) {
+export function resolveQuestions(saved, questionsModule, ownRef = null) {
   const out = [];
-  for (const raw of saved ?? []) {
+  for (const [i, raw] of (saved ?? []).entries()) {
     const q = cleanQuestion(raw);
     if (!q) continue;
     if (q.t === "mc") {
       const s = shuffleOptions(q);
-      out.push({ prompt: { de: s.prompt }, options: s.options.map((de) => ({ de })), correct: s.correct, mode: "custom", kind: q.kind ?? null });
+      const ref = q.src ?? ownRef?.(q, i) ?? null;
+      out.push({ prompt: { de: s.prompt }, options: s.options.map((de) => ({ de })), correct: s.correct, mode: "custom", kind: q.kind ?? null, ref, own: !q.src });
     } else {
       const w = questionsModule?.wordQuestion(q.id, q.dir);
       if (w) out.push({ ...w, mode: q.dir, kind: null });

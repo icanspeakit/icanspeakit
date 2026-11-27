@@ -59,12 +59,13 @@ const tandem = !!sheet && web && !!tandemFor(sheet);
 </div>
 
 <script>
+  import { printWithHint } from "../lib/printHint.js";
   for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-ref-print]")) {
     btn.addEventListener("click", () => {
       const folded = [...document.querySelectorAll<HTMLElement>(".vb-regel-body[hidden]")];
       folded.forEach((b) => (b.hidden = false));
       addEventListener("afterprint", () => folded.forEach((b) => (b.hidden = true)), { once: true });
-      print();
+      printWithHint(btn);
     });
   }
 </script>

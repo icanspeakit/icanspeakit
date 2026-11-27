@@ -3,6 +3,7 @@
 // clip at the moment, a clip that does not load) the browser's Italian voice reads the text, a
 // voice from Italy first. Silent while the game is muted.
 
+import { applyVolume, speechVolume } from "../spieleEinstellungen.js";
 import { isMuted } from "./sound.js";
 import { withBase } from "../paths.js";
 
@@ -16,6 +17,7 @@ function voice(text) {
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "it-IT";
     u.rate = 0.9;
+    u.volume = speechVolume();
     const v = synth.getVoices().find((x) => /^it(-|_)IT/i.test(x.lang)) ?? synth.getVoices().find((x) => /^it(-|_)/i.test(x.lang));
     if (v) u.voice = v;
     synth.speak(u);
@@ -36,7 +38,7 @@ export function speak({ audio, say } = {}, { force = false } = {}) {
   if (!audio) return voice(say);
   let fell = false;
   const fallback = () => { if (!fell) { fell = true; voice(say); } };
-  const a = new Audio(withBase(`/audio/wortschatz/${audio}.mp3`));
+  const a = applyVolume(new Audio(withBase(`/audio/wortschatz/${audio}.mp3`)));
   clip = a;
   a.addEventListener("error", fallback);
   a.play().catch(fallback);

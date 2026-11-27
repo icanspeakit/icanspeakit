@@ -107,6 +107,10 @@ export default defineConfig({
         };
       },
     }],
+    // The minifier rewrites @media (max-width: …) to the range form (width<=…) for browsers it
+    // assumes are new. Chrome before 104 and Safari before 16.4 drop those rules, so every
+    // breakpoint was gone there (port of deutschacademy 946e9eda: replays, Chrome 103).
+    build: { cssTarget: ['chrome90', 'safari15', 'firefox90', 'edge90'] },
     // A Gradle build drops ~6,600 copies of the site into android/app/build; watching
     // them floods the dev server until module loads time out.
     server: {

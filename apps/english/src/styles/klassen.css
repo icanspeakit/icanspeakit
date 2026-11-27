@@ -93,6 +93,11 @@
 /* The name column stays put while the rest scrolls. */
 .kld-table tr > :first-child { position: sticky; inset-inline-start: 0; background: var(--surface-card); z-index: 1; }
 .kld-num { text-align: end !important; font-variant-numeric: tabular-nums; }
+/* Names wrap instead of widening the sticky column: a long name filled the whole phone screen
+   and pushed every number out of view. */
+.kld-table tbody tr:not(.kld-group) > th { white-space: normal; min-width: 6em; max-width: 9em; overflow-wrap: anywhere; }
+/* The empty-class note sits straight in the bordered box, without the table's padding. */
+[data-kld-overview] > .kl-muted { padding: 16px; }
 .kld-name { font: inherit; color: var(--brand-blue); background: none; border: 0; padding: 0; cursor: pointer; text-align: start; text-decoration: underline; text-underline-offset: 2px; }
 .kld-group th { background: var(--surface) !important; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; font-weight: 600; }
 .kld-quiet td, .kld-quiet th { color: var(--muted); }

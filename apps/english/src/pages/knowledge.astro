@@ -405,6 +405,31 @@ function nextStep(f: { id: string; category: string; level: string }): Next {
 import { currentPath } from "../lib/paths.js";
     import { track } from "../lib/track.js";
 
+    // In-app browsers (Facebook, Instagram, TikTok …) drop `download` links without a word.
+    // There a PDF tap goes elsewhere, before the other listeners see it (capture phase;
+    // tracking and the "it has started" note still run):
+    //   Android → the same file in Chrome (intent URL; without Chrome the fallback URL
+    //             opens in the in-app browser, which is no worse than before);
+    //   iPhone  → the PDF itself, which the in-app viewer shows.
+    const UA = navigator.userAgent;
+    const IN_APP = /FBAN|FBAV|FB_IAB|Instagram|BytedanceWebview|musical_ly|TikTok|Line\//i.test(UA);
+    if (IN_APP) {
+      const android = /Android/i.test(UA);
+      document.addEventListener(
+        "click",
+        (e) => {
+          const a = (e.target as HTMLElement | null)?.closest<HTMLAnchorElement>("a[download], a[data-wi-dlopen]");
+          if (!a || !a.href) return;
+          e.preventDefault();
+          const url = new URL(a.href, location.href);
+          location.href = android
+            ? `intent://${url.host}${url.pathname}${url.search}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url.href)};end`
+            : url.href;
+        },
+        true,
+      );
+    }
+
     // The download sheet. Every card is a button; the sheet it opens is already in
     // the page, one body per file, and only the matching one is shown.
     const sheet = document.querySelector<HTMLElement>("[data-sheet]");

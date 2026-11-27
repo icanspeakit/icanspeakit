@@ -157,6 +157,7 @@ const APP_BUILD = import.meta.env.PUBLIC_TARGET === "app";
 
 <NavDrawer wissenVariant={wissenVariant} />
 {!APP_BUILD && <script>import "../lib/liveQuizNav.js";</script>}
+{!APP_BUILD && <script>import "../lib/liveUebung/auswertungNav.js";</script>}
 
 {PAYWALL && !APP_BUILD && (
   <script>

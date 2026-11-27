@@ -768,7 +768,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
           {/* A stable name next to the number (#zimmer): uebung-N moves when exercises are added. */}
           {ex.anchor && <span id={ex.anchor} class="vp-anchor" aria-hidden="true"></span>}
           <div class="vp-ex-head">
-            <span class="badge badge-neutral">{i + 1}</span>
+            <span class="badge badge-neutral vp-ex-no"><span data-i18n="vp.exNo">Exercise</span> {i + 1}</span>
             <h3><UiText de={ex.title} /></h3>
 
             {/* Same control as the column's "Regel einblenden", at this exercise's
@@ -846,7 +846,7 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
     ) : (
       <div class="vp-card">
         <div class="vp-ex-head">
-          <span class="badge badge-neutral">1</span>
+          <span class="badge badge-neutral vp-ex-no"><span data-i18n="vp.exNo">Exercise</span> 1</span>
           <h3 data-i18n="vp.quiz.title">Lückentext: Ergänzen Sie.</h3>
         </div>
         <div id="quiz-root"></div>
@@ -931,8 +931,8 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
       const q = new URLSearchParams(location.search);
       let lesson = false;
       try { lesson = !!localStorage.getItem("da:unterricht"); } catch (e) {}
+      let live = null;
       if (q.get("ut") === "1" || lesson) {
-        let live = null;
         document.querySelectorAll("[data-live-uebung]").forEach((btn) => {
           btn.hidden = false;
           btn.addEventListener("click", async () => {
@@ -944,6 +944,14 @@ const praes = workspace ? { deck: deckOf(workspace), name, level } : null;
         if (q.get("live-start") === "1") {
           import("../lib/liveUebung/lehrkraft.js").then(({ createLiveUebung }) => (live ??= createLiveUebung(data, slug)).start());
         }
+      }
+      // "Back to the QR code" in the results (liveUebung/auswertung.js): the same room again.
+      if (!q.has("live")) {
+        import("../lib/liveUebung/auswertung.js").then(async ({ reopenAsked }) => {
+          if (!reopenAsked(slug)) return;
+          const { createLiveUebung } = await import("../lib/liveUebung/lehrkraft.js");
+          (live ??= createLiveUebung(data, slug)).start();
+        });
       }
       if (q.has("live")) {
         import("../lib/liveUebung/schueler.js").then(({ livePin, joinLiveUebung }) => {

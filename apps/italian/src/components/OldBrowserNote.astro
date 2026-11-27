@@ -1,0 +1,70 @@
+---
+// "Your browser is too old": for browsers that lack what the site is built on.
+// Port of deutschacademy 9cbcb735. There, a session replay showed a visitor on an Android
+// browser with Chrome 87 inside tapping a button three times and getting script errors: the
+// CSS uses :has() and the scripts use .at(), structuredClone and Object.hasOwn, and none of
+// them exist there. The same holds for this site.
+//
+// Checked by feature, not by browser name. Plain, old-browser-safe script (var, no modules),
+// so it runs exactly where everything else does not. The texts sit inline, one row per
+// interface language: the i18n module is one of the things that may not load. Once closed, it
+// stays closed for the tab (sessionStorage). The same file lives in every course app.
+---
+<script is:inline>
+  (function () {
+    try {
+      var ok =
+        typeof window.structuredClone === "function" &&
+        typeof Object.hasOwn === "function" &&
+        typeof Array.prototype.at === "function" &&
+        !!(window.CSS && CSS.supports && CSS.supports("selector(:has(a))"));
+      if (ok || /bot|crawl|spider|Lighthouse/i.test(navigator.userAgent)) return;
+      try { if (sessionStorage.getItem("ics_oldbrowser") === "1") return; } catch (e) {}
+
+      // [headline, consequence, Android button, iPhone advice, other advice, close label]
+      var T = {
+        en: ["Your browser is too old.", "Some exercises won't work properly in it.", "Open in Chrome", "Update your iPhone: Settings → General → Software Update.", "Please update your browser or use Chrome.", "Close"],
+        de: ["Dein Browser ist zu alt.", "Manche Übungen funktionieren damit nicht richtig.", "In Chrome öffnen", "Aktualisiere dein iPhone: Einstellungen → Allgemein → Softwareupdate.", "Bitte aktualisiere deinen Browser oder nutze Chrome.", "Schließen"],
+        es: ["Tu navegador es demasiado antiguo.", "Algunos ejercicios no funcionan bien con él.", "Abrir en Chrome", "Actualiza tu iPhone: Ajustes → General → Actualización de software.", "Actualiza tu navegador o usa Chrome.", "Cerrar"],
+        fr: ["Ton navigateur est trop ancien.", "Certains exercices ne fonctionnent pas correctement avec lui.", "Ouvrir dans Chrome", "Mets à jour ton iPhone : Réglages → Général → Mise à jour logicielle.", "Mets à jour ton navigateur ou utilise Chrome.", "Fermer"],
+        it: ["Il tuo browser è troppo vecchio.", "Alcuni esercizi non funzionano bene con questo browser.", "Apri in Chrome", "Aggiorna il tuo iPhone: Impostazioni → Generali → Aggiornamento software.", "Aggiorna il browser o usa Chrome.", "Chiudi"],
+        pt: ["O teu navegador é demasiado antigo.", "Alguns exercícios não funcionam bem nele.", "Abrir no Chrome", "Atualiza o teu iPhone: Definições → Geral → Atualização de software.", "Atualiza o teu navegador ou usa o Chrome.", "Fechar"],
+        ru: ["Твой браузер слишком старый.", "Некоторые упражнения в нём работают неправильно.", "Открыть в Chrome", "Обнови iPhone: Настройки → Основные → Обновление ПО.", "Обнови браузер или открой сайт в Chrome.", "Закрыть"]
+      };
+      var lang = "en";
+      try { lang = localStorage.getItem("da_lang") || document.documentElement.lang || "en"; } catch (e) {}
+      lang = String(lang).slice(0, 2).toLowerCase();
+      var t = T[lang] || T.en;
+      var ua = navigator.userAgent;
+      var android = /Android/i.test(ua);
+      var ios = /iPhone|iPad|iPod/i.test(ua);
+
+      function show() {
+        if (document.getElementById("ics-oldbrowser")) return;
+        var bar = document.createElement("div");
+        bar.id = "ics-oldbrowser";
+        bar.setAttribute("role", "alert");
+        // Brand colours (brand/kit/BRAND.md): soft sun yellow, navy ink.
+        bar.style.cssText = "position:relative;z-index:1000;background:#FFE29A;color:#172A6E;border-bottom:2px solid #FFC21A;padding:12px 44px 12px 16px;font:15px/1.45 system-ui,-apple-system,sans-serif";
+        var html = "<strong>" + t[0] + "</strong> " + t[1] + "<br>";
+        if (android) {
+          var target = "intent://" + location.host + location.pathname + location.search +
+            "#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" +
+            encodeURIComponent("https://play.google.com/store/apps/details?id=com.android.chrome") + ";end";
+          html += '<a href="' + target + '" style="display:inline-block;margin-top:8px;padding:8px 14px;border-radius:8px;background:#172A6E;color:#fff;font-weight:600;text-decoration:none">' + t[2] + "</a>";
+        } else {
+          html += "<span>" + (ios ? t[3] : t[4]) + "</span>";
+        }
+        html += '<button type="button" aria-label="' + t[5] + '" style="position:absolute;top:6px;right:6px;width:36px;height:36px;border:0;background:none;font-size:22px;color:#172A6E;cursor:pointer">×</button>';
+        bar.innerHTML = html;
+        bar.querySelector("button").onclick = function () {
+          bar.parentNode.removeChild(bar);
+          try { sessionStorage.setItem("ics_oldbrowser", "1"); } catch (e) {}
+        };
+        document.body.insertBefore(bar, document.body.firstChild);
+      }
+      if (document.body) show();
+      else document.addEventListener("DOMContentLoaded", show);
+    } catch (e) {}
+  })();
+</script>

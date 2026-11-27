@@ -1,6 +1,7 @@
 // Artikel-Flitzer: short WebAudio beeps, no files. The context is created on the first
 // sound after a tap or key press (browsers keep audio locked until then).
 
+import { volumeOut } from "../spieleEinstellungen.js";
 let ctx = null;
 let muted = false;
 
@@ -43,7 +44,7 @@ function tone(freq, start, dur, { type = "sine", gain = 0.12, to = null } = {}) 
   g.gain.setValueAtTime(0.0001, t);
   g.gain.exponentialRampToValueAtTime(gain, t + 0.01);
   g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g).connect(c.destination);
+  o.connect(g).connect(volumeOut(c));
   o.start(t);
   o.stop(t + dur + 0.02);
 }

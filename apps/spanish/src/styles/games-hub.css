@@ -1,0 +1,85 @@
+/* The games hub (src/pages/<games>/index.astro, port of deutschacademy spiele-hub.css). Phone
+   first: one column, chips scroll sideways; three columns from 900px. Colours are the site
+   tokens, so dark mode comes along. The cards show the game's mascot on a tinted tile: the
+   upstream screenshots carry German titles. */
+.gh-page { max-width: 1000px; margin: 0 auto; padding: 20px 16px 56px; color: var(--ink); }
+.gh-head h1 { font: 700 clamp(1.8rem, 6vw, 2.6rem)/1.1 var(--font-voice); margin: 4px 0 6px; }
+.gh-lead { margin: 0; color: var(--muted); font-size: 1.05rem; }
+.gh-h2 { font: 700 1.25rem/1.2 var(--font-voice); margin: 0 0 10px; display: flex; align-items: baseline; gap: 10px; }
+.gh-count { font: 500 .9rem var(--font-body); color: var(--muted); }
+.gh-page section { margin-top: 28px; }
+
+/* Game of the day */
+.gh-today-card { display: flex; align-items: center; gap: 16px; padding: 16px; border-radius: 20px;
+  background: var(--gradient-accent-soft); border: 2px solid var(--border); color: var(--ink); text-decoration: none; }
+.gh-today-card[hidden] { display: none; }
+.gh-today-art { flex: none; }
+.gh-today-art svg { width: 104px; height: 104px; }
+.gh-today-txt { display: grid; gap: 4px; min-width: 0; }
+.gh-today-txt b { font: 700 1.35rem/1.15 var(--font-voice); }
+.gh-today-txt i { font-style: normal; color: var(--ink); }
+.gh-today-txt small { color: var(--muted); }
+.gh-today-go { justify-self: start; margin-top: 6px; padding: 9px 16px; border-radius: 999px; background: var(--accent-dark);
+  color: #fff; font: 700 1rem var(--font-voice); }
+.gh-today-card:hover .gh-today-go, .gh-today-card:focus-visible .gh-today-go { background: var(--accent); }
+.gh-today-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (min-width: 640px) { .gh-today-art svg { width: 150px; height: 150px; } .gh-today-card { padding: 20px 28px; } }
+
+/* Filters */
+.gh-filter-label { margin: 10px 0 6px; font-size: .9rem; color: var(--muted); }
+.gh-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px 4px;
+  -webkit-overflow-scrolling: touch; }
+.gh-chips::-webkit-scrollbar { display: none; }
+.gh-chip { flex: none; padding: 8px 14px; border-radius: 999px; border: 1.5px solid var(--border-strong); background: var(--surface-card);
+  color: var(--ink); font: 600 .95rem var(--font-body); cursor: pointer; white-space: nowrap; }
+.gh-chip[aria-pressed="true"] { background: var(--brand-blue); border-color: var(--brand-blue); color: #fff; }
+.gh-chip:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (min-width: 900px) { .gh-chips { flex-wrap: wrap; margin: 0; padding: 2px 0; overflow: visible; } }
+
+/* Cards */
+.gh-grid, .gh-kgrid { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 14px; grid-template-columns: 1fr; }
+@media (min-width: 600px) { .gh-grid, .gh-kgrid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .gh-grid, .gh-kgrid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.gh-grid li[hidden] { display: none; }
+.gh-card { position: relative; display: flex; flex-direction: column; height: 100%; border-radius: 18px; overflow: hidden;
+  border: 1px solid var(--border); background: var(--surface-card); color: var(--ink); text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease; }
+.gh-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(15, 20, 28, .12); }
+.gh-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .gh-card { transition: none; } .gh-card:hover { transform: none; } }
+.gh-card-art { display: flex; align-items: center; justify-content: center; aspect-ratio: 1200 / 630;
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface)); }
+.gh-card-art[data-mascot="bruno"], .gh-card-art[data-mascot="quaki"] { background: color-mix(in srgb, var(--brand-blue) 14%, var(--surface)); }
+.gh-card-art svg { width: 44%; height: auto; max-width: 140px; }
+.gh-card-body { display: grid; gap: 3px; padding: 9px 11px 11px; flex: 1; align-content: start; }
+.gh-card-title { font: 700 .98rem/1.2 var(--font-voice); }
+.gh-card-hint { color: var(--muted); font-size: .85rem; line-height: 1.3; }
+.gh-card-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 6px; }
+.gh-lvs { display: flex; gap: 4px; flex-wrap: wrap; }
+.gh-lv { padding: 1px 7px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); font: 600 .75rem var(--font-label); }
+.gh-time { color: var(--muted); font-size: .85rem; white-space: nowrap; }
+.gh-empty { margin-top: 16px; padding: 18px; border-radius: 14px; background: var(--surface); text-align: center; }
+.gh-empty[hidden] { display: none; }
+.gh-empty p { margin: 0 0 10px; }
+.gh-reset { padding: 8px 16px; border-radius: 999px; border: 1.5px solid var(--brand-blue); background: none; color: var(--brand-blue-dark);
+  font: 600 .95rem var(--font-body); cursor: pointer; }
+
+/* The two parts: on your own / together. Each opens with mascots + kicker + big heading; the
+   second sits on its own band across the whole window, so the break is seen while scrolling. */
+.gh-part { display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
+.gh-part-art { flex: none; display: flex; align-items: center; justify-content: center; width: 68px; height: 68px;
+  border-radius: 50%; background: color-mix(in srgb, var(--accent) 16%, var(--surface-card)); }
+.gh-part-art svg { width: 54px; height: 54px; }
+.gh-part-art--duo { width: 100px; border-radius: 999px; background: color-mix(in srgb, var(--brand-blue) 20%, var(--surface-card)); }
+.gh-part-art--duo svg { width: 50px; height: 50px; }
+.gh-part-art--duo svg + svg { margin-left: -12px; }
+.gh-part-kicker { margin: 0 0 3px; font: 700 .78rem var(--font-label); letter-spacing: .07em; text-transform: uppercase; color: var(--brand-blue-dark); }
+.gh-h2--big { font-size: clamp(1.5rem, 5vw, 1.9rem); margin: 0; flex-wrap: wrap; }
+.gh-page .gh-solo { margin-top: 40px; }
+.gh-page .gh-together { --band: color-mix(in srgb, var(--brand-blue) 13%, var(--surface-card));
+  margin-top: 56px; padding: 40px 0 48px;
+  border-image: linear-gradient(var(--brand-blue) 5px, var(--band) 0) fill 0 // 0 100vmax; }
+.gh-together-lead { margin: 10px 0 0; color: var(--ink); max-width: 62ch; }
+.gh-together .gh-card { border-color: color-mix(in srgb, var(--brand-blue) 30%, var(--border)); }
+.gh-page .gh-seo { margin-top: 44px; max-width: 720px; color: var(--muted); }
+.gh-seo p { line-height: 1.6; }

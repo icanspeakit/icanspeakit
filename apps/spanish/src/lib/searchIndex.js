@@ -31,6 +31,7 @@ import conjugationTrainer from "../data/conjugation-trainer.json";
 import { verbs as verbTables, verbHref } from "./verbtabellen.js";
 import { fehlerPairs } from "./typischeFehler.js";
 import { nachschlagenEntries } from "./nachschlagenIndex.js";
+import { GAMES_HUB, GAME_TAGS, soloGames } from "./gamesCatalog.js";
 import starkSchwach from "../data/nachschlagen/starke-schwache-verben.json";
 import trennbar from "../data/nachschlagen/trennbare-verben.json";
 import verbPraep from "../data/nachschlagen/verben-mit-praepositionen.json";
@@ -295,6 +296,24 @@ export function buildSearchIndex() {
     h: "/profesores/pruebas",
   });
   pages.push({
+    t: "For teachers",
+    s: "Worksheets, games, live quiz, class survey and lesson planning in one place",
+    k: "teachers teacher teaching classroom class lesson material worksheets tutor profesores profesor cuestionario encuesta lehrkräfte",
+    h: "/profesores",
+  });
+  pages.push({
+    t: "Live quiz",
+    s: "The whole group joins with a QR code: a grammar or vocabulary quiz in class",
+    k: "live quiz live-quiz livequiz quiz class group qr code qr-code kahoot classroom teacher teachers projector beamer profesores profesor cuestionario encuesta",
+    h: "/profesores/cuestionario",
+  });
+  pages.push({
+    t: "Class survey",
+    s: "Ask your class anonymously what they want to learn",
+    k: "survey poll vote anonymous class teacher teachers classroom qr code profesores profesor cuestionario encuesta",
+    h: "/profesores/encuestas",
+  });
+  pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country spain all topics life in spain hispanic world cultura españa",
@@ -415,6 +434,27 @@ export function buildSearchIndex() {
   const refs = nachschlagenEntries({ nouns: false })
     .filter(([, , , kind]) => kind !== "verb")
     .map(([label, sub, href, kind]) => [label, sub, href, kind]);
+
+  // Games: the hub and every released game, straight from gamesCatalog.js (port of
+  // deutschacademy e219f2c0 ff.), so a new game is found at once with what it practises.
+  // The printable class games come from the sitemap snapshot below.
+  const tagName = Object.fromEntries(GAME_TAGS.map((t) => [t.id, t.name]));
+  pages.push({
+    t: `Games for learning ${GAMES_HUB.course}`,
+    s: "All games: on your own or together, with the game of the day",
+    h: GAMES_HUB.href,
+    k: `games game play playing learning games game of the day all games ${GAMES_HUB.href.slice(1)} spiele`,
+  });
+  const gameHrefs = new Set(pages.map((p) => p.h));
+  for (const g of soloGames) {
+    if (gameHrefs.has(g.href)) continue;
+    pages.push({
+      t: `${g.title} – game`,
+      s: g.hint,
+      h: g.href,
+      k: ["game", "play", g.id.replace(/-/g, " "), ...g.practises.map((p) => tagName[p] ?? p), ...g.levels].join(" ").toLowerCase(),
+    });
+  }
 
   // Pages without a data source of their own (scripts/build-suche-seiten.mjs reads them from
   // the sitemap): Berufe, Fertigkeiten, Prüfungen, Wortgeschichten, Spiele …

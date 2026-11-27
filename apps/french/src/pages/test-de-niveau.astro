@@ -74,6 +74,7 @@ const PER_LEVEL = 2;
       <p class="quiz-progress" data-i18n="placement.result">Dein Einstieg</p>
       <p class="es-result-level" data-es-result-level></p>
       <p class="es-result-lead" data-es-result-lead></p>
+      <p class="es-result-note" data-es-result-note></p>
       <!-- One way on, not two hubs (2026-11-14): the first lesson of the guided run at this
            level. The topic wall and the word lists stay one tap away for those who want them. -->
       <div class="es-actions">
@@ -118,7 +119,8 @@ const PER_LEVEL = 2;
     color: var(--brand-blue-dark);
   }
   .es-einfach { margin: 18px 0 0; text-align: start; }
-  .es-result-lead { margin: 10px 0 22px; max-width: 46ch; color: var(--muted); }
+  .es-result-lead { margin: 10px 0 12px; max-width: 46ch; color: var(--muted); }
+  .es-result-note { margin: 0 0 22px; max-width: 46ch; font-size: .9rem; color: var(--muted); }
   .es-actions { display: flex; flex-wrap: wrap; gap: 10px; }
   .es-actions .quiz-btn { text-decoration: none; }
   .es-browse { margin: 12px 0 0; font-size: .9rem; color: var(--muted); }
@@ -198,6 +200,8 @@ const PER_LEVEL = 2;
   let asked: Item[] = [];
   let at = 0;          // position inside this level's two questions
   let right = 0;       // correct answers at this level
+  let totalRight = 0;  // correct answers in the whole test, for the result screen
+  let totalAsked = 0;
 
   function drawLevel() {
     asked = shuffle(bank[LEVELS[rung]]).slice(0, PER);
@@ -228,7 +232,8 @@ const PER_LEVEL = 2;
   function answer(btn: HTMLElement, item: Item) {
     const ok = btn.textContent === item.answer;
     picked = btn.textContent;
-    if (ok) right++;
+    if (ok) { right++; totalRight++; }
+    totalAsked++;
     // `disabled` rather than a lock class: practice.css already dims and un-clicks a
     // disabled .quiz-choice, and it is the state a screen reader can also see.
     for (const el of [...optionsEl.children] as HTMLButtonElement[]) {
@@ -270,6 +275,10 @@ const PER_LEVEL = 2;
     root.querySelector<HTMLElement>("[data-es-intro]")!.hidden = true;
     result.querySelector<HTMLElement>("[data-es-result-level]")!.textContent = level;
     setT(result.querySelector<HTMLElement>("[data-es-result-lead]")!, `placement.lead.${level}`, LEAD[level] ?? "");
+    // How much the verdict rests on: the score, and that a short test can be a step off.
+    setT(result.querySelector<HTMLElement>("[data-es-result-note]")!, "placement.note",
+      `${totalRight} of ${totalAsked} questions right. A short test is only a rough guide: your level may be one step higher or lower.`,
+      { right: totalRight, n: totalAsked });
     const slug = level.toLowerCase();
     result.querySelector<HTMLAnchorElement>("[data-es-go-lesson]")!.href = withBase(`/grammaire/parcours?niveau=${slug}`);
     result.querySelector<HTMLAnchorElement>("[data-es-go-grammar]")!.href = withBase(`/grammaire#niveau-${slug}`);
@@ -296,6 +305,8 @@ const PER_LEVEL = 2;
     quiz.hidden = false;
     root.querySelector<HTMLElement>("[data-es-intro]")!.hidden = false;
     rung = 0;
+    totalRight = 0;
+    totalAsked = 0;
     drawLevel();
   });
 
@@ -304,7 +315,7 @@ const PER_LEVEL = 2;
   // pass may already have run by then — so re-translate what the script tagged.
   loadDict(getLang()).then((d) => {
     dict = d;
-    for (const el of root.querySelectorAll<HTMLElement>("[data-es-level][data-i18n], [data-es-result-lead][data-i18n], [data-es-down][data-i18n], [data-es-up][data-i18n]")) {
+    for (const el of root.querySelectorAll<HTMLElement>("[data-es-level][data-i18n], [data-es-result-lead][data-i18n], [data-es-result-note][data-i18n], [data-es-down][data-i18n], [data-es-up][data-i18n]")) {
       if (d[el.dataset.i18n!] != null) el.textContent = translate(d, el.dataset.i18n!, el.dataset.i18nVars ? JSON.parse(el.dataset.i18nVars) : undefined);
     }
   });

@@ -39,7 +39,7 @@ function ensure() {
   const comp = ctx.createDynamicsCompressor();
   comp.threshold.value = -14;
   comp.ratio.value = 6;
-  master.connect(comp).connect(ctx.destination);
+  master.connect(comp).connect(volumeOut(ctx));
   musicBus = ctx.createGain();
   musicBus.gain.value = 0.55;
   musicBus.connect(master);
@@ -223,6 +223,7 @@ const TRACKS = {
     board: "/audio/quiz/board.mp3",
   },
 };
+import { volumeOut } from "../spieleEinstellungen.js";
 import { withBase } from "../paths.js";
 const buffers = {}; // url → Promise<AudioBuffer | null>
 

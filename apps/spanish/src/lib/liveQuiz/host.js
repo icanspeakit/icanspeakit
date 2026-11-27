@@ -19,13 +19,15 @@ import { countUp, flipCards, reduced, slideRanks, wait } from "./anim.js";
 import { createRuleIntro } from "../ruleIntro.js";
 import { enhanceSwitch } from "../segSwitch.js";
 import { mountMusicPickers, mountSoundToggles, music, preloadMusic, sfx, stopVictory, unlock, victory } from "./sound.js";
-import { animalOf, avatarSrc, randomAnimal } from "./names.js";
+import { animalOf, avatarSrc, freshAnimal, randomAnimal } from "./names.js";
 import { confetti, confettiShow } from "./confetti.js";
 import { mountKeep } from "./keep.js";
 import { intent } from "../intent.js";
 import { mascotSvg } from "../mascots.js";
 import { setMarked } from "../markedText.js";
 import { withBase } from "../paths.js";
+import { flagItems, meldenLink, meldenLinkHtml, onMeldenClick } from "../meldung.js";
+import { cleanRef, fingerprint } from "../meldungRef.js";
 
 const SHAPES = ["▲", "◆", "●", "■"];
 /** Shows `src` in an <img>, or hides it. */
@@ -486,7 +488,7 @@ export function mountHost(root) {
     btns.forEach((b) => (b.disabled = true));
     try {
       const { resolveQuestions, hasWords } = await loadCustom();
-      questions = resolveQuestions(quiz.questions, hasWords(quiz.questions) ? await loadQuestions() : null);
+      questions = resolveQuestions(quiz.questions, hasWords(quiz.questions) ? await loadQuestions() : null, (_q, i) => `lq:quiz/${quiz.id}/q${i + 1}`);
       if (questions.length === 0) throw new Error("empty");
       await openRoom();
       phase = "lobby";
@@ -524,7 +526,7 @@ export function mountHost(root) {
       const count = pick(fd, "count", 10);
       const words = async (n) => {
         const own = (await quizQuestionsFor(set, MEANING_LANGS, 50)).sort(() => Math.random() - 0.5).slice(0, n);
-        return resolveQuestions(own, hasWords(own) ? await loadQuestions() : null);
+        return resolveQuestions(own, hasWords(own) ? await loadQuestions() : null, (q) => `lq:set/${id}/${q.prompt}`);
       };
       if (grammar) {
         const { mixedQuestions } = await import("./mix.js");
@@ -703,11 +705,13 @@ export function mountHost(root) {
       if (known) {
         known.online = true;
         known.lang = m.lang;
-        if (m.avatar) known.avatar = m.avatar;
+        // A name the host gave (renameInLobby, a doubled animal) keeps its animal.
+        if (m.avatar && !known.hostNamed) known.avatar = m.avatar;
       } else {
         // A phone from before the name step sends no animal: one from its name, or any.
-        const avatar = avatarSrc(m.avatar) ? m.avatar : animalOf(m.name) ?? randomAnimal();
-        players.set(m.id, { name: uniqueName(m.name), avatar, lang: m.lang, score: 0, online: true });
+        const seat = uniqueName(m.name);
+        const avatar = seat.animal ?? (avatarSrc(m.avatar) ? m.avatar : animalOf(m.name) ?? randomAnimal());
+        players.set(m.id, { name: seat.name, avatar, lang: m.lang, score: 0, online: true, ...(seat.animal ? { hostNamed: true } : {}) });
         if (phase === "lobby") { sfx("join"); greet(players.get(m.id).name); }
       }
     }
@@ -722,22 +726,50 @@ export function mountHost(root) {
     save();
   }
 
-  /** Two "Ali"s become "Ali" and "Ali 2" — each phone learns its name from the roster. */
+  const takenNames = () => new Set([...players.values()].map((p) => p.name.toLowerCase()));
+
+  /** Two "Ali"s become "Ali" and "Ali 2"; a second animal name quietly becomes another
+   *  animal (`animal` set). Each phone learns its name and animal from the roster. */
   function uniqueName(name) {
     const base = name || "Gast";
-    const taken = new Set([...players.values()].map((p) => p.name.toLowerCase()));
-    if (!taken.has(base.toLowerCase())) return base;
+    const taken = takenNames();
+    if (!taken.has(base.toLowerCase())) return { name: base };
+    if (animalOf(base)) { const pick = freshAnimal(taken); return { name: pick.name, animal: pick.animal }; }
     for (let i = 2; ; i++) {
       const next = `${base.slice(0, 13)} ${i}`;
-      if (!taken.has(next.toLowerCase())) return next;
+      if (!taken.has(next.toLowerCase())) return { name: next };
     }
+  }
+
+  /** The teacher taps a name in the lobby → "Another name": a fresh animal name in its place
+   *  (a joke name on the projector, a typo). The phone shows it with a short note. */
+  function renameInLobby(id) {
+    const p = players.get(id);
+    if (!p) return;
+    const pick = freshAnimal(takenNames());
+    p.name = pick.name;
+    p.avatar = pick.animal;
+    p.hostNamed = true;
+    p.renamed = (p.renamed ?? 0) + 1;
+    sfx("click");
+    renderLobby();
+    sendRoster();
+    save();
   }
 
   /** Whether any question shows a meaning: only then do the phones ask for a language. */
   const translates = () => questions.some((q) => q.prompt.de == null || q.options.some((o) => o.de == null));
 
+  /** The projector's translation language where the questions carry it: phones that never
+   *  chose a language follow it, and the test phone switches to it. */
+  const screenLang = () => {
+    const l = shownLang();
+    const has = (o) => o?.de == null && o?.[l] != null;
+    return l && l !== "de" && questions.some((q) => has(q.prompt) || q.options.some(has)) ? l : null;
+  };
+
   function sendRoster() {
-    send("roster", { phase, translate: translates(), players: [...players].map(([id, p]) => ({ id, name: p.name })) });
+    send("roster", { phase, translate: translates(), screenLang: screenLang(), players: [...players].map(([id, p]) => ({ id, name: p.name, ...(p.hostNamed ? { avatar: p.avatar } : {}), ...(p.renamed ? { renamed: p.renamed } : {}) })) });
   }
 
   // Bruno hosts the lobby: he asks the class to join and says hello to each newcomer.
@@ -759,11 +791,29 @@ export function mountHost(root) {
 
   // Who is already on screen: only a newcomer pops in, the others stay still.
   const inLobby = new Set();
+  // A tap on a name opens "Another name" for it, nothing more: no visible button until then,
+  // so the lobby looks as it always did. The list is redrawn on every join, hence the id.
+  let renameOpen = null;
+  $("[data-lobby-list]").addEventListener("click", (e) => {
+    const li = e.target.closest("li[data-id]");
+    if (!li) return;
+    if (e.target.closest("[data-rename]")) return renameInLobby(li.dataset.id);
+    renameOpen = renameOpen === li.dataset.id ? null : li.dataset.id;
+    renderLobby();
+  });
   function renderLobby() {
     const online = [...players].filter(([, p]) => p.online);
+    if (renameOpen && !online.some(([id]) => id === renameOpen)) renameOpen = null;
     $("[data-lobby-count]").textContent = t("lq.host.players", "{n} Mitspieler", { n: online.length });
+    const renameLabel = esc(t("lq.host.rename", "Another name"));
     $("[data-lobby-list]").innerHTML = online.length
-      ? online.map(([id, p]) => `<li${inLobby.has(id) ? "" : ' class="is-new"'}>${avatarImg(p.avatar)}${esc(p.name)}</li>`).join("")
+      ? online.map(([id, p]) => {
+          const open = id === renameOpen;
+          return `<li data-id="${esc(id)}" class="${inLobby.has(id) ? "" : "is-new"}${open ? " is-open" : ""}">`
+            + `<button type="button" class="lq-roster-name" aria-expanded="${open}">${avatarImg(p.avatar)}${esc(p.name)}</button>`
+            + (open ? `<button type="button" class="lq-rename" data-rename><span aria-hidden="true">🎲</span> ${renameLabel}</button>` : "")
+            + `</li>`;
+        }).join("")
       : `<li class="lq-empty">${esc(t("lq.host.waiting", "Warte auf die ersten Mitspieler …"))}</li>`;
     online.forEach(([id]) => inLobby.add(id));
     $("[data-test]").hidden = testing();
@@ -784,6 +834,30 @@ export function mountHost(root) {
   // The language of what optionText shows: long German words hyphenate by syllable (see
   // hyphens in live-quiz.css), and the page's own lang follows the UI, not the word.
   const optionLang = (o) => (o.de != null ? "de" : o[shownLang()] != null ? shownLang() : "en");
+
+  /* "Report a problem" (src/lib/meldung.js) during the question, on the reveal and in the
+     look back: a question's `ref` says where it came from — w:<lexicon id>, a chapter item's
+     src (g:…), lq:syn/… for a synonym group, lq:quiz/<id>/q<n> or lq:set/<id>/… for a
+     teacher's own question. Teachers report their own questions too; the snapshot says so
+     (`eigeneFrage`). */
+  const meldTarget = (q) => {
+    const ref = cleanRef(q?.ref);
+    if (!ref) return null;
+    const plain = (o) => (o ? o.de ?? o.en ?? "" : "");
+    return {
+      ref,
+      fingerprint: fingerprint(plain(q.prompt), plain(q.options[q.correct])),
+      snapshot: () => ({
+        quelle: "live-quiz",
+        aufgabe: kindOf(q),
+        frage: optionText(q.prompt),
+        optionen: q.options.map(optionText),
+        loesung: optionText(q.options[q.correct]),
+        sprache: shownLang(),
+        ...(q.own ? { eigeneFrage: true, quiz: q.quiz ?? null } : {}),
+      }),
+    };
+  };
 
   /** Each player's place and score before this question: where the ranking animates from. */
   let before = new Map();
@@ -819,6 +893,20 @@ export function mountHost(root) {
     $("[data-q-options]").innerHTML = q.options
       .map((o, i) => `<div class="lq-opt lq-opt--${OPTION_STYLES[i]}"><span class="lq-shape" aria-hidden="true">${SHAPES[i]}</span><span dir="auto" lang="${optionLang(o)}">${esc(optionText(o))}</span></div>`)
       .join("");
+    // "Report a problem" during the question too: the clock pauses while the sheet is open
+    // (unless the teacher had paused already) and runs on when it closes.
+    const qMelden = $("[data-q-melden]");
+    qMelden.replaceChildren(...(meldTarget(q) ? [meldenLink(() => {
+      const pause = document.querySelector("[data-tempo-pause]");
+      if (phase === "question" && current && !current.done && current.pausedLeft == null && pause) {
+        pause.click();
+        setTimeout(() => document.querySelector("dialog.mf-sheet")?.addEventListener("close", () => {
+          if (phase === "question" && current && !current.done && current.pausedLeft != null) pause.click();
+        }, { once: true }));
+      }
+      return meldTarget(q);
+    }, { className: "lq-melden" })] : []));
+    qMelden.hidden = !meldTarget(q);
     renderCount();
     show("question");
     if (!resumed) botsAnswer(q);
@@ -867,10 +955,14 @@ export function mountHost(root) {
 
   function onAnswer({ id, n, choice } = {}) {
     if (!current || current.done || n !== current.n) return;
-    if (!players.has(id) || current.answers.has(id)) return;
+    if (!players.has(id)) return;
     if (!Number.isInteger(choice) || choice < 0 || choice > 3) return;
+    // A player may change their answer while the clock runs; the latest one counts. The
+    // same choice again is a resend after a reconnect and keeps its first time.
+    if (current.answers.get(id)?.choice === choice) return;
     // Time used, against the clock as it stands: a question the teacher gave more time
-    // scores against its longer clock, and a pause is not counted.
+    // scores against its longer clock, and a pause is not counted. A changed answer is
+    // timed when it came, so changing costs speed points but never being right.
     current.answers.set(id, { choice, ms: current.total - leftMs(), total: current.total });
     // A late joiner who answers anyway is counted: they saw the question, so it is theirs.
     current.eligible.add(id);
@@ -918,7 +1010,9 @@ export function mountHost(root) {
       dist: [...dist],
       seen: [...current.eligible].filter((id) => players.has(id)).length,
     });
-    const revealed = { n: current.n, correct: q.correct, img: q.img ?? null, dist, results };
+    // `ref`: where the question came from, so a phone can report it (player.js).
+    // Only now, with the answer out: it never tells anything before the reveal.
+    const revealed = { n: current.n, correct: q.correct, img: q.img ?? null, dist, results, ref: cleanRef(q.ref) ?? null };
     send("reveal", revealed);
     remember("reveal", revealed);
     phase = "reveal";
@@ -966,6 +1060,11 @@ export function mountHost(root) {
         </div>`)
       .join("");
     $("[data-r-next]").textContent = t("lq.host.toBoard", "Rangliste");
+    // Reporting stops "move on automatically": the sheet would otherwise sit over the ranking.
+    const melden = $("[data-r-melden]");
+    melden.dataset.qi = String(qi);
+    melden.replaceChildren(...(meldTarget(q) ? [meldenLink(() => { stopAuto(); return meldTarget(q); }, { className: "lq-melden" })] : []));
+    melden.hidden = !meldTarget(q);
     show("reveal");
     $("[data-r-dist]").querySelectorAll("[data-dist-n]").forEach((b) => countUp(b, 0, Number(b.dataset.distN), 800));
     autoNext($("[data-r-next]"), renderBoard, autoSeconds().reveal);
@@ -1107,6 +1206,13 @@ export function mountHost(root) {
   recapBtn.addEventListener("click", () => podTab(recapBtn.getAttribute("aria-pressed") === "true" ? "ceremony" : "recap"));
   mountKeep($("[data-screen=podium]"), { name: "live-quiz" });
 
+  // The recap: the report sheet for everyone, the dev flag (one tap) on each row. Not on
+  // the reveal: its one element is reused for every question, so a flag would stay on it.
+  const sumList = $("[data-sum-list]");
+  const playedTarget = (i) => meldTarget(played[Number(i)]?.q);
+  onMeldenClick(sumList, (b) => playedTarget(b.dataset.mfQi));
+  flagItems(sumList, ".lq-sum-item[data-qi]", (el) => playedTarget(el.dataset.qi));
+
   function renderRecap(playerCount) {
     const rows = played.map(({ q, dist, seen }, i) => {
       const ok = dist[q.correct] ?? 0;
@@ -1139,7 +1245,7 @@ export function mountHost(root) {
       const answer = r.q.options[r.q.correct];
       const wrong = r.miss >= 0 ? r.q.options[r.miss] : null;
       return `
-        <li class="lq-sum-item is-${level}">
+        <li class="lq-sum-item is-${level}" data-qi="${r.i}">
           <span class="lq-sum-n">${r.i + 1}</span>
           <div class="lq-sum-body">
             <p class="lq-sum-kind">${esc(kindOf(r.q))}</p>
@@ -1147,6 +1253,7 @@ export function mountHost(root) {
             <p class="lq-sum-q" data-sum-q="${r.i}" dir="auto" lang="${optionLang(r.q.prompt)}"></p>
             <p class="lq-sum-a"><span class="lq-sum-chip lq-opt--${OPTION_STYLES[r.q.correct]}"><span aria-hidden="true">✓</span> <span dir="auto" lang="${optionLang(answer)}">${esc(optionText(answer))}</span></span></p>
             ${wrong ? `<p class="lq-sum-miss">${esc(t("lq.sum.miss", "Häufigste falsche Antwort:"))} <b dir="auto" lang="${optionLang(wrong)}">${esc(optionText(wrong))}</b> <span>(${r.missN}×)</span></p>` : ""}
+            ${meldTarget(r.q) ? meldenLinkHtml(`data-mf-qi="${r.i}"`).replace('class="mf-row"', 'class="mf-row lq-sum-melden"') : ""}
           </div>
           <div class="lq-sum-score">
             <b>${r.pct == null ? "–" : `${r.pct} %`}</b>

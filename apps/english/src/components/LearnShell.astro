@@ -481,17 +481,17 @@ const stats = (s: Section) => {
   const counted = s.items.filter((i) => typeof i.tasks === "number");
   const tasks = sum(counted.map((i) => i.tasks!));
   const done = sum(counted.map((i) => i.done ?? 0));
-  return { tasks, done, minutes: sum(s.items.map((i) => i.minutes ?? 0)), pct: tasks ? Math.round((done / tasks) * 100) : null };
+  return { tasks, done, minutes: sum(s.items.map((i) => i.minutes ?? 0)), pct: tasks ? Math.floor((done * 100) / tasks) : null };
 };
 const sectionStats = Object.fromEntries(sections.map((s) => [s.id, stats(s)]));
-const itemPct = (i: Item) => (i.tasks ? Math.round(((i.done ?? 0) / i.tasks) * 100) : null);
+const itemPct = (i: Item) => (i.tasks ? Math.floor(((i.done ?? 0) * 100) / i.tasks) : null);
 const sectionOf = Object.fromEntries(sections.flatMap((s) => s.items.map((i) => [i.id, s])));
 const courseStats = sectionStats.weg;
 
 const ladder = ["a1", "a2", "b1", "b2"].map((id) => {
   const s = sections.find((x) => x.id === id)!;
   const p = sectionStats[id].pct ?? 0;
-  return { id, label: s.badge, state: p === 100 ? "done" : p > 0 ? "current" : "todo" };
+  return { id, label: s.badge, state: p === 100 ? "done" : sectionStats[id].done > 0 ? "current" : "todo" };
 });
 
 /**
@@ -1028,7 +1028,7 @@ const defaultVariant = variants[0];
 
   <script>
 import { currentPath } from "../lib/paths.js";
-    import { getTopicProgress, resetProgress, getResume, getProgress, getWeeklyCount, getWeeklyGoal } from "../lib/progress.js";
+    import { getTopicProgress, resetProgress, getResume, getProgress, getWeeklyCount, getWeeklyGoal, dayStr } from "../lib/progress.js";
     import { mountWegPanel, paintWegPanel } from "../lib/wegPanel.js";
     import { createRuleIntro } from "../lib/ruleIntro.js";
     import { getLang, loadDict, onLangChange } from "../lib/i18n.js";
@@ -1126,7 +1126,7 @@ import { currentPath } from "../lib/paths.js";
     // ── Derived numbers ───────────────────────────────────────────────
     const pctOf = (id: string) => {
       const it = ITEMS[id];
-      return it.tasks ? Math.round((progress[id] / it.tasks) * 100) : null;
+      return it.tasks ? Math.floor((progress[id] * 100) / it.tasks) : null;
     };
     // The course as a whole: every grammar topic behind the portions, plus the
     // two modules that are not split. Only the strip reads this — everything
@@ -1146,14 +1146,14 @@ import { currentPath } from "../lib/paths.js";
         tasks += it.tasks;
         done += Math.min(progress[id] ?? 0, it.tasks);
       }
-      return { tasks, done, pct: tasks ? Math.round((done / tasks) * 100) : null };
+      return { tasks, done, pct: tasks ? Math.floor((done * 100) / tasks) : null };
     }
 
     function sectionTotals(sid: string) {
       const ids = SECTIONS[sid].items.filter((id: string) => ITEMS[id].tasks);
       const tasks = ids.reduce((a: number, id: string) => a + ITEMS[id].tasks, 0);
       const done = ids.reduce((a: number, id: string) => a + progress[id], 0);
-      return { tasks, done, pct: tasks ? Math.round((done / tasks) * 100) : null };
+      return { tasks, done, pct: tasks ? Math.floor((done * 100) / tasks) : null };
     }
 
     // How much of one portion is done. A portion is a window over the ordered
@@ -1306,7 +1306,7 @@ import { currentPath } from "../lib/paths.js";
         if (list) list.innerHTML = pick.map((id) => {
           const it = ITEMS[id];
           const d = progress[id] ?? 0;
-          const p = Math.round((d / it.tasks) * 100);
+          const p = Math.floor((d * 100) / it.tasks);
           const n = left(id), m = minsLeft(id);
           const meta = n === 1
             ? t("fortschritt.now.oneLeft", "Nur noch 1 Aufgabe")
@@ -1336,7 +1336,7 @@ import { currentPath } from "../lib/paths.js";
         const days = Array.from({ length: 7 }, (_, i) => {
           const d = new Date(today);
           d.setDate(today.getDate() - (6 - i));
-          return { key: d.toISOString().slice(0, 10), label: NOW_DAYS[(d.getDay() + 6) % 7], today: i === 6 };
+          return { key: dayStr(d), label: NOW_DAYS[(d.getDay() + 6) % 7], today: i === 6 };
         });
         const daysEl = $("[data-now-days]");
         if (daysEl) daysEl.innerHTML = days.map((d) => {
@@ -1397,9 +1397,9 @@ import { currentPath } from "../lib/paths.js";
         const label = $(`[data-secringlabel="${sid}"]`);
         if (label) label.textContent = t("fortschritt.ring.label", "{done} von {tasks} Aufgaben", { done: st.done, tasks: st.tasks });
         const dot = $(`[data-raildot="${sid}"]`);
-        if (dot) dot.dataset.state = st.pct === 100 ? "done" : st.pct > 0 ? "current" : "todo";
+        if (dot) dot.dataset.state = st.pct === 100 ? "done" : st.done > 0 ? "current" : "todo";
         const ladderBtn = $(`[data-ladder="${sid}"]`);
-        if (ladderBtn) ladderBtn.dataset.state = st.pct === 100 ? "done" : st.pct > 0 ? "current" : "todo";
+        if (ladderBtn) ladderBtn.dataset.state = st.pct === 100 ? "done" : st.done > 0 ? "current" : "todo";
         // The visible section ring animates; the hidden ones just get set.
         const view = $(`[data-section-view="${sid}"]`);
         const visible = view && !(view as HTMLElement).hidden;
@@ -1461,6 +1461,18 @@ import { currentPath } from "../lib/paths.js";
     }
     placeRail();
     phone.addEventListener("change", placeRail);
+
+    // The site header (.lp-nav) is sticky at the top too, and above the row in z-order, so
+    // with `top: 0` the row stuck UNDER it. On a phone it sticks just below the header.
+    const siteNav = document.querySelector<HTMLElement>(".lp-nav");
+    function railTop() {
+      if (!railRow || !siteNav) return;
+      const top = parseFloat(getComputedStyle(siteNav).top) || 0;
+      railRow.style.top = phone.matches ? `${top + siteNav.offsetHeight}px` : "";
+    }
+    railTop();
+    phone.addEventListener("change", railTop);
+    if (siteNav && "ResizeObserver" in window) new ResizeObserver(railTop).observe(siteNav);
 
     // ── Variant switch ────────────────────────────────────────────────
     function showVariant(id: string) {
@@ -1781,7 +1793,7 @@ import { currentPath } from "../lib/paths.js";
       if (!last) return;
       card.href = last.path;
       card.querySelector("[data-weg-last-title]")!.textContent = last.title;
-      const days = last.at ? Math.round((Date.parse(new Date().toISOString().slice(0, 10)) - Date.parse(last.at)) / 864e5) : NaN;
+      const days = last.at ? Math.round((Date.parse(dayStr()) - Date.parse(last.at)) / 864e5) : NaN;
       card.querySelector("[data-weg-last-when]")!.textContent =
         !Number.isFinite(days) ? "" :
         days <= 0 ? t("fortschritt.last.today", "heute") :

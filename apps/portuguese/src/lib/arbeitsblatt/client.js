@@ -12,6 +12,7 @@
 // necessity — the printed key needs them — but never shown on screen in online mode until
 // the learner asks for them to be checked.
 import { intent } from "../intent.js";
+import { printWithHint } from "../printHint.js";
 import { currentPath } from "../paths.js";
 
 const norm = (s) =>
@@ -78,7 +79,8 @@ export function mountWorksheet(root) {
     // The analytics tool name stays English (grammar / vocabulary / partner) so the series continues.
     const KIND = { "gramatica": "grammar", "vocabulario": "vocabulary", "pares": "partner" };
     if (kind) intent("teacher_tool_use", { tool: `worksheet_${KIND[kind]}` });
-    window.print();
+    // In-app browsers ignore window.print() without a word; printWithHint says what to do then.
+    printWithHint(root.querySelector("[data-ab-print]"));
   });
   root.querySelector("[data-ab-check]")?.addEventListener("click", check);
   root.querySelector("[data-ab-reset]")?.addEventListener("click", () => {

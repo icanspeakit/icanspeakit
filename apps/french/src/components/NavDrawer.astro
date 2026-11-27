@@ -49,6 +49,7 @@ const ALL_LABELS: Record<string, string> = {
   fertigkeiten: "Alle Fertigkeiten",
   landeskunde: "Alle Landeskunde-Themen",
   pruefungen: "Alle Prüfungen",
+  spiele: "All games",
   kulturwissen: "Alle Kulturthemen",
   hoeren: "Alle Hörübungen",
   lesen: "Alle Lesetexte",
@@ -618,6 +619,15 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
   </style>
 </noscript>
 
+<script is:inline>
+  // Before the drawer script has loaded (slow network, first seconds) a tap on the menu button
+  // did nothing. Remember it; the script below opens the drawer as soon as it runs.
+  document.addEventListener("click", function (e) {
+    if (window.__daDrawerReady || !(e.target instanceof Element)) return;
+    if (e.target.closest("[data-drawer-open]")) window.__daDrawerTap = true;
+  }, true);
+</script>
+
 <script>
   /* Mobile drawer ------------------------------------------------------------- */
   const drawer = document.querySelector<HTMLElement>("[data-drawer]");
@@ -675,6 +685,9 @@ const vars = (v) => (v ? JSON.stringify(v) : undefined);
   }
 
   openBtn?.addEventListener("click", openDrawer);
+  // A tap on the menu button while this script was still loading (slow network): open now.
+  (window as any).__daDrawerReady = true;
+  if ((window as any).__daDrawerTap) openDrawer();
   for (const el of document.querySelectorAll("[data-drawer-close]")) {
     el.addEventListener("click", closeDrawer);
   }

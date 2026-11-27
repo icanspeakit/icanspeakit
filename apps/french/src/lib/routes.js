@@ -71,6 +71,8 @@ export const topicSlug = (key) => TOPIC_SLUGS[key] ?? key;
 export const topicKeyFromSlug = (slug) => TOPIC_KEYS[slug] ?? slug;
 /** The page of a grammar topic. */
 export const topicPath = (key) => `/${topicSlug(key)}`;
+/** The page where a student types the PIN of a live practice round (src/pages/en-direct.astro). */
+export const LIVE_JOIN_PATH = "/en-direct";
 
 // The reference tables under /grammaire/<ref> (src/data/nachschlagen/<file>.json). The file
 // names stayed; the URL is French.

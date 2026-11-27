@@ -94,7 +94,8 @@
 .clp-opt:hover, .clp-opt.is-active { background: var(--surface); }
 .clp-opt.is-active { box-shadow: inset 0 0 0 2px var(--brand-blue); }
 .clp-opt[aria-selected="true"] { font-weight: 700; color: var(--brand-blue-dark); background: var(--blue-50); }
-.clp-opt.is-soon { cursor: default; color: var(--muted); }
+/* Tappable: a tap says why the language is not there yet (notReady.js). */
+.clp-opt.is-soon, .clp-opt.is-soon[data-why] { cursor: pointer; color: var(--muted); opacity: 1; }
 .clp-opt.is-soon:hover { background: none; }
 .clp-opt.is-soon .clp-native { opacity: .7; }
 .clp-check { width: 1em; flex: none; color: var(--brand-blue); }

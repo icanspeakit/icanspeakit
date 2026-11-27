@@ -102,9 +102,12 @@ function shuffleList(list) {
   return a;
 }
 
-function stateClass(checked, ok, chosen) {
+function stateClass(checked, ok, chosen, skipped = false) {
   if (!checked) return chosen ? "is-chosen" : "";
   // The right answer the learner did not pick is shown, but quieter than their own hit.
+  // In a row left empty it is only the solution, with no ✓: green with a tick there read as
+  // "correct" for rows never answered.
+  if (ok && !chosen && skipped) return "is-answer is-skipped";
   return ok ? (chosen ? "is-correct" : "is-answer") : chosen ? "is-wrong" : "";
 }
 
@@ -122,7 +125,7 @@ function pillsHtml(options, idx, value, checked, answer, art) {
       const body = icon
         ? `<span class="vp-pill-art">${icon(o)}</span><span class="vp-pill-label">${escapeHtml(o)}</span>`
         : escapeHtml(o);
-      return `<button type="button" class="vp-pill-opt${icon ? " vp-pill-opt--art" : ""} ${stateClass(checked, ok, chosen)}" data-slot="${idx}" data-val="${escapeHtml(o)}" ${checked ? "disabled" : ""}>${body}</button>`;
+      return `<button type="button" class="vp-pill-opt${icon ? " vp-pill-opt--art" : ""} ${stateClass(checked, ok, chosen, !value)}" data-slot="${idx}" data-val="${escapeHtml(o)}" ${checked ? "disabled" : ""}>${body}</button>`;
     })
     .join("")}</span>`;
 }
@@ -163,6 +166,11 @@ function demoPick(opts, answer, wrong) {
   return opts.find((o) => accepts(answer, o) !== wrong) ?? (wrong ? "–" : modelAnswer(answer));
 }
 
+/* 1, 2, 3 … before each sentence, so a teacher can say "number 4" (live practice, video calls;
+   upstream 74acf507). Only when an exercise has more than one; gap texts and multiple choice
+   number their gaps themselves. */
+const itemNum = (idx, count) => (count > 1 && idx >= 0 ? `<span class="vp-item-num">${idx + 1}</span>` : "");
+
 /* ---------------------------------------------------------------- fill ----
  * Choose everything first, check once at the end (Edgar, 2026-10-15): one „Prüfen" under
  * the list instead of one per sentence. Items left open are fine — they are neither marked
@@ -198,13 +206,14 @@ function mountFill(root, ex, notify) {
         const others = ok && item.also ? [modelAnswer(item.answer), ...[].concat(item.also)].filter((a) => !accepts(a, val)) : [];
         // Few options: on a wide card they sit beside the sentence, not under it (CSS).
         const side = opts.length <= 4 ? " vp-fill-item--side" : "";
+        const num = itemNum(idx, ex.items.length);
         return `
-          <div class="vp-fill-item${side}${checked ? (ok ? " is-correct" : " is-wrong") : ""}${state.fresh.has(idx) ? " is-fresh" : ""}" data-mitem="${idx}">
-            <p class="vp-fill-prompt">${escapeHtml(item.prompt)}</p>
+          <div class="vp-fill-item${side}${num ? " vp-numbered" : ""}${checked ? (ok ? " is-correct" : " is-wrong") : ""}${state.fresh.has(idx) ? " is-fresh" : ""}" data-mitem="${idx}">
+            <p class="vp-fill-prompt">${num}${escapeHtml(item.prompt)}</p>
             ${item.hint ? `<p class="vp-fill-hint">${escapeHtml(item.hint)}${irregularHtml(item)}</p>` : ""}
             <div class="vp-fill-row">${control}${feedback}</div>
             ${others.length ? `<p class="vp-fill-why" lang="de"><b>${escapeHtml(t("vp.fillAlso", "Auch richtig:"))}</b> ${others.map((a) => `„${escapeHtml(a)}“`).join(", ")}</p>` : ""}
-            ${checked && !ok && item.why ? `<p class="vp-fill-why" lang="de"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
+            ${checked && item.why ? `<p class="vp-fill-why"><b>${escapeHtml(t("vp.fillWhy", "Warum?"))}</b> ${escapeHtml(item.why)}</p>` : ""}
           </div>`;
       })
       .join("");
@@ -290,7 +299,7 @@ function mountMatch(root, ex, notify) {
   // `misses` counts wrong picks per left item; from the second miss the right answer glows
   // (session replays: learners rage-tapped after several misses). `nudge` = a right-hand tap
   // came before any left pick, so the step line and the left column shake instead of nothing.
-  const state = { selectedLeft: null, solved: [], wrong: null, fresh: null, misses: {}, nudge: false };
+  const state = { selectedLeft: null, solved: [], wrong: null, fresh: null, misses: {}, nudge: false, remind: false };
   // A pair's two labels: the number on the left, the letter on the right.
   const letterOf = (rightIdx) => String.fromCharCode(65 + order.indexOf(rightIdx));
 
@@ -323,9 +332,10 @@ function mountMatch(root, ex, notify) {
     // next tap — the wrong pair is no longer wiped after 0.7 s.
     const step = done ? "" : state.wrong
       ? `<p class="vp-match-step is-wrong" role="status">${LABEL.matchWrong(letterOf(state.wrong.right), state.wrong.left + 1)}</p>`
-      : `<p class="vp-match-step" role="status"${state.nudge ? ` style="animation:${SHAKE}"` : ""}>${state.selectedLeft == null ? LABEL.matchStart : LABEL.matchNext(state.selectedLeft + 1)}</p>`;
+      : `<p class="vp-match-step" role="status"${state.nudge || state.remind ? ` style="animation:${SHAKE}"` : ""}>${state.selectedLeft == null ? LABEL.matchStart : LABEL.matchNext(state.selectedLeft + 1)}</p>`;
     state.fresh = null;
     state.nudge = false;
+    state.remind = false;
 
     root.innerHTML = `
       ${step}
@@ -345,7 +355,14 @@ function mountMatch(root, ex, notify) {
   function selectLeft(i) {
     // A second tap on the chosen one keeps it chosen: toggling it off read as "broken"
     // to learners who tapped again to be sure. Another left tap switches the choice.
-    if (state.solved.includes(i) || state.selectedLeft === i) return;
+    if (state.solved.includes(i)) return;
+    // ... but not silently: the step line "now pick its partner on the right" shakes, so the
+    // second tap gets an answer.
+    if (state.selectedLeft === i) {
+      state.remind = true;
+      render();
+      return;
+    }
     state.selectedLeft = i;
     state.wrong = null;
     render();
@@ -420,6 +437,8 @@ function mountTable(root, ex, notify) {
   // each as wide as its text.
   const long = perRow && !ex.choiceArt &&
     (rowOptions.some((o) => o.some((x) => String(x).length > 12)) || ex.rows.some((r) => String(r.term ?? "").length > 20));
+  // Whole sentences as choices: one under the other, as a list.
+  const sentences = long && rowOptions.some((o) => o.some((x) => String(x).length > 22));
   const state = { values: {}, checked: false };
 
   function render() {
@@ -432,7 +451,7 @@ function mountTable(root, ex, notify) {
         const control = pillsHtml(rowOptions[idx] ?? options, idx, val, state.checked, row.answer, ex.choiceArt);
         return `
           <div class="vp-table-row" data-mitem="${idx}">
-            <span class="vp-table-verb">${markedHtml(row.term)}${irregularHtml(row)}</span>
+            <span class="vp-table-verb">${itemNum(idx, ex.rows.length)}${markedHtml(row.term)}${irregularHtml(row)}</span>
             ${control}
           </div>`;
       })
@@ -441,7 +460,7 @@ function mountTable(root, ex, notify) {
       ? ex.rows.map((row, i) => ({ row, given: state.values[i] || "" })).filter((w) => !accepts(w.row.answer, w.given))
       : [];
     root.innerHTML = `
-      <div class="vp-table${perRow ? " vp-table--choices" : ""}${long ? " vp-table--long" : ""}">${head}${rows}</div>
+      <div class="vp-table${perRow ? " vp-table--choices" : ""}${long ? " vp-table--long" : ""}${sentences ? " vp-table--sentences" : ""}">${head}${rows}</div>
       <div class="vp-actions">
         ${state.checked ? "" : `<button type="button" class="vp-btn-check" data-table-check>${LABEL.check}</button>`}
         <button type="button" class="vp-link-btn" data-table-reset>${LABEL.reset}</button>
@@ -450,7 +469,13 @@ function mountTable(root, ex, notify) {
       ${state.checked && wrong.length ? fixTableHtml(wrong) : ""}`;
 
     root.querySelectorAll("[data-val]").forEach((b) => {
-      b.addEventListener("click", () => { state.values[+b.dataset.slot] = b.dataset.val; render(); });
+      b.addEventListener("click", () => {
+        const idx = +b.dataset.slot;
+        state.values[idx] = b.dataset.val;
+        // Only the chosen pill changes: rebuilding the whole table on every tap made the
+        // rows flicker and jump.
+        root.querySelectorAll(`[data-slot="${idx}"]`).forEach((o) => o.classList.toggle("is-chosen", o === b));
+      });
     });
     root.querySelector("[data-table-check]")?.addEventListener("click", check);
     root.querySelector("[data-table-reset]").addEventListener("click", reset);
@@ -465,6 +490,9 @@ function mountTable(root, ex, notify) {
     render();
     // Regi (grammar) hops in next to the verdict: cheering, or "oops" with the fixes below.
     const fb = root.querySelector(".vp-feedback");
+    // The verdict sits under the last row; on a phone it ended half off the screen.
+    const r = fb?.getBoundingClientRect();
+    if (r && (r.bottom > window.innerHeight - 16 || r.top < 80)) fb.scrollIntoView({ block: "center", behavior: "smooth" });
     mascotHop(fb, fb?.classList.contains("is-correct"), "regi");
   }
   function reset() {
@@ -626,10 +654,28 @@ function mountStory(root, ex, notify) {
         render();
       });
     });
+    root.querySelectorAll("[data-gap]").forEach((g) => g.addEventListener("click", () => tapGap(+g.dataset.gap)));
     root.querySelector("[data-story-check]")?.addEventListener("click", check);
     root.querySelector("[data-story-reset]").addEventListener("click", reset);
   }
 
+  /* A tap on a gap in the text: learners tapped a filled gap again and again to change it,
+     and an empty one to fill it. A filled gap empties, and either way the gap's own answer
+     row pops so the eye finds where to pick. */
+  function tapGap(i) {
+    if (state.checked) return;
+    if (state.values[i]) {
+      delete state.values[i];
+      render();
+    }
+    const row = root.querySelector(`.vp-srow-answer[data-mitem="${i}"]`);
+    if (!row) return;
+    const r = row.getBoundingClientRect();
+    if (r.bottom > window.innerHeight - 16 || r.top < 80) row.scrollIntoView({ block: "center", behavior: "smooth" });
+    row.style.animation = "none";
+    void row.offsetWidth;
+    row.style.animation = POP;
+  }
   function check() {
     state.checked = true;
     blanks.forEach((s) => notify(accepts(s.answer, state.values[s.blank] || ""), s.blank));
@@ -678,8 +724,8 @@ function buildReadings(correct) {
    - a second right order counts too: the clauses swapped (`swapClauses`) and any `alt`
      orders in the data;
    - a wrong try keeps what is right: those tiles turn green, the first wrong one red, and the
-     next tap simply builds on from there. The solution waits behind "Lösung zeigen" and
-     shows itself after the second wrong try. */
+     next tap simply builds on from there. The solution line shows itself after the second
+     wrong try; "Lösung zeigen" lays the tiles out in the right order ("Zurücksetzen" retries). */
 const END = /^[.?!]$/;
 const SUBORD = new Set("als wenn weil bevor nachdem während obwohl seit seitdem bis sobald damit falls sodass".split(" "));
 const PRON = new Set("ich du er sie es wir ihr man".split(" "));
@@ -708,7 +754,17 @@ function prepBuild(sentence) {
   const orders = [main, ...(sentence.alt ?? []).map(strip)];
   const swapped = end !== "?" && swapClauses(main, sentence.hint);
   if (swapped) orders.push(swapped);
-  return { tiles, end, readings: orders.flatMap(buildReadings), min: main.filter((w) => !OPTIONAL.test(w)).length };
+  return { tiles, end, main, readings: orders.flatMap(buildReadings), min: main.filter((w) => !OPTIONAL.test(w)).length };
+}
+/** The tiles (their indexes) in the order of the data's sentence, or null if they don't add up. */
+function solutionTiles(b) {
+  const used = new Set();
+  const out = b.main.map((w) => {
+    const i = b.tiles.findIndex((t, k) => !used.has(k) && bare(t).toLowerCase() === bare(w).toLowerCase());
+    if (i !== -1) used.add(i);
+    return i;
+  });
+  return out.includes(-1) ? null : out;
 }
 // Compared without case: a tile keeps its spelling from the original sentence ("Wenn", "wir"),
 // while the swapped order needs "wenn" and "Wir". The strip capitalises the first word (`shown`).
@@ -735,28 +791,30 @@ function buildPrefix(b, chosen) {
 
 function mountBuild(root, ex, notify) {
   const prep = Object.fromEntries(ex.sentences.map((s) => [s.id, prepBuild(s)]));
-  const fresh = () => ({ chosen: [], checked: false, ok: false, good: 0, misses: 0, shown: false });
+  const fresh = () => ({ chosen: [], checked: false, ok: false, good: 0, misses: 0, shown: false, revealed: false });
   const state = Object.fromEntries(ex.sentences.map((s) => [s.id, fresh()]));
 
   function itemHtml(sentence) {
     const b = prep[sentence.id], bs = state[sentence.id];
-    const wrong = bs.checked && !bs.ok;
+    const wrong = bs.checked && !bs.ok && !bs.revealed;
+    const done = bs.ok || bs.revealed; // revealed: the tiles lie right, but no "correct" for it
     const complete = bs.chosen.length >= b.min;
-    const stripAnim = bs.checked ? (bs.ok ? POP : SHAKE) : "none";
+    const stripAnim = bs.revealed ? "none" : bs.checked ? (bs.ok ? POP : SHAKE) : "none";
     const reading = followedReading(b, bs.chosen);
     const chosen = bs.chosen.map((origIdx, pos) => {
-      const mark = bs.ok ? " is-correct" : wrong ? (pos < bs.good ? " is-correct" : pos === bs.good ? " is-wrong" : "") : "";
-      return `<button type="button" class="vp-chip vp-chip-chosen${mark}" data-sentence="${sentence.id}" data-remove="${pos}" ${bs.ok ? "disabled" : ""}>${escapeHtml(shownIn(reading, b.tiles[origIdx], pos))}</button>`;
+      const mark = done ? " is-correct" : wrong ? (pos < bs.good ? " is-correct" : pos === bs.good ? " is-wrong" : "") : "";
+      return `<button type="button" class="vp-chip vp-chip-chosen${mark}" data-sentence="${sentence.id}" data-remove="${pos}" ${done ? "disabled" : ""}>${escapeHtml(shownIn(reading, b.tiles[origIdx], pos))}</button>`;
     }).join("") + (b.end ? `<span class="vp-build-end" aria-hidden="true">${escapeHtml(b.end)}</span>` : "");
     // Every tile keeps its place: a used one leaves an empty slot of its own width. After a
     // wrong try only the right part stays used; the rest can be tapped again straight away.
     const kept = wrong ? bs.chosen.slice(0, bs.good) : bs.chosen;
     const pool = b.tiles.map((w, i) => kept.includes(i)
       ? `<span class="vp-chip vp-chip-slot" aria-hidden="true">${escapeHtml(w)}</span>`
-      : `<button type="button" class="vp-chip" data-sentence="${sentence.id}" data-pick="${i}" ${bs.ok ? "disabled" : ""}>${escapeHtml(w)}</button>`).join("");
+      : `<button type="button" class="vp-chip" data-sentence="${sentence.id}" data-pick="${i}" ${done ? "disabled" : ""}>${escapeHtml(w)}</button>`).join("");
     const solution = sentence.correct.join(" ").replace(/ ([,.?!])/g, "$1");
     return `
-          <div class="vp-build-item" data-mitem="${sentence.id}">
+          <div class="vp-build-item${ex.sentences.length > 1 ? " vp-numbered" : ""}" data-mitem="${sentence.id}">
+            ${itemNum(ex.sentences.indexOf(sentence), ex.sentences.length)}
             ${sentence.hint ? `<p class="vp-fill-hint">${escapeHtml(sentence.hint)}</p>` : ""}
             <div class="vp-build-strip" style="animation:${stripAnim}">${chosen}</div>
             <div class="vp-build-pool">${pool}</div>
@@ -764,7 +822,7 @@ function mountBuild(root, ex, notify) {
               <button type="button" class="vp-btn-check" data-check="${sentence.id}" ${bs.checked ? "disabled" : ""}${waitAttrs(bs.checked || complete ? null : t("vp.buildMissing", "Es fehlen noch Wörter – tippen Sie die Kacheln unten in der richtigen Reihenfolge an."), ".vp-build-pool .vp-chip:not(.vp-chip-slot)")}>${LABEL.check}</button>
               <button type="button" class="vp-link-btn" data-reset="${sentence.id}">${LABEL.reset}</button>
               ${bs.ok ? `<span class="vp-feedback is-correct">${LABEL.correct}</span>` : ""}
-              ${wrong && !bs.shown ? `<button type="button" class="vp-link-btn" data-show="${sentence.id}">${LABEL.buildShow}</button>` : ""}
+              ${wrong ? `<button type="button" class="vp-link-btn" data-show="${sentence.id}">${LABEL.buildShow}</button>` : ""}
             </div>
             ${wrong ? `<p class="vp-feedback is-wrong">${bs.good ? LABEL.buildFrom : LABEL.buildFirst}</p>` : ""}
             ${wrong && bs.shown ? `<p class="vp-fill-hint">${escapeHtml(solution)}</p>` : ""}
@@ -788,13 +846,30 @@ function mountBuild(root, ex, notify) {
   new ResizeObserver(() => root.querySelectorAll("[data-mitem]").forEach(fit)).observe(root);
   root.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-sentence], button[data-check], button[data-reset], button[data-show]");
-    if (!btn || btn.disabled || !root.contains(btn)) return;
+    // A tap on the answer strip itself (not on a placed word) did nothing, and learners
+    // tapped it over and over: the word tiles below shake instead, "pick from here".
+    if (!btn) {
+      const strip = e.target.closest(".vp-build-strip");
+      const pool = strip?.closest("[data-mitem]")?.querySelector(".vp-build-pool");
+      if (pool) {
+        pool.style.animation = "none";
+        void pool.offsetWidth;
+        pool.style.animation = SHAKE;
+      }
+      return;
+    }
+    if (btn.disabled || !root.contains(btn)) return;
     const d = btn.dataset;
     if (d.pick != null) pick(d.sentence, +d.pick);
     else if (d.remove != null) remove(d.sentence, +d.remove);
     else if (d.check) check(d.check);
     else if (d.reset) { state[d.reset] = fresh(); paint(d.reset); }
-    else if (d.show) { state[d.show].shown = true; paint(d.show); }
+    else if (d.show) {
+      const bs = state[d.show], order = solutionTiles(prep[d.show]);
+      bs.shown = true; // tiles that don't add up: at least the solution line
+      if (order) { bs.chosen = order; bs.revealed = true; }
+      paint(d.show);
+    }
   });
   /** After a wrong try, the next move starts from what was right. */
   function reopen(bs) {

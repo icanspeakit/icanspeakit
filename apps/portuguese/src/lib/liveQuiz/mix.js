@@ -46,6 +46,8 @@ export async function grammarQuestions(pick, n) {
         correct: order.indexOf(q.correct),
         mode: "custom",
         kind: q.kind ?? null,
+        // The chapter item it came from (chapters.js `src`), for "Report a problem".
+        ref: q.src ?? null,
       };
     });
 }

@@ -113,6 +113,10 @@ button.ac-w:focus-visible { outline: 2px solid var(--brand-blue); outline-offset
 .ac-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .ac-btn--ghost { background: var(--surface-card); border-color: var(--border-strong); color: var(--ink); }
 .ac-btn--ghost:hover { background: var(--surface); }
+.ac-btn--ghost[data-playing] { border-color: var(--brand-blue); color: var(--brand-blue-dark); background: var(--surface); }
+.ac-btn--ghost[data-playing] svg path + path { animation: ac-wave .8s ease-in-out infinite; }
+@keyframes ac-wave { 50% { opacity: .2; } }
+@media (prefers-reduced-motion: reduce) { .ac-btn--ghost[data-playing] svg path + path { animation: none; } }
 .ac-btn--primary { background: var(--gradient-brand); color: #fff; }
 .ac-btn--quiet { min-height: 40px; padding: 0 12px; background: none; color: var(--brand-blue-dark); font-weight: var(--fw-semibold); }
 .ac-btn--quiet:hover:not(:disabled) { background: var(--surface); }
@@ -128,7 +132,26 @@ button.ac-w:focus-visible { outline: 2px solid var(--brand-blue); outline-offset
 .ac-status[data-kind="live"] { color: var(--danger); font-weight: var(--fw-semibold); }
 .ac-status[data-kind="ok"] { color: var(--success); }
 .ac-status[data-kind="error"] { color: var(--danger); }
-.ac-login { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: var(--space-3) 0 0; font-size: var(--text-sm); color: var(--muted); }
+/* Signed out: a callout under the buttons, there before the first tap. */
+.ac-login {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+  margin: var(--space-3) 0 0; padding: 12px 14px;
+  border: 1px solid var(--brand-blue); border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--brand-blue) 8%, var(--surface-card));
+  font-size: var(--text-sm); color: var(--ink);
+}
+.ac-login[hidden] { display: none; }
+.ac-lock { width: 22px; height: 22px; flex: none; fill: none; stroke: var(--brand-blue-dark); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ac-login-text { flex: 1 1 14rem; display: flex; flex-direction: column; gap: 2px; color: var(--muted); }
+.ac-login-text strong { color: var(--ink); font-size: var(--text-base, 1rem); }
+.ac-login .ac-btn { margin-left: auto; }
+/* The locked record button: a padlock in place of the red dot. */
+.ac-btn--rec[data-locked] .ac-rec-dot {
+  border-radius: 0; background: currentColor;
+  -webkit-mask: var(--ac-lock-mask) center / contain no-repeat; mask: var(--ac-lock-mask) center / contain no-repeat;
+  width: 16px; height: 16px;
+  --ac-lock-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='10' rx='2' fill='black'/%3E%3Cpath d='M8 11V7a4 4 0 0 1 8 0v4'/%3E%3C/svg%3E");
+}
 
 /* ---- Results ------------------------------------------------------------------ */
 .ac-results { margin-top: var(--space-5); padding-top: var(--space-5); border-top: 1px solid var(--border); }

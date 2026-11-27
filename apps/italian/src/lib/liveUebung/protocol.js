@@ -21,6 +21,22 @@ export function makePin() {
   return String(100000 + Math.floor(Math.random() * 900000));
 }
 
+/** What someone typed on the PIN page ("464 153") → the PIN, or null. */
+export function pinFromInput(raw) {
+  const pin = String(raw ?? "").replace(/\D/g, "");
+  return PIN_RE.test(pin) ? pin : null;
+}
+
+/**
+ * The topic a room is on, from the channel's presence state: the newest teacher tab, as on the
+ * phones. Anyone can write to a channel, so only a plain slug counts: the PIN page goes there.
+ */
+export function topicOfRoom(state) {
+  const hosts = (state?.host ?? []).filter((h) => h && h.topic);
+  const topic = hosts.sort((a, b) => (b.at ?? 0) - (a.at ?? 0))[0]?.topic;
+  return typeof topic === "string" && /^[a-z0-9][a-z0-9-]*$/i.test(topic) ? topic : null;
+}
+
 export function makeId() {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
 }
@@ -52,6 +68,14 @@ export function summarize(answers) {
     if (ok) s[0] += 1;
   }
   return ex;
+}
+
+/**
+ * Tasks still open on a phone: per exercise its total minus what has been checked and what is
+ * chosen but not checked yet (`pending`: { "<ex>": n }).
+ */
+export function openOf(summary, totals, shown, pending = {}) {
+  return shown.reduce((n, i) => n + Math.max(0, (totals[i] ?? 0) - (summary?.[i]?.[1] ?? 0) - (pending[i] ?? 0)), 0);
 }
 
 /**
@@ -127,7 +151,7 @@ export function auswertung(phones, totals, pick = null, titles = []) {
   const shown = (pick ?? totals.map((_, i) => i)).filter((i) => totals[i] > 0);
   const students = phones.map((p) => {
     const r = rowOf(p.ex, totals, shown);
-    return { name: p.name, right: r.right, answered: r.answered, total: r.total };
+    return { name: p.name, right: r.right, answered: r.answered, total: r.total, ab: !!p.ab };
   }).sort((a, b) => (a.answered ? a.right / a.answered : 2) - (b.answered ? b.right / b.answered : 2) || a.name.localeCompare(b.name, "de"));
   const exercises = shown.map((i) => {
     let right = 0, answered = 0;
@@ -161,5 +185,6 @@ export function auswertung(phones, totals, pick = null, titles = []) {
   const right = students.reduce((n, s) => n + s.right, 0);
   const answered = students.reduce((n, s) => n + s.answered, 0);
   const possible = students.reduce((n, s) => n + s.total, 0);
-  return { count: phones.length, right, answered, possible, students, exercises, mistakes };
+  const handedIn = students.filter((s) => s.ab).length;
+  return { count: phones.length, handedIn, right, answered, possible, students, exercises, mistakes };
 }

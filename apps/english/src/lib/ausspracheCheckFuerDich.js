@@ -11,7 +11,8 @@
 //   live        a short text read in one go, each sentence scored and coloured as its result
 //               arrives, at most 60 s, one session at a time
 import { pronunciationProvider as provider, PronunciationError } from "./pronunciation/index.ts";
-import { checkMicrophone, MSG } from "./ausspracheCheck.js";
+import { checkMicrophone, signedOut, AUTH_WHY, MSG } from "./ausspracheCheck.js";
+import { setWaiting } from "./notReady.js";
 import { findingsFor, findingsHtml, langName, esc, t, onDict } from "./aussprachePatterns.js";
 import { mountFuerDich, showDrillsFor, openDrill } from "./ausspracheFuerDich.js";
 import { mutterspracheFromUrl, setMuttersprache, onMutterspracheChange, syncMutterspracheFromAccount } from "./muttersprache.js";
@@ -163,6 +164,13 @@ function mountLive(root, { info, levels, lang, catchPractice }) {
     heard.textContent = "";
     out.innerHTML = "";
     status.textContent = t("ac.live.ready", "Tippe auf „Live starten“ und lies den ganzen Text in einem Zug.");
+    // Signed out: locked from the start, with the sign-in box (as "Record", ausspracheCheck.js).
+    const anon = signedOut();
+    setWaiting(startBtn, anon ? AUTH_WHY : null, "[data-live-login] a");
+    startBtn.toggleAttribute("data-locked", anon);
+    const login = live.querySelector("[data-live-login]");
+    if (login) login.hidden = !anon;
+    if (anon) status.textContent = MSG.readySignedOut;
     status.dataset.kind = "";
     timerEl.textContent = "";
   }
@@ -221,6 +229,11 @@ function mountLive(root, { info, levels, lang, catchPractice }) {
 
   startBtn.addEventListener("click", async () => {
     if (session) { session.stop(); return; }
+    if (signedOut()) {
+      status.textContent = MSG.auth;
+      status.dataset.kind = "error";
+      return;
+    }
     prepare();
     cursor = 0; inserted = []; doneSentences = new Set();
     startBtn.disabled = true;
