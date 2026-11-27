@@ -11,7 +11,7 @@
 import QRCode from "qrcode";
 import { createBrowserSupabase } from "../supabase/browser.js";
 import { t } from "../uiText.js";
-import { topicPath } from "../routes.js";
+import { LIVE_JOIN_PATH, topicPath } from "../routes.js";
 import { withBase } from "../paths.js";
 import { openAuswertung, ROOM_KEY } from "./auswertung.js";
 import { kontextOf } from "./kontext.js";
@@ -164,8 +164,13 @@ export function createLiveUebung(data, topic) {
         <aside class="lu-join">
           <div class="lu-qr" data-lu-qr aria-hidden="true"></div>
           <p class="lu-join-how">${t("lu.t.joinHow", "Point your phone camera at the code – or open:")}</p>
-          <p class="lu-url">${esc(shown)}</p>
+          <p class="lu-url">${esc(shown).replace("?", "<wbr>?")}</p>
+          <div class="lu-copyrow">
+            <button type="button" class="lu-btn" data-lu-copy>${t("lu.t.copy", "Copy link")}</button>
+            <button type="button" class="lu-btn" data-lu-copyqr>${t("lu.t.copyQr", "Copy QR code + link")}</button>
+          </div>
           <p class="lu-pin"><span>PIN</span> <b>${pin.slice(0, 3)} ${pin.slice(3)}</b></p>
+          <p class="lu-join-how lu-join-pin">${t("lu.t.pinHow", "Or enter the PIN at {host}", { host: `<b>${esc(location.host + withBase(LIVE_JOIN_PATH))}</b>` })}</p>
         </aside>
         <section class="lu-board" aria-live="polite">
           <p class="lu-count" data-lu-count></p>
@@ -407,6 +412,50 @@ export function createLiveUebung(data, topic) {
       moving = false;
       $("[data-lu-fold]").focus();
     }
+    // For WhatsApp or a class chat, where nobody can scan: the whole address, ready to paste.
+    let copiedTimer = 0;
+    $("[data-lu-copy]").addEventListener("click", async (e) => {
+      const btn = e.currentTarget;
+      try {
+        await navigator.clipboard.writeText(link);
+        btn.textContent = t("lu.t.copied", "Copied ✓");
+      } catch {
+        // No clipboard (blocked or an old browser): the address selected, for Ctrl+C.
+        getSelection()?.selectAllChildren($(".lu-url"));
+        btn.textContent = t("lu.t.copyKeys", "Now press Ctrl+C");
+      }
+      clearTimeout(copiedTimer);
+      copiedTimer = setTimeout(() => { btn.textContent = t("lu.t.copy", "Copy link"); }, 2500);
+    });
+    // QR code and link in one go, for a slide, an email or a class chat: one PNG card (QR,
+    // address, PIN – readable even where only the picture arrives) plus HTML with the picture
+    // and a clickable link, plus the bare link as text. The target app takes the richest it can.
+    let qrTimer = 0;
+    $("[data-lu-copyqr]").addEventListener("click", async (e) => {
+      const btn = e.currentTarget;
+      const reset = () => { clearTimeout(qrTimer); qrTimer = setTimeout(() => { btn.textContent = t("lu.t.copyQr", "Copy QR code + link"); }, 2500); };
+      if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") {
+        btn.textContent = t("lu.t.copyQrNo", "Doesn't work in this browser");
+        return reset();
+      }
+      // The blobs as promises inside one synchronous ClipboardItem: Safari only allows the write
+      // while the click is still "fresh", and drawing the card takes a moment.
+      const png = qrCard(link, shown, pin);
+      const dataUrl = png.then(blobToDataUrl);
+      try {
+        await navigator.clipboard.write([new ClipboardItem({
+          "image/png": png,
+          "text/html": dataUrl.then((src) => new Blob([
+            `<p><img src="${src}" width="300" alt="${esc(t("lu.t.qrAlt", "QR code"))}"><br><a href="${esc(link)}">${esc(shown)}</a><br>PIN ${pin.slice(0, 3)} ${pin.slice(3)}</p>`,
+          ], { type: "text/html" })),
+          "text/plain": new Blob([link], { type: "text/plain" }),
+        })]);
+        btn.textContent = t("lu.t.copied", "Copied ✓");
+      } catch {
+        btn.textContent = t("lu.t.copyQrNo", "Doesn't work in this browser");
+      }
+      reset();
+    });
     $("[data-lu-fold]").addEventListener("click", fold);
     panel.querySelector("[data-lu-lesson]")?.addEventListener("click", () =>
       import("../unterricht/zurueck.js").then(({ toLesson }) => toLesson()));
@@ -455,4 +504,50 @@ export function createLiveUebung(data, topic) {
   }
 
   return { start };
+}
+
+/** A PNG card: QR code, the address under it, the PIN – what the panel's join column shows. */
+async function qrCard(link, shown, pin) {
+  const W = 600, Q = 520, pad = 40;
+  const qr = await QRCode.toDataURL(link, { width: Q, margin: 1, errorCorrectionLevel: "M" });
+  const img = new Image();
+  img.src = qr;
+  await img.decode();
+  const c = document.createElement("canvas");
+  const ctx = c.getContext("2d");
+  const font = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+  // The address wraps at the "?" first, then wherever it has to.
+  ctx.font = `700 26px ${font}`;
+  const lines = [];
+  for (const part of shown.replace("?", "\n?").split("\n")) {
+    let cur = "";
+    for (const ch of part) {
+      if (ctx.measureText(cur + ch).width > W - 2 * pad && cur) { lines.push(cur); cur = ""; }
+      cur += ch;
+    }
+    if (cur) lines.push(cur);
+  }
+  c.width = W;
+  c.height = pad + Q + 24 + lines.length * 34 + 70 + pad;
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(img, (W - Q) / 2, pad, Q, Q);
+  ctx.fillStyle = "#111";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+  ctx.font = `700 26px ${font}`;
+  let y = pad + Q + 24;
+  for (const l of lines) { ctx.fillText(l, W / 2, y); y += 34; }
+  ctx.font = `800 48px ${font}`;
+  ctx.fillText(`PIN ${pin.slice(0, 3)} ${pin.slice(3)}`, W / 2, y + 14);
+  return new Promise((ok, no) => c.toBlob((b) => (b ? ok(b) : no(new Error("png"))), "image/png"));
+}
+
+function blobToDataUrl(blob) {
+  return new Promise((ok, no) => {
+    const r = new FileReader();
+    r.onload = () => ok(r.result);
+    r.onerror = no;
+    r.readAsDataURL(blob);
+  });
 }

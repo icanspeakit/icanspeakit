@@ -21,6 +21,22 @@ export function makePin() {
   return String(100000 + Math.floor(Math.random() * 900000));
 }
 
+/** What someone typed on the PIN page ("464 153") → the PIN, or null. */
+export function pinFromInput(raw) {
+  const pin = String(raw ?? "").replace(/\D/g, "");
+  return PIN_RE.test(pin) ? pin : null;
+}
+
+/**
+ * The topic a room is on, from the channel's presence state: the newest teacher tab, as on the
+ * phones. Anyone can write to a channel, so only a plain slug counts: the PIN page goes there.
+ */
+export function topicOfRoom(state) {
+  const hosts = (state?.host ?? []).filter((h) => h && h.topic);
+  const topic = hosts.sort((a, b) => (b.at ?? 0) - (a.at ?? 0))[0]?.topic;
+  return typeof topic === "string" && /^[a-z0-9][a-z0-9-]*$/i.test(topic) ? topic : null;
+}
+
 export function makeId() {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
 }

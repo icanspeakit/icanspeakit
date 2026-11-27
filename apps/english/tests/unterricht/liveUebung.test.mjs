@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { band, cleanName, makePin, pickOf, PIN_RE, rowOf, summarize, totalOf } from "../../src/lib/liveUebung/protocol.js";
+import { band, cleanName, makePin, pickOf, PIN_RE, pinFromInput, rowOf, summarize, topicOfRoom, totalOf } from "../../src/lib/liveUebung/protocol.js";
 
 test("pickOf: sorted, unique, in range; empty or all → null", () => {
   assert.deepEqual(pickOf([3, 1, 1, 99, -1, "2"], 5), [1, 3]);
@@ -18,6 +18,21 @@ test("rowOf with a pick counts only those exercises", () => {
 test("PIN: six digits, no leading zero", () => {
   for (let i = 0; i < 200; i++) assert.match(makePin(), PIN_RE);
   assert.equal(PIN_RE.test("012345"), false);
+});
+
+test("pinFromInput: spaces and dashes go, six digits stay", () => {
+  assert.equal(pinFromInput(" 464 153 "), "464153");
+  assert.equal(pinFromInput("464-153"), "464153");
+  assert.equal(pinFromInput("46415"), null);
+  assert.equal(pinFromInput("012345"), null);
+  assert.equal(pinFromInput(null), null);
+});
+
+test("topicOfRoom: the newest teacher tab, plain slugs only", () => {
+  assert.equal(topicOfRoom({ host: [{ topic: "old", at: 1 }, { topic: "new-one", at: 5 }] }), "new-one");
+  assert.equal(topicOfRoom({ host: [{ topic: "../evil", at: 9 }] }), null);
+  assert.equal(topicOfRoom({ abc: [{ name: "Ana" }] }), null);
+  assert.equal(topicOfRoom(null), null);
 });
 
 test("cleanName trims and caps", () => {

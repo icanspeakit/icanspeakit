@@ -1,0 +1,104 @@
+---
+// /en-direct: a student types the PIN of a live practice round and lands on the teacher's topic.
+// For whoever cannot scan or click: a PC next to a screenshot, a PIN read out in class. Like
+// the round itself it has no table: the room's channel knows the topic (the teacher's
+// presence), so it is asked directly. See src/lib/liveUebung/protocol.js.
+// The path is LIVE_JOIN_PATH in src/lib/routes.js (the teacher's panel shows it).
+import Layout from "../layouts/Layout.astro";
+import SiteNav from "../components/SiteNav.astro";
+import { waitAttrs } from "../lib/notReady.js";
+import "../styles/live-quiz.css";
+---
+<Layout
+  title="Live practice: enter the PIN – icanspeak French"
+  description="Join your teacher's live practice round with the PIN."
+  noindex
+>
+  <SiteNav />
+
+  <main class="lq" id="live-join">
+    <header class="lq-head">
+      <p class="lq-eyebrow" data-i18n="lu.name">Live practice</p>
+      <h1 class="lq-title" data-i18n="lu.j.title">Enter the PIN</h1>
+      <p class="lq-lead" data-i18n="lu.j.lead">Your teacher shows you the PIN. It has six digits.</p>
+    </header>
+
+    <form class="lq-card lj-form" novalidate>
+      <label for="lj-pin">PIN</label>
+      <input id="lj-pin" class="lj-pin" name="pin" type="text" inputmode="numeric" autocomplete="off" maxlength="9" placeholder="464 153" autofocus />
+      <button type="submit" class="lq-btn lq-btn--primary" {...waitAttrs("Type the six digits first.", "#lj-pin")}><span data-i18n="lu.s.join">Join</span></button>
+      <p class="lj-status" role="status" aria-live="polite" data-status></p>
+    </form>
+  </main>
+</Layout>
+
+<style>
+  .lj-form { display: flex; flex-direction: column; gap: 12px; }
+  .lj-form label { font-weight: var(--fw-semibold, 600); }
+  .lj-pin {
+    width: 100%; min-height: 56px; padding: 8px 14px; box-sizing: border-box;
+    border: 1.5px solid var(--border-strong, var(--border)); border-radius: 12px;
+    background: var(--surface-card); color: var(--ink);
+    font-size: 1.75rem; letter-spacing: .08em; text-align: center; font-variant-numeric: tabular-nums;
+  }
+  .lj-pin::placeholder { color: var(--muted); opacity: .5; }
+  .lj-status { margin: 0; min-height: 1.5em; color: var(--muted); }
+  .lj-status[data-kind="fehler"] { color: #b91c1c; }
+</style>
+
+<script>
+  import { createBrowserSupabase } from "../lib/supabase/browser.js";
+  import { setWaiting } from "../lib/notReady.js";
+  import { topicPath } from "../lib/routes.js";
+  import { withBase } from "../lib/paths.js";
+  import { channelName, pinFromInput, topicOfRoom } from "../lib/liveUebung/protocol.js";
+  import { onUiText, t } from "../lib/uiText.js";
+
+  const WAIT_MS = 6000;
+  const form = document.querySelector<HTMLFormElement>(".lj-form")!;
+  const input = form.querySelector("input")!;
+  const button = form.querySelector("button")!;
+  const status = form.querySelector<HTMLElement>("[data-status]")!;
+
+  const say = (text: string, kind = "") => { status.textContent = text; status.dataset.kind = kind; };
+  const check = () => setWaiting(button, pinFromInput(input.value) ? null : t("lu.j.first", "Type the six digits first."), "#lj-pin");
+
+  input.addEventListener("input", () => { say(""); check(); });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const pin = pinFromInput(input.value);
+    if (!pin) return say(t("lu.j.six", "The PIN has six digits."), "fehler");
+    button.disabled = true;
+    say(t("lu.j.moment", "One moment …"));
+
+    const supabase = createBrowserSupabase();
+    // Listens only (no track): it does not show up on the teacher's board.
+    const ch = supabase.channel(channelName(pin), { config: { presence: { key: "" } } });
+    let done = false;
+    const stop = (text: string) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      supabase.removeChannel(ch);
+      button.disabled = false;
+      say(text, "fehler");
+    };
+    const timer = setTimeout(() => stop(t("lu.j.notFound", "No live round found with this PIN. Is the PIN right? Is the round still running?")), WAIT_MS);
+    ch.on("presence", { event: "sync" }, () => {
+      const topic = topicOfRoom(ch.presenceState());
+      if (!topic || done) return;
+      done = true;
+      clearTimeout(timer);
+      supabase.removeChannel(ch);
+      location.assign(`${withBase(topicPath(topic))}?live=${pin}`);
+    });
+    ch.subscribe((state: string) => {
+      if (state === "CHANNEL_ERROR" || state === "TIMED_OUT") stop(t("lu.j.network", "That didn't work just now. Check your internet connection and try again."));
+    });
+  });
+
+  // Back from the topic (bfcache): the form is ready again.
+  addEventListener("pageshow", (e) => { if (e.persisted) { button.disabled = false; say(""); } });
+  check();
+  onUiText(check);
+</script>
