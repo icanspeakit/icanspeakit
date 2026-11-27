@@ -1,0 +1,208 @@
+---
+// The games hub: every released game of the course on one page (port of deutschacademy
+// /spiele, upstream e219f2c0, 04a3ff07, 716dab21, c2527db9, f3522fa6). The menus list the
+// games too and link here as "All games".
+//
+// Everything comes from src/lib/gamesCatalog.js. The page renders every card; the script
+// picks the game of the day by today's date (the page is built once, the date moves on) and
+// filters the solo grid by the chips. Filter state lives in the URL (?practise=listening&level=a1),
+// so a link can open a filtered view.
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import { mascotSvg } from "../../lib/mascots.js";
+import { absoluteUrl } from "../../lib/paths.js";
+import { GAMES_HUB, soloGames, groupGames, usedTags, usedLevels, gameOfTheDay } from "../../lib/gamesCatalog.js";
+import "../../styles/games-hub.css";
+
+const { course } = GAMES_HUB;
+const today = gameOfTheDay();
+const levelSpan = usedLevels.length > 1 ? `${usedLevels[0]} to ${usedLevels[usedLevels.length - 1]}` : usedLevels[0];
+const tagList = usedTags.map((t) => t.name.toLowerCase()).join(", ");
+
+const title = `Games for learning ${course} – free, no account – icanspeak ${course}`;
+const description = `${soloGames.length} free games for practising ${course}, ${levelSpan}: ${tagList}. In the browser, on your phone too, no account needed – plus ${groupGames.length} games to print for the class.`;
+const schema = Astro.site ? {
+  "@type": "CollectionPage",
+  name: `Games for learning ${course}`,
+  description,
+  url: absoluteUrl(GAMES_HUB.href),
+  isAccessibleForFree: true,
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: soloGames.length + groupGames.length,
+    itemListElement: [...soloGames, ...groupGames].map((g, i) => ({
+      "@type": "ListItem", position: i + 1, name: g.title, url: absoluteUrl(g.href),
+    })),
+  },
+} : undefined;
+---
+<Layout title={title} description={description} schema={schema}>
+  <SiteNav active="ueben" />
+  <main class="gh-page" data-games-hub>
+    <header class="gh-head">
+      <h1 data-i18n="games.title">Games for learning {course}</h1>
+      <p class="gh-lead" data-i18n="games.lead">Practise {course} by playing – free, no account needed</p>
+    </header>
+
+    {soloGames.length > 0 && (
+      <section class="gh-today" aria-labelledby="gh-today-h">
+        <h2 id="gh-today-h" class="gh-h2" data-i18n="games.today">Game of the day</h2>
+        {soloGames.map((g) => (
+          <a class="gh-today-card" href={g.href} data-today={g.id} hidden={g !== today}>
+            <span class="gh-today-art"><Fragment set:html={mascotSvg({ name: g.mascot, size: 140, label: "", extra: g.extra })} /></span>
+            <span class="gh-today-txt">
+              <b data-i18n={g.titleKey ?? undefined}>{g.title}</b>
+              <i data-i18n={g.hintKey}>{g.hint}</i>
+              <small data-i18n="games.todaySub">A different game every day</small>
+              <span class="gh-today-go" data-i18n="games.todayGo">Play now</span>
+            </span>
+          </a>
+        ))}
+      </section>
+    )}
+
+    <section class="gh-solo" aria-labelledby="gh-solo-h">
+      <header class="gh-part">
+        <span class="gh-part-art"><Fragment set:html={mascotSvg({ name: "hamsti", size: 64, label: "" })} /></span>
+        <div>
+          <p class="gh-part-kicker" data-i18n="games.solo.kicker">Just you · phone or computer</p>
+          <h2 id="gh-solo-h" class="gh-h2 gh-h2--big">
+            <span data-i18n="games.solo">Play on your own</span>
+            <small class="gh-count" data-i18n="games.count" data-i18n-vars={JSON.stringify({ n: soloGames.length })}>{soloGames.length} games</small>
+          </h2>
+        </div>
+      </header>
+
+      <div class="gh-filters">
+        <p class="gh-filter-label" id="gh-f-practise" data-i18n="games.filterSkill">What do you want to practise?</p>
+        <div class="gh-chips" role="group" aria-labelledby="gh-f-practise">
+          {usedTags.map((t) => (
+            <button type="button" class="gh-chip" data-practise={t.id} aria-pressed="false" data-i18n={t.key}>{t.name}</button>
+          ))}
+        </div>
+        <p class="gh-filter-label" id="gh-f-level" data-i18n="games.filterLevel">Level</p>
+        <div class="gh-chips" role="group" aria-labelledby="gh-f-level">
+          {usedLevels.map((l) => (
+            <button type="button" class="gh-chip gh-chip--lv" data-level={l.toLowerCase()} aria-pressed="false">{l}</button>
+          ))}
+        </div>
+      </div>
+
+      <ul class="gh-grid" data-grid>
+        {soloGames.map((g) => (
+          <li data-game={g.id} data-tags={g.practises.join(" ")} data-levels={g.levels.join(" ").toLowerCase()}>
+            <a class="gh-card" href={g.href}>
+              <span class="gh-card-art" data-mascot={g.mascot}><Fragment set:html={mascotSvg({ name: g.mascot, size: 120, label: "", extra: g.extra })} /></span>
+              <span class="gh-card-body">
+                <b class="gh-card-title" data-i18n={g.titleKey ?? undefined}>{g.title}</b>
+                <span class="gh-card-hint" data-i18n={g.hintKey}>{g.hint}</span>
+                <span class="gh-card-meta">
+                  <span class="gh-lvs">{g.levels.map((l) => <span class="gh-lv">{l}</span>)}</span>
+                  <span class="gh-time" data-i18n="games.minutes" data-i18n-vars={JSON.stringify({ n: g.minutes })}>{g.minutes} min</span>
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="gh-empty" data-empty hidden>
+        <p data-i18n="games.empty">No game matches these filters.</p>
+        <button type="button" class="gh-reset" data-reset data-i18n="games.reset">Reset filters</button>
+      </div>
+    </section>
+
+    {groupGames.length > 0 && (
+      <section class="gh-together" aria-labelledby="gh-together-h">
+        <header class="gh-part">
+          <span class="gh-part-art gh-part-art--duo">
+            <Fragment set:html={mascotSvg({ name: "bruno", size: 64, label: "" })} />
+            <Fragment set:html={mascotSvg({ name: "quaki", size: 64, label: "" })} />
+          </span>
+          <div>
+            <p class="gh-part-kicker" data-i18n="games.together.kicker">For groups · class, friends</p>
+            <h2 id="gh-together-h" class="gh-h2 gh-h2--big">
+              <span data-i18n="games.together">Play together</span>
+              <small class="gh-count" data-i18n="games.count" data-i18n-vars={JSON.stringify({ n: groupGames.length })}>{groupGames.length} games</small>
+            </h2>
+          </div>
+        </header>
+        <p class="gh-together-lead" data-i18n="games.together.lead">Games to print for the classroom: choose the level and the words, and everyone plays.</p>
+        <ul class="gh-kgrid">
+          {groupGames.map((g) => (
+            <li>
+              <a class="gh-card" href={g.href}>
+                <span class="gh-card-art" data-mascot={g.mascot}><Fragment set:html={mascotSvg({ name: g.mascot, size: 120, label: "", extra: g.extra })} /></span>
+                <span class="gh-card-body">
+                  <b class="gh-card-title" data-i18n={g.titleKey ?? undefined}>{g.title}</b>
+                  <span class="gh-card-hint" data-i18n={g.hintKey}>{g.hint}</span>
+                  <span class="gh-card-meta">
+                    <span class="gh-lvs">{g.levels.map((l) => <span class="gh-lv">{l}</span>)}</span>
+                    <span class="gh-time" data-i18n="games.print">To print</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <section class="gh-seo">
+      <h2 class="gh-h2" data-i18n="games.seo.title">Learning {course} with games</h2>
+      <p data-i18n="games.seo.p1">A game is practice you are happy to repeat. Each game here trains one thing: articles and verb forms, listening, or the phrases you need in town.</p>
+      <p data-i18n="games.seo.p2">Every game is free, runs in the browser on your phone or computer and needs no account. Choose above what you want to practise and your level. The game of the day changes every day.</p>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  import { gameOfTheDay } from "../../lib/gamesCatalog.js";
+
+  const root = document.querySelector<HTMLElement>("[data-games-hub]");
+  if (root) {
+    const $$ = (s: string) => [...root.querySelectorAll<HTMLElement>(s)];
+
+    // Game of the day: today's pick, whatever day the page was built on.
+    const today = gameOfTheDay();
+    for (const a of $$("[data-today]")) a.hidden = a.dataset.today !== today?.id;
+
+    // Filters: one tag and one level at a time, both in the URL.
+    const items = $$("[data-game]");
+    const empty = root.querySelector<HTMLElement>("[data-empty]");
+    const state: { practise: string | null; level: string | null } = { practise: null, level: null };
+    {
+      const q = new URLSearchParams(location.search);
+      const p = q.get("practise") ?? "";
+      const l = q.get("level") ?? "";
+      if (p && $$(`[data-practise="${CSS.escape(p)}"]`).length) state.practise = p;
+      if (l && $$(`[data-level="${CSS.escape(l)}"]`).length) state.level = l;
+    }
+    const apply = (push: boolean) => {
+      let n = 0;
+      for (const li of items) {
+        const ok = (!state.practise || (li.dataset.tags ?? "").split(" ").includes(state.practise))
+          && (!state.level || (li.dataset.levels ?? "").split(" ").includes(state.level));
+        li.hidden = !ok;
+        if (ok) n++;
+      }
+      for (const b of $$("[data-practise]")) b.setAttribute("aria-pressed", String(b.dataset.practise === state.practise));
+      for (const b of $$("[data-level]")) b.setAttribute("aria-pressed", String(b.dataset.level === state.level));
+      if (empty) empty.hidden = n > 0;
+      if (push) {
+        const u = new URL(location.href);
+        if (state.practise) u.searchParams.set("practise", state.practise); else u.searchParams.delete("practise");
+        if (state.level) u.searchParams.set("level", state.level); else u.searchParams.delete("level");
+        history.replaceState(history.state, "", u);
+      }
+    };
+    root.addEventListener("click", (e) => {
+      const t = (e.target as Element).closest<HTMLElement>("[data-practise], [data-level], [data-reset]");
+      if (!t) return;
+      if (t.matches("[data-reset]")) { state.practise = null; state.level = null; }
+      else if (t.dataset.practise) state.practise = state.practise === t.dataset.practise ? null : t.dataset.practise;
+      else if (t.dataset.level) state.level = state.level === t.dataset.level ? null : t.dataset.level;
+      apply(true);
+    });
+    apply(false);
+  }
+</script>

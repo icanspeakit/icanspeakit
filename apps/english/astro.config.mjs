@@ -135,8 +135,8 @@ const DROPPED = {
       'technik-umwelt'].map((id) => `/fuehrerschein/regeln/${id}`),
     ...['auto', 'strasse', 'anweisungen', 'pruefung'].map((g) => `/fuehrerschein/wortschatz/${g}`),
   ],
-  // No /games hub page exists; the games are listed under the exercises.
-  '/exercises': ['/games/stadtfahrt', '/games/vorfahrt', '/spiele/stadtfahrt', '/spiele/vorfahrt'],
+  // The dropped driving games land on the games hub.
+  '/games': ['/games/stadtfahrt', '/games/vorfahrt', '/spiele/stadtfahrt', '/spiele/vorfahrt'],
   '/culture': ['/politik', '/steueroasen'],
   '/grammar': ['/grammar/deklination', '/grammatik/deklination'],
   // The German word stories that had a public page when they were removed (content-plan §5.11).

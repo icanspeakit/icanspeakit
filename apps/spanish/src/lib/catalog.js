@@ -828,9 +828,13 @@ const sprintItem = { id: "artikel-sprint", href: "/juegos/sprint-de-genero", ico
   countKey: "nav.hint.game", count: "Game, also with friends" };
 const wortschatzItems = notSelf("/vocabulario", itemsOf("woerter"));
 
-/** Spiele: the real games, gathered in one place in both menus. There is no /juegos hub
- *  page, so the section has no href — the desktop head is a label and the drawer pane has
- *  no "Alle …" row. */
+/** Spiele: the real games, gathered in one place in both menus. The section links to the
+ *  games hub (/juegos, src/lib/gamesCatalog.js lists the same games): the desktop head is a
+ *  link with "All games" as its first row, and the drawer pane opens with "All games". */
+const GAMES_HREF = "/juegos";
+const spieleAll = { href: GAMES_HREF,
+  titleKey: "nav.all.spiele", title: "All games",
+  hintKey: "nav.spiele.allHint", hint: "On your own or together" };
 const spieleItems = [
   { id: "lindenau", href: "/juegos/villabruno", icon: "landmark",
     titleKey: "nav.spiele.lindenau", title: "The Legend of Villabruno",
@@ -898,7 +902,7 @@ export const navSections = [
     drawerGroups: kulturLevelGroups,
     items: kulturNavItems },
 
-  { id: "spiele", icon: "sparkle",
+  { id: "spiele", icon: "sparkle", href: GAMES_HREF,
     nameKey: "nav.subject.spiele", name: "Games",
     blurbKey: "nav.subject.spiele.blurb", blurb: "A town role-play, Quaki, Bruno Kart and more",
     badge: spieleItems.length,
@@ -1064,8 +1068,9 @@ export const navUebenMenu = {
         { href: "/trabalenguas", titleKey: "nav.skill.zungenbrecher", title: "Tongue twisters", nested: true },
         { href: "/entonacion", titleKey: "nav.skill.satzmelodie", title: "Intonation", nested: true },
       ] },
-    { id: "spiele", icon: "sparkle",
+    { id: "spiele", icon: "sparkle", href: GAMES_HREF,
       nameKey: "nav.subject.spiele", name: "Games",
+      primary: spieleAll,
       items: spieleItems },
   ],
 };
