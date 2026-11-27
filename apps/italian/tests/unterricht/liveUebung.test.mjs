@@ -65,3 +65,34 @@ test("auswertung: weakest first, mistakes counted across phones, payload capped 
   assert.deepEqual(Object.keys(readWrong({ "0/2": { g: "x" }, "bad": {}, "1/<b>": {} })), ["0/2"]);
   assert.equal(wrongOf({ "0/1": { g: "a".repeat(200) } })["0/1"].g.length, 60);
 });
+
+test("auswertung counts who handed in", async () => {
+  const { auswertung } = await import("../../src/lib/liveUebung/protocol.js");
+  const a = auswertung([{ name: "Ana", ex: {}, ab: true }, { name: "Ben", ex: {} }], [2]);
+  assert.equal(a.handedIn, 1);
+  assert.deepEqual(a.students.map((s) => [s.name, s.ab]), [["Ana", true], ["Ben", false]]);
+});
+
+test("openOf: total minus checked minus chosen but not checked", async () => {
+  const { openOf } = await import("../../src/lib/liveUebung/protocol.js");
+  assert.equal(openOf({ 0: [1, 2] }, [4, 3], [0, 1]), 5);
+  assert.equal(openOf({ 0: [1, 2] }, [4, 3], [0, 1], { 0: 2, 1: 1 }), 2);
+  assert.equal(openOf({ 0: [4, 9] }, [4], [0], { 0: 1 }), 0);
+});
+
+test("kontextOf rebuilds the sentence around the gap, with its why or the rule", async () => {
+  const { kontextOf, ruleOf } = await import("../../src/lib/liveUebung/kontext.js");
+  const fill = { type: "fill", hint: "Type the verb in the gap. Use the past simple for finished actions.", items: [{ prompt: "She ___ to school yesterday.", answer: ["went"], why: "Yesterday → past simple." }] };
+  assert.deepEqual(
+    (({ before, gap, after, why }) => ({ before, gap, after, why }))(kontextOf(fill, "0")),
+    { before: "She", gap: "went", after: "to school yesterday.", why: "Yesterday → past simple." },
+  );
+  assert.equal(kontextOf(fill, "0").rule, "Use the past simple for finished actions.");
+  assert.equal(ruleOf("Choose the right word. Which one fits?"), "");
+  const story = { type: "story", segments: [{ text: "I like tea. My sister " }, { blank: 0, answer: ["likes"] }, { text: " coffee. We both like cake." }] };
+  const k = kontextOf(story, "0");
+  assert.equal(k.before, "My sister");
+  assert.equal(k.after, "coffee.");
+  assert.equal(kontextOf({ type: "mcgap", items: [{ options: ["a", "an"], correct: 1 }] }, "0", (n) => `Lücke ${n}`).before, "Lücke 1 →");
+  assert.equal(kontextOf(fill, "7"), null);
+});

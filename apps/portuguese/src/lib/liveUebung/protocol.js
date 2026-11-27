@@ -55,6 +55,14 @@ export function summarize(answers) {
 }
 
 /**
+ * Tasks still open on a phone: per exercise its total minus what has been checked and what is
+ * chosen but not checked yet (`pending`: { "<ex>": n }).
+ */
+export function openOf(summary, totals, shown, pending = {}) {
+  return shown.reduce((n, i) => n + Math.max(0, (totals[i] ?? 0) - (summary?.[i]?.[1] ?? 0) - (pending[i] ?? 0)), 0);
+}
+
+/**
  * The exercises the teacher gave the class (sent in "hallo" and the host's presence):
  * sorted, unique indices below `n`, or null for all of them – also for anything malformed
  * or empty, so a phone never ends up with nothing to do.
@@ -127,7 +135,7 @@ export function auswertung(phones, totals, pick = null, titles = []) {
   const shown = (pick ?? totals.map((_, i) => i)).filter((i) => totals[i] > 0);
   const students = phones.map((p) => {
     const r = rowOf(p.ex, totals, shown);
-    return { name: p.name, right: r.right, answered: r.answered, total: r.total };
+    return { name: p.name, right: r.right, answered: r.answered, total: r.total, ab: !!p.ab };
   }).sort((a, b) => (a.answered ? a.right / a.answered : 2) - (b.answered ? b.right / b.answered : 2) || a.name.localeCompare(b.name, "de"));
   const exercises = shown.map((i) => {
     let right = 0, answered = 0;
@@ -161,5 +169,6 @@ export function auswertung(phones, totals, pick = null, titles = []) {
   const right = students.reduce((n, s) => n + s.right, 0);
   const answered = students.reduce((n, s) => n + s.answered, 0);
   const possible = students.reduce((n, s) => n + s.total, 0);
-  return { count: phones.length, right, answered, possible, students, exercises, mistakes };
+  const handedIn = students.filter((s) => s.ab).length;
+  return { count: phones.length, handedIn, right, answered, possible, students, exercises, mistakes };
 }
