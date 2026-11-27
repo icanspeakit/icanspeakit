@@ -257,6 +257,24 @@ export function buildSearchIndex() {
     h: "/teachers/tests",
   });
   pages.push({
+    t: "For teachers",
+    s: "Worksheets, games, live quiz, class survey and lesson planning in one place",
+    k: "teachers teacher teaching classroom class lesson material worksheets tutor teacher teachers lehrkräfte",
+    h: "/teachers",
+  });
+  pages.push({
+    t: "Live quiz",
+    s: "The whole group joins with a QR code: a grammar or vocabulary quiz in class",
+    k: "live quiz live-quiz livequiz quiz class group qr code qr-code kahoot classroom teacher teachers projector beamer teacher teachers",
+    h: "/teachers/quiz",
+  });
+  pages.push({
+    t: "Class survey",
+    s: "Ask your class anonymously what they want to learn",
+    k: "survey poll vote anonymous class teacher teachers classroom qr code teacher teachers",
+    h: "/teachers/surveys",
+  });
+  pages.push({
     t: "Land und Kultur",
     s: "Alle Landeskunde-Themen auf einen Blick",
     k: "landeskunde land kultur deutschland alle themen leben in deutschland culture germany life",

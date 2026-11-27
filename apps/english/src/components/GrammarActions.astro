@@ -39,7 +39,15 @@ const quiz = web && hasChapter(chapter);
 const tandem = web && !!tandemFor(slug);
 ---
 {(print || quiz || tandem || web || present) && (
-  <div class:list={["ga-actions", place && `ga-actions--${place}`]}>
+  <Fragment>
+  {place === "hero" && web && (
+    /* Phone: the class tools are for teachers, a learner meets them above the first exercise.
+       Folded away behind one quiet pill; .ga-actions--hero follows it. */
+    <button type="button" class="ga-teach" aria-expanded="false" data-ga-teach>
+      <span data-i18n="nav.subject.lehrkraefte">For teachers</span><span aria-hidden="true"> ▾</span>
+    </button>
+  )}
+  <div class:list={["ga-actions", place && `ga-actions--${place}`, place === "hero" && web && "is-folded"]}>
     {present && (
       <a class="ga-btn" href={`${topicPath(slug)}?mode=present`} title="The rule and the examples as slides, large for the projector" data-i18n-attr="title:ga.present.title">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M12 16v5M8 21h8"/></svg>
@@ -71,6 +79,7 @@ const tandem = web && !!tandemFor(slug);
       </a>
     )}
   </div>
+  </Fragment>
 )}
 
 <style>
@@ -89,6 +98,23 @@ const tandem = web && !!tandemFor(slug);
   .ga-btn:focus-visible { outline: 2px solid var(--brand-blue, #2563eb); outline-offset: 2px; }
   /* The split layout starts at 1001px (verben-praepositionen.css). */
   .ga-actions--toolbar { margin-top: 0; }
-  @media (min-width: 1001px) { .ga-actions--hero { display: none; } }
+  @media (min-width: 1001px) { .ga-actions--hero, .ga-teach { display: none; } }
+  .ga-teach {
+    display: inline-flex; align-items: center; min-height: 34px; margin-top: 10px; padding: 0 12px;
+    border: 1px dashed var(--border-strong, #ccc); border-radius: 999px; background: transparent;
+    color: var(--muted); font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer;
+  }
+  .ga-actions.is-folded { display: none; }
+  .ga-actions.is-folded.is-open { display: flex; }
   @media (max-width: 1000px) { .ga-actions--toolbar { display: none; } }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-ga-teach]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const row = btn.nextElementSibling;
+      const open = row?.classList.toggle("is-open") ?? false;
+      btn.setAttribute("aria-expanded", String(open));
+    });
+  });
+</script>

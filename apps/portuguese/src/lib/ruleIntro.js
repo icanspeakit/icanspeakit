@@ -275,6 +275,8 @@ export function createRuleIntro({
     const fn = on ? "addEventListener" : "removeEventListener";
     document[fn]("pointerdown", onAbort, true);
     document[fn]("keydown", onAbort, true);
+    // Text arriving without a key press (dictation, paste, autofill): the learner is answering.
+    document[fn]("input", onAbort, true);
     window[fn]("wheel", onAbort, { passive: true, capture: true });
     window[fn]("touchmove", onAbort, { passive: true, capture: true });
     window[fn]("resize", onResize);

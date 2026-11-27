@@ -157,7 +157,7 @@ export function mountQuiz(root, questions, { mode = "text", shuffle = true, onDo
         if (q.explain) feedback.innerHTML += `<div class="quiz-explain">${q.explain}</div>`;
         mascotHop(feedback.querySelector(".quiz-ok, .quiz-no"), ok);
         const nextBtn = document.createElement("button");
-        nextBtn.className = "quiz-btn quiz-btn--next";
+        nextBtn.className = "quiz-btn quiz-btn--primary quiz-btn--next";
         nextBtn.type = "button";
         nextBtn.textContent = pos + 1 < total ? tr("quiz.next", "Weiter") : tr("quiz.showResult", "Ergebnis anzeigen");
         nextBtn.addEventListener("click", () => {

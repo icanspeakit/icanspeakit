@@ -153,7 +153,9 @@
 .pp-row:first-child { border-top: none; }
 .pp-panel-label + .pp-row { border-top: none; }
 .pp-row:hover { background: var(--surface); }
-.pp-row-t { font-size: .875rem; font-weight: var(--fw-semibold); color: var(--ink); line-height: 1.3; }
+.pp-row-t { font-size: .875rem; font-weight: var(--fw-semibold); color: var(--ink); line-height: 1.3; overflow-wrap: break-word; hyphens: auto; }
+/* A long count text wraps inside its pill instead of pushing over the title. */
+.pp-row .pp-count { white-space: normal; text-align: center; max-width: 7.25rem; line-height: 1.25; }
 
 /* --- "Weitermachen": returning learners only -------------------------------- */
 .pp-resume {

@@ -17,7 +17,8 @@ import { currentPath, BASE_PATH, withBase } from "./paths.js";
 
 const KNOWN_DIFFICULTY_ORDER = ["leicht", "mittel", "schwer"];
 const WRONG_ATTEMPTS_BEFORE_REVEAL = 2;
-const CORRECT_ADVANCE_DELAY_MS = 550;
+// 550 ms was gone before a slow reader saw "Correct.".
+const CORRECT_ADVANCE_DELAY_MS = 1100;
 // Long enough to see which pill was wrong before the pills come back.
 const WRONG_FLASH_DELAY_MS = 1200;
 // wrongFlow "advance-and-requeue" (the Artikel-Trainer): one wrong tap shows the answer,

@@ -130,6 +130,13 @@ const en = TEXT.en;
       banner.hidden = false;
     };
 
+    // The banner is fixed over the page: let the page scroll that much further, so the answer
+    // buttons or the start button underneath can always be brought above it.
+    if (typeof ResizeObserver !== "undefined") {
+      new ResizeObserver(() => {
+        document.documentElement.style.setProperty("--consent-h", banner.hidden ? "0px" : `${Math.ceil(banner.getBoundingClientRect().height) + 16}px`);
+      }).observe(banner);
+    }
     const unanswered = initAnalytics(banner.dataset.app);
     if (!unanswered) banner.hidden = true;
     else if (!banner.dataset.trigger) {
@@ -153,6 +160,10 @@ const en = TEXT.en;
     });
   }
 </script>
+
+<style is:global>
+  body { padding-bottom: var(--consent-h, 0px); }
+</style>
 
 <style>
   .consent {

@@ -295,6 +295,24 @@ export function buildSearchIndex() {
     h: "/profesores/pruebas",
   });
   pages.push({
+    t: "For teachers",
+    s: "Worksheets, games, live quiz, class survey and lesson planning in one place",
+    k: "teachers teacher teaching classroom class lesson material worksheets tutor profesores profesor cuestionario encuesta lehrkräfte",
+    h: "/profesores",
+  });
+  pages.push({
+    t: "Live quiz",
+    s: "The whole group joins with a QR code: a grammar or vocabulary quiz in class",
+    k: "live quiz live-quiz livequiz quiz class group qr code qr-code kahoot classroom teacher teachers projector beamer profesores profesor cuestionario encuesta",
+    h: "/profesores/cuestionario",
+  });
+  pages.push({
+    t: "Class survey",
+    s: "Ask your class anonymously what they want to learn",
+    k: "survey poll vote anonymous class teacher teachers classroom qr code profesores profesor cuestionario encuesta",
+    h: "/profesores/encuestas",
+  });
+  pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country spain all topics life in spain hispanic world cultura españa",

@@ -425,6 +425,9 @@ import NavProgress from "../components/NavProgress.astro";
           if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/profesores/cuestionario") return;
           const here = strip(location.pathname);
           if (here.startsWith("/profesores/cuestionario") || here.startsWith("/juego")) return;
+          // Only where there is a projector setup (laptop). On a phone a second tab just looks like
+          // a link that led nowhere.
+          if (!matchMedia("(min-width: 821px)").matches) return;
           a.target = "_blank";
           a.rel = "noopener";
         }, true);

@@ -81,6 +81,11 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
       <section class="ho-block">
         <h2 data-i18n="hoeren.h2.questions">Fragen zum Hörtext</h2>
         <p class="ho-quiz-intro" data-i18n="skills.quizIntro" data-i18n-vars={JSON.stringify({ n: text.questions.length })}>{text.questions.length} Fragen. Antworte per Klick — die Erklärung steht danach dabei.</p>
+        {ready && (
+          <button type="button" class="quiz-btn ho-replay" data-ho-replay>
+            <span aria-hidden="true">🔊</span> <span data-i18n="af.ht.replay">Hear it again</span>
+          </button>
+        )}
         <div class="quiz-card" id="ho-quiz"></div>
       </section>
 
@@ -128,6 +133,12 @@ const tx = (hoerenHelp.entries as Record<string, any>)[text.id] ?? null;
     });
 
     const audio = document.getElementById("ho-audio");
+    // The questions come after the clip, which has scrolled out of sight: play it again from here.
+    document.querySelector("[data-ho-replay]")?.addEventListener("click", () => {
+      if (!(audio instanceof HTMLAudioElement)) return;
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    });
     if (audio) {
       for (const btn of document.querySelectorAll("[data-rate]")) {
         btn.addEventListener("click", () => {

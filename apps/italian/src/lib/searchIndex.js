@@ -295,6 +295,24 @@ export function buildSearchIndex() {
     h: "/insegnanti/test",
   });
   pages.push({
+    t: "For teachers",
+    s: "Worksheets, games, live quiz, class survey and lesson planning in one place",
+    k: "teachers teacher teaching classroom class lesson material worksheets tutor insegnanti insegnante docente sondaggio lehrkräfte",
+    h: "/insegnanti",
+  });
+  pages.push({
+    t: "Live quiz",
+    s: "The whole group joins with a QR code: a grammar or vocabulary quiz in class",
+    k: "live quiz live-quiz livequiz quiz class group qr code qr-code kahoot classroom teacher teachers projector beamer insegnanti insegnante docente sondaggio",
+    h: "/insegnanti/quiz",
+  });
+  pages.push({
+    t: "Class survey",
+    s: "Ask your class anonymously what they want to learn",
+    k: "survey poll vote anonymous class teacher teachers classroom qr code insegnanti insegnante docente sondaggio",
+    h: "/insegnanti/sondaggi",
+  });
+  pages.push({
     t: "Country and culture",
     s: "Every culture topic at a glance",
     k: "culture country italy all topics life in italy italian world cultura italia",
