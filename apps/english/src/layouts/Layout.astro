@@ -159,7 +159,7 @@ import NavProgress from "../components/NavProgress.astro";
           var msg = (e && (e.reason || e.payload) && String((e.reason || e.payload).message || e.reason || e.payload)) || "";
           if (!STALE.test(msg)) return;
           try {
-            var key = "da-stale-reload:" + currentPath();
+            var key = "da-stale-reload:" + location.pathname;
             var last = Number(sessionStorage.getItem(key) || 0);
             if (Date.now() - last < 60000) return;
             sessionStorage.setItem(key, String(Date.now()));
@@ -351,6 +351,7 @@ import NavProgress from "../components/NavProgress.astro";
         when one exists (src/lib/unterricht/leiste.js). */}
     {(
       <script>
+        import { currentPath } from "../lib/paths.js";
         let running = false;
         let lernt = false;
         try { running = !!localStorage.getItem("da:unterricht"); lernt = !!localStorage.getItem("da:lernstunde"); } catch {}
@@ -377,13 +378,17 @@ import NavProgress from "../components/NavProgress.astro";
         „Live-Quiz“ button) opens a new tab, so the page the teacher came from stays open.
         Inside the quiz pages themselves (builder, /game) links keep the same tab. */}
     {(
-      <script is:inline>
+      <script is:inline define:vars={{ BASE_PATH }}>
+        // Paths compared without the base (/english, src/lib/paths.js). An inline script cannot
+        // import stripBase/currentPath, so it strips the base itself.
+        const strip = (p) => (p === BASE_PATH || p.startsWith(BASE_PATH + "/") ? p.slice(BASE_PATH.length) || "/" : p);
         document.addEventListener("click", (e) => {
           const a = e.target instanceof Element && e.target.closest("a[href]");
           if (!a || a.target) return;
           const u = new URL(a.href, location.href);
-          if (u.origin !== location.origin || stripBase(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
-          if (currentPath().startsWith("/teachers/quiz") || currentPath().startsWith("/game")) return;
+          if (u.origin !== location.origin || strip(u.pathname).replace(/\/$/, "") !== "/teachers/quiz") return;
+          const here = strip(location.pathname);
+          if (here.startsWith("/teachers/quiz") || here.startsWith("/game")) return;
           // Only where there is a projector setup (laptop). On a phone a second tab just looks like
           // a link that led nowhere.
           if (!matchMedia("(min-width: 821px)").matches) return;
